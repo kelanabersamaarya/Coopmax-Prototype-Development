@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Download, Send, UserPlus, WalletCards } from "lucide-react";
+import { Check, Download, Landmark, Send, UserPlus, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
 import {
@@ -44,6 +44,12 @@ export default function NewMBankingTransferSuccessPage({
     : `${recipientName} • ${displayedRecipientAccount}`;
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedDescription = description.trim() || "Bayar UKT";
+
+  const isInterbankTransfer = !!recipientBankName?.trim();
+  const DestinationIcon = isInterbankTransfer ? Landmark : Send;
+  const destinationIconClassName = isInterbankTransfer
+    ? "bg-[#F59E0B]"
+    : "bg-[#18B7A1]";
 
   function saveRecipient() {
     if (recipientSaved) return;
@@ -140,8 +146,16 @@ export default function NewMBankingTransferSuccessPage({
           </div>
 
           <div className="mt-[15px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
-            <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
-              <Send className="h-[18px] w-[18px] text-white" strokeWidth={2.6} />
+            <span
+              className={cn(
+                "flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full text-white shadow-sm",
+                destinationIconClassName,
+              )}
+            >
+              <DestinationIcon
+                className="h-[18px] w-[18px] text-white"
+                strokeWidth={2.6}
+              />
             </span>
 
             <div className="min-w-0">
