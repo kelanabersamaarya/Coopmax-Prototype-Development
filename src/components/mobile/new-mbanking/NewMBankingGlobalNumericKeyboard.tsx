@@ -729,27 +729,18 @@ export default function NewMBankingGlobalNumericKeyboard() {
     window.requestAnimationFrame(updateClearTargets);
   }
 
-  function submitRegisterFormIfNeeded() {
-    if (!activeInput?.closest('[data-new-mbanking-register-page="true"]')) {
-      return false;
+  function continueFlow() {
+    if (activeInput?.closest('[data-new-mbanking-register-page="true"]')) {
+      closeKeyboard();
+      return;
     }
 
-    const form = activeInput.closest("form") as HTMLFormElement | null;
-    if (!form) return false;
-
-    form.requestSubmit();
-    return true;
-  }
-
-  function continueFlow() {
     const root =
       activeInput?.closest('[data-mobile-screen="true"]') ?? mobileScreen;
     const continueButton = findContinueButton(root as HTMLElement | null);
 
-    const submittedRegisterForm = submitRegisterFormIfNeeded();
     closeKeyboard();
 
-    if (submittedRegisterForm) return;
     if (!continueButton) return;
 
     window.requestAnimationFrame(() => {
