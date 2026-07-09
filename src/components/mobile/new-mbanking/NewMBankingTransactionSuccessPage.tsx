@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Check, ShoppingCart } from "lucide-react";
+import { Check, Download, ShoppingCart, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingTransactionReceiptPage from "@/components/mobile/new-mbanking/NewMBankingTransactionReceiptPage";
+import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
 
 const successSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -17,6 +18,7 @@ export default function NewMBankingTransactionSuccessPage({
   onDone: () => void;
 }) {
   const [showReceipt, setShowReceipt] = React.useState(false);
+  const [recipientSaved, setRecipientSaved] = React.useState(false);
 
   if (showReceipt) {
     return (
@@ -59,6 +61,22 @@ export default function NewMBankingTransactionSuccessPage({
           </div>
           <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
             Ref ID : 112221111222
+          </div>
+
+          <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
+            <NewMBankingSuccessActionTile
+              label="Bukti Transaksi"
+              icon={Download}
+              onClick={() => setShowReceipt(true)}
+            />
+
+            <NewMBankingSuccessActionTile
+              label="Simpan Penerima"
+              icon={UserPlus}
+              onClick={() => setRecipientSaved(true)}
+              disabled={recipientSaved}
+              active={recipientSaved}
+            />
           </div>
 
           <div className="mt-[18px] w-full text-left">
