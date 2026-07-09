@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { MoreHorizontal, Settings, X } from "lucide-react";
+import { MoreVertical, Settings, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
@@ -102,7 +102,7 @@ const connectionSteps: React.ReactNode[] = [
   <>
     Klik menu
     <InlineIconFrame label="Menu titik tiga">
-      <MoreHorizontal className="h-4.5 w-4.5" strokeWidth={2.6} />
+      <MoreVertical className="h-4.5 w-4.5" strokeWidth={2.6} />
     </InlineIconFrame>
     di Android atau
     <InlineIconFrame label="Pengaturan">
