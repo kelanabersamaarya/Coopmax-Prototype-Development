@@ -89,6 +89,10 @@ function getInputContextText(field: EditableField) {
   return parts.filter(Boolean).join(" ").toLowerCase();
 }
 
+function shouldUseMinimalAutoScroll(input: EditableField) {
+  return getInputContextText(input).includes("nominal setoran");
+}
+
 function detectMode(field: EditableField): KeyboardMode {
   if (field instanceof HTMLTextAreaElement) return "text";
 
@@ -331,6 +335,27 @@ function scrollInputAboveKeyboard({
         -WHITE_SECTION_AUTOSCROLL_MAX_DELTA,
         WHITE_SECTION_AUTOSCROLL_MAX_DELTA,
       ),
+      behavior: "smooth",
+    });
+
+    return;
+  }
+
+  if (shouldUseMinimalAutoScroll(input)) {
+    const visibleTop = screenRect.top + 12;
+    const visibleBottom = screenRect.bottom - keyboardHeight - 18;
+    let delta = 0;
+
+    if (inputRect.bottom > visibleBottom) {
+      delta = inputRect.bottom - visibleBottom;
+    } else if (inputRect.top < visibleTop) {
+      delta = inputRect.top - visibleTop;
+    }
+
+    if (Math.abs(delta) < 1) return;
+
+    scrollParent.scrollBy({
+      top: clamp(delta, -64, 64),
       behavior: "smooth",
     });
 
