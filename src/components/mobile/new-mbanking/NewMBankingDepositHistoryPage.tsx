@@ -3,6 +3,7 @@ import { ArrowLeft, Plus, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingDepositEmptyHistoryState from "@/components/mobile/new-mbanking/NewMBankingDepositEmptyHistoryState";
 
 type DepositHistory = {
   id: string;
@@ -98,19 +99,6 @@ function DepositHistoryRow({ item }: { item: DepositHistory }) {
   );
 }
 
-function EmptyDepositHistory() {
-  return (
-    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
-      <div className="text-[15px] font-bold text-black">
-        Tidak Ada Riwayat Setoran
-      </div>
-      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-        Belum ada setoran untuk rekening ini pada bulan yang dipilih.
-      </div>
-    </div>
-  );
-}
-
 export default function NewMBankingDepositHistoryPage({
   accountNo,
   accountName,
@@ -167,7 +155,7 @@ export default function NewMBankingDepositHistoryPage({
           />
 
           {filteredHistories.length === 0 ? (
-            <EmptyDepositHistory />
+            <NewMBankingDepositEmptyHistoryState description="Belum ada setoran untuk rekening ini pada bulan yang dipilih." />
           ) : (
             <div className="mt-[22px]">
               {Object.entries(grouped).map(([date, items]) => (

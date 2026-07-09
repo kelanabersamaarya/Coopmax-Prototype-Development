@@ -7,6 +7,7 @@ import NewMBankingDepositAccountsTabs, {
   type DepositAccountsTab,
 } from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsTabs";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
+import NewMBankingDepositEmptyHistoryState from "@/components/mobile/new-mbanking/NewMBankingDepositEmptyHistoryState";
 
 type SavingsAccount = {
   id: string;
@@ -199,19 +200,6 @@ function DepositHistoryRow({ item }: { item: DepositHistory }) {
   );
 }
 
-function EmptyDepositHistory() {
-  return (
-    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
-      <div className="text-[15px] font-bold text-black">
-        Tidak Ada Riwayat Setoran
-      </div>
-      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-        Belum ada setoran pada bulan yang dipilih.
-      </div>
-    </div>
-  );
-}
-
 function DepositHistoryList({ activeMonth }: { activeMonth: string }) {
   const filteredHistories = React.useMemo(
     () => depositHistories.filter((item) => item.month === activeMonth),
@@ -226,7 +214,7 @@ function DepositHistoryList({ activeMonth }: { activeMonth: string }) {
   }, [filteredHistories]);
 
   if (filteredHistories.length === 0) {
-    return <EmptyDepositHistory />;
+    return <NewMBankingDepositEmptyHistoryState />;
   }
 
   return (
