@@ -8,6 +8,7 @@ import {
   EyeOff,
   Landmark,
   Send,
+  WalletCards,
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/N
 type TransactionItem = {
   id: string;
   type: "out" | "in";
+  kind: "deposit" | "withdrawal" | "transfer";
   title: string;
   subtitle: string;
   amount: string;
@@ -51,6 +53,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-1",
         type: "in",
+        kind: "deposit",
         title: "Setoran",
         subtitle: "Simpanan Kaya • Teller Koperasi",
         amount: "+Rp. 500.000,00",
@@ -58,6 +61,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-2",
         type: "out",
+        kind: "withdrawal",
         title: "Tarikan",
         subtitle: "Simpanan Kaya • Teller Koperasi",
         amount: "-Rp. 250.000,00",
@@ -65,6 +69,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-3",
         type: "out",
+        kind: "transfer",
         title: "Transfer Keluar",
         subtitle: "Bank BCA • 8890123441",
         amount: "-Rp. 250.000,00",
@@ -77,6 +82,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-4",
         type: "in",
+        kind: "deposit",
         title: "Setoran",
         subtitle: "Simpanan Harian • Mobile Banking",
         amount: "+Rp. 300.000,00",
@@ -84,6 +90,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-5",
         type: "out",
+        kind: "withdrawal",
         title: "Tarikan",
         subtitle: "Simpanan Kaya • ATM Koperasi",
         amount: "-Rp. 125.000,00",
@@ -91,6 +98,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-6",
         type: "out",
+        kind: "transfer",
         title: "Transfer Keluar",
         subtitle: "Bank Mandiri • 7001234567",
         amount: "-Rp. 125.000,00",
@@ -191,20 +199,32 @@ function CardInfo({
   );
 }
 
-function TransactionIcon({ type }: { type: TransactionItem["type"] }) {
-  const isTransferOut = type === "out";
-  const Icon = isTransferOut ? Send : Banknote;
+function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
+  const config = {
+    deposit: {
+      Icon: Banknote,
+      className: "bg-[#33AA00]",
+    },
+    withdrawal: {
+      Icon: WalletCards,
+      className: "bg-[#EF4444]",
+    },
+    transfer: {
+      Icon: Send,
+      className: "bg-[#479DF4]",
+    },
+  }[kind];
+
+  const Icon = config.Icon;
 
   return (
     <span
       className={cn(
-        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full",
-        isTransferOut
-          ? "bg-[#EAF3FF] text-[#2F80ED]"
-          : "bg-[#EAF8EF] text-[#33AA00]",
+        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
+        config.className,
       )}
     >
-      <Icon className="h-[20px] w-[20px]" strokeWidth={2.6} />
+      <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
@@ -215,7 +235,7 @@ function TransactionRow({ item }: { item: TransactionItem }) {
   return (
     <div className="flex items-start justify-between gap-4 py-[14px]">
       <div className="flex min-w-0 flex-1 items-start gap-3">
-        <TransactionIcon type={item.type} />
+        <TransactionIcon kind={item.kind} />
 
         <div className="min-w-0 pt-[2px]">
           <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
