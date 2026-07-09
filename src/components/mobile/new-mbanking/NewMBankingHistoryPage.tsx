@@ -40,7 +40,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-1",
         type: "out",
-        title: "Transfer Keluar",
+        title: "Transfer Antar Bank",
         subtitle: "Bank BCA • 8890123441",
         amount: "-Rp. 250.000,00",
         sourceFund: "Simpanan Kaya - 112233111",
@@ -85,7 +85,7 @@ const transactionGroups: TransactionGroup[] = [
       {
         id: "trx-3",
         type: "out",
-        title: "Transfer Keluar",
+        title: "Transfer Antar Bank",
         subtitle: "Bank Mandiri • 7001234567",
         amount: "-Rp. 125.000,00",
         sourceFund: "Simpanan Sukarela - 4260029",

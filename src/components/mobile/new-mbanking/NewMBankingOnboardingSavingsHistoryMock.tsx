@@ -22,7 +22,7 @@ const historyItems: HistoryItem[] = [
   {
     id: "transfer",
     type: "out",
-    title: "Transfer Keluar",
+    title: "Transfer Antar Bank",
     subtitle: "Bank BCA • 8890123441",
     amount: "-Rp. 250.000",
   },
