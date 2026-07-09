@@ -15,8 +15,17 @@ type ClearTarget = {
   left: number;
 };
 
+type ScrollParentStyle = {
+  element: HTMLElement;
+  paddingBottom: string;
+  scrollPaddingBottom: string;
+  overflowY: string;
+  overscrollBehaviorY: string;
+  webkitOverflowScrolling: string;
+};
+
 const KEYBOARD_FALLBACK_HEIGHT = 252;
-const ABOVE_KEYBOARD_CTA_HEIGHT = 76;
+const ABOVE_KEYBOARD_CTA_HEIGHT = 116;
 
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
@@ -59,7 +68,7 @@ function getFieldValue(field: EditableField) {
 
 function getInputContextText(field: EditableField) {
   const parts = [
-    field instanceof HTMLInputElement ? field.placeholder : field.placeholder,
+    field.placeholder,
     field.getAttribute("aria-label"),
     field.name,
     field.id,
@@ -100,6 +109,10 @@ function isTextField(field: EditableField) {
   if (["numeric", "decimal", "tel"].includes(inputMode)) return false;
 
   return ["text", "search", "email", "password", "url"].includes(type);
+}
+
+function isElementVisible(element: HTMLElement) {
+  return element.getClientRects().length > 0;
 }
 
 function isTargetField(field: EditableField) {
@@ -186,10 +199,6 @@ function nextValueForBackspace(current: string, mode: KeyboardMode) {
   return nextDigits;
 }
 
-function isElementVisible(element: HTMLElement) {
-  return element.getClientRects().length > 0;
-}
-
 function findContinueButton(root: HTMLElement | null) {
   if (!root) return null;
 
@@ -201,10 +210,14 @@ function findContinueButton(root: HTMLElement | null) {
       .find((button) => {
         if (button.disabled) return false;
         if (button.closest('[data-numeric-keyboard="true"]')) return false;
-        if (!isElementVisible(button)) return false;
 
         const label = (button.textContent ?? "").trim().toLowerCase();
-        return label === "lanjutkan" || label.includes("lanjutkan pembayaran");
+        const isContinue =
+          label === "lanjutkan" || label.includes("lanjutkan pembayaran");
+
+        if (!isContinue) return false;
+
+        return true;
       }) ?? null
   );
 }
@@ -217,10 +230,35 @@ function findLoginSubmitButton(root: HTMLElement | null) {
   );
 }
 
+function findSpecialFormScrollContainer(input: EditableField) {
+  const page = input.closest(
+    '[data-new-mbanking-register-page="true"], [data-new-mbanking-login-detail-page="true"]',
+  ) as HTMLElement | null;
+
+  if (!page) return null;
+
+  let current: HTMLElement | null = input.parentElement;
+
+  while (current && current !== page.parentElement) {
+    const className = String(current.className ?? "");
+
+    if (className.includes("rounded-t-[30px]") && className.includes("bg-white")) {
+      return current;
+    }
+
+    current = current.parentElement;
+  }
+
+  return page;
+}
+
 function findScrollableParent(
   element: HTMLElement,
   mobileScreen: HTMLElement,
 ): HTMLElement {
+  const specialContainer = findSpecialFormScrollContainer(element as EditableField);
+  if (specialContainer) return specialContainer;
+
   let current: HTMLElement | null = element.parentElement;
 
   while (current && current !== document.body) {
@@ -273,15 +311,15 @@ function scrollInputAboveKeyboard({
 
   const screenRect = mobileScreen.getBoundingClientRect();
   const inputRect = input.getBoundingClientRect();
-  const visibleTop = screenRect.top + 16;
-  const visibleBottom = screenRect.bottom - keyboardHeight - 24;
+  const visibleTop = screenRect.top + 18;
+  const visibleBottom = screenRect.bottom - keyboardHeight - 32;
+  const visibleCenter = visibleTop + (visibleBottom - visibleTop) / 2;
+  const inputCenter = inputRect.top + inputRect.height / 2;
 
   let delta = 0;
 
-  if (inputRect.bottom > visibleBottom) {
-    delta = inputRect.bottom - visibleBottom;
-  } else if (inputRect.top < visibleTop) {
-    delta = inputRect.top - visibleTop;
+  if (inputRect.bottom > visibleBottom || inputRect.top < visibleTop) {
+    delta = inputCenter - visibleCenter;
   }
 
   if (Math.abs(delta) < 1) return;
@@ -308,11 +346,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     borderColor: string;
     boxShadow: string;
   } | null>(null);
-  const scrollParentStyleRef = React.useRef<{
-    element: HTMLElement;
-    paddingBottom: string;
-    scrollPaddingBottom: string;
-  } | null>(null);
+  const scrollParentStyleRef = React.useRef<ScrollParentStyle | null>(null);
 
   const isLoginDetailPage = Boolean(
     activeInput?.closest('[data-new-mbanking-login-detail-page="true"]'),
@@ -391,6 +425,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     let firstTimeoutId = 0;
     let secondTimeoutId = 0;
+    let thirdTimeoutId = 0;
 
     const applyScroll = () => {
       const panelHeight =
@@ -415,14 +450,16 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     const animationFrameId = window.requestAnimationFrame(() => {
       applyScroll();
-      firstTimeoutId = window.setTimeout(applyScroll, 120);
-      secondTimeoutId = window.setTimeout(applyScroll, 320);
+      firstTimeoutId = window.setTimeout(applyScroll, 90);
+      secondTimeoutId = window.setTimeout(applyScroll, 220);
+      thirdTimeoutId = window.setTimeout(applyScroll, 420);
     });
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
       window.clearTimeout(firstTimeoutId);
       window.clearTimeout(secondTimeoutId);
+      window.clearTimeout(thirdTimeoutId);
     };
   }, [activeInput, mobileScreen, updateClearTargets]);
 
@@ -432,6 +469,12 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     previous.element.style.paddingBottom = previous.paddingBottom;
     previous.element.style.scrollPaddingBottom = previous.scrollPaddingBottom;
+    previous.element.style.overflowY = previous.overflowY;
+    previous.element.style.overscrollBehaviorY = previous.overscrollBehaviorY;
+    previous.element.style.setProperty(
+      "-webkit-overflow-scrolling",
+      previous.webkitOverflowScrolling,
+    );
 
     scrollParentStyleRef.current = null;
   }
@@ -454,15 +497,26 @@ export default function NewMBankingGlobalNumericKeyboard() {
         element: scrollParent,
         paddingBottom: scrollParent.style.paddingBottom,
         scrollPaddingBottom: scrollParent.style.scrollPaddingBottom,
+        overflowY: scrollParent.style.overflowY,
+        overscrollBehaviorY: scrollParent.style.overscrollBehaviorY,
+        webkitOverflowScrolling:
+          scrollParent.style.getPropertyValue("-webkit-overflow-scrolling"),
       };
     }
 
     const originalPadding = scrollParentStyleRef.current?.paddingBottom ?? "";
     const originalPaddingNumber = getNumberStyleValue(originalPadding);
-    const nextPadding = Math.max(originalPaddingNumber, keyboardHeight + 34);
+    const extraSafety = shouldAccountForAboveKeyboardCta(input) ? 190 : 64;
+    const nextPadding = Math.max(
+      originalPaddingNumber,
+      keyboardHeight + extraSafety,
+    );
 
+    scrollParent.style.overflowY = "auto";
+    scrollParent.style.overscrollBehaviorY = "contain";
+    scrollParent.style.setProperty("-webkit-overflow-scrolling", "touch");
     scrollParent.style.paddingBottom = `${nextPadding}px`;
-    scrollParent.style.scrollPaddingBottom = `${keyboardHeight + 34}px`;
+    scrollParent.style.scrollPaddingBottom = `${keyboardHeight + extraSafety}px`;
   }
 
   function restoreActiveInputStyle() {
@@ -645,13 +699,27 @@ export default function NewMBankingGlobalNumericKeyboard() {
     window.requestAnimationFrame(updateClearTargets);
   }
 
+  function submitRegisterFormIfNeeded() {
+    if (!activeInput?.closest('[data-new-mbanking-register-page="true"]')) {
+      return false;
+    }
+
+    const form = activeInput.closest("form") as HTMLFormElement | null;
+    if (!form) return false;
+
+    form.requestSubmit();
+    return true;
+  }
+
   function continueFlow() {
     const root =
       activeInput?.closest('[data-mobile-screen="true"]') ?? mobileScreen;
     const continueButton = findContinueButton(root as HTMLElement | null);
 
+    const submittedRegisterForm = submitRegisterFormIfNeeded();
     closeKeyboard();
 
+    if (submittedRegisterForm) return;
     if (!continueButton) return;
 
     window.requestAnimationFrame(() => {
