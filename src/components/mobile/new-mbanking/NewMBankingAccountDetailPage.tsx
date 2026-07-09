@@ -50,17 +50,17 @@ const transactionGroups: TransactionGroup[] = [
     items: [
       {
         id: "trx-1",
-        type: "out",
-        title: "Transfer Keluar",
-        subtitle: "Bank BCA • 8890123441",
-        amount: "-Rp. 250.000,00",
-      },
-      {
-        id: "trx-2",
         type: "in",
         title: "Setoran",
         subtitle: "Simpanan Kaya • Teller Koperasi",
         amount: "+Rp. 500.000,00",
+      },
+      {
+        id: "trx-2",
+        type: "out",
+        title: "Tarikan",
+        subtitle: "Simpanan Kaya • Teller Koperasi",
+        amount: "-Rp. 250.000,00",
       },
     ],
   },
@@ -69,17 +69,17 @@ const transactionGroups: TransactionGroup[] = [
     items: [
       {
         id: "trx-3",
-        type: "out",
-        title: "Transfer Keluar",
-        subtitle: "Bank Mandiri • 7001234567",
-        amount: "-Rp. 125.000,00",
-      },
-      {
-        id: "trx-4",
         type: "in",
         title: "Setoran",
         subtitle: "Simpanan Harian • Mobile Banking",
         amount: "+Rp. 300.000,00",
+      },
+      {
+        id: "trx-4",
+        type: "out",
+        title: "Tarikan",
+        subtitle: "Simpanan Kaya • ATM Koperasi",
+        amount: "-Rp. 125.000,00",
       },
     ],
   },
