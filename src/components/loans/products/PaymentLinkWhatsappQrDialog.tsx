@@ -149,14 +149,20 @@ export default function PaymentLinkWhatsappQrDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-6 py-4">
-            <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
-              Hubungkan ke WhatsApp
+            <div className="min-w-0">
+              <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
+                Hubungkan ke WhatsApp
+              </div>
+              <div className="mt-1 max-w-[560px] text-[13px] font-medium leading-relaxed text-slate-500">
+                Hubungan perangkat Anda ke Whatsapp untuk mengirimkan pengingat
+                pembayaran tagihan secara otomatis
+              </div>
             </div>
 
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
               aria-label="Tutup"
               title="Tutup"
             >
