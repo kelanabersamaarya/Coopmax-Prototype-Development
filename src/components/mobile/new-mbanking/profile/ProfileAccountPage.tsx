@@ -10,14 +10,12 @@ type AccountScreen = "main" | "password" | "pin";
 function AccountMenuRow({
   icon: Icon,
   title,
-  subtitle,
   trailing,
   danger = false,
   onClick,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   title: string;
-  subtitle: string;
   trailing?: React.ReactNode;
   danger?: boolean;
   onClick?: () => void;
@@ -41,9 +39,6 @@ function AccountMenuRow({
       <span className="min-w-0 flex-1">
         <span className="block text-[15px] font-bold leading-tight text-black">
           {title}
-        </span>
-        <span className="mt-[5px] block text-[12px] font-normal leading-snug text-[#8F8F8F]">
-          {subtitle}
         </span>
       </span>
 
@@ -99,19 +94,16 @@ export default function ProfileAccountPage({
         <AccountMenuRow
           icon={LockKeyhole}
           title="Ubah Kata Sandi"
-          subtitle="Perbarui kata sandi akun M-Banking Anda."
           onClick={() => setScreen("password")}
         />
         <AccountMenuRow
           icon={KeyRound}
           title="Ubah PIN"
-          subtitle="Ganti 6 digit PIN transaksi Anda."
           onClick={() => setScreen("pin")}
         />
         <AccountMenuRow
           icon={Fingerprint}
           title="Login Biometric"
-          subtitle="Gunakan sidik jari atau Face ID untuk masuk."
           trailing={
             <ProfileToggle
               checked={biometricEnabled}
@@ -122,7 +114,6 @@ export default function ProfileAccountPage({
         <AccountMenuRow
           icon={Trash2}
           title="Hapus Akun"
-          subtitle="Ajukan penghapusan akun M-Banking Anda."
           danger
           onClick={() => setDeleteOpen(true)}
         />
