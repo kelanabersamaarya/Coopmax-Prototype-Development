@@ -221,14 +221,6 @@ function findContinueButton(root: HTMLElement | null) {
   );
 }
 
-function findLoginSubmitButton(root: HTMLElement | null) {
-  if (!root) return null;
-
-  return root.querySelector<HTMLButtonElement>(
-    '[data-new-mbanking-login-detail-page="true"] button[type="submit"]',
-  );
-}
-
 function findSpecialFormScrollContainer(input: EditableField) {
   const page = input.closest(
     '[data-new-mbanking-register-page="true"], [data-new-mbanking-login-detail-page="true"]',
@@ -730,7 +722,10 @@ export default function NewMBankingGlobalNumericKeyboard() {
   }
 
   function continueFlow() {
-    if (activeInput?.closest('[data-new-mbanking-register-page="true"]')) {
+    if (
+      activeInput?.closest('[data-new-mbanking-register-page="true"]') ||
+      activeInput?.closest('[data-new-mbanking-login-detail-page="true"]')
+    ) {
       closeKeyboard();
       return;
     }
@@ -745,20 +740,6 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     window.requestAnimationFrame(() => {
       continueButton.click();
-    });
-  }
-
-  function submitLogin() {
-    const root =
-      activeInput?.closest('[data-mobile-screen="true"]') ?? mobileScreen;
-    const loginSubmitButton = findLoginSubmitButton(root as HTMLElement | null);
-
-    closeKeyboard();
-
-    if (!loginSubmitButton) return;
-
-    window.requestAnimationFrame(() => {
-      loginSubmitButton.click();
     });
   }
 
@@ -810,14 +791,14 @@ export default function NewMBankingGlobalNumericKeyboard() {
             {isLoginDetailPage ? (
               <button
                 type="button"
-                onClick={submitLogin}
+                onClick={closeKeyboard}
                 className={cn(
                   "mb-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
                   "text-[14px] font-semibold leading-none text-white",
                   "transition active:scale-[0.98]",
                 )}
               >
-                Masuk
+                Selesai
               </button>
             ) : null}
 
