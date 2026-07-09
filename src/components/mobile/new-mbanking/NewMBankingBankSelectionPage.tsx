@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Building2, Search } from "lucide-react";
+import { ArrowLeft, Landmark, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
@@ -81,8 +81,8 @@ export default function NewMBankingBankSelectionPage({
                 onClick={() => onSelectBank(bank)}
                 className="flex w-full items-center gap-3 border-b border-[#EEF0F4] py-[15px] text-left last:border-b-0 transition active:scale-[0.99]"
               >
-                <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F1F3F6] text-[#53657D]">
-                  <Building2 className="h-[21px] w-[21px]" strokeWidth={2.45} />
+                <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+                  <Landmark className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
                 </span>
 
                 <span className="min-w-0 flex-1 truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
