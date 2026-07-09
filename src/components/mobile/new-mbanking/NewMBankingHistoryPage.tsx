@@ -12,6 +12,7 @@ import NewMBankingTransactionFilterPage, {
   type NewMBankingTransactionFilters,
 } from "@/components/mobile/new-mbanking/NewMBankingTransactionFilterPage";
 import NewMBankingActiveFilterSummary from "@/components/mobile/new-mbanking/NewMBankingActiveFilterSummary";
+import NewMBankingEmptyStateImage from "@/components/mobile/new-mbanking/NewMBankingEmptyStateImage";
 
 type TransactionItem = {
   id: string;
@@ -349,6 +350,8 @@ function TransactionGroupCard({ group }: { group: TransactionGroup }) {
 function EmptyFilterResult() {
   return (
     <div className="mt-[48px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+      <NewMBankingEmptyStateImage className="mx-auto mb-4 h-[120px] w-[120px] object-contain" />
+
       <div className="text-[15px] font-bold text-black">
         Tidak Ada Transaksi
       </div>
