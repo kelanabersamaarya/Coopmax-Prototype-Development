@@ -1,0 +1,12 @@
+/* New M-Banking Register: hilangkan shadow di atas section putih. */
+[data-mobile-screen="true"]
+  [data-new-mbanking-register-page="true"]
+  > div.relative.z-10.-mt-\[68px\].flex.min-h-0.flex-1.flex-col.rounded-t-\[30px\].bg-white {
+  box-shadow: none !important;
+}
+
+[data-mobile-screen="true"]
+  [data-new-mbanking-register-page="true"]
+  > section.relative.z-10.-mt-\[68px\].flex.min-h-0.flex-1.flex-col.rounded-t-\[30px\].bg-white {
+  box-shadow: none !important;
+}

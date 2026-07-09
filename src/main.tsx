@@ -29,6 +29,7 @@ import "./styles/new-mbanking-register-keyboard-cta.css";
 import "./styles/new-mbanking-keyboard-height.css";
 import "./styles/new-mbanking-onboarding-history.css";
 import "./styles/new-mbanking-tab-section-fill.css";
+import "./styles/new-mbanking-remove-section-shadow.css";
 import "./styles/payment-link-loan-product-form.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
