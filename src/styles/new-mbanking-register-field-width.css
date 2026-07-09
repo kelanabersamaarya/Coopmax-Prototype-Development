@@ -54,39 +54,13 @@
   padding-right: 18px !important;
 }
 
-/* Halaman Masuk hanya boleh memiliki 1 CTA utama, yaitu tombol "Masuk" pada form. */
-[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"])
-  [data-numeric-keyboard="true"]
-  > button {
-  display: none !important;
-}
-
-/* Saat keyboard terbuka di halaman Masuk, CTA Masuk ditempelkan tepat di atas keyboard. */
-[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"]) {
-  position: relative !important;
-}
-
-[data-mobile-screen="true"]
-  [data-new-mbanking-login-detail-page="true"] {
-  position: relative !important;
-}
-
-[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"])
-  [data-new-mbanking-login-detail-page="true"]
-  > section.relative.z-10.-mt-\[30px\] {
-  position: static !important;
-}
-
-[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"])
+/* Halaman Masuk hanya boleh menampilkan CTA Masuk yang berada di panel keyboard saat keyboard terbuka. */
+[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
   [data-new-mbanking-login-detail-page="true"]
   button[type="submit"] {
-  position: absolute !important;
-  left: 18px !important;
-  right: 18px !important;
-  bottom: 232px !important;
-  z-index: 171 !important;
-  width: auto !important;
-  margin: 0 !important;
+  display: none !important;
 }
 
 /* New M-Banking: perlebar dan tambah tinggi tombol Daftar dan Masuk pada halaman onboarding. */

@@ -208,6 +208,14 @@ function findContinueButton(root: HTMLElement | null) {
   );
 }
 
+function findLoginSubmitButton(root: HTMLElement | null) {
+  if (!root) return null;
+
+  return root.querySelector<HTMLButtonElement>(
+    '[data-new-mbanking-login-detail-page="true"] button[type="submit"]',
+  );
+}
+
 function findScrollableParent(
   element: HTMLElement,
   mobileScreen: HTMLElement,
@@ -290,6 +298,10 @@ export default function NewMBankingGlobalNumericKeyboard() {
     paddingBottom: string;
     scrollPaddingBottom: string;
   } | null>(null);
+
+  const isLoginDetailPage = Boolean(
+    activeInput?.closest('[data-new-mbanking-login-detail-page="true"]'),
+  );
 
   const updateClearTargets = React.useCallback(() => {
     if (!mobileScreen) return;
@@ -626,6 +638,20 @@ export default function NewMBankingGlobalNumericKeyboard() {
     });
   }
 
+  function submitLogin() {
+    const root =
+      activeInput?.closest('[data-mobile-screen="true"]') ?? mobileScreen;
+    const loginSubmitButton = findLoginSubmitButton(root as HTMLElement | null);
+
+    closeKeyboard();
+
+    if (!loginSubmitButton) return;
+
+    window.requestAnimationFrame(() => {
+      loginSubmitButton.click();
+    });
+  }
+
   if (!mobileScreen) return null;
 
   const isTextMode = mode === "text";
@@ -671,6 +697,20 @@ export default function NewMBankingGlobalNumericKeyboard() {
               "animate-in slide-in-from-bottom-4 fade-in-0 duration-200",
             )}
           >
+            {isLoginDetailPage ? (
+              <button
+                type="button"
+                onClick={submitLogin}
+                className={cn(
+                  "mb-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
+                  "text-[14px] font-semibold leading-none text-white",
+                  "transition active:scale-[0.98]",
+                )}
+              >
+                Masuk
+              </button>
+            ) : null}
+
             {isTextMode ? (
               <div className="grid gap-2">
                 <div className="grid grid-cols-10 gap-1.5">
@@ -824,17 +864,19 @@ export default function NewMBankingGlobalNumericKeyboard() {
               </div>
             )}
 
-            <button
-              type="button"
-              onClick={continueFlow}
-              className={cn(
-                "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
-                "text-[14px] font-semibold leading-none text-white",
-                "transition active:scale-[0.98]",
-              )}
-            >
-              Lanjutkan
-            </button>
+            {!isLoginDetailPage ? (
+              <button
+                type="button"
+                onClick={continueFlow}
+                className={cn(
+                  "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
+                  "text-[14px] font-semibold leading-none text-white",
+                  "transition active:scale-[0.98]",
+                )}
+              >
+                Lanjutkan
+              </button>
+            ) : null}
           </div>
         </div>
       ) : null}
