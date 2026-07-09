@@ -26,6 +26,7 @@ type ScrollParentStyle = {
 
 const KEYBOARD_FALLBACK_HEIGHT = 252;
 const ABOVE_KEYBOARD_CTA_HEIGHT = 116;
+const WHITE_SECTION_AUTOSCROLL_MAX_DELTA = 72;
 
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
@@ -302,6 +303,10 @@ function getEffectiveKeyboardHeight(input: EditableField, panelHeight: number) {
   );
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
 function scrollInputAboveKeyboard({
   input,
   mobileScreen,
@@ -315,6 +320,37 @@ function scrollInputAboveKeyboard({
 
   const screenRect = mobileScreen.getBoundingClientRect();
   const inputRect = input.getBoundingClientRect();
+  const scrollParent = findScrollableParent(input, mobileScreen);
+  const whiteSection = findSpecialFormScrollContainer(input);
+
+  if (whiteSection) {
+    const sectionRect = scrollParent.getBoundingClientRect();
+    const visibleTop = Math.max(sectionRect.top, screenRect.top) + 18;
+    const visibleBottom =
+      Math.min(sectionRect.bottom, screenRect.bottom - keyboardHeight) - 20;
+
+    let delta = 0;
+
+    if (inputRect.bottom > visibleBottom) {
+      delta = inputRect.bottom - visibleBottom;
+    } else if (inputRect.top < visibleTop) {
+      delta = inputRect.top - visibleTop;
+    }
+
+    if (Math.abs(delta) < 1) return;
+
+    scrollParent.scrollBy({
+      top: clamp(
+        delta,
+        -WHITE_SECTION_AUTOSCROLL_MAX_DELTA,
+        WHITE_SECTION_AUTOSCROLL_MAX_DELTA,
+      ),
+      behavior: "smooth",
+    });
+
+    return;
+  }
+
   const visibleTop = screenRect.top + 18;
   const visibleBottom = screenRect.bottom - keyboardHeight - 32;
   const visibleCenter = visibleTop + (visibleBottom - visibleTop) / 2;
@@ -328,7 +364,6 @@ function scrollInputAboveKeyboard({
 
   if (Math.abs(delta) < 1) return;
 
-  const scrollParent = findScrollableParent(input, mobileScreen);
   scrollParent.scrollBy({
     top: delta,
     behavior: "smooth",
