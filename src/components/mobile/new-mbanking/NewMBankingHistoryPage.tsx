@@ -304,7 +304,7 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
 
   if (normalizedTitle.includes("transfer")) {
     return (
-      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
         <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
       </span>
     );
@@ -316,7 +316,7 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
     <span
       className={cn(
         "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
-        item.type === "out" ? "bg-[#18B7A1]" : "bg-[#33AA00]",
+        item.type === "out" ? "bg-[#479DF4]" : "bg-[#33AA00]",
       )}
     >
       <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
