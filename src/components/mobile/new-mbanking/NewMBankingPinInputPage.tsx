@@ -45,6 +45,30 @@ export default function NewMBankingPinInputPage({
     onSubmit();
   }
 
+  React.useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (/^\d$/.test(event.key)) {
+        event.preventDefault();
+        addDigit(event.key);
+        return;
+      }
+
+      if (event.key === "Backspace" || event.key === "Delete") {
+        event.preventDefault();
+        removeDigit();
+        return;
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submit();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [pin]);
+
   const keyClassName = cn(
     "flex h-[72px] w-[72px] items-center justify-center rounded-full",
     "bg-[#EEF0F4] text-[28px] font-bold leading-none text-black",
