@@ -39,7 +39,7 @@ function MockQrCode() {
   }, []);
 
   return (
-    <div className="relative mx-auto h-[220px] w-[220px] overflow-hidden rounded-[18px] bg-white p-4 ring-1 ring-slate-200">
+    <div className="relative mx-auto h-[280px] w-[280px] overflow-hidden rounded-[22px] bg-white p-5 ring-1 ring-slate-200">
       <div className="grid h-full w-full grid-cols-[repeat(21,minmax(0,1fr))] gap-[2px]">
         {cells.map((active, index) => (
           <span
@@ -50,9 +50,9 @@ function MockQrCode() {
         ))}
       </div>
 
-      <div className="pointer-events-none absolute inset-x-4 top-4 h-[42px] animate-[whatsapp-qr-scan_5s_ease-in-out_forwards] overflow-hidden rounded-[10px]">
-        <div className="mx-auto h-[3px] w-full rounded-full bg-emerald-500 shadow-[0_0_18px_rgba(34,197,94,0.95)]" />
-        <div className="h-[39px] w-full bg-[linear-gradient(to_bottom,rgba(34,197,94,0.28),rgba(34,197,94,0.08),rgba(34,197,94,0))]" />
+      <div className="pointer-events-none absolute inset-x-5 top-5 h-[48px] animate-[whatsapp-qr-scan_5s_ease-in-out_forwards] overflow-hidden rounded-[12px]">
+        <div className="mx-auto h-[4px] w-full rounded-full bg-emerald-500 shadow-[0_0_18px_rgba(34,197,94,0.95)]" />
+        <div className="h-[44px] w-full bg-[linear-gradient(to_bottom,rgba(34,197,94,0.28),rgba(34,197,94,0.08),rgba(34,197,94,0))]" />
       </div>
 
       <style>
@@ -69,7 +69,7 @@ function MockQrCode() {
               opacity: 1;
             }
             100% {
-              transform: translateY(154px);
+              transform: translateY(192px);
               opacity: 0.95;
             }
           }
@@ -110,8 +110,8 @@ export default function PaymentLinkWhatsappQrDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[520px]",
-          "max-w-[520px]",
+          "w-[calc(100vw-2rem)] sm:w-[760px]",
+          "max-w-[760px]",
           "max-h-[90vh] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
@@ -142,25 +142,29 @@ export default function PaymentLinkWhatsappQrDialog({
           </div>
 
           <div className="max-h-[calc(90vh-76px)] overflow-auto px-6 py-7">
-            <MockQrCode />
+            <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_300px]">
+              <div className="rounded-[14px] border border-slate-200 bg-slate-50 px-4 py-4 text-left md:min-h-[280px]">
+                <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
+                  Cara menghubungkan WhatsApp
+                </div>
 
-            <div className="mt-6 rounded-[14px] border border-slate-200 bg-slate-50 px-4 py-4 text-left">
-              <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
-                Cara menghubungkan WhatsApp
+                <ol className="mt-4 grid gap-4">
+                  {connectionSteps.map((step, index) => (
+                    <li key={step} className="flex items-start gap-3">
+                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[12px] font-extrabold text-white">
+                        {index + 1}
+                      </span>
+                      <span className="text-[13px] font-medium leading-relaxed text-slate-700">
+                        {step}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
               </div>
 
-              <ol className="mt-3 grid gap-3">
-                {connectionSteps.map((step, index) => (
-                  <li key={step} className="flex items-start gap-3">
-                    <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[12px] font-extrabold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="text-[13px] font-medium leading-relaxed text-slate-700">
-                      {step}
-                    </span>
-                  </li>
-                ))}
-              </ol>
+              <div className="flex justify-center">
+                <MockQrCode />
+              </div>
             </div>
           </div>
         </div>
