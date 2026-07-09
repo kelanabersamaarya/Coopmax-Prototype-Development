@@ -1,0 +1,19 @@
+/* New M-Banking Register:
+   Saat keyboard custom aktif, sembunyikan baris CTA asli form
+   agar tidak muncul tombol "Kembali" di atas tombol "Selesai".
+*/
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
+  [data-new-mbanking-register-page="true"]
+  form
+  > .grid.grid-cols-2.gap-\[10px\] {
+  display: none !important;
+}
+
+/* Pastikan tombol "Selesai" dari keyboard menjadi satu-satunya CTA yang terlihat. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
+  [data-numeric-keyboard="true"]
+  > button:last-child {
+  display: inline-flex !important;
+}

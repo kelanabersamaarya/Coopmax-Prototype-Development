@@ -25,6 +25,7 @@ import "./styles/new-mbanking-hide-status-bar.css";
 import "./styles/mobile-modal-width.css";
 import "./styles/new-mbanking-success-section-width.css";
 import "./styles/new-mbanking-register-field-width.css";
+import "./styles/new-mbanking-register-keyboard-cta.css";
 import "./styles/new-mbanking-onboarding-history.css";
 import "./styles/new-mbanking-tab-section-fill.css";
 import "./styles/payment-link-loan-product-form.css";
