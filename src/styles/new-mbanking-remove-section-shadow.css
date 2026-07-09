@@ -10,3 +10,21 @@
   > section.relative.z-10.-mt-\[68px\].flex.min-h-0.flex-1.flex-col.rounded-t-\[30px\].bg-white {
   box-shadow: none !important;
 }
+
+/* Saat keyboard custom aktif, hilangkan shadow putih tambahan di area CTA atas keyboard. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
+  [data-numeric-keyboard="true"]
+  > button:last-child,
+[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"])
+  [data-numeric-keyboard="true"]
+  > button:first-child {
+  box-shadow: none !important;
+}
+
+/* Hilangkan lapisan pseudo putih yang sebelumnya memberi kesan bayangan di atas keyboard. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
+  [data-numeric-keyboard="true"]::before,
+[data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"])
+  [data-numeric-keyboard="true"]::before {
+  box-shadow: none !important;
+}
