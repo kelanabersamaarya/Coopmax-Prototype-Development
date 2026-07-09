@@ -47,25 +47,26 @@
   padding-bottom: 430px !important;
 }
 
-/* Halaman register pertama: saat keyboard terbuka, ringkas header agar form punya ruang scroll lebih besar. */
+/* Halaman register pertama: saat keyboard terbuka, header tetap utuh agar wizard/progress step tidak tertutup. */
 [data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
     [data-numeric-keyboard="true"]
   )
   [data-new-mbanking-register-page="true"]
   > div.relative.h-\[420px\].shrink-0.overflow-hidden {
-  height: 320px !important;
-  min-height: 320px !important;
-  flex-basis: 320px !important;
-  padding-top: 20px !important;
+  height: 420px !important;
+  min-height: 420px !important;
+  flex-basis: 420px !important;
+  padding-top: 32px !important;
+  overflow: visible !important;
 }
 
-/* Halaman register pertama: panel form menjadi area scroll utama dan punya ruang aman di bawah. */
+/* Halaman register pertama: panel form tetap bisa discroll manual dan tidak memotong konten. */
 [data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
     [data-numeric-keyboard="true"]
   )
   [data-new-mbanking-register-page="true"]
   > div.relative.z-10.-mt-\[68px\].flex.min-h-0.flex-1.flex-col.rounded-t-\[30px\].bg-white {
-  margin-top: -44px !important;
+  margin-top: -68px !important;
   overflow-y: auto !important;
   overscroll-behavior-y: contain !important;
   -webkit-overflow-scrolling: touch !important;
@@ -82,7 +83,7 @@
   display: none !important;
 }
 
-/* Halaman register pertama: form tidak memaksa tinggi penuh saat keyboard aktif agar field bisa naik natural. */
+/* Halaman register pertama: form tidak memaksa tinggi penuh saat keyboard aktif agar field bisa discroll manual. */
 [data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
     [data-numeric-keyboard="true"]
   )
