@@ -66,34 +66,49 @@ function setAttributeIfDifferent(
   input.setAttribute(name, value);
 }
 
+function applyNumericKeyboardToInput(input: HTMLInputElement) {
+  if (!shouldUseNumericKeyboard(input)) return;
+
+  setAttributeIfDifferent(input, "inputmode", "numeric");
+  setAttributeIfDifferent(input, "pattern", "[0-9]*");
+  setAttributeIfDifferent(input, "enterkeyhint", "done");
+}
+
+function applyNumericKeyboardToRoot(root: Element) {
+  root
+    .querySelectorAll<HTMLInputElement>("input")
+    .forEach(applyNumericKeyboardToInput);
+}
+
 export function useNumericMobileKeyboard(deps: React.DependencyList = []) {
   React.useEffect(() => {
     const root = document.querySelector('[data-mobile-screen="true"]');
     if (!root) return;
 
-    function applyNumericKeyboard() {
-      const inputs = root.querySelectorAll<HTMLInputElement>("input");
+    const applyOnce = () => applyNumericKeyboardToRoot(root);
 
-      inputs.forEach((input) => {
-        if (!shouldUseNumericKeyboard(input)) return;
+    const frameId = window.requestAnimationFrame(applyOnce);
+    const timeoutId = window.setTimeout(applyOnce, 120);
 
-        setAttributeIfDifferent(input, "inputmode", "numeric");
-        setAttributeIfDifferent(input, "pattern", "[0-9]*");
-        setAttributeIfDifferent(input, "enterkeyhint", "done");
-      });
+    function applyFromEvent(event: Event) {
+      const target = event.target as HTMLElement | null;
+      const input = target?.closest("input");
+
+      if (input instanceof HTMLInputElement) {
+        applyNumericKeyboardToInput(input);
+      }
     }
 
-    applyNumericKeyboard();
+    root.addEventListener("pointerdown", applyFromEvent, true);
+    root.addEventListener("touchstart", applyFromEvent, true);
+    root.addEventListener("focusin", applyFromEvent, true);
 
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(applyNumericKeyboard);
-    });
-
-    observer.observe(root, {
-      childList: true,
-      subtree: true,
-    });
-
-    return () => observer.disconnect();
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(timeoutId);
+      root.removeEventListener("pointerdown", applyFromEvent, true);
+      root.removeEventListener("touchstart", applyFromEvent, true);
+      root.removeEventListener("focusin", applyFromEvent, true);
+    };
   }, deps);
 }
