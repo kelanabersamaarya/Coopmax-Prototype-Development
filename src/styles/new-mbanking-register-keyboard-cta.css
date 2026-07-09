@@ -16,4 +16,19 @@
   [data-numeric-keyboard="true"]
   > button:last-child {
   display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1 !important;
+}
+
+/* Pastikan label pseudo "Selesai" tetap tepat di tengah tombol. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
+  [data-numeric-keyboard="true"]
+  > button:last-child::after {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  text-align: center !important;
 }
