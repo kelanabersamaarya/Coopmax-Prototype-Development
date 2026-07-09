@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
+import NewMBankingEmptyStateImage from "@/components/mobile/new-mbanking/NewMBankingEmptyStateImage";
 import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
 
 type TransactionItem = {
@@ -284,6 +285,21 @@ function TransactionGroupCard({ group }: { group: TransactionGroup }) {
   );
 }
 
+function EmptyTransactionState() {
+  return (
+    <div className="flex min-h-[330px] flex-col items-center justify-center px-5 pb-6 pt-8 text-center">
+      <NewMBankingEmptyStateImage className="mb-5 h-[154px] w-[154px] object-contain" />
+
+      <div className="text-[15px] font-bold text-black">
+        Tidak Ada Riwayat Transaksi
+      </div>
+      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+        Belum ada transaksi setoran, tarikan, atau transfer pada bulan ini.
+      </div>
+    </div>
+  );
+}
+
 export default function NewMBankingAccountDetailPage({
   onBack,
 }: {
@@ -293,6 +309,7 @@ export default function NewMBankingAccountDetailPage({
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(null);
   const [showDeposit, setShowDeposit] = React.useState(false);
+  const shouldShowTransactions = activeMonth === "Jun";
 
   if (showDeposit) {
     return <NewMBankingDepositPage onBack={() => setShowDeposit(false)} />;
@@ -432,9 +449,13 @@ export default function NewMBankingAccountDetailPage({
             </div>
 
             <div className="mt-[6px]">
-              {transactionGroups.map((group) => (
-                <TransactionGroupCard key={group.date} group={group} />
-              ))}
+              {shouldShowTransactions ? (
+                transactionGroups.map((group) => (
+                  <TransactionGroupCard key={group.date} group={group} />
+                ))
+              ) : (
+                <EmptyTransactionState />
+              )}
             </div>
           </div>
         </section>
