@@ -160,6 +160,10 @@ function isClearableField(field: EditableField) {
   return true;
 }
 
+function isRegisterPageField(field: EditableField) {
+  return Boolean(field.closest('[data-new-mbanking-register-page="true"]'));
+}
+
 function setNativeFieldValue(field: EditableField, value: string) {
   if (field instanceof HTMLTextAreaElement) {
     const descriptor = Object.getOwnPropertyDescriptor(
@@ -423,6 +427,12 @@ export default function NewMBankingGlobalNumericKeyboard() {
       return;
     }
 
+    if (isRegisterPageField(activeInput)) {
+      restoreScrollParentSpacing();
+      updateClearTargets();
+      return;
+    }
+
     let firstTimeoutId = 0;
     let secondTimeoutId = 0;
     let thirdTimeoutId = 0;
@@ -548,7 +558,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       const end = input.value.length;
       input.setSelectionRange(end, end);
 
-      if (mobileScreen) {
+      if (mobileScreen && !isRegisterPageField(input)) {
         const keyboardHeight = getEffectiveKeyboardHeight(
           input,
           KEYBOARD_FALLBACK_HEIGHT,
