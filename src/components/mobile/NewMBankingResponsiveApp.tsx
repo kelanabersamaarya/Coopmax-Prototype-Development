@@ -8,7 +8,6 @@ import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingO
 import NewMBankingRegisterAccountPage from "@/components/mobile/new-mbanking/NewMBankingRegisterAccountPage";
 import NewMBankingRegisterPage from "@/components/mobile/new-mbanking/NewMBankingRegisterPage";
 import NewMBankingSplashScreen from "@/components/mobile/new-mbanking/NewMBankingSplashScreen";
-import { useNumericMobileKeyboard } from "@/hooks/use-numeric-mobile-keyboard";
 
 type NewMBankingScreen =
   | "splash"
@@ -23,8 +22,6 @@ export default function NewMBankingResponsiveApp() {
   const [transactions, setTransactions] = React.useState<
     MBankingTransactionHistoryEntry[]
   >([]);
-
-  useNumericMobileKeyboard([screen]);
 
   React.useEffect(() => {
     if (screen !== "splash") return;
