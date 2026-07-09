@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ArrowLeft, QrCode, Send, UserPlus } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingTransferQrPage from "@/components/mobile/new-mbanking/NewMBankingTransferQrPage";
 import type { NewMBankingRecipientInfo } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
 import {
   getNewMBankingTransferRecipients,
@@ -269,6 +269,7 @@ export default function NewMBankingInterbankTransferPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
+  const [showTransferQr, setShowTransferQr] = React.useState(false);
   const [selectedRecipient, setSelectedRecipient] =
     React.useState<NewMBankingRecipientInfo | null>(null);
   const [savedTick, setSavedTick] = React.useState(0);
@@ -307,6 +308,10 @@ export default function NewMBankingInterbankTransferPage({
   function openRecipientInput(recipient: NewMBankingRecipientInfo) {
     setSelectedRecipient(recipient);
     setShowNewRecipientForm(true);
+  }
+
+  if (showTransferQr) {
+    return <NewMBankingTransferQrPage onBack={() => setShowTransferQr(false)} />;
   }
 
   if (showNewRecipientForm) {
@@ -367,11 +372,7 @@ export default function NewMBankingInterbankTransferPage({
                 <TransferOptionCard
                   icon={QrCode}
                   label="QR Transfer"
-                  onClick={() =>
-                    toast("QR Transfer (prototype)", {
-                      description: "Detail QR Transfer akan ditambahkan menyusul.",
-                    })
-                  }
+                  onClick={() => setShowTransferQr(true)}
                 />
               ) : null}
             </div>
