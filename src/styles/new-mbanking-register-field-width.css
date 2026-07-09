@@ -28,6 +28,23 @@
   ~ div.rounded-t-\[30px\].bg-white {
   padding-left: 18px !important;
   padding-right: 18px !important;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+[data-mobile-screen="true"]
+  div.relative.h-\[420px\].shrink-0.overflow-hidden
+  ~ div.rounded-t-\[30px\].bg-white::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Saat keyboard custom aktif di halaman register, beri ruang scroll agar field tidak tertutup keyboard. */
+[data-mobile-screen="true"]:has([data-numeric-keyboard="true"])
+  div.relative.h-\[420px\].shrink-0.overflow-hidden
+  ~ div.rounded-t-\[30px\].bg-white {
+  padding-bottom: 330px !important;
 }
 
 /* New M-Banking: perlebar field pada halaman Masuk/Login detail. */
@@ -52,6 +69,23 @@
   ~ section.rounded-t-\[30px\].bg-white {
   padding-left: 18px !important;
   padding-right: 18px !important;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+[data-mobile-screen="true"]
+  section.relative.h-\[252px\].shrink-0.overflow-hidden
+  ~ section.rounded-t-\[30px\].bg-white::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Saat keyboard custom aktif di halaman login, beri ruang scroll agar field tidak tertutup keyboard. */
+[data-mobile-screen="true"]:has([data-numeric-keyboard="true"])
+  section.relative.h-\[252px\].shrink-0.overflow-hidden
+  ~ section.rounded-t-\[30px\].bg-white {
+  padding-bottom: 330px !important;
 }
 
 /* Halaman Masuk hanya menampilkan CTA Masuk pada area keyboard saat keyboard terbuka. */
