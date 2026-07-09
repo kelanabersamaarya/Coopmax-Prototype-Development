@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Download, ShoppingCart, UserPlus } from "lucide-react";
+import { Check, Eye, ShoppingCart, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -65,8 +65,8 @@ export default function NewMBankingTransactionSuccessPage({
 
           <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
             <NewMBankingSuccessActionTile
-              label="Bukti Transaksi"
-              icon={Download}
+              label="Lihat Bukti Transaksi"
+              icon={Eye}
               onClick={() => setShowReceipt(true)}
             />
 
