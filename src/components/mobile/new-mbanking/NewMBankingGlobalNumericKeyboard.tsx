@@ -196,6 +196,29 @@ export default function NewMBankingGlobalNumericKeyboard() {
   React.useEffect(() => {
     if (!activeInput) return;
 
+    function handleOutsidePointerDown(event: PointerEvent) {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      if (target.closest('[data-numeric-keyboard="true"]')) return;
+      if (target === activeInput) return;
+
+      const nextInput = target.closest("input") as HTMLInputElement | null;
+      if (nextInput && isTargetInput(nextInput)) return;
+
+      closeKeyboard();
+    }
+
+    document.addEventListener("pointerdown", handleOutsidePointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleOutsidePointerDown);
+    };
+  }, [activeInput]);
+
+  React.useEffect(() => {
+    if (!activeInput) return;
+
     const syncValue = () => setValue(activeInput.value ?? "");
     activeInput.addEventListener("input", syncValue);
 
@@ -238,7 +261,6 @@ export default function NewMBankingGlobalNumericKeyboard() {
         data-numeric-keyboard="true"
         className={cn(
           "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
-          "shadow-[0_-10px_24px_rgba(15,23,42,0.12)]",
           "animate-in slide-in-from-bottom-4 fade-in-0 duration-200",
         )}
       >
