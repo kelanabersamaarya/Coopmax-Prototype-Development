@@ -87,13 +87,6 @@ function nextValueForBackspace(current: string, mode: KeyboardMode) {
   return nextDigits;
 }
 
-function nextValueForComma(current: string, mode: KeyboardMode) {
-  if (mode !== "amount") return current;
-  if (current.includes(",")) return current;
-
-  return current.trim() ? `${current},` : "0,";
-}
-
 function isElementVisible(element: HTMLElement) {
   return element.getClientRects().length > 0;
 }
@@ -221,16 +214,15 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
           <button
             type="button"
-            onClick={() => applyValue(nextValueForComma(value, mode))}
+            onClick={closeKeyboard}
             className={cn(
-              "h-[52px] rounded-[12px] bg-white",
-              "text-[24px] font-bold leading-none text-black",
-              "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+              "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
+              "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
             )}
-            aria-label="Koma"
-            title="Koma"
+            aria-label="Sembunyikan keyboard"
+            title="Sembunyikan keyboard"
           >
-            ,
+            <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
           </button>
 
           <button
@@ -259,32 +251,17 @@ export default function NewMBankingGlobalNumericKeyboard() {
           </button>
         </div>
 
-        <div className="mt-3 grid grid-cols-[64px_minmax(0,1fr)] gap-2.5">
-          <button
-            type="button"
-            onClick={closeKeyboard}
-            className={cn(
-              "flex h-[44px] items-center justify-center rounded-[12px] bg-white",
-              "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-            )}
-            aria-label="Sembunyikan keyboard"
-            title="Sembunyikan keyboard"
-          >
-            <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
-          </button>
-
-          <button
-            type="button"
-            onClick={continueFlow}
-            className={cn(
-              "h-[44px] w-full rounded-[12px] bg-[#479DF4]",
-              "text-[14px] font-semibold leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Lanjutkan
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={continueFlow}
+          className={cn(
+            "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
+            "text-[14px] font-semibold leading-none text-white",
+            "transition active:scale-[0.98]",
+          )}
+        >
+          Lanjutkan
+        </button>
       </div>
     </div>,
     mobileScreen,
