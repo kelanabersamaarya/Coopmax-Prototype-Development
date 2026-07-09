@@ -165,7 +165,7 @@ export default function NewMBankingTransferQrPage({
           <div className="mt-[18px] flex items-center justify-center gap-[10px]">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#EEF6FF] px-4 py-2 text-[13px] font-semibold text-[#2563EB] ring-1 ring-[#BFE0FF]">
               <Timer className="h-[17px] w-[17px]" strokeWidth={2.6} />
-              Berlaku {formatTimer(timeLeft)}
+              Kode akan diperbarui dalam {formatTimer(timeLeft)}
             </span>
 
             <button
