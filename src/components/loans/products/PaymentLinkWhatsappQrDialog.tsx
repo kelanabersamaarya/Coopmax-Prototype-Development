@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { X } from "lucide-react";
+import { MoreHorizontal, Settings, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
@@ -79,9 +79,37 @@ function MockQrCode() {
   );
 }
 
-const connectionSteps = [
+function InlineIconFrame({
+  children,
+  label,
+}: {
+  children: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <span
+      className="mx-1 inline-flex h-7 w-7 items-center justify-center rounded-[7px] bg-white text-slate-800 ring-1 ring-slate-300 shadow-sm align-middle"
+      aria-label={label}
+      title={label}
+    >
+      {children}
+    </span>
+  );
+}
+
+const connectionSteps: React.ReactNode[] = [
   "Buka WhatsApp di telepon Anda.",
-  "Klik menu titik tiga di Android atau Pengaturan pada iPhone.",
+  <>
+    Klik menu
+    <InlineIconFrame label="Menu titik tiga">
+      <MoreHorizontal className="h-4.5 w-4.5" strokeWidth={2.6} />
+    </InlineIconFrame>
+    di Android atau
+    <InlineIconFrame label="Pengaturan">
+      <Settings className="h-4 w-4" strokeWidth={2.5} />
+    </InlineIconFrame>
+    pada iPhone.
+  </>,
   "Klik Perangkat Tertaut lalu klik Tautkan Perangkat.",
   "Arahkan telepon Anda ke layar untuk memindai kode QR.",
 ];
@@ -150,7 +178,7 @@ export default function PaymentLinkWhatsappQrDialog({
 
                 <ol className="mt-4 grid gap-4">
                   {connectionSteps.map((step, index) => (
-                    <li key={step} className="flex items-start gap-3">
+                    <li key={index} className="flex items-start gap-3">
                       <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[12px] font-extrabold text-white">
                         {index + 1}
                       </span>
