@@ -14,6 +14,8 @@ type ClearTarget = {
   left: number;
 };
 
+const KEYBOARD_FALLBACK_HEIGHT = 252;
+
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
   "masukkan no pelanggan",
@@ -166,6 +168,63 @@ function findContinueButton(root: HTMLElement | null) {
   );
 }
 
+function findScrollableParent(
+  element: HTMLElement,
+  mobileScreen: HTMLElement,
+): HTMLElement {
+  let current: HTMLElement | null = element.parentElement;
+
+  while (current && current !== document.body) {
+    const style = window.getComputedStyle(current);
+    const canScrollY =
+      style.overflowY === "auto" ||
+      style.overflowY === "scroll" ||
+      style.overflowY === "overlay";
+
+    if (canScrollY && current.scrollHeight > current.clientHeight) {
+      return current;
+    }
+
+    if (current === mobileScreen) break;
+    current = current.parentElement;
+  }
+
+  return mobileScreen;
+}
+
+function scrollInputAboveKeyboard({
+  input,
+  mobileScreen,
+  keyboardHeight,
+}: {
+  input: HTMLInputElement;
+  mobileScreen: HTMLElement;
+  keyboardHeight: number;
+}) {
+  if (!isElementVisible(input)) return;
+
+  const screenRect = mobileScreen.getBoundingClientRect();
+  const inputRect = input.getBoundingClientRect();
+  const visibleTop = screenRect.top + 16;
+  const visibleBottom = screenRect.bottom - keyboardHeight - 18;
+
+  let delta = 0;
+
+  if (inputRect.bottom > visibleBottom) {
+    delta = inputRect.bottom - visibleBottom;
+  } else if (inputRect.top < visibleTop) {
+    delta = inputRect.top - visibleTop;
+  }
+
+  if (Math.abs(delta) < 1) return;
+
+  const scrollParent = findScrollableParent(input, mobileScreen);
+  scrollParent.scrollBy({
+    top: delta,
+    behavior: "smooth",
+  });
+}
+
 export default function NewMBankingGlobalNumericKeyboard() {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const [activeInput, setActiveInput] = React.useState<HTMLInputElement | null>(
@@ -175,6 +234,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
   const [value, setValue] = React.useState("");
   const [clearTargets, setClearTargets] = React.useState<ClearTarget[]>([]);
 
+  const keyboardPanelRef = React.useRef<HTMLDivElement | null>(null);
   const activeInputStyleRef = React.useRef<{
     input: HTMLInputElement;
     borderColor: string;
@@ -243,6 +303,36 @@ export default function NewMBankingGlobalNumericKeyboard() {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (!activeInput || !mobileScreen) return;
+
+    let timeoutId = 0;
+
+    const scrollActiveInput = () => {
+      const keyboardHeight =
+        keyboardPanelRef.current?.getBoundingClientRect().height ??
+        KEYBOARD_FALLBACK_HEIGHT;
+
+      scrollInputAboveKeyboard({
+        input: activeInput,
+        mobileScreen,
+        keyboardHeight,
+      });
+
+      updateClearTargets();
+    };
+
+    const animationFrameId = window.requestAnimationFrame(() => {
+      scrollActiveInput();
+      timeoutId = window.setTimeout(scrollActiveInput, 230);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeInput, mobileScreen, updateClearTargets]);
+
   function restoreActiveInputStyle() {
     const previous = activeInputStyleRef.current;
     if (!previous) return;
@@ -271,6 +361,15 @@ export default function NewMBankingGlobalNumericKeyboard() {
       input.focus({ preventScroll: true });
       const end = input.value.length;
       input.setSelectionRange(end, end);
+
+      if (mobileScreen) {
+        scrollInputAboveKeyboard({
+          input,
+          mobileScreen,
+          keyboardHeight: KEYBOARD_FALLBACK_HEIGHT,
+        });
+      }
+
       updateClearTargets();
     });
   }
@@ -297,7 +396,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown, true);
     };
-  }, [updateClearTargets]);
+  }, [mobileScreen, updateClearTargets]);
 
   React.useEffect(() => {
     if (!activeInput) return;
@@ -413,6 +512,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       {activeInput ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[170]">
           <div
+            ref={keyboardPanelRef}
             data-numeric-keyboard="true"
             className={cn(
               "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
