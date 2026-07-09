@@ -55,7 +55,7 @@ export default function NewMBankingQuickActionGrid({
 }) {
   return (
     <section className={cn("mt-[24px]", className)}>
-      <div className="grid grid-cols-4 justify-items-start gap-x-[18px] gap-y-[22px]">
+      <div className="grid grid-cols-4 justify-items-center gap-x-[18px] gap-y-[22px]">
         {actions.map((action) => {
           const Icon = action.icon;
 
