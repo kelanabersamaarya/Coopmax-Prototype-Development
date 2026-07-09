@@ -63,3 +63,10 @@
   width: auto !important;
   box-shadow: none !important;
 }
+
+/* QRIS: saat input nominal aktif, sembunyikan CTA asli halaman agar tidak dobel dengan CTA keyboard. */
+[data-mobile-screen="true"]
+  section:has(input[placeholder="Masukkan Nominal Pembayaran"][data-keyboard-active="true"])
+  > div.absolute.inset-x-0.bottom-0.z-30.bg-white {
+  display: none !important;
+}
