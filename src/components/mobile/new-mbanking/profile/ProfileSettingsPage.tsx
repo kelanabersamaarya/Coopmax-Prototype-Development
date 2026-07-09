@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RotateCcw, Settings } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileToggle from "@/components/mobile/new-mbanking/profile/ProfileToggle";
@@ -57,24 +57,7 @@ export default function ProfileSettingsPage({ onBack }: { onBack: () => void }) 
 
   return (
     <ProfileSubPageShell title="Pengaturan" onBack={onBack}>
-      <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
-        <div className="flex items-start gap-3">
-          <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-            <Settings className="h-[23px] w-[23px]" strokeWidth={2.6} />
-          </span>
-
-          <div className="min-w-0">
-            <div className="text-[16px] font-bold leading-tight text-black">
-              Pengaturan Fitur
-            </div>
-            <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#6B7280]">
-              Atur ketersediaan fitur M-Banking sesuai kebutuhan layanan.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-[18px] overflow-hidden rounded-[22px] bg-white ring-1 ring-[#EEF0F4]">
+      <div className="overflow-hidden rounded-[22px] bg-white ring-1 ring-[#EEF0F4]">
         {settingsItems.map((item, index) => {
           const key = `${index}-${item}`;
 
