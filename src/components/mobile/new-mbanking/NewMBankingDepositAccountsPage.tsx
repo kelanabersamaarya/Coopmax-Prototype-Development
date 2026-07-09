@@ -6,6 +6,7 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingDepositAccountsTabs, {
   type DepositAccountsTab,
 } from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsTabs";
+import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 
 type SavingsAccount = {
   id: string;
@@ -21,6 +22,7 @@ type DepositHistory = {
   subtitle: string;
   amount: string;
   date: string;
+  month: string;
   status: string;
 };
 
@@ -55,6 +57,7 @@ const depositHistories: DepositHistory[] = [
     subtitle: "Simpanan Kaya • Teller Koperasi",
     amount: "+Rp. 500.000,00",
     date: "20 Juni 2026",
+    month: "Jun",
     status: "Berhasil",
   },
   {
@@ -63,6 +66,16 @@ const depositHistories: DepositHistory[] = [
     subtitle: "Simpanan Sukarela • Mobile Banking",
     amount: "+Rp. 100.000,00",
     date: "20 Juni 2026",
+    month: "Jun",
+    status: "Berhasil",
+  },
+  {
+    id: "history-3",
+    title: "Setoran",
+    subtitle: "Simpanan Mapan • Virtual Account",
+    amount: "+Rp. 250.000,00",
+    date: "24 Mei 2026",
+    month: "Mei",
     status: "Berhasil",
   },
 ];
@@ -183,13 +196,35 @@ function DepositHistoryRow({ item }: { item: DepositHistory }) {
   );
 }
 
-function DepositHistoryList() {
+function EmptyDepositHistory() {
+  return (
+    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+      <div className="text-[15px] font-bold text-black">
+        Tidak Ada Riwayat Setoran
+      </div>
+      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+        Belum ada setoran pada bulan yang dipilih.
+      </div>
+    </div>
+  );
+}
+
+function DepositHistoryList({ activeMonth }: { activeMonth: string }) {
+  const filteredHistories = React.useMemo(
+    () => depositHistories.filter((item) => item.month === activeMonth),
+    [activeMonth],
+  );
+
   const grouped = React.useMemo(() => {
-    return depositHistories.reduce<Record<string, DepositHistory[]>>((acc, item) => {
+    return filteredHistories.reduce<Record<string, DepositHistory[]>>((acc, item) => {
       acc[item.date] = [...(acc[item.date] ?? []), item];
       return acc;
     }, {});
-  }, []);
+  }, [filteredHistories]);
+
+  if (filteredHistories.length === 0) {
+    return <EmptyDepositHistory />;
+  }
 
   return (
     <div className="mt-[22px]">
@@ -219,6 +254,7 @@ export default function NewMBankingDepositAccountsPage({
   onBack: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<DepositAccountsTab>("rekening");
+  const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [selectedAccount, setSelectedAccount] =
     React.useState<SavingsAccount | null>(null);
 
@@ -266,7 +302,14 @@ export default function NewMBankingDepositAccountsPage({
               ))}
             </div>
           ) : (
-            <DepositHistoryList />
+            <>
+              <NewMBankingPaymentMonthSelector
+                activeMonth={activeMonth}
+                onChange={setActiveMonth}
+                className="mt-[18px]"
+              />
+              <DepositHistoryList activeMonth={activeMonth} />
+            </>
           )}
         </section>
       </main>
