@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Banknote, Copy } from "lucide-react";
+import { ArrowLeft, Copy, Plus, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -161,8 +161,11 @@ function SavingsAccountCard({
 
 function HistoryIcon() {
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-      <Banknote className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+    <span className="relative grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+      <WalletCards className="h-[23px] w-[23px] text-white" strokeWidth={2.35} />
+      <span className="absolute right-[5px] top-[5px] grid h-[14px] w-[14px] place-items-center rounded-full bg-[#1D4ED8] text-white">
+        <Plus className="h-[9px] w-[9px] text-white" strokeWidth={3.2} />
+      </span>
     </span>
   );
 }
