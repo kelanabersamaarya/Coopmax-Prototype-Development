@@ -79,3 +79,11 @@
   > div.absolute.inset-x-0.bottom-0.z-30.bg-white {
   display: none !important;
 }
+
+/* QRIS: geser ikon X clear sedikit ke kanan agar sejajar lebih rapi di field nominal. */
+[data-mobile-screen="true"]:has(
+    input[placeholder="Masukkan Nominal Pembayaran"][data-keyboard-active="true"]
+  )
+  [data-input-clear-button="true"] {
+  transform: translateX(8px) !important;
+}
