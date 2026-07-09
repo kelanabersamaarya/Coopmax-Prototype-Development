@@ -105,6 +105,7 @@ export default function NewMBankingRegisterPage({
                 onChange={(event) => setNoRekeningUtama(event.target.value)}
                 className={fieldClassName}
                 placeholder="Masukkan No. Rekening Utama"
+                aria-label="Masukkan No. Pelanggan Rekening Utama"
                 inputMode="numeric"
               />
             </div>
@@ -118,6 +119,7 @@ export default function NewMBankingRegisterPage({
                 onChange={(event) => setNoIdentitas(event.target.value)}
                 className={fieldClassName}
                 placeholder="Masukkan No. Identitas"
+                aria-label="Masukkan No. Pelanggan Identitas"
                 inputMode="numeric"
               />
             </div>
@@ -143,6 +145,7 @@ export default function NewMBankingRegisterPage({
                   onChange={(event) => setNomorTelepon(event.target.value)}
                   className={fieldClassName}
                   placeholder="Contoh : 819997225252"
+                  aria-label="Masukkan Nomor HP"
                   inputMode="tel"
                   autoComplete="tel"
                 />
@@ -171,7 +174,7 @@ export default function NewMBankingRegisterPage({
                 "transition active:scale-[0.98]",
               )}
             >
-              Lanjut
+              Lanjutkan
             </button>
           </div>
         </form>

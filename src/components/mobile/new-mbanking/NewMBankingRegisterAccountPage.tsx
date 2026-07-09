@@ -230,7 +230,7 @@ export default function NewMBankingRegisterAccountPage({
                 "transition active:scale-[0.98]",
               )}
             >
-              Daftar Sekarang
+              Lanjutkan
             </button>
           </div>
         </form>
