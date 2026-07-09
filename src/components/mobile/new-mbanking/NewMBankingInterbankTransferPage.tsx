@@ -2,6 +2,7 @@ import * as React from "react";
 import { ArrowLeft, QrCode, Send, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingTransferQrPage from "@/components/mobile/new-mbanking/NewMBankingTransferQrPage";
 import type { NewMBankingRecipientInfo } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
@@ -269,6 +270,7 @@ export default function NewMBankingInterbankTransferPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
+  const [showQrPinInput, setShowQrPinInput] = React.useState(false);
   const [showTransferQr, setShowTransferQr] = React.useState(false);
   const [selectedRecipient, setSelectedRecipient] =
     React.useState<NewMBankingRecipientInfo | null>(null);
@@ -312,6 +314,20 @@ export default function NewMBankingInterbankTransferPage({
 
   if (showTransferQr) {
     return <NewMBankingTransferQrPage onBack={() => setShowTransferQr(false)} />;
+  }
+
+  if (showQrPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        title="QR Transfer"
+        description="Masukkan 6 digit PIN M-Banking untuk menampilkan kode QR transfer."
+        onBack={() => setShowQrPinInput(false)}
+        onSubmit={() => {
+          setShowQrPinInput(false);
+          setShowTransferQr(true);
+        }}
+      />
+    );
   }
 
   if (showNewRecipientForm) {
@@ -372,7 +388,7 @@ export default function NewMBankingInterbankTransferPage({
                 <TransferOptionCard
                   icon={QrCode}
                   label="QR Transfer"
-                  onClick={() => setShowTransferQr(true)}
+                  onClick={() => setShowQrPinInput(true)}
                 />
               ) : null}
             </div>

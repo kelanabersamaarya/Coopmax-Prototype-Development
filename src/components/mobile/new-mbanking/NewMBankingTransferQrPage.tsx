@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Copy, QrCode, RefreshCcw, Timer } from "lucide-react";
+import { ArrowLeft, Copy, RefreshCcw, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
@@ -34,7 +34,9 @@ function TransferQrVisual({ refreshKey }: { refreshKey: number }) {
         ((col === 1 || col === 5) && row > 17);
 
       const patterned =
-        (row * (5 + refreshKey) + col * 7 + row * col + refreshKey * 11) % 4 === 0 ||
+        (row * (5 + refreshKey) + col * 7 + row * col + refreshKey * 11) %
+          4 ===
+          0 ||
         (row + col + refreshKey) % 6 === 0 ||
         (row > 8 && col > 8 && (row * col + refreshKey) % 5 === 0) ||
         (row > 11 && col > 14 && (row + col + refreshKey) % 3 === 0);
@@ -146,11 +148,7 @@ export default function NewMBankingTransferQrPage({
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[30px]">
           <div className="flex flex-col items-center text-center">
-            <span className="grid h-[76px] w-[76px] place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_24px_rgba(71,157,244,0.24)]">
-              <QrCode className="h-[38px] w-[38px] text-white" strokeWidth={2.7} />
-            </span>
-
-            <h2 className="mt-[18px] text-[20px] font-bold leading-tight tracking-[-0.03em] text-black">
+            <h2 className="text-[20px] font-bold leading-tight tracking-[-0.03em] text-black">
               Kode QR Transfer
             </h2>
 
