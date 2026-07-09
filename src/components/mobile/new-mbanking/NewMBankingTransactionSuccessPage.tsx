@@ -119,18 +119,6 @@ export default function NewMBankingTransactionSuccessPage({
             >
               Selesai
             </button>
-
-            <button
-              type="button"
-              onClick={() => setShowReceipt(true)}
-              className={cn(
-                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
-                "text-[12px] font-normal leading-none text-[#479DF4]",
-                "transition active:scale-[0.98]",
-              )}
-            >
-              Lihat Bukti Transaksi
-            </button>
           </div>
         </section>
       </main>
