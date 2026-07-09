@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, QrCode, Send, UserPlus } from "lucide-react";
+import { ArrowLeft, Landmark, QrCode, Send, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
@@ -172,10 +172,18 @@ function TransferTabs({
   );
 }
 
-function TransferIcon() {
+function TransferIcon({ showBankName }: { showBankName: boolean }) {
+  if (showBankName) {
+    return (
+      <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+        <Landmark className="h-[22px] w-[22px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-      <Send className="h-[23px] w-[23px] text-white" strokeWidth={2.45} />
+    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+      <Send className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
@@ -199,7 +207,7 @@ function SavedRecipientRow({
       onClick={onClick}
       className="flex w-full items-center gap-3 border-b border-[#EEF0F4] py-[15px] text-left transition active:scale-[0.99] last:border-b-0"
     >
-      <TransferIcon />
+      <TransferIcon showBankName={showBankName} />
 
       <div className="min-w-0 flex-1">
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
@@ -232,7 +240,7 @@ function TransferHistoryRow({
       onClick={onClick}
       className="flex w-full items-start gap-3 border-b border-[#EEF0F4] py-[15px] text-left transition active:scale-[0.99] last:border-b-0"
     >
-      <TransferIcon />
+      <TransferIcon showBankName={showBankName} />
 
       <div className="min-w-0 flex-1 pt-[1px]">
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
