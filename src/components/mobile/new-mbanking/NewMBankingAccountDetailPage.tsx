@@ -76,6 +76,14 @@ const transactionGroups: TransactionGroup[] = [
         subtitle: "Bank BCA • 8890123441",
         amount: "-Rp. 250.000,00",
       },
+      {
+        id: "trx-7",
+        type: "out",
+        kind: "transfer",
+        title: "Transfer Antar Rekening",
+        subtitle: "Simpanan Sukarela • 4260029",
+        amount: "-Rp. 100.000,00",
+      },
     ],
   },
   {
@@ -209,8 +217,10 @@ function CardInfo({
   );
 }
 
-function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
-  if (kind === "deposit") {
+function TransactionIcon({ item }: { item: TransactionItem }) {
+  const normalizedTitle = item.title.trim().toLowerCase();
+
+  if (item.kind === "deposit") {
     return (
       <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
         <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
@@ -221,13 +231,29 @@ function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
     );
   }
 
-  if (kind === "withdrawal") {
+  if (item.kind === "withdrawal") {
     return (
       <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#EF4444] text-white">
         <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
         <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#DC2626] text-white">
           <Minus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
         </span>
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("transfer antar bank")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+        <Landmark className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("transfer antar rekening")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+        <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
       </span>
     );
   }
@@ -245,7 +271,7 @@ function TransactionRow({ item }: { item: TransactionItem }) {
   return (
     <div className="flex items-start justify-between gap-4 py-[14px]">
       <div className="flex min-w-0 flex-1 items-start gap-3">
-        <TransactionIcon kind={item.kind} />
+        <TransactionIcon item={item} />
 
         <div className="min-w-0 pt-[2px]">
           <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
