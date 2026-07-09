@@ -44,7 +44,62 @@
 [data-mobile-screen="true"]:has([data-numeric-keyboard="true"])
   div.relative.h-\[420px\].shrink-0.overflow-hidden
   ~ div.rounded-t-\[30px\].bg-white {
-  padding-bottom: 330px !important;
+  padding-bottom: 430px !important;
+}
+
+/* Halaman register pertama: saat keyboard terbuka, ringkas header agar form punya ruang scroll lebih besar. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
+  [data-new-mbanking-register-page="true"]
+  > div.relative.h-\[420px\].shrink-0.overflow-hidden {
+  height: 320px !important;
+  min-height: 320px !important;
+  flex-basis: 320px !important;
+  padding-top: 20px !important;
+}
+
+/* Halaman register pertama: panel form menjadi area scroll utama dan punya ruang aman di bawah. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
+  [data-new-mbanking-register-page="true"]
+  > div.relative.z-10.-mt-\[68px\].flex.min-h-0.flex-1.flex-col.rounded-t-\[30px\].bg-white {
+  margin-top: -44px !important;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important;
+  padding-bottom: 450px !important;
+}
+
+/* Sembunyikan scrollbar panel register pertama. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
+  [data-new-mbanking-register-page="true"]
+  > div.relative.z-10.-mt-\[68px\].flex.min-h-0.flex-1.flex-col.rounded-t-\[30px\].bg-white::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Halaman register pertama: form tidak memaksa tinggi penuh saat keyboard aktif agar field bisa naik natural. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
+  [data-new-mbanking-register-page="true"]
+  form {
+  min-height: auto !important;
+  justify-content: flex-start !important;
+}
+
+/* Field aktif diberi jarak aman besar dari keyboard + CTA Selesai. */
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
+    [data-numeric-keyboard="true"]
+  )
+  [data-new-mbanking-register-page="true"]
+  input[data-keyboard-active="true"] {
+  scroll-margin-bottom: 450px !important;
+  scroll-margin-top: 24px !important;
 }
 
 /* New M-Banking: perlebar field pada halaman Masuk/Login detail. */
