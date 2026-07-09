@@ -97,7 +97,7 @@
   display: none !important;
 }
 
-/* Halaman Register menyembunyikan CTA asli saat keyboard terbuka; CTA Lanjutkan dari keyboard dipindah ke atas keyboard. */
+/* Halaman Register menyembunyikan CTA asli saat keyboard terbuka; CTA Selesai dari keyboard dipindah ke atas keyboard. */
 [data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"]):has(
     [data-numeric-keyboard="true"]
   )
@@ -138,7 +138,7 @@
   z-index: 1;
 }
 
-/* CTA Lanjutkan register tampil sebagai section terpisah di atas keyboard dengan gap 10px. */
+/* CTA Selesai register tampil sebagai section terpisah di atas keyboard dengan gap 10px. */
 [data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
   [data-numeric-keyboard="true"] {
   position: relative !important;
@@ -155,7 +155,17 @@
   z-index: 2 !important;
   margin: 0 !important;
   width: auto !important;
+  font-size: 0 !important;
   box-shadow: 0 -10px 18px rgba(255, 255, 255, 0.92) !important;
+}
+
+[data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
+  [data-numeric-keyboard="true"]
+  > button:last-child::after {
+  content: "Selesai";
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
 }
 
 [data-mobile-screen="true"]:has([data-new-mbanking-register-page="true"])
