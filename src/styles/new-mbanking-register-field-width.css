@@ -63,7 +63,7 @@
   display: none !important;
 }
 
-/* CTA Masuk dibuat terlihat sebagai section terpisah di atas keyboard, namun tetap menempel tanpa gap. */
+/* CTA Masuk dibuat terlihat sebagai section terpisah di atas keyboard dengan gap 10px. */
 [data-mobile-screen="true"]:has([data-new-mbanking-login-detail-page="true"])
   [data-numeric-keyboard="true"] {
   position: relative !important;
@@ -76,7 +76,7 @@
   position: absolute !important;
   left: 16px !important;
   right: 16px !important;
-  bottom: 100% !important;
+  bottom: calc(100% + 10px) !important;
   z-index: 2 !important;
   margin: 0 !important;
   width: auto !important;
@@ -90,7 +90,7 @@
   left: 0;
   right: 0;
   bottom: 100%;
-  height: 56px;
+  height: 66px;
   background: #ffffff;
   z-index: 1;
 }
