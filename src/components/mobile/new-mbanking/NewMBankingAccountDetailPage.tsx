@@ -1,14 +1,15 @@
 import * as React from "react";
 import {
   ArrowLeft,
-  ArrowUpFromLine,
   BatteryMedium,
   Banknote,
   Copy,
   Eye,
   EyeOff,
   Landmark,
+  Minus,
   Send,
+  WalletCards,
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -201,14 +202,21 @@ function CardInfo({
 }
 
 function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
+  if (kind === "withdrawal") {
+    return (
+      <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#EF4444] text-white">
+        <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
+        <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#DC2626] text-white">
+          <Minus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
+        </span>
+      </span>
+    );
+  }
+
   const config = {
     deposit: {
       Icon: Banknote,
       className: "bg-[#33AA00]",
-    },
-    withdrawal: {
-      Icon: ArrowUpFromLine,
-      className: "bg-[#EF4444]",
     },
     transfer: {
       Icon: Send,
