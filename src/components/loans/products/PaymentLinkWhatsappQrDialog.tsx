@@ -149,13 +149,8 @@ export default function PaymentLinkWhatsappQrDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-6 py-4">
-            <div>
-              <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
-                Hubungkan ke WhatsApp
-              </div>
-              <div className="mt-1 text-[13px] font-medium text-slate-500">
-                Scan QR code berikut untuk menghubungkan WhatsApp.
-              </div>
+            <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
+              Hubungkan ke WhatsApp
             </div>
 
             <button
