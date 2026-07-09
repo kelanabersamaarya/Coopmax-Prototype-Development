@@ -32,50 +32,59 @@ export default function NewMBankingRegisterPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[linear-gradient(145deg,#DFF1FF_0%,#EEF7FF_42%,#F4EDFF_100%)] px-6 pt-8">
-        <div className="pointer-events-none absolute -right-[64px] top-[42px] h-[188px] w-[188px] rounded-full bg-[#479DF4]/18" />
-        <div className="pointer-events-none absolute -left-[58px] bottom-[74px] h-[160px] w-[160px] rounded-full bg-[#A143EF]/12" />
-        <div className="pointer-events-none absolute bottom-[82px] right-[62px] h-[72px] w-[72px] rounded-full bg-[#65D0E8]/20" />
+      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pt-8 text-white">
+        <div className="pointer-events-none absolute -left-[118px] -top-[190px] h-[400px] w-[400px] rounded-full bg-[#f56ac8]" />
+        <div className="pointer-events-none absolute -left-[48px] -top-[215px] h-[300px] w-[300px] rounded-full bg-[#f044bd]" />
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[104px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.78))]" />
+        <div className="pointer-events-none absolute -right-[90px] -top-[64px] h-[205px] w-[205px] rounded-full bg-[#8fc2f3]" />
+        <div className="pointer-events-none absolute right-[-10px] top-[-25px] h-[104px] w-[104px] rounded-full bg-[#459cf0]" />
+
+        <div className="pointer-events-none absolute -bottom-[194px] right-[-174px] h-[400px] w-[400px] rounded-full bg-[#8bdcec]" />
+        <div className="pointer-events-none absolute -bottom-[171px] right-[-92px] h-[296px] w-[296px] rounded-full bg-[#65d0e8]" />
+
+        <div className="pointer-events-none absolute -bottom-[112px] -left-[62px] h-[212px] w-[212px] rounded-full bg-[#a143ef]" />
+        <div className="pointer-events-none absolute -bottom-[74px] -left-[31px] h-[126px] w-[126px] rounded-full bg-[#8c16ea]" />
+
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(15,23,42,0.10),rgba(255,255,255,0.10)_45%,rgba(15,23,42,0.08))]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[120px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.78))]" />
 
         <div className="relative z-10 flex h-10 items-center gap-3">
           <button
             type="button"
             onClick={onBack}
-            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black shadow-none ring-0 transition active:scale-[0.98]"
+            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-white shadow-none ring-0 transition active:scale-[0.98]"
             aria-label="Kembali"
             title="Kembali"
           >
-            <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
+            <ArrowLeft className="h-5 w-5" strokeWidth={2.8} />
           </button>
 
-          <h1 className="text-[16px] font-bold leading-tight text-black">
+          <h1 className="text-[16px] font-bold leading-tight text-white">
             Daftar
           </h1>
         </div>
 
         <div className="relative z-10 mt-[20px] text-center">
-          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/82 shadow-sm ring-1 ring-white/80">
-            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.22)]">
-              <UserRound className="h-[43px] w-[43px]" strokeWidth={2.6} />
+          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/28 shadow-[0_14px_34px_rgba(15,23,42,0.10)] ring-1 ring-white/45 backdrop-blur">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-white text-[#479DF4] shadow-[0_10px_22px_rgba(15,23,42,0.12)]">
+              <UserRound className="h-[43px] w-[43px]" strokeWidth={2.8} />
             </div>
           </div>
 
-          <h2 className="text-[16px] font-bold leading-tight text-black">
+          <h2 className="text-[16px] font-bold leading-tight text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.20)]">
             Informasi Keanggotaan
           </h2>
 
-          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#5F6B7A]">
+          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-white/90 drop-shadow-[0_1px_1px_rgba(15,23,42,0.16)]">
             Untuk melakukan pendaftaran, mohon melengkapi informasi keanggotaan
             dibawah ini, pastikan data yang anda masukan sesuai
           </p>
 
-          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/75 ring-1 ring-[#D8D8D8]/70">
-            <div className="h-full w-1/2 rounded-full bg-[#479DF4]" />
+          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/35 ring-1 ring-white/45">
+            <div className="h-full w-1/2 rounded-full bg-white shadow-[0_0_16px_rgba(255,255,255,0.55)]" />
           </div>
 
-          <div className="mt-[10px] text-[10px] font-normal leading-none text-[#2F3137]">
+          <div className="mt-[10px] text-[10px] font-normal leading-none text-white/95 drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
             Langkah 1 dari 2
           </div>
         </div>
