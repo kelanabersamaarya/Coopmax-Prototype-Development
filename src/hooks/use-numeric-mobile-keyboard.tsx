@@ -19,8 +19,6 @@ const NUMERIC_KEYWORDS = [
   "id pelanggan",
   "virtual account",
   "va",
-  "nominal",
-  "jumlah",
 ];
 
 function getFieldText(input: HTMLInputElement) {
@@ -43,15 +41,13 @@ function getFieldText(input: HTMLInputElement) {
 
 function shouldUseNumericKeyboard(input: HTMLInputElement) {
   if (input.type === "password") return false;
-  if (input.readOnly || input.disabled) return false;
 
   const inputMode = (input.getAttribute("inputmode") ?? "").toLowerCase();
-
   if (inputMode === "numeric" || inputMode === "decimal" || inputMode === "tel") {
     return true;
   }
 
-  if (input.type === "tel" || input.type === "number") return true;
+  if (input.type === "tel") return true;
 
   const fieldText = getFieldText(input);
   return NUMERIC_KEYWORDS.some((keyword) => fieldText.includes(keyword));
@@ -68,6 +64,10 @@ export function useNumericMobileKeyboard(deps: React.DependencyList = []) {
       inputs.forEach((input) => {
         if (!shouldUseNumericKeyboard(input)) return;
 
+        if (input.type !== "tel") {
+          input.type = "tel";
+        }
+
         input.setAttribute("inputmode", "numeric");
         input.setAttribute("pattern", "[0-9]*");
         input.setAttribute("enterkeyhint", "done");
@@ -81,7 +81,7 @@ export function useNumericMobileKeyboard(deps: React.DependencyList = []) {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["placeholder", "aria-label", "inputmode", "name", "id"],
+      attributeFilter: ["placeholder", "aria-label", "inputmode", "type"],
     });
 
     return () => observer.disconnect();
