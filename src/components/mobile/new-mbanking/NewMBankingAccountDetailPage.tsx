@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   ArrowLeft,
   BatteryMedium,
-  Banknote,
   Copy,
   Eye,
   EyeOff,
@@ -139,11 +138,13 @@ function QuickActionButton({
   label,
   onClick,
   frameClassName,
+  withPlus = false,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   label: string;
   onClick?: () => void;
   frameClassName: string;
+  withPlus?: boolean;
 }) {
   return (
     <button
@@ -154,12 +155,18 @@ function QuickActionButton({
     >
       <span
         className={cn(
-          "grid h-[64px] w-[64px] place-items-center rounded-[16px] text-white",
+          "relative grid h-[64px] w-[64px] place-items-center rounded-[16px] text-white",
           "border-0 shadow-none ring-0 outline-none",
           frameClassName,
         )}
       >
         <Icon className="h-[31px] w-[31px] text-white" strokeWidth={2.35} />
+
+        {withPlus ? (
+          <span className="absolute right-[11px] top-[11px] grid h-[17px] w-[17px] place-items-center rounded-full border-0 bg-[#1D4ED8] text-white ring-0 outline-none">
+            <Plus className="h-[11px] w-[11px] text-white" strokeWidth={3} />
+          </span>
+        ) : null}
       </span>
 
       <span className="mt-[9px] max-w-[94px] text-center text-[14px] font-normal leading-tight tracking-[-0.02em] text-black">
@@ -406,9 +413,10 @@ export default function NewMBankingAccountDetailPage({
               onClick={() => setTransferMode("antar-rekening")}
             />
             <QuickActionButton
-              icon={Banknote}
+              icon={WalletCards}
               label="Setor"
               frameClassName="bg-[#479DF4]"
+              withPlus
               onClick={() => setShowDeposit(true)}
             />
             <QuickActionButton
