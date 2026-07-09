@@ -1,8 +1,9 @@
 import * as React from "react";
-import { ArrowLeft, Copy, UserRound } from "lucide-react";
+import { ArrowLeft, Copy, History, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingDepositResultPage from "@/components/mobile/new-mbanking/NewMBankingDepositResultPage";
+import NewMBankingDepositHistoryPage from "@/components/mobile/new-mbanking/NewMBankingDepositHistoryPage";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 
 const quickAmounts = [
@@ -17,6 +18,12 @@ const quickAmounts = [
   "Rp. 500.000",
   "Rp. 1.000.000",
 ];
+
+const destinationAccount = {
+  name: "Arya",
+  accountNo: "11122333311",
+  productName: "Simpanan Kaya",
+};
 
 function onlyDigits(value: string) {
   return (value ?? "").replace(/[^\d]/g, "");
@@ -72,12 +79,12 @@ function DestinationAccountCard() {
 
         <div className="min-w-0 flex-1">
           <div className="truncate text-[18px] font-bold leading-tight tracking-[-0.025em] text-white">
-            Arya
+            {destinationAccount.name}
           </div>
 
           <div className="mt-[8px] flex min-w-0 items-center gap-2">
             <span className="truncate text-[14px] font-normal leading-none text-white/88">
-              11122333311 - Simpanan Kaya
+              {destinationAccount.accountNo} - {destinationAccount.productName}
             </span>
 
             <button
@@ -104,7 +111,19 @@ export default function NewMBankingDepositPage({
   const [customAmount, setCustomAmount] = React.useState("");
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showResult, setShowResult] = React.useState(false);
+  const [showHistory, setShowHistory] = React.useState(false);
   const selectedDepositAmount = formatDepositAmount(customAmount || selectedAmount);
+
+  if (showHistory) {
+    return (
+      <NewMBankingDepositHistoryPage
+        accountNo={destinationAccount.accountNo}
+        accountName={destinationAccount.name}
+        productName={destinationAccount.productName}
+        onBack={() => setShowHistory(false)}
+      />
+    );
+  }
 
   if (showResult) {
     return (
@@ -157,6 +176,19 @@ export default function NewMBankingDepositPage({
           <section>
             <SectionTitle>Rekening Tujuan</SectionTitle>
             <DestinationAccountCard />
+
+            <button
+              type="button"
+              onClick={() => setShowHistory(true)}
+              className={cn(
+                "mt-[14px] inline-flex h-[42px] w-full items-center justify-center gap-2 rounded-[10px]",
+                "border-2 border-[#479DF4] bg-white text-[13px] font-semibold text-[#479DF4]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              <History className="h-[17px] w-[17px]" strokeWidth={2.6} />
+              Riwayat Setoran
+            </button>
           </section>
 
           <section className="mt-[34px]">
