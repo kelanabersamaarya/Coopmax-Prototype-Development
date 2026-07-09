@@ -3,7 +3,7 @@ import { ArrowLeft, Copy, RefreshCcw, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
-const QR_DURATION_SECONDS = 60;
+const QR_DURATION_SECONDS = 90;
 
 function formatTimer(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -162,20 +162,26 @@ export default function NewMBankingTransferQrPage({
             <TransferQrVisual refreshKey={qrRefreshKey} />
           </div>
 
-          <div className="mt-[18px] flex items-center justify-center gap-[10px]">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#EEF6FF] px-4 py-2 text-[13px] font-semibold text-[#2563EB] ring-1 ring-[#BFE0FF]">
-              <Timer className="h-[17px] w-[17px]" strokeWidth={2.6} />
-              Kode akan diperbarui dalam {formatTimer(timeLeft)}
-            </span>
+          <div className="mt-[18px] flex flex-col items-center gap-[12px]">
+            <div className="flex items-center justify-center gap-[12px] text-[14px] font-normal leading-none">
+              <span className="text-[#8F8F8F]">Kode akan kadaluarsa dalam</span>
+              <Timer className="h-[20px] w-[20px] text-[#479DF4]" strokeWidth={2.6} />
+              <span className="text-[#479DF4]">{formatTimer(timeLeft)}</span>
+            </div>
 
             <button
               type="button"
               onClick={refreshQrNow}
-              className="inline-flex h-[36px] w-[36px] items-center justify-center rounded-full bg-white text-[#479DF4] ring-1 ring-[#D8D8D8] transition active:scale-[0.96]"
-              aria-label="Refresh QR"
-              title="Refresh QR"
+              className={cn(
+                "inline-flex h-[40px] items-center justify-center gap-2 rounded-[10px] px-4",
+                "border border-[#D8D8D8] bg-white text-[13px] font-semibold text-[#479DF4]",
+                "transition active:scale-[0.98]",
+              )}
+              aria-label="Perbarui kode QR"
+              title="Perbarui kode QR"
             >
-              <RefreshCcw className="h-[18px] w-[18px]" strokeWidth={2.6} />
+              <RefreshCcw className="h-[17px] w-[17px]" strokeWidth={2.6} />
+              Perbarui Kode QR
             </button>
           </div>
 
