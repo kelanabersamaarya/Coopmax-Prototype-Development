@@ -51,8 +51,10 @@ export default function NewMBankingTransferSuccessPage({
     ? "bg-[#F59E0B]"
     : "bg-[#18B7A1]";
 
+  const saveRecipientDisabled = !canSaveRecipient || recipientSaved;
+
   function saveRecipient() {
-    if (recipientSaved) return;
+    if (saveRecipientDisabled) return;
 
     saveNewMBankingTransferRecipient({
       kind: recipientKind,
@@ -98,12 +100,7 @@ export default function NewMBankingTransferSuccessPage({
             Ref ID : TRF221112222
           </div>
 
-          <div
-            className={cn(
-              "mt-[18px] grid w-full items-start justify-items-center gap-[22px]",
-              canSaveRecipient ? "grid-cols-2" : "grid-cols-1",
-            )}
-          >
+          <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
             <NewMBankingSuccessActionTile
               label="Bukti Transaksi"
               icon={Download}
@@ -111,14 +108,12 @@ export default function NewMBankingTransferSuccessPage({
               active={proofSaved}
             />
 
-            {canSaveRecipient ? (
-              <NewMBankingSuccessActionTile
-                label="Simpan Penerima"
-                icon={UserPlus}
-                onClick={saveRecipient}
-                disabled={recipientSaved}
-              />
-            ) : null}
+            <NewMBankingSuccessActionTile
+              label="Simpan Penerima"
+              icon={UserPlus}
+              onClick={saveRecipient}
+              disabled={saveRecipientDisabled}
+            />
           </div>
 
           <div className="relative mt-[18px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)] px-[14px] py-[10px] text-left text-white">
