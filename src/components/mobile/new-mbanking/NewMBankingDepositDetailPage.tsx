@@ -45,6 +45,13 @@ const historyGroups: DepositHistoryGroup[] = [
         amount: "Rp. 5.000.000,00",
         status: "Berhasil",
       },
+      {
+        id: "interest-withdrawal",
+        title: "Penarikan Bunga",
+        subtitle: "Deposito Koperasi • Penarikan Bunga",
+        amount: "-Rp. 25.000,00",
+        status: "Berhasil",
+      },
     ],
   },
   {
@@ -54,7 +61,7 @@ const historyGroups: DepositHistoryGroup[] = [
       {
         id: "deposit-interest",
         title: "Bunga Deposito",
-        subtitle: "Depos Koperasi • Bunga Bulanan",
+        subtitle: "Deposito Koperasi • Bunga Bulanan",
         amount: "Rp. 25.000,00",
         status: "Terjadwal",
       },
@@ -72,6 +79,7 @@ function DepositHistoryIcon() {
 
 function DepositHistoryRow({ item }: { item: DepositHistoryItem }) {
   const isScheduled = item.status === "Terjadwal";
+  const isWithdrawal = item.amount.trim().startsWith("-");
 
   return (
     <div className="flex items-start justify-between gap-4 py-[14px]">
@@ -89,7 +97,12 @@ function DepositHistoryRow({ item }: { item: DepositHistoryItem }) {
       </div>
 
       <div className="shrink-0 pt-[2px] text-right">
-        <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-[#15965A]">
+        <div
+          className={cn(
+            "text-[14px] font-bold leading-tight tracking-[-0.02em]",
+            isWithdrawal ? "text-[#D12C3B]" : "text-[#15965A]",
+          )}
+        >
           {item.amount}
         </div>
 
