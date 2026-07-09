@@ -8,11 +8,11 @@ export default function NewMBankingDepositEmptyHistoryState({
   description?: string;
 }) {
   return (
-    <div className="flex min-h-[360px] flex-col items-center justify-center px-5 pb-6 pt-8 text-center">
-      <NewMBankingEmptyStateImage className="mb-5 h-[154px] w-[154px] object-contain" />
+    <div className="flex min-h-[calc(100dvh-235px)] flex-col items-center justify-center px-5 pb-12 pt-4 text-center">
+      <NewMBankingEmptyStateImage className="mb-5 h-[168px] w-[168px] object-contain" />
 
-      <div className="text-[15px] font-bold text-black">{title}</div>
-      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+      <div className="text-[16px] font-bold text-black">{title}</div>
+      <div className="mx-auto mt-2 max-w-[270px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
         {description}
       </div>
     </div>
