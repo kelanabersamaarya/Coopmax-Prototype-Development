@@ -66,7 +66,7 @@ export default function NewMBankingNewRecipientTransferPage({
 
   React.useEffect(() => {
     if (!recipient) return;
-    setAccountNo(recipient.accountNo);
+    setAccountNo(onlyDigits(recipient.accountNo));
     setBank(recipient.bank ?? "");
   }, [recipient]);
 
@@ -232,7 +232,7 @@ export default function NewMBankingNewRecipientTransferPage({
                   <input
                     value={accountNo}
                     onChange={(event) => {
-                      setAccountNo(event.target.value);
+                      setAccountNo(onlyDigits(event.target.value));
                       setToastMessage("");
                     }}
                     placeholder="Masukkan Nomor Rekening Penerima"
