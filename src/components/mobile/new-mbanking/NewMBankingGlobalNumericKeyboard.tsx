@@ -16,6 +16,7 @@ type ClearTarget = {
 };
 
 const KEYBOARD_FALLBACK_HEIGHT = 252;
+const ABOVE_KEYBOARD_CTA_HEIGHT = 76;
 
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
@@ -245,6 +246,20 @@ function getNumberStyleValue(value: string) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function shouldAccountForAboveKeyboardCta(input: EditableField) {
+  return Boolean(
+    input.closest('[data-new-mbanking-register-page="true"]') ||
+      input.closest('[data-new-mbanking-login-detail-page="true"]'),
+  );
+}
+
+function getEffectiveKeyboardHeight(input: EditableField, panelHeight: number) {
+  return (
+    panelHeight +
+    (shouldAccountForAboveKeyboardCta(input) ? ABOVE_KEYBOARD_CTA_HEIGHT : 0)
+  );
+}
+
 function scrollInputAboveKeyboard({
   input,
   mobileScreen,
@@ -378,9 +393,10 @@ export default function NewMBankingGlobalNumericKeyboard() {
     let secondTimeoutId = 0;
 
     const applyScroll = () => {
-      const keyboardHeight =
+      const panelHeight =
         keyboardPanelRef.current?.getBoundingClientRect().height ??
         KEYBOARD_FALLBACK_HEIGHT;
+      const keyboardHeight = getEffectiveKeyboardHeight(activeInput, panelHeight);
 
       applyScrollParentSpacing({
         input: activeInput,
@@ -479,16 +495,21 @@ export default function NewMBankingGlobalNumericKeyboard() {
       input.setSelectionRange(end, end);
 
       if (mobileScreen) {
+        const keyboardHeight = getEffectiveKeyboardHeight(
+          input,
+          KEYBOARD_FALLBACK_HEIGHT,
+        );
+
         applyScrollParentSpacing({
           input,
           mobileScreen,
-          keyboardHeight: KEYBOARD_FALLBACK_HEIGHT,
+          keyboardHeight,
         });
 
         scrollInputAboveKeyboard({
           input,
           mobileScreen,
-          keyboardHeight: KEYBOARD_FALLBACK_HEIGHT,
+          keyboardHeight,
         });
       }
 
