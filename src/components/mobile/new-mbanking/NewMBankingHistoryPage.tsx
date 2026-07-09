@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   ArrowLeft,
   Banknote,
+  CircleDollarSign,
   Filter,
   Minus,
   Plus,
@@ -57,6 +58,26 @@ const transactionGroups: TransactionGroup[] = [
         method: "Setoran",
         dateDmy: "20-06-2026",
       },
+      {
+        id: "trx-5",
+        type: "out",
+        title: "Tarikan",
+        subtitle: "Simpanan Kaya • Teller Koperasi",
+        amount: "-Rp. 150.000,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Tarikan",
+        dateDmy: "20-06-2026",
+      },
+      {
+        id: "trx-6",
+        type: "out",
+        title: "Pembayaran Pinjaman",
+        subtitle: "Pinjaman Billing • SMG260004",
+        amount: "-Rp. 991.666,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Angsuran",
+        dateDmy: "20-06-2026",
+      },
     ],
   },
   {
@@ -80,6 +101,26 @@ const transactionGroups: TransactionGroup[] = [
         amount: "+Rp. 300.000,00",
         sourceFund: "Simpanan Mapan - 112233222",
         method: "Setoran",
+        dateDmy: "19-06-2026",
+      },
+      {
+        id: "trx-7",
+        type: "out",
+        title: "Tarikan",
+        subtitle: "Simpanan Sukarela • ATM Koperasi",
+        amount: "-Rp. 75.000,00",
+        sourceFund: "Simpanan Sukarela - 4260029",
+        method: "Tarikan",
+        dateDmy: "19-06-2026",
+      },
+      {
+        id: "trx-8",
+        type: "out",
+        title: "Pembayaran Pinjaman",
+        subtitle: "Pinjaman Billing • 12260006",
+        amount: "-Rp. 991.666,00",
+        sourceFund: "Simpanan Sukarela - 4260029",
+        method: "Angsuran",
         dateDmy: "19-06-2026",
       },
     ],
@@ -298,6 +339,14 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
         <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#DC2626] text-white">
           <Minus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
         </span>
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pinjaman") || normalizedTitle.includes("angsuran")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+        <CircleDollarSign className="h-[22px] w-[22px] text-white" strokeWidth={2.5} />
       </span>
     );
   }
