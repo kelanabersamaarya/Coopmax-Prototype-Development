@@ -118,6 +118,12 @@ export default function NewMBankingGlobalNumericKeyboard() {
   const [mode, setMode] = React.useState<KeyboardMode>("digits");
   const [value, setValue] = React.useState("");
 
+  const activeInputStyleRef = React.useRef<{
+    input: HTMLInputElement;
+    borderColor: string;
+    boxShadow: string;
+  } | null>(null);
+
   React.useEffect(() => {
     const screen = document.querySelector(
       '[data-mobile-screen="true"]',
@@ -125,6 +131,43 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     setMobileScreen(screen);
   }, []);
+
+  React.useEffect(() => {
+    return () => {
+      restoreActiveInputStyle();
+    };
+  }, []);
+
+  function restoreActiveInputStyle() {
+    const previous = activeInputStyleRef.current;
+    if (!previous) return;
+
+    previous.input.style.borderColor = previous.borderColor;
+    previous.input.style.boxShadow = previous.boxShadow;
+    previous.input.removeAttribute("data-keyboard-active");
+
+    activeInputStyleRef.current = null;
+  }
+
+  function activateInput(input: HTMLInputElement) {
+    restoreActiveInputStyle();
+
+    activeInputStyleRef.current = {
+      input,
+      borderColor: input.style.borderColor,
+      boxShadow: input.style.boxShadow,
+    };
+
+    input.setAttribute("data-keyboard-active", "true");
+    input.style.borderColor = "#2563eb";
+    input.style.boxShadow = "0 0 0 2px rgba(37, 99, 235, 0.18)";
+
+    window.requestAnimationFrame(() => {
+      input.focus({ preventScroll: true });
+      const end = input.value.length;
+      input.setSelectionRange(end, end);
+    });
+  }
 
   React.useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -137,6 +180,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       event.stopPropagation();
 
       const nextMode = detectMode(input);
+      activateInput(input);
       setActiveInput(input);
       setMode(nextMode);
       setValue(input.value ?? "");
@@ -166,6 +210,8 @@ export default function NewMBankingGlobalNumericKeyboard() {
   }
 
   function closeKeyboard() {
+    activeInput?.blur();
+    restoreActiveInputStyle();
     setActiveInput(null);
     setValue("");
   }
