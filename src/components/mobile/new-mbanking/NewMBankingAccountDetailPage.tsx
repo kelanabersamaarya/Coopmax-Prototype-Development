@@ -8,7 +8,6 @@ import {
   EyeOff,
   Landmark,
   Minus,
-  Plus,
   Send,
   WalletCards,
   Wifi,
@@ -205,11 +204,8 @@ function CardInfo({
 function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
   if (kind === "deposit") {
     return (
-      <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-        <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
-        <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#1D4ED8] text-white">
-          <Plus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
-        </span>
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+        <Banknote className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
       </span>
     );
   }
