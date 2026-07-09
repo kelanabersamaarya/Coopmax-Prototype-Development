@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Copy, History, UserRound } from "lucide-react";
+import { ArrowLeft, Copy, Eye, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingDepositResultPage from "@/components/mobile/new-mbanking/NewMBankingDepositResultPage";
@@ -186,8 +186,8 @@ export default function NewMBankingDepositPage({
                 "transition active:scale-[0.98]",
               )}
             >
-              <History className="h-[17px] w-[17px]" strokeWidth={2.6} />
-              Riwayat Setoran
+              <Eye className="h-[17px] w-[17px]" strokeWidth={2.6} />
+              Lihat Riwayat Setoran
             </button>
           </section>
 
