@@ -48,6 +48,16 @@ const transactionGroups: TransactionGroup[] = [
         dateDmy: "20-06-2026",
       },
       {
+        id: "trx-9",
+        type: "out",
+        title: "Transfer Antar Rekening",
+        subtitle: "Simpanan Sukarela • 4260029",
+        amount: "-Rp. 100.000,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Transfer Antar Rekening",
+        dateDmy: "20-06-2026",
+      },
+      {
         id: "trx-2",
         type: "in",
         title: "Setoran",
@@ -90,6 +100,16 @@ const transactionGroups: TransactionGroup[] = [
         amount: "-Rp. 125.000,00",
         sourceFund: "Simpanan Sukarela - 4260029",
         method: "Transfer Keluar Bank Lain",
+        dateDmy: "19-06-2026",
+      },
+      {
+        id: "trx-10",
+        type: "out",
+        title: "Transfer Antar Rekening",
+        subtitle: "Simpanan Mapan • 112233222",
+        amount: "-Rp. 75.000,00",
+        sourceFund: "Simpanan Sukarela - 4260029",
+        method: "Transfer Antar Rekening",
         dateDmy: "19-06-2026",
       },
       {
