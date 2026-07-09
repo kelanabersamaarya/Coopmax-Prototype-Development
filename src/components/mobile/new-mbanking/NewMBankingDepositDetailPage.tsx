@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
+import NewMBankingEmptyStateImage from "@/components/mobile/new-mbanking/NewMBankingEmptyStateImage";
 
 const depositoInfo = [
   { label: "Bunga per Tahun", value: "6,00%" },
@@ -129,11 +130,13 @@ function DepositHistoryGroupCard({ group }: { group: DepositHistoryGroup }) {
 
 function EmptyDepositHistory() {
   return (
-    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
-      <div className="text-[15px] font-bold text-black">
+    <div className="flex min-h-[calc(100dvh-235px)] flex-col items-center justify-center px-5 pb-12 pt-4 text-center">
+      <NewMBankingEmptyStateImage className="mb-5 h-[168px] w-[168px] object-contain" />
+
+      <div className="text-[16px] font-bold text-black">
         Tidak Ada Riwayat Deposito
       </div>
-      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+      <div className="mx-auto mt-2 max-w-[270px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
         Belum ada riwayat deposito pada bulan yang dipilih.
       </div>
     </div>
