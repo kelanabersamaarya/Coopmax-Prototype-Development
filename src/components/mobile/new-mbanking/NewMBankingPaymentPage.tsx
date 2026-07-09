@@ -8,6 +8,7 @@ import {
   Landmark,
   Map,
   Monitor,
+  QrCode,
   ShoppingCart,
   Smartphone,
   Wifi,
@@ -23,6 +24,7 @@ import NewMBankingSavedPaymentAccordion, {
   type SavedPaymentItem,
 } from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
+import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 import {
   getNewMBankingSavedRecipients,
   isNewMBankingRecipientSaved,
@@ -109,6 +111,13 @@ const paymentCategories: PaymentCategory[] = [
     serviceVariant: "finance",
   },
   {
+    label: "QRIS",
+    icon: QrCode,
+    frameClassName: "bg-[#8B5CF6]",
+    providers: [],
+    serviceVariant: "finance",
+  },
+  {
     label: "E-Commerce",
     icon: ShoppingCart,
     frameClassName: "bg-[#EF4444]",
@@ -178,6 +187,7 @@ export default function NewMBankingPaymentPage({
     React.useState<SavedPaymentItem[]>(savedPaymentsSeed);
   const [savedRefreshTick, setSavedRefreshTick] = React.useState(0);
   const [toastMessage, setToastMessage] = React.useState("");
+  const [showQrisFlow, setShowQrisFlow] = React.useState(false);
 
   React.useEffect(() => {
     return subscribeNewMBankingSavedRecipients(() =>
@@ -199,6 +209,11 @@ export default function NewMBankingPaymentPage({
   }
 
   function openCategory(category: PaymentCategory) {
+    if (category.label === "QRIS") {
+      setShowQrisFlow(true);
+      return;
+    }
+
     setInitialCustomerNo("");
     setSelectedProvider(null);
     setSelectedCategory(category);
@@ -255,6 +270,10 @@ export default function NewMBankingPaymentPage({
     }
 
     showToast("Pembayaran tersimpan berhasil dihapus");
+  }
+
+  if (showQrisFlow) {
+    return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
   }
 
   if (selectedProvider && selectedCategory) {
