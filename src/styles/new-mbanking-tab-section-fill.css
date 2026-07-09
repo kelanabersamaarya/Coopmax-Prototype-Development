@@ -1,0 +1,19 @@
+/* New M-Banking: pastikan section putih tab Tersimpan/Riwayat mengisi sisa layar. */
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\] {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.bg-\[\#F9F9F9\] {
+  flex: 0 0 auto !important;
+}
+
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.rounded-t-\[30px\].border-0.bg-white {
+  flex: 1 0 auto !important;
+  min-height: 0 !important;
+}

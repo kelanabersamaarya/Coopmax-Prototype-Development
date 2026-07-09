@@ -26,6 +26,7 @@ import "./styles/mobile-modal-width.css";
 import "./styles/new-mbanking-success-section-width.css";
 import "./styles/new-mbanking-register-field-width.css";
 import "./styles/new-mbanking-onboarding-history.css";
+import "./styles/new-mbanking-tab-section-fill.css";
 import "./styles/payment-link-loan-product-form.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
