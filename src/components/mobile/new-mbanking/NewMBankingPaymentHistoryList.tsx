@@ -4,9 +4,9 @@ import {
   HeartPulse,
   Smartphone,
   Wifi,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import NewMBankingElectricityIcon from "@/components/mobile/new-mbanking/NewMBankingElectricityIcon";
 
 type PaymentHistoryItem = {
   id: string;
@@ -93,7 +93,7 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
 ];
 
 function getPaymentIcon(type: PaymentHistoryItem["type"]) {
-  if (type === "listrik") return NewMBankingElectricityIcon;
+  if (type === "listrik") return Zap;
   if (type === "internet") return Wifi;
   if (type === "bpjs") return HeartPulse;
   return Smartphone;
