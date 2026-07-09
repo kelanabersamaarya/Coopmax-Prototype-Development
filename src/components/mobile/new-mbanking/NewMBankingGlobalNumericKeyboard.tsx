@@ -2,10 +2,17 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Check, Delete } from "lucide-react";
+import { Check, Delete, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type KeyboardMode = "digits" | "amount";
+
+type ClearTarget = {
+  id: string;
+  input: HTMLInputElement;
+  top: number;
+  left: number;
+};
 
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
@@ -56,6 +63,20 @@ function isTargetInput(input: HTMLInputElement) {
   return targetPlaceholderKeywords.some((keyword) =>
     searchableText.includes(keyword),
   );
+}
+
+function isClearableInput(input: HTMLInputElement) {
+  if (input.disabled || input.readOnly) return false;
+  if (!input.value.trim()) return false;
+  if (input.closest('[data-numeric-keyboard="true"]')) return false;
+  if (!isElementVisible(input)) return false;
+
+  const type = (input.type ?? "text").toLowerCase();
+  if (["password", "hidden", "checkbox", "radio", "file", "button", "submit"].includes(type)) {
+    return false;
+  }
+
+  return true;
 }
 
 function setNativeInputValue(input: HTMLInputElement, value: string) {
@@ -117,12 +138,35 @@ export default function NewMBankingGlobalNumericKeyboard() {
   );
   const [mode, setMode] = React.useState<KeyboardMode>("digits");
   const [value, setValue] = React.useState("");
+  const [clearTargets, setClearTargets] = React.useState<ClearTarget[]>([]);
 
   const activeInputStyleRef = React.useRef<{
     input: HTMLInputElement;
     borderColor: string;
     boxShadow: string;
   } | null>(null);
+
+  const updateClearTargets = React.useCallback(() => {
+    if (!mobileScreen) return;
+
+    const screenRect = mobileScreen.getBoundingClientRect();
+    const inputs = Array.from(mobileScreen.querySelectorAll<HTMLInputElement>("input"));
+
+    const nextTargets = inputs
+      .filter(isClearableInput)
+      .map((input, index) => {
+        const rect = input.getBoundingClientRect();
+
+        return {
+          id: `${input.name || input.id || input.placeholder || "input"}-${index}`,
+          input,
+          top: rect.top - screenRect.top + rect.height / 2 - 14,
+          left: rect.right - screenRect.left - 34,
+        };
+      });
+
+    setClearTargets(nextTargets);
+  }, [mobileScreen]);
 
   React.useEffect(() => {
     const screen = document.querySelector(
@@ -131,6 +175,32 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     setMobileScreen(screen);
   }, []);
+
+  React.useEffect(() => {
+    if (!mobileScreen) return;
+
+    const sync = () => {
+      window.requestAnimationFrame(updateClearTargets);
+    };
+
+    sync();
+
+    mobileScreen.addEventListener("input", sync, true);
+    mobileScreen.addEventListener("change", sync, true);
+    mobileScreen.addEventListener("keyup", sync, true);
+    mobileScreen.addEventListener("pointerup", sync, true);
+    mobileScreen.addEventListener("scroll", sync, true);
+    window.addEventListener("resize", sync);
+
+    return () => {
+      mobileScreen.removeEventListener("input", sync, true);
+      mobileScreen.removeEventListener("change", sync, true);
+      mobileScreen.removeEventListener("keyup", sync, true);
+      mobileScreen.removeEventListener("pointerup", sync, true);
+      mobileScreen.removeEventListener("scroll", sync, true);
+      window.removeEventListener("resize", sync);
+    };
+  }, [mobileScreen, updateClearTargets]);
 
   React.useEffect(() => {
     return () => {
@@ -166,6 +236,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       input.focus({ preventScroll: true });
       const end = input.value.length;
       input.setSelectionRange(end, end);
+      updateClearTargets();
     });
   }
 
@@ -191,7 +262,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown, true);
     };
-  }, []);
+  }, [updateClearTargets]);
 
   React.useEffect(() => {
     if (!activeInput) return;
@@ -201,6 +272,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       if (!target) return;
 
       if (target.closest('[data-numeric-keyboard="true"]')) return;
+      if (target.closest('[data-input-clear-button="true"]')) return;
       if (target === activeInput) return;
 
       const nextInput = target.closest("input") as HTMLInputElement | null;
@@ -219,17 +291,33 @@ export default function NewMBankingGlobalNumericKeyboard() {
   React.useEffect(() => {
     if (!activeInput) return;
 
-    const syncValue = () => setValue(activeInput.value ?? "");
+    const syncValue = () => {
+      setValue(activeInput.value ?? "");
+      updateClearTargets();
+    };
+
     activeInput.addEventListener("input", syncValue);
 
     return () => activeInput.removeEventListener("input", syncValue);
-  }, [activeInput]);
+  }, [activeInput, updateClearTargets]);
 
   function applyValue(nextValue: string) {
     if (!activeInput) return;
 
     setValue(nextValue);
     setNativeInputValue(activeInput, nextValue);
+    window.requestAnimationFrame(updateClearTargets);
+  }
+
+  function clearInput(input: HTMLInputElement) {
+    setNativeInputValue(input, "");
+
+    if (input === activeInput) {
+      setValue("");
+      activateInput(input);
+    }
+
+    window.requestAnimationFrame(updateClearTargets);
   }
 
   function closeKeyboard() {
@@ -237,6 +325,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     restoreActiveInputStyle();
     setActiveInput(null);
     setValue("");
+    window.requestAnimationFrame(updateClearTargets);
   }
 
   function continueFlow() {
@@ -253,85 +342,118 @@ export default function NewMBankingGlobalNumericKeyboard() {
     });
   }
 
-  if (!mobileScreen || !activeInput) return null;
+  if (!mobileScreen) return null;
 
   return createPortal(
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[170]">
-      <div
-        data-numeric-keyboard="true"
-        className={cn(
-          "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
-          "animate-in slide-in-from-bottom-4 fade-in-0 duration-200",
-        )}
-      >
-        <div className="grid grid-cols-3 gap-2.5">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
+    <>
+      {clearTargets.map((target) => (
+        <button
+          key={target.id}
+          type="button"
+          data-input-clear-button="true"
+          onPointerDown={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          }}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            clearInput(target.input);
+          }}
+          className={cn(
+            "absolute z-[171] inline-flex h-7 w-7 items-center justify-center rounded-full",
+            "bg-transparent text-[#8F8F8F] transition active:scale-[0.94]",
+          )}
+          style={{
+            top: target.top,
+            left: target.left,
+          }}
+          aria-label="Hapus input"
+          title="Hapus"
+        >
+          <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+        </button>
+      ))}
+
+      {activeInput ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[170]">
+          <div
+            data-numeric-keyboard="true"
+            className={cn(
+              "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
+              "animate-in slide-in-from-bottom-4 fade-in-0 duration-200",
+            )}
+          >
+            <div className="grid grid-cols-3 gap-2.5">
+              {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
+                <button
+                  key={digit}
+                  type="button"
+                  onClick={() => applyValue(nextValueForDigit(value, digit, mode))}
+                  className={cn(
+                    "h-[52px] rounded-[12px] bg-white",
+                    "text-[24px] font-bold leading-none text-black",
+                    "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                  )}
+                >
+                  {digit}
+                </button>
+              ))}
+
+              <button
+                type="button"
+                onClick={closeKeyboard}
+                className={cn(
+                  "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
+                  "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                )}
+                aria-label="Sembunyikan keyboard"
+                title="Sembunyikan keyboard"
+              >
+                <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => applyValue(nextValueForDigit(value, "0", mode))}
+                className={cn(
+                  "h-[52px] rounded-[12px] bg-white",
+                  "text-[24px] font-bold leading-none text-black",
+                  "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                )}
+              >
+                0
+              </button>
+
+              <button
+                type="button"
+                onClick={() => applyValue(nextValueForBackspace(value, mode))}
+                className={cn(
+                  "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
+                  "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                )}
+                aria-label="Hapus angka"
+                title="Hapus"
+              >
+                <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
+              </button>
+            </div>
+
             <button
-              key={digit}
               type="button"
-              onClick={() => applyValue(nextValueForDigit(value, digit, mode))}
+              onClick={continueFlow}
               className={cn(
-                "h-[52px] rounded-[12px] bg-white",
-                "text-[24px] font-bold leading-none text-black",
-                "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
+                "text-[14px] font-semibold leading-none text-white",
+                "transition active:scale-[0.98]",
               )}
             >
-              {digit}
+              Lanjutkan
             </button>
-          ))}
-
-          <button
-            type="button"
-            onClick={closeKeyboard}
-            className={cn(
-              "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
-              "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-            )}
-            aria-label="Sembunyikan keyboard"
-            title="Sembunyikan keyboard"
-          >
-            <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => applyValue(nextValueForDigit(value, "0", mode))}
-            className={cn(
-              "h-[52px] rounded-[12px] bg-white",
-              "text-[24px] font-bold leading-none text-black",
-              "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-            )}
-          >
-            0
-          </button>
-
-          <button
-            type="button"
-            onClick={() => applyValue(nextValueForBackspace(value, mode))}
-            className={cn(
-              "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
-              "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-            )}
-            aria-label="Hapus angka"
-            title="Hapus"
-          >
-            <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
-          </button>
+          </div>
         </div>
-
-        <button
-          type="button"
-          onClick={continueFlow}
-          className={cn(
-            "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
-            "text-[14px] font-semibold leading-none text-white",
-            "transition active:scale-[0.98]",
-          )}
-        >
-          Lanjutkan
-        </button>
-      </div>
-    </div>,
+      ) : null}
+    </>,
     mobileScreen,
   );
 }
