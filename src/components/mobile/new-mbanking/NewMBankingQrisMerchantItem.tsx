@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingQrisConfirmModal from "@/components/mobile/new-mbanking/NewMBankingQrisConfirmModal";
 import NewMBankingSourceFundModal, {
@@ -115,21 +115,41 @@ export default function NewMBankingQrisMerchantItem({
             Nominal Pembayaran<span className="text-[#EF135D]">*</span>
           </label>
 
-          <input
-            value={nominal}
-            onChange={(event) => {
-              setNominal(formatThousands(event.target.value));
-              setToastMessage("");
-            }}
-            placeholder="Masukkan Nominal Pembayaran"
-            inputMode="numeric"
-            className={cn(
-              "mt-[5px] h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
-              "text-[14px] font-normal text-black shadow-none outline-none",
-              "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-              "focus:border-[#479DF4]",
-            )}
-          />
+          <div className="relative mt-[5px]">
+            <input
+              value={nominal}
+              onChange={(event) => {
+                setNominal(formatThousands(event.target.value));
+                setToastMessage("");
+              }}
+              placeholder="Masukkan Nominal Pembayaran"
+              inputMode="numeric"
+              className={cn(
+                "h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4 pr-[42px]",
+                "text-[14px] font-normal text-black shadow-none outline-none",
+                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                "focus:border-[#479DF4]",
+              )}
+            />
+
+            {nominal.trim() ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setNominal("");
+                  setToastMessage("");
+                }}
+                className={cn(
+                  "absolute right-[9px] top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
+                  "rounded-full bg-transparent text-[#8F8F8F] transition active:scale-[0.94]",
+                )}
+                aria-label="Hapus nominal pembayaran"
+                title="Hapus"
+              >
+                <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+              </button>
+            ) : null}
+          </div>
 
           <div className="mt-[5px] text-[12px] font-normal leading-relaxed text-[#828282]">
             Pastikan nominal yang akan memotong saldo Anda sudah sesuai

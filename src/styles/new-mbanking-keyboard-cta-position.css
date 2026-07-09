@@ -80,10 +80,10 @@
   display: none !important;
 }
 
-/* QRIS: geser ikon X clear sedikit ke kanan agar sejajar lebih rapi di field nominal. */
+/* QRIS: gunakan tombol X lokal di dalam field nominal, jadi X global dari keyboard disembunyikan agar tidak bergeser. */
 [data-mobile-screen="true"]:has(
     input[placeholder="Masukkan Nominal Pembayaran"][data-keyboard-active="true"]
   )
   [data-input-clear-button="true"] {
-  transform: translateX(8px) !important;
+  display: none !important;
 }
