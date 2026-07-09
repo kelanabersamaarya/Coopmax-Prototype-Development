@@ -1,41 +1,76 @@
 /* New M-Banking: pastikan section putih tab/halaman transaksi mengisi sisa layar. */
-[data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\] {
+[data-mobile-screen="true"] main.bg-\[\#F9F9F9\] {
   display: flex !important;
   flex-direction: column !important;
 }
 
-[data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
-  > section.bg-\[\#F9F9F9\] {
+/* Header/area kategori abu-abu tetap tinggi natural. */
+[data-mobile-screen="true"] main.bg-\[\#F9F9F9\] > section.bg-\[\#F9F9F9\] {
   flex: 0 0 auto !important;
 }
 
 /* Selector umum untuk section putih rounded atas di Bayar, Beli, Transfer, dan halaman sejenis. */
-[data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
-  > section.rounded-t-\[30px\].bg-white {
+[data-mobile-screen="true"] main.bg-\[\#F9F9F9\] > section.rounded-t-\[30px\].bg-white {
   flex: 1 0 auto !important;
   min-height: 100% !important;
 }
 
 /* Kompatibilitas selector lama yang memakai border-0. */
 [data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  main.bg-\[\#F9F9F9\]
   > section.rounded-t-\[30px\].border-0.bg-white {
   flex: 1 0 auto !important;
   min-height: 100% !important;
 }
 
-/* Halaman yang punya area tombol fixed/absolute bawah tetap diberi ruang agar konten tidak ketutup. */
+/*
+  Halaman yang punya tombol absolute/sticky bawah biasanya memberi padding-bottom pada main.
+  Tanpa ini, bagian padding parent tetap abu-abu sehingga section putih terlihat terpotong.
+*/
 [data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
-  > section.rounded-t-\[30px\].bg-white[class*="pb-[112px]"],
+  main.bg-\[\#F9F9F9\][class*="pb-[112px]"]
+  > section.rounded-t-\[30px\].bg-white {
+  min-height: calc(100% + 112px) !important;
+}
+
 [data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
-  > section.rounded-t-\[30px\].bg-white[class*="pb-[118px]"],
+  main.bg-\[\#F9F9F9\][class*="pb-[118px]"]
+  > section.rounded-t-\[30px\].bg-white {
+  min-height: calc(100% + 118px) !important;
+}
+
 [data-mobile-screen="true"]
-  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
-  > section.rounded-t-\[30px\].bg-white[class*="pb-[184px]"] {
+  main.bg-\[\#F9F9F9\][class*="pb-[150px]"]
+  > section.rounded-t-\[30px\].bg-white {
+  min-height: calc(100% + 150px) !important;
+}
+
+[data-mobile-screen="true"]
+  main.bg-\[\#F9F9F9\][class*="pb-[160px]"]
+  > section.rounded-t-\[30px\].bg-white {
+  min-height: calc(100% + 160px) !important;
+}
+
+[data-mobile-screen="true"]
+  main.bg-\[\#F9F9F9\][class*="pb-[170px]"]
+  > section.rounded-t-\[30px\].bg-white {
+  min-height: calc(100% + 170px) !important;
+}
+
+[data-mobile-screen="true"]
+  main.bg-\[\#F9F9F9\][class*="pb-[184px]"]
+  > section.rounded-t-\[30px\].bg-white {
+  min-height: calc(100% + 184px) !important;
+}
+
+/* Halaman tertentu memakai main flex-col; section tetap harus mengisi seluruh tinggi. */
+[data-mobile-screen="true"]
+  main.flex.min-h-0.flex-1.flex-col.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.rounded-t-\[30px\].bg-white {
+  flex: 1 0 auto !important;
+}
+
+/* Pastikan box sizing aman ketika section memanjang melewati padding tombol bawah. */
+[data-mobile-screen="true"] main.bg-\[\#F9F9F9\] > section.rounded-t-\[30px\].bg-white {
   box-sizing: border-box !important;
 }
