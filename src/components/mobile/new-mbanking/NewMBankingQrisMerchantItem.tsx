@@ -124,7 +124,7 @@ export default function NewMBankingQrisMerchantItem({
             placeholder="Masukkan Nominal Pembayaran"
             inputMode="numeric"
             className={cn(
-              "mt-[5px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
+              "mt-[5px] h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
               "text-[14px] font-normal text-black shadow-none outline-none",
               "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
               "focus:border-[#479DF4]",
