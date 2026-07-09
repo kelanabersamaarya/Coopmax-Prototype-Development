@@ -7,7 +7,7 @@
   )
   main
   > section.rounded-t-\[30px\].bg-white {
-  transform: translateY(-145px) !important;
+  transform: translateY(-172px) !important;
   transition: transform 180ms ease-out !important;
 }
 
@@ -15,10 +15,10 @@
     input[placeholder="Masukkan Nominal Setoran"][data-keyboard-active="true"]
   )
   main {
-  padding-bottom: 420px !important;
+  padding-bottom: 500px !important;
 }
 
 [data-mobile-screen="true"]
   input[placeholder="Masukkan Nominal Setoran"][data-keyboard-active="true"] {
-  scroll-margin-bottom: 520px !important;
+  scroll-margin-bottom: 620px !important;
 }
