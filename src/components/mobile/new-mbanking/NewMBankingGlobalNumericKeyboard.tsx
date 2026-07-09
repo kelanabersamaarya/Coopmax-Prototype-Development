@@ -17,13 +17,22 @@ type ClearTarget = {
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
   "masukkan no pelanggan",
+  "no.pelanggan",
+  "no. pelanggan",
   "masukkan no. handphone",
   "masukkan nomor hp",
+  "nomor hp",
   "masukkan no. meter",
+  "no. meter",
+  "id pelanggan",
   "masukkan nominal pembayaran",
+  "nominal pembayaran",
   "masukkan nomor rekening penerima",
+  "nomor rekening penerima",
   "masukkan nominal transfer",
+  "nominal transfer",
   "masukkan nominal setoran",
+  "nominal setoran",
 ];
 
 function onlyDigits(value: string) {
@@ -38,9 +47,30 @@ function formatThousandsFromDigits(value: string) {
   return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function getInputContextText(input: HTMLInputElement) {
+  const parts = [
+    input.placeholder,
+    input.getAttribute("aria-label"),
+    input.name,
+    input.id,
+  ];
+
+  let current: HTMLElement | null = input.parentElement;
+  let depth = 0;
+
+  while (current && depth < 2) {
+    if (current.closest('[data-numeric-keyboard="true"]')) break;
+
+    parts.push(current.textContent ?? "");
+    current = current.parentElement;
+    depth += 1;
+  }
+
+  return parts.filter(Boolean).join(" ").toLowerCase();
+}
+
 function detectMode(input: HTMLInputElement): KeyboardMode {
-  const text =
-    `${input.placeholder ?? ""} ${input.getAttribute("aria-label") ?? ""}`.toLowerCase();
+  const text = getInputContextText(input);
 
   if (text.includes("nominal")) return "amount";
 
@@ -53,15 +83,7 @@ function isTargetInput(input: HTMLInputElement) {
   const inputMode = (input.inputMode ?? "").toLowerCase();
   if (!["numeric", "decimal", "tel"].includes(inputMode)) return false;
 
-  const searchableText = [
-    input.placeholder,
-    input.getAttribute("aria-label"),
-    input.name,
-    input.id,
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
+  const searchableText = getInputContextText(input);
 
   return targetPlaceholderKeywords.some((keyword) =>
     searchableText.includes(keyword),
