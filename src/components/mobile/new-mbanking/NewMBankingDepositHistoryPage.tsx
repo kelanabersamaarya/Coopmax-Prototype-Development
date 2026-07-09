@@ -158,22 +158,9 @@ export default function NewMBankingDepositHistoryPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[24px]">
-          <div className="rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#E5E7EB]">
-            <div className="text-[12px] font-normal leading-none text-[#8F8F8F]">
-              Rekening
-            </div>
-            <div className="mt-[8px] text-[15px] font-bold leading-tight text-black">
-              {accountName}
-            </div>
-            <div className="mt-[6px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
-              {accountNo} • {productName}
-            </div>
-          </div>
-
           <NewMBankingPaymentMonthSelector
             activeMonth={activeMonth}
             onChange={setActiveMonth}
-            className="mt-[18px]"
           />
 
           {filteredHistories.length === 0 ? (
@@ -198,6 +185,10 @@ export default function NewMBankingDepositHistoryPage({
               ))}
             </div>
           )}
+
+          <div className="sr-only">
+            {accountName} {productName}
+          </div>
         </section>
       </main>
     </div>
