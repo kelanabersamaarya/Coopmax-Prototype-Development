@@ -3,7 +3,10 @@ import {
   ArrowLeft,
   Banknote,
   Filter,
+  Minus,
+  Plus,
   Send,
+  WalletCards,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -274,8 +277,32 @@ function filterGroupsByMonth(groups: TransactionGroup[], activeMonth: string) {
     .filter((group) => group.items.length > 0);
 }
 
-function TransactionIcon({ type }: { type: TransactionItem["type"] }) {
-  const isTransferOut = type === "out";
+function TransactionIcon({ item }: { item: TransactionItem }) {
+  const normalizedTitle = item.title.trim().toLowerCase();
+
+  if (normalizedTitle.includes("setoran")) {
+    return (
+      <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+        <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
+        <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#1D4ED8] text-white">
+          <Plus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
+        </span>
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("tarikan")) {
+    return (
+      <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#EF4444] text-white">
+        <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
+        <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#DC2626] text-white">
+          <Minus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
+        </span>
+      </span>
+    );
+  }
+
+  const isTransferOut = item.type === "out";
   const Icon = isTransferOut ? Send : Banknote;
 
   return (
@@ -298,7 +325,7 @@ function TransactionRow({ item }: { item: TransactionItem }) {
   return (
     <div className="flex items-start justify-between gap-4 py-[14px]">
       <div className="flex min-w-0 flex-1 items-start gap-3">
-        <TransactionIcon type={item.type} />
+        <TransactionIcon item={item} />
 
         <div className="min-w-0 pt-[2px]">
           <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
