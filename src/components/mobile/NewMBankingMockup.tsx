@@ -3,6 +3,7 @@
 import * as React from "react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
+import NewMBankingGlobalNumericKeyboard from "@/components/mobile/new-mbanking/NewMBankingGlobalNumericKeyboard";
 import NewMBankingHome from "@/components/mobile/new-mbanking/NewMBankingHome";
 import NewMBankingLoginPage from "@/components/mobile/new-mbanking/NewMBankingLoginPage";
 import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingOnboarding";
@@ -93,5 +94,10 @@ export default function NewMBankingMockup() {
     return <NewMBankingSplashScreen />;
   }
 
-  return <MobileMockupFrame edgeToEdge>{renderScreen()}</MobileMockupFrame>;
+  return (
+    <MobileMockupFrame edgeToEdge>
+      <NewMBankingGlobalNumericKeyboard />
+      {renderScreen()}
+    </MobileMockupFrame>
+  );
 }

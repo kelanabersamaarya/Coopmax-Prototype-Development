@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
+import NewMBankingGlobalNumericKeyboard from "@/components/mobile/new-mbanking/NewMBankingGlobalNumericKeyboard";
 import NewMBankingHome from "@/components/mobile/new-mbanking/NewMBankingHome";
 import NewMBankingLoginPage from "@/components/mobile/new-mbanking/NewMBankingLoginPage";
 import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingOnboarding";
@@ -97,6 +98,7 @@ export default function NewMBankingResponsiveApp() {
       data-mobile-screen="true"
       className="h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-white"
     >
+      <NewMBankingGlobalNumericKeyboard />
       {renderScreen()}
     </div>
   );
