@@ -181,7 +181,7 @@ function findScrollableParent(
       style.overflowY === "scroll" ||
       style.overflowY === "overlay";
 
-    if (canScrollY && current.scrollHeight > current.clientHeight) {
+    if (canScrollY) {
       return current;
     }
 
@@ -190,6 +190,11 @@ function findScrollableParent(
   }
 
   return mobileScreen;
+}
+
+function getNumberStyleValue(value: string) {
+  const parsed = Number.parseFloat(value || "0");
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 function scrollInputAboveKeyboard({
@@ -206,7 +211,7 @@ function scrollInputAboveKeyboard({
   const screenRect = mobileScreen.getBoundingClientRect();
   const inputRect = input.getBoundingClientRect();
   const visibleTop = screenRect.top + 16;
-  const visibleBottom = screenRect.bottom - keyboardHeight - 18;
+  const visibleBottom = screenRect.bottom - keyboardHeight - 24;
 
   let delta = 0;
 
@@ -239,6 +244,11 @@ export default function NewMBankingGlobalNumericKeyboard() {
     input: HTMLInputElement;
     borderColor: string;
     boxShadow: string;
+  } | null>(null);
+  const scrollParentStyleRef = React.useRef<{
+    element: HTMLElement;
+    paddingBottom: string;
+    scrollPaddingBottom: string;
   } | null>(null);
 
   const updateClearTargets = React.useCallback(() => {
@@ -300,18 +310,29 @@ export default function NewMBankingGlobalNumericKeyboard() {
   React.useEffect(() => {
     return () => {
       restoreActiveInputStyle();
+      restoreScrollParentSpacing();
     };
   }, []);
 
   React.useEffect(() => {
-    if (!activeInput || !mobileScreen) return;
+    if (!activeInput || !mobileScreen) {
+      restoreScrollParentSpacing();
+      return;
+    }
 
-    let timeoutId = 0;
+    let firstTimeoutId = 0;
+    let secondTimeoutId = 0;
 
-    const scrollActiveInput = () => {
+    const applyScroll = () => {
       const keyboardHeight =
         keyboardPanelRef.current?.getBoundingClientRect().height ??
         KEYBOARD_FALLBACK_HEIGHT;
+
+      applyScrollParentSpacing({
+        input: activeInput,
+        mobileScreen,
+        keyboardHeight,
+      });
 
       scrollInputAboveKeyboard({
         input: activeInput,
@@ -323,15 +344,59 @@ export default function NewMBankingGlobalNumericKeyboard() {
     };
 
     const animationFrameId = window.requestAnimationFrame(() => {
-      scrollActiveInput();
-      timeoutId = window.setTimeout(scrollActiveInput, 230);
+      applyScroll();
+      firstTimeoutId = window.setTimeout(applyScroll, 120);
+      secondTimeoutId = window.setTimeout(applyScroll, 320);
     });
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
-      window.clearTimeout(timeoutId);
+      window.clearTimeout(firstTimeoutId);
+      window.clearTimeout(secondTimeoutId);
     };
   }, [activeInput, mobileScreen, updateClearTargets]);
+
+  function restoreScrollParentSpacing() {
+    const previous = scrollParentStyleRef.current;
+    if (!previous) return;
+
+    previous.element.style.paddingBottom = previous.paddingBottom;
+    previous.element.style.scrollPaddingBottom = previous.scrollPaddingBottom;
+
+    scrollParentStyleRef.current = null;
+  }
+
+  function applyScrollParentSpacing({
+    input,
+    mobileScreen,
+    keyboardHeight,
+  }: {
+    input: HTMLInputElement;
+    mobileScreen: HTMLElement;
+    keyboardHeight: number;
+  }) {
+    const scrollParent = findScrollableParent(input, mobileScreen);
+
+    if (scrollParentStyleRef.current?.element !== scrollParent) {
+      restoreScrollParentSpacing();
+
+      scrollParentStyleRef.current = {
+        element: scrollParent,
+        paddingBottom: scrollParent.style.paddingBottom,
+        scrollPaddingBottom: scrollParent.style.scrollPaddingBottom,
+      };
+    }
+
+    const originalPadding = scrollParentStyleRef.current?.paddingBottom ?? "";
+    const originalPaddingNumber = getNumberStyleValue(originalPadding);
+    const nextPadding = Math.max(
+      originalPaddingNumber,
+      keyboardHeight + 34,
+    );
+
+    scrollParent.style.paddingBottom = `${nextPadding}px`;
+    scrollParent.style.scrollPaddingBottom = `${keyboardHeight + 34}px`;
+  }
 
   function restoreActiveInputStyle() {
     const previous = activeInputStyleRef.current;
@@ -363,6 +428,12 @@ export default function NewMBankingGlobalNumericKeyboard() {
       input.setSelectionRange(end, end);
 
       if (mobileScreen) {
+        applyScrollParentSpacing({
+          input,
+          mobileScreen,
+          keyboardHeight: KEYBOARD_FALLBACK_HEIGHT,
+        });
+
         scrollInputAboveKeyboard({
           input,
           mobileScreen,
@@ -457,6 +528,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
   function closeKeyboard() {
     activeInput?.blur();
     restoreActiveInputStyle();
+    restoreScrollParentSpacing();
     setActiveInput(null);
     setValue("");
     window.requestAnimationFrame(updateClearTargets);
