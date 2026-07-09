@@ -349,8 +349,8 @@ function TransactionGroupCard({ group }: { group: TransactionGroup }) {
 
 function EmptyFilterResult() {
   return (
-    <div className="mt-[48px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
-      <NewMBankingEmptyStateImage className="mx-auto mb-4 h-[120px] w-[120px] object-contain" />
+    <div className="flex min-h-[calc(100dvh-260px)] flex-col items-center justify-center px-5 pb-[24px] text-center">
+      <NewMBankingEmptyStateImage className="mb-5 h-[154px] w-[154px] object-contain" />
 
       <div className="text-[15px] font-bold text-black">
         Tidak Ada Transaksi
