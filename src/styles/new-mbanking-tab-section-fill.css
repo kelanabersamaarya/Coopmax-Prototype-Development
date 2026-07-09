@@ -1,4 +1,4 @@
-/* New M-Banking: pastikan section putih tab Tersimpan/Riwayat mengisi sisa layar. */
+/* New M-Banking: pastikan section putih tab/halaman transaksi mengisi sisa layar. */
 [data-mobile-screen="true"]
   main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\] {
   display: flex !important;
@@ -11,9 +11,31 @@
   flex: 0 0 auto !important;
 }
 
+/* Selector umum untuk section putih rounded atas di Bayar, Beli, Transfer, dan halaman sejenis. */
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.rounded-t-\[30px\].bg-white {
+  flex: 1 0 auto !important;
+  min-height: 100% !important;
+}
+
+/* Kompatibilitas selector lama yang memakai border-0. */
 [data-mobile-screen="true"]
   main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
   > section.rounded-t-\[30px\].border-0.bg-white {
   flex: 1 0 auto !important;
-  min-height: 0 !important;
+  min-height: 100% !important;
+}
+
+/* Halaman yang punya area tombol fixed/absolute bawah tetap diberi ruang agar konten tidak ketutup. */
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.rounded-t-\[30px\].bg-white[class*="pb-[112px]"],
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.rounded-t-\[30px\].bg-white[class*="pb-[118px]"],
+[data-mobile-screen="true"]
+  main.min-h-0.flex-1.overflow-y-auto.bg-\[\#F9F9F9\]
+  > section.rounded-t-\[30px\].bg-white[class*="pb-[184px]"] {
+  box-sizing: border-box !important;
 }
