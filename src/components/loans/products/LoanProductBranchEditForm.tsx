@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -221,6 +222,9 @@ export default function LoanProductBranchEditForm({
   onCancel: () => void;
   onSaved: () => void;
 }) {
+  const location = useLocation();
+  const isSakEpCabangModule = location.pathname.startsWith("/sak-ep-cabang");
+
   const product = React.useMemo(() => {
     return getLoanProducts().find((item) => item.id === productId) ?? null;
   }, [productId]);
@@ -268,7 +272,7 @@ export default function LoanProductBranchEditForm({
       formConfig: {
         ...(product.formConfig ?? {}),
         ...mainValues,
-        ...sakEpValues,
+        ...(isSakEpCabangModule ? sakEpValues : {}),
       },
     });
 
@@ -310,23 +314,27 @@ export default function LoanProductBranchEditForm({
         ))}
       </div>
 
-      <SectionTitle>Konfigurasi KP Pendapatan Pinjaman SAK EP</SectionTitle>
+      {isSakEpCabangModule ? (
+        <>
+          <SectionTitle>Konfigurasi KP Pendapatan Pinjaman SAK EP</SectionTitle>
 
-      <div className="mt-5 grid gap-5">
-        {sakEpFields.map((field) => (
-          <CoaFieldRow
-            key={field.key}
-            field={field}
-            value={sakEpValues[field.key]}
-            onChange={(value) =>
-              setSakEpValues((current) => ({
-                ...current,
-                [field.key]: value,
-              }))
-            }
-          />
-        ))}
-      </div>
+          <div className="mt-5 grid gap-5">
+            {sakEpFields.map((field) => (
+              <CoaFieldRow
+                key={field.key}
+                field={field}
+                value={sakEpValues[field.key]}
+                onChange={(value) =>
+                  setSakEpValues((current) => ({
+                    ...current,
+                    [field.key]: value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        </>
+      ) : null}
 
       <LoanFormActionButtons onCancel={onCancel} onSave={save} />
     </Card>
