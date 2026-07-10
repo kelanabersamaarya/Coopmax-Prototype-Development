@@ -351,7 +351,7 @@ export default function LoanProductAccountingCoaFields({
       {showFeeCoaSection ? (
         <div className="loan-product-fee-coa-section">
           <SectionTitle>
-            Atur KP Pendapatan per jenis biaya berdasarkan produk pinjaman
+            Atur KP Pendapatan per Jenis Biaya Berdasarkan Produk Pinjaman
           </SectionTitle>
 
           <div className="mt-5 grid gap-5">
