@@ -350,7 +350,9 @@ export default function LoanProductAccountingCoaFields({
     <div className={cn("mt-6", className)}>
       {showFeeCoaSection ? (
         <div className="loan-product-fee-coa-section">
-          <SectionTitle>Konfigurasi KP Biaya Pinjaman</SectionTitle>
+          <SectionTitle>
+            Atur KP Pendapatan per jenis biaya berdasarkan produk pinjaman
+          </SectionTitle>
 
           <div className="mt-5 grid gap-5">
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
