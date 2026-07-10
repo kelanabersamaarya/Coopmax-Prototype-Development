@@ -24,25 +24,25 @@ export type FeeCoaValues = Record<FieldConfig["key"], FeeCoaOption | undefined>;
 const fields: FieldConfig[] = [
   {
     key: "provisi",
-    label: "KP Biaya Provisi",
+    label: "KP Pendapatan Biaya Provisi",
     placeholder: "Pilih KP Biaya Provisi",
     primaryOption: "PEN. BIAYA PROVISI",
   },
   {
     key: "administrasi",
-    label: "KP Biaya Administrasi",
+    label: "KP Pendapatan Biaya Administrasi",
     placeholder: "Pilih KP Biaya Administrasi",
     primaryOption: "PEN. ADMINISTRASI",
   },
   {
     key: "asuransi",
-    label: "KP Biaya Asuransi",
+    label: "KP Pendapatan Biaya Asuransi",
     placeholder: "Pilih KP Biaya Asuransi",
     primaryOption: "PEN. BIAYA ASURANSI",
   },
   {
     key: "mbanking",
-    label: "KP Biaya Aktivasi M-Banking",
+    label: "KP Pendapatan Biaya Aktivasi M-Banking",
     placeholder: "Pilih KP Biaya Aktivasi M-Banking",
     primaryOption: "PEN. AKTIVASI M-BANKING",
   },
