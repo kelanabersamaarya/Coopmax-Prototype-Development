@@ -245,6 +245,8 @@ export default function LoanProductBranchEditForm({
 }) {
   const location = useLocation();
   const isSakEpCabangModule = location.pathname.startsWith("/sak-ep-cabang");
+  const isPinjamanBillingModule = location.pathname.startsWith("/loan-products");
+  const showFeeCoaSection = isSakEpCabangModule || isPinjamanBillingModule;
 
   const product = React.useMemo(() => {
     return getLoanProducts().find((item) => item.id === productId) ?? null;
@@ -301,13 +303,13 @@ export default function LoanProductBranchEditForm({
       formConfig: {
         ...(product.formConfig ?? {}),
         ...mainValues,
-        ...(isSakEpCabangModule
+        ...(showFeeCoaSection
           ? {
               aturCoaJenisBiaya,
               feeCoaValues,
-              ...sakEpValues,
             }
           : {}),
+        ...(isSakEpCabangModule ? sakEpValues : {}),
       },
     });
 
@@ -331,7 +333,7 @@ export default function LoanProductBranchEditForm({
         <ReadOnlyField label="Produk Pinjaman" value={product?.name ?? ""} />
       </div>
 
-      {isSakEpCabangModule ? (
+      {showFeeCoaSection ? (
         <>
           <SectionTitle>
             Atur KP Pendapatan per Jenis Biaya Berdasarkan Produk Pinjaman
