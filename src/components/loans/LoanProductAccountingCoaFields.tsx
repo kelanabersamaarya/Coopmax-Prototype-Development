@@ -295,15 +295,13 @@ export default function LoanProductAccountingCoaFields({
   className?: string;
 }) {
   const location = useLocation();
-  const hideSakEpCabangFeeCoaSection = isSakEpCabangLoanProductModule(
-    location.pathname,
-  );
+  const isSakEpCabangModule = isSakEpCabangLoanProductModule(location.pathname);
   const isBranchForm = isBranchLoanProductForm(location.search);
+  const forceShowFeeCoaForSakEpConsolidation =
+    isSakEpCabangModule && !isBranchForm;
 
   const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
-  const showSakEpRevenueSeparateSection = isSakEpCabangLoanProductModule(
-    location.pathname,
-  );
+  const showSakEpRevenueSeparateSection = isSakEpCabangModule;
   const showSakEpRevenueInsideMainSection =
     showSakEpRevenueFields && !showSakEpRevenueSeparateSection;
 
@@ -314,7 +312,7 @@ export default function LoanProductAccountingCoaFields({
     coaDeferredAdminRevenue: undefined,
   });
 
-  const initializedBranchFeeCoaRef = React.useRef(false);
+  const initializedForcedFeeCoaRef = React.useRef(false);
 
   const settingShowFeeCoaSection = useGeneralSetting(
     SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
@@ -322,7 +320,7 @@ export default function LoanProductAccountingCoaFields({
   );
 
   const showFeeCoaSection =
-    (settingShowFeeCoaSection || isBranchForm) && !hideSakEpCabangFeeCoaSection;
+    settingShowFeeCoaSection || isBranchForm || forceShowFeeCoaForSakEpConsolidation;
 
   React.useEffect(() => {
     if (!showFeeCoaSection && aturCoaJenisBiaya) {
@@ -331,16 +329,18 @@ export default function LoanProductAccountingCoaFields({
   }, [aturCoaJenisBiaya, onAturCoaJenisBiayaChange, showFeeCoaSection]);
 
   React.useEffect(() => {
-    if (!showFeeCoaSection || !isBranchForm) return;
-    if (initializedBranchFeeCoaRef.current) return;
+    if (!showFeeCoaSection) return;
+    if (!isBranchForm && !forceShowFeeCoaForSakEpConsolidation) return;
+    if (initializedForcedFeeCoaRef.current) return;
 
-    initializedBranchFeeCoaRef.current = true;
+    initializedForcedFeeCoaRef.current = true;
 
     if (!aturCoaJenisBiaya) {
       onAturCoaJenisBiayaChange(true);
     }
   }, [
     aturCoaJenisBiaya,
+    forceShowFeeCoaForSakEpConsolidation,
     isBranchForm,
     onAturCoaJenisBiayaChange,
     showFeeCoaSection,
