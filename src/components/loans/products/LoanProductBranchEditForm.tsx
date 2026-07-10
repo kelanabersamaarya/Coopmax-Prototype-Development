@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import {
   getLoanProducts,
@@ -15,6 +16,10 @@ import {
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import SearchableFeeCoaSelect from "@/components/loans/SearchableFeeCoaSelect";
 import FieldTooltip from "@/components/loans/FieldTooltip";
+import LoanProductFeeCoaFields, {
+  emptyFeeCoaValues,
+  type FeeCoaValues,
+} from "@/components/loans/LoanProductFeeCoaFields";
 import { deriveLoanProductCode } from "@/components/loans/products/loan-product-list-utils";
 
 type MainCoaOption =
@@ -114,6 +119,22 @@ function readConfigValue(
 ): string | undefined {
   const value = config?.[key];
   return typeof value === "string" && value !== "PILIH" ? value : undefined;
+}
+
+function readConfigBool(
+  config: LoanProductFormConfig | undefined,
+  key: string,
+  fallback: boolean,
+) {
+  const value = config?.[key];
+  return typeof value === "boolean" ? value : fallback;
+}
+
+function readFeeCoaValues(config: LoanProductFormConfig | undefined) {
+  const value = config?.feeCoaValues;
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? ({ ...emptyFeeCoaValues, ...(value as Partial<FeeCoaValues>) } as FeeCoaValues)
+    : emptyFeeCoaValues;
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -249,6 +270,14 @@ export default function LoanProductBranchEditForm({
     coaAdminRevenue: readConfigValue(product?.formConfig, "coaAdminRevenue"),
   }));
 
+  const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(() =>
+    readConfigBool(product?.formConfig, "aturCoaJenisBiaya", true),
+  );
+
+  const [feeCoaValues, setFeeCoaValues] = React.useState<FeeCoaValues>(() =>
+    readFeeCoaValues(product?.formConfig),
+  );
+
   const [sakEpValues, setSakEpValues] = React.useState<
     Record<SakEpFieldKey, string | undefined>
   >(() => ({
@@ -272,7 +301,13 @@ export default function LoanProductBranchEditForm({
       formConfig: {
         ...(product.formConfig ?? {}),
         ...mainValues,
-        ...(isSakEpCabangModule ? sakEpValues : {}),
+        ...(isSakEpCabangModule
+          ? {
+              aturCoaJenisBiaya,
+              feeCoaValues,
+              ...sakEpValues,
+            }
+          : {}),
       },
     });
 
@@ -295,6 +330,37 @@ export default function LoanProductBranchEditForm({
         />
         <ReadOnlyField label="Produk Pinjaman" value={product?.name ?? ""} />
       </div>
+
+      {isSakEpCabangModule ? (
+        <>
+          <SectionTitle>
+            Atur KP Pendapatan per Jenis Biaya Berdasarkan Produk Pinjaman
+          </SectionTitle>
+
+          <div className="mt-5 grid gap-5">
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <div className="text-sm font-normal leading-relaxed text-slate-900">
+                Atur KP Jenis Biaya pada Produk Pinjaman
+              </div>
+              <div className="flex items-center justify-start">
+                <Switch
+                  checked={aturCoaJenisBiaya}
+                  onCheckedChange={setAturCoaJenisBiaya}
+                />
+              </div>
+            </div>
+
+            {aturCoaJenisBiaya ? (
+              <LoanProductFeeCoaFields
+                values={feeCoaValues}
+                onChange={setFeeCoaValues}
+                selectTriggerClassName="h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]"
+                selectContentClassName="rounded-[5px] border-slate-200 p-0 shadow-xl"
+              />
+            ) : null}
+          </div>
+        </>
+      ) : null}
 
       <SectionTitle>Konfigurasi KP Pendapatan Pinjaman</SectionTitle>
 
