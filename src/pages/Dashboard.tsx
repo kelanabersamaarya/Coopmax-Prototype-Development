@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
   ReceiptText,
-  UsersRound,
   Landmark,
   Building2,
   Smartphone,
@@ -132,18 +131,6 @@ export default function Dashboard() {
             icon={Landmark}
             accent="emerald"
             onClick={() => navigate("/obs-samudra-harta")}
-          />
-
-          <DevMenuCard
-            title="Pinjaman Tanggung Renteng"
-            subtitle="Skema kelompok (TR) untuk pengajuan, monitoring, dan pembayaran."
-            icon={UsersRound}
-            accent="violet"
-            onClick={() =>
-              toast("Pinjaman Tanggung Renteng (prototype)", {
-                description: "Shortcut ini masih menu pengembangan.",
-              })
-            }
           />
 
           <DevMenuCard
