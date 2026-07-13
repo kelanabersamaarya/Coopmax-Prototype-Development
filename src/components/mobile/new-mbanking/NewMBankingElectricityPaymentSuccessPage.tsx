@@ -1,8 +1,8 @@
 import * as React from "react";
 import {
   Check,
-  Download,
   Droplets,
+  Eye,
   HeartPulse,
   Landmark,
   Map,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
+import NewMBankingPaymentPurchaseReceiptPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPurchaseReceiptPage";
 import NewMBankingSaveTransactionTargetModal from "@/components/mobile/new-mbanking/NewMBankingSaveTransactionTargetModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
@@ -192,6 +193,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   onSaveRecipient?: () => void;
 }) {
   const [toastMessage, setToastMessage] = React.useState("");
+  const [showReceipt, setShowReceipt] = React.useState(false);
   const inferredKind = inferSavedRecipientKind({ providerName, serviceVariant });
   const savedInStore = isNewMBankingRecipientSaved({
     kind: inferredKind,
@@ -248,8 +250,22 @@ export default function NewMBankingElectricityPaymentSuccessPage({
     showToast("Penerima Berhasil Tersimpan");
   }
 
-  function saveProof() {
-    showToast("Bukti Transaksi Berhasil Tersimpan");
+  if (showReceipt) {
+    return (
+      <NewMBankingPaymentPurchaseReceiptPage
+        providerName={providerName}
+        customerName={customerName}
+        customerNo={customerNo}
+        amount={amount}
+        adminFee={adminFee}
+        totalTransaction={totalTransaction}
+        sourceFund={sourceFund}
+        serviceVariant={serviceVariant}
+        bpjsMonths={bpjsMonths}
+        onBack={() => setShowReceipt(false)}
+        onDone={onDone}
+      />
+    );
   }
 
   return (
@@ -304,8 +320,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
               <NewMBankingSuccessActionTile
                 label="Bukti Transaksi"
-                icon={Download}
-                onClick={saveProof}
+                icon={Eye}
+                onClick={() => setShowReceipt(true)}
               />
 
               <NewMBankingSuccessActionTile
