@@ -19,6 +19,14 @@
   margin-top: 14px !important;
 }
 
+/* New M-Banking Portofolio: kurangi gap antara pie chart dan daftar produk di bawahnya. */
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  section.mt-\[26px\].flex.justify-center
+  + div.mt-\[28px\].grid.gap-\[24px\] {
+  margin-top: 14px !important;
+}
+
 /* New M-Banking Portofolio: hilangkan shadow, tapi pertahankan ring/border Tailwind. */
 [data-mobile-screen="true"]
   main.bg-white.pb-\[150px\]
