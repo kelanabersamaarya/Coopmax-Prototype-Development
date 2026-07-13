@@ -12,7 +12,7 @@
   margin-top: 0 !important;
 }
 
-/* New M-Banking Portofolio: hilangkan shadow di semua card/section agar tampil flat. */
+/* New M-Banking Portofolio: hilangkan shadow, tapi pertahankan ring/border Tailwind. */
 [data-mobile-screen="true"]
   main.bg-white.pb-\[150px\]
   section[class*="shadow-"],
@@ -22,11 +22,22 @@
 [data-mobile-screen="true"]
   main.bg-white.pb-\[150px\]
   div[class*="shadow-"] {
-  box-shadow: none !important;
   --tw-shadow: 0 0 #0000 !important;
   --tw-shadow-colored: 0 0 #0000 !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000) !important;
 }
 
+/* Pastikan border/ring sekeliling tab Aset/Pinjaman tetap terlihat. */
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  > section.min-h-full.bg-white.px-6.pb-\[28px\].pt-\[22px\]
+  > div.rounded-full.bg-white {
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 0 #0000 !important;
+}
+
+/* Hilangkan drop-shadow chart saja. */
 [data-mobile-screen="true"]
   main.bg-white.pb-\[150px\]
   svg[class*="drop-shadow"],
