@@ -156,6 +156,117 @@ function EmptyDepositHistory() {
   );
 }
 
+function AccountInfo({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[11px] font-normal leading-none text-white/78">
+        {label}
+      </div>
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function CopyButton({ label }: { label: string }) {
+  return (
+    <button
+      type="button"
+      className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+      aria-label={label}
+      title={label}
+    >
+      <Copy className="h-[14px] w-[14px]" strokeWidth={2.5} />
+    </button>
+  );
+}
+
+function DepositAccountCard({
+  showNominal,
+  onToggleNominal,
+}: {
+  showNominal: boolean;
+  onToggleNominal: () => void;
+}) {
+  return (
+    <article
+      className={cn(
+        "relative min-h-[205px] w-full overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white",
+        "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
+        "shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+      )}
+    >
+      <div className="pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full bg-white/16" />
+      <div className="pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full bg-amber-100/22" />
+      <div className="pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full bg-orange-950/14" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
+
+      <div className="relative z-10">
+        <div className="flex items-start justify-between gap-4">
+          <AccountInfo label="Produk Deposito">
+            <span className="truncate">Deposito Koperasi</span>
+          </AccountInfo>
+
+          <div className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] opacity-0">
+            Detail
+          </div>
+        </div>
+
+        <div className="mt-[22px]">
+          <AccountInfo label="No. Rek. Deposito">
+            <span className="truncate">DEP112233</span>
+            <CopyButton label="Salin nomor rekening deposito" />
+          </AccountInfo>
+        </div>
+
+        <div className="mt-[22px]">
+          <AccountInfo label="Nominal Deposito">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {showNominal ? "Rp. 5.000.000,00" : "••••••••••"}
+            </span>
+            <button
+              type="button"
+              onClick={onToggleNominal}
+              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+              aria-label={
+                showNominal
+                  ? "Sembunyikan nominal deposito"
+                  : "Tampilkan nominal deposito"
+              }
+              title={
+                showNominal
+                  ? "Sembunyikan nominal deposito"
+                  : "Tampilkan nominal deposito"
+              }
+            >
+              {showNominal ? (
+                <Eye className="h-[16px] w-[16px]" strokeWidth={2.4} />
+              ) : (
+                <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
+              )}
+            </button>
+          </AccountInfo>
+        </div>
+
+        <div className="mt-[22px]">
+          <AccountInfo label="Saldo Bunga Deposito">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {showNominal ? "Rp. 600.000,00" : "••••••••••"}
+            </span>
+          </AccountInfo>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function NewMBankingDepositDetailPage({
   onBack,
 }: {
@@ -192,73 +303,12 @@ export default function NewMBankingDepositDetailPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-[#F9F9F9] px-6 pt-[24px]">
-          <article
-            className={cn(
-              "relative overflow-hidden rounded-[24px] px-5 py-5 text-white",
-              "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
-            )}
-          >
-            <div className="pointer-events-none absolute -right-[42px] -top-[42px] h-[136px] w-[136px] rounded-full bg-white/16" />
-            <div className="pointer-events-none absolute right-[48px] top-[58px] h-[64px] w-[64px] rounded-full bg-amber-100/18" />
-            <div className="pointer-events-none absolute -bottom-[36px] left-[72px] h-[96px] w-[96px] rounded-full bg-orange-950/12" />
-
-            <div className="relative z-10">
-              <div className="min-w-0">
-                <div className="text-[12px] font-normal leading-none text-white/78">
-                  Produk Deposito
-                </div>
-                <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-                  Deposito Koperasi
-                </div>
-              </div>
-
-              <div className="mt-[24px] grid gap-[18px]">
-                <div>
-                  <div className="text-[12px] font-normal leading-none text-white/78">
-                    No. Rek. Deposito
-                  </div>
-                  <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-                    <span>DEP112233</span>
-                    <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-[12px] font-normal leading-none text-white/78">
-                    Nominal Deposito
-                  </div>
-                  <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-                    <span>
-                      {showNominalDeposito ? "Rp. 5.000.000,00" : "••••••••••"}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowNominalDeposito((current) => !current)
-                      }
-                      className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
-                      aria-label={
-                        showNominalDeposito
-                          ? "Sembunyikan nominal deposito"
-                          : "Tampilkan nominal deposito"
-                      }
-                      title={
-                        showNominalDeposito
-                          ? "Sembunyikan nominal deposito"
-                          : "Tampilkan nominal deposito"
-                      }
-                    >
-                      {showNominalDeposito ? (
-                        <Eye className="h-[16px] w-[16px]" strokeWidth={2.4} />
-                      ) : (
-                        <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
+          <DepositAccountCard
+            showNominal={showNominalDeposito}
+            onToggleNominal={() =>
+              setShowNominalDeposito((current) => !current)
+            }
+          />
 
           <section className="mt-[26px]">
             <div className="text-[16px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
