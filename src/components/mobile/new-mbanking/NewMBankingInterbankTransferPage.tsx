@@ -111,6 +111,59 @@ const transferHistories: TransferHistory[] = [
   },
 ];
 
+const monthNames = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
+
+function formatTransferDate(dateTime: string) {
+  const datePart = dateTime.split(":")[0]?.trim() ?? "";
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(datePart);
+
+  if (!match) return datePart || "Tanggal Transaksi";
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = match[3];
+  const monthName = monthNames[month - 1] ?? match[2];
+
+  return `${day} ${monthName} ${year}`;
+}
+
+function getTransferTime(dateTime: string) {
+  const parts = dateTime.split(":");
+  if (parts.length < 2) return dateTime;
+
+  return parts.slice(1).join(":").trim();
+}
+
+function groupHistoriesByDate(histories: TransferHistory[]) {
+  return histories.reduce<Array<{ date: string; items: TransferHistory[] }>>(
+    (groups, history) => {
+      const date = formatTransferDate(history.dateTime);
+      const existing = groups.find((group) => group.date === date);
+
+      if (existing) {
+        existing.items.push(history);
+        return groups;
+      }
+
+      return [...groups, { date, items: [history] }];
+    },
+    [],
+  );
+}
+
 function uniqueRecipients(items: SavedRecipient[]) {
   const seen = new Set<string>();
   const result: SavedRecipient[] = [];
@@ -277,7 +330,7 @@ function TransferHistoryRow({
           {subtitle}
         </div>
         <div className="mt-[4px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
-          {history.dateTime}
+          {getTransferTime(history.dateTime)}
         </div>
       </div>
 
@@ -291,6 +344,40 @@ function TransferHistoryRow({
         </div>
       </div>
     </button>
+  );
+}
+
+function TransferHistoryDateGroup({
+  date,
+  items,
+  showBankName,
+  onOpenRecipient,
+}: {
+  date: string;
+  items: TransferHistory[];
+  showBankName: boolean;
+  onOpenRecipient: (history: TransferHistory) => void;
+}) {
+  return (
+    <section className="mt-[22px] first:mt-0">
+      <div className="flex items-center gap-3">
+        <div className="shrink-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+          {date}
+        </div>
+        <div className="h-px min-w-0 flex-1 bg-[#E5E7EB]" />
+      </div>
+
+      <div className="mt-[8px] divide-y divide-[#EEF0F4]">
+        {items.map((history) => (
+          <TransferHistoryRow
+            key={history.id}
+            history={history}
+            showBankName={showBankName}
+            onClick={() => onOpenRecipient(history)}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -353,6 +440,11 @@ export default function NewMBankingInterbankTransferPage({
   const filteredTransferHistories = React.useMemo(
     () => transferHistories.filter((history) => history.month === activeMonth),
     [activeMonth],
+  );
+
+  const groupedTransferHistories = React.useMemo(
+    () => groupHistoriesByDate(filteredTransferHistories),
+    [filteredTransferHistories],
   );
 
   function buildRecipientInfo(recipient: SavedRecipient): NewMBankingRecipientInfo {
@@ -472,14 +564,17 @@ export default function NewMBankingInterbankTransferPage({
                   />
                 ))}
               </div>
-            ) : filteredTransferHistories.length > 0 ? (
+            ) : groupedTransferHistories.length > 0 ? (
               <div>
-                {filteredTransferHistories.map((history) => (
-                  <TransferHistoryRow
-                    key={history.id}
-                    history={history}
+                {groupedTransferHistories.map((group) => (
+                  <TransferHistoryDateGroup
+                    key={group.date}
+                    date={group.date}
+                    items={group.items}
                     showBankName={showBankName}
-                    onClick={() => openRecipientInput(buildRecipientInfo(history))}
+                    onOpenRecipient={(history) =>
+                      openRecipientInput(buildRecipientInfo(history))
+                    }
                   />
                 ))}
               </div>
