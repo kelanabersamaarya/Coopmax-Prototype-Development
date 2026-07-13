@@ -17,6 +17,18 @@ type ServiceVariant =
   | "token-pln"
   | "e-wallet";
 
+function isECommerceProvider(providerName: string) {
+  const normalized = providerName.trim().toLowerCase();
+
+  return (
+    normalized.includes("tokopedia") ||
+    normalized.includes("shopee") ||
+    normalized.includes("bukalapak") ||
+    normalized.includes("e-commerce") ||
+    normalized.includes("ecommerce")
+  );
+}
+
 function isPurchaseReceipt({
   providerName,
   serviceVariant,
@@ -83,7 +95,11 @@ function getTransactionType({
   if (serviceVariant === "water") return "Pembayaran Air";
   if (serviceVariant === "pbb") return "Pembayaran PBB";
   if (serviceVariant === "internet") return "Pembayaran Internet";
-  if (serviceVariant === "finance") return "Pembayaran Finance";
+  if (serviceVariant === "finance") {
+    return isECommerceProvider(providerName)
+      ? "Pembayaran E-Commerce"
+      : "Pembayaran Finance";
+  }
   if (serviceVariant === "tv") return "Pembayaran TV";
   if (serviceVariant === "bpjs") return "Pembayaran BPJS Kesehatan";
   if (serviceVariant === "postpaid-phone") return "Pembayaran Pulsa Pascabayar";
