@@ -1,0 +1,12 @@
+/* New M-Banking: kecilkan frame putih pembungkus logo "By Djoin". */
+[data-mobile-screen="true"] div[class*="bg-white"]:has(> img[alt="By Djoin"]) {
+  height: 42px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  border-radius: 12px !important;
+}
+
+[data-mobile-screen="true"] div[class*="bg-white"]:has(> img[alt="By Djoin"]) > img[alt="By Djoin"] {
+  height: 24px !important;
+  width: auto !important;
+}

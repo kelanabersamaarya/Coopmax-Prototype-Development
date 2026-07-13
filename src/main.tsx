@@ -32,6 +32,7 @@ import "./styles/new-mbanking-deposit-autoscroll.css";
 import "./styles/new-mbanking-onboarding-history.css";
 import "./styles/new-mbanking-tab-section-fill.css";
 import "./styles/new-mbanking-remove-section-shadow.css";
+import "./styles/new-mbanking-djoin-logo-frame.css";
 import "./styles/payment-link-loan-product-form.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
