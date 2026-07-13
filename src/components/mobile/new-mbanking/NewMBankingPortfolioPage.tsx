@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   ArrowLeft,
-  ArrowUpRight,
   BatteryMedium,
   Copy,
   Eye,
@@ -386,6 +385,160 @@ function PortfolioDonutChart() {
   );
 }
 
+function getFieldValue(product: PortfolioProduct, label: string) {
+  return product.fields.find((field) => field.label === label)?.value ?? "";
+}
+
+function buildVaNumber(accountNo: string) {
+  return accountNo ? `88810 ${accountNo}` : "-";
+}
+
+function AccountInfo({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[11px] font-normal leading-none text-white/78">
+        {label}
+      </div>
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function CopyButton({ label }: { label: string }) {
+  return (
+    <button
+      type="button"
+      className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+      aria-label={label}
+      title={label}
+    >
+      <Copy className="h-[14px] w-[14px]" strokeWidth={2.5} />
+    </button>
+  );
+}
+
+function PortfolioAccountCard({
+  product,
+  isLoan = false,
+  onDetailClick,
+}: {
+  product: PortfolioProduct;
+  isLoan?: boolean;
+  onDetailClick?: () => void;
+}) {
+  const accountNo = getFieldValue(product, isLoan ? "No. Pinjaman" : "No. Rekening");
+  const balance = getFieldValue(product, "Saldo");
+  const vaNumber = buildVaNumber(accountNo);
+  const totalLoan = getFieldValue(product, "Total Pinjaman");
+  const remainingLoan = getFieldValue(product, "Sisa Pinjaman");
+
+  return (
+    <article
+      className={cn(
+        "relative min-h-[205px] w-full overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white",
+        "shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+        isLoan
+          ? "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]"
+          : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]",
+      )}
+    >
+      <div className="pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full bg-white/16" />
+      <div
+        className={cn(
+          "pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full",
+          isLoan ? "bg-emerald-200/18" : "bg-cyan-200/18",
+        )}
+      />
+      <div
+        className={cn(
+          "pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full",
+          isLoan ? "bg-teal-950/14" : "bg-blue-950/10",
+        )}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
+
+      <div className="relative z-10">
+        <div className="flex items-start justify-between gap-4">
+          <AccountInfo label={isLoan ? "Produk Pinjaman" : "Produk Simpanan"}>
+            <span className="truncate">{product.name}</span>
+          </AccountInfo>
+
+          <button
+            type="button"
+            onClick={onDetailClick}
+            className={cn(
+              "shrink-0 rounded-full bg-white/95 px-[14px] py-[9px]",
+              "text-[12px] font-normal leading-none shadow-sm transition active:scale-[0.98]",
+              isLoan ? "text-[#0F766E]" : "text-[#2563EB]",
+            )}
+          >
+            Lihat Detail
+          </button>
+        </div>
+
+        {isLoan ? (
+          <>
+            <div className="mt-[22px]">
+              <AccountInfo label="No. Rek. Pinjaman">
+                <span className="truncate">{accountNo}</span>
+                <CopyButton label="Salin nomor rekening pinjaman" />
+              </AccountInfo>
+            </div>
+
+            <div className="mt-[22px]">
+              <AccountInfo label="Jumlah Pinjaman">
+                <span className="text-[16px] tracking-[-0.025em]">
+                  {totalLoan}
+                </span>
+              </AccountInfo>
+            </div>
+
+            <div className="mt-[22px]">
+              <AccountInfo label="Sisa Pinjaman">
+                <span className="text-[16px] tracking-[-0.025em]">
+                  {remainingLoan}
+                </span>
+              </AccountInfo>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="mt-[22px]">
+              <AccountInfo label="No. Rek. Simpanan">
+                <span className="truncate">{accountNo}</span>
+                <CopyButton label="Salin nomor rekening simpanan" />
+              </AccountInfo>
+            </div>
+
+            <div className="mt-[22px]">
+              <AccountInfo label="Nomor VA">
+                <span className="truncate">{vaNumber}</span>
+                <CopyButton label="Salin nomor VA" />
+              </AccountInfo>
+            </div>
+
+            <div className="mt-[22px]">
+              <AccountInfo label="Saldo Simpanan">
+                <span className="text-[16px] tracking-[-0.025em]">
+                  {balance}
+                </span>
+              </AccountInfo>
+            </div>
+          </>
+        )}
+      </div>
+    </article>
+  );
+}
+
 function ProductInfoCell({
   label,
   value,
@@ -410,27 +563,19 @@ function ProductInfoCell({
   );
 }
 
-function ProductCard({
+function DepositProductCard({
   product,
-  isLoan = false,
   onDetailClick,
 }: {
   product: PortfolioProduct;
-  isLoan?: boolean;
   onDetailClick?: () => void;
 }) {
-  const gradientClass = isLoan
-    ? "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]"
-    : product.type === "deposito"
-      ? "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]"
-      : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]";
-
   return (
     <article
       className={cn(
         "relative min-h-[170px] overflow-hidden rounded-[14px] px-5 py-5 text-white",
         "shadow-[0_8px_22px_rgba(15,23,42,0.12)]",
-        gradientClass,
+        "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
       )}
     >
       <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
@@ -450,18 +595,12 @@ function ProductCard({
             type="button"
             onClick={onDetailClick}
             className={cn(
-              "inline-flex shrink-0 items-center gap-1 rounded-full bg-white/95 px-3 py-2",
-              "text-[11px] font-semibold leading-none",
-              isLoan
-                ? "text-[#0F766E]"
-                : product.type === "deposito"
-                  ? "text-[#C2410C]"
-                  : "text-[#2563EB]",
+              "inline-flex shrink-0 items-center rounded-full bg-white/95 px-3 py-2",
+              "text-[11px] font-semibold leading-none text-[#C2410C]",
               "shadow-sm transition active:scale-[0.98]",
             )}
           >
             Lihat Detail
-            <ArrowUpRight className="h-[13px] w-[13px]" strokeWidth={2.6} />
           </button>
         </div>
 
@@ -473,8 +612,7 @@ function ProductCard({
               value={field.value}
               isAccountNumber={
                 field.label === "No. Rekening" ||
-                field.label === "No. Rek. Tabungan" ||
-                field.label === "No. Pinjaman"
+                field.label === "No. Rek. Tabungan"
               }
             />
           ))}
@@ -505,14 +643,22 @@ function ProductSection({
       </div>
 
       <div className="grid gap-[14px]">
-        {products.map((product) => (
-          <ProductCard
-            key={product.name}
-            product={product}
-            isLoan={isLoan}
-            onDetailClick={() => onProductDetailClick?.(product)}
-          />
-        ))}
+        {products.map((product) =>
+          product.type === "deposito" ? (
+            <DepositProductCard
+              key={product.name}
+              product={product}
+              onDetailClick={() => onProductDetailClick?.(product)}
+            />
+          ) : (
+            <PortfolioAccountCard
+              key={product.name}
+              product={product}
+              isLoan={isLoan}
+              onDetailClick={() => onProductDetailClick?.(product)}
+            />
+          ),
+        )}
       </div>
     </section>
   );
