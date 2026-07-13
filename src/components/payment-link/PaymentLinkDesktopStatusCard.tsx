@@ -29,7 +29,7 @@ const statusContent: Record<
     innerClassName: "bg-[#dc3545]",
   },
   kedaluwarsa: {
-    title: "Pembayaran Via Link Telah Kedaluwarsa",
+    title: "Pembayaran via Link Telah Kedaluwarsa",
     icon: Clock3,
     outerClassName: "bg-amber-50",
     innerClassName: "bg-amber-500",
