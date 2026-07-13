@@ -141,14 +141,6 @@ export default function NewMBankingTransferReceiptPage({
             />
           </InfoSection>
 
-          <InfoSection title="Detail Penerima">
-            <DetailRow label="Nama Penerima" value={recipientName} />
-            {recipientBankName ? (
-              <DetailRow label="Bank Penerima" value={recipientBankName} />
-            ) : null}
-            <DetailRow label="No. Rekening" value={recipientAccountNo} />
-          </InfoSection>
-
           <InfoSection title="Detail Transaksi">
             <DetailRow label="Deskripsi" value={displayDescription} />
             <DetailRow label="Status" value="Berhasil" />
