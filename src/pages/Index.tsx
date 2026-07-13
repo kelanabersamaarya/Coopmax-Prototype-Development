@@ -194,8 +194,10 @@ export default function Index() {
                               {/* Mobile (collapsible) - hide in OBS area */}
                               {!isObsArea ? <SidebarMobileMenu /> : null}
 
-                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
-                              {!isPinjamanArea ? <SidebarObsMenu /> : null}
+                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing/Mobile area */}
+                              {!isPinjamanArea && !isMobileArea ? (
+                                <SidebarObsMenu />
+                              ) : null}
 
                               {/* Laporan (collapsible) - hide in OBS area */}
                               {!isObsArea ? <SidebarLaporanMenu /> : null}
