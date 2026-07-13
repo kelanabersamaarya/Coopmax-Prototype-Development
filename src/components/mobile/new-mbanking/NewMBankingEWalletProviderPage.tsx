@@ -101,9 +101,6 @@ export default function NewMBankingEWalletProviderPage({
                   <span className="block truncate text-[16px] font-bold leading-tight tracking-[-0.02em] text-black">
                     {provider.name}
                   </span>
-                  <span className="mt-[5px] block truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                    {provider.description}
-                  </span>
                 </span>
               </button>
             ))}
