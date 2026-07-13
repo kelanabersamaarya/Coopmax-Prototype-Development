@@ -73,9 +73,9 @@ export default function PaymentLinkDesktopStatusCard({
       )}
     >
       <PaymentLinkDesktopFrame className="min-h-[800px]">
-        <div className="flex min-h-[776px] items-center justify-center bg-[#f9fafb] px-8 py-10">
+        <div className="flex min-h-[776px] items-center justify-center bg-white px-8 py-10">
           <section className="grid w-full max-w-[1180px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_56px_rgba(15,23,42,0.10)] ring-1 ring-slate-200 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="flex min-h-[610px] flex-col items-center justify-center bg-[#f9fafb] px-8 py-12 text-center">
+            <div className="flex min-h-[610px] flex-col items-center justify-center bg-white px-8 py-12 text-center">
               <div
                 className={cn(
                   "flex h-[128px] w-[128px] items-center justify-center rounded-full",
