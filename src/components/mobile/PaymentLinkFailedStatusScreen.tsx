@@ -51,8 +51,6 @@ export default function PaymentLinkFailedStatusScreen() {
             <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
             <div className="h-px w-full bg-[#EEF0F4]" />
             <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
-            <div className="h-px w-full bg-[#EEF0F4]" />
-            <InfoRow label="Keterangan" value="Transaksi tidak dapat diproses" />
           </div>
         </section>
       </main>
