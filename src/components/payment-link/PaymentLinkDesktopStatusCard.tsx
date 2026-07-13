@@ -10,7 +10,6 @@ const statusContent: Record<
   PaymentLinkDesktopStatus,
   {
     title: string;
-    description: string;
     badge: string;
     icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
     outerClassName: string;
@@ -20,7 +19,6 @@ const statusContent: Record<
 > = {
   berhasil: {
     title: "Pembayaran Angsuran Pinjaman Berhasil Dilakukan",
-    description: "Transaksi pembayaran via Payment Link berhasil diproses.",
     badge: "Berhasil",
     icon: Check,
     outerClassName: "bg-emerald-50",
@@ -29,7 +27,6 @@ const statusContent: Record<
   },
   gagal: {
     title: "Pembayaran Angsuran Pinjaman Gagal Dilakukan",
-    description: "Transaksi pembayaran via Payment Link gagal diproses.",
     badge: "Gagal",
     icon: X,
     outerClassName: "bg-[#FCE4E7]",
@@ -38,7 +35,6 @@ const statusContent: Record<
   },
   kedaluwarsa: {
     title: "Payment Link Kedaluwarsa",
-    description: "Payment Link sudah melewati batas waktu pembayaran.",
     badge: "Kedaluwarsa",
     icon: Clock3,
     outerClassName: "bg-amber-50",
@@ -104,10 +100,6 @@ export default function PaymentLinkDesktopStatusCard({
           <h2 className="mt-8 max-w-[420px] text-[24px] font-extrabold leading-tight tracking-tight text-slate-950">
             {content.title}
           </h2>
-
-          <p className="mt-3 max-w-[420px] text-[14px] font-medium leading-relaxed text-slate-600">
-            {content.description}
-          </p>
 
           <span
             className={cn(

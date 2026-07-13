@@ -10,14 +10,7 @@ export default function PaymentLinkStatus() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex items-baseline gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            Status Pembayaran Payment Link
-          </h1>
-          <div className="text-base font-semibold text-slate-600">Djoinpay</div>
-        </div>
-
-        <div className="mt-6 grid items-start gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <div className="grid gap-4">
           <PaymentLinkDesktopStatusSelector
             value={status}
             onChange={setStatus}
