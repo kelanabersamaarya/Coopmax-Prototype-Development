@@ -51,7 +51,7 @@ export default function PaymentLinkSuccessStatusScreen() {
             <div className="h-px w-full bg-[#EEF0F4]" />
             <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
             <div className="h-px w-full bg-[#EEF0F4]" />
-            <InfoRow label="Metode Pembayaran" value="Payment Link" />
+            <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
           </div>
 
           <button
