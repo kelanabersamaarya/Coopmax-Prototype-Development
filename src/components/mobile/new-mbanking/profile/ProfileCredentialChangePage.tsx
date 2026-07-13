@@ -183,79 +183,90 @@ export default function ProfileCredentialChangePage({
       onBack={onBack}
       className="relative flex min-h-full flex-col pb-[124px]"
     >
-      <ProfileTopToast
-        message={toastMessage}
-        onClose={() => setToastMessage("")}
-      />
+      <style>
+        {`
+          [data-mobile-screen="true"]:has([data-profile-credential-change-page="true"])
+            [data-input-clear-button="true"] {
+            display: none !important;
+          }
+        `}
+      </style>
 
-      <ProfileChangePasswordConfirmModal
-        open={confirmOpen}
-        title={isPin ? "Yakin Merubah PIN?" : "Yakin Merubah Kata Sandi?"}
-        description={
-          isPin
-            ? "Pastikan PIN baru sudah benar sebelum melanjutkan."
-            : "Pastikan kata sandi baru sudah benar sebelum melanjutkan."
-        }
-        confirmLabel={isPin ? "Ya, Ubah PIN" : "Ya, Ubah Kata Sandi"}
-        onCancel={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          setConfirmOpen(false);
-          setSuccess(true);
-        }}
-      />
-
-      <div className="grid gap-[18px]">
-        <SecretField
-          label={isPin ? "PIN Lama" : "Kata Sandi Lama"}
-          value={oldValue}
-          onChange={(value) => {
-            setOldValue(normalizeInput(value));
-            setToastMessage("");
-          }}
-          placeholder={isPin ? "Masukkan PIN lama" : "Masukkan kata sandi lama"}
-          inputMode={isPin ? "numeric" : "text"}
-          maxLength={isPin ? 6 : undefined}
+      <div data-profile-credential-change-page="true">
+        <ProfileTopToast
+          message={toastMessage}
+          onClose={() => setToastMessage("")}
         />
 
-        <SecretField
-          label={isPin ? "PIN Baru" : "Kata Sandi Baru"}
-          value={newValue}
-          onChange={(value) => {
-            setNewValue(normalizeInput(value));
-            setToastMessage("");
+        <ProfileChangePasswordConfirmModal
+          open={confirmOpen}
+          title={isPin ? "Yakin Merubah PIN?" : "Yakin Merubah Kata Sandi?"}
+          description={
+            isPin
+              ? "Pastikan PIN baru sudah benar sebelum melanjutkan."
+              : "Pastikan kata sandi baru sudah benar sebelum melanjutkan."
+          }
+          confirmLabel={isPin ? "Ya, Ubah PIN" : "Ya, Ubah Kata Sandi"}
+          onCancel={() => setConfirmOpen(false)}
+          onConfirm={() => {
+            setConfirmOpen(false);
+            setSuccess(true);
           }}
-          placeholder={isPin ? "Masukkan PIN baru" : "Masukkan kata sandi baru"}
-          inputMode={isPin ? "numeric" : "text"}
-          maxLength={isPin ? 6 : undefined}
         />
 
-        <SecretField
-          label={isPin ? "Konfirmasi PIN Baru" : "Konfirmasi Kata Sandi Baru"}
-          value={confirmValue}
-          onChange={(value) => {
-            setConfirmValue(normalizeInput(value));
-            setToastMessage("");
-          }}
-          placeholder={isPin ? "Konfirmasi PIN baru" : "Konfirmasi Kata Sandi Baru"}
-          inputMode={isPin ? "numeric" : "text"}
-          maxLength={isPin ? 6 : undefined}
-        />
-      </div>
+        <div className="grid gap-[18px]">
+          <SecretField
+            label={isPin ? "PIN Lama" : "Kata Sandi Lama"}
+            value={oldValue}
+            onChange={(value) => {
+              setOldValue(normalizeInput(value));
+              setToastMessage("");
+            }}
+            placeholder={isPin ? "Masukkan PIN lama" : "Masukkan kata sandi lama"}
+            inputMode={isPin ? "numeric" : "text"}
+            maxLength={isPin ? 6 : undefined}
+          />
 
-      <div className="absolute inset-x-6 bottom-[26px] bg-white">
-        <button
-          type="button"
-          onClick={submit}
-          disabled={isSubmitDisabled}
-          className={cn(
-            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
-            "text-[14px] font-semibold leading-none text-white",
-            "transition active:scale-[0.98]",
-            isSubmitDisabled ? "cursor-not-allowed opacity-60" : "",
-          )}
-        >
-          {isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
-        </button>
+          <SecretField
+            label={isPin ? "PIN Baru" : "Kata Sandi Baru"}
+            value={newValue}
+            onChange={(value) => {
+              setNewValue(normalizeInput(value));
+              setToastMessage("");
+            }}
+            placeholder={isPin ? "Masukkan PIN baru" : "Masukkan kata sandi baru"}
+            inputMode={isPin ? "numeric" : "text"}
+            maxLength={isPin ? 6 : undefined}
+          />
+
+          <SecretField
+            label={isPin ? "Konfirmasi PIN Baru" : "Konfirmasi Kata Sandi Baru"}
+            value={confirmValue}
+            onChange={(value) => {
+              setConfirmValue(normalizeInput(value));
+              setToastMessage("");
+            }}
+            placeholder={isPin ? "Konfirmasi PIN baru" : "Konfirmasi Kata Sandi Baru"}
+            inputMode={isPin ? "numeric" : "text"}
+            maxLength={isPin ? 6 : undefined}
+          />
+        </div>
+
+        <div className="absolute inset-x-6 bottom-[26px] bg-white">
+          <button
+            type="button"
+            onClick={submit}
+            disabled={isSubmitDisabled}
+            className={cn(
+              "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+              "text-[14px] font-semibold leading-none text-white",
+              "transition active:scale-[0.98]",
+              isSubmitDisabled ? "cursor-not-allowed opacity-60" : "",
+            )}
+          >
+            {isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
+          </button>
+        </div>
       </div>
     </ProfileSubPageShell>
   );
