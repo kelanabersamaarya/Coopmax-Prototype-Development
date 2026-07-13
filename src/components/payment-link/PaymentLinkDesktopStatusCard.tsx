@@ -73,8 +73,8 @@ export default function PaymentLinkDesktopStatusCard({
       )}
     >
       <PaymentLinkDesktopFrame className="min-h-[800px]">
-        <div className="grid min-h-[742px] gap-0 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="flex min-h-[640px] flex-col items-center justify-center bg-[#f9fafb] px-6 py-12 text-center lg:min-h-[742px]">
+        <div className="grid min-h-[776px] gap-0 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="flex min-h-[674px] flex-col items-center justify-center bg-[#f9fafb] px-6 py-12 text-center lg:min-h-[776px]">
             <div
               className={cn(
                 "flex h-[128px] w-[128px] items-center justify-center rounded-full",
@@ -96,7 +96,7 @@ export default function PaymentLinkDesktopStatusCard({
             </h2>
           </div>
 
-          <div className="flex min-h-[640px] items-center justify-center bg-white px-5 py-12 md:px-8 lg:min-h-[742px]">
+          <div className="flex min-h-[674px] items-center justify-center bg-white px-5 py-12 md:px-8 lg:min-h-[776px]">
             <div className="w-full max-w-[760px] rounded-[28px] border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_48px_rgba(15,23,42,0.08)]">
               <div className="mb-5 text-center text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
                 DETAIL TRANSAKSI
