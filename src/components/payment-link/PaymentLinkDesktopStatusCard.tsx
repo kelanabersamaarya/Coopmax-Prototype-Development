@@ -94,26 +94,28 @@ export default function PaymentLinkDesktopStatusCard({
           </h2>
         </div>
 
-        <div className="px-5 py-6 md:px-7 md:py-8">
-          <div className="mb-4 text-center text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
-            DETAIL TRANSAKSI
-          </div>
-
-          <div className="rounded-2xl bg-[#F6F8FB] px-5 py-5 text-center">
-            <div className="text-[12px] font-medium leading-none text-slate-500">
-              Nominal Transaksi
+        <div className="flex min-h-[430px] items-center px-5 py-10 md:px-7">
+          <div className="w-full">
+            <div className="mb-4 text-center text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
+              DETAIL TRANSAKSI
             </div>
-            <div className="mt-3 text-[32px] font-extrabold leading-tight tracking-tight text-slate-950">
-              Rp. 991.666,00
-            </div>
-          </div>
 
-          <div className="mt-5 rounded-2xl border border-slate-200 bg-white px-5 py-2">
-            <InfoRow label="Tanggal Transaksi" value="03 Juli 2026" />
-            <div className="h-px w-full bg-slate-100" />
-            <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
-            <div className="h-px w-full bg-slate-100" />
-            <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
+            <div className="rounded-2xl bg-[#F6F8FB] px-5 py-5 text-center">
+              <div className="text-[12px] font-medium leading-none text-slate-500">
+                Nominal Transaksi
+              </div>
+              <div className="mt-3 text-[32px] font-extrabold leading-tight tracking-tight text-slate-950">
+                Rp. 991.666,00
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-white px-5 py-2">
+              <InfoRow label="Tanggal Transaksi" value="03 Juli 2026" />
+              <div className="h-px w-full bg-slate-100" />
+              <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
+              <div className="h-px w-full bg-slate-100" />
+              <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
+            </div>
           </div>
         </div>
       </div>
