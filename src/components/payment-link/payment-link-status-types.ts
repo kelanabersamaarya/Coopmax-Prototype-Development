@@ -1,0 +1,1 @@
+export type PaymentLinkDesktopStatus = "berhasil" | "gagal" | "kedaluwarsa";

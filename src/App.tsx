@@ -36,6 +36,7 @@ import MobilePaymentLinkStatus from "./pages/MobilePaymentLinkStatus";
 import NewMBanking from "./pages/NewMBanking";
 import PaymentLink from "./pages/PaymentLink";
 import PaymentLinkDetail from "./pages/PaymentLinkDetail";
+import PaymentLinkStatus from "./pages/PaymentLinkStatus";
 import PaymentLinkTransactionDetail from "./pages/PaymentLinkTransactionDetail";
 import MobileAwareToaster from "./components/MobileAwareToaster";
 import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
@@ -58,6 +59,10 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="payment-link" element={<PaymentLink />} />
+            <Route
+              path="payment-link/status-pembayaran"
+              element={<PaymentLinkStatus />}
+            />
             <Route
               path="payment-link/:linkNo/transaction-detail"
               element={<PaymentLinkTransactionDetail />}
