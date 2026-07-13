@@ -1,0 +1,8 @@
+/* New M-Banking:
+   Sembunyikan tombol clear global (X) pada halaman review tagihan pembayaran
+   agar tidak muncul di bawah divider Nominal Tagihan.
+*/
+[data-mobile-screen="true"]:has([data-payment-bill-review-page="true"])
+  [data-input-clear-button="true"] {
+  display: none !important;
+}

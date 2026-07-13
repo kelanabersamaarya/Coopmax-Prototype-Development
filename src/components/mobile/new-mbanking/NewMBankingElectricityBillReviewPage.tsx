@@ -191,7 +191,10 @@ export default function NewMBankingElectricityBillReviewPage({
   }
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-payment-bill-review-page="true"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
