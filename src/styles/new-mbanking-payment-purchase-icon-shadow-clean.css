@@ -1,0 +1,36 @@
+/* New M-Banking Bayar & Beli:
+   Hilangkan shadow pada logo/icon bulat seperti ikon PLN, Air, Pulsa, Paket Data,
+   Token PLN, E-Wallet, provider, dan sumber dana.
+*/
+
+[data-mobile-screen="true"] span.rounded-full:has(> svg),
+[data-mobile-screen="true"] div.rounded-full:has(> svg),
+[data-mobile-screen="true"] span[class*="rounded-full"]:has(> svg),
+[data-mobile-screen="true"] div[class*="rounded-full"]:has(> svg) {
+  box-shadow: none !important;
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-shadow-colored: 0 0 #0000 !important;
+}
+
+/* Bersihkan shadow custom yang dipakai pada ikon layanan halaman Bayar/Beli. */
+[data-mobile-screen="true"] [class*="shadow-[0_10px_24px"]:has(> svg),
+[data-mobile-screen="true"] [class*="shadow-sm"]:has(> svg) {
+  box-shadow: none !important;
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-shadow-colored: 0 0 #0000 !important;
+}
+
+/* Pastikan ikon layanan utama tetap flat walau punya class shadow arbitrary. */
+[data-mobile-screen="true"] .bg-[#F59E0B]:has(> svg),
+[data-mobile-screen="true"] .bg-[#06B6D4]:has(> svg),
+[data-mobile-screen="true"] .bg-[#2563EB]:has(> svg),
+[data-mobile-screen="true"] .bg-[#22C55E]:has(> svg),
+[data-mobile-screen="true"] .bg-[#479DF4]:has(> svg),
+[data-mobile-screen="true"] .bg-[#8B5CF6]:has(> svg),
+[data-mobile-screen="true"] .bg-[#14B8A6]:has(> svg),
+[data-mobile-screen="true"] .bg-[#3B82F6]:has(> svg),
+[data-mobile-screen="true"] .bg-[#18B7A1]:has(> svg) {
+  box-shadow: none !important;
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-shadow-colored: 0 0 #0000 !important;
+}

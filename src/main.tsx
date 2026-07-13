@@ -20,6 +20,7 @@ import "./styles/select-hover-purple.css";
 import "./styles/accounting-code-accounts.css";
 import "./styles/form-focus-blue.css";
 import "./styles/new-mbanking-icon-card-clean.css";
+import "./styles/new-mbanking-payment-purchase-icon-shadow-clean.css";
 import "./styles/profile-policy-justified-text.css";
 import "./styles/new-mbanking-hide-status-bar.css";
 import "./styles/mobile-modal-width.css";
