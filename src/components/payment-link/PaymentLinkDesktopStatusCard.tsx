@@ -1,7 +1,7 @@
 "use client";
 
-import { Check, Clock3, Copy, X } from "lucide-react";
-import { toast } from "sonner";
+import * as React from "react";
+import { Check, Clock3, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { PaymentLinkDesktopStatus } from "@/components/payment-link/payment-link-status-types";
@@ -10,36 +10,28 @@ const statusContent: Record<
   PaymentLinkDesktopStatus,
   {
     title: string;
-    badge: string;
     icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
     outerClassName: string;
     innerClassName: string;
-    badgeClassName: string;
   }
 > = {
   berhasil: {
     title: "Pembayaran Angsuran Pinjaman Berhasil Dilakukan",
-    badge: "Berhasil",
     icon: Check,
     outerClassName: "bg-emerald-50",
     innerClassName: "bg-[#33AA00]",
-    badgeClassName: "bg-[#3BB001] text-white",
   },
   gagal: {
     title: "Pembayaran Angsuran Pinjaman Gagal Dilakukan",
-    badge: "Gagal",
     icon: X,
     outerClassName: "bg-[#FCE4E7]",
     innerClassName: "bg-[#DC3545]",
-    badgeClassName: "bg-[#DC3545] text-white",
   },
   kedaluwarsa: {
     title: "Payment Link Kedaluwarsa",
-    badge: "Kedaluwarsa",
     icon: Clock3,
     outerClassName: "bg-amber-50",
     innerClassName: "bg-amber-500",
-    badgeClassName: "bg-amber-500 text-white",
   },
 };
 
@@ -100,23 +92,10 @@ export default function PaymentLinkDesktopStatusCard({
           <h2 className="mt-8 max-w-[420px] text-[24px] font-extrabold leading-tight tracking-tight text-slate-950">
             {content.title}
           </h2>
-
-          <span
-            className={cn(
-              "mt-6 inline-flex items-center rounded-full px-4 py-2 text-[13px] font-extrabold leading-none",
-              content.badgeClassName,
-            )}
-          >
-            {content.badge}
-          </span>
         </div>
 
         <div className="px-5 py-6 md:px-7 md:py-8">
-          <div className="text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
-            Detail Pembayaran
-          </div>
-
-          <div className="mt-5 rounded-2xl bg-[#F6F8FB] px-5 py-5 text-center">
+          <div className="rounded-2xl bg-[#F6F8FB] px-5 py-5 text-center">
             <div className="text-[12px] font-medium leading-none text-slate-500">
               Nominal Transaksi
             </div>
@@ -126,39 +105,11 @@ export default function PaymentLinkDesktopStatusCard({
           </div>
 
           <div className="mt-5 rounded-2xl border border-slate-200 bg-white px-5 py-2">
-            <InfoRow label="No. Payment Link" value="PL/260626/0001" />
-            <div className="h-px w-full bg-slate-100" />
-            <InfoRow label="Nama Anggota" value="Laura Patel" />
-            <div className="h-px w-full bg-slate-100" />
-            <InfoRow label="No. Rek. Pinjaman" value="SMG260004" />
-            <div className="h-px w-full bg-slate-100" />
             <InfoRow label="Tanggal Transaksi" value="03 Juli 2026" />
             <div className="h-px w-full bg-slate-100" />
             <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
             <div className="h-px w-full bg-slate-100" />
             <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
-            <div className="h-px w-full bg-slate-100" />
-            <InfoRow
-              label="Ref ID"
-              value={
-                <span className="inline-flex items-center justify-end gap-2">
-                  112221111222
-                  <button
-                    type="button"
-                    onClick={() =>
-                      toast.success("Ref ID disalin (prototype)", {
-                        description: "112221111222",
-                      })
-                    }
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-slate-200"
-                    aria-label="Salin Ref ID"
-                    title="Salin Ref ID"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </button>
-                </span>
-              }
-            />
           </div>
         </div>
       </div>
