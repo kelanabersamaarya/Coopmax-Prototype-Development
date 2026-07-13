@@ -551,7 +551,12 @@ export default function NewMBankingInterbankTransferPage({
             />
           ) : null}
 
-          <section className="mt-[14px] rounded-[22px] bg-white px-1">
+          <section
+            className={cn(
+              "rounded-[22px] bg-white px-1",
+              activeTab === "history" ? "mt-[20px]" : "mt-[14px]",
+            )}
+          >
             {activeTab === "saved" ? (
               <div>
                 {savedRecipients.map((recipient) => (
