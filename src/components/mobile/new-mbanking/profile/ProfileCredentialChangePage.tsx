@@ -3,6 +3,9 @@ import { Check, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileChangePasswordConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileChangePasswordConfirmModal";
+import ProfilePinNumericKeyboard, {
+  type ProfilePinFieldKey,
+} from "@/components/mobile/new-mbanking/profile/ProfilePinNumericKeyboard";
 import ProfileTopToast from "@/components/mobile/new-mbanking/profile/ProfileTopToast";
 
 type CredentialVariant = "password" | "pin";
@@ -62,6 +65,9 @@ function SecretField({
   placeholder,
   inputMode,
   maxLength,
+  readOnly = false,
+  active = false,
+  onActivate,
 }: {
   label: string;
   value: string;
@@ -69,6 +75,9 @@ function SecretField({
   placeholder: string;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   maxLength?: number;
+  readOnly?: boolean;
+  active?: boolean;
+  onActivate?: () => void;
 }) {
   const [visible, setVisible] = React.useState(false);
 
@@ -83,15 +92,28 @@ function SecretField({
         <input
           value={value}
           onChange={(event) => onChange(event.target.value)}
+          onPointerDown={(event) => {
+            if (!readOnly) return;
+            event.preventDefault();
+            event.stopPropagation();
+            onActivate?.();
+          }}
+          onClick={() => {
+            if (!readOnly) return;
+            onActivate?.();
+          }}
           type={visible ? "text" : "password"}
           placeholder={placeholder}
           inputMode={inputMode}
           maxLength={maxLength}
+          readOnly={readOnly}
           className={cn(
-            "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-[48px]",
+            "h-[44px] w-full rounded-[12px] border bg-white px-4 pr-[48px]",
             "text-[14px] font-normal text-black shadow-none outline-none",
             "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-            "focus:border-[#479DF4]",
+            active
+              ? "border-[#2563eb] shadow-[0_0_0_2px_rgba(37,99,235,0.18)]"
+              : "border-[#CDD4E0] focus:border-[#479DF4]",
           )}
         />
 
@@ -126,6 +148,8 @@ export default function ProfileCredentialChangePage({
   const [oldValue, setOldValue] = React.useState("");
   const [newValue, setNewValue] = React.useState("");
   const [confirmValue, setConfirmValue] = React.useState("");
+  const [activePinField, setActivePinField] =
+    React.useState<ProfilePinFieldKey | null>(null);
   const [toastMessage, setToastMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -170,7 +194,18 @@ export default function ProfileCredentialChangePage({
     if (isSubmitDisabled) return;
     if (!validateForm()) return;
 
+    setActivePinField(null);
     setConfirmOpen(true);
+  }
+
+  function updatePinField(field: ProfilePinFieldKey, value: string) {
+    const normalized = normalizeInput(value);
+
+    if (field === "old") setOldValue(normalized);
+    if (field === "new") setNewValue(normalized);
+    if (field === "confirm") setConfirmValue(normalized);
+
+    setToastMessage("");
   }
 
   if (success) {
@@ -189,6 +224,11 @@ export default function ProfileCredentialChangePage({
             [data-input-clear-button="true"] {
             display: none !important;
           }
+
+          [data-mobile-screen="true"]:has([data-profile-pin-keyboard="true"])
+            [data-profile-credential-change-page="true"] {
+            padding-bottom: 360px !important;
+          }
         `}
       </style>
 
@@ -197,6 +237,19 @@ export default function ProfileCredentialChangePage({
           message={toastMessage}
           onClose={() => setToastMessage("")}
         />
+
+        {isPin ? (
+          <ProfilePinNumericKeyboard
+            activeField={activePinField}
+            values={{
+              old: oldValue,
+              new: newValue,
+              confirm: confirmValue,
+            }}
+            onChange={updatePinField}
+            onClose={() => setActivePinField(null)}
+          />
+        ) : null}
 
         <ProfileChangePasswordConfirmModal
           open={confirmOpen}
@@ -225,6 +278,9 @@ export default function ProfileCredentialChangePage({
             placeholder={isPin ? "Masukkan PIN lama" : "Masukkan kata sandi lama"}
             inputMode={isPin ? "numeric" : "text"}
             maxLength={isPin ? 6 : undefined}
+            readOnly={isPin}
+            active={activePinField === "old"}
+            onActivate={() => setActivePinField("old")}
           />
 
           <SecretField
@@ -237,6 +293,9 @@ export default function ProfileCredentialChangePage({
             placeholder={isPin ? "Masukkan PIN baru" : "Masukkan kata sandi baru"}
             inputMode={isPin ? "numeric" : "text"}
             maxLength={isPin ? 6 : undefined}
+            readOnly={isPin}
+            active={activePinField === "new"}
+            onActivate={() => setActivePinField("new")}
           />
 
           <SecretField
@@ -249,6 +308,9 @@ export default function ProfileCredentialChangePage({
             placeholder={isPin ? "Konfirmasi PIN baru" : "Konfirmasi Kata Sandi Baru"}
             inputMode={isPin ? "numeric" : "text"}
             maxLength={isPin ? 6 : undefined}
+            readOnly={isPin}
+            active={activePinField === "confirm"}
+            onActivate={() => setActivePinField("confirm")}
           />
         </div>
 
