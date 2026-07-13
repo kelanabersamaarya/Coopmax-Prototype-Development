@@ -155,7 +155,19 @@ export default function NewMBankingTransferConfirmModal({
   const displayedTotal = hideAdminFee ? `Rp. ${displayedNominal}` : totalWithFee;
 
   return createPortal(
-    <div className="absolute inset-0 z-[120] flex items-end bg-black/35 px-5 pb-5 pt-8">
+    <div
+      data-transfer-confirm-modal="true"
+      className="absolute inset-0 z-[120] flex items-end bg-black/35 px-5 pb-5 pt-8"
+    >
+      <style>
+        {`
+          [data-mobile-screen="true"]:has([data-transfer-confirm-modal="true"])
+            [data-input-clear-button="true"] {
+            display: none !important;
+          }
+        `}
+      </style>
+
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
