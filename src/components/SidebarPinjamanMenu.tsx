@@ -35,6 +35,10 @@ function isSakCabangPath(pathname: string) {
   return pathname.startsWith("/sak-ep-cabang");
 }
 
+function isPaymentLinkLoanProductsPath(pathname: string) {
+  return pathname.startsWith("/payment-link/loan-products");
+}
+
 function getRouteForContext(to: string, pathname: string) {
   if (isSakCabangPath(pathname)) return `/sak-ep-cabang${to}`;
   if (!isObsPath(pathname)) return to;
@@ -52,13 +56,14 @@ export default function SidebarPinjamanMenu() {
   }, [sakCabangArea]);
 
   const isActive =
-    location.pathname.startsWith("/payment-link") ||
+    isPaymentLinkLoanProductsPath(location.pathname) ||
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
-    location.pathname.startsWith("/obs-samudra-harta/loan-products") ||
-    location.pathname.startsWith("/obs-samudra-harta/loans") ||
-    location.pathname.startsWith("/sak-ep-cabang/loan-products");
+    location.pathname.startsWith("/laporan") ||
+    location.pathname.startsWith("/pengaturan-umum") ||
+    location.pathname.startsWith("/sak-ep-cabang");
+
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
@@ -87,6 +92,14 @@ export default function SidebarPinjamanMenu() {
         );
       }
 
+      if (isPaymentLinkLoanProductsPath(location.pathname)) {
+        return (
+          location.pathname === "/payment-link/loan-products" ||
+          (location.pathname.startsWith("/payment-link/loan-products/") &&
+            location.search !== "?from=cabang")
+        );
+      }
+
       return (
         location.pathname === "/loan-products" ||
         (location.pathname.startsWith("/loan-products/") &&
@@ -108,6 +121,14 @@ export default function SidebarPinjamanMenu() {
         return (
           location.pathname === itemTo ||
           (location.pathname.startsWith("/obs-samudra-harta/loan-products/") &&
+            location.search === "?from=cabang")
+        );
+      }
+
+      if (isPaymentLinkLoanProductsPath(location.pathname)) {
+        return (
+          location.pathname === "/payment-link/loan-products/cabang" ||
+          (location.pathname.startsWith("/payment-link/loan-products/") &&
             location.search === "?from=cabang")
         );
       }
