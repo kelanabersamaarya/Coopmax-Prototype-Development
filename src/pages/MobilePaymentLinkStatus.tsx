@@ -1,0 +1,11 @@
+import PaymentLinkStatusEmptyMockup from "@/components/mobile/PaymentLinkStatusEmptyMockup";
+
+export default function MobilePaymentLinkStatus() {
+  return (
+    <div className="h-full min-h-0 overflow-hidden bg-[hsl(var(--app-bg))]">
+      <div className="h-full min-h-0 w-full overflow-hidden px-0 py-0 md:px-3">
+        <PaymentLinkStatusEmptyMockup />
+      </div>
+    </div>
+  );
+}
