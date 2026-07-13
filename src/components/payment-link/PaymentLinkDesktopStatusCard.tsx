@@ -17,13 +17,13 @@ const statusContent: Record<
   }
 > = {
   berhasil: {
-    title: "Pembayaran Angsuran Pinjaman Berhasil Dilakukan",
+    title: "Pembayaran Angsuran Pinjaman via Link Berhasil Dilakukan",
     icon: Check,
     outerClassName: "bg-emerald-50",
     innerClassName: "bg-[#33aa00]",
   },
   gagal: {
-    title: "Pembayaran Angsuran Pinjaman Gagal Dilakukan",
+    title: "Pembayaran Angsuran Pinjaman via Link Gagal Dilakukan",
     icon: X,
     outerClassName: "bg-[#fce4e7]",
     innerClassName: "bg-[#dc3545]",

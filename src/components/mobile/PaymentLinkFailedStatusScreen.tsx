@@ -33,7 +33,7 @@ export default function PaymentLinkFailedStatusScreen() {
           </div>
 
           <h1 className="mt-[28px] max-w-[310px] text-[20px] font-bold leading-[1.25] tracking-[-0.025em] text-black">
-            Pembayaran Angsuran Pinjaman Gagal Dilakukan
+            Pembayaran Angsuran Pinjaman via Link Gagal Dilakukan
           </h1>
 
           <div className="mt-[24px] w-full text-center text-[14px] font-bold uppercase tracking-wide text-black">
