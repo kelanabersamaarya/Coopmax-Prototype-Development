@@ -17,7 +17,10 @@ const allItems: SubItem[] = [
 
 export default function SidebarMobileMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/mobile");
+  const isPaymentLinkStatusMobile =
+    location.pathname === "/mobile/status-pembayaran-payment-link";
+  const isActive =
+    location.pathname.startsWith("/mobile") && !isPaymentLinkStatusMobile;
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
@@ -26,8 +29,13 @@ export default function SidebarMobileMenu() {
     : allItems;
 
   React.useEffect(() => {
+    if (isPaymentLinkStatusMobile) {
+      setOpen(false);
+      return;
+    }
+
     if (isActive) setOpen(true);
-  }, [isActive]);
+  }, [isActive, isPaymentLinkStatusMobile]);
 
   return (
     <div className="rounded-2xl bg-white">
