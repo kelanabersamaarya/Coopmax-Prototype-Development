@@ -26,6 +26,24 @@ const items: SubItem[] = [
   },
 ];
 
+function isPaymentLinkReminderPath(pathname: string) {
+  if (pathname === "/payment-link") return true;
+
+  return (
+    pathname.startsWith("/payment-link/") &&
+    !pathname.startsWith("/payment-link/status-pembayaran") &&
+    !pathname.startsWith("/payment-link/loan-products")
+  );
+}
+
+function isItemActive(item: SubItem, pathname: string) {
+  if (item.to === "/payment-link") {
+    return isPaymentLinkReminderPath(pathname);
+  }
+
+  return pathname === item.to;
+}
+
 export default function SidebarDjoinpayMenu() {
   const location = useLocation();
   const isDjoinpayActive =
@@ -76,36 +94,38 @@ export default function SidebarDjoinpayMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
-              {items.map((item) => (
-                <NavLink
-                  key={`${item.label}-${item.to}`}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    cn(
+              {items.map((item) => {
+                const active = isItemActive(item, location.pathname);
+
+                return (
+                  <NavLink
+                    key={`${item.label}-${item.to}`}
+                    to={item.to}
+                    className={cn(
                       "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                      isActive
+                      active
                         ? "bg-violet-600 text-white"
                         : "text-slate-800 hover:bg-slate-50",
-                    )
-                  }
-                >
-                  <span className="flex min-w-0 flex-col items-start gap-1.5">
-                    <span className="min-w-0 leading-snug">{item.label}</span>
-                    {item.marker ? (
-                      <span
-                        className={cn(
-                          "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold leading-none",
-                          item.marker === "Mobile"
-                            ? "bg-sky-100 text-sky-700"
-                            : "bg-emerald-100 text-emerald-700",
-                        )}
-                      >
-                        {item.marker}
-                      </span>
-                    ) : null}
-                  </span>
-                </NavLink>
-              ))}
+                    )}
+                  >
+                    <span className="flex min-w-0 flex-col items-start gap-1.5">
+                      <span className="min-w-0 leading-snug">{item.label}</span>
+                      {item.marker ? (
+                        <span
+                          className={cn(
+                            "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold leading-none",
+                            item.marker === "Mobile"
+                              ? "bg-sky-100 text-sky-700"
+                              : "bg-emerald-100 text-emerald-700",
+                          )}
+                        >
+                          {item.marker}
+                        </span>
+                      ) : null}
+                    </span>
+                  </NavLink>
+                );
+              })}
             </div>
           </div>
         </div>
