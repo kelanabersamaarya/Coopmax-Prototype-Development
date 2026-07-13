@@ -16,31 +16,31 @@ const eWalletProviders: EWalletProvider[] = [
     id: "dana",
     name: "DANA",
     description: "Top up saldo DANA",
-    colorClassName: "bg-[#118EEA]",
+    colorClassName: "bg-[#8B5CF6]",
   },
   {
     id: "gopay",
     name: "GoPay",
     description: "Top up saldo GoPay",
-    colorClassName: "bg-[#00AA13]",
+    colorClassName: "bg-[#8B5CF6]",
   },
   {
     id: "ovo",
     name: "OVO",
     description: "Top up saldo OVO",
-    colorClassName: "bg-[#4C2A86]",
+    colorClassName: "bg-[#8B5CF6]",
   },
   {
     id: "shopeepay",
     name: "ShopeePay",
     description: "Top up saldo ShopeePay",
-    colorClassName: "bg-[#EE4D2D]",
+    colorClassName: "bg-[#8B5CF6]",
   },
   {
     id: "linkaja",
     name: "LinkAja",
     description: "Top up saldo LinkAja",
-    colorClassName: "bg-[#E31E24]",
+    colorClassName: "bg-[#8B5CF6]",
   },
 ];
 
