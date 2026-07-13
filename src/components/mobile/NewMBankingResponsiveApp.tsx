@@ -5,6 +5,7 @@ import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-bank
 import NewMBankingGlobalNumericKeyboard from "@/components/mobile/new-mbanking/NewMBankingGlobalNumericKeyboard";
 import NewMBankingHome from "@/components/mobile/new-mbanking/NewMBankingHome";
 import NewMBankingLoginPage from "@/components/mobile/new-mbanking/NewMBankingLoginPage";
+import NewMBankingNativeKeyboardAutoScroll from "@/components/mobile/new-mbanking/NewMBankingNativeKeyboardAutoScroll";
 import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingOnboarding";
 import NewMBankingRegisterAccountPage from "@/components/mobile/new-mbanking/NewMBankingRegisterAccountPage";
 import NewMBankingRegisterPage from "@/components/mobile/new-mbanking/NewMBankingRegisterPage";
@@ -98,6 +99,7 @@ export default function NewMBankingResponsiveApp() {
       data-mobile-screen="true"
       className="h-[100dvh] min-h-[100dvh] w-full overflow-hidden bg-white"
     >
+      <NewMBankingNativeKeyboardAutoScroll />
       <NewMBankingGlobalNumericKeyboard />
       {renderScreen()}
     </div>
