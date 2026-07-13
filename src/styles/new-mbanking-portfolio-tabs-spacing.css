@@ -1,0 +1,13 @@
+/* New M-Banking Portofolio: jarak tab Aset/Pinjaman dari ujung atas section putih dibuat 20px. */
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  > section.min-h-full.bg-white.px-6.pb-\[28px\].pt-\[22px\] {
+  padding-top: 20px !important;
+}
+
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  > section.min-h-full.bg-white.px-6.pb-\[28px\].pt-\[22px\]
+  > div.mt-\[18px\].rounded-full.bg-white {
+  margin-top: 0 !important;
+}
