@@ -2,6 +2,7 @@ import * as React from "react";
 import { ArrowLeft, Landmark, QrCode, Send, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingBankSelectionPage from "@/components/mobile/new-mbanking/NewMBankingBankSelectionPage";
+import NewMBankingEmptyStateImage from "@/components/mobile/new-mbanking/NewMBankingEmptyStateImage";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
@@ -295,7 +296,9 @@ function TransferHistoryRow({
 
 function EmptyTransferHistory() {
   return (
-    <div className="py-[42px] text-center">
+    <div className="flex min-h-[330px] flex-col items-center justify-center px-5 pb-6 pt-8 text-center">
+      <NewMBankingEmptyStateImage className="mb-5 h-[154px] w-[154px] object-contain" />
+
       <div className="text-[15px] font-bold text-black">
         Tidak Ada Riwayat Transfer
       </div>
