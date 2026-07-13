@@ -40,12 +40,12 @@ const implementedRoutes = new Set([
   "/loan-products/new",
   "/loans/new",
   "/loans/applications",
-  "/loans/applications/new",
   "/anggota/transaksi",
   "/laporan/kolektibilitas",
   "/mobile/e-kolektor",
   "/mobile/m-banking",
   "/mobile/new-mbanking",
+  "/mobile/status-pembayaran-payment-link",
   "/payment-link",
 ]);
 
@@ -111,6 +111,7 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
   const isMobileArea = location.pathname.startsWith("/mobile");
+  const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
   const isPinjamanArea =
@@ -120,7 +121,6 @@ export default function Index() {
     location.pathname.startsWith("/anggota/transaksi") ||
     location.pathname.startsWith("/laporan") ||
     location.pathname.startsWith("/pengaturan-umum") ||
-    location.pathname.startsWith("/mobile") ||
     location.pathname.startsWith("/sak-ep-cabang");
 
   const isObsArea =
@@ -171,7 +171,7 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {isMobileArea ? (
+                          {isNewMBankingArea ? (
                             <SidebarMobileMenu />
                           ) : isSakCabangArea ? (
                             <>
