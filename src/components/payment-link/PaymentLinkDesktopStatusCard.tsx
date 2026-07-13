@@ -7,10 +7,14 @@ import { cn } from "@/lib/utils";
 import type { PaymentLinkDesktopStatus } from "@/components/payment-link/payment-link-status-types";
 import PaymentLinkDesktopFrame from "@/components/payment-link/PaymentLinkDesktopFrame";
 
+const expiredDescription =
+  "Pembayaran via link tidak dapat dilakukan karena link yang anda gunakan telah kedaluwarsa atau melewati batas waktu penggunaan, yakni 24 jam setelah link dikirimkan";
+
 const statusContent: Record<
   PaymentLinkDesktopStatus,
   {
     title: string;
+    description?: string;
     icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
     outerClassName: string;
     innerClassName: string;
@@ -30,6 +34,7 @@ const statusContent: Record<
   },
   kedaluwarsa: {
     title: "Pembayaran via Link Telah Kedaluwarsa",
+    description: expiredDescription,
     icon: Clock3,
     outerClassName: "bg-amber-50",
     innerClassName: "bg-amber-500",
@@ -99,6 +104,12 @@ export default function PaymentLinkDesktopStatusCard({
               <h2 className="mt-8 max-w-[460px] text-[24px] font-extrabold leading-tight tracking-tight text-slate-950">
                 {content.title}
               </h2>
+
+              {content.description ? (
+                <p className="mt-4 max-w-[560px] text-[15px] font-medium leading-relaxed text-slate-600">
+                  {content.description}
+                </p>
+              ) : null}
             </section>
           ) : (
             <section className="grid w-full max-w-[1180px] overflow-hidden rounded-[30px] bg-white shadow-[0_20px_56px_rgba(15,23,42,0.10)] ring-1 ring-slate-200 lg:grid-cols-[0.9fr_1.1fr]">
