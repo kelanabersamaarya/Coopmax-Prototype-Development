@@ -95,6 +95,10 @@ export default function PaymentLinkDesktopStatusCard({
         </div>
 
         <div className="px-5 py-6 md:px-7 md:py-8">
+          <div className="mb-4 text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
+            DETAIL TRANSAKSI
+          </div>
+
           <div className="rounded-2xl bg-[#F6F8FB] px-5 py-5 text-center">
             <div className="text-[12px] font-medium leading-none text-slate-500">
               Nominal Transaksi
