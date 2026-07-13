@@ -129,10 +129,6 @@ export default function PaymentLinkDesktopStatusCard({
 
               <div className="flex min-h-[610px] items-center justify-center bg-white px-8 py-12">
                 <div className="w-full max-w-[620px]">
-                  <div className="mb-5 text-center text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
-                    DETAIL TRANSAKSI
-                  </div>
-
                   <div className="rounded-[22px] bg-[#f6f8fb] px-5 py-6 text-center">
                     <div className="text-[12px] font-medium leading-none text-slate-500">
                       Nominal Transaksi
