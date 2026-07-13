@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingBankSelectionPage from "@/components/mobile/new-mbanking/NewMBankingBankSelectionPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -28,6 +28,33 @@ function TransferField({
       </label>
       {children}
     </div>
+  );
+}
+
+function ClearInputButton({
+  onClick,
+  label = "Hapus isi field",
+}: {
+  onClick: () => void;
+  label?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onClick();
+      }}
+      className={cn(
+        "absolute right-[9px] top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
+        "rounded-full bg-transparent text-[#8F8F8F] transition active:scale-[0.94]",
+      )}
+      aria-label={label}
+      title="Hapus"
+    >
+      <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+    </button>
   );
 }
 
@@ -151,15 +178,29 @@ export default function NewMBankingNewRecipientTransferPage({
     "focus:border-[#479DF4]",
   );
 
+  const clearableFieldClassName = cn(fieldClassName, "pr-[42px]");
+
   const descriptionFieldClassName = cn(
-    "min-h-[86px] w-full resize-none rounded-[12px] border border-[#CDD4E0] bg-white px-4 py-3",
+    "min-h-[86px] w-full resize-none rounded-[12px] border border-[#CDD4E0] bg-white px-4 py-3 pr-[42px]",
     "text-[14px] font-normal text-black shadow-none outline-none",
     "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
     "focus:border-[#479DF4]",
   );
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-transfer-input-page="true"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
+      <style>
+        {`
+          [data-mobile-screen="true"]:has([data-transfer-input-page="true"])
+            [data-input-clear-button="true"] {
+            display: none !important;
+          }
+        `}
+      </style>
+
       <NewMBankingInScreenToast
         message={toastMessage}
         variant="warning"
@@ -229,43 +270,76 @@ export default function NewMBankingNewRecipientTransferPage({
                 ) : null}
 
                 <TransferField label="Nomor Rekening Penerima" required>
-                  <input
-                    value={accountNo}
-                    onChange={(event) => {
-                      setAccountNo(onlyDigits(event.target.value));
-                      setToastMessage("");
-                    }}
-                    placeholder="Masukkan Nomor Rekening Penerima"
-                    inputMode="numeric"
-                    className={fieldClassName}
-                  />
+                  <div className="relative">
+                    <input
+                      value={accountNo}
+                      onChange={(event) => {
+                        setAccountNo(onlyDigits(event.target.value));
+                        setToastMessage("");
+                      }}
+                      placeholder="Masukkan Nomor Rekening Penerima"
+                      inputMode="numeric"
+                      className={clearableFieldClassName}
+                    />
+
+                    {accountNo.trim() ? (
+                      <ClearInputButton onClick={() => setAccountNo("")} />
+                    ) : null}
+                  </div>
                 </TransferField>
               </>
             )}
 
             <TransferField label="Nominal Transfer" required>
-              <input
-                value={amount}
-                onChange={(event) => {
-                  setAmount(formatThousands(event.target.value));
-                  setToastMessage("");
-                }}
-                placeholder="0,00"
-                inputMode="numeric"
-                className={fieldClassName}
-              />
+              <div className="relative">
+                <input
+                  value={amount}
+                  onChange={(event) => {
+                    setAmount(formatThousands(event.target.value));
+                    setToastMessage("");
+                  }}
+                  placeholder="0,00"
+                  inputMode="numeric"
+                  className={clearableFieldClassName}
+                />
+
+                {amount.trim() ? (
+                  <ClearInputButton onClick={() => setAmount("")} />
+                ) : null}
+              </div>
             </TransferField>
 
             <TransferField label="Deskripsi" required>
-              <textarea
-                value={description}
-                onChange={(event) => {
-                  setDescription(event.target.value);
-                  setToastMessage("");
-                }}
-                placeholder="Masukkan Deskripsi Transfer"
-                className={descriptionFieldClassName}
-              />
+              <div className="relative">
+                <textarea
+                  value={description}
+                  onChange={(event) => {
+                    setDescription(event.target.value);
+                    setToastMessage("");
+                  }}
+                  placeholder="Masukkan Deskripsi Transfer"
+                  className={descriptionFieldClassName}
+                />
+
+                {description.trim() ? (
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      setDescription("");
+                    }}
+                    className={cn(
+                      "absolute right-[9px] top-[10px] inline-flex h-7 w-7 items-center justify-center",
+                      "rounded-full bg-transparent text-[#8F8F8F] transition active:scale-[0.94]",
+                    )}
+                    aria-label="Hapus deskripsi"
+                    title="Hapus"
+                  >
+                    <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+                  </button>
+                ) : null}
+              </div>
             </TransferField>
           </div>
         </section>
