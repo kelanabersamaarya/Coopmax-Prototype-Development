@@ -11,3 +11,28 @@
   > div.mt-\[18px\].rounded-full.bg-white {
   margin-top: 0 !important;
 }
+
+/* New M-Banking Portofolio: hilangkan shadow di semua card/section agar tampil flat. */
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  section[class*="shadow-"],
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  article[class*="shadow-"],
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  div[class*="shadow-"] {
+  box-shadow: none !important;
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-shadow-colored: 0 0 #0000 !important;
+}
+
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  svg[class*="drop-shadow"],
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  [class*="drop-shadow"] {
+  filter: none !important;
+  --tw-drop-shadow: none !important;
+}
