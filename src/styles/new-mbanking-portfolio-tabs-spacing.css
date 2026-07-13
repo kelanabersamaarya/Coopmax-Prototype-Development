@@ -12,6 +12,13 @@
   margin-top: 0 !important;
 }
 
+/* New M-Banking Portofolio: kurangi gap antara informasi Total Aset/Pinjaman dan pie chart. */
+[data-mobile-screen="true"]
+  main.bg-white.pb-\[150px\]
+  section.mt-\[26px\].flex.justify-center {
+  margin-top: 14px !important;
+}
+
 /* New M-Banking Portofolio: hilangkan shadow, tapi pertahankan ring/border Tailwind. */
 [data-mobile-screen="true"]
   main.bg-white.pb-\[150px\]
