@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ArrowLeft, Landmark, QrCode, Send, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import NewMBankingBankSelectionPage from "@/components/mobile/new-mbanking/NewMBankingBankSelectionPage";
 import NewMBankingEmptyStateImage from "@/components/mobile/new-mbanking/NewMBankingEmptyStateImage";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
@@ -255,15 +254,15 @@ function TransferTabs({
 function TransferIcon({ showBankName }: { showBankName: boolean }) {
   if (showBankName) {
     return (
-      <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
-        <Landmark className="h-[22px] w-[22px] text-white" strokeWidth={2.6} />
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+        <Landmark className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
       </span>
     );
   }
 
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
-      <Send className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+      <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
@@ -318,7 +317,7 @@ function TransferHistoryRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-start gap-3 border-b border-[#EEF0F4] py-[15px] text-left transition active:scale-[0.99] last:border-b-0"
+      className="flex w-full items-start gap-3 border-b border-[#EEF0F4] py-[10px] text-left transition active:scale-[0.99] last:border-b-0"
     >
       <TransferIcon showBankName={showBankName} />
 
@@ -326,10 +325,10 @@ function TransferHistoryRow({
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
           {history.name}
         </div>
-        <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+        <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
           {subtitle}
         </div>
-        <div className="mt-[4px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
+        <div className="mt-[3px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
           {getTransferTime(history.dateTime)}
         </div>
       </div>
@@ -339,7 +338,7 @@ function TransferHistoryRow({
           {history.amount}
         </div>
 
-        <div className="mt-[7px] inline-flex h-[22px] items-center rounded-full bg-[#E8F8EF] px-[10px] text-[11px] font-semibold leading-none text-[#15965A]">
+        <div className="mt-[6px] inline-flex h-[22px] items-center rounded-full bg-[#E8F8EF] px-[10px] text-[11px] font-semibold leading-none text-[#15965A]">
           {history.status}
         </div>
       </div>
@@ -359,7 +358,7 @@ function TransferHistoryDateGroup({
   onOpenRecipient: (history: TransferHistory) => void;
 }) {
   return (
-    <section className="mt-[22px] first:mt-0">
+    <section className="mt-[14px] first:mt-0">
       <div className="flex items-center gap-3">
         <div className="shrink-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
           {date}
@@ -367,7 +366,7 @@ function TransferHistoryDateGroup({
         <div className="h-px min-w-0 flex-1 bg-[#E5E7EB]" />
       </div>
 
-      <div className="mt-[8px] divide-y divide-[#EEF0F4]">
+      <div className="mt-[4px] divide-y divide-[#EEF0F4]">
         {items.map((history) => (
           <TransferHistoryRow
             key={history.id}
@@ -552,7 +551,7 @@ export default function NewMBankingInterbankTransferPage({
             />
           ) : null}
 
-          <section className="mt-[18px] rounded-[22px] bg-white px-1">
+          <section className="mt-[14px] rounded-[22px] bg-white px-1">
             {activeTab === "saved" ? (
               <div>
                 {savedRecipients.map((recipient) => (
