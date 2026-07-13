@@ -254,6 +254,7 @@ export default function NewMBankingPaymentPurchaseReceiptPage({
             ) : null}
             <DetailRow label={nominalLabel} value={amount} />
             <DetailRow label="Biaya Admin" value={adminFee} />
+            <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
             <DetailRow label="Total" value={totalTransaction} />
           </InfoSection>
 
