@@ -539,30 +539,6 @@ function PortfolioAccountCard({
   );
 }
 
-function ProductInfoCell({
-  label,
-  value,
-  isAccountNumber = false,
-}: {
-  label: string;
-  value: string;
-  isAccountNumber?: boolean;
-}) {
-  return (
-    <div className="min-w-0">
-      <div className="text-[12px] font-normal leading-none text-white/70">
-        {label}
-      </div>
-      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-semibold leading-tight text-white">
-        <span className="truncate">{value}</span>
-        {isAccountNumber ? (
-          <Copy className="h-[13px] w-[13px] shrink-0 text-white" strokeWidth={2.4} />
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
 function DepositProductCard({
   product,
   onDetailClick,
@@ -570,52 +546,57 @@ function DepositProductCard({
   product: PortfolioProduct;
   onDetailClick?: () => void;
 }) {
+  const accountNo = getFieldValue(product, "No. Rekening");
+  const amount = getFieldValue(product, "Saldo");
+  const interestBalance = getFieldValue(product, "Saldo Bunga");
+
   return (
     <article
       className={cn(
-        "relative min-h-[170px] overflow-hidden rounded-[14px] px-5 py-5 text-white",
-        "shadow-[0_8px_22px_rgba(15,23,42,0.12)]",
+        "relative min-h-[205px] w-full overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white",
         "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
+        "shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
       )}
     >
-      <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
-      <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
-      <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
-      <div className="pointer-events-none absolute -bottom-[34px] left-[58px] h-[92px] w-[92px] rounded-full bg-white/8" />
+      <div className="pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full bg-white/16" />
+      <div className="pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full bg-amber-100/22" />
+      <div className="pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full bg-orange-950/14" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
       <div className="relative z-10">
         <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
-              {product.name}
-            </div>
-          </div>
+          <AccountInfo label="Produk Deposito">
+            <span className="truncate">{product.name}</span>
+          </AccountInfo>
 
           <button
             type="button"
             onClick={onDetailClick}
-            className={cn(
-              "inline-flex shrink-0 items-center rounded-full bg-white/95 px-3 py-2",
-              "text-[11px] font-semibold leading-none text-[#C2410C]",
-              "shadow-sm transition active:scale-[0.98]",
-            )}
+            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] shadow-sm transition active:scale-[0.98]"
           >
             Lihat Detail
           </button>
         </div>
 
-        <div className="mt-[22px] grid grid-cols-2 gap-x-4 gap-y-[18px]">
-          {product.fields.map((field) => (
-            <ProductInfoCell
-              key={`${product.name}-${field.label}`}
-              label={field.label}
-              value={field.value}
-              isAccountNumber={
-                field.label === "No. Rekening" ||
-                field.label === "No. Rek. Tabungan"
-              }
-            />
-          ))}
+        <div className="mt-[22px]">
+          <AccountInfo label="No. Rek. Deposito">
+            <span className="truncate">{accountNo}</span>
+            <CopyButton label="Salin nomor rekening deposito" />
+          </AccountInfo>
+        </div>
+
+        <div className="mt-[22px]">
+          <AccountInfo label="Nominal Deposito">
+            <span className="text-[16px] tracking-[-0.025em]">{amount}</span>
+          </AccountInfo>
+        </div>
+
+        <div className="mt-[22px]">
+          <AccountInfo label="Saldo Bunga Deposito">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {interestBalance}
+            </span>
+          </AccountInfo>
         </div>
       </div>
     </article>
