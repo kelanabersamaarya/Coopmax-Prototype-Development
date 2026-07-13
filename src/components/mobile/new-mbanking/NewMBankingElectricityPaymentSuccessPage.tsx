@@ -85,18 +85,6 @@ function getSuccessTitle({
     : "Berhasil Melakukan Pembayaran";
 }
 
-function getNominalLabel({
-  providerName,
-  serviceVariant,
-}: {
-  providerName: string;
-  serviceVariant: ServiceVariant;
-}) {
-  return isPurchaseSuccess({ providerName, serviceVariant })
-    ? "Nominal Pembelian"
-    : "Nominal Pembayaran";
-}
-
 function getSuccessText(variant: ServiceVariant) {
   if (variant === "water") return "Pembayaran tagihan air Anda telah berhasil diproses.";
   if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan Anda telah berhasil diproses.";
@@ -137,32 +125,6 @@ function getCustomerNumberLabel(variant: ServiceVariant) {
   if (variant === "token-pln") return "No. Meter/ID Pelanggan";
 
   return "No. Pelanggan";
-}
-
-function DetailRow({
-  label,
-  value,
-  strong = false,
-}: {
-  label: string;
-  value: string;
-  strong?: boolean;
-}) {
-  return (
-    <div className="flex items-start justify-between gap-4 py-[6px]">
-      <div className="min-w-0 text-[13px] font-normal leading-tight text-[#8F8F8F]">
-        {label}
-      </div>
-      <div
-        className={cn(
-          "max-w-[180px] text-right leading-tight text-black",
-          strong ? "text-[14px] font-bold" : "text-[13px] font-normal",
-        )}
-      >
-        {value}
-      </div>
-    </div>
-  );
 }
 
 export default function NewMBankingElectricityPaymentSuccessPage({
@@ -208,12 +170,6 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   const Icon = getServiceIcon(serviceVariant);
   const successTitle = getSuccessTitle({ providerName, serviceVariant });
   const successText = getSuccessText(serviceVariant);
-  const nominalLabel = getNominalLabel({ providerName, serviceVariant });
-  const showCustomerName =
-    serviceVariant !== "postpaid-phone" &&
-    serviceVariant !== "data-package" &&
-    serviceVariant !== "token-pln" &&
-    serviceVariant !== "e-wallet";
 
   React.useEffect(() => {
     setRecipientSaved(recipientAlreadySaved || savedInStore);
@@ -333,7 +289,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             </div>
 
             <div className="mt-[18px] flex min-h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
-              <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
+              <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white">
                 <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
               </span>
 
@@ -344,30 +300,10 @@ export default function NewMBankingElectricityPaymentSuccessPage({
                 <div className="mt-[8px] truncate text-[14px] font-normal leading-none text-black">
                   {providerName}
                 </div>
+                <div className="mt-[6px] truncate text-[12px] font-normal leading-none text-[#8F8F8F]">
+                  {getCustomerNumberLabel(serviceVariant)} • {customerNo}
+                </div>
               </div>
-            </div>
-
-            <div className="mt-[12px] w-[302px] max-w-full rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] py-[10px] text-left">
-              {showCustomerName ? (
-                <DetailRow label="Nama Pelanggan" value={customerName} />
-              ) : null}
-              <DetailRow
-                label={getCustomerNumberLabel(serviceVariant)}
-                value={customerNo}
-              />
-              {serviceVariant === "bpjs" ? (
-                <DetailRow label="Jumlah Bulan" value={bpjsMonths} />
-              ) : null}
-              <DetailRow label={nominalLabel} value={amount} />
-              <DetailRow label="Biaya Admin" value={adminFee} />
-
-              <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
-
-              <DetailRow
-                label="Total Transaksi"
-                value={totalTransaction}
-                strong
-              />
             </div>
 
             <div className="mt-[12px] w-full text-left">
