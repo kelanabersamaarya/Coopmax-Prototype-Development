@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Check, Download, Landmark, Send, UserPlus, WalletCards } from "lucide-react";
+import { Check, Eye, Landmark, Send, UserPlus, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
+import NewMBankingTransferReceiptPage from "@/components/mobile/new-mbanking/NewMBankingTransferReceiptPage";
 import {
   isNewMBankingTransferRecipientSaved,
   saveNewMBankingTransferRecipient,
@@ -25,7 +26,7 @@ export default function NewMBankingTransferSuccessPage({
   canSaveRecipient?: boolean;
   onDone: () => void;
 }) {
-  const [proofSaved, setProofSaved] = React.useState(false);
+  const [showReceipt, setShowReceipt] = React.useState(false);
   const recipientKind: NewMBankingTransferRecipientKind = recipientBankName
     ? "interbank"
     : "internal";
@@ -66,6 +67,20 @@ export default function NewMBankingTransferSuccessPage({
     setRecipientSaved(true);
   }
 
+  if (showReceipt) {
+    return (
+      <NewMBankingTransferReceiptPage
+        recipientName={recipientName}
+        recipientAccountNo={displayedRecipientAccount}
+        recipientBankName={recipientBankName}
+        nominal={displayedNominal}
+        description={displayedDescription}
+        onBack={() => setShowReceipt(false)}
+        onDone={onDone}
+      />
+    );
+  }
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 py-[18px] text-black">
       <main className="flex min-h-0 flex-1 items-center justify-center">
@@ -103,9 +118,8 @@ export default function NewMBankingTransferSuccessPage({
           <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
             <NewMBankingSuccessActionTile
               label="Bukti Transaksi"
-              icon={Download}
-              onClick={() => setProofSaved(true)}
-              active={proofSaved}
+              icon={Eye}
+              onClick={() => setShowReceipt(true)}
             />
 
             <NewMBankingSuccessActionTile
