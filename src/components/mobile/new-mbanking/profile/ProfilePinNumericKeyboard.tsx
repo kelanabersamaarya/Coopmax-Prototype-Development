@@ -48,6 +48,20 @@ export default function ProfilePinNumericKeyboard({
       data-profile-pin-keyboard="true"
       className="pointer-events-none absolute inset-x-0 bottom-0 z-[170]"
     >
+      <div className="pointer-events-auto absolute inset-x-0 bottom-[calc(100%+10px)] z-10 bg-white px-4 py-3">
+        <button
+          type="button"
+          onClick={onClose}
+          className={cn(
+            "h-[44px] w-full rounded-[12px] bg-[#479DF4]",
+            "text-[14px] font-semibold leading-none text-white",
+            "transition active:scale-[0.98]",
+          )}
+        >
+          Selesai
+        </button>
+      </div>
+
       <div
         className={cn(
           "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
@@ -108,18 +122,6 @@ export default function ProfilePinNumericKeyboard({
             <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
           </button>
         </div>
-
-        <button
-          type="button"
-          onClick={onClose}
-          className={cn(
-            "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
-            "text-[14px] font-semibold leading-none text-white",
-            "transition active:scale-[0.98]",
-          )}
-        >
-          Selesai
-        </button>
       </div>
     </div>,
     mobileScreen,
