@@ -51,6 +51,20 @@ function getServiceIcon(variant: ServiceVariant) {
   return Zap;
 }
 
+function getServiceIconBackground(variant: ServiceVariant) {
+  if (variant === "water") return "bg-[#06B6D4]";
+  if (variant === "pbb") return "bg-[#8B5CF6]";
+  if (variant === "internet") return "bg-[#2563EB]";
+  if (variant === "finance") return "bg-[#3B82F6]";
+  if (variant === "tv") return "bg-[#14B8A6]";
+  if (variant === "bpjs") return "bg-[#22C55E]";
+  if (variant === "postpaid-phone") return "bg-[#479DF4]";
+  if (variant === "data-package") return "bg-[#2563EB]";
+  if (variant === "token-pln") return "bg-[#F59E0B]";
+  if (variant === "e-wallet") return "bg-[#8B5CF6]";
+  return "bg-[#F59E0B]";
+}
+
 function isPurchaseSuccess({
   providerName,
   serviceVariant,
@@ -289,7 +303,12 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             </div>
 
             <div className="mt-[18px] flex min-h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
-              <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white">
+              <span
+                className={cn(
+                  "flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-white",
+                  getServiceIconBackground(serviceVariant),
+                )}
+              >
                 <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
               </span>
 
@@ -299,9 +318,6 @@ export default function NewMBankingElectricityPaymentSuccessPage({
                 </div>
                 <div className="mt-[8px] truncate text-[14px] font-normal leading-none text-black">
                   {providerName}
-                </div>
-                <div className="mt-[6px] truncate text-[12px] font-normal leading-none text-[#8F8F8F]">
-                  {getCustomerNumberLabel(serviceVariant)} • {customerNo}
                 </div>
               </div>
             </div>
@@ -332,6 +348,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
           </section>
         </div>
       </main>
+
+      <div className="sr-only">{getCustomerNumberLabel(serviceVariant)}</div>
     </div>
   );
 }
