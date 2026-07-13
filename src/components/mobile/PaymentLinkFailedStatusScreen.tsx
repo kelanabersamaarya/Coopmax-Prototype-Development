@@ -50,7 +50,7 @@ export default function PaymentLinkFailedStatusScreen() {
             <div className="h-px w-full bg-[#EEF0F4]" />
             <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
             <div className="h-px w-full bg-[#EEF0F4]" />
-            <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
+            <InfoRow label="Metode Transaksi" value="Transfer Antar Bank" />
           </div>
         </section>
       </main>

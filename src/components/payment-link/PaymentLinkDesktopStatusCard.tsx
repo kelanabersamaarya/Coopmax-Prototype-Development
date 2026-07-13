@@ -144,7 +144,7 @@ export default function PaymentLinkDesktopStatusCard({
                     <InfoRow label="Waktu Transaksi" value="15:16 WIB" />
                     <div className="h-px w-full bg-slate-100" />
                     <InfoRow
-                      label="Metode Pembayaran"
+                      label="Metode Transaksi"
                       value="Transfer Antar Bank"
                     />
                   </div>
