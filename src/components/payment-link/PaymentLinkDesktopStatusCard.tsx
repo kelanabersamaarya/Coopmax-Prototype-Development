@@ -8,7 +8,7 @@ import type { PaymentLinkDesktopStatus } from "@/components/payment-link/payment
 import PaymentLinkDesktopFrame from "@/components/payment-link/PaymentLinkDesktopFrame";
 
 const expiredDescription =
-  "Pembayaran via link tidak dapat dilakukan karena link yang anda gunakan telah kedaluwarsa atau melewati batas waktu penggunaan, yakni 24 jam setelah link dikirimkan";
+  "Pembayaran via link tidak dapat dilakukan karena link yang anda gunakan telah kedaluwarsa atau melewati batas waktu penggunaan";
 
 const statusContent: Record<
   PaymentLinkDesktopStatus,

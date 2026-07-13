@@ -22,8 +22,7 @@ export default function PaymentLinkExpiredStatusScreen() {
 
           <p className="mt-[14px] max-w-[310px] text-[14px] font-normal leading-relaxed tracking-[-0.01em] text-[#828282]">
             Pembayaran via link tidak dapat dilakukan karena link yang anda
-            gunakan telah kedaluwarsa atau melewati batas waktu penggunaan, yakni
-            24 jam setelah link dikirimkan
+            gunakan telah kedaluwarsa atau melewati batas waktu penggunaan
           </p>
         </section>
       </main>
