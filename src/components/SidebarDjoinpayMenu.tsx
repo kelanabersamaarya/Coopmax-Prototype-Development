@@ -89,8 +89,8 @@ export default function SidebarDjoinpayMenu() {
                     )
                   }
                 >
-                  <span className="flex min-w-0 items-center justify-between gap-2">
-                    <span className="min-w-0 truncate">{item.label}</span>
+                  <span className="flex min-w-0 flex-col items-start gap-1.5">
+                    <span className="min-w-0 leading-snug">{item.label}</span>
                     {item.marker ? (
                       <span
                         className={cn(
