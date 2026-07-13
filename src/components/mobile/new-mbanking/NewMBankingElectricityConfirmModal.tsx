@@ -62,6 +62,20 @@ function getServiceIcon(variant: ServiceVariant) {
   return Zap;
 }
 
+function getServiceIconBackground(variant: ServiceVariant) {
+  if (variant === "water") return "bg-[#06B6D4]";
+  if (variant === "pbb") return "bg-[#8B5CF6]";
+  if (variant === "internet") return "bg-[#2563EB]";
+  if (variant === "finance") return "bg-[#3B82F6]";
+  if (variant === "tv") return "bg-[#14B8A6]";
+  if (variant === "bpjs") return "bg-[#22C55E]";
+  if (variant === "data-package") return "bg-[#2563EB]";
+  if (variant === "postpaid-phone") return "bg-[#479DF4]";
+  if (variant === "token-pln") return "bg-[#F59E0B]";
+  if (variant === "e-wallet") return "bg-[#8B5CF6]";
+  return "bg-[#F59E0B]";
+}
+
 function getServiceDescription(variant: ServiceVariant) {
   if (variant === "water") return "Pembayaran tagihan air";
   if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan";
@@ -238,7 +252,12 @@ export default function NewMBankingElectricityConfirmModal({
         </div>
 
         <div className="mt-[14px] flex items-start gap-[12px]">
-          <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white shadow-sm">
+          <span
+            className={cn(
+              "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
+              getServiceIconBackground(serviceVariant),
+            )}
+          >
             <Icon className="h-[22px] w-[22px] text-white" strokeWidth={2.7} />
           </span>
 
