@@ -1,0 +1,29 @@
+:root {
+  --sidebar-w: clamp(16rem, 24vw, 20rem);
+}
+
+.dark {
+  --sidebar-w: clamp(16rem, 24vw, 20rem);
+}
+
+aside span.truncate {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.25 !important;
+}
+
+aside a,
+aside button {
+  min-height: fit-content;
+}
+
+aside a span,
+aside button span {
+  overflow-wrap: anywhere;
+}
+
+aside [class*="rounded-xl"],
+aside [class*="rounded-2xl"] {
+  min-height: fit-content;
+}
