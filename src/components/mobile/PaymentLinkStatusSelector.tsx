@@ -9,7 +9,6 @@ export type PaymentLinkMobileStatus = "berhasil" | "gagal" | "kedaluwarsa";
 const statusOptions: Array<{
   id: PaymentLinkMobileStatus;
   label: string;
-  description: string;
   icon: React.ComponentType<{ className?: string }>;
   activeClassName: string;
   iconClassName: string;
@@ -17,7 +16,6 @@ const statusOptions: Array<{
   {
     id: "berhasil",
     label: "Berhasil",
-    description: "Simulasi tampilan pembayaran berhasil.",
     icon: CheckCircle2,
     activeClassName: "bg-emerald-50 text-emerald-800 ring-emerald-200",
     iconClassName: "bg-emerald-600 text-white",
@@ -25,7 +23,6 @@ const statusOptions: Array<{
   {
     id: "gagal",
     label: "Gagal",
-    description: "Simulasi tampilan pembayaran gagal.",
     icon: XCircle,
     activeClassName: "bg-rose-50 text-rose-800 ring-rose-200",
     iconClassName: "bg-rose-600 text-white",
@@ -33,7 +30,6 @@ const statusOptions: Array<{
   {
     id: "kedaluwarsa",
     label: "Kedaluwarsa",
-    description: "Simulasi tampilan link sudah kedaluwarsa.",
     icon: Clock3,
     activeClassName: "bg-amber-50 text-amber-900 ring-amber-200",
     iconClassName: "bg-amber-500 text-white",
@@ -59,9 +55,6 @@ export default function PaymentLinkStatusSelector({
       <div className="text-[13px] font-extrabold tracking-tight text-slate-900">
         Status Pembayaran
       </div>
-      <div className="mt-1 text-[11px] font-medium leading-relaxed text-slate-600">
-        Pilihan ini akan menentukan state tampilan mobile.
-      </div>
 
       <div className="mt-3 grid gap-2">
         {statusOptions.map((option) => {
@@ -74,7 +67,7 @@ export default function PaymentLinkStatusSelector({
               type="button"
               onClick={() => onChange(option.id)}
               className={cn(
-                "flex w-full items-start gap-3 rounded-[5px] p-3 text-left ring-1 transition",
+                "flex w-full items-center gap-3 rounded-[5px] p-3 text-left ring-1 transition",
                 active
                   ? option.activeClassName
                   : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
@@ -90,13 +83,8 @@ export default function PaymentLinkStatusSelector({
                 <Icon className="h-4.5 w-4.5" />
               </span>
 
-              <span className="min-w-0">
-                <span className="block text-[13px] font-extrabold leading-tight">
-                  {option.label}
-                </span>
-                <span className="mt-1 block text-[11px] font-medium leading-relaxed opacity-80">
-                  {option.description}
-                </span>
+              <span className="min-w-0 text-[13px] font-extrabold leading-tight">
+                {option.label}
               </span>
             </button>
           );
