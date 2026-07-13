@@ -47,11 +47,11 @@ export default function PaymentLinkDesktopStatusSelector({
   return (
     <Card
       className={cn(
-        "rounded-3xl border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4",
+        "mx-auto w-full max-w-[720px] rounded-[18px] border-slate-200/70 bg-white/90 p-2 shadow-sm backdrop-blur",
         className,
       )}
     >
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-2 sm:grid-cols-3">
         {statusOptions.map((option) => {
           const Icon = option.icon;
           const active = value === option.id;
@@ -62,7 +62,7 @@ export default function PaymentLinkDesktopStatusSelector({
               type="button"
               onClick={() => onChange(option.id)}
               className={cn(
-                "flex min-h-[58px] w-full items-center justify-center gap-3 rounded-2xl px-4 py-3 text-center ring-1 transition",
+                "flex min-h-[42px] w-full items-center justify-center gap-2 rounded-[12px] px-3 py-2 text-center ring-1 transition",
                 active
                   ? option.activeClassName
                   : "bg-white text-slate-800 ring-slate-200 hover:bg-slate-50",
@@ -71,14 +71,14 @@ export default function PaymentLinkDesktopStatusSelector({
             >
               <span
                 className={cn(
-                  "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
+                  "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[10px]",
                   active ? option.iconClassName : "bg-slate-100 text-slate-500",
                 )}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4" />
               </span>
 
-              <span className="text-[14px] font-extrabold leading-tight">
+              <span className="text-[12px] font-extrabold leading-tight">
                 {option.label}
               </span>
             </button>
