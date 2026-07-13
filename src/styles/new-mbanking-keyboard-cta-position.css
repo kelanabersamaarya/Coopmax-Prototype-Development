@@ -85,3 +85,9 @@
   [data-input-clear-button="true"] {
   display: none !important;
 }
+
+/* Saat modal konfirmasi pembayaran/pembelian terbuka, sembunyikan X overlay global dari keyboard/input custom. */
+[data-mobile-screen="true"]:has(div[class*="z-[120]"][class*="bg-black/35"])
+  [data-input-clear-button="true"] {
+  display: none !important;
+}
