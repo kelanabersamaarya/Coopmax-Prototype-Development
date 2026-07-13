@@ -76,7 +76,10 @@ export default function NewMBankingPinInputPage({
   );
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-new-mbanking-pin-input-page="true"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
       <header className="shrink-0 px-[31px] pt-[30px]">
         <div className="flex h-10 items-center gap-3">
           <button
