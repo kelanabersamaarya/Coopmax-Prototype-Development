@@ -229,6 +229,26 @@ export default function ProfileCredentialChangePage({
             [data-profile-credential-change-page="true"] {
             padding-bottom: 360px !important;
           }
+
+          [data-mobile-screen="true"]:has([data-profile-credential-change-page="true"]):has([data-numeric-keyboard="true"])
+            [data-profile-submit-cta="true"] {
+            display: none !important;
+          }
+
+          [data-mobile-screen="true"]:has([data-profile-credential-change-page="true"]):has([data-numeric-keyboard="true"])
+            [data-numeric-keyboard="true"]
+            > button:last-child {
+            font-size: 0 !important;
+          }
+
+          [data-mobile-screen="true"]:has([data-profile-credential-change-page="true"]):has([data-numeric-keyboard="true"])
+            [data-numeric-keyboard="true"]
+            > button:last-child::after {
+            content: "Selesai";
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1 !important;
+          }
         `}
       </style>
 
@@ -314,7 +334,10 @@ export default function ProfileCredentialChangePage({
           />
         </div>
 
-        <div className="absolute inset-x-6 bottom-[26px] bg-white">
+        <div
+          data-profile-submit-cta="true"
+          className="absolute inset-x-6 bottom-[26px] bg-white"
+        >
           <button
             type="button"
             onClick={submit}
