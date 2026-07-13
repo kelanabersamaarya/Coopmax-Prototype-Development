@@ -13,7 +13,6 @@ type SubItem = {
 const allItems: SubItem[] = [
   { label: "E-Kolektor", to: "/mobile/e-kolektor" },
   { label: "M-Banking", to: "/mobile/m-banking" },
-  { label: "Status Pembayaran Payment Link", to: "/mobile/status-pembayaran-payment-link" },
 ];
 
 export default function SidebarMobileMenu() {

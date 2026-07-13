@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 type SubItem = {
   label: string;
   to: string;
+  marker?: "Desktop" | "Mobile";
 };
 
 const items: SubItem[] = [
@@ -16,22 +17,26 @@ const items: SubItem[] = [
   {
     label: "Status Pembayaran Payment Link",
     to: "/payment-link/status-pembayaran",
+    marker: "Desktop",
+  },
+  {
+    label: "Status Pembayaran Payment Link",
+    to: "/mobile/status-pembayaran-payment-link",
+    marker: "Mobile",
   },
 ];
 
 export default function SidebarDjoinpayMenu() {
   const location = useLocation();
-  const isActive =
+  const isDjoinpayActive =
     location.pathname.startsWith("/payment-link") ||
-    location.pathname === "/dashboard";
+    location.pathname.startsWith("/mobile/status-pembayaran-payment-link");
 
-  const [open, setOpen] = React.useState<boolean>(
-    location.pathname.startsWith("/payment-link"),
-  );
+  const [open, setOpen] = React.useState<boolean>(isDjoinpayActive);
 
   React.useEffect(() => {
-    if (location.pathname.startsWith("/payment-link")) setOpen(true);
-  }, [location.pathname]);
+    if (isDjoinpayActive) setOpen(true);
+  }, [isDjoinpayActive]);
 
   return (
     <div className="rounded-2xl bg-white">
@@ -40,7 +45,7 @@ export default function SidebarDjoinpayMenu() {
         onClick={() => setOpen((value) => !value)}
         className={cn(
           "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left transition",
-          location.pathname.startsWith("/payment-link")
+          isDjoinpayActive
             ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
             : "bg-white text-slate-900 hover:bg-slate-50",
         )}
@@ -73,26 +78,38 @@ export default function SidebarDjoinpayMenu() {
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
               {items.map((item) => (
                 <NavLink
-                  key={item.label}
+                  key={`${item.label}-${item.to}`}
                   to={item.to}
-                  className={({ isActive: navActive }) =>
+                  className={({ isActive }) =>
                     cn(
                       "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                      navActive
+                      isActive
                         ? "bg-violet-600 text-white"
                         : "text-slate-800 hover:bg-slate-50",
                     )
                   }
                 >
-                  {item.label}
+                  <span className="flex min-w-0 items-center justify-between gap-2">
+                    <span className="min-w-0 truncate">{item.label}</span>
+                    {item.marker ? (
+                      <span
+                        className={cn(
+                          "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold leading-none",
+                          item.marker === "Mobile"
+                            ? "bg-sky-100 text-sky-700"
+                            : "bg-emerald-100 text-emerald-700",
+                        )}
+                      >
+                        {item.marker}
+                      </span>
+                    ) : null}
+                  </span>
                 </NavLink>
               ))}
             </div>
           </div>
         </div>
       </div>
-
-      <div className="sr-only">{isActive ? "active" : "inactive"}</div>
     </div>
   );
 }
