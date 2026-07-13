@@ -20,13 +20,13 @@ const statusContent: Record<
     title: "Pembayaran Angsuran Pinjaman Berhasil Dilakukan",
     icon: Check,
     outerClassName: "bg-emerald-50",
-    innerClassName: "bg-[#33AA00]",
+    innerClassName: "bg-[#33aa00]",
   },
   gagal: {
     title: "Pembayaran Angsuran Pinjaman Gagal Dilakukan",
     icon: X,
-    outerClassName: "bg-[#FCE4E7]",
-    innerClassName: "bg-[#DC3545]",
+    outerClassName: "bg-[#fce4e7]",
+    innerClassName: "bg-[#dc3545]",
   },
   kedaluwarsa: {
     title: "Payment Link Kedaluwarsa",
@@ -72,9 +72,9 @@ export default function PaymentLinkDesktopStatusCard({
         className,
       )}
     >
-      <PaymentLinkDesktopFrame className="min-h-[680px]">
-        <div className="grid min-h-[622px] gap-0 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="flex min-h-[520px] flex-col items-center justify-center bg-[#F9FAFB] px-6 py-12 text-center lg:min-h-[622px]">
+      <PaymentLinkDesktopFrame className="min-h-[800px]">
+        <div className="grid min-h-[742px] gap-0 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="flex min-h-[640px] flex-col items-center justify-center bg-[#f9fafb] px-6 py-12 text-center lg:min-h-[742px]">
             <div
               className={cn(
                 "flex h-[128px] w-[128px] items-center justify-center rounded-full",
@@ -96,13 +96,13 @@ export default function PaymentLinkDesktopStatusCard({
             </h2>
           </div>
 
-          <div className="flex min-h-[520px] items-center justify-center bg-white px-5 py-12 md:px-8 lg:min-h-[622px]">
+          <div className="flex min-h-[640px] items-center justify-center bg-white px-5 py-12 md:px-8 lg:min-h-[742px]">
             <div className="w-full max-w-[760px] rounded-[28px] border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_48px_rgba(15,23,42,0.08)]">
               <div className="mb-5 text-center text-[15px] font-extrabold uppercase tracking-wide text-slate-900">
                 DETAIL TRANSAKSI
               </div>
 
-              <div className="rounded-[22px] bg-[#F6F8FB] px-5 py-6 text-center">
+              <div className="rounded-[22px] bg-[#f6f8fb] px-5 py-6 text-center">
                 <div className="text-[12px] font-medium leading-none text-slate-500">
                   Nominal Transaksi
                 </div>
