@@ -1,7 +1,6 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 function InfoRow({
   label,
@@ -53,17 +52,6 @@ export default function PaymentLinkSuccessStatusScreen() {
             <div className="h-px w-full bg-[#EEF0F4]" />
             <InfoRow label="Metode Pembayaran" value="Transfer Antar Bank" />
           </div>
-
-          <button
-            type="button"
-            className={cn(
-              "mt-[28px] h-[46px] w-full rounded-[10px] bg-[#479DF4]",
-              "text-[14px] font-semibold leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Selesai
-          </button>
         </section>
       </main>
     </div>
