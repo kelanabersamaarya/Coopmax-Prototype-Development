@@ -1,16 +1,22 @@
 :root {
-  --sidebar-w: clamp(16rem, 24vw, 20rem);
+  --sidebar-w: clamp(10.75rem, 16vw, 14.25rem);
 }
 
 .dark {
-  --sidebar-w: clamp(16rem, 24vw, 20rem);
+  --sidebar-w: clamp(10.75rem, 16vw, 14.25rem);
 }
 
 aside span.truncate {
+  display: -webkit-box !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
   white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
   line-height: 1.25 !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
 }
 
 aside a,
