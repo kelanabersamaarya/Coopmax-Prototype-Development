@@ -36,7 +36,7 @@ export default function PaymentLinkSuccessStatusScreen() {
             Pembayaran Angsuran Pinjaman Berhasil Dilakukan
           </h1>
 
-          <div className="mt-[24px] w-full text-left text-[14px] font-bold uppercase tracking-wide text-black">
+          <div className="mt-[24px] w-full text-center text-[14px] font-bold uppercase tracking-wide text-black">
             DETAIL TRANSAKSI
           </div>
 
