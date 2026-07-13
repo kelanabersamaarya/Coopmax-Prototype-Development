@@ -1,7 +1,9 @@
 import * as React from "react";
 import { ArrowLeft, Landmark, QrCode, Send, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingBankSelectionPage from "@/components/mobile/new-mbanking/NewMBankingBankSelectionPage";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
+import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingTransferQrPage from "@/components/mobile/new-mbanking/NewMBankingTransferQrPage";
@@ -25,6 +27,7 @@ type TransferHistory = SavedRecipient & {
   dateTime: string;
   amount: string;
   status: "Berhasil";
+  month: string;
 };
 
 const seedSavedRecipients: SavedRecipient[] = [
@@ -63,6 +66,7 @@ const transferHistories: TransferHistory[] = [
     dateTime: "20-06-2026 : 19.00",
     amount: "-50.000,00",
     status: "Berhasil",
+    month: "Jun",
   },
   {
     id: "history-2",
@@ -72,6 +76,7 @@ const transferHistories: TransferHistory[] = [
     dateTime: "19-06-2026 : 14.30",
     amount: "-125.000,00",
     status: "Berhasil",
+    month: "Jun",
   },
   {
     id: "history-3",
@@ -81,6 +86,27 @@ const transferHistories: TransferHistory[] = [
     dateTime: "18-06-2026 : 09.15",
     amount: "-75.000,00",
     status: "Berhasil",
+    month: "Jun",
+  },
+  {
+    id: "history-4",
+    name: "Kadek Surya",
+    bank: "Koperasi",
+    accountNo: "4260029",
+    dateTime: "24-05-2026 : 11.10",
+    amount: "-80.000,00",
+    status: "Berhasil",
+    month: "Mei",
+  },
+  {
+    id: "history-5",
+    name: "Made Wirata",
+    bank: "Mandiri",
+    accountNo: "7001234567",
+    dateTime: "12-04-2026 : 16.45",
+    amount: "-200.000,00",
+    status: "Berhasil",
+    month: "Apr",
   },
 ];
 
@@ -267,6 +293,19 @@ function TransferHistoryRow({
   );
 }
 
+function EmptyTransferHistory() {
+  return (
+    <div className="py-[42px] text-center">
+      <div className="text-[15px] font-bold text-black">
+        Tidak Ada Riwayat Transfer
+      </div>
+      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+        Belum ada transfer pada bulan yang dipilih.
+      </div>
+    </div>
+  );
+}
+
 export default function NewMBankingInterbankTransferPage({
   onBack,
   onTransferDone,
@@ -277,6 +316,7 @@ export default function NewMBankingInterbankTransferPage({
   title?: string;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
+  const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
   const [showQrPinInput, setShowQrPinInput] = React.useState(false);
   const [showTransferQr, setShowTransferQr] = React.useState(false);
@@ -306,6 +346,11 @@ export default function NewMBankingInterbankTransferPage({
 
     return uniqueRecipients([...stored, ...seedSavedRecipients]);
   }, [savedKind, savedTick]);
+
+  const filteredTransferHistories = React.useMemo(
+    () => transferHistories.filter((history) => history.month === activeMonth),
+    [activeMonth],
+  );
 
   function buildRecipientInfo(recipient: SavedRecipient): NewMBankingRecipientInfo {
     return {
@@ -404,6 +449,14 @@ export default function NewMBankingInterbankTransferPage({
 
           <TransferTabs active={activeTab} onChange={setActiveTab} />
 
+          {activeTab === "history" ? (
+            <NewMBankingPaymentMonthSelector
+              activeMonth={activeMonth}
+              onChange={setActiveMonth}
+              className="mt-[18px]"
+            />
+          ) : null}
+
           <section className="mt-[18px] rounded-[22px] bg-white px-1">
             {activeTab === "saved" ? (
               <div>
@@ -416,9 +469,9 @@ export default function NewMBankingInterbankTransferPage({
                   />
                 ))}
               </div>
-            ) : (
+            ) : filteredTransferHistories.length > 0 ? (
               <div>
-                {transferHistories.map((history) => (
+                {filteredTransferHistories.map((history) => (
                   <TransferHistoryRow
                     key={history.id}
                     history={history}
@@ -427,6 +480,8 @@ export default function NewMBankingInterbankTransferPage({
                   />
                 ))}
               </div>
+            ) : (
+              <EmptyTransferHistory />
             )}
           </section>
 
