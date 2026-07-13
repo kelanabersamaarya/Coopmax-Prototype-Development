@@ -10,6 +10,7 @@ import {
   Monitor,
   Smartphone,
   Wifi,
+  X,
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -179,7 +180,19 @@ export default function NewMBankingElectricityCustomerPage({
   }
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-payment-customer-page="true"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
+      <style>
+        {`
+          [data-mobile-screen="true"]:has([data-payment-customer-page="true"])
+            [data-input-clear-button="true"] {
+            display: none !important;
+          }
+        `}
+      </style>
+
       <NewMBankingInScreenToast
         message={toastMessage}
         variant="warning"
@@ -235,20 +248,41 @@ export default function NewMBankingElectricityCustomerPage({
                 <span className="text-[#EF135D]">*</span>
               </label>
 
-              <input
-                value={customerNo}
-                onChange={(event) =>
-                  setCustomerNo(event.target.value.replace(/[^\d]/g, ""))
-                }
-                placeholder={fieldPlaceholder}
-                inputMode="numeric"
-                className={cn(
-                  "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                  "text-[14px] font-normal text-black shadow-none outline-none",
-                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                  "focus:border-[#479DF4]",
-                )}
-              />
+              <div className="relative">
+                <input
+                  value={customerNo}
+                  onChange={(event) =>
+                    setCustomerNo(event.target.value.replace(/[^\d]/g, ""))
+                  }
+                  placeholder={fieldPlaceholder}
+                  inputMode="numeric"
+                  className={cn(
+                    "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-[42px]",
+                    "text-[14px] font-normal text-black shadow-none outline-none",
+                    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                    "focus:border-[#479DF4]",
+                  )}
+                />
+
+                {customerNo.trim() ? (
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      setCustomerNo("");
+                    }}
+                    className={cn(
+                      "absolute right-[9px] top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
+                      "rounded-full bg-transparent text-[#8F8F8F] transition active:scale-[0.94]",
+                    )}
+                    aria-label={`Hapus ${fieldLabel}`}
+                    title="Hapus"
+                  >
+                    <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+                  </button>
+                ) : null}
+              </div>
             </div>
 
             {showBpjsMonthField ? (
