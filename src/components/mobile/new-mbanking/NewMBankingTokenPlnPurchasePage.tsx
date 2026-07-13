@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft, X, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -110,7 +110,10 @@ export default function NewMBankingTokenPlnPurchasePage({
   }
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-new-mbanking-purchase-input-page="true"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
       <NewMBankingInScreenToast
         message={toastMessage}
         variant={toastVariant}
@@ -181,20 +184,34 @@ export default function NewMBankingTokenPlnPurchasePage({
               No. Meter/ID Pelanggan<span className="text-[#EF135D]">*</span>
             </label>
 
-            <input
-              value={meterNo}
-              onChange={(event) =>
-                setMeterNo(event.target.value.replace(/[^\d]/g, ""))
-              }
-              placeholder="Masukkan No. Meter/ID Pelanggan"
-              inputMode="numeric"
-              className={cn(
-                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                "text-[14px] font-normal text-black shadow-none outline-none",
-                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
-              )}
-            />
+            <div className="relative">
+              <input
+                value={meterNo}
+                onChange={(event) =>
+                  setMeterNo(event.target.value.replace(/[^\d]/g, ""))
+                }
+                placeholder="Masukkan No. Meter/ID Pelanggan"
+                inputMode="numeric"
+                className={cn(
+                  "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-[42px]",
+                  "text-[14px] font-normal text-black shadow-none outline-none",
+                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                  "focus:border-[#479DF4]",
+                )}
+              />
+
+              {meterNo.trim() ? (
+                <button
+                  type="button"
+                  onClick={() => setMeterNo("")}
+                  className="absolute right-[9px] top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-[#8F8F8F] transition active:scale-[0.94]"
+                  aria-label="Hapus nomor meter"
+                  title="Hapus"
+                >
+                  <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+                </button>
+              ) : null}
+            </div>
           </div>
 
           <section className="mt-[30px]">

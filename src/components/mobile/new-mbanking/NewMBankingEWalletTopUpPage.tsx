@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Contact, Wallet } from "lucide-react";
+import { ArrowLeft, Contact, Wallet, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -118,7 +118,10 @@ export default function NewMBankingEWalletTopUpPage({
   }
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-new-mbanking-purchase-input-page="true"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
       <NewMBankingInScreenToast
         message={toastMessage}
         variant={toastVariant}
@@ -198,20 +201,34 @@ export default function NewMBankingEWalletTopUpPage({
             </label>
 
             <div className="flex items-stretch gap-[9px]">
-              <input
-                value={phoneNumber}
-                onChange={(event) =>
-                  setPhoneNumber(event.target.value.replace(/[^\d]/g, ""))
-                }
-                placeholder="Masukkan Nomor HP"
-                inputMode="numeric"
-                className={cn(
-                  "h-[44px] min-w-0 flex-1 rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                  "text-[14px] font-normal text-black shadow-none outline-none",
-                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                  "focus:border-[#479DF4]",
-                )}
-              />
+              <div className="relative min-w-0 flex-1">
+                <input
+                  value={phoneNumber}
+                  onChange={(event) =>
+                    setPhoneNumber(event.target.value.replace(/[^\d]/g, ""))
+                  }
+                  placeholder="Masukkan Nomor HP"
+                  inputMode="numeric"
+                  className={cn(
+                    "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-[42px]",
+                    "text-[14px] font-normal text-black shadow-none outline-none",
+                    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                    "focus:border-[#479DF4]",
+                  )}
+                />
+
+                {phoneNumber.trim() ? (
+                  <button
+                    type="button"
+                    onClick={() => setPhoneNumber("")}
+                    className="absolute right-[9px] top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-[#8F8F8F] transition active:scale-[0.94]"
+                    aria-label="Hapus nomor HP"
+                    title="Hapus"
+                  >
+                    <X className="h-[18px] w-[18px]" strokeWidth={2.6} />
+                  </button>
+                ) : null}
+              </div>
 
               <button
                 type="button"

@@ -97,3 +97,9 @@
   [data-input-clear-button="true"] {
   display: none !important;
 }
+
+/* Halaman Beli memakai tombol X lokal di dalam field nomor, jadi overlay global disembunyikan agar tidak ikut bergerak saat scroll. */
+[data-mobile-screen="true"]:has([data-new-mbanking-purchase-input-page="true"])
+  [data-input-clear-button="true"] {
+  display: none !important;
+}
