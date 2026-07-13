@@ -133,18 +133,13 @@ export default function NewMBankingTransferReceiptPage({
 
           <InfoSection title="Detail Transfer">
             <DetailRow label="Tipe Transaksi" value={transferType} />
+            <DetailRow label="Deskripsi" value={displayDescription} />
             <DetailRow label="Nominal" value={displayNominal.replace("Rp. ", "")} />
             <DetailRow label="Biaya Admin" value={recipientBankName ? "2.500,00" : "0,00"} />
             <DetailRow
               label="Total"
               value={recipientBankName ? "52.500,00" : displayNominal.replace("Rp. ", "")}
             />
-          </InfoSection>
-
-          <InfoSection title="Detail Transaksi">
-            <DetailRow label="Deskripsi" value={displayDescription} />
-            <DetailRow label="Status" value="Berhasil" />
-            <DetailRow label="Kode Referensi" value="TRF221112222" />
           </InfoSection>
 
           <div className="mt-[30px] grid gap-[10px]">
