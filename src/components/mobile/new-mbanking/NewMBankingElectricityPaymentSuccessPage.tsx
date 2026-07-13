@@ -84,6 +84,18 @@ function getSuccessTitle({
     : "Berhasil Melakukan Pembayaran";
 }
 
+function getNominalLabel({
+  providerName,
+  serviceVariant,
+}: {
+  providerName: string;
+  serviceVariant: ServiceVariant;
+}) {
+  return isPurchaseSuccess({ providerName, serviceVariant })
+    ? "Nominal Pembelian"
+    : "Nominal Pembayaran";
+}
+
 function getSuccessText(variant: ServiceVariant) {
   if (variant === "water") return "Pembayaran tagihan air Anda telah berhasil diproses.";
   if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan Anda telah berhasil diproses.";
@@ -194,6 +206,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   const Icon = getServiceIcon(serviceVariant);
   const successTitle = getSuccessTitle({ providerName, serviceVariant });
   const successText = getSuccessText(serviceVariant);
+  const nominalLabel = getNominalLabel({ providerName, serviceVariant });
   const showCustomerName =
     serviceVariant !== "postpaid-phone" &&
     serviceVariant !== "data-package" &&
@@ -329,7 +342,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
               {serviceVariant === "bpjs" ? (
                 <DetailRow label="Jumlah Bulan" value={bpjsMonths} />
               ) : null}
-              <DetailRow label="Nominal Pembelian" value={amount} />
+              <DetailRow label={nominalLabel} value={amount} />
               <DetailRow label="Biaya Admin" value={adminFee} />
 
               <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
