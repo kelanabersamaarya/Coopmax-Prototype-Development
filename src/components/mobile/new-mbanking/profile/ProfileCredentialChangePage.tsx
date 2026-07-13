@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Check, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileChangePasswordConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileChangePasswordConfirmModal";
 import ProfilePinNumericKeyboard, {
@@ -144,7 +145,10 @@ export default function ProfileCredentialChangePage({
   onBack: () => void;
   onRequireLogin?: () => void;
 }) {
+  const isMobile = useIsMobile();
   const isPin = variant === "pin";
+  const useCustomPinKeyboard = isPin && !isMobile;
+
   const [oldValue, setOldValue] = React.useState("");
   const [newValue, setNewValue] = React.useState("");
   const [confirmValue, setConfirmValue] = React.useState("");
@@ -153,6 +157,11 @@ export default function ProfileCredentialChangePage({
   const [toastMessage, setToastMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (useCustomPinKeyboard) return;
+    setActivePinField(null);
+  }, [useCustomPinKeyboard]);
 
   const isSubmitDisabled =
     !oldValue.trim() || !newValue.trim() || !confirmValue.trim();
@@ -258,7 +267,7 @@ export default function ProfileCredentialChangePage({
           onClose={() => setToastMessage("")}
         />
 
-        {isPin ? (
+        {useCustomPinKeyboard ? (
           <ProfilePinNumericKeyboard
             activeField={activePinField}
             values={{
@@ -298,9 +307,11 @@ export default function ProfileCredentialChangePage({
             placeholder={isPin ? "Masukkan PIN lama" : "Masukkan kata sandi lama"}
             inputMode={isPin ? "numeric" : "text"}
             maxLength={isPin ? 6 : undefined}
-            readOnly={isPin}
+            readOnly={useCustomPinKeyboard}
             active={activePinField === "old"}
-            onActivate={() => setActivePinField("old")}
+            onActivate={
+              useCustomPinKeyboard ? () => setActivePinField("old") : undefined
+            }
           />
 
           <SecretField
@@ -313,9 +324,11 @@ export default function ProfileCredentialChangePage({
             placeholder={isPin ? "Masukkan PIN baru" : "Masukkan kata sandi baru"}
             inputMode={isPin ? "numeric" : "text"}
             maxLength={isPin ? 6 : undefined}
-            readOnly={isPin}
+            readOnly={useCustomPinKeyboard}
             active={activePinField === "new"}
-            onActivate={() => setActivePinField("new")}
+            onActivate={
+              useCustomPinKeyboard ? () => setActivePinField("new") : undefined
+            }
           />
 
           <SecretField
@@ -328,9 +341,13 @@ export default function ProfileCredentialChangePage({
             placeholder={isPin ? "Konfirmasi PIN baru" : "Konfirmasi Kata Sandi Baru"}
             inputMode={isPin ? "numeric" : "text"}
             maxLength={isPin ? 6 : undefined}
-            readOnly={isPin}
+            readOnly={useCustomPinKeyboard}
             active={activePinField === "confirm"}
-            onActivate={() => setActivePinField("confirm")}
+            onActivate={
+              useCustomPinKeyboard
+                ? () => setActivePinField("confirm")
+                : undefined
+            }
           />
         </div>
 

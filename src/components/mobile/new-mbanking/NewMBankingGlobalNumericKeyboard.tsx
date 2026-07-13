@@ -4,6 +4,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Check, Delete, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type KeyboardMode = "digits" | "amount" | "text";
 type EditableField = HTMLInputElement | HTMLTextAreaElement;
@@ -382,6 +383,7 @@ function scrollInputAboveKeyboard({
 }
 
 export default function NewMBankingGlobalNumericKeyboard() {
+  const isMobile = useIsMobile();
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const [activeInput, setActiveInput] = React.useState<EditableField | null>(
     null,
@@ -403,7 +405,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
   );
 
   const updateClearTargets = React.useCallback(() => {
-    if (!mobileScreen) return;
+    if (!mobileScreen || isMobile) return;
 
     const screenRect = mobileScreen.getBoundingClientRect();
     const fields = Array.from(
@@ -424,18 +426,69 @@ export default function NewMBankingGlobalNumericKeyboard() {
       });
 
     setClearTargets(nextTargets);
-  }, [mobileScreen]);
+  }, [isMobile, mobileScreen]);
+
+  function restoreScrollParentSpacing() {
+    const previous = scrollParentStyleRef.current;
+    if (!previous) return;
+
+    previous.element.style.paddingBottom = previous.paddingBottom;
+    previous.element.style.scrollPaddingBottom = previous.scrollPaddingBottom;
+    previous.element.style.overflowY = previous.overflowY;
+    previous.element.style.overscrollBehaviorY = previous.overscrollBehaviorY;
+    previous.element.style.setProperty(
+      "-webkit-overflow-scrolling",
+      previous.webkitOverflowScrolling,
+    );
+
+    scrollParentStyleRef.current = null;
+  }
+
+  function restoreActiveInputStyle() {
+    const previous = activeInputStyleRef.current;
+    if (!previous) return;
+
+    previous.input.style.borderColor = previous.borderColor;
+    previous.input.style.boxShadow = previous.boxShadow;
+    previous.input.removeAttribute("data-keyboard-active");
+
+    activeInputStyleRef.current = null;
+  }
+
+  function closeKeyboard() {
+    activeInput?.blur();
+    restoreActiveInputStyle();
+    restoreScrollParentSpacing();
+    setActiveInput(null);
+    setValue("");
+    window.requestAnimationFrame(updateClearTargets);
+  }
 
   React.useEffect(() => {
+    if (isMobile) {
+      closeKeyboard();
+      setClearTargets([]);
+      setMobileScreen(null);
+      return;
+    }
+
     const screen = document.querySelector(
       '[data-mobile-screen="true"]',
     ) as HTMLElement | null;
 
     setMobileScreen(screen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile]);
+
+  React.useEffect(() => {
+    return () => {
+      restoreActiveInputStyle();
+      restoreScrollParentSpacing();
+    };
   }, []);
 
   React.useEffect(() => {
-    if (!mobileScreen) return;
+    if (!mobileScreen || isMobile) return;
 
     const sync = () => {
       window.requestAnimationFrame(updateClearTargets);
@@ -458,73 +511,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       mobileScreen.removeEventListener("scroll", sync, true);
       window.removeEventListener("resize", sync);
     };
-  }, [mobileScreen, updateClearTargets]);
-
-  React.useEffect(() => {
-    return () => {
-      restoreActiveInputStyle();
-      restoreScrollParentSpacing();
-    };
-  }, []);
-
-  React.useEffect(() => {
-    if (!activeInput || !mobileScreen) {
-      restoreScrollParentSpacing();
-      return;
-    }
-
-    let firstTimeoutId = 0;
-    let secondTimeoutId = 0;
-
-    const applyScroll = () => {
-      const panelHeight =
-        keyboardPanelRef.current?.getBoundingClientRect().height ??
-        KEYBOARD_FALLBACK_HEIGHT;
-      const keyboardHeight = getEffectiveKeyboardHeight(activeInput, panelHeight);
-
-      applyScrollParentSpacing({
-        input: activeInput,
-        mobileScreen,
-        keyboardHeight,
-      });
-
-      scrollInputAboveKeyboard({
-        input: activeInput,
-        mobileScreen,
-        keyboardHeight,
-      });
-
-      updateClearTargets();
-    };
-
-    const animationFrameId = window.requestAnimationFrame(() => {
-      applyScroll();
-      firstTimeoutId = window.setTimeout(applyScroll, 90);
-      secondTimeoutId = window.setTimeout(applyScroll, 220);
-    });
-
-    return () => {
-      window.cancelAnimationFrame(animationFrameId);
-      window.clearTimeout(firstTimeoutId);
-      window.clearTimeout(secondTimeoutId);
-    };
-  }, [activeInput, mobileScreen, updateClearTargets]);
-
-  function restoreScrollParentSpacing() {
-    const previous = scrollParentStyleRef.current;
-    if (!previous) return;
-
-    previous.element.style.paddingBottom = previous.paddingBottom;
-    previous.element.style.scrollPaddingBottom = previous.scrollPaddingBottom;
-    previous.element.style.overflowY = previous.overflowY;
-    previous.element.style.overscrollBehaviorY = previous.overscrollBehaviorY;
-    previous.element.style.setProperty(
-      "-webkit-overflow-scrolling",
-      previous.webkitOverflowScrolling,
-    );
-
-    scrollParentStyleRef.current = null;
-  }
+  }, [isMobile, mobileScreen, updateClearTargets]);
 
   function applyScrollParentSpacing({
     input,
@@ -566,16 +553,48 @@ export default function NewMBankingGlobalNumericKeyboard() {
     scrollParent.style.scrollPaddingBottom = `${keyboardHeight + extraSafety}px`;
   }
 
-  function restoreActiveInputStyle() {
-    const previous = activeInputStyleRef.current;
-    if (!previous) return;
+  React.useEffect(() => {
+    if (!activeInput || !mobileScreen || isMobile) {
+      restoreScrollParentSpacing();
+      return;
+    }
 
-    previous.input.style.borderColor = previous.borderColor;
-    previous.input.style.boxShadow = previous.boxShadow;
-    previous.input.removeAttribute("data-keyboard-active");
+    let firstTimeoutId = 0;
+    let secondTimeoutId = 0;
 
-    activeInputStyleRef.current = null;
-  }
+    const applyScroll = () => {
+      const panelHeight =
+        keyboardPanelRef.current?.getBoundingClientRect().height ??
+        KEYBOARD_FALLBACK_HEIGHT;
+      const keyboardHeight = getEffectiveKeyboardHeight(activeInput, panelHeight);
+
+      applyScrollParentSpacing({
+        input: activeInput,
+        mobileScreen,
+        keyboardHeight,
+      });
+
+      scrollInputAboveKeyboard({
+        input: activeInput,
+        mobileScreen,
+        keyboardHeight,
+      });
+
+      updateClearTargets();
+    };
+
+    const animationFrameId = window.requestAnimationFrame(() => {
+      applyScroll();
+      firstTimeoutId = window.setTimeout(applyScroll, 90);
+      secondTimeoutId = window.setTimeout(applyScroll, 220);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      window.clearTimeout(firstTimeoutId);
+      window.clearTimeout(secondTimeoutId);
+    };
+  }, [activeInput, isMobile, mobileScreen, updateClearTargets]);
 
   function activateInput(input: EditableField) {
     restoreActiveInputStyle();
@@ -619,6 +638,8 @@ export default function NewMBankingGlobalNumericKeyboard() {
   }
 
   React.useEffect(() => {
+    if (isMobile) return;
+
     function handlePointerDown(event: PointerEvent) {
       const target = event.target as HTMLElement | null;
       const input = target?.closest("input, textarea") as EditableField | null;
@@ -640,10 +661,11 @@ export default function NewMBankingGlobalNumericKeyboard() {
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown, true);
     };
-  }, [mobileScreen, updateClearTargets]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile, mobileScreen, updateClearTargets]);
 
   React.useEffect(() => {
-    if (!activeInput) return;
+    if (!activeInput || isMobile) return;
 
     function handleOutsidePointerDown(event: PointerEvent) {
       const target = event.target as HTMLElement | null;
@@ -664,10 +686,11 @@ export default function NewMBankingGlobalNumericKeyboard() {
     return () => {
       document.removeEventListener("pointerdown", handleOutsidePointerDown);
     };
-  }, [activeInput]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeInput, isMobile]);
 
   React.useEffect(() => {
-    if (!activeInput) return;
+    if (!activeInput || isMobile) return;
 
     const syncValue = () => {
       setValue(getFieldValue(activeInput));
@@ -677,7 +700,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     activeInput.addEventListener("input", syncValue);
 
     return () => activeInput.removeEventListener("input", syncValue);
-  }, [activeInput, updateClearTargets]);
+  }, [activeInput, isMobile, updateClearTargets]);
 
   function applyValue(nextValue: string) {
     if (!activeInput) return;
@@ -737,15 +760,6 @@ export default function NewMBankingGlobalNumericKeyboard() {
     window.requestAnimationFrame(updateClearTargets);
   }
 
-  function closeKeyboard() {
-    activeInput?.blur();
-    restoreActiveInputStyle();
-    restoreScrollParentSpacing();
-    setActiveInput(null);
-    setValue("");
-    window.requestAnimationFrame(updateClearTargets);
-  }
-
   function continueFlow() {
     if (
       activeInput?.closest('[data-new-mbanking-register-page="true"]') ||
@@ -768,7 +782,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     });
   }
 
-  if (!mobileScreen) return null;
+  if (isMobile || !mobileScreen) return null;
 
   const isTextMode = mode === "text";
 
