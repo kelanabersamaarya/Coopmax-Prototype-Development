@@ -18,6 +18,9 @@ import NewMBankingTransactionFilterPage, {
 } from "@/components/mobile/new-mbanking/NewMBankingTransactionFilterPage";
 import NewMBankingActiveFilterSummary from "@/components/mobile/new-mbanking/NewMBankingActiveFilterSummary";
 import NewMBankingEmptyStateImage from "@/components/mobile/new-mbanking/NewMBankingEmptyStateImage";
+import NewMBankingHistoryReceiptPage, {
+  type NewMBankingHistoryReceiptData,
+} from "@/components/mobile/new-mbanking/NewMBankingHistoryReceiptPage";
 
 type TransactionItem = {
   id: string;
@@ -339,6 +342,118 @@ function filterGroupsByMonth(groups: TransactionGroup[], activeMonth: string) {
     .filter((group) => group.items.length > 0);
 }
 
+function buildReceiptData(item: TransactionItem, groupDate: string): NewMBankingHistoryReceiptData {
+  const normalizedTitle = item.title.trim().toLowerCase();
+  const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
+  const primaryInfo = subtitleParts[0] ?? item.subtitle;
+  const secondaryInfo = subtitleParts[1] ?? "-";
+
+  if (normalizedTitle.includes("transfer antar bank")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Transfer Antar Bank",
+      date: `${groupDate}, 19:00 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Bank Tujuan", value: primaryInfo },
+        { label: "No. Rekening Tujuan", value: secondaryInfo },
+        { label: "Biaya Admin", value: "2.500,00" },
+        { label: "Deskripsi", value: "Transfer via M-Banking" },
+      ],
+    };
+  }
+
+  if (normalizedTitle.includes("transfer antar rekening")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Transfer Antar Rekening",
+      date: `${groupDate}, 19:00 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Produk Tujuan", value: primaryInfo },
+        { label: "No. Rekening Tujuan", value: secondaryInfo },
+        { label: "Biaya Admin", value: "0,00" },
+        { label: "Deskripsi", value: "Transfer sesama rekening koperasi" },
+      ],
+    };
+  }
+
+  if (normalizedTitle.includes("setoran")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Setoran",
+      date: `${groupDate}, 10:24 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Produk Simpanan", value: primaryInfo },
+        { label: "Kanal Transaksi", value: secondaryInfo },
+        { label: "Biaya Admin", value: "0,00" },
+        { label: "Deskripsi", value: "Setoran simpanan" },
+      ],
+    };
+  }
+
+  if (normalizedTitle.includes("tarikan")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Tarikan",
+      date: `${groupDate}, 11:15 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Produk Simpanan", value: primaryInfo },
+        { label: "Kanal Transaksi", value: secondaryInfo },
+        { label: "Biaya Admin", value: "0,00" },
+        { label: "Deskripsi", value: "Tarikan simpanan" },
+      ],
+    };
+  }
+
+  if (normalizedTitle.includes("pinjaman") || normalizedTitle.includes("angsuran")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Pembayaran Angsuran",
+      date: `${groupDate}, 14:18 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Produk Pinjaman", value: primaryInfo },
+        { label: "No. Rek. Pinjaman", value: secondaryInfo },
+        { label: "Pokok", value: "833.333,00" },
+        { label: "Bunga", value: "83.333,00" },
+        { label: "Denda", value: "75.000,00" },
+      ],
+    };
+  }
+
+  return {
+    title: item.title,
+    subtitle: item.subtitle,
+    amount: item.amount,
+    sourceFund: item.sourceFund,
+    transactionType: item.method,
+    date: `${groupDate}, 10:00 WIB`,
+    status: "Berhasil",
+    detailRows: [
+      { label: "Keterangan", value: item.subtitle },
+      { label: "Biaya Admin", value: "0,00" },
+    ],
+  };
+}
+
 function TransactionIcon({ item }: { item: TransactionItem }) {
   const normalizedTitle = item.title.trim().toLowerCase();
 
@@ -410,11 +525,25 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
   );
 }
 
-function TransactionRow({ item }: { item: TransactionItem }) {
+function TransactionRow({
+  item,
+  groupDate,
+  onOpenReceipt,
+}: {
+  item: TransactionItem;
+  groupDate: string;
+  onOpenReceipt: (receipt: NewMBankingHistoryReceiptData) => void;
+}) {
   const isIncome = item.type === "in";
 
   return (
-    <div className="flex items-start justify-between gap-4 py-[14px]">
+    <button
+      type="button"
+      onClick={() => onOpenReceipt(buildReceiptData(item, groupDate))}
+      className="flex w-full items-start justify-between gap-4 py-[14px] text-left transition active:scale-[0.99]"
+      aria-label={`Lihat bukti transaksi ${item.title}`}
+      title="Lihat bukti transaksi"
+    >
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <TransactionIcon item={item} />
 
@@ -442,11 +571,17 @@ function TransactionRow({ item }: { item: TransactionItem }) {
           Berhasil
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function TransactionGroupCard({ group }: { group: TransactionGroup }) {
+function TransactionGroupCard({
+  group,
+  onOpenReceipt,
+}: {
+  group: TransactionGroup;
+  onOpenReceipt: (receipt: NewMBankingHistoryReceiptData) => void;
+}) {
   return (
     <section className="mt-[22px]">
       <div className="flex items-center gap-3">
@@ -458,7 +593,12 @@ function TransactionGroupCard({ group }: { group: TransactionGroup }) {
 
       <div className="mt-[8px] divide-y divide-[#EEF0F4]">
         {group.items.map((item) => (
-          <TransactionRow key={item.id} item={item} />
+          <TransactionRow
+            key={item.id}
+            item={item}
+            groupDate={group.date}
+            onOpenReceipt={onOpenReceipt}
+          />
         ))}
       </div>
     </section>
@@ -497,6 +637,8 @@ export default function NewMBankingHistoryPage({
   const [showFilterPage, setShowFilterPage] = React.useState(false);
   const [filters, setFilters] =
     React.useState<NewMBankingTransactionFilters | null>(null);
+  const [selectedReceipt, setSelectedReceipt] =
+    React.useState<NewMBankingHistoryReceiptData | null>(null);
 
   const monthChips = React.useMemo(() => getVisibleMonthChips(filters), [filters]);
 
@@ -523,6 +665,16 @@ export default function NewMBankingHistoryPage({
   );
 
   const filterIsActive = !!filters;
+
+  if (selectedReceipt) {
+    return (
+      <NewMBankingHistoryReceiptPage
+        receipt={selectedReceipt}
+        onBack={() => setSelectedReceipt(null)}
+        onDone={() => setSelectedReceipt(null)}
+      />
+    );
+  }
 
   if (showFilterPage) {
     return (
@@ -606,7 +758,11 @@ export default function NewMBankingHistoryPage({
           <div className="mt-[6px]">
             {visibleGroups.length > 0 ? (
               visibleGroups.map((group) => (
-                <TransactionGroupCard key={group.date} group={group} />
+                <TransactionGroupCard
+                  key={group.date}
+                  group={group}
+                  onOpenReceipt={setSelectedReceipt}
+                />
               ))
             ) : (
               <EmptyFilterResult />
