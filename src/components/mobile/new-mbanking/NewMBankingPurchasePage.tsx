@@ -182,8 +182,14 @@ function PurchaseStatusBar() {
 }
 
 function parseIdrLike(value: string) {
-  const digits = value.replace(/[^\d]/g, "");
-  const parsed = Number(digits);
+  const raw = (value ?? "").trim();
+  if (!raw) return 0;
+
+  const withoutCurrency = raw.replace(/rp\.?/gi, "").replace(/\s/g, "");
+  const integerPart = withoutCurrency.split(",")[0] ?? "";
+  const cleaned = integerPart.replace(/[^\d-]/g, "");
+  const parsed = Number(cleaned);
+
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
@@ -196,8 +202,9 @@ function normalizeAmount(value: string) {
 }
 
 function extractCustomerNo(subtitle: string) {
-  const parts = subtitle.split("•").map((item) => item.trim());
-  return parts[1] || "-";
+  const parts = subtitle.split("-");
+  const candidate = parts[parts.length - 1]?.trim() ?? "";
+  return candidate.replace(/[^\d]/g, "") || "-";
 }
 
 function getReceiptData(item: {
