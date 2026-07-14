@@ -138,7 +138,7 @@ export default function NewMBankingDepositPage({
   if (showPinInput) {
     return (
       <NewMBankingPinInputPage
-        title="Setoran"
+        title="Setor Dana"
         description="Masukkan 6 digit PIN M-Banking untuk melanjutkan setoran."
         onBack={() => setShowPinInput(false)}
         onSubmit={() => {
@@ -166,7 +166,7 @@ export default function NewMBankingDepositPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Setoran
+            Setor Dana
           </h1>
         </header>
       </div>
