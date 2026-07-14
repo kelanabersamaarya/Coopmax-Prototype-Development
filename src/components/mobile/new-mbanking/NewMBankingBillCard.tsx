@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, Clock3, HandCoins, Info } from "lucide-react";
+import { CalendarDays, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BillingRow } from "@/components/loans/BillingTableWithStatus";
 
@@ -45,29 +45,6 @@ function TotalAmountRow({
       </div>
 
       <div className="shrink-0 text-right text-[15px] font-bold leading-tight text-black tabular-nums">
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function RemainingBillCard({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="rounded-[16px] bg-white px-4 py-4 ring-1 ring-[#EEF0F4]">
-      <div className="flex items-center gap-2 text-[11px] font-normal leading-none text-[#8F8F8F]">
-        <Icon className="h-[14px] w-[14px] text-[#479DF4]" strokeWidth={2.5} />
-        {label}
-      </div>
-
-      <div className="mt-[10px] truncate text-[14px] font-bold leading-tight text-black tabular-nums">
         {value}
       </div>
     </div>
@@ -138,21 +115,8 @@ export default function NewMBankingBillCard({
         <div className="rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#EEF0F4]">
           <DetailAmountRow label="Tagihan Pokok" value={row.tagihanPokok} />
           <DetailAmountRow label="Tagihan Bunga" value={row.tagihanBunga} />
-
-          <div className="my-[10px] grid grid-cols-2 gap-3">
-            <RemainingBillCard
-              icon={HandCoins}
-              label="Sisa Pokok"
-              value={row.sisaPokok}
-            />
-
-            <RemainingBillCard
-              icon={Clock3}
-              label="Sisa Bunga"
-              value={row.sisaBunga}
-            />
-          </div>
-
+          <DetailAmountRow label="Sisa Pokok" value={row.sisaPokok} />
+          <DetailAmountRow label="Sisa Bunga" value={row.sisaBunga} />
           <DetailAmountRow label="Tagihan Denda" value={penalty} />
 
           <div className="my-[8px] h-px w-full bg-[#E5E7EB]" />
