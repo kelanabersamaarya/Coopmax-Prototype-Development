@@ -69,7 +69,7 @@ export default function NewMBankingTransferTypeModal({
                 Transfer Antar Rekening
               </span>
               <span className="mt-1 block text-[12px] font-normal leading-snug text-[#8F8F8F]">
-                Transfer ke sesama rekening koperasi.
+                Transfer ke sesama rekening dalam satu koperasi
               </span>
             </span>
           </button>
