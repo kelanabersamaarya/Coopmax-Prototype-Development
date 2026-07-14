@@ -181,7 +181,7 @@ function CopyButton({ label }: { label: string }) {
       type="button"
       className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
       aria-label={label}
-      title={label}
+      title="Salin"
     >
       <Copy className="h-[14px] w-[14px]" strokeWidth={2.5} />
     </button>
@@ -335,7 +335,7 @@ export default function NewMBankingDepositDetailPage({
 
           <section className="-mx-6 mt-[28px] min-h-[520px] bg-[#FFFFFF] px-6 pb-[34px] pt-[24px]">
             <div className="text-[16px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
-              Riwayat Deposito
+              Riwayat Transaksi Deposito
             </div>
             <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
