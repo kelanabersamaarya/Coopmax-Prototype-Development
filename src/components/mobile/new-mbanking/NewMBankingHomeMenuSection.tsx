@@ -103,10 +103,10 @@ export default function NewMBankingHomeMenuSection({
                 aria-label={item.label}
                 aria-current={isActive ? "page" : undefined}
               >
-                <span className="absolute left-1/2 top-[14px] flex -translate-x-1/2 flex-col items-center">
+                <span className="absolute left-1/2 top-[12px] flex w-full -translate-x-1/2 flex-col items-center px-0.5">
                   <Icon
                     className={cn(
-                      "h-[24px] w-[24px] shrink-0",
+                      "h-[23px] w-[23px] shrink-0",
                       isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
                     )}
                     strokeWidth={2.3}
@@ -114,7 +114,9 @@ export default function NewMBankingHomeMenuSection({
 
                   <span
                     className={cn(
-                      "mt-[6px] max-w-[78px] whitespace-normal text-center text-[10.5px] font-normal leading-[1.05] tracking-[-0.02em]",
+                      "mt-[5px] flex h-[24px] max-w-[68px] items-start justify-center overflow-hidden text-center",
+                      "text-[10px] font-normal leading-[12px] tracking-[-0.02em]",
+                      "[display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]",
                       isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
                     )}
                   >
