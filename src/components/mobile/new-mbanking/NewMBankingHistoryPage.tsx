@@ -4,13 +4,17 @@ import {
   Banknote,
   CircleDollarSign,
   Filter,
+  HeartPulse,
   Landmark,
   Minus,
   Plus,
   ReceiptText,
   Send,
   ShoppingBasket,
+  Smartphone,
   WalletCards,
+  Wifi,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -577,10 +581,50 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
     );
   }
 
+  if (normalizedTitle.includes("pembayaran listrik")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+        <Zap className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pembayaran bpjs")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#22C55E] text-white">
+        <HeartPulse className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pembayaran internet")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#2563EB] text-white">
+        <Wifi className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
   if (normalizedTitle.includes("pembayaran") && !normalizedTitle.includes("pinjaman")) {
     return (
       <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#7C3AED] text-white">
         <ReceiptText className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pembelian pulsa")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+        <Smartphone className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pembelian paket data")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#2563EB] text-white">
+        <Smartphone className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
       </span>
     );
   }
