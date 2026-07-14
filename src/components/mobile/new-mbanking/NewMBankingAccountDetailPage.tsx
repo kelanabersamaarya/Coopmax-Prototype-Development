@@ -456,8 +456,8 @@ export default function NewMBankingAccountDetailPage({
 
         <section className="relative bg-white px-6 pb-[34px] pt-[22px]">
           <div>
-            <h2 className="text-[20px] font-bold leading-tight tracking-[-0.035em] text-black">
-              Riwayat Transaksi
+            <h2 className="text-[16px] font-bold leading-tight tracking-[-0.035em] text-black">
+              Riwayat Transaksi Simpanan
             </h2>
 
             <div className="mt-[18px] flex gap-[9px] overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
