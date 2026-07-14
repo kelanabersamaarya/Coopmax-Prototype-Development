@@ -118,7 +118,7 @@ function BillInfoRow({
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
+      <h2 className="text-[16px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
         {children}
       </h2>
       <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
