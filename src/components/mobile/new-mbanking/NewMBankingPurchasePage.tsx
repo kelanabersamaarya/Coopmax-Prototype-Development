@@ -26,6 +26,8 @@ import NewMBankingEWalletProviderPage, {
   type EWalletProvider,
 } from "@/components/mobile/new-mbanking/NewMBankingEWalletProviderPage";
 import NewMBankingEWalletTopUpPage from "@/components/mobile/new-mbanking/NewMBankingEWalletTopUpPage";
+import NewMBankingPaymentPurchaseReceiptPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPurchaseReceiptPage";
+import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import {
   getNewMBankingSavedRecipients,
   removeNewMBankingSavedRecipient,
@@ -35,6 +37,17 @@ import {
 } from "@/lib/newMBankingSavedRecipientsStore";
 
 type PurchaseTab = "saved" | "history";
+
+type PurchaseReceiptData = {
+  providerName: string;
+  customerName: string;
+  customerNo: string;
+  amount: string;
+  adminFee: string;
+  totalTransaction: string;
+  sourceFund: SourceFundAccount;
+  serviceVariant: "postpaid-phone" | "data-package" | "token-pln" | "e-wallet";
+};
 
 const purchaseCategories = [
   {
@@ -138,6 +151,12 @@ const purchaseHistoryGroups = [
   },
 ];
 
+const receiptSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
+};
+
 function PurchaseStatusBar() {
   return (
     <div className="flex h-[30px] shrink-0 items-center justify-between px-6 pt-2 text-black">
@@ -160,6 +179,87 @@ function PurchaseStatusBar() {
       </div>
     </div>
   );
+}
+
+function parseIdrLike(value: string) {
+  const digits = value.replace(/[^\d]/g, "");
+  const parsed = Number(digits);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
+function normalizeAmount(value: string) {
+  return value.replace(/^-/, "").trim();
+}
+
+function extractCustomerNo(subtitle: string) {
+  const parts = subtitle.split("•").map((item) => item.trim());
+  return parts[1] || "-";
+}
+
+function getReceiptData(item: {
+  title: string;
+  subtitle: string;
+  amount: string;
+  type: string;
+}): PurchaseReceiptData {
+  const amount = normalizeAmount(item.amount);
+  const adminFee = "Rp. 2.500,00";
+  const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
+  const customerNo = extractCustomerNo(item.subtitle);
+
+  if (item.type === "data") {
+    return {
+      providerName: "Paket Data XL",
+      customerName: "",
+      customerNo,
+      amount,
+      adminFee,
+      totalTransaction,
+      sourceFund: receiptSourceFund,
+      serviceVariant: "data-package",
+    };
+  }
+
+  if (item.type === "token") {
+    return {
+      providerName: "Token PLN",
+      customerName: "",
+      customerNo,
+      amount,
+      adminFee,
+      totalTransaction,
+      sourceFund: receiptSourceFund,
+      serviceVariant: "token-pln",
+    };
+  }
+
+  if (item.type === "ewallet") {
+    return {
+      providerName: item.title.toLowerCase().includes("dana") ? "DANA" : "OVO",
+      customerName: "",
+      customerNo,
+      amount,
+      adminFee,
+      totalTransaction,
+      sourceFund: receiptSourceFund,
+      serviceVariant: "e-wallet",
+    };
+  }
+
+  return {
+    providerName: item.title,
+    customerName: "",
+    customerNo,
+    amount,
+    adminFee,
+    totalTransaction,
+    sourceFund: receiptSourceFund,
+    serviceVariant: "postpaid-phone",
+  };
 }
 
 function getIconByType(type: string) {
@@ -195,6 +295,7 @@ function SavedPurchaseIcon({ type }: { type: string }) {
 
 function PurchaseHistoryRow({
   item,
+  onOpenReceipt,
 }: {
   item: {
     title: string;
@@ -203,9 +304,16 @@ function PurchaseHistoryRow({
     status: string;
     type: string;
   };
+  onOpenReceipt: (receipt: PurchaseReceiptData) => void;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[14px]">
+    <button
+      type="button"
+      onClick={() => onOpenReceipt(getReceiptData(item))}
+      className="flex w-full items-start justify-between gap-4 py-[14px] text-left transition active:scale-[0.99]"
+      aria-label={`Lihat bukti transaksi ${item.title}`}
+      title="Lihat bukti transaksi"
+    >
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <SavedPurchaseIcon type={item.type} />
 
@@ -228,11 +336,17 @@ function PurchaseHistoryRow({
           {item.status}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function PurchaseHistoryList({ activeMonth }: { activeMonth: string }) {
+function PurchaseHistoryList({
+  activeMonth,
+  onOpenReceipt,
+}: {
+  activeMonth: string;
+  onOpenReceipt: (receipt: PurchaseReceiptData) => void;
+}) {
   const filteredGroups = purchaseHistoryGroups.filter(
     (group) => group.month === activeMonth,
   );
@@ -263,7 +377,11 @@ function PurchaseHistoryList({ activeMonth }: { activeMonth: string }) {
 
           <div className="mt-[8px] divide-y divide-[#EEF0F4]">
             {group.items.map((item) => (
-              <PurchaseHistoryRow key={item.id} item={item} />
+              <PurchaseHistoryRow
+                key={item.id}
+                item={item}
+                onOpenReceipt={onOpenReceipt}
+              />
             ))}
           </div>
         </section>
@@ -392,6 +510,8 @@ export default function NewMBankingPurchasePage({
     React.useState<EWalletProvider | null>(null);
   const [prefillPhoneNumber, setPrefillPhoneNumber] = React.useState("");
   const [prefillMeterNo, setPrefillMeterNo] = React.useState("");
+  const [selectedReceipt, setSelectedReceipt] =
+    React.useState<PurchaseReceiptData | null>(null);
 
   React.useEffect(() => {
     return subscribeNewMBankingSavedRecipients(() =>
@@ -498,6 +618,23 @@ export default function NewMBankingPurchasePage({
     }
 
     showToast("Pembelian tersimpan berhasil dihapus");
+  }
+
+  if (selectedReceipt) {
+    return (
+      <NewMBankingPaymentPurchaseReceiptPage
+        providerName={selectedReceipt.providerName}
+        customerName={selectedReceipt.customerName}
+        customerNo={selectedReceipt.customerNo}
+        amount={selectedReceipt.amount}
+        adminFee={selectedReceipt.adminFee}
+        totalTransaction={selectedReceipt.totalTransaction}
+        sourceFund={selectedReceipt.sourceFund}
+        serviceVariant={selectedReceipt.serviceVariant}
+        onBack={() => setSelectedReceipt(null)}
+        onDone={() => setSelectedReceipt(null)}
+      />
+    );
   }
 
   if (showPulsaPage) {
@@ -699,7 +836,10 @@ export default function NewMBankingPurchasePage({
                 onChange={setActiveMonth}
                 className="mt-[18px]"
               />
-              <PurchaseHistoryList activeMonth={activeMonth} />
+              <PurchaseHistoryList
+                activeMonth={activeMonth}
+                onOpenReceipt={setSelectedReceipt}
+              />
             </>
           )}
         </section>

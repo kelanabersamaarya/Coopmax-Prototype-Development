@@ -16,7 +16,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
-import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
+import NewMBankingPaymentHistoryList, {
+  type PaymentHistoryReceiptData,
+} from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
 import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
@@ -25,6 +27,7 @@ import NewMBankingSavedPaymentAccordion, {
 } from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
+import NewMBankingPaymentPurchaseReceiptPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPurchaseReceiptPage";
 import {
   getNewMBankingSavedRecipients,
   isNewMBankingRecipientSaved,
@@ -188,6 +191,8 @@ export default function NewMBankingPaymentPage({
   const [savedRefreshTick, setSavedRefreshTick] = React.useState(0);
   const [toastMessage, setToastMessage] = React.useState("");
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
+  const [selectedReceipt, setSelectedReceipt] =
+    React.useState<PaymentHistoryReceiptData | null>(null);
 
   React.useEffect(() => {
     return subscribeNewMBankingSavedRecipients(() =>
@@ -270,6 +275,24 @@ export default function NewMBankingPaymentPage({
     }
 
     showToast("Pembayaran tersimpan berhasil dihapus");
+  }
+
+  if (selectedReceipt) {
+    return (
+      <NewMBankingPaymentPurchaseReceiptPage
+        providerName={selectedReceipt.providerName}
+        customerName={selectedReceipt.customerName}
+        customerNo={selectedReceipt.customerNo}
+        amount={selectedReceipt.amount}
+        adminFee={selectedReceipt.adminFee}
+        totalTransaction={selectedReceipt.totalTransaction}
+        sourceFund={selectedReceipt.sourceFund}
+        serviceVariant={selectedReceipt.serviceVariant}
+        bpjsMonths={selectedReceipt.bpjsMonths}
+        onBack={() => setSelectedReceipt(null)}
+        onDone={() => setSelectedReceipt(null)}
+      />
+    );
   }
 
   if (showQrisFlow) {
@@ -425,7 +448,10 @@ export default function NewMBankingPaymentPage({
                 onChange={setActiveMonth}
                 className="mt-[18px]"
               />
-              <NewMBankingPaymentHistoryList activeMonth={activeMonth} />
+              <NewMBankingPaymentHistoryList
+                activeMonth={activeMonth}
+                onOpenReceipt={setSelectedReceipt}
+              />
             </>
           )}
         </section>

@@ -7,6 +7,19 @@ import {
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+
+export type PaymentHistoryReceiptData = {
+  providerName: string;
+  customerName: string;
+  customerNo: string;
+  amount: string;
+  adminFee: string;
+  totalTransaction: string;
+  sourceFund: SourceFundAccount;
+  serviceVariant: "electricity" | "internet" | "postpaid-phone" | "bpjs";
+  bpjsMonths?: string;
+};
 
 type PaymentHistoryItem = {
   id: string;
@@ -92,6 +105,93 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
   },
 ];
 
+const defaultReceiptSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
+};
+
+function normalizeAmount(value: string) {
+  return value.replace(/^-/, "").trim();
+}
+
+function parseIdrLike(value: string) {
+  const digits = value.replace(/[^\d]/g, "");
+  const parsed = Number(digits);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
+function splitSubtitle(subtitle: string) {
+  const parts = subtitle.split("•").map((item) => item.trim());
+
+  return {
+    customerName: parts[0] || "Pelanggan",
+    customerNo: parts[1] || "-",
+  };
+}
+
+function getReceiptData(item: PaymentHistoryItem): PaymentHistoryReceiptData {
+  const { customerName, customerNo } = splitSubtitle(item.subtitle);
+  const amount = normalizeAmount(item.amount);
+  const adminFee = "Rp. 2.500,00";
+  const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
+
+  if (item.type === "internet") {
+    return {
+      providerName: "IndiHome",
+      customerName,
+      customerNo,
+      amount,
+      adminFee,
+      totalTransaction,
+      sourceFund: defaultReceiptSourceFund,
+      serviceVariant: "internet",
+    };
+  }
+
+  if (item.type === "pulsa") {
+    return {
+      providerName: "XL Pascabayar",
+      customerName,
+      customerNo,
+      amount,
+      adminFee,
+      totalTransaction,
+      sourceFund: defaultReceiptSourceFund,
+      serviceVariant: "postpaid-phone",
+    };
+  }
+
+  if (item.type === "bpjs") {
+    return {
+      providerName: "BPJS Kesehatan",
+      customerName,
+      customerNo,
+      amount,
+      adminFee,
+      totalTransaction,
+      sourceFund: defaultReceiptSourceFund,
+      serviceVariant: "bpjs",
+      bpjsMonths: "1 Bulan",
+    };
+  }
+
+  return {
+    providerName: "PLN Postpaid",
+    customerName,
+    customerNo,
+    amount,
+    adminFee,
+    totalTransaction,
+    sourceFund: defaultReceiptSourceFund,
+    serviceVariant: "electricity",
+  };
+}
+
 function getPaymentIcon(type: PaymentHistoryItem["type"]) {
   if (type === "listrik") return Zap;
   if (type === "internet") return Wifi;
@@ -121,9 +221,21 @@ function PaymentHistoryIcon({ type }: { type: PaymentHistoryItem["type"] }) {
   );
 }
 
-function PaymentHistoryRow({ item }: { item: PaymentHistoryItem }) {
+function PaymentHistoryRow({
+  item,
+  onOpenReceipt,
+}: {
+  item: PaymentHistoryItem;
+  onOpenReceipt?: (receipt: PaymentHistoryReceiptData) => void;
+}) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[14px]">
+    <button
+      type="button"
+      onClick={() => onOpenReceipt?.(getReceiptData(item))}
+      className="flex w-full items-start justify-between gap-4 py-[14px] text-left transition active:scale-[0.99]"
+      aria-label={`Lihat bukti transaksi ${item.title}`}
+      title="Lihat bukti transaksi"
+    >
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <PaymentHistoryIcon type={item.type} />
 
@@ -146,11 +258,17 @@ function PaymentHistoryRow({ item }: { item: PaymentHistoryItem }) {
           {item.status}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function PaymentHistoryGroupCard({ group }: { group: PaymentHistoryGroup }) {
+function PaymentHistoryGroupCard({
+  group,
+  onOpenReceipt,
+}: {
+  group: PaymentHistoryGroup;
+  onOpenReceipt?: (receipt: PaymentHistoryReceiptData) => void;
+}) {
   return (
     <section className="mt-[22px]">
       <div className="flex items-center gap-3">
@@ -162,7 +280,11 @@ function PaymentHistoryGroupCard({ group }: { group: PaymentHistoryGroup }) {
 
       <div className="mt-[8px] divide-y divide-[#EEF0F4]">
         {group.items.map((item) => (
-          <PaymentHistoryRow key={item.id} item={item} />
+          <PaymentHistoryRow
+            key={item.id}
+            item={item}
+            onOpenReceipt={onOpenReceipt}
+          />
         ))}
       </div>
     </section>
@@ -184,8 +306,10 @@ function EmptyHistoryMonth() {
 
 export default function NewMBankingPaymentHistoryList({
   activeMonth = "Jun",
+  onOpenReceipt,
 }: {
   activeMonth?: string;
+  onOpenReceipt?: (receipt: PaymentHistoryReceiptData) => void;
 }) {
   const filteredGroups = paymentHistoryGroups.filter(
     (group) => group.month === activeMonth,
@@ -198,7 +322,11 @@ export default function NewMBankingPaymentHistoryList({
   return (
     <div className="mt-[6px]">
       {filteredGroups.map((group) => (
-        <PaymentHistoryGroupCard key={group.date} group={group} />
+        <PaymentHistoryGroupCard
+          key={group.date}
+          group={group}
+          onOpenReceipt={onOpenReceipt}
+        />
       ))}
     </div>
   );
