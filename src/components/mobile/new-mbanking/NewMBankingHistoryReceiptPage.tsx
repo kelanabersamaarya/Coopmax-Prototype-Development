@@ -11,6 +11,7 @@ export type NewMBankingHistoryReceiptData = {
   transactionType: string;
   date: string;
   status: string;
+  hideSourceFund?: boolean;
   detailRows: Array<{
     label: string;
     value: string;
@@ -110,16 +111,18 @@ export default function NewMBankingHistoryReceiptPage({
             </div>
           </div>
 
-          <InfoSection title="Sumber Dana">
-            <div className="py-[7px]">
-              <div className="text-[14px] font-normal leading-tight text-black">
-                Laura Patel
+          {!receipt.hideSourceFund ? (
+            <InfoSection title="Sumber Dana">
+              <div className="py-[7px]">
+                <div className="text-[14px] font-normal leading-tight text-black">
+                  Laura Patel
+                </div>
+                <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
+                  {receipt.sourceFund}
+                </div>
               </div>
-              <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
-                {receipt.sourceFund}
-              </div>
-            </div>
-          </InfoSection>
+            </InfoSection>
+          ) : null}
 
           <InfoSection title="Transaksi">
             <div className="py-[7px]">

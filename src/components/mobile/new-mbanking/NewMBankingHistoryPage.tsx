@@ -400,6 +400,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       transactionType: "Setoran",
       date: `${groupDate}, 10:24 WIB`,
       status: "Berhasil",
+      hideSourceFund: true,
       detailRows: [
         { label: "Produk Simpanan", value: primaryInfo },
         { label: "Kanal Transaksi", value: secondaryInfo },
