@@ -1,5 +1,6 @@
 /* New M-Banking: hapus shadow pada card/frame ikon menu seperti Setor, Transfer, Bayar, dan sejenisnya. */
 [data-mobile-screen="true"] button[aria-label="Setor"],
+[data-mobile-screen="true"] button[aria-label="Setor Dana"],
 [data-mobile-screen="true"] button[aria-label="Transfer"],
 [data-mobile-screen="true"] button[aria-label="Bayar Angsuran"],
 [data-mobile-screen="true"] button[aria-label="Keanggotan"],
@@ -11,6 +12,7 @@
 }
 
 [data-mobile-screen="true"] button[aria-label="Setor"] > span,
+[data-mobile-screen="true"] button[aria-label="Setor Dana"] > span,
 [data-mobile-screen="true"] button[aria-label="Transfer"] > span,
 [data-mobile-screen="true"] button[aria-label="Bayar Angsuran"] > span,
 [data-mobile-screen="true"] button[aria-label="Keanggotan"] > span,

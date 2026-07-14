@@ -440,7 +440,7 @@ export default function NewMBankingAccountDetailPage({
             />
             <QuickActionButton
               icon={WalletCards}
-              label="Setor"
+              label="Setor Dana"
               frameClassName="bg-[#479DF4]"
               withPlus
               onClick={() => setShowDeposit(true)}
