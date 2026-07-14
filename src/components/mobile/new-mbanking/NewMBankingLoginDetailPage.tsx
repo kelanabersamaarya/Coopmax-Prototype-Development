@@ -1,6 +1,7 @@
 import * as React from "react";
-import { ArrowLeft, Check, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingRememberUsernameToggle from "@/components/mobile/new-mbanking/NewMBankingRememberUsernameToggle";
 
 type NewMBankingLoginDetailPageProps = {
   onBack: () => void;
@@ -169,26 +170,10 @@ export default function NewMBankingLoginDetailPage({
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={toggleRememberUsername}
-              className="mt-[1px] flex w-fit items-center gap-[10px] text-left"
-              aria-pressed={rememberUsername}
-            >
-              <span
-                className={cn(
-                  "inline-flex h-[19px] w-[19px] items-center justify-center border-2",
-                  rememberUsername
-                    ? "border-[#479DF4] bg-white text-[#479DF4]"
-                    : "border-[#CDD4E0] bg-white text-transparent",
-                )}
-              >
-                <Check className="h-[15px] w-[15px]" strokeWidth={2.5} />
-              </span>
-              <span className="text-[12px] font-normal leading-none text-black">
-                Simpan Username
-              </span>
-            </button>
+            <NewMBankingRememberUsernameToggle
+              checked={rememberUsername}
+              onChange={toggleRememberUsername}
+            />
           </div>
 
           <button
