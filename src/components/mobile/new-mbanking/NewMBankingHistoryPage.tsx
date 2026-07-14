@@ -423,6 +423,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       detailRows: [
         { label: "Produk Simpanan", value: primaryInfo },
         { label: "Kanal Transaksi", value: secondaryInfo },
+        { label: "Nominal Tarikan", value: nominalTransaction },
         { label: "Biaya Admin", value: "0,00" },
         { label: "Deskripsi", value: "Tarikan simpanan" },
       ],
