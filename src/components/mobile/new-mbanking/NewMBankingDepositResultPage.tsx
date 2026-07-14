@@ -121,7 +121,7 @@ export default function NewMBankingDepositResultPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Setoran
+            Setor Dana
           </h1>
         </header>
       </div>
