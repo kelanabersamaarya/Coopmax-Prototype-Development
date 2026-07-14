@@ -337,7 +337,6 @@ export default function NewMBankingDepositDetailPage({
             <div className="text-[16px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
               Riwayat Transaksi Deposito
             </div>
-            <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
             <NewMBankingPaymentMonthSelector
               activeMonth={activeMonth}
