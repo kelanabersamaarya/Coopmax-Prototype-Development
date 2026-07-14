@@ -7,7 +7,9 @@ import {
   Landmark,
   Minus,
   Plus,
+  ReceiptText,
   Send,
+  ShoppingBasket,
   WalletCards,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -73,6 +75,26 @@ const transactionGroups: TransactionGroup[] = [
         dateDmy: "20-06-2026",
       },
       {
+        id: "trx-11",
+        type: "out",
+        title: "Pembayaran Listrik",
+        subtitle: "PLN Postpaid • 530000112233",
+        amount: "-Rp. 352.500,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Pembayaran",
+        dateDmy: "20-06-2026",
+      },
+      {
+        id: "trx-12",
+        type: "out",
+        title: "Pembelian Pulsa",
+        subtitle: "Pulsa XL • 0819987262",
+        amount: "-Rp. 52.500,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Pembelian",
+        dateDmy: "20-06-2026",
+      },
+      {
         id: "trx-5",
         type: "out",
         title: "Tarikan",
@@ -125,6 +147,26 @@ const transactionGroups: TransactionGroup[] = [
         amount: "+Rp. 300.000,00",
         sourceFund: "Simpanan Mapan - 112233222",
         method: "Setoran",
+        dateDmy: "19-06-2026",
+      },
+      {
+        id: "trx-13",
+        type: "out",
+        title: "Pembayaran BPJS Kesehatan",
+        subtitle: "BPJS Keluarga • 0001234567890",
+        amount: "-Rp. 212.500,00",
+        sourceFund: "Simpanan Sukarela - 4260029",
+        method: "Pembayaran",
+        dateDmy: "19-06-2026",
+      },
+      {
+        id: "trx-14",
+        type: "out",
+        title: "Pembelian Paket Data",
+        subtitle: "Paket Data XL • 0819987262",
+        amount: "-Rp. 77.500,00",
+        sourceFund: "Simpanan Sukarela - 4260029",
+        method: "Pembelian",
         dateDmy: "19-06-2026",
       },
       {
@@ -438,6 +480,44 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
     };
   }
 
+  if (normalizedTitle.includes("pembayaran") && !normalizedTitle.includes("pinjaman")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Pembayaran",
+      date: `${groupDate}, 13:20 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Penyedia Layanan", value: primaryInfo },
+        { label: "No. Pelanggan", value: secondaryInfo },
+        { label: "Nominal Pembayaran", value: nominalTransaction },
+        { label: "Biaya Admin", value: "2.500,00" },
+        { label: "Deskripsi", value: "Pembayaran tagihan via M-Banking" },
+      ],
+    };
+  }
+
+  if (normalizedTitle.includes("pembelian")) {
+    return {
+      title: item.title,
+      subtitle: item.subtitle,
+      amount: item.amount,
+      sourceFund: item.sourceFund,
+      transactionType: "Pembelian",
+      date: `${groupDate}, 13:45 WIB`,
+      status: "Berhasil",
+      detailRows: [
+        { label: "Produk Pembelian", value: primaryInfo },
+        { label: "Nomor Tujuan", value: secondaryInfo },
+        { label: "Nominal Pembelian", value: nominalTransaction },
+        { label: "Biaya Admin", value: "2.500,00" },
+        { label: "Deskripsi", value: "Pembelian via M-Banking" },
+      ],
+    };
+  }
+
   if (normalizedTitle.includes("pinjaman") || normalizedTitle.includes("angsuran")) {
     return {
       title: item.title,
@@ -493,6 +573,22 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
         <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#DC2626] text-white">
           <Minus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
         </span>
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pembayaran") && !normalizedTitle.includes("pinjaman")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#7C3AED] text-white">
+        <ReceiptText className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("pembelian")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#06B6D4] text-white">
+        <ShoppingBasket className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
       </span>
     );
   }
