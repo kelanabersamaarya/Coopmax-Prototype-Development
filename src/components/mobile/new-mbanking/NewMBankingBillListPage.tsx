@@ -2,9 +2,8 @@ import * as React from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
-import BillingTableWithStatus, {
-  type BillingRow,
-} from "@/components/loans/BillingTableWithStatus";
+import NewMBankingBillCard from "@/components/mobile/new-mbanking/NewMBankingBillCard";
+import type { BillingRow } from "@/components/loans/BillingTableWithStatus";
 
 const billRows: BillingRow[] = [
   {
@@ -224,8 +223,6 @@ export default function NewMBankingBillListPage({
     return rowsForAccount.slice(start, start + pageSize);
   }, [page, rowsForAccount]);
 
-  const showGraceHighlight = page === 1;
-
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -251,25 +248,20 @@ export default function NewMBankingBillListPage({
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-4 pb-[34px] pt-[24px]">
           {shouldShowThreeBillsWithNextInfo ? (
-            <div>
-              <InfoCard
-                title="Tagihan Berikutnya"
-                description="Tagihan berikutnya akan diterbitkan pada 20 April 2025 dan jatuh tempo pada 5 Mei 2025."
-              />
-            </div>
+            <InfoCard
+              title="Tagihan Berikutnya"
+              description="Tagihan berikutnya akan diterbitkan pada 20 April 2025 dan jatuh tempo pada 5 Mei 2025."
+            />
           ) : null}
 
-          <div className="mt-[18px] rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
-            <div className="max-w-full overflow-hidden">
-              <BillingTableWithStatus
-                rows={pagedRows}
-                showGraceHighlight={showGraceHighlight}
-                showGraceInfo={false}
-                penaltyIndexOffset={(page - 1) * pageSize}
-                showPenaltyDetailAction={false}
-                className="mt-0"
+          <div className="mt-[18px] grid gap-[14px]">
+            {pagedRows.map((row, index) => (
+              <NewMBankingBillCard
+                key={`${row.jatuhTempo}-${index}`}
+                row={row}
+                globalIndex={(page - 1) * pageSize + index}
               />
-            </div>
+            ))}
           </div>
         </section>
       </main>
