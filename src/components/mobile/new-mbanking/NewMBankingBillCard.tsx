@@ -11,32 +11,63 @@ function isGracePeriodBill(row: BillingRow) {
   return row.tagihanPokok === "0,00" || row.sisaPokok === "0,00";
 }
 
-function AmountRow({
+function DetailAmountRow({
   label,
   value,
-  strong = false,
 }: {
   label: string;
   value: string;
-  strong?: boolean;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[7px]">
-      <div
-        className={cn(
-          "min-w-0 text-[13px] leading-tight",
-          strong ? "font-bold text-black" : "font-normal text-[#8F8F8F]",
-        )}
-      >
+    <div className="flex items-start justify-between gap-4 py-[8px]">
+      <div className="min-w-0 text-[13px] font-normal leading-tight text-[#8F8F8F]">
         {label}
       </div>
 
-      <div
-        className={cn(
-          "shrink-0 text-right leading-tight tabular-nums",
-          strong ? "text-[15px] font-bold text-black" : "text-[13px] font-semibold text-black",
-        )}
-      >
+      <div className="shrink-0 text-right text-[13px] font-bold leading-tight text-black tabular-nums">
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function TotalAmountRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 pt-[12px]">
+      <div className="min-w-0 text-[14px] font-bold leading-tight text-black">
+        {label}
+      </div>
+
+      <div className="shrink-0 text-right text-[15px] font-bold leading-tight text-black tabular-nums">
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function RemainingBillCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-[16px] bg-white px-4 py-4 ring-1 ring-[#EEF0F4]">
+      <div className="flex items-center gap-2 text-[11px] font-normal leading-none text-[#8F8F8F]">
+        <Icon className="h-[14px] w-[14px] text-[#479DF4]" strokeWidth={2.5} />
+        {label}
+      </div>
+
+      <div className="mt-[10px] truncate text-[14px] font-bold leading-tight text-black tabular-nums">
         {value}
       </div>
     </div>
@@ -104,38 +135,31 @@ export default function NewMBankingBillCard({
           </div>
         ) : null}
 
-        <div className="rounded-[18px] bg-[#F8FAFC] px-4 py-3 ring-1 ring-[#EEF0F4]">
-          <AmountRow
-            label="Total Tagihan Belum Dibayar"
-            value={row.totalBelumDibayar}
-            strong
+        <div className="grid grid-cols-2 gap-3">
+          <RemainingBillCard
+            icon={HandCoins}
+            label="Sisa Pokok"
+            value={row.sisaPokok}
           />
-          <div className="my-[7px] h-px w-full bg-[#E5E7EB]" />
-          <AmountRow label="Tagihan Pokok" value={row.tagihanPokok} />
-          <AmountRow label="Tagihan Bunga" value={row.tagihanBunga} />
-          <AmountRow label="Tagihan Denda" value={penalty} />
+
+          <RemainingBillCard
+            icon={Clock3}
+            label="Sisa Bunga"
+            value={row.sisaBunga}
+          />
         </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-3">
-          <div className="rounded-[16px] bg-white px-4 py-3 ring-1 ring-[#EEF0F4]">
-            <div className="flex items-center gap-2 text-[11px] font-normal leading-none text-[#8F8F8F]">
-              <HandCoins className="h-[14px] w-[14px] text-[#479DF4]" strokeWidth={2.5} />
-              Sisa Pokok
-            </div>
-            <div className="mt-[8px] truncate text-[13px] font-bold leading-tight text-black tabular-nums">
-              {row.sisaPokok}
-            </div>
-          </div>
+        <div className="mt-4 rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#EEF0F4]">
+          <DetailAmountRow label="Tagihan Pokok" value={row.tagihanPokok} />
+          <DetailAmountRow label="Tagihan Bunga" value={row.tagihanBunga} />
+          <DetailAmountRow label="Tagihan Denda" value={penalty} />
 
-          <div className="rounded-[16px] bg-white px-4 py-3 ring-1 ring-[#EEF0F4]">
-            <div className="flex items-center gap-2 text-[11px] font-normal leading-none text-[#8F8F8F]">
-              <Clock3 className="h-[14px] w-[14px] text-[#479DF4]" strokeWidth={2.5} />
-              Sisa Bunga
-            </div>
-            <div className="mt-[8px] truncate text-[13px] font-bold leading-tight text-black tabular-nums">
-              {row.sisaBunga}
-            </div>
-          </div>
+          <div className="my-[8px] h-px w-full bg-[#E5E7EB]" />
+
+          <TotalAmountRow
+            label="Total Tagihan Belum Dibayar"
+            value={row.totalBelumDibayar}
+          />
         </div>
       </div>
     </article>
