@@ -346,6 +346,14 @@ function cleanSignedAmount(amount: string) {
   return amount.replace(/^[+-]/, "").trim();
 }
 
+function getCollectorName(item: TransactionItem) {
+  if (item.id === "trx-2") return "Kantor Pusat";
+  if (item.id === "trx-4") return "Gina Farida M.M.";
+  if (item.id === "trx-5") return "Kantor Cabang";
+  if (item.id === "trx-7") return "Dinda Sudiati";
+  return "Kantor Pusat";
+}
+
 function buildReceiptData(item: TransactionItem, groupDate: string): NewMBankingHistoryReceiptData {
   const normalizedTitle = item.title.trim().toLowerCase();
   const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
@@ -403,7 +411,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       hideSourceFund: true,
       detailRows: [
         { label: "Produk Simpanan", value: primaryInfo },
-        { label: "Kanal Transaksi", value: secondaryInfo },
+        { label: "Kolektor", value: getCollectorName(item) },
         { label: "Nominal Setoran", value: nominalTransaction },
         { label: "Biaya Admin", value: "0,00" },
         { label: "Deskripsi", value: "Setoran simpanan" },
@@ -422,7 +430,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       status: "Berhasil",
       detailRows: [
         { label: "Produk Simpanan", value: primaryInfo },
-        { label: "Kanal Transaksi", value: secondaryInfo },
+        { label: "Kolektor", value: getCollectorName(item) },
         { label: "Nominal Tarikan", value: nominalTransaction },
         { label: "Biaya Admin", value: "0,00" },
         { label: "Deskripsi", value: "Tarikan simpanan" },
