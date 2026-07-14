@@ -15,7 +15,7 @@ const actions = [
   },
   {
     id: "qr" as const,
-    label: "Kode QR",
+    label: "Tunjukan Kode QR",
     icon: QrCode,
     frameClassName: "bg-[#479DF4]",
     activeFrameClassName: "bg-[#2563EB]",
