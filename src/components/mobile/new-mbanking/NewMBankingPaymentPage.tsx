@@ -338,7 +338,7 @@ export default function NewMBankingPaymentPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Bayar
+            Bayar Berbagai Kebutuhan
           </h1>
         </header>
       </div>

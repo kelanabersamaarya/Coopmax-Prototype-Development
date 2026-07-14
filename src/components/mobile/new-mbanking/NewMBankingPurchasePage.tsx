@@ -588,7 +588,7 @@ export default function NewMBankingPurchasePage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Beli
+            Beli Berbagai Kebutuhan
           </h1>
         </header>
       </div>
