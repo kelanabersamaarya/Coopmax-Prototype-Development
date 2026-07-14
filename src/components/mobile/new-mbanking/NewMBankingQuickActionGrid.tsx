@@ -10,29 +10,34 @@ import { cn } from "@/lib/utils";
 
 const actions = [
   {
-    label: "Setor",
+    id: "deposit",
+    label: "Setor Dana",
     icon: WalletCards,
     withPlus: true,
     frameClassName: "bg-[#479DF4]",
     plusClassName: "bg-[#1D4ED8]",
   },
   {
+    id: "transfer",
     label: "Transfer",
     icon: Send,
     frameClassName: "bg-[#18B7A1]",
   },
   {
+    id: "installment",
     label: "Bayar Angsuran",
     icon: CircleDollarSign,
     frameClassName: "bg-[#F59E0B]",
   },
   {
-    label: "Bayar",
+    id: "payment",
+    label: "Bayar Berbagai Kebutuhan",
     icon: HandCoins,
     frameClassName: "bg-[#EF4444]",
   },
   {
-    label: "Beli",
+    id: "purchase",
+    label: "Beli Berbagai Kebutuhan",
     icon: ShoppingBasket,
     frameClassName: "bg-[#06B6D4]",
   },
@@ -61,30 +66,30 @@ export default function NewMBankingQuickActionGrid({
 
           return (
             <button
-              key={action.label}
+              key={action.id}
               type="button"
               onClick={() => {
-                if (action.label === "Setor") {
+                if (action.id === "deposit") {
                   onDepositClick?.();
                   return;
                 }
 
-                if (action.label === "Transfer") {
+                if (action.id === "transfer") {
                   onTransferClick?.();
                   return;
                 }
 
-                if (action.label === "Bayar Angsuran") {
+                if (action.id === "installment") {
                   onInstallmentClick?.();
                   return;
                 }
 
-                if (action.label === "Bayar") {
+                if (action.id === "payment") {
                   onPaymentClick?.();
                   return;
                 }
 
-                if (action.label === "Beli") {
+                if (action.id === "purchase") {
                   onPurchaseClick?.();
                 }
               }}
@@ -113,7 +118,7 @@ export default function NewMBankingQuickActionGrid({
                 ) : null}
               </span>
 
-              <span className="mt-[8px] max-w-[72px] text-center text-[12px] font-normal leading-[1.15] tracking-[-0.01em] text-[#111827]">
+              <span className="mt-[8px] max-w-[88px] text-center text-[12px] font-normal leading-[1.15] tracking-[-0.01em] text-[#111827]">
                 {action.label}
               </span>
             </button>

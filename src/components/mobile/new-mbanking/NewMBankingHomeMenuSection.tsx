@@ -25,13 +25,13 @@ const menuItems = [
   },
   {
     id: "history" as const,
-    label: "Riwayat",
+    label: "Riwayat Transaksi",
     icon: FileText,
     center: false,
   },
   {
     id: "profile" as const,
-    label: "Profil",
+    label: "Anggota",
     icon: UserRound,
     center: false,
   },
@@ -114,7 +114,7 @@ export default function NewMBankingHomeMenuSection({
 
                   <span
                     className={cn(
-                      "mt-[6px] max-w-[62px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
+                      "mt-[6px] max-w-[78px] whitespace-normal text-center text-[10.5px] font-normal leading-[1.05] tracking-[-0.02em]",
                       isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
                     )}
                   >
