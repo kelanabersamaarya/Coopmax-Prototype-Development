@@ -135,23 +135,24 @@ export default function NewMBankingBillCard({
           </div>
         ) : null}
 
-        <div className="grid grid-cols-2 gap-3">
-          <RemainingBillCard
-            icon={HandCoins}
-            label="Sisa Pokok"
-            value={row.sisaPokok}
-          />
-
-          <RemainingBillCard
-            icon={Clock3}
-            label="Sisa Bunga"
-            value={row.sisaBunga}
-          />
-        </div>
-
-        <div className="mt-4 rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#EEF0F4]">
+        <div className="rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#EEF0F4]">
           <DetailAmountRow label="Tagihan Pokok" value={row.tagihanPokok} />
           <DetailAmountRow label="Tagihan Bunga" value={row.tagihanBunga} />
+
+          <div className="my-[10px] grid grid-cols-2 gap-3">
+            <RemainingBillCard
+              icon={HandCoins}
+              label="Sisa Pokok"
+              value={row.sisaPokok}
+            />
+
+            <RemainingBillCard
+              icon={Clock3}
+              label="Sisa Bunga"
+              value={row.sisaBunga}
+            />
+          </div>
+
           <DetailAmountRow label="Tagihan Denda" value={penalty} />
 
           <div className="my-[8px] h-px w-full bg-[#E5E7EB]" />
