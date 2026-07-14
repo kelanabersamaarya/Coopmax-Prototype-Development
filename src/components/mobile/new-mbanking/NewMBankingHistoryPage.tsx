@@ -351,7 +351,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
   const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
   const primaryInfo = subtitleParts[0] ?? item.subtitle;
   const secondaryInfo = subtitleParts[1] ?? "-";
-  const nominalTransfer = cleanSignedAmount(item.amount);
+  const nominalTransaction = cleanSignedAmount(item.amount);
 
   if (normalizedTitle.includes("transfer antar bank")) {
     return {
@@ -365,7 +365,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       detailRows: [
         { label: "Bank Tujuan", value: primaryInfo },
         { label: "No. Rekening Tujuan", value: secondaryInfo },
-        { label: "Nominal Transfer", value: nominalTransfer },
+        { label: "Nominal Transfer", value: nominalTransaction },
         { label: "Biaya Admin", value: "2.500,00" },
         { label: "Deskripsi", value: "Transfer via M-Banking" },
       ],
@@ -384,7 +384,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       detailRows: [
         { label: "Produk Tujuan", value: primaryInfo },
         { label: "No. Rekening Tujuan", value: secondaryInfo },
-        { label: "Nominal Transfer", value: nominalTransfer },
+        { label: "Nominal Transfer", value: nominalTransaction },
         { label: "Biaya Admin", value: "0,00" },
         { label: "Deskripsi", value: "Transfer sesama rekening koperasi" },
       ],
@@ -404,6 +404,7 @@ function buildReceiptData(item: TransactionItem, groupDate: string): NewMBanking
       detailRows: [
         { label: "Produk Simpanan", value: primaryInfo },
         { label: "Kanal Transaksi", value: secondaryInfo },
+        { label: "Nominal Setoran", value: nominalTransaction },
         { label: "Biaya Admin", value: "0,00" },
         { label: "Deskripsi", value: "Setoran simpanan" },
       ],
