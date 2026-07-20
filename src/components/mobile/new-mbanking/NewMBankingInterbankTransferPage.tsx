@@ -61,6 +61,18 @@ const seedSavedRecipients: SavedRecipient[] = [
 
 const interbankTransferHistories: TransferHistory[] = [
   {
+    id: "history-bank-in-1",
+    name: "Agus Wijaya",
+    bank: "BCA",
+    accountNo: "8890123441",
+    dateTime: "20-06-2026 : 20.15",
+    amount: "+500.000,00",
+    status: "Berhasil",
+    month: "Jun",
+    direction: "in",
+    title: "Transfer Masuk Dari Bank Lain",
+  },
+  {
     id: "history-1",
     name: "Nyoman Ariawan",
     bank: "BCA",
@@ -118,18 +130,6 @@ const interbankTransferHistories: TransferHistory[] = [
 ];
 
 const internalTransferHistories: TransferHistory[] = [
-  {
-    id: "internal-history-bank-in-1",
-    name: "Agus Wijaya",
-    bank: "BCA",
-    accountNo: "8890123441",
-    dateTime: "20-06-2026 : 20.15",
-    amount: "+500.000,00",
-    status: "Berhasil",
-    month: "Jun",
-    direction: "in",
-    title: "Transfer Masuk Dari Bank Lain",
-  },
   {
     id: "internal-history-1",
     name: "Kadek Surya",
@@ -263,10 +263,6 @@ function isIncomingTransfer(history: TransferHistory) {
   return history.direction === "in" || history.amount.trim().startsWith("+");
 }
 
-function isIncomingFromOtherBank(history: TransferHistory) {
-  return isIncomingTransfer(history) && history.bank !== "Koperasi";
-}
-
 function TransferOptionCard({
   icon: Icon,
   label,
@@ -344,18 +340,16 @@ function TransferTabs({
 function TransferIcon({
   showBankName,
   incoming = false,
-  fromOtherBank = false,
 }: {
   showBankName: boolean;
   incoming?: boolean;
-  fromOtherBank?: boolean;
 }) {
-  if (showBankName || fromOtherBank) {
+  if (showBankName) {
     return (
       <span
         className={cn(
           "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
-          fromOtherBank ? "bg-[#33AA00]" : "bg-[#F59E0B]",
+          incoming ? "bg-[#33AA00]" : "bg-[#F59E0B]",
         )}
       >
         <Landmark className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
@@ -418,15 +412,12 @@ function TransferHistoryRow({
   onClick: () => void;
 }) {
   const incoming = isIncomingTransfer(history);
-  const fromOtherBank = isIncomingFromOtherBank(history);
-  const title = showBankName
-    ? history.name
-    : history.title ?? (incoming ? "Transfer Masuk" : "Transfer Keluar");
+  const title = history.title ?? (showBankName ? history.name : incoming ? "Transfer Masuk" : "Transfer Keluar");
   const subtitle = showBankName
-    ? `${history.bank} • ${history.accountNo}`
-    : fromOtherBank
-      ? `${history.bank} • ${history.name} • ${history.accountNo}`
-      : `${history.name} • ${history.accountNo}`;
+    ? incoming
+      ? `${history.name} • ${history.bank} • ${history.accountNo}`
+      : `${history.bank} • ${history.accountNo}`
+    : `${history.name} • ${history.accountNo}`;
 
   return (
     <button
@@ -434,11 +425,7 @@ function TransferHistoryRow({
       onClick={onClick}
       className="flex w-full items-start gap-3 border-b border-[#EEF0F4] py-[10px] text-left transition active:scale-[0.99] last:border-b-0"
     >
-      <TransferIcon
-        showBankName={showBankName}
-        incoming={incoming}
-        fromOtherBank={fromOtherBank}
-      />
+      <TransferIcon showBankName={showBankName} incoming={incoming} />
 
       <div className="min-w-0 flex-1 pt-[1px]">
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
