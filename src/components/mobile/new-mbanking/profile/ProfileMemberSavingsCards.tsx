@@ -1,4 +1,4 @@
-import { Copy, WalletCards } from "lucide-react";
+import { Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const accounts = [
@@ -45,11 +45,7 @@ function MemberSavingsCard({
       <div className="pointer-events-none absolute -bottom-[34px] left-[64px] h-[88px] w-[88px] rounded-full bg-black/10" />
 
       <div className="relative z-10">
-        <div className="flex items-start justify-between gap-3">
-          <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-white/18 text-white ring-1 ring-white/20">
-            <WalletCards className="h-[22px] w-[22px]" strokeWidth={2.6} />
-          </span>
-
+        <div className="flex items-start justify-end">
           <span className="inline-flex h-[26px] shrink-0 items-center rounded-full bg-white/18 px-3 text-[11px] font-bold leading-none text-white ring-1 ring-white/20">
             {status}
           </span>
