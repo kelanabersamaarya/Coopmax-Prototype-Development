@@ -10,8 +10,8 @@ const accounts = [
     tone: "blue",
   },
   {
-    title: "Simpanan Wajib",
-    accountNo: "SWJ-2600006",
+    title: "Simpanan Berjangka",
+    accountNo: "SBJ-2600006",
     balance: "Rp. 50.000,00",
     status: "Aktif",
     tone: "green",
