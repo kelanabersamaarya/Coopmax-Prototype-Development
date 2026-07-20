@@ -5,7 +5,9 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
-import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingSourceFundModal, {
+  type SourceFundAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
 function DetailRow({
   label,
@@ -35,17 +37,22 @@ function DetailRow({
 
 function SectionBlock({
   title,
+  action,
   children,
   className,
 }: {
   title: string;
+  action?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <section className={cn("mt-[22px]", className)}>
-      <div className="text-[14px] font-bold leading-tight text-black">
-        {title}
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-[14px] font-bold leading-tight text-black">
+          {title}
+        </div>
+        {action}
       </div>
       <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
       <div className="mt-[10px]">{children}</div>
@@ -56,17 +63,20 @@ function SectionBlock({
 export default function ProfileMandatorySavingsConfirmModal({
   open,
   sourceFund,
+  onSourceFundChange,
   keterangan,
   onCancel,
   onConfirm,
 }: {
   open: boolean;
   sourceFund: SourceFundAccount;
+  onSourceFundChange: (sourceFund: SourceFundAccount) => void;
   keterangan: string;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -74,12 +84,19 @@ export default function ProfileMandatorySavingsConfirmModal({
     setMobileScreen(
       document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
     );
+    setSourceFundOpen(false);
   }, [open]);
 
   if (!open || !mobileScreen) return null;
 
   return createPortal(
     <div className="absolute inset-0 z-[150] flex items-end justify-center bg-black/35 px-5 pb-5 pt-8">
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={onSourceFundChange}
+      />
+
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -110,12 +127,24 @@ export default function ProfileMandatorySavingsConfirmModal({
           </button>
         </div>
 
-        <SectionBlock title="Sumber Dana" className="mt-[14px]">
+        <SectionBlock
+          title="Sumber Dana"
+          className="mt-[14px]"
+          action={
+            <button
+              type="button"
+              onClick={() => setSourceFundOpen(true)}
+              className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+            >
+              Ubah
+            </button>
+          }
+        >
           <NewMBankingSourceFundGradientCard
             account={sourceFund}
-            showChevron={false}
             textSize="compact"
             className="min-h-[104px] shadow-none"
+            onClick={() => setSourceFundOpen(true)}
           />
         </SectionBlock>
 
