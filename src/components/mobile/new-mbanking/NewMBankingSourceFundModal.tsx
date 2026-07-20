@@ -67,7 +67,7 @@ export default function NewMBankingSourceFundModal({
   if (!open || !mobileScreen) return null;
 
   return createPortal(
-    <div className="absolute inset-0 z-[120] flex items-end bg-black/35 px-5 pb-5">
+    <div className="absolute inset-0 z-[190] flex items-end bg-black/35 px-5 pb-5">
       <button
         type="button"
         className="absolute inset-0 cursor-default"
