@@ -262,19 +262,8 @@ export default function NewMBankingNewRecipientTransferPage({
         </header>
       </div>
 
-      <main
-        className={cn(
-          "flex min-h-0 flex-1 flex-col bg-[#F9F9F9] pb-[112px]",
-          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          hideBankSelection ? "overflow-hidden" : "overflow-y-auto",
-        )}
-      >
-        <section
-          className={cn(
-            "min-h-full rounded-t-[30px] bg-white px-6 pt-[24px]",
-            hideBankSelection ? "overflow-hidden" : "",
-          )}
-        >
+      <main className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#F9F9F9] pb-[112px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full overflow-hidden rounded-t-[30px] bg-white px-6 pt-[24px]">
           <div className="grid gap-[20px]">
             {recipient ? (
               <NewMBankingRecipientInfoCard recipient={recipient} />
