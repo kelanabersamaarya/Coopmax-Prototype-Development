@@ -48,11 +48,8 @@ function formatDepositAmount(value: string) {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-        {children}
-      </div>
-      <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
+    <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+      {children}
     </div>
   );
 }
