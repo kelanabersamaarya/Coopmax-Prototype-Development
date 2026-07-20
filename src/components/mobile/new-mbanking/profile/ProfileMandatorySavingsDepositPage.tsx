@@ -6,6 +6,7 @@ import NewMBankingSourceFundModal, {
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileMandatorySavingsInfoCard from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsInfoCard";
+import ProfileMandatorySavingsConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsConfirmModal";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -46,10 +47,12 @@ export default function ProfileMandatorySavingsDepositPage({
 }) {
   const [keterangan, setKeterangan] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
   function submit() {
+    setConfirmOpen(false);
     toast.success("Setoran Simpanan Wajib berhasil (prototype)", {
       description: "Nominal iuran Rp. 50.000,00",
     });
@@ -66,6 +69,12 @@ export default function ProfileMandatorySavingsDepositPage({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+      />
+
+      <ProfileMandatorySavingsConfirmModal
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={submit}
       />
 
       <div className="grid gap-[18px]">
@@ -115,7 +124,7 @@ export default function ProfileMandatorySavingsDepositPage({
       <div className="mt-auto pt-6">
         <button
           type="button"
-          onClick={submit}
+          onClick={() => setConfirmOpen(true)}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
