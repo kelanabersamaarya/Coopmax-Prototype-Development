@@ -54,6 +54,28 @@ export default function ProfileMandatorySavingsDepositPage({
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
+  React.useEffect(() => {
+    function handleKeyboardCtaClick(event: MouseEvent) {
+      const target = event.target as HTMLElement | null;
+      const keyboardCta = target?.closest(
+        '[data-numeric-keyboard="true"] > button:last-child',
+      );
+      const activeTextarea = document.querySelector(
+        '[data-profile-mandatory-savings-deposit-page="true"] textarea[data-keyboard-active="true"]',
+      );
+
+      if (!keyboardCta || !activeTextarea) return;
+
+      setConfirmOpen(true);
+    }
+
+    document.addEventListener("click", handleKeyboardCtaClick, true);
+
+    return () => {
+      document.removeEventListener("click", handleKeyboardCtaClick, true);
+    };
+  }, []);
+
   if (showSuccess) {
     return (
       <ProfileMandatorySavingsSuccessPage
@@ -89,6 +111,31 @@ export default function ProfileMandatorySavingsDepositPage({
           [data-mobile-screen="true"]:has([data-profile-mandatory-savings-deposit-page="true"])
             [data-input-clear-button="true"] {
             display: none !important;
+          }
+
+          [data-mobile-screen="true"]:has([data-profile-mandatory-savings-deposit-page="true"] textarea[data-keyboard-active="true"]):has([data-numeric-keyboard="true"])
+            [data-profile-mandatory-savings-cta="true"] {
+            display: none !important;
+          }
+
+          [data-mobile-screen="true"]:has([data-profile-mandatory-savings-deposit-page="true"] textarea[data-keyboard-active="true"])
+            [data-numeric-keyboard="true"]
+            > button:last-child {
+            font-size: 0 !important;
+          }
+
+          [data-mobile-screen="true"]:has([data-profile-mandatory-savings-deposit-page="true"] textarea[data-keyboard-active="true"])
+            [data-numeric-keyboard="true"]
+            > button:last-child::after {
+            content: "Setor Iuran";
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            text-align: center !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1 !important;
           }
         `}
       </style>
@@ -156,7 +203,7 @@ export default function ProfileMandatorySavingsDepositPage({
           </div>
         </div>
 
-        <div className="mt-auto pt-6">
+        <div data-profile-mandatory-savings-cta="true" className="mt-auto pt-6">
           <button
             type="button"
             onClick={() => setConfirmOpen(true)}
