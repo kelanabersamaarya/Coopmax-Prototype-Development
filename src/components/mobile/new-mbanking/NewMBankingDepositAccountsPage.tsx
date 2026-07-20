@@ -8,6 +8,9 @@ import NewMBankingDepositAccountsTabs, {
 } from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsTabs";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingDepositEmptyHistoryState from "@/components/mobile/new-mbanking/NewMBankingDepositEmptyHistoryState";
+import NewMBankingDepositReceiptPage, {
+  type NewMBankingDepositReceiptData,
+} from "@/components/mobile/new-mbanking/NewMBankingDepositReceiptPage";
 
 type SavingsAccount = {
   id: string;
@@ -171,9 +174,21 @@ function HistoryIcon() {
   );
 }
 
-function DepositHistoryRow({ item }: { item: DepositHistory }) {
+function DepositHistoryRow({
+  item,
+  onClick,
+}: {
+  item: DepositHistory;
+  onClick: () => void;
+}) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[14px]">
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-start justify-between gap-4 py-[14px] text-left transition active:scale-[0.99]"
+      aria-label={`Lihat bukti ${item.title}`}
+      title="Lihat bukti setoran"
+    >
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <HistoryIcon />
 
@@ -196,11 +211,57 @@ function DepositHistoryRow({ item }: { item: DepositHistory }) {
           {item.status}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function DepositHistoryList({ activeMonth }: { activeMonth: string }) {
+function getDepositCollector(channel: string) {
+  const normalized = channel.trim().toLowerCase();
+
+  if (normalized.includes("virtual account")) {
+    return "Kantor";
+  }
+
+  if (normalized.includes("mobile banking")) {
+    return "Dinda Sudiati";
+  }
+
+  return "Gina Farida M.M.";
+}
+
+function getAccountNoByProductName(productName: string) {
+  const matched = savingsAccounts.find(
+    (account) => account.productName === productName,
+  );
+
+  return matched?.accountNo ?? "-";
+}
+
+function buildReceiptData(item: DepositHistory): NewMBankingDepositReceiptData {
+  const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
+  const productName = subtitleParts[0] || "Simpanan";
+  const channel = subtitleParts[1] || "M-Banking";
+
+  return {
+    title: item.title,
+    subtitle: item.subtitle,
+    amount: item.amount,
+    date: item.date,
+    accountNo: getAccountNoByProductName(productName),
+    accountName: "Laura Patel",
+    productName,
+    channel: getDepositCollector(channel),
+    status: item.status,
+  };
+}
+
+function DepositHistoryList({
+  activeMonth,
+  onOpenReceipt,
+}: {
+  activeMonth: string;
+  onOpenReceipt: (receipt: NewMBankingDepositReceiptData) => void;
+}) {
   const filteredHistories = React.useMemo(
     () => depositHistories.filter((item) => item.month === activeMonth),
     [activeMonth],
@@ -230,7 +291,11 @@ function DepositHistoryList({ activeMonth }: { activeMonth: string }) {
 
           <div className="mt-[8px] divide-y divide-[#EEF0F4]">
             {items.map((item) => (
-              <DepositHistoryRow key={item.id} item={item} />
+              <DepositHistoryRow
+                key={item.id}
+                item={item}
+                onClick={() => onOpenReceipt(buildReceiptData(item))}
+              />
             ))}
           </div>
         </section>
@@ -248,6 +313,18 @@ export default function NewMBankingDepositAccountsPage({
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [selectedAccount, setSelectedAccount] =
     React.useState<SavingsAccount | null>(null);
+  const [selectedReceipt, setSelectedReceipt] =
+    React.useState<NewMBankingDepositReceiptData | null>(null);
+
+  if (selectedReceipt) {
+    return (
+      <NewMBankingDepositReceiptPage
+        receipt={selectedReceipt}
+        onBack={() => setSelectedReceipt(null)}
+        onDone={() => setSelectedReceipt(null)}
+      />
+    );
+  }
 
   if (selectedAccount) {
     return <NewMBankingDepositPage onBack={() => setSelectedAccount(null)} />;
@@ -299,7 +376,10 @@ export default function NewMBankingDepositAccountsPage({
                 onChange={setActiveMonth}
                 className="mt-[18px]"
               />
-              <DepositHistoryList activeMonth={activeMonth} />
+              <DepositHistoryList
+                activeMonth={activeMonth}
+                onOpenReceipt={setSelectedReceipt}
+              />
             </>
           )}
         </section>
