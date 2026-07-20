@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 
 const accounts = [
   {
-    title: "Simpanan Pokok",
-    accountNo: "SPK-2600006",
+    title: "Simpanan Wajib",
+    accountNo: "SWJ-2600006",
     balance: "Rp. 100.000,00",
     status: "Aktif",
     tone: "blue",
