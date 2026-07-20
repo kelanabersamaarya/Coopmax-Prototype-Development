@@ -133,7 +133,7 @@ export default function NewMBankingDepositReceiptPage({
 
           <InfoSection title="Detail Setoran">
             <DetailRow label="Jenis Transaksi" value={receipt.title} />
-            <DetailRow label="Channel" value={receipt.channel} />
+            <DetailRow label="Kolektor" value={receipt.channel} />
             <DetailRow label="Saldo Awal" value={formatIdr(saldoAwal)} />
             <DetailRow label="Nominal Setoran" value={amount.replace("Rp. ", "")} />
             <DetailRow label="Biaya Admin" value="0,00" />
