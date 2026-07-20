@@ -1,12 +1,13 @@
 import * as React from "react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileMandatorySavingsInfoCard from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsInfoCard";
 import ProfileMandatorySavingsConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsConfirmModal";
+import ProfileMandatorySavingsSuccessPage from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsSuccessPage";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -48,15 +49,33 @@ export default function ProfileMandatorySavingsDepositPage({
   const [keterangan, setKeterangan] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showPinInput, setShowPinInput] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
-  function submit() {
-    setConfirmOpen(false);
-    toast.success("Setoran Simpanan Wajib berhasil (prototype)", {
-      description: "Nominal iuran Rp. 50.000,00",
-    });
-    onBack();
+  if (showSuccess) {
+    return (
+      <ProfileMandatorySavingsSuccessPage
+        sourceFund={sourceFund}
+        keterangan={keterangan}
+        onDone={onBack}
+      />
+    );
+  }
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        title="Setor Iuran"
+        description="Masukkan 6 digit PIN M-Banking untuk melanjutkan setoran iuran."
+        onBack={() => setShowPinInput(false)}
+        onSubmit={() => {
+          setShowPinInput(false);
+          setShowSuccess(true);
+        }}
+      />
+    );
   }
 
   return (
@@ -76,7 +95,10 @@ export default function ProfileMandatorySavingsDepositPage({
         sourceFund={sourceFund}
         keterangan={keterangan}
         onCancel={() => setConfirmOpen(false)}
-        onConfirm={submit}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setShowPinInput(true);
+        }}
       />
 
       <div className="grid gap-[18px]">
