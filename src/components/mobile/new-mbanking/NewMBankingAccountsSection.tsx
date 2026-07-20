@@ -168,6 +168,10 @@ function CopyButton({ label }: { label: string }) {
       className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
       aria-label={label}
       title={label}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      }}
     >
       <Copy className="h-[14px] w-[14px]" strokeWidth={2.5} />
     </button>
@@ -200,16 +204,32 @@ function maskValue() {
 function AccountCardShell({
   activeTab,
   children,
+  onClick,
+  ariaLabel,
 }: {
   activeTab: AccountTabId;
   children: React.ReactNode;
+  onClick?: () => void;
+  ariaLabel: string;
 }) {
   const cardStyle = accountCardStyles[activeTab];
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
+      aria-label={ariaLabel}
       className={cn(
-        "relative min-h-[205px] w-full shrink-0 snap-start overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+        "relative min-h-[205px] w-full shrink-0 snap-start overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-left text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+        "cursor-pointer outline-none transition active:scale-[0.99]",
+        "focus-visible:ring-4 focus-visible:ring-[#479DF4]/25",
         cardStyle.background,
       )}
     >
@@ -256,7 +276,11 @@ function SimpananCardContent({
 
         <button
           type="button"
-          onClick={onSavingsDetailClick}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onSavingsDetailClick?.();
+          }}
           className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#2563EB] shadow-sm transition active:scale-[0.98]"
         >
           Lihat Detail
@@ -306,7 +330,11 @@ function PinjamanCardContent({
 
         <button
           type="button"
-          onClick={onLoanDetailClick}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onLoanDetailClick?.();
+          }}
           className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#0F766E] shadow-sm transition active:scale-[0.98]"
         >
           Lihat Detail
@@ -359,7 +387,11 @@ function DepositoCardContent({
 
         <button
           type="button"
-          onClick={onDepositDetailClick}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onDepositDetailClick?.();
+          }}
           className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] shadow-sm transition active:scale-[0.98]"
         >
           Lihat Detail
@@ -380,7 +412,11 @@ function DepositoCardContent({
           </span>
           <button
             type="button"
-            onClick={onToggleBalance}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onToggleBalance();
+            }}
             className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
             aria-label={
               showBalance
@@ -531,7 +567,12 @@ export default function NewMBankingAccountsSection({
       >
         {activeTab === "simpanan"
           ? simpananCards.map((card) => (
-              <AccountCardShell key={card.id} activeTab={activeTab}>
+              <AccountCardShell
+                key={card.id}
+                activeTab={activeTab}
+                onClick={onSavingsDetailClick}
+                ariaLabel={`Buka detail ${card.productName}`}
+              >
                 <SimpananCardContent
                   card={card}
                   showBalance={showBalance}
@@ -543,7 +584,12 @@ export default function NewMBankingAccountsSection({
 
         {activeTab === "pinjaman"
           ? pinjamanCards.map((card) => (
-              <AccountCardShell key={card.id} activeTab={activeTab}>
+              <AccountCardShell
+                key={card.id}
+                activeTab={activeTab}
+                onClick={onLoanDetailClick}
+                ariaLabel={`Buka detail ${card.productName}`}
+              >
                 <PinjamanCardContent
                   card={card}
                   showBalance={showBalance}
@@ -555,7 +601,12 @@ export default function NewMBankingAccountsSection({
 
         {activeTab === "deposito"
           ? depositoCards.map((card) => (
-              <AccountCardShell key={card.id} activeTab={activeTab}>
+              <AccountCardShell
+                key={card.id}
+                activeTab={activeTab}
+                onClick={onDepositDetailClick}
+                ariaLabel={`Buka detail ${card.productName}`}
+              >
                 <DepositoCardContent
                   card={card}
                   showBalance={showBalance}
