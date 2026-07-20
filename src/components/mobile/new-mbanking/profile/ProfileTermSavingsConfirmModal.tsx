@@ -155,7 +155,7 @@ export default function ProfileTermSavingsConfirmModal({
             value="Simpanan Berjangka - SBJ-2600006"
           />
           <DetailRow label="Saldo Simpanan Berjangka" value="Rp. 50.000,00" />
-          <DetailRow label="Nominal Setoran" value="Rp. 50.000,00" strong />
+          <DetailRow label="Nominal Iuran" value="Rp. 50.000,00" strong />
           <DetailRow label="Keterangan" value={keterangan.trim() || "-"} />
         </SectionBlock>
 

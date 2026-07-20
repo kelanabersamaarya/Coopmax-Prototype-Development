@@ -189,7 +189,7 @@ export default function ProfileTermSavingsDepositPage({
 
           <ReadOnlyField label="Periode Terakhir Angsuran" value="Juni 2026" />
 
-          <ReadOnlyField label="Nominal Setoran" value="Rp. 50.000,00" />
+          <ReadOnlyField label="Nominal Iuran" value="Rp. 50.000,00" />
 
           <div className="grid gap-[8px]">
             <label className="text-[14px] font-bold leading-none text-black">

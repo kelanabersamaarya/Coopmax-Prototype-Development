@@ -61,7 +61,7 @@ export default function ProfileTermSavingsSuccessPage({
 
             <div className="mt-[18px] w-full rounded-[18px] bg-[#F6F8FB] px-5 py-5">
               <div className="text-[12px] font-normal text-[#828282]">
-                Nominal Setoran
+                Nominal Iuran
               </div>
               <div className="mt-[8px] text-[22px] font-bold leading-tight text-black">
                 Rp. 50.000,00
@@ -100,7 +100,7 @@ export default function ProfileTermSavingsSuccessPage({
 
               <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
 
-              <DetailRow label="Total Setoran" value="Rp. 50.000,00" strong />
+              <DetailRow label="Total Iuran" value="Rp. 50.000,00" strong />
             </div>
 
             <div className="mt-[12px] w-full text-left">
