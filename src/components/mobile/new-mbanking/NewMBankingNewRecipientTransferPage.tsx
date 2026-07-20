@@ -330,19 +330,9 @@ export default function NewMBankingNewRecipientTransferPage({
             </TransferField>
 
             <div className="grid gap-[9px]">
-              <div className="flex items-center justify-between gap-3">
-                <label className="text-[14px] font-bold leading-none text-black">
-                  Sumber Dana<span className="text-[#EF135D]">*</span>
-                </label>
-
-                <button
-                  type="button"
-                  onClick={() => setSourceFundOpen(true)}
-                  className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
-                >
-                  Ubah
-                </button>
-              </div>
+              <label className="text-[14px] font-bold leading-none text-black">
+                Sumber Dana<span className="text-[#EF135D]">*</span>
+              </label>
 
               <NewMBankingSourceFundGradientCard
                 account={sourceFund}
