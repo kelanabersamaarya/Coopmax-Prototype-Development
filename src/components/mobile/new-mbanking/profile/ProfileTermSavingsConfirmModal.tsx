@@ -148,10 +148,7 @@ export default function ProfileTermSavingsConfirmModal({
           />
         </SectionBlock>
 
-        <SectionBlock
-          title="Detail Setoran"
-          titleClassName="font-normal"
-        >
+        <SectionBlock title="Detail Setoran">
           <DetailRow label="Periode" value="Juli 2026" />
           <DetailRow
             label="Tujuan Setoran"
