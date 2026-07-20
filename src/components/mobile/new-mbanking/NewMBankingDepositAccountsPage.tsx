@@ -67,7 +67,7 @@ const depositHistories: DepositHistory[] = [
   {
     id: "history-2",
     title: "Setoran",
-    subtitle: "Simpanan Sukarela • Mobile Banking",
+    subtitle: "Simpanan Sukarela • Teller Koperasi",
     amount: "+Rp. 100.000,00",
     date: "20 Juni 2026",
     month: "Jun",
@@ -222,10 +222,6 @@ function getDepositCollector(channel: string) {
     return "Kantor";
   }
 
-  if (normalized.includes("mobile banking")) {
-    return "Dinda Sudiati";
-  }
-
   return "Gina Farida M.M.";
 }
 
@@ -240,7 +236,7 @@ function getAccountNoByProductName(productName: string) {
 function buildReceiptData(item: DepositHistory): NewMBankingDepositReceiptData {
   const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
   const productName = subtitleParts[0] || "Simpanan";
-  const channel = subtitleParts[1] || "M-Banking";
+  const channel = subtitleParts[1] || "Teller Koperasi";
 
   return {
     title: item.title,
