@@ -1,10 +1,24 @@
 import * as React from "react";
-import { CheckSquare, X } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
+import ProfileMandatorySavingsInfoCard from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsInfoCard";
 
-function InfoField({
+const sourceFundOptions = [
+  {
+    title: "Simpanan Kaya",
+    subtitle: "112233111",
+    balance: "Rp. 4.000.000,00",
+  },
+  {
+    title: "Simpanan Sukarela",
+    subtitle: "4260029",
+    balance: "Rp. 2.750.000,00",
+  },
+];
+
+function ReadOnlyField({
   label,
   value,
 }: {
@@ -36,6 +50,15 @@ export default function ProfileMandatorySavingsDepositPage({
   onBack: () => void;
 }) {
   const [keterangan, setKeterangan] = React.useState("");
+  const [sourceFundIndex, setSourceFundIndex] = React.useState(0);
+  const sourceFund = sourceFundOptions[sourceFundIndex];
+
+  function changeSourceFund() {
+    setSourceFundIndex((current) => (current + 1) % sourceFundOptions.length);
+    toast("Sumber dana diubah", {
+      description: "Sumber dana penyetoran telah diganti.",
+    });
+  }
 
   function submit() {
     toast.success("Setoran Simpanan Wajib berhasil (prototype)", {
@@ -50,69 +73,63 @@ export default function ProfileMandatorySavingsDepositPage({
       onBack={onBack}
       className="flex min-h-full flex-col"
     >
-      <div className="rounded-[22px] bg-white p-4 ring-1 ring-[#EEF0F4]">
-        <div className="text-[16px] font-bold leading-tight text-black">
-          Informasi Penyetoran
-        </div>
-        <div className="mt-2 text-[12px] font-normal leading-relaxed text-[#828282]">
-          Lengkapi informasi penyetoran iuran simpanan wajib.
-        </div>
+      <div className="grid gap-[18px]">
+        <ReadOnlyField label="Periode" value="Juli 2026" />
 
-        <div className="mt-[22px] grid gap-[16px]">
-          <InfoField label="Periode" value="Juli 2026" />
-          <InfoField label="Sumber Dana" value="Simpanan Kaya - 112233111" />
-          <InfoField label="Tujuan Iuran" value="Simpanan Wajib - SWJ-2600006" />
-          <InfoField label="Saldo Simpanan Wajib" value="Rp. 100.000,00" />
-          <InfoField label="Nominal Setoran" value="Rp. 50.000,00" />
+        <ProfileMandatorySavingsInfoCard
+          label="Sumber Dana"
+          title={sourceFund.title}
+          subtitle={sourceFund.subtitle}
+          balanceLabel="Saldo Tersedia"
+          balance={sourceFund.balance}
+          actionLabel="Ubah"
+          onAction={changeSourceFund}
+          tone="blue"
+        />
 
-          <div className="grid gap-[8px]">
-            <label className="text-[14px] font-bold leading-none text-black">
-              Keterangan
-            </label>
+        <ProfileMandatorySavingsInfoCard
+          label="Tujuan Iuran"
+          title="Simpanan Wajib"
+          subtitle="SWJ-2600006"
+          balanceLabel="Saldo Simpanan Wajib"
+          balance="Rp. 100.000,00"
+          tone="green"
+        />
 
-            <textarea
-              value={keterangan}
-              onChange={(event) => setKeterangan(event.target.value)}
-              placeholder="Masukkan keterangan"
-              className={cn(
-                "min-h-[120px] w-full resize-none rounded-[12px] border border-[#CDD4E0]",
-                "bg-white px-4 py-3 text-[14px] font-normal text-black shadow-none outline-none",
-                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
-              )}
-            />
-          </div>
+        <ReadOnlyField label="Nominal Setoran" value="Rp. 50.000,00" />
+
+        <div className="grid gap-[8px]">
+          <label className="text-[14px] font-bold leading-none text-black">
+            Keterangan
+          </label>
+
+          <textarea
+            value={keterangan}
+            onChange={(event) => setKeterangan(event.target.value)}
+            placeholder="Masukkan keterangan"
+            className={cn(
+              "min-h-[132px] w-full resize-none rounded-[12px] border border-[#CDD4E0]",
+              "bg-white px-4 py-3 text-[14px] font-normal text-black shadow-none outline-none",
+              "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+              "focus:border-[#479DF4]",
+            )}
+          />
         </div>
       </div>
 
-      <div className="mt-auto grid grid-cols-2 gap-[10px] pt-6">
-        <button
-          type="button"
-          onClick={onBack}
-          className={cn(
-            "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
-            "text-[12px] font-semibold leading-none text-[#828282]",
-            "transition active:scale-[0.98]",
-          )}
-        >
-          <span className="inline-flex items-center justify-center gap-2">
-            <X className="h-4 w-4" strokeWidth={3} />
-            Batal
-          </span>
-        </button>
-
+      <div className="mt-auto pt-6">
         <button
           type="button"
           onClick={submit}
           className={cn(
-            "h-[46px] rounded-[8px] bg-[#479DF4]",
-            "text-[12px] font-semibold leading-none text-white",
+            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+            "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
         >
           <span className="inline-flex items-center justify-center gap-2">
             <CheckSquare className="h-4 w-4" strokeWidth={3} />
-            Setor
+            Setor Iuran
           </span>
         </button>
       </div>
