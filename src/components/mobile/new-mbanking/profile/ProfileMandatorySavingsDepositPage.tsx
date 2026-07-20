@@ -84,80 +84,91 @@ export default function ProfileMandatorySavingsDepositPage({
       onBack={onBack}
       className="flex min-h-full flex-col"
     >
-      <NewMBankingSourceFundModal
-        open={sourceFundOpen}
-        onOpenChange={setSourceFundOpen}
-        onSelect={setSourceFund}
-      />
+      <style>
+        {`
+          [data-mobile-screen="true"]:has([data-profile-mandatory-savings-deposit-page="true"])
+            [data-input-clear-button="true"] {
+            display: none !important;
+          }
+        `}
+      </style>
 
-      <ProfileMandatorySavingsConfirmModal
-        open={confirmOpen}
-        sourceFund={sourceFund}
-        onSourceFundChange={setSourceFund}
-        keterangan={keterangan}
-        onCancel={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          setConfirmOpen(false);
-          setShowPinInput(true);
-        }}
-      />
-
-      <div className="grid gap-[18px]">
-        <ReadOnlyField label="Periode" value="Juli 2026" />
-
-        <ProfileMandatorySavingsInfoCard
-          label="Sumber Dana"
-          title={sourceFund.productName}
-          subtitle={sourceFund.accountNo}
-          balanceLabel="Saldo"
-          balance={sourceFund.balance}
-          actionLabel="Pilih sumber dana"
-          onAction={() => setSourceFundOpen(true)}
-          tone="blue"
+      <div data-profile-mandatory-savings-deposit-page="true">
+        <NewMBankingSourceFundModal
+          open={sourceFundOpen}
+          onOpenChange={setSourceFundOpen}
+          onSelect={setSourceFund}
         />
 
-        <ProfileMandatorySavingsInfoCard
-          label="Tujuan Iuran"
-          title="Simpanan Wajib"
-          subtitle="SWJ-2600006"
-          balanceLabel="Saldo Simpanan Wajib"
-          balance="Rp. 100.000,00"
-          tone="green"
+        <ProfileMandatorySavingsConfirmModal
+          open={confirmOpen}
+          sourceFund={sourceFund}
+          onSourceFundChange={setSourceFund}
+          keterangan={keterangan}
+          onCancel={() => setConfirmOpen(false)}
+          onConfirm={() => {
+            setConfirmOpen(false);
+            setShowPinInput(true);
+          }}
         />
 
-        <ReadOnlyField label="Nominal Iuran" value="Rp. 50.000,00" />
+        <div className="grid gap-[18px]">
+          <ReadOnlyField label="Periode" value="Juli 2026" />
 
-        <div className="grid gap-[8px]">
-          <label className="text-[14px] font-bold leading-none text-black">
-            Keterangan
-          </label>
-
-          <textarea
-            value={keterangan}
-            onChange={(event) => setKeterangan(event.target.value)}
-            placeholder="Masukkan keterangan"
-            className={cn(
-              "min-h-[132px] w-full resize-none rounded-[12px] border border-[#CDD4E0]",
-              "bg-white px-4 py-3 text-[14px] font-normal text-black shadow-none outline-none",
-              "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-              "focus:border-[#479DF4]",
-            )}
+          <ProfileMandatorySavingsInfoCard
+            label="Sumber Dana"
+            title={sourceFund.productName}
+            subtitle={sourceFund.accountNo}
+            balanceLabel="Saldo"
+            balance={sourceFund.balance}
+            actionLabel="Pilih sumber dana"
+            onAction={() => setSourceFundOpen(true)}
+            tone="blue"
           />
-        </div>
-      </div>
 
-      <div className="mt-auto pt-6">
-        <button
-          type="button"
-          onClick={() => setConfirmOpen(true)}
-          className={cn(
-            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
-            "text-[14px] font-semibold leading-none text-white",
-            "transition active:scale-[0.98]",
-          )}
-        >
-          Setor Iuran
-        </button>
+          <ProfileMandatorySavingsInfoCard
+            label="Tujuan Iuran"
+            title="Simpanan Wajib"
+            subtitle="SWJ-2600006"
+            balanceLabel="Saldo Simpanan Wajib"
+            balance="Rp. 100.000,00"
+            tone="green"
+          />
+
+          <ReadOnlyField label="Nominal Iuran" value="Rp. 50.000,00" />
+
+          <div className="grid gap-[8px]">
+            <label className="text-[14px] font-bold leading-none text-black">
+              Keterangan
+            </label>
+
+            <textarea
+              value={keterangan}
+              onChange={(event) => setKeterangan(event.target.value)}
+              placeholder="Masukkan keterangan"
+              className={cn(
+                "min-h-[132px] w-full resize-none rounded-[12px] border border-[#CDD4E0]",
+                "bg-white px-4 py-3 text-[14px] font-normal text-black shadow-none outline-none",
+                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                "focus:border-[#479DF4]",
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="mt-auto pt-6">
+          <button
+            type="button"
+            onClick={() => setConfirmOpen(true)}
+            className={cn(
+              "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+              "text-[14px] font-semibold leading-none text-white",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Setor Iuran
+          </button>
+        </div>
       </div>
     </ProfileSubPageShell>
   );
