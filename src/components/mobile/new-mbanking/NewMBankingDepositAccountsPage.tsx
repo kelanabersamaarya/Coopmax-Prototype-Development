@@ -82,6 +82,15 @@ const depositHistories: DepositHistory[] = [
     month: "Mei",
     status: "Berhasil",
   },
+  {
+    id: "history-4",
+    title: "Setoran",
+    subtitle: "Simpanan Kaya • Virtual Account",
+    amount: "+Rp. 750.000,00",
+    date: "21 Juni 2026",
+    month: "Jun",
+    status: "Berhasil",
+  },
 ];
 
 function SavingsInfoBlock({
