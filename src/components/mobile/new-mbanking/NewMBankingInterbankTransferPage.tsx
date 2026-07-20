@@ -412,11 +412,15 @@ function TransferHistoryRow({
   onClick: () => void;
 }) {
   const incoming = isIncomingTransfer(history);
-  const title = history.title ?? (showBankName ? history.name : incoming ? "Transfer Masuk" : "Transfer Keluar");
+
+  const title = showBankName
+    ? history.name
+    : history.title ?? (incoming ? "Transfer Masuk" : "Transfer Keluar");
+
   const subtitle = showBankName
     ? incoming
-      ? `${history.name} • ${history.bank} • ${history.accountNo}`
-      : `${history.bank} • ${history.accountNo}`
+      ? `Transfer Masuk dari Bank Lain • ${history.bank} • ${history.accountNo}`
+      : `Transfer Keluar ke Bank Lain • ${history.bank} • ${history.accountNo}`
     : `${history.name} • ${history.accountNo}`;
 
   return (
