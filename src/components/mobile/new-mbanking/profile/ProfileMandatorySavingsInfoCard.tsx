@@ -20,16 +20,36 @@ export default function ProfileMandatorySavingsInfoCard({
   onAction?: () => void;
   tone?: "blue" | "green";
 }) {
+  const clickableProps = onAction
+    ? {
+        role: "button",
+        tabIndex: 0,
+        onClick: onAction,
+        onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onAction();
+          }
+        },
+        "aria-label": actionLabel || `Pilih ${label}`,
+        title: actionLabel || `Pilih ${label}`,
+      }
+    : {};
+
   return (
     <div className="grid gap-[8px]">
       <div className="text-[14px] font-bold leading-none text-black">{label}</div>
 
       <article
+        {...clickableProps}
         className={cn(
           "relative min-h-[114px] overflow-hidden rounded-[14px] px-4 py-4 text-white",
           tone === "green"
             ? "bg-[linear-gradient(135deg,#18B7A1_0%,#0F766E_58%,#115E59_100%)]"
             : "bg-[linear-gradient(135deg,#3D98FF_0%,#2563EB_54%,#6D4CEB_100%)]",
+          onAction
+            ? "cursor-pointer transition active:scale-[0.99]"
+            : "",
         )}
       >
         <div className="pointer-events-none absolute -right-[36px] -top-[36px] h-[116px] w-[116px] rounded-full bg-white/12" />
@@ -80,7 +100,11 @@ export default function ProfileMandatorySavingsInfoCard({
           {onAction ? (
             <button
               type="button"
-              onClick={onAction}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onAction();
+              }}
               className="grid h-[44px] w-[34px] shrink-0 place-items-center rounded-[10px] text-white transition active:scale-[0.96]"
               aria-label={actionLabel || `Pilih ${label}`}
               title={actionLabel || `Pilih ${label}`}
