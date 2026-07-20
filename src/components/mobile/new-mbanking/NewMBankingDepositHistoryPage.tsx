@@ -114,6 +114,20 @@ function DepositHistoryRow({
   );
 }
 
+function getDepositCollector(channel: string) {
+  const normalized = channel.trim().toLowerCase();
+
+  if (normalized.includes("virtual account")) {
+    return "Kantor";
+  }
+
+  if (normalized.includes("mobile banking")) {
+    return "Dinda Sudiati";
+  }
+
+  return "Gina Farida M.M.";
+}
+
 function buildReceiptData({
   item,
   accountName,
@@ -124,6 +138,7 @@ function buildReceiptData({
   productName: string;
 }): NewMBankingDepositReceiptData {
   const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
+  const channel = subtitleParts[1] || "M-Banking";
 
   return {
     title: item.title,
@@ -133,7 +148,7 @@ function buildReceiptData({
     accountNo: item.accountNo,
     accountName,
     productName: subtitleParts[0] || productName,
-    channel: subtitleParts[1] || "M-Banking",
+    channel: getDepositCollector(channel),
     status: item.status,
   };
 }
