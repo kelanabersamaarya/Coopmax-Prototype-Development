@@ -28,6 +28,8 @@ type TransferHistory = SavedRecipient & {
   amount: string;
   status: "Berhasil";
   month: string;
+  direction?: "in" | "out";
+  title?: string;
 };
 
 const seedSavedRecipients: SavedRecipient[] = [
@@ -57,7 +59,7 @@ const seedSavedRecipients: SavedRecipient[] = [
   },
 ];
 
-const transferHistories: TransferHistory[] = [
+const interbankTransferHistories: TransferHistory[] = [
   {
     id: "history-1",
     name: "Nyoman Ariawan",
@@ -67,6 +69,7 @@ const transferHistories: TransferHistory[] = [
     amount: "-50.000,00",
     status: "Berhasil",
     month: "Jun",
+    direction: "out",
   },
   {
     id: "history-2",
@@ -77,6 +80,7 @@ const transferHistories: TransferHistory[] = [
     amount: "-125.000,00",
     status: "Berhasil",
     month: "Jun",
+    direction: "out",
   },
   {
     id: "history-3",
@@ -87,6 +91,7 @@ const transferHistories: TransferHistory[] = [
     amount: "-75.000,00",
     status: "Berhasil",
     month: "Jun",
+    direction: "out",
   },
   {
     id: "history-4",
@@ -97,6 +102,7 @@ const transferHistories: TransferHistory[] = [
     amount: "-80.000,00",
     status: "Berhasil",
     month: "Mei",
+    direction: "out",
   },
   {
     id: "history-5",
@@ -107,6 +113,70 @@ const transferHistories: TransferHistory[] = [
     amount: "-200.000,00",
     status: "Berhasil",
     month: "Apr",
+    direction: "out",
+  },
+];
+
+const internalTransferHistories: TransferHistory[] = [
+  {
+    id: "internal-history-1",
+    name: "Kadek Surya",
+    bank: "Koperasi",
+    accountNo: "4260029",
+    dateTime: "20-06-2026 : 19.00",
+    amount: "+150.000,00",
+    status: "Berhasil",
+    month: "Jun",
+    direction: "in",
+    title: "Transfer Masuk",
+  },
+  {
+    id: "internal-history-2",
+    name: "Made Wirata",
+    bank: "Koperasi",
+    accountNo: "112233222",
+    dateTime: "19-06-2026 : 14.30",
+    amount: "-75.000,00",
+    status: "Berhasil",
+    month: "Jun",
+    direction: "out",
+    title: "Transfer Keluar",
+  },
+  {
+    id: "internal-history-3",
+    name: "Ni Luh Sari",
+    bank: "Koperasi",
+    accountNo: "4260029",
+    dateTime: "18-06-2026 : 09.15",
+    amount: "+250.000,00",
+    status: "Berhasil",
+    month: "Jun",
+    direction: "in",
+    title: "Transfer Masuk",
+  },
+  {
+    id: "internal-history-4",
+    name: "Nyoman Ariawan",
+    bank: "Koperasi",
+    accountNo: "112233333",
+    dateTime: "24-05-2026 : 11.10",
+    amount: "+100.000,00",
+    status: "Berhasil",
+    month: "Mei",
+    direction: "in",
+    title: "Transfer Masuk",
+  },
+  {
+    id: "internal-history-5",
+    name: "Made Wirata",
+    bank: "Koperasi",
+    accountNo: "7001234567",
+    dateTime: "12-04-2026 : 16.45",
+    amount: "-200.000,00",
+    status: "Berhasil",
+    month: "Apr",
+    direction: "out",
+    title: "Transfer Keluar",
   },
 ];
 
@@ -175,6 +245,10 @@ function uniqueRecipients(items: SavedRecipient[]) {
   }
 
   return result;
+}
+
+function isIncomingTransfer(history: TransferHistory) {
+  return history.direction === "in" || history.amount.trim().startsWith("+");
 }
 
 function TransferOptionCard({
@@ -251,7 +325,13 @@ function TransferTabs({
   );
 }
 
-function TransferIcon({ showBankName }: { showBankName: boolean }) {
+function TransferIcon({
+  showBankName,
+  incoming = false,
+}: {
+  showBankName: boolean;
+  incoming?: boolean;
+}) {
   if (showBankName) {
     return (
       <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
@@ -261,7 +341,12 @@ function TransferIcon({ showBankName }: { showBankName: boolean }) {
   }
 
   return (
-    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+    <span
+      className={cn(
+        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
+        incoming ? "bg-[#33AA00]" : "bg-[#18B7A1]",
+      )}
+    >
       <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
     </span>
   );
@@ -309,9 +394,13 @@ function TransferHistoryRow({
   showBankName: boolean;
   onClick: () => void;
 }) {
+  const incoming = isIncomingTransfer(history);
+  const title = showBankName
+    ? history.name
+    : history.title ?? (incoming ? "Transfer Masuk" : "Transfer Keluar");
   const subtitle = showBankName
     ? `${history.bank} • ${history.accountNo}`
-    : history.accountNo;
+    : `${history.name} • ${history.accountNo}`;
 
   return (
     <button
@@ -319,11 +408,11 @@ function TransferHistoryRow({
       onClick={onClick}
       className="flex w-full items-start gap-3 border-b border-[#EEF0F4] py-[10px] text-left transition active:scale-[0.99] last:border-b-0"
     >
-      <TransferIcon showBankName={showBankName} />
+      <TransferIcon showBankName={showBankName} incoming={incoming} />
 
       <div className="min-w-0 flex-1 pt-[1px]">
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
-          {history.name}
+          {title}
         </div>
         <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
           {subtitle}
@@ -334,7 +423,12 @@ function TransferHistoryRow({
       </div>
 
       <div className="shrink-0 pt-[1px] text-right">
-        <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+        <div
+          className={cn(
+            "text-[14px] font-bold leading-tight tracking-[-0.02em]",
+            incoming ? "text-[#15965A]" : "text-black",
+          )}
+        >
           {history.amount}
         </div>
 
@@ -436,9 +530,13 @@ export default function NewMBankingInterbankTransferPage({
     return uniqueRecipients([...stored, ...seedSavedRecipients]);
   }, [savedKind, savedTick]);
 
+  const historiesForMode = isTransferAntarRekening
+    ? internalTransferHistories
+    : interbankTransferHistories;
+
   const filteredTransferHistories = React.useMemo(
-    () => transferHistories.filter((history) => history.month === activeMonth),
-    [activeMonth],
+    () => historiesForMode.filter((history) => history.month === activeMonth),
+    [activeMonth, historiesForMode],
   );
 
   const groupedTransferHistories = React.useMemo(
