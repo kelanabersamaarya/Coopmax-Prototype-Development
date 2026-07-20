@@ -6,6 +6,7 @@ import ProfileMemberDuesTabs, {
 } from "@/components/mobile/new-mbanking/profile/ProfileMemberDuesTabs";
 import ProfileMemberSavingsCards from "@/components/mobile/new-mbanking/profile/ProfileMemberSavingsCards";
 import ProfileMandatorySavingsDepositPage from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsDepositPage";
+import ProfileTermSavingsDepositPage from "@/components/mobile/new-mbanking/profile/ProfileTermSavingsDepositPage";
 
 type DueHistoryItem = {
   title: string;
@@ -99,11 +100,20 @@ export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }
   const [activeTab, setActiveTab] = React.useState<MemberDuesTab>("dues");
   const [showMandatoryDepositPage, setShowMandatoryDepositPage] =
     React.useState(false);
+  const [showTermDepositPage, setShowTermDepositPage] = React.useState(false);
 
   if (showMandatoryDepositPage) {
     return (
       <ProfileMandatorySavingsDepositPage
         onBack={() => setShowMandatoryDepositPage(false)}
+      />
+    );
+  }
+
+  if (showTermDepositPage) {
+    return (
+      <ProfileTermSavingsDepositPage
+        onBack={() => setShowTermDepositPage(false)}
       />
     );
   }
@@ -116,6 +126,7 @@ export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }
         <div className="mt-[18px]">
           <ProfileMemberSavingsCards
             onMandatorySavingsClick={() => setShowMandatoryDepositPage(true)}
+            onTermSavingsClick={() => setShowTermDepositPage(true)}
           />
         </div>
       ) : (

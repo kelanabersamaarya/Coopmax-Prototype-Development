@@ -8,7 +8,7 @@ const accounts = [
     balance: "Rp. 100.000,00",
     status: "Aktif",
     tone: "blue",
-    clickable: true,
+    type: "mandatory",
   },
   {
     title: "Simpanan Berjangka",
@@ -16,7 +16,7 @@ const accounts = [
     balance: "Rp. 50.000,00",
     status: "Aktif",
     tone: "green",
-    clickable: false,
+    type: "term",
   },
 ] as const;
 
@@ -116,8 +116,10 @@ function MemberSavingsCard({
 
 export default function ProfileMemberSavingsCards({
   onMandatorySavingsClick,
+  onTermSavingsClick,
 }: {
   onMandatorySavingsClick?: () => void;
+  onTermSavingsClick?: () => void;
 }) {
   return (
     <div className="grid gap-[12px]">
@@ -130,7 +132,9 @@ export default function ProfileMemberSavingsCards({
           status={account.status}
           tone={account.tone}
           onClick={
-            account.clickable ? onMandatorySavingsClick : undefined
+            account.type === "mandatory"
+              ? onMandatorySavingsClick
+              : onTermSavingsClick
           }
         />
       ))}
