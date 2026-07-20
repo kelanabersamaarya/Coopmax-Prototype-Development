@@ -72,7 +72,7 @@ export default function ProfileTermSavingsDepositPage({
     document.addEventListener("click", handleKeyboardCtaClick, true);
 
     return () => {
-      document.removeEventListener("click", handleKeyboardCClick, true);
+      document.removeEventListener("click", handleKeyboardCtaClick, true);
     };
   }, []);
 
@@ -104,7 +104,7 @@ export default function ProfileTermSavingsDepositPage({
     <ProfileSubPageShell
       title="Penyetoran Simpanan Berjangka"
       onBack={onBack}
-      className="flex min-h-full flex-col"
+      className="flex min-h-full flex-col pb-0"
     >
       <style>
         {`
@@ -162,7 +162,7 @@ export default function ProfileTermSavingsDepositPage({
           }}
         />
 
-        <div className="grid gap-[18px]">
+        <div className="grid gap-[18px] pb-[18px]">
           <ReadOnlyField label="Periode" value="Juli 2026" />
 
           <ProfileMandatorySavingsInfoCard
@@ -210,7 +210,13 @@ export default function ProfileTermSavingsDepositPage({
           </div>
         </div>
 
-        <div data-profile-term-savings-cta="true" className="mt-auto pt-6">
+        <div
+          data-profile-term-savings-cta="true"
+          className={cn(
+            "sticky bottom-0 z-30 -mx-6 mt-auto bg-white px-6 pb-[26px] pt-[14px]",
+            "shadow-[0_-10px_24px_rgba(15,23,42,0.08)]",
+          )}
+        >
           <button
             type="button"
             onClick={() => setConfirmOpen(true)}
