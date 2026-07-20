@@ -13,6 +13,7 @@ import {
   UserCog,
   UserRound,
   Volume2,
+  WalletCards,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -24,6 +25,7 @@ import ProfileAnnouncementPage from "@/components/mobile/new-mbanking/profile/Pr
 import ProfileContactPage from "@/components/mobile/new-mbanking/profile/ProfileContactPage";
 import ProfileFeedbackPage from "@/components/mobile/new-mbanking/profile/ProfileFeedbackPage";
 import ProfileGuidePage from "@/components/mobile/new-mbanking/profile/ProfileGuidePage";
+import ProfileMemberDuesPage from "@/components/mobile/new-mbanking/profile/ProfileMemberDuesPage";
 import ProfileOrganizationPage from "@/components/mobile/new-mbanking/profile/ProfileOrganizationPage";
 import ProfilePrivacyPage from "@/components/mobile/new-mbanking/profile/ProfilePrivacyPage";
 import ProfileSettingsPage from "@/components/mobile/new-mbanking/profile/ProfileSettingsPage";
@@ -31,6 +33,7 @@ import ProfileTermsPage from "@/components/mobile/new-mbanking/profile/ProfileTe
 
 type ProfileScreen =
   | "main"
+  | "member-dues"
   | "announcement"
   | "organization"
   | "feedback"
@@ -47,6 +50,12 @@ const profileMenus: Array<{
   tone: "blue" | "green" | "red";
   screen: ProfileScreen;
 }> = [
+  {
+    title: "Iuran Simpanan",
+    icon: WalletCards,
+    tone: "blue",
+    screen: "member-dues",
+  },
   {
     title: "Pengumuman",
     icon: Volume2,
@@ -208,6 +217,10 @@ export default function NewMBankingProfilePage({
     }
 
     onBack();
+  }
+
+  if (screen === "member-dues") {
+    return <ProfileMemberDuesPage onBack={() => setScreen("main")} />;
   }
 
   if (screen === "announcement") {
