@@ -265,29 +265,6 @@ export default function NewMBankingNewRecipientTransferPage({
       <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#F9F9F9] pb-[112px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pt-[24px]">
           <div className="grid gap-[20px]">
-            <div className="grid gap-[9px]">
-              <div className="flex items-center justify-between gap-3">
-                <label className="text-[14px] font-bold leading-none text-black">
-                  Sumber Dana<span className="text-[#EF135D]">*</span>
-                </label>
-
-                <button
-                  type="button"
-                  onClick={() => setSourceFundOpen(true)}
-                  className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
-                >
-                  Ubah
-                </button>
-              </div>
-
-              <NewMBankingSourceFundGradientCard
-                account={sourceFund}
-                onClick={() => setSourceFundOpen(true)}
-                textSize="compact"
-                className="min-h-[104px]"
-              />
-            </div>
-
             {recipient ? (
               <NewMBankingRecipientInfoCard recipient={recipient} />
             ) : (
@@ -351,6 +328,29 @@ export default function NewMBankingNewRecipientTransferPage({
                 ) : null}
               </div>
             </TransferField>
+
+            <div className="grid gap-[9px]">
+              <div className="flex items-center justify-between gap-3">
+                <label className="text-[14px] font-bold leading-none text-black">
+                  Sumber Dana<span className="text-[#EF135D]">*</span>
+                </label>
+
+                <button
+                  type="button"
+                  onClick={() => setSourceFundOpen(true)}
+                  className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+                >
+                  Ubah
+                </button>
+              </div>
+
+              <NewMBankingSourceFundGradientCard
+                account={sourceFund}
+                onClick={() => setSourceFundOpen(true)}
+                textSize="compact"
+                className="min-h-[104px]"
+              />
+            </div>
 
             <TransferField label="Deskripsi" required>
               <div className="relative">
