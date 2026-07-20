@@ -1,5 +1,4 @@
 import * as React from "react";
-import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundModal, {
@@ -123,10 +122,7 @@ export default function ProfileMandatorySavingsDepositPage({
             "transition active:scale-[0.98]",
           )}
         >
-          <span className="inline-flex items-center justify-center gap-2">
-            <CheckSquare className="h-4 w-4" strokeWidth={3} />
-            Setor Iuran
-          </span>
+          Setor Iuran
         </button>
       </div>
     </ProfileSubPageShell>
