@@ -127,7 +127,7 @@ export default function ProfileTermSavingsDepositPage({
           [data-mobile-screen="true"]:has([data-profile-term-savings-deposit-page="true"] textarea[data-keyboard-active="true"])
             [data-numeric-keyboard="true"]
             > button:last-child::after {
-            content: "Setor Simpanan Berjangka";
+            content: "Setor Iuran";
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -226,7 +226,7 @@ export default function ProfileTermSavingsDepositPage({
               "transition active:scale-[0.98]",
             )}
           >
-            Setor Simpanan Berjangka
+            Setor Iuran
           </button>
         </div>
       </div>
