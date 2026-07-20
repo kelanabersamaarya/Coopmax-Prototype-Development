@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Copy, Plus, WalletCards } from "lucide-react";
+import { ArrowLeft, Check, Copy, Plus, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -18,6 +18,7 @@ type SavingsAccount = {
   accountNo: string;
   balance: string;
   vaNumber: string;
+  status: "Aktif" | "Nonaktif";
 };
 
 type DepositHistory = {
@@ -37,6 +38,7 @@ const savingsAccounts: SavingsAccount[] = [
     accountNo: "112233111",
     balance: "Rp. 4.000.000,00",
     vaNumber: "88810 112233111",
+    status: "Aktif",
   },
   {
     id: "simpanan-sukarela",
@@ -44,6 +46,7 @@ const savingsAccounts: SavingsAccount[] = [
     accountNo: "4260029",
     balance: "Rp. 2.750.000,00",
     vaNumber: "88810 4260029",
+    status: "Aktif",
   },
   {
     id: "simpanan-mapan",
@@ -51,6 +54,7 @@ const savingsAccounts: SavingsAccount[] = [
     accountNo: "112233222",
     balance: "Rp. 20.000.000,00",
     vaNumber: "88810 112233222",
+    status: "Aktif",
   },
 ];
 
@@ -144,13 +148,20 @@ function SavingsAccountCard({
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
         <div className="relative z-10 grid gap-[18px]">
-          <div>
-            <div className="text-[12px] font-normal leading-none text-white/78">
-              Produk Simpanan
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="text-[12px] font-normal leading-none text-white/78">
+                Produk Simpanan
+              </div>
+              <div className="mt-[8px] truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+                {account.productName}
+              </div>
             </div>
-            <div className="mt-[8px] truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
-              {account.productName}
-            </div>
+
+            <span className="inline-flex h-[26px] shrink-0 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-bold leading-none text-[#15965A] ring-1 ring-white/70">
+              {account.status}
+              <Check className="h-[13px] w-[13px] text-[#15965A]" strokeWidth={3} />
+            </span>
           </div>
 
           <SavingsInfoBlock
