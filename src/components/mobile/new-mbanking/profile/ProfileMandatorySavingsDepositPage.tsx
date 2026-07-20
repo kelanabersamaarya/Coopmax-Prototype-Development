@@ -102,7 +102,7 @@ export default function ProfileMandatorySavingsDepositPage({
 
   return (
     <ProfileSubPageShell
-      title="Penyetoran Simpanan Wajib"
+      title="Iuran Simpanan Wajib"
       onBack={onBack}
       className="flex min-h-full flex-col"
     >
