@@ -137,13 +137,13 @@ export default function NewMBankingDepositReceiptPage({
             <DetailRow label="Channel" value={receipt.channel} />
             <DetailRow label="Saldo Awal" value={formatIdr(saldoAwal)} />
             <DetailRow label="Nominal Setoran" value={amount.replace("Rp. ", "")} />
-            <DetailRow label="Saldo Akhir" value={formatIdr(saldoAkhir)} />
             <DetailRow label="Biaya Admin" value="0,00" />
             <DetailRow label="Status" value={receipt.status} />
 
             <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
 
             <DetailRow label="Total" value={amount.replace("Rp. ", "")} />
+            <DetailRow label="Saldo Akhir" value={formatIdr(saldoAkhir)} />
           </InfoSection>
 
           <div className="mt-[30px] grid gap-[10px]">
