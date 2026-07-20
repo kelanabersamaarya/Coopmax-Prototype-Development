@@ -12,23 +12,16 @@ import NewMBankingSourceFundModal, {
 function DetailRow({
   label,
   value,
-  strong = false,
 }: {
   label: string;
   value: string;
-  strong?: boolean;
 }) {
   return (
     <div className="flex items-start justify-between gap-4 py-[7px]">
       <div className="min-w-0 text-[14px] font-normal leading-tight text-[#8F8F8F]">
         {label}
       </div>
-      <div
-        className={cn(
-          "max-w-[185px] text-right leading-tight text-black",
-          strong ? "text-[18px] font-bold" : "text-[14px] font-normal",
-        )}
-      >
+      <div className="max-w-[185px] text-right text-[14px] font-normal leading-tight text-black">
         {value}
       </div>
     </div>
@@ -152,7 +145,7 @@ export default function ProfileMandatorySavingsConfirmModal({
           <DetailRow label="Periode" value="Juli 2026" />
           <DetailRow label="Tujuan Iuran" value="Simpanan Wajib - SWJ-2600006" />
           <DetailRow label="Saldo Simpanan Wajib" value="Rp. 100.000,00" />
-          <DetailRow label="Nominal Iuran" value="Rp. 50.000,00" strong />
+          <DetailRow label="Nominal Iuran" value="Rp. 50.000,00" />
           <DetailRow label="Keterangan" value={keterangan.trim() || "-"} />
         </SectionBlock>
 
