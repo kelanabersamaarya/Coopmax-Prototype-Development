@@ -113,7 +113,7 @@ export default function ProfileTermSavingsConfirmModal({
       >
         <div className="flex items-start justify-between gap-4">
           <h2 className="min-w-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-            Konfirmasi Penyetoran Simpanan Berjangka
+            Konfirmasi Iuran Simpanan Berjangka
           </h2>
 
           <button
