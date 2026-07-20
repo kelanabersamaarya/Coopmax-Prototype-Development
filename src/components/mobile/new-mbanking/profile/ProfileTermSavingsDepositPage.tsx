@@ -102,7 +102,7 @@ export default function ProfileTermSavingsDepositPage({
 
   return (
     <ProfileSubPageShell
-      title="Penyetoran Simpanan Berjangka"
+      title="Iuran Simpanan Berjangka"
       onBack={onBack}
       className="flex min-h-full flex-col pb-0"
     >
