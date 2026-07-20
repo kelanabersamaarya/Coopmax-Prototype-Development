@@ -155,6 +155,8 @@ export default function ProfileTermSavingsConfirmModal({
             value="Simpanan Berjangka - SBJ-2600006"
           />
           <DetailRow label="Saldo Simpanan Berjangka" value="Rp. 50.000,00" />
+          <DetailRow label="Jumlah Bayar" value="1/1" />
+          <DetailRow label="Periode Terakhir Angsuran" value="Juni 2026" />
           <DetailRow label="Nominal Iuran" value="Rp. 50.000,00" />
           <DetailRow label="Keterangan" value={keterangan.trim() || "-"} />
         </SectionBlock>
