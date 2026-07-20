@@ -140,7 +140,10 @@ export default function ProfileMandatorySavingsDepositPage({
         `}
       </style>
 
-      <div data-profile-mandatory-savings-deposit-page="true">
+      <div
+        data-profile-mandatory-savings-deposit-page="true"
+        className="flex min-h-full flex-1 flex-col"
+      >
         <NewMBankingSourceFundModal
           open={sourceFundOpen}
           onOpenChange={setSourceFundOpen}
