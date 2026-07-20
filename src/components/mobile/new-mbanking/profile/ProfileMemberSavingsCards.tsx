@@ -45,20 +45,20 @@ function MemberSavingsCard({
       <div className="pointer-events-none absolute -bottom-[34px] left-[64px] h-[88px] w-[88px] rounded-full bg-black/10" />
 
       <div className="relative z-10">
-        <div className="flex items-start justify-end">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="text-[12px] font-normal leading-none text-white/78">
+              Jenis Rekening
+            </div>
+            <div className="mt-[7px] text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+              {title}
+            </div>
+          </div>
+
           <span className="inline-flex h-[26px] shrink-0 items-center gap-1.5 rounded-full bg-white px-3 text-[11px] font-bold leading-none text-[#15965A] ring-1 ring-white/70">
             {status}
             <Check className="h-[13px] w-[13px] text-[#15965A]" strokeWidth={3} />
           </span>
-        </div>
-
-        <div className="mt-[18px]">
-          <div className="text-[12px] font-normal leading-none text-white/78">
-            Jenis Rekening
-          </div>
-          <div className="mt-[7px] text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
-            {title}
-          </div>
         </div>
 
         <div className="mt-[18px]">
