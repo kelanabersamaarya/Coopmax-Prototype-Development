@@ -205,22 +205,11 @@ export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }
       <ProfileMemberDuesTabs activeTab={activeTab} onChange={setActiveTab} />
 
       {activeTab === "dues" ? (
-        <>
-          <div className="mt-[18px] rounded-[22px] bg-[#EEF6FF] px-4 py-4 ring-1 ring-[#CFE4FF]">
-            <div className="text-[15px] font-bold leading-tight text-black">
-              Ringkasan Iuran
-            </div>
-            <div className="mt-[8px] text-[12px] font-normal leading-relaxed text-[#315E8F]">
-              Pantau status iuran simpanan wajib dan simpanan pokok anggota Anda.
-            </div>
-          </div>
-
-          <div className="mt-[18px] grid gap-[12px]">
-            {dues.map((item) => (
-              <DueCard key={`${item.title}-${item.period}`} item={item} />
-            ))}
-          </div>
-        </>
+        <div className="mt-[18px] grid gap-[12px]">
+          {dues.map((item) => (
+            <DueCard key={`${item.title}-${item.period}`} item={item} />
+          ))}
+        </div>
       ) : (
         <div className="mt-[18px] grid gap-[12px]">
           {dueHistories.map((item) => (
