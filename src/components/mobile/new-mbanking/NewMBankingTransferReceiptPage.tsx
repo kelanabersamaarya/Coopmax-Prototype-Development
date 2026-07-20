@@ -63,9 +63,31 @@ export default function NewMBankingTransferReceiptPage({
   onDone: () => void;
 }) {
   const [saved, setSaved] = React.useState(false);
-  const transferType = recipientBankName ? "Transfer Antar Bank" : "Transfer Antar Rekening";
+  const isIncomingFromBank = description
+    .trim()
+    .toLowerCase()
+    .includes("transfer masuk dari bank lain");
+
+  const transferType = isIncomingFromBank
+    ? "Transfer Masuk dari Bank Lain"
+    : recipientBankName
+      ? "Transfer Antar Bank"
+      : "Transfer Antar Rekening";
+
   const displayNominal = normalizeAmount(nominal);
   const displayDescription = description.trim() || "-";
+
+  const sourceName = isIncomingFromBank ? recipientName : "Laura Patel";
+  const sourceInfo = isIncomingFromBank
+    ? `${recipientBankName ?? "Bank Lain"} - ${recipientAccountNo}`
+    : "Simpanan Kaya - 112233111";
+
+  const receiverName = isIncomingFromBank ? "Laura Patel" : recipientName;
+  const receiverInfo = isIncomingFromBank
+    ? "Simpanan Kaya - 112233111"
+    : recipientBankName
+      ? `${recipientBankName} - ${recipientAccountNo}`
+      : recipientAccountNo;
 
   return (
     <div className="h-full min-h-full overflow-y-auto bg-[#F9F9F9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -110,10 +132,10 @@ export default function NewMBankingTransferReceiptPage({
           <InfoSection title="Sumber Dana">
             <div className="py-[7px]">
               <div className="text-[14px] font-normal leading-tight text-black">
-                Laura Patel
+                {sourceName}
               </div>
               <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
-                Simpanan Kaya - 112233111
+                {sourceInfo}
               </div>
             </div>
           </InfoSection>
@@ -121,12 +143,10 @@ export default function NewMBankingTransferReceiptPage({
           <InfoSection title="Penerima">
             <div className="py-[7px]">
               <div className="text-[14px] font-normal leading-tight text-black">
-                {recipientName}
+                {receiverName}
               </div>
               <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
-                {recipientBankName
-                  ? `${recipientBankName} - ${recipientAccountNo}`
-                  : recipientAccountNo}
+                {receiverInfo}
               </div>
             </div>
           </InfoSection>
@@ -135,10 +155,17 @@ export default function NewMBankingTransferReceiptPage({
             <DetailRow label="Tipe Transaksi" value={transferType} />
             <DetailRow label="Deskripsi" value={displayDescription} />
             <DetailRow label="Nominal" value={displayNominal.replace("Rp. ", "")} />
-            <DetailRow label="Biaya Admin" value={recipientBankName ? "2.500,00" : "0,00"} />
+            <DetailRow
+              label="Biaya Admin"
+              value={isIncomingFromBank || !recipientBankName ? "0,00" : "2.500,00"}
+            />
             <DetailRow
               label="Total"
-              value={recipientBankName ? "52.500,00" : displayNominal.replace("Rp. ", "")}
+              value={
+                isIncomingFromBank || !recipientBankName
+                  ? displayNominal.replace("Rp. ", "")
+                  : "52.500,00"
+              }
             />
           </InfoSection>
 
