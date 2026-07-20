@@ -7,6 +7,7 @@ import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/Ne
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingTransferQrPage from "@/components/mobile/new-mbanking/NewMBankingTransferQrPage";
+import NewMBankingTransferReceiptPage from "@/components/mobile/new-mbanking/NewMBankingTransferReceiptPage";
 import type { NewMBankingRecipientInfo } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
 import {
   getNewMBankingTransferRecipients,
@@ -263,6 +264,20 @@ function isIncomingTransfer(history: TransferHistory) {
   return history.direction === "in" || history.amount.trim().startsWith("+");
 }
 
+function cleanTransferAmount(amount: string) {
+  return amount.replace(/^[+-]/, "").trim();
+}
+
+function getTransferDescription(history: TransferHistory, showBankName: boolean) {
+  const incoming = isIncomingTransfer(history);
+
+  if (showBankName) {
+    return incoming ? "Transfer Masuk dari Bank Lain" : "Transfer Keluar ke Bank Lain";
+  }
+
+  return history.title ?? (incoming ? "Transfer Masuk" : "Transfer Keluar");
+}
+
 function TransferOptionCard({
   icon: Icon,
   label,
@@ -465,12 +480,12 @@ function TransferHistoryDateGroup({
   date,
   items,
   showBankName,
-  onOpenRecipient,
+  onOpenReceipt,
 }: {
   date: string;
   items: TransferHistory[];
   showBankName: boolean;
-  onOpenRecipient: (history: TransferHistory) => void;
+  onOpenReceipt: (history: TransferHistory) => void;
 }) {
   return (
     <section className="mt-[14px] first:mt-0">
@@ -487,7 +502,7 @@ function TransferHistoryDateGroup({
             key={history.id}
             history={history}
             showBankName={showBankName}
-            onClick={() => onOpenRecipient(history)}
+            onClick={() => onOpenReceipt(history)}
           />
         ))}
       </div>
@@ -526,6 +541,8 @@ export default function NewMBankingInterbankTransferPage({
   const [showTransferQr, setShowTransferQr] = React.useState(false);
   const [selectedRecipient, setSelectedRecipient] =
     React.useState<NewMBankingRecipientInfo | null>(null);
+  const [selectedHistoryReceipt, setSelectedHistoryReceipt] =
+    React.useState<TransferHistory | null>(null);
   const [savedTick, setSavedTick] = React.useState(0);
 
   React.useEffect(() => {
@@ -576,6 +593,20 @@ export default function NewMBankingInterbankTransferPage({
   function openRecipientInput(recipient: NewMBankingRecipientInfo) {
     setSelectedRecipient(recipient);
     setShowNewRecipientForm(true);
+  }
+
+  if (selectedHistoryReceipt) {
+    return (
+      <NewMBankingTransferReceiptPage
+        recipientName={selectedHistoryReceipt.name}
+        recipientAccountNo={selectedHistoryReceipt.accountNo}
+        recipientBankName={showBankName ? selectedHistoryReceipt.bank : undefined}
+        nominal={cleanTransferAmount(selectedHistoryReceipt.amount)}
+        description={getTransferDescription(selectedHistoryReceipt, showBankName)}
+        onBack={() => setSelectedHistoryReceipt(null)}
+        onDone={() => setSelectedHistoryReceipt(null)}
+      />
+    );
   }
 
   if (showTransferQr) {
@@ -695,9 +726,7 @@ export default function NewMBankingInterbankTransferPage({
                     date={group.date}
                     items={group.items}
                     showBankName={showBankName}
-                    onOpenRecipient={(history) =>
-                      openRecipientInput(buildRecipientInfo(history))
-                    }
+                    onOpenReceipt={setSelectedHistoryReceipt}
                   />
                 ))}
               </div>
