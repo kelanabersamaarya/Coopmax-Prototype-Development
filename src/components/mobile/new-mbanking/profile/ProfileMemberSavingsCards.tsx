@@ -1,5 +1,7 @@
+import * as React from "react";
 import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ProfileMandatorySavingsDepositSheet from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsDepositSheet";
 
 const accounts = [
   {
@@ -8,6 +10,7 @@ const accounts = [
     balance: "Rp. 100.000,00",
     status: "Aktif",
     tone: "blue",
+    clickable: true,
   },
   {
     title: "Simpanan Berjangka",
@@ -15,6 +18,7 @@ const accounts = [
     balance: "Rp. 50.000,00",
     status: "Aktif",
     tone: "green",
+    clickable: false,
   },
 ] as const;
 
@@ -24,17 +28,20 @@ function MemberSavingsCard({
   balance,
   status,
   tone,
+  onClick,
 }: {
   title: string;
   accountNo: string;
   balance: string;
   status: string;
   tone: "blue" | "green";
+  onClick?: () => void;
 }) {
-  return (
+  const content = (
     <article
       className={cn(
         "relative overflow-hidden rounded-[20px] px-4 py-4 text-white",
+        "transition active:scale-[0.99]",
         tone === "green"
           ? "bg-[linear-gradient(135deg,#18B7A1_0%,#0F766E_58%,#115E59_100%)]"
           : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_54%,#7C3AED_100%)]",
@@ -69,6 +76,10 @@ function MemberSavingsCard({
             <span className="truncate">{accountNo}</span>
             <button
               type="button"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
               className="inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
               aria-label={`Salin rekening ${title}`}
               title="Salin"
@@ -89,21 +100,47 @@ function MemberSavingsCard({
       </div>
     </article>
   );
+
+  if (!onClick) return content;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="block w-full text-left"
+      aria-label={`Buka penyetoran ${title}`}
+      title={`Buka penyetoran ${title}`}
+    >
+      {content}
+    </button>
+  );
 }
 
 export default function ProfileMemberSavingsCards() {
+  const [mandatoryDepositOpen, setMandatoryDepositOpen] = React.useState(false);
+
   return (
-    <div className="grid gap-[12px]">
-      {accounts.map((account) => (
-        <MemberSavingsCard
-          key={account.title}
-          title={account.title}
-          accountNo={account.accountNo}
-          balance={account.balance}
-          status={account.status}
-          tone={account.tone}
-        />
-      ))}
-    </div>
+    <>
+      <ProfileMandatorySavingsDepositSheet
+        open={mandatoryDepositOpen}
+        onOpenChange={setMandatoryDepositOpen}
+      />
+
+      <div className="grid gap-[12px]">
+        {accounts.map((account) => (
+          <MemberSavingsCard
+            key={account.title}
+            title={account.title}
+            accountNo={account.accountNo}
+            balance={account.balance}
+            status={account.status}
+            tone={account.tone}
+            onClick={
+              account.clickable ? () => setMandatoryDepositOpen(true) : undefined
+            }
+          />
+        ))}
+      </div>
+    </>
   );
 }
