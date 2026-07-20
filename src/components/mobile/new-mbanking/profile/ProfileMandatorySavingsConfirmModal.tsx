@@ -106,7 +106,7 @@ export default function ProfileMandatorySavingsConfirmModal({
       >
         <div className="flex items-start justify-between gap-4">
           <h2 className="min-w-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-            Konfirmasi Penyetoran Iuran Simpanan Wajib
+            Konfirmasi Setoran Iuran Simpanan Wajib
           </h2>
 
           <button
