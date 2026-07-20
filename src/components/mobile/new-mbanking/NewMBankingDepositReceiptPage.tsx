@@ -141,7 +141,6 @@ export default function NewMBankingDepositReceiptPage({
 
             <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
 
-            <DetailRow label="Total" value={amount.replace("Rp. ", "")} />
             <DetailRow label="Saldo Akhir" value={formatIdr(saldoAkhir)} />
           </InfoSection>
 
