@@ -72,7 +72,7 @@ export default function ProfileTermSavingsDepositPage({
     document.addEventListener("click", handleKeyboardCtaClick, true);
 
     return () => {
-      document.removeEventListener("click", handleKeyboardCtaClick, true);
+      document.removeEventListener("click", handleKeyboardCClick, true);
     };
   }, []);
 
@@ -185,7 +185,7 @@ export default function ProfileTermSavingsDepositPage({
             tone="green"
           />
 
-          <ReadOnlyField label="Jumlah Bayar" value="Rp. 50.000,00" />
+          <ReadOnlyField label="Jumlah Bayar" value="1/1" />
 
           <ReadOnlyField label="Periode Terakhir Angsuran" value="Juni 2026" />
 
