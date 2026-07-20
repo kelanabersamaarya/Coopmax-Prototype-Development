@@ -63,6 +63,16 @@ function shouldHideDescription(transactionType: string) {
   return transactionType === "Pembayaran" || transactionType === "Pembelian";
 }
 
+function getDisplayTransactionType(receipt: NewMBankingHistoryReceiptData) {
+  if (receipt.transactionType !== "Transfer Antar Rekening") {
+    return receipt.transactionType;
+  }
+
+  return receipt.amount.trim().startsWith("+")
+    ? "Transfer Masuk Antar Rekening"
+    : "Transfer Keluar Antar Rekening";
+}
+
 export default function NewMBankingHistoryReceiptPage({
   receipt,
   onBack,
@@ -74,6 +84,7 @@ export default function NewMBankingHistoryReceiptPage({
 }) {
   const [saved, setSaved] = React.useState(false);
   const displayAmount = normalizeDisplayAmount(receipt.amount);
+  const displayTransactionType = getDisplayTransactionType(receipt);
 
   const visibleDetailRows = shouldHideDescription(receipt.transactionType)
     ? receipt.detailRows.filter((row) => row.label !== "Deskripsi")
@@ -144,7 +155,7 @@ export default function NewMBankingHistoryReceiptPage({
           </InfoSection>
 
           <InfoSection title="Detail Transaksi">
-            <DetailRow label="Jenis Transaksi" value={receipt.transactionType} />
+            <DetailRow label="Jenis Transaksi" value={displayTransactionType} />
             {visibleDetailRows.map((row) => (
               <DetailRow key={row.label} label={row.label} value={row.value} />
             ))}

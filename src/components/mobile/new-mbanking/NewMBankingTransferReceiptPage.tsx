@@ -45,6 +45,30 @@ function normalizeAmount(amount: string) {
   return trimmed.startsWith("Rp.") ? trimmed : `Rp. ${trimmed}`;
 }
 
+function getTransferType({
+  description,
+  recipientBankName,
+}: {
+  description: string;
+  recipientBankName?: string;
+}) {
+  const normalizedDescription = description.trim().toLowerCase();
+
+  if (normalizedDescription.includes("transfer masuk dari bank lain")) {
+    return "Transfer Masuk dari Bank Lain";
+  }
+
+  if (recipientBankName) {
+    return "Transfer Antar Bank";
+  }
+
+  if (normalizedDescription.includes("transfer masuk")) {
+    return "Transfer Masuk Antar Rekening";
+  }
+
+  return "Transfer Keluar Antar Rekening";
+}
+
 export default function NewMBankingTransferReceiptPage({
   recipientName,
   recipientAccountNo,
@@ -68,11 +92,10 @@ export default function NewMBankingTransferReceiptPage({
     .toLowerCase()
     .includes("transfer masuk dari bank lain");
 
-  const transferType = isIncomingFromBank
-    ? "Transfer Masuk dari Bank Lain"
-    : recipientBankName
-      ? "Transfer Antar Bank"
-      : "Transfer Antar Rekening";
+  const transferType = getTransferType({
+    description,
+    recipientBankName,
+  });
 
   const displayNominal = normalizeAmount(nominal);
   const displayDescription = description.trim() || "-";
