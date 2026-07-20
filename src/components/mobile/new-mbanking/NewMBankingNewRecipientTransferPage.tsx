@@ -10,6 +10,16 @@ import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBanki
 import NewMBankingRecipientInfoCard, {
   type NewMBankingRecipientInfo,
 } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import NewMBankingSourceFundModal, {
+  type SourceFundAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+
+const defaultSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
+};
 
 function TransferField({
   label,
@@ -90,6 +100,9 @@ export default function NewMBankingNewRecipientTransferPage({
   const [amount, setAmount] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [toastMessage, setToastMessage] = React.useState("");
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [sourceFund, setSourceFund] =
+    React.useState<SourceFundAccount>(defaultSourceFund);
 
   React.useEffect(() => {
     if (!recipient) return;
@@ -207,9 +220,16 @@ export default function NewMBankingNewRecipientTransferPage({
         onClose={() => setToastMessage("")}
       />
 
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={setSourceFund}
+      />
+
       <NewMBankingTransferConfirmModal
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
+        sourceInfo={`${sourceFund.accountNo} - ${sourceFund.productName}`}
         recipientName={recipient?.name ?? "Suyatna"}
         recipientAccountNo={accountNo}
         recipientBankName={hideBankSelection ? undefined : bank}
@@ -245,6 +265,29 @@ export default function NewMBankingNewRecipientTransferPage({
       <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#F9F9F9] pb-[112px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pt-[24px]">
           <div className="grid gap-[20px]">
+            <div className="grid gap-[9px]">
+              <div className="flex items-center justify-between gap-3">
+                <label className="text-[14px] font-bold leading-none text-black">
+                  Sumber Dana<span className="text-[#EF135D]">*</span>
+                </label>
+
+                <button
+                  type="button"
+                  onClick={() => setSourceFundOpen(true)}
+                  className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+                >
+                  Ubah
+                </button>
+              </div>
+
+              <NewMBankingSourceFundGradientCard
+                account={sourceFund}
+                onClick={() => setSourceFundOpen(true)}
+                textSize="compact"
+                className="min-h-[104px]"
+              />
+            </div>
+
             {recipient ? (
               <NewMBankingRecipientInfoCard recipient={recipient} />
             ) : (
