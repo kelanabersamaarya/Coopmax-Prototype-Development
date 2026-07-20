@@ -6,6 +6,7 @@ import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/Profil
 import ProfileMemberDuesTabs, {
   type MemberDuesTab,
 } from "@/components/mobile/new-mbanking/profile/ProfileMemberDuesTabs";
+import ProfileMemberSavingsCards from "@/components/mobile/new-mbanking/profile/ProfileMemberSavingsCards";
 
 type DueItem = {
   title: string;
@@ -205,11 +206,17 @@ export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }
       <ProfileMemberDuesTabs activeTab={activeTab} onChange={setActiveTab} />
 
       {activeTab === "dues" ? (
-        <div className="mt-[18px] grid gap-[12px]">
-          {dues.map((item) => (
-            <DueCard key={`${item.title}-${item.period}`} item={item} />
-          ))}
-        </div>
+        <>
+          <div className="mt-[18px]">
+            <ProfileMemberSavingsCards />
+          </div>
+
+          <div className="mt-[18px] grid gap-[12px]">
+            {dues.map((item) => (
+              <DueCard key={`${item.title}-${item.period}`} item={item} />
+            ))}
+          </div>
+        </>
       ) : (
         <div className="mt-[18px] grid gap-[12px]">
           {dueHistories.map((item) => (
