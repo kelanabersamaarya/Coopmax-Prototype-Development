@@ -73,6 +73,8 @@ export default function ProfileMandatorySavingsDepositPage({
 
       <ProfileMandatorySavingsConfirmModal
         open={confirmOpen}
+        sourceFund={sourceFund}
+        keterangan={keterangan}
         onCancel={() => setConfirmOpen(false)}
         onConfirm={submit}
       />

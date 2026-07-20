@@ -2,15 +2,67 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { AlertTriangle, X } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+
+function DetailRow({
+  label,
+  value,
+  strong = false,
+}: {
+  label: string;
+  value: string;
+  strong?: boolean;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 py-[7px]">
+      <div className="min-w-0 text-[14px] font-normal leading-tight text-[#8F8F8F]">
+        {label}
+      </div>
+      <div
+        className={cn(
+          "max-w-[185px] text-right leading-tight text-black",
+          strong ? "text-[18px] font-bold" : "text-[14px] font-normal",
+        )}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function SectionBlock({
+  title,
+  children,
+  className,
+}: {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={cn("mt-[22px]", className)}>
+      <div className="text-[14px] font-bold leading-tight text-black">
+        {title}
+      </div>
+      <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
+      <div className="mt-[10px]">{children}</div>
+    </section>
+  );
+}
 
 export default function ProfileMandatorySavingsConfirmModal({
   open,
+  sourceFund,
+  keterangan,
   onCancel,
   onConfirm,
 }: {
   open: boolean;
+  sourceFund: SourceFundAccount;
+  keterangan: string;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
@@ -43,25 +95,14 @@ export default function ProfileMandatorySavingsConfirmModal({
         )}
       >
         <div className="flex items-start justify-between gap-4">
-          <div className="flex min-w-0 items-center gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#FFF7E6] text-[#F59E0B]">
-              <AlertTriangle className="h-5 w-5" strokeWidth={2.8} />
-            </span>
-
-            <div className="min-w-0">
-              <div className="text-[16px] font-bold leading-tight text-black">
-                Yakin Setor Iuran?
-              </div>
-              <div className="mt-1 text-[13px] font-normal leading-relaxed text-[#828282]">
-                Pastikan data penyetoran iuran sudah benar sebelum melanjutkan.
-              </div>
-            </div>
-          </div>
+          <h2 className="min-w-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+            Konfirmasi Penyetoran Iuran
+          </h2>
 
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] text-black transition active:scale-[0.98]"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] text-black transition active:scale-[0.98]"
             aria-label="Tutup"
             title="Tutup"
           >
@@ -69,7 +110,24 @@ export default function ProfileMandatorySavingsConfirmModal({
           </button>
         </div>
 
-        <div className="mt-[24px] grid gap-[10px]">
+        <SectionBlock title="Sumber Dana" className="mt-[14px]">
+          <NewMBankingSourceFundGradientCard
+            account={sourceFund}
+            showChevron={false}
+            textSize="compact"
+            className="min-h-[104px] shadow-none"
+          />
+        </SectionBlock>
+
+        <SectionBlock title="Detail Iuran">
+          <DetailRow label="Periode" value="Juli 2026" />
+          <DetailRow label="Tujuan Iuran" value="Simpanan Wajib - SWJ-2600006" />
+          <DetailRow label="Saldo Simpanan Wajib" value="Rp. 100.000,00" />
+          <DetailRow label="Nominal Iuran" value="Rp. 50.000,00" strong />
+          <DetailRow label="Keterangan" value={keterangan.trim() || "-"} />
+        </SectionBlock>
+
+        <div className="mt-[26px] grid grid-cols-1 gap-[10px]">
           <button
             type="button"
             onClick={onConfirm}
@@ -79,7 +137,7 @@ export default function ProfileMandatorySavingsConfirmModal({
               "transition active:scale-[0.98]",
             )}
           >
-            Ya, Setor Iuran
+            Setor Sekarang
           </button>
 
           <button
