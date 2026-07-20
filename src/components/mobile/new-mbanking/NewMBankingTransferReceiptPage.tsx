@@ -155,10 +155,12 @@ export default function NewMBankingTransferReceiptPage({
             <DetailRow label="Tipe Transaksi" value={transferType} />
             <DetailRow label="Deskripsi" value={displayDescription} />
             <DetailRow label="Nominal" value={displayNominal.replace("Rp. ", "")} />
-            <DetailRow
-              label="Biaya Admin"
-              value={isIncomingFromBank || !recipientBankName ? "0,00" : "2.500,00"}
-            />
+            {!isIncomingFromBank ? (
+              <DetailRow
+                label="Biaya Admin"
+                value={recipientBankName ? "2.500,00" : "0,00"}
+              />
+            ) : null}
             <DetailRow
               label="Total"
               value={
