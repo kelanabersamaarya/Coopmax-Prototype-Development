@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingDepositEmptyHistoryState from "@/components/mobile/new-mbanking/NewMBankingDepositEmptyHistoryState";
+import NewMBankingDepositReceiptPage, {
+  type NewMBankingDepositReceiptData,
+} from "@/components/mobile/new-mbanking/NewMBankingDepositReceiptPage";
 
 type DepositHistory = {
   id: string;
@@ -70,9 +73,21 @@ function HistoryIcon() {
   );
 }
 
-function DepositHistoryRow({ item }: { item: DepositHistory }) {
+function DepositHistoryRow({
+  item,
+  onClick,
+}: {
+  item: DepositHistory;
+  onClick: () => void;
+}) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[14px]">
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-start justify-between gap-4 py-[14px] text-left transition active:scale-[0.99]"
+      aria-label={`Lihat bukti ${item.title}`}
+      title="Lihat bukti setoran"
+    >
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <HistoryIcon />
 
@@ -95,8 +110,32 @@ function DepositHistoryRow({ item }: { item: DepositHistory }) {
           {item.status}
         </div>
       </div>
-    </div>
+    </button>
   );
+}
+
+function buildReceiptData({
+  item,
+  accountName,
+  productName,
+}: {
+  item: DepositHistory;
+  accountName: string;
+  productName: string;
+}): NewMBankingDepositReceiptData {
+  const subtitleParts = item.subtitle.split("•").map((part) => part.trim());
+
+  return {
+    title: item.title,
+    subtitle: item.subtitle,
+    amount: item.amount,
+    date: item.date,
+    accountNo: item.accountNo,
+    accountName,
+    productName: subtitleParts[0] || productName,
+    channel: subtitleParts[1] || "M-Banking",
+    status: item.status,
+  };
 }
 
 export default function NewMBankingDepositHistoryPage({
@@ -111,6 +150,8 @@ export default function NewMBankingDepositHistoryPage({
   onBack: () => void;
 }) {
   const [activeMonth, setActiveMonth] = React.useState("Jun");
+  const [selectedReceipt, setSelectedReceipt] =
+    React.useState<NewMBankingDepositReceiptData | null>(null);
 
   const filteredHistories = React.useMemo(() => {
     return depositHistories.filter(
@@ -124,6 +165,16 @@ export default function NewMBankingDepositHistoryPage({
       return acc;
     }, {});
   }, [filteredHistories]);
+
+  if (selectedReceipt) {
+    return (
+      <NewMBankingDepositReceiptPage
+        receipt={selectedReceipt}
+        onBack={() => setSelectedReceipt(null)}
+        onDone={() => setSelectedReceipt(null)}
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -169,7 +220,19 @@ export default function NewMBankingDepositHistoryPage({
 
                   <div className="mt-[8px] divide-y divide-[#EEF0F4]">
                     {items.map((item) => (
-                      <DepositHistoryRow key={item.id} item={item} />
+                      <DepositHistoryRow
+                        key={item.id}
+                        item={item}
+                        onClick={() =>
+                          setSelectedReceipt(
+                            buildReceiptData({
+                              item,
+                              accountName,
+                              productName,
+                            }),
+                          )
+                        }
+                      />
                     ))}
                   </div>
                 </section>
