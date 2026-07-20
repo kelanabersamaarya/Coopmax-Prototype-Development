@@ -2,21 +2,17 @@ import * as React from "react";
 import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import NewMBankingSourceFundModal, {
+  type SourceFundAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileMandatorySavingsInfoCard from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsInfoCard";
 
-const sourceFundOptions = [
-  {
-    title: "Simpanan Kaya",
-    subtitle: "112233111",
-    balance: "Rp. 4.000.000,00",
-  },
-  {
-    title: "Simpanan Sukarela",
-    subtitle: "4260029",
-    balance: "Rp. 2.750.000,00",
-  },
-];
+const defaultSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
+};
 
 function ReadOnlyField({
   label,
@@ -50,15 +46,9 @@ export default function ProfileMandatorySavingsDepositPage({
   onBack: () => void;
 }) {
   const [keterangan, setKeterangan] = React.useState("");
-  const [sourceFundIndex, setSourceFundIndex] = React.useState(0);
-  const sourceFund = sourceFundOptions[sourceFundIndex];
-
-  function changeSourceFund() {
-    setSourceFundIndex((current) => (current + 1) % sourceFundOptions.length);
-    toast("Sumber dana diubah", {
-      description: "Sumber dana penyetoran telah diganti.",
-    });
-  }
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [sourceFund, setSourceFund] =
+    React.useState<SourceFundAccount>(defaultSourceFund);
 
   function submit() {
     toast.success("Setoran Simpanan Wajib berhasil (prototype)", {
@@ -73,17 +63,23 @@ export default function ProfileMandatorySavingsDepositPage({
       onBack={onBack}
       className="flex min-h-full flex-col"
     >
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={setSourceFund}
+      />
+
       <div className="grid gap-[18px]">
         <ReadOnlyField label="Periode" value="Juli 2026" />
 
         <ProfileMandatorySavingsInfoCard
           label="Sumber Dana"
-          title={sourceFund.title}
-          subtitle={sourceFund.subtitle}
-          balanceLabel="Saldo Tersedia"
+          title={sourceFund.productName}
+          subtitle={sourceFund.accountNo}
+          balanceLabel="Saldo"
           balance={sourceFund.balance}
-          actionLabel="Ubah"
-          onAction={changeSourceFund}
+          actionLabel="Pilih sumber dana"
+          onAction={() => setSourceFundOpen(true)}
           tone="blue"
         />
 
