@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ReceiptText } from "lucide-react";
-import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileMemberDuesTabs, {
   type MemberDuesTab,
 } from "@/components/mobile/new-mbanking/profile/ProfileMemberDuesTabs";
 import ProfileMemberSavingsCards from "@/components/mobile/new-mbanking/profile/ProfileMemberSavingsCards";
+import ProfileMandatorySavingsDepositPage from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsDepositPage";
 
 type DueHistoryItem = {
   title: string;
@@ -31,7 +31,7 @@ const dueHistories: DueHistoryItem[] = [
     method: "Teller Koperasi",
   },
   {
-    title: "Simpanan Pokok",
+    title: "Simpanan Berjangka",
     period: "Keanggotaan",
     amount: "Rp. 100.000,00",
     paidAt: "01 April 2026",
@@ -97,6 +97,16 @@ function HistoryCard({ item }: { item: DueHistoryItem }) {
 
 export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }) {
   const [activeTab, setActiveTab] = React.useState<MemberDuesTab>("dues");
+  const [showMandatoryDepositPage, setShowMandatoryDepositPage] =
+    React.useState(false);
+
+  if (showMandatoryDepositPage) {
+    return (
+      <ProfileMandatorySavingsDepositPage
+        onBack={() => setShowMandatoryDepositPage(false)}
+      />
+    );
+  }
 
   return (
     <ProfileSubPageShell title="Iuran Simpanan" onBack={onBack}>
@@ -104,7 +114,9 @@ export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }
 
       {activeTab === "dues" ? (
         <div className="mt-[18px]">
-          <ProfileMemberSavingsCards />
+          <ProfileMemberSavingsCards
+            onMandatorySavingsClick={() => setShowMandatoryDepositPage(true)}
+          />
         </div>
       ) : (
         <div className="mt-[18px] grid gap-[12px]">
@@ -113,10 +125,6 @@ export default function ProfileMemberDuesPage({ onBack }: { onBack: () => void }
           ))}
         </div>
       )}
-
-      <div className="sr-only">
-        <span className={cn("hidden")}>iuran-simpanan</span>
-      </div>
     </ProfileSubPageShell>
   );
 }

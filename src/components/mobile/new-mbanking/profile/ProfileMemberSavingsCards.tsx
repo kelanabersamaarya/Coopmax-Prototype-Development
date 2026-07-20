@@ -1,7 +1,5 @@
-import * as React from "react";
 import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
-import ProfileMandatorySavingsDepositSheet from "@/components/mobile/new-mbanking/profile/ProfileMandatorySavingsDepositSheet";
 
 const accounts = [
   {
@@ -116,31 +114,26 @@ function MemberSavingsCard({
   );
 }
 
-export default function ProfileMemberSavingsCards() {
-  const [mandatoryDepositOpen, setMandatoryDepositOpen] = React.useState(false);
-
+export default function ProfileMemberSavingsCards({
+  onMandatorySavingsClick,
+}: {
+  onMandatorySavingsClick?: () => void;
+}) {
   return (
-    <>
-      <ProfileMandatorySavingsDepositSheet
-        open={mandatoryDepositOpen}
-        onOpenChange={setMandatoryDepositOpen}
-      />
-
-      <div className="grid gap-[12px]">
-        {accounts.map((account) => (
-          <MemberSavingsCard
-            key={account.title}
-            title={account.title}
-            accountNo={account.accountNo}
-            balance={account.balance}
-            status={account.status}
-            tone={account.tone}
-            onClick={
-              account.clickable ? () => setMandatoryDepositOpen(true) : undefined
-            }
-          />
-        ))}
-      </div>
-    </>
+    <div className="grid gap-[12px]">
+      {accounts.map((account) => (
+        <MemberSavingsCard
+          key={account.title}
+          title={account.title}
+          accountNo={account.accountNo}
+          balance={account.balance}
+          status={account.status}
+          tone={account.tone}
+          onClick={
+            account.clickable ? onMandatorySavingsClick : undefined
+          }
+        />
+      ))}
+    </div>
   );
 }
