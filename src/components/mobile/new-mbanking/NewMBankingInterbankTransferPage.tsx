@@ -394,7 +394,7 @@ function SavedRecipientRow({
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
           {recipient.name}
         </div>
-        <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+        <div className="mt-[5px] text-[12px] font-normal leading-snug text-[#8F8F8F]">
           {subtitle}
         </div>
       </div>
@@ -435,10 +435,10 @@ function TransferHistoryRow({
         <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
           {title}
         </div>
-        <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+        <div className="mt-[4px] whitespace-normal break-words text-[12px] font-normal leading-snug text-[#8F8F8F]">
           {subtitle}
         </div>
-        <div className="mt-[3px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
+        <div className="mt-[3px] whitespace-normal break-words text-[11px] font-normal leading-snug text-[#A0A0A0]">
           {getTransferTime(history.dateTime)}
         </div>
       </div>
