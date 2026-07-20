@@ -56,6 +56,16 @@ function normalizeAmount(value: string) {
   return value.replace(/^[+-]/, "").trim();
 }
 
+function parseIdrLike(value: string) {
+  const digits = (value ?? "").replace(/[^\d]/g, "");
+  const parsed = Number(digits);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
 export default function NewMBankingDepositReceiptPage({
   receipt,
   onBack,
@@ -67,6 +77,8 @@ export default function NewMBankingDepositReceiptPage({
 }) {
   const [saved, setSaved] = React.useState(false);
   const amount = normalizeAmount(receipt.amount);
+  const saldoAwal = 3_500_000;
+  const saldoAkhir = saldoAwal + parseIdrLike(amount);
 
   return (
     <div className="h-full min-h-full overflow-y-auto bg-[#F9F9F9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -123,7 +135,9 @@ export default function NewMBankingDepositReceiptPage({
             <DetailRow label="Jenis Transaksi" value={receipt.title} />
             <DetailRow label="Keterangan" value={receipt.subtitle} />
             <DetailRow label="Channel" value={receipt.channel} />
+            <DetailRow label="Saldo Awal" value={formatIdr(saldoAwal)} />
             <DetailRow label="Nominal Setoran" value={amount.replace("Rp. ", "")} />
+            <DetailRow label="Saldo Akhir" value={formatIdr(saldoAkhir)} />
             <DetailRow label="Biaya Admin" value="0,00" />
             <DetailRow label="Status" value={receipt.status} />
 
