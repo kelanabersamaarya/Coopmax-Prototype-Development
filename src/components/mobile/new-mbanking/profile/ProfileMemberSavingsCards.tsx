@@ -50,7 +50,7 @@ function MemberSavingsCard({
             <div className="text-[12px] font-normal leading-none text-white/78">
               Produk Simpanan
             </div>
-            <div className="mt-[7px] text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+            <div className="mt-[7px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
               {title}
             </div>
           </div>
