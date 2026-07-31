@@ -1,10 +1,6 @@
-/* Global form focus color */
+/* Field tetap memakai warna border normal saat diklik atau difokuskan. */
 :where(input, textarea, select):focus,
-:where(input, textarea, select):focus-visible {
-  border-color: #2563eb !important;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) !important;
-}
-
+:where(input, textarea, select):focus-visible,
 :where(
     button[role="combobox"],
     [data-slot="select-trigger"],
@@ -26,8 +22,13 @@
     [data-slot="popover-trigger"],
     [data-slot="dropdown-menu-trigger"]
   )[data-state="open"] {
-  border-color: #2563eb !important;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
 }
 
 .no-purple-select :where(input, textarea):focus,
@@ -37,6 +38,11 @@
   :where([data-slot="select-trigger"], [role="combobox"]):focus-visible,
 .no-purple-select
   :where([data-slot="select-trigger"], [role="combobox"])[data-state="open"] {
-  border-color: #2563eb !important;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
 }
