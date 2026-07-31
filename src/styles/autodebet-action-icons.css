@@ -1,4 +1,10 @@
+button[title="Lihat jadwal"] svg,
+button[title="Ubah jadwal"] svg,
 button[title="Hapus jadwal"] svg {
-  width: 1.5rem !important;
-  height: 1.5rem !important;
+  width: 1.375rem !important;
+  height: 1.375rem !important;
+}
+
+div:has(> button[title="Lihat jadwal"]):has(> button[title="Ubah jadwal"]):has(> button[title="Hapus jadwal"]) {
+  gap: 0 !important;
 }
