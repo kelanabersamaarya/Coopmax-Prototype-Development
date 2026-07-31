@@ -196,18 +196,18 @@ function LoanBillingSummaryCard({
   ];
 
   return (
-    <div className="rounded-[8px] bg-[#17a2b8] p-4 text-white shadow-sm ring-1 ring-white/10">
-      <div className="text-[13px] font-extrabold uppercase tracking-wide text-white">
+    <div className="rounded-[5px] border border-slate-300 bg-white p-4 text-slate-900 shadow-sm">
+      <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
         {account.productType}
       </div>
 
       <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
         {details.map((detail) => (
           <div key={detail.label} className="min-w-0">
-            <div className="text-[11px] font-semibold text-white/85">
+            <div className="text-[11px] font-semibold text-slate-600">
               {detail.label}
             </div>
-            <div className="mt-1 text-[14px] font-extrabold tracking-tight text-white">
+            <div className="mt-1 text-[14px] font-extrabold tracking-tight text-slate-900">
               {detail.value}
             </div>
           </div>
