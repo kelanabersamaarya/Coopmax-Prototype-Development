@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  CircleX,
   History,
   List,
   Printer,
@@ -56,6 +57,17 @@ function InfoRow({
       <span className="text-center text-slate-400">:</span>
       <span className="font-semibold text-slate-800">{value}</span>
     </div>
+  );
+}
+
+function VerificationStatus() {
+  return (
+    <span className="inline-flex min-h-16 items-center gap-3 rounded-[5px] bg-rose-100 px-4 py-3 text-[17px] font-medium text-red-600">
+      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
+        <CircleX className="h-6 w-6" strokeWidth={2.2} />
+      </span>
+      BELUM TERVERIFIKASI
+    </span>
   );
 }
 
@@ -256,11 +268,7 @@ export default function SavingsAccountDetail({
               <InfoRow label="Unit" value="-" />
               <InfoRow
                 label="Status Verifikasi KTP"
-                value={
-                  <span className="inline-flex rounded-[4px] bg-rose-600 px-2 py-1 text-[10px] font-bold text-white">
-                    BELUM TERVERIFIKASI
-                  </span>
-                }
+                value={<VerificationStatus />}
               />
               <InfoRow
                 label="Status"
