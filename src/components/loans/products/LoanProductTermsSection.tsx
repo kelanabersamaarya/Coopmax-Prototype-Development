@@ -12,19 +12,19 @@ const terms = [
     id: "interest",
     label: "Penyesuaian Suku Bunga Pinjaman",
     tooltip:
-      "Aktifkan agar suku bunga pinjaman dapat disesuaikan setelah rekening pinjaman dibuat.",
+      "Aktifkan agar suku bunga pinjaman dapat diubah sesuai kebijakan setelah rekening dibuat",
   },
   {
     id: "arrears",
     label: "Penyesuaian Tunggakan Bunga",
     tooltip:
-      "Aktifkan agar nilai tunggakan bunga pinjaman dapat disesuaikan sesuai kebutuhan transaksi.",
+      "Aktifkan agar nilai tunggakan bunga pinjaman dapat diubah sesuai kebijakan setelah rekening dibuat",
   },
   {
     id: "tenor",
     label: "Penyesuaian Jangka Waktu Pinjaman",
     tooltip:
-      "Aktifkan agar jangka waktu atau tenor pinjaman dapat disesuaikan setelah rekening pinjaman dibuat.",
+      "Aktifkan agar jangka waktu atau tenor pinjaman dapat diubah sesuai kebijakan setelah rekening pinjaman dibuat.",
   },
 ] as const;
 
