@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import AutodebetScheduleDialog, {
+  type AutodebetSchedule,
+} from "@/components/savings/AutodebetScheduleDialog";
 
 type SavingsAccountDetail = {
   accountNo: string;
@@ -100,11 +103,25 @@ export default function SavingsAccountDetail({
   account: SavingsAccountDetail;
   onBack: () => void;
 }) {
-  const [autodebitRows] = useState<never[]>([]);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [autodebitRows, setAutodebitRows] = useState<AutodebetSchedule[]>([]);
   const active = account.status === "Aktif";
+
+  function addSchedule(schedule: AutodebetSchedule) {
+    setAutodebitRows((current) => [...current, schedule]);
+    toast.success("Jadwal autodebet ditambahkan", {
+      description: `${schedule.product} • ${schedule.date}`,
+    });
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <AutodebetScheduleDialog
+        open={scheduleOpen}
+        onOpenChange={setScheduleOpen}
+        onProcess={addSchedule}
+      />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
@@ -280,7 +297,7 @@ export default function SavingsAccountDetail({
               Jadwal Autodebet
             </div>
             <Button
-              onClick={() => toast("Tambah Jadwal Autodebet (prototype)")}
+              onClick={() => setScheduleOpen(true)}
               variant="ghost"
               className="h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:bg-slate-100"
             >
@@ -321,7 +338,37 @@ export default function SavingsAccountDetail({
                         No data available in table
                       </td>
                     </tr>
-                  ) : null}
+                  ) : (
+                    autodebitRows.map((row, index) => {
+                      const [accountNo, owner = "-"] = row.accountNo.split(" - ");
+
+                      return (
+                        <tr
+                          key={`${row.accountNo}-${row.date}-${index}`}
+                          className="border-b border-slate-200 text-[12px] text-slate-700"
+                        >
+                          <td className="px-3 py-3">{index + 1}</td>
+                          <td className="px-3 py-3 font-semibold">{row.product}</td>
+                          <td className="px-3 py-3">{accountNo}</td>
+                          <td className="px-3 py-3">{owner}</td>
+                          <td className="px-3 py-3">{row.date}</td>
+                          <td className="px-3 py-3">{row.date}</td>
+                          <td className="px-3 py-3">{row.description || "-"}</td>
+                          <td className="px-3 py-3">
+                            <span
+                              className={cn(
+                                "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white",
+                                row.status ? "bg-[#3BB001]" : "bg-slate-400",
+                              )}
+                            >
+                              {row.status ? "Aktif" : "Nonaktif"}
+                            </span>
+                          </td>
+                          <td className="px-3 py-3">-</td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
