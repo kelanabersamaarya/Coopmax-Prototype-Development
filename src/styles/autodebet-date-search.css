@@ -16,3 +16,19 @@ input[placeholder="Cari tanggal..."]:focus-visible {
   box-shadow: none !important;
   outline: none !important;
 }
+
+/* Form Jadwal Autodebet: hilangkan focus ring biru di luar field. */
+.autodebet-dialog-field:focus,
+.autodebet-dialog-field:focus-visible,
+.autodebet-dialog-field[data-state="open"],
+.autodebet-dialog-field[data-slot="select-trigger"]:focus,
+.autodebet-dialog-field[data-slot="select-trigger"]:focus-visible,
+.autodebet-dialog-field[data-slot="select-trigger"][data-state="open"] {
+  border-color: #64748b !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
+}
