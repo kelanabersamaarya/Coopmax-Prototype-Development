@@ -33,46 +33,22 @@ input[placeholder="Cari tanggal..."]:focus-visible {
   --tw-ring-offset-width: 0px !important;
 }
 
-/* Card informasi rekening simpanan saat rekening tujuan dipilih. */
-.autodebet-dialog-field + div.grid.gap-4 > div.grid.gap-3.text-\[14px\].font-normal.text-\[\#1F2A3D\] {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem 1.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 5px;
-  background: #ffffff;
-  padding: 1rem;
-  color: #0f172a;
-  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+/* Card rekening simpanan: ubah label Saldo Rekening menjadi Saldo Simpanan. */
+.autodebet-dialog-field
+  + div.grid.gap-4
+  > div.rounded-\[5px\]:has(> div.grid > div:nth-child(4):last-child)
+  > div.grid
+  > div:nth-child(4)
+  > div:first-child {
+  font-size: 0 !important;
 }
 
-.autodebet-dialog-field + div.grid.gap-4 > div.grid.gap-3.text-\[14px\].font-normal.text-\[\#1F2A3D\]::before {
-  content: "Informasi Rekening";
-  grid-column: 1 / -1;
-  color: #0f172a;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-}
-
-.autodebet-dialog-field + div.grid.gap-4 > div.grid.gap-3.text-\[14px\].font-normal.text-\[\#1F2A3D\] > div {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.25rem;
-  color: #475569;
+.autodebet-dialog-field
+  + div.grid.gap-4
+  > div.rounded-\[5px\]:has(> div.grid > div:nth-child(4):last-child)
+  > div.grid
+  > div:nth-child(4)
+  > div:first-child::after {
+  content: "Saldo Simpanan";
   font-size: 11px;
-  font-weight: 600;
-}
-
-.autodebet-dialog-field + div.grid.gap-4 > div.grid.gap-3.text-\[14px\].font-normal.text-\[\#1F2A3D\] > div > span {
-  color: #0f172a;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-@media (max-width: 639px) {
-  .autodebet-dialog-field + div.grid.gap-4 > div.grid.gap-3.text-\[14px\].font-normal.text-\[\#1F2A3D\] {
-    grid-template-columns: 1fr;
-  }
 }
