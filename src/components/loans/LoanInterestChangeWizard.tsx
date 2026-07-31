@@ -7,6 +7,12 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
+const steps = [
+  { id: 1, label: "Informasi Pinjaman" },
+  { id: 2, label: "Perubahan Suku Bunga" },
+  { id: 3, label: "Simulasi" },
+] as const;
+
 const accountDetails = [
   ["No.Rek. Pinjaman", "SMG260004"],
   ["Nama Anggota", "Bapak Bagus"],
@@ -32,6 +38,56 @@ function LoanInfoField({
       </div>
       <div className="mt-1 break-words text-[14px] font-extrabold leading-snug tracking-tight text-white">
         {value}
+      </div>
+    </div>
+  );
+}
+
+function WizardStepper({ step }: { step: number }) {
+  return (
+    <div className="overflow-x-auto px-6 py-5">
+      <div className="flex min-w-[520px] items-start">
+        {steps.map((item, index) => {
+          const active = item.id === step;
+          const completed = item.id < step;
+          const hasNextStep = index < steps.length - 1;
+
+          return (
+            <React.Fragment key={item.id}>
+              <div className="flex w-[145px] shrink-0 flex-col items-center">
+                <div
+                  className={cn(
+                    "grid h-8 w-8 place-items-center rounded-full text-[13px] font-extrabold",
+                    active || completed
+                      ? "bg-[#5B3DF5] text-white shadow-[0_4px_10px_rgba(91,61,245,0.28)]"
+                      : "bg-slate-100 text-slate-500",
+                  )}
+                >
+                  {item.id}
+                </div>
+                <div
+                  className={cn(
+                    "mt-2 text-center text-[11px] font-semibold leading-tight",
+                    active ? "text-slate-900" : "text-slate-600",
+                  )}
+                >
+                  {item.label}
+                </div>
+              </div>
+
+              {hasNextStep ? (
+                <div className="mt-[15px] h-[2px] flex-1 bg-slate-200">
+                  <div
+                    className={cn(
+                      "h-full bg-[#5B3DF5] transition-all duration-300",
+                      completed ? "w-full" : "w-0",
+                    )}
+                  />
+                </div>
+              ) : null}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );
@@ -89,16 +145,10 @@ export default function LoanInterestChangeWizard({
       >
         <div className="bg-white">
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-            <div>
-              <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
-                Ubah Bunga Pinjaman
-              </h2>
-              {step > 1 ? (
-                <p className="mt-1 text-[13px] text-slate-600">
-                  Langkah {step} dari 3
-                </p>
-              ) : null}
-            </div>
+            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
+              Ubah Bunga Pinjaman
+            </h2>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -109,21 +159,9 @@ export default function LoanInterestChangeWizard({
             </button>
           </header>
 
-          <div className="px-6 pt-5">
-            <div className="grid grid-cols-3 gap-2">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className={cn(
-                    "h-1.5 rounded-full transition",
-                    item <= step ? "bg-[#479DF4]" : "bg-slate-200",
-                  )}
-                />
-              ))}
-            </div>
-          </div>
+          <WizardStepper step={step} />
 
-          <main className="min-h-[360px] px-6 py-6">
+          <main className="min-h-[360px] border-t border-slate-100 px-6 py-6">
             {step === 1 ? (
               <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
                 <div className="text-[12px] font-extrabold tracking-wide text-white/90">
@@ -148,7 +186,7 @@ export default function LoanInterestChangeWizard({
                   <Percent className="h-6 w-6" />
                 </span>
                 <div className="mt-5 text-[16px] font-extrabold text-slate-900">
-                  Tentukan Suku Bunga Baru
+                  Perubahan Suku Bunga
                 </div>
                 <p className="mt-1 text-[13px] text-slate-600">
                   Suku bunga saat ini adalah 12,00% per tahun.
@@ -176,17 +214,40 @@ export default function LoanInterestChangeWizard({
                   <Check className="h-7 w-7" strokeWidth={3} />
                 </span>
                 <div className="mt-5 text-[18px] font-extrabold text-slate-900">
-                  Konfirmasi Perubahan Bunga
+                  Simulasi Perubahan Bunga
                 </div>
                 <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
                   Suku bunga rekening{" "}
                   <span className="font-bold text-slate-900">{accountNo}</span>{" "}
-                  akan diubah dari{" "}
+                  berubah dari{" "}
                   <span className="font-bold text-slate-900">12,00%</span>{" "}
                   menjadi{" "}
                   <span className="font-bold text-slate-900">{newRate}%</span>{" "}
                   per tahun.
                 </p>
+
+                <div className="mt-6 grid gap-3 rounded-2xl bg-slate-50 p-4 text-left ring-1 ring-slate-200">
+                  <div className="flex items-center justify-between gap-4 text-[13px]">
+                    <span className="text-slate-600">Baki Debet</span>
+                    <span className="font-extrabold text-slate-900">
+                      10.553.571,00
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 text-[13px]">
+                    <span className="text-slate-600">Sisa Tenor</span>
+                    <span className="font-extrabold text-slate-900">
+                      10 Bulan
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3 text-[13px]">
+                    <span className="font-bold text-slate-900">
+                      Bunga Baru
+                    </span>
+                    <span className="font-extrabold text-[#5B3DF5]">
+                      {newRate}% per tahun
+                    </span>
+                  </div>
+                </div>
               </div>
             ) : null}
           </main>
@@ -206,7 +267,7 @@ export default function LoanInterestChangeWizard({
             <button
               type="button"
               onClick={step === 3 ? save : next}
-              className="inline-flex h-10 items-center gap-2 rounded-full bg-[#479DF4] px-5 text-[13px] font-semibold text-white transition hover:bg-[#2563EB]"
+              className="inline-flex h-10 items-center gap-2 rounded-full bg-[#5B3DF5] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4C32D9]"
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
               {step === 3 ? (
