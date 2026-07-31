@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronDown, Info, Search, X } from "lucide-react";
+import { Check, ChevronDown, Info, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -128,9 +128,9 @@ function FieldInfoTooltip() {
           <Info className="h-3.5 w-3.5" strokeWidth={2.8} />
         </button>
       </TooltipTrigger>
-      <TooltipContent className="max-w-[260px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
-        Tanggal autodebet pinjaman hanya tersedia pada tanggal 28, 29, 30,
-        dan 31.
+      <TooltipContent className="max-w-[300px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
+        Autodebet pinjaman dilakukan otomatis di akhir bulan, yaitu antara
+        tanggal 28, 29, 30,31 sesuai tanggal terakhir pada bulan berjalan
       </TooltipContent>
     </Tooltip>
   );
@@ -147,8 +147,8 @@ function ModalShell({
     <Dialog open={open}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[528px]",
-          "max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "w-[calc(100vw-1rem)] sm:w-[760px]",
+          "max-w-[760px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
