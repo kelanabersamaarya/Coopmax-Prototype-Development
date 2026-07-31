@@ -44,3 +44,28 @@ div.rounded-\[5px\].border.border-slate-300.bg-white.p-4.text-slate-900.shadow-s
   content: "Informasi Pinjaman";
   font-size: 13px;
 }
+
+/* Tambahkan total pinjaman sebelum detail sisa serta tagihan. */
+div.rounded-\[5px\].border.border-slate-300.bg-white.p-4.text-slate-900.shadow-sm
+  > div.mt-4.grid.gap-x-7.gap-y-4.sm\:grid-cols-2.lg\:grid-cols-3::before,
+div.rounded-\[5px\].border.border-slate-300.bg-white.p-4.text-slate-900.shadow-sm
+  > div.mt-4.grid.gap-x-7.gap-y-4.sm\:grid-cols-2.lg\:grid-cols-3::after {
+  display: block;
+}
+
+div.rounded-\[5px\].border.border-slate-300.bg-white.p-4.text-slate-900.shadow-sm
+  > div.mt-4.grid.gap-x-7.gap-y-4.sm\:grid-cols-2.lg\:grid-cols-3::before {
+  content: "Total Pinjaman\A 12.000.000,00";
+  white-space: pre-line;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+div.rounded-\[5px\].border.border-slate-300.bg-white.p-4.text-slate-900.shadow-sm
+  > div.mt-4.grid.gap-x-7.gap-y-4.sm\:grid-cols-2.lg\:grid-cols-3::before::first-line {
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+}
