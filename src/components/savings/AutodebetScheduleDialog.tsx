@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, CheckSquare, X } from "lucide-react";
+import { Check, CheckSquare, ChevronDown, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -315,7 +315,9 @@ export default function AutodebetScheduleDialog({
     onProcess({
       product,
       accountNo,
-      date: isSavingsProduct ? `Setiap tanggal ${autodebetDay}` : "Setiap periode",
+      date: isSavingsProduct
+        ? `Setiap tanggal ${autodebetDay}`
+        : "Setiap periode",
       description,
       status,
     });
@@ -332,6 +334,26 @@ export default function AutodebetScheduleDialog({
   );
 
   const labelClassName = "text-[14px] font-normal text-[#002060]";
+
+  const autodebetDaySelectContentClassName = cn(
+    "max-h-[210px] overflow-y-auto rounded-[2px] border border-slate-500 bg-white p-1 shadow-xl",
+    "[&_[data-radix-select-viewport]]:p-0",
+    "[&_[data-radix-select-item-indicator]]:hidden",
+    "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&>span.absolute.right-2]:hidden",
+    "[&_[data-radix-collection-item]]:h-7",
+    "[&_[data-radix-collection-item]]:min-h-7",
+    "[&_[data-radix-collection-item]]:rounded-none",
+    "[&_[data-radix-collection-item]]:px-2",
+    "[&_[data-radix-collection-item]]:py-1",
+    "[&_[data-radix-collection-item]]:text-[14px]",
+    "[&_[data-radix-collection-item]]:font-normal",
+    "[&_[data-radix-collection-item]]:text-[#002060]",
+    "[&_[data-radix-collection-item][data-state=checked]]:bg-[#5B3DF5]",
+    "[&_[data-radix-collection-item][data-state=checked]]:text-white",
+    "[&_[data-radix-collection-item][data-highlighted]]:bg-[#5B3DF5]",
+    "[&_[data-radix-collection-item][data-highlighted]]:text-white",
+  );
 
   return (
     <>
@@ -491,13 +513,23 @@ export default function AutodebetScheduleDialog({
                       Tanggal Autodebet
                     </Label>
                     <Select value={autodebetDay} onValueChange={setAutodebetDay}>
-                      <SelectTrigger className={inputClassName}>
+                      <SelectTrigger
+                        className={cn(
+                          inputClassName,
+                          "justify-between border-slate-500",
+                        )}
+                      >
                         <SelectValue placeholder="Pilih Tanggal Autodebet" />
+                        <ChevronDown className="h-4 w-4 text-[#526685]" />
                       </SelectTrigger>
-                      <SelectContent className="max-h-[280px] rounded-[5px] border-slate-200">
+                      <SelectContent
+                        position="popper"
+                        sideOffset={2}
+                        className={autodebetDaySelectContentClassName}
+                      >
                         {autodebetDays.map((day) => (
                           <SelectItem key={day} value={day}>
-                            Tanggal {day}
+                            {day}
                           </SelectItem>
                         ))}
                       </SelectContent>
