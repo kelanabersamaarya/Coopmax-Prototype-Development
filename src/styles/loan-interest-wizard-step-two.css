@@ -4,39 +4,55 @@
   > div.mx-auto.max-w-\[730px\] {
   width: 100% !important;
   max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+  margin: 0 !important;
+}
+
+/* Gunakan ruang modal lebih efektif untuk field perubahan bunga. */
+[data-radix-dialog-content] main.max-h-\[60vh\].overflow-auto {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
 }
 
 @media (min-width: 640px) {
+  [data-radix-dialog-content] main.max-h-\[60vh\].overflow-auto {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
   [data-radix-dialog-content]
     main
     > div.mx-auto.max-w-\[730px\]
     > div.grid.gap-5
     > div.grid {
-    grid-template-columns: 150px minmax(0, 1fr) !important;
+    grid-template-columns: 175px minmax(0, 1fr) !important;
     column-gap: 1rem !important;
   }
 
+  /* Hilangkan offset lama supaya label dan input sejajar secara natural. */
   [data-radix-dialog-content]
     main
     > div.mx-auto.max-w-\[730px\]
     > div.grid.gap-5
     > div.grid
     > div:first-child {
-    position: relative !important;
-    left: -42px !important;
+    position: static !important;
+    left: auto !important;
   }
 }
 
 @media (max-width: 639px) {
+  [data-radix-dialog-content] main.max-h-\[60vh\].overflow-auto {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
   [data-radix-dialog-content]
     main
     > div.mx-auto.max-w-\[730px\]
     > div.grid.gap-5
     > div.grid
     > div:first-child {
-    position: relative !important;
-    left: -14px !important;
+    position: static !important;
+    left: auto !important;
   }
 }
