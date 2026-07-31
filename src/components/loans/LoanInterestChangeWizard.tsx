@@ -275,9 +275,9 @@ export default function LoanInterestChangeWizard({
             <button
               type="button"
               onClick={step === 3 ? save : next}
-              className="inline-flex h-[28px] w-[90px] items-center justify-center gap-1.5 rounded-[5px] bg-[#5B3DF5] px-2 text-[11px] font-bold tracking-tight text-white transition hover:bg-[#4C32D9]"
+              className="inline-flex h-10 items-center gap-2 rounded-[5px] bg-[#5B3DF5] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4C32D9]"
             >
-              {step === 3 ? "Simpan" : "Lanjutkan"}
+              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
               {step === 3 ? (
                 <Check className="h-4 w-4" />
               ) : (
