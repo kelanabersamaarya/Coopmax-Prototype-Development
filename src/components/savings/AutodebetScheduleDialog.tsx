@@ -249,6 +249,7 @@ function SavingsAccountSummaryCard({
         { label: "Nama Nasabah", value: account.customerName },
         { label: "Produk Simpanan", value: account.productType },
         { label: "Saldo Simpanan", value: account.balance },
+        { label: "Bunga per Tahun", value: "3,00%" },
       ]}
     />
   );
