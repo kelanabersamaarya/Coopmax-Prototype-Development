@@ -95,8 +95,7 @@ export default function LoanAccountDetailHeader({
           <div className="sr-only">{accountNo}</div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          {/* Urutan tombol sesuai request (kiri -> kanan) */}
+        <div className="mt-6 flex flex-wrap items-center gap-2">
           <ActionPill
             icon={Calendar}
             label="Perpanjangan Pinjaman"
@@ -110,7 +109,6 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Cetak")}
           />
 
-          {/* dokumen -> printer */}
           <ActionPill
             icon={Printer}
             label="Dokumen"
@@ -124,14 +122,12 @@ export default function LoanAccountDetailHeader({
             onClick={() => setTxHistoryOpen(true)}
           />
 
-          {/* pemutihan pinjaman -> penghapus */}
           <ActionPill
             icon={Eraser}
             label="Pemutihan Pinjaman"
             onClick={() => setPemutihanOpen(true)}
           />
 
-          {/* riwayat transaksi autodebet -> kalender */}
           <ActionPill
             icon={Calendar}
             label="Riwayat Transaksi Autodebet"
@@ -148,7 +144,6 @@ export default function LoanAccountDetailHeader({
             }
           />
 
-          {/* ubah hutang -> uang */}
           <ActionPill
             icon={Banknote}
             label="Ubah Hutang"
@@ -167,14 +162,12 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Ubah Bunga")}
           />
 
-          {/* simulasi tunggakan -> printer */}
           <ActionPill
             icon={Printer}
             label="Simulasi Tunggakan"
             onClick={() => onAction("Simulasi Tunggakan")}
           />
 
-          {/* kembali ke daftar -> list */}
           <Button
             variant="outline"
             onClick={onBack}
