@@ -135,9 +135,85 @@ function FieldInfoTooltip() {
       </TooltipTrigger>
       <TooltipContent className="max-w-[300px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
         Autodebet pinjaman dilakukan otomatis di akhir bulan, yaitu antara
-        tanggal 28, 29, 30,31 sesuai tanggal terakhir pada bulan berjalan
+        tanggal 28, 29, 30, 31 sesuai tanggal terakhir pada bulan berjalan
       </TooltipContent>
     </Tooltip>
+  );
+}
+
+function LoanBillingSummaryCard({
+  account,
+}: {
+  account: AccountOption;
+}) {
+  const valuesByAccount: Record<
+    string,
+    {
+      sisaPinjaman: string;
+      tagihanPokok: string;
+      tagihanBunga: string;
+      tagihanDenda: string;
+      totalTagihan: string;
+    }
+  > = {
+    SMG260004: {
+      sisaPinjaman: "10.553.571,00",
+      tagihanPokok: "833.333,00",
+      tagihanBunga: "83.333,00",
+      tagihanDenda: "75.000,00",
+      totalTagihan: "991.666,00",
+    },
+    "12260006": {
+      sisaPinjaman: "1.040.000,00",
+      tagihanPokok: "500.000,00",
+      tagihanBunga: "40.000,00",
+      tagihanDenda: "0,00",
+      totalTagihan: "540.000,00",
+    },
+    "09240017": {
+      sisaPinjaman: "8.900.000,00",
+      tagihanPokok: "900.000,00",
+      tagihanBunga: "89.000,00",
+      tagihanDenda: "0,00",
+      totalTagihan: "989.000,00",
+    },
+  };
+
+  const summary = valuesByAccount[account.accountNo] ?? {
+    sisaPinjaman: account.balance,
+    tagihanPokok: "0,00",
+    tagihanBunga: "0,00",
+    tagihanDenda: "0,00",
+    totalTagihan: "0,00",
+  };
+
+  const details = [
+    { label: "Sisa Pinjaman", value: summary.sisaPinjaman },
+    { label: "Tagihan Pokok", value: summary.tagihanPokok },
+    { label: "Tagihan Bunga", value: summary.tagihanBunga },
+    { label: "Tagihan Denda", value: summary.tagihanDenda },
+    { label: "Total Tagihan", value: summary.totalTagihan },
+  ];
+
+  return (
+    <div className="rounded-[8px] bg-[#17a2b8] p-4 text-white shadow-sm ring-1 ring-white/10">
+      <div className="text-[13px] font-extrabold uppercase tracking-wide text-white">
+        {account.productType}
+      </div>
+
+      <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+        {details.map((detail) => (
+          <div key={detail.label} className="min-w-0">
+            <div className="text-[11px] font-semibold text-white/85">
+              {detail.label}
+            </div>
+            <div className="mt-1 text-[14px] font-extrabold tracking-tight text-white">
+              {detail.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -277,7 +353,12 @@ function AutodebetDaySelect({
         <span className={value ? "text-[#526685]" : "text-slate-400"}>
           {value || "Pilih Tanggal Autodebet"}
         </span>
-        <ChevronDown className={cn("h-4 w-4 text-[#526685] transition", open ? "rotate-180" : "")} />
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 text-[#526685] transition",
+            open ? "rotate-180" : "",
+          )}
+        />
       </button>
 
       {open ? (
@@ -456,7 +537,7 @@ export default function AutodebetScheduleDialog({
               </button>
             </div>
 
-            <div className="px-5 py-8 sm:px-10">
+            <div className="max-h-[70vh] overflow-auto px-5 py-8 sm:px-10">
               <div className="grid gap-3 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-start">
                 <Label className={cn(labelClassName, "pt-1")}>
                   Transaksi Rekening
@@ -487,25 +568,61 @@ export default function AutodebetScheduleDialog({
 
                 <Label className={labelClassName}>No. Rekening Tujuan</Label>
                 <div className="grid gap-4">
-                  <Select value={accountNo} onValueChange={setAccountNo} disabled={!product}>
-                    <SelectTrigger className={cn(inputClassName, !product ? "bg-slate-100 text-slate-400" : "")}>
+                  <Select
+                    value={accountNo}
+                    onValueChange={setAccountNo}
+                    disabled={!product}
+                  >
+                    <SelectTrigger
+                      className={cn(
+                        inputClassName,
+                        !product ? "bg-slate-100 text-slate-400" : "",
+                      )}
+                    >
                       <SelectValue placeholder="Pilih Rekening" />
                     </SelectTrigger>
                     <SelectContent className="rounded-[5px] border-slate-200">
                       {(accountOptions[product] ?? []).map((account) => (
-                        <SelectItem key={account.accountNo} value={accountValue(account)}>
+                        <SelectItem
+                          key={account.accountNo}
+                          value={accountValue(account)}
+                        >
                           {accountValue(account)}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
 
-                  {selectedAccount ? (
+                  {selectedAccount && isLoanProduct ? (
+                    <LoanBillingSummaryCard account={selectedAccount} />
+                  ) : null}
+
+                  {selectedAccount && !isLoanProduct ? (
                     <div className="grid gap-3 text-[14px] font-normal text-[#1F2A3D]">
-                      <div>No. Rekening : <span className="font-semibold">{selectedAccount.accountNo}</span></div>
-                      <div>Nama Nasabah : <span className="font-semibold">{selectedAccount.customerName}</span></div>
-                      <div>Tipe Produk : <span className="font-semibold">{selectedAccount.productType}</span></div>
-                      <div>Saldo : <span className="font-semibold">{selectedAccount.balance}</span></div>
+                      <div>
+                        No. Rekening :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.accountNo}
+                        </span>
+                      </div>
+                      <div>
+                        Nama Nasabah :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.customerName}
+                        </span>
+                      </div>
+                      <div>
+                        Tipe Produk :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.productType}
+                        </span>
+                      </div>
+                      <div>
+                        Saldo :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.balance}
+                        </span>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -513,7 +630,10 @@ export default function AutodebetScheduleDialog({
                 {isSavingsProduct ? (
                   <>
                     <Label className={labelClassName}>Tanggal Autodebet</Label>
-                    <AutodebetDaySelect value={autodebetDay} onChange={setAutodebetDay} />
+                    <AutodebetDaySelect
+                      value={autodebetDay}
+                      onChange={setAutodebetDay}
+                    />
                   </>
                 ) : null}
 
@@ -539,7 +659,9 @@ export default function AutodebetScheduleDialog({
                   className="min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px] focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
 
-                <Label className={cn(labelClassName, "pt-1")}>Status Autodebet</Label>
+                <Label className={cn(labelClassName, "pt-1")}>
+                  Status Autodebet
+                </Label>
                 <div className="flex h-[31px] items-center">
                   <AutodebetToggle checked={status} onChange={setStatus} />
                 </div>
