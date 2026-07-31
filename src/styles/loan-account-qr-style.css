@@ -1,5 +1,5 @@
 /* Rekening Pinjaman > Detail:
-   Hilangkan frame kartu terluar pada area QR, sisakan QR dan tombol aksinya.
+   Hilangkan frame kartu terluar dan header QR, sisakan QR serta tombol aksinya.
 */
 .rounded-3xl:has(> div > span > .lucide-qr-code) {
   border-color: transparent !important;
@@ -7,6 +7,10 @@
   box-shadow: none !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-shadow: 0 0 #0000 !important;
+}
+
+.rounded-3xl:has(> div > span > .lucide-qr-code) > div:first-child {
+  display: none !important;
 }
 
 .rounded-3xl:has(> div > span > .lucide-qr-code)
