@@ -121,7 +121,7 @@ function ScheduleActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-7 w-7 items-center justify-center rounded-[5px]",
+        "inline-flex h-9 w-9 items-center justify-center rounded-[5px]",
         "transition hover:bg-slate-100",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
         toneClassName,
@@ -425,7 +425,7 @@ export default function SavingsAccountDetail({
                                   })
                                 }
                               >
-                                <Eye className="h-4 w-4" strokeWidth={2.3} />
+                                <Eye className="h-6 w-6" strokeWidth={2.3} />
                               </ScheduleActionButton>
 
                               <ScheduleActionButton
@@ -437,7 +437,7 @@ export default function SavingsAccountDetail({
                                   })
                                 }
                               >
-                                <Pencil className="h-4 w-4" strokeWidth={2.5} />
+                                <Pencil className="h-6 w-6" strokeWidth={2.5} />
                               </ScheduleActionButton>
 
                               <ScheduleActionButton
@@ -445,7 +445,7 @@ export default function SavingsAccountDetail({
                                 tone="red"
                                 onClick={() => deleteSchedule(index)}
                               >
-                                <CircleX className="h-4.5 w-4.5" strokeWidth={2.2} />
+                                <CircleX className="h-6 w-6" strokeWidth={2.2} />
                               </ScheduleActionButton>
                             </div>
                           </td>
