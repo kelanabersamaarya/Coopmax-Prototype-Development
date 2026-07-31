@@ -51,3 +51,23 @@ div.grid.gap-4:has(> .autodebet-dialog-field)
   font-size: 11px;
   font-weight: 600;
 }
+
+/* Tambahkan informasi bunga per tahun pada card rekening simpanan. */
+div.grid.gap-4:has(> .autodebet-dialog-field)
+  > div.rounded-\[5px\].border.border-slate-300.bg-white
+  > div.grid::before {
+  content: "Bunga per Tahun";
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+div.grid.gap-4:has(> .autodebet-dialog-field)
+  > div.rounded-\[5px\].border.border-slate-300.bg-white
+  > div.grid::after {
+  content: "2,00 %";
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
