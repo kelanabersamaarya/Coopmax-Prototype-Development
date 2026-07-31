@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronRight, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -119,6 +119,7 @@ function ChangeFieldRow({
         )}
       >
         {label}
+        <span className="text-rose-600"> *</span>
       </label>
       <div className="min-w-0">{children}</div>
     </div>
@@ -257,7 +258,7 @@ export default function LoanInterestChangeWizard({
                       value={effectiveDate}
                       onChange={setEffectiveDate}
                       inputClassName={fieldClassName}
-                      placeholder="DD-MM-YYYY"
+                      placeholder="Pilih Tanggal Efektif"
                     />
                   </ChangeFieldRow>
 
@@ -335,19 +336,31 @@ export default function LoanInterestChangeWizard({
           </main>
 
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-            <button
-              type="button"
-              onClick={() =>
-                step === 1 ? onOpenChange(false) : setStep(step - 1)
-              }
-              className={cn(
-                footerButtonClass,
-                "min-w-[105px] bg-[#77839A] text-white hover:bg-[#6b768c]",
-              )}
-            >
-              <X className="h-4 w-4" strokeWidth={3} />
-              {step === 1 ? "Batal" : "Kembali"}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() =>
+                  step === 1 ? onOpenChange(false) : setStep(step - 1)
+                }
+                className={cn(
+                  footerButtonClass,
+                  "min-w-[105px] bg-[#77839A] text-white hover:bg-[#6b768c]",
+                )}
+              >
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                {step === 1 ? "Kembali" : "Kembali"}
+              </button>
+
+              {step === 2 ? (
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className="h-10 px-2 text-[13px] font-semibold text-rose-600 transition hover:text-rose-700"
+                >
+                  Batal
+                </button>
+              ) : null}
+            </div>
 
             <button
               type="button"
