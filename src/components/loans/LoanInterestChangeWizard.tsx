@@ -96,6 +96,35 @@ function WizardStepper({ step }: { step: number }) {
   );
 }
 
+function ChangeFieldRow({
+  label,
+  children,
+  textarea = false,
+}: {
+  label: string;
+  children: React.ReactNode;
+  textarea?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-2 sm:grid-cols-[180px_minmax(0,1fr)]",
+        textarea ? "sm:items-start" : "sm:items-center",
+      )}
+    >
+      <label
+        className={cn(
+          "text-[14px] font-normal leading-snug text-[#002060]",
+          textarea ? "sm:pt-1" : "",
+        )}
+      >
+        {label}
+      </label>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
 export default function LoanInterestChangeWizard({
   open,
   onOpenChange,
@@ -156,10 +185,10 @@ export default function LoanInterestChangeWizard({
     "inline-flex h-10 items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold transition";
 
   const fieldClassName =
-    "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[31px] w-full rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const textareaClassName =
-    "min-h-[108px] rounded-[5px] border-[#CBD5E1] bg-white px-3 py-2 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+    "min-h-[110px] w-full resize-none rounded-[5px] border-[#CBD5E1] bg-white px-3 py-2 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -210,60 +239,51 @@ export default function LoanInterestChangeWizard({
             ) : null}
 
             {step === 2 ? (
-              <div className="mx-auto max-w-md">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-[#479DF4] ring-1 ring-blue-100">
-                  <Percent className="h-6 w-6" />
-                </span>
+              <div className="mx-auto max-w-[700px]">
+                <div className="mb-6 flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-[8px] bg-blue-50 text-[#479DF4] ring-1 ring-blue-100">
+                    <Percent className="h-5 w-5" />
+                  </span>
 
-                <div className="mt-5 text-[16px] font-extrabold text-slate-900">
-                  Perubahan Suku Bunga
+                  <div>
+                    <div className="text-[16px] font-extrabold text-slate-900">
+                      Perubahan Suku Bunga
+                    </div>
+                    <p className="mt-1 text-[13px] text-slate-600">
+                      Suku bunga saat ini adalah 12,00% per tahun.
+                    </p>
+                  </div>
                 </div>
 
-                <p className="mt-1 text-[13px] text-slate-600">
-                  Suku bunga saat ini adalah 12,00% per tahun.
-                </p>
-
-                <div className="mt-6 grid gap-5">
-                  <div>
-                    <label className="text-[14px] font-normal text-[#002060]">
-                      Suku Bunga Baru (% per tahun)
-                    </label>
-
+                <div className="grid gap-5">
+                  <ChangeFieldRow label="Suku Bunga Baru">
                     <Input
                       value={newRate}
                       onChange={(event) => setNewRate(event.target.value)}
-                      placeholder="Contoh: 10,50"
+                      placeholder="Masukkan suku bunga baru"
                       inputMode="decimal"
-                      className={cn("mt-2", fieldClassName)}
+                      className={fieldClassName}
                       autoFocus
                     />
-                  </div>
+                  </ChangeFieldRow>
 
-                  <div>
-                    <label className="text-[14px] font-normal text-[#002060]">
-                      Tanggal Efektif
-                    </label>
-
+                  <ChangeFieldRow label="Tanggal Efektif">
                     <DatePickerDmyField
                       value={effectiveDate}
                       onChange={setEffectiveDate}
-                      inputClassName={cn(fieldClassName, "mt-2")}
+                      inputClassName={fieldClassName}
                       placeholder="DD-MM-YYYY"
                     />
-                  </div>
+                  </ChangeFieldRow>
 
-                  <div>
-                    <label className="text-[14px] font-normal text-[#002060]">
-                      Alasan Perubahan
-                    </label>
-
+                  <ChangeFieldRow label="Alasan Perubahan" textarea>
                     <Textarea
                       value={changeReason}
                       onChange={(event) => setChangeReason(event.target.value)}
                       placeholder="Masukkan alasan perubahan suku bunga"
-                      className={cn("mt-2", textareaClassName)}
+                      className={textareaClassName}
                     />
-                  </div>
+                  </ChangeFieldRow>
                 </div>
               </div>
             ) : null}
