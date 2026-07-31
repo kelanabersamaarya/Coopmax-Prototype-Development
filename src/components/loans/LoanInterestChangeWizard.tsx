@@ -468,13 +468,26 @@ export default function LoanInterestChangeWizard({
                 <div className="mx-auto max-w-[730px]">
                   <div className="grid gap-5">
                     <ChangeFieldRow label="Suku Bunga Baru">
-                      <Input
-                        value={newRate}
-                        onChange={(event) => setNewRate(event.target.value)}
-                        placeholder="%"
-                        inputMode="decimal"
-                        className={fieldClassName}
-                      />
+                      <div className="relative">
+                        <Input
+                          value={newRate}
+                          onChange={(event) =>
+                            setNewRate(
+                              event.target.value
+                                .replace(/[^\d,.-]/g, "")
+                                .replace(/[.](?=.*[.])/g, ""),
+                            )
+                          }
+                          placeholder="%"
+                          inputMode="decimal"
+                          className={cn(fieldClassName, newRate ? "pr-10" : "")}
+                        />
+                        {newRate ? (
+                          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[14px] font-normal text-[#526685]">
+                            %
+                          </span>
+                        ) : null}
+                      </div>
                     </ChangeFieldRow>
 
                     <ChangeFieldRow label="Tanggal Efektif">

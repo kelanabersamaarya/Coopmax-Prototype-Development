@@ -8,38 +8,6 @@
   margin-right: 0 !important;
 }
 
-/*
-  Field suku bunga baru:
-  tampilkan suffix % secara otomatis ketika input sudah berisi angka.
-  Suffix dibuat dari pembungkus field agar tidak memengaruhi perilaku
-  input saat pengguna mengetik nilai bunga.
-*/
-[data-radix-dialog-content]
-  div:has(> input[placeholder="%"]:not(:placeholder-shown)) {
-  position: relative !important;
-}
-
-[data-radix-dialog-content]
-  div:has(> input[placeholder="%"]:not(:placeholder-shown))::after {
-  content: "%";
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  z-index: 1;
-  transform: translateY(-50%);
-  color: #526685;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-  pointer-events: none;
-}
-
-[data-radix-dialog-content]
-  input[placeholder="%"]:not(:placeholder-shown) {
-  padding-right: 2.5rem !important;
-}
-
 @media (min-width: 640px) {
   [data-radix-dialog-content]
     main
