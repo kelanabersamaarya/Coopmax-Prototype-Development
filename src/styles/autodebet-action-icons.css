@@ -8,3 +8,7 @@ button[title="Hapus jadwal"] svg {
 div:has(> button[title="Lihat jadwal"]):has(> button[title="Ubah jadwal"]):has(> button[title="Hapus jadwal"]) {
   gap: 0 !important;
 }
+
+div:has(> button[title="Lihat jadwal"]):has(> button[title="Ubah jadwal"]):has(> button[title="Hapus jadwal"]) > button {
+  width: 1.75rem !important;
+}
