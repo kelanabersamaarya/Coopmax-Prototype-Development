@@ -1,7 +1,5 @@
 import { useState } from "react";
 import {
-  CalendarDays,
-  FileText,
   History,
   List,
   Printer,
@@ -74,7 +72,7 @@ function QrPreview() {
   });
 
   return (
-    <div className="grid h-24 w-24 grid-cols-9 gap-0.5 bg-white p-1 ring-1 ring-slate-300">
+    <div className="grid h-36 w-36 grid-cols-9 gap-0.5 bg-white p-1.5 ring-1 ring-slate-300">
       {cells.map((active, index) => (
         <span key={index} className={active ? "bg-black" : "bg-white"} />
       ))}
@@ -141,9 +139,10 @@ export default function SavingsAccountDetail({
           </div>
 
           <div className="mt-4 grid gap-5 lg:grid-cols-[210px_minmax(0,1fr)]">
-            <div className="flex w-full flex-col items-center gap-3">
+            <div className="flex w-full flex-col items-center gap-3 lg:self-stretch">
               <QrPreview />
-              <div className="grid w-full grid-cols-2 gap-3">
+
+              <div className="grid w-full grid-cols-2 gap-3 lg:mt-auto">
                 <Button
                   onClick={() => toast("Preview QR (prototype)")}
                   className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
@@ -165,6 +164,7 @@ export default function SavingsAccountDetail({
               <div className="text-[12px] font-extrabold uppercase tracking-wide">
                 {account.product}
               </div>
+
               <div className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
                   <div className="text-[11px] text-white/80">Kode Tabungan</div>
