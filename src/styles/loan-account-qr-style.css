@@ -1,5 +1,5 @@
 /* Rekening Pinjaman > Detail:
-   Hilangkan frame kartu terluar dan header QR, sisakan QR serta tombol aksinya.
+   Hilangkan kartu terluar dan header QR, tetapi pertahankan frame QR code.
 */
 .rounded-3xl:has(> div > span > .lucide-qr-code) {
   border-color: transparent !important;
@@ -23,19 +23,16 @@
   --tw-shadow: 0 0 #0000 !important;
 }
 
+/* Frame khusus untuk QR code tetap tampil. */
 .rounded-3xl:has(> div > span > .lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50 {
-  position: relative;
-  overflow: hidden;
   height: 146px !important;
   width: 146px !important;
-  border-radius: 0 !important;
-  background-color: #ffffff !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 144'%3E%3Crect width='144' height='144' fill='white'/%3E%3Cg fill='%23000000'%3E%3Crect x='8' y='8' width='13' height='13'/%3E%3Crect x='24' y='8' width='13' height='13'/%3E%3Crect x='40' y='8' width='13' height='13'/%3E%3Crect x='72' y='8' width='13' height='13'/%3E%3Crect x='104' y='8' width='13' height='13'/%3E%3Crect x='120' y='8' width='13' height='13'/%3E%3Crect x='8' y='24' width='13' height='13'/%3E%3Crect x='24' y='24' width='13' height='13'/%3E%3Crect x='40' y='24' width='13' height='13'/%3E%3Crect x='88' y='24' width='13' height='13'/%3E%3Crect x='104' y='24' width='13' height='13'/%3E%3Crect x='120' y='24' width='13' height='13'/%3E%3Crect x='8' y='40' width='13' height='13'/%3E%3Crect x='24' y='40' width='13' height='13'/%3E%3Crect x='40' y='40' width='13' height='13'/%3E%3Crect x='104' y='40' width='13' height='13'/%3E%3Crect x='120' y='40' width='13' height='13'/%3E%3Crect x='56' y='56' width='13' height='13'/%3E%3Crect x='72' y='72' width='13' height='13'/%3E%3Crect x='8' y='72' width='13' height='13'/%3E%3Crect x='40' y='72' width='13' height='13'/%3E%3Crect x='128' y='72' width='8' height='13'/%3E%3Crect x='8' y='96' width='13' height='13'/%3E%3Crect x='24' y='96' width='13' height='13'/%3E%3Crect x='40' y='96' width='13' height='13'/%3E%3Crect x='96' y='96' width='13' height='13'/%3E%3Crect x='8' y='112' width='13' height='13'/%3E%3Crect x='24' y='112' width='13' height='13'/%3E%3Crect x='40' y='112' width='13' height='13'/%3E%3Crect x='56' y='112' width='13' height='13'/%3E%3Crect x='64' y='128' width='13' height='8'/%3E%3Crect x='8' y='128' width='13' height='8'/%3E%3Crect x='24' y='128' width='13' height='8'/%3E%3Crect x='40' y='128' width='13' height='8'/%3E%3Crect x='120' y='112' width='13' height='13'/%3E%3Crect x='128' y='128' width='8' height='8'/%3E%3C/g%3E%3C/svg%3E");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 136px 136px;
+  border-radius: 12px !important;
+  background-color: #f8fafc !important;
   box-shadow: none !important;
+  --tw-ring-shadow: 0 0 0 1px rgb(203 213 225) !important;
+  --tw-shadow: 0 0 #0000 !important;
 }
 
 .rounded-3xl:has(> div > span > .lucide-qr-code)
@@ -45,5 +42,5 @@
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::before,
 .rounded-3xl:has(> div > span > .lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::after {
-  display: none !important;
+  display: block;
 }
