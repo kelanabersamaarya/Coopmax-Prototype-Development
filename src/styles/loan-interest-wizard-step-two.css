@@ -8,7 +8,7 @@
 /* Konten step kedua memakai keseluruhan lebar modal, bukan lebar kolom tengah. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
-  > div.mx-auto.max-w-\[730px\] {
+  > div.mx-auto.max-w-\[780px\] {
   width: 100% !important;
   max-width: none !important;
   margin-left: 0 !important;
@@ -18,7 +18,7 @@
 /* Label dipadatkan agar field input mendapatkan ruang yang lebih luas. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
-  > div.mx-auto.max-w-\[730px\]
+  > div.mx-auto.max-w-\[780px\]
   > div.grid.gap-5
   > div.grid {
   grid-template-columns: 150px minmax(0, 1fr) !important;
@@ -28,7 +28,7 @@
 /* Pastikan label tidak lagi membawa offset posisi lama. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
-  > div.mx-auto.max-w-\[730px\]
+  > div.mx-auto.max-w-\[780px\]
   > div.grid.gap-5
   > div.grid
   > div:first-child {
@@ -63,7 +63,7 @@
 
   [data-radix-dialog-content]:has(input[placeholder="%"])
     main.max-h-\[60vh\].overflow-auto
-    > div.mx-auto.max-w-\[730px\]
+    > div.mx-auto.max-w-\[780px\]
     > div.grid.gap-5
     > div.grid {
     grid-template-columns: 165px minmax(0, 1fr) !important;
@@ -80,7 +80,7 @@
 
   [data-radix-dialog-content]:has(input[placeholder="%"])
     main.max-h-\[60vh\].overflow-auto
-    > div.mx-auto.max-w-\[730px\]
+    > div.mx-auto.max-w-\[780px\]
     > div.grid.gap-5
     > div.grid {
     grid-template-columns: 1fr !important;
