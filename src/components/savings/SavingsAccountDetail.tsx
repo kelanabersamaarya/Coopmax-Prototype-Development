@@ -74,7 +74,7 @@ function QrPreview() {
   });
 
   return (
-    <div className="grid h-20 w-20 grid-cols-9 gap-0.5 bg-white p-1 ring-1 ring-slate-300">
+    <div className="grid h-24 w-24 grid-cols-9 gap-0.5 bg-white p-1 ring-1 ring-slate-300">
       {cells.map((active, index) => (
         <span key={index} className={active ? "bg-black" : "bg-white"} />
       ))}
