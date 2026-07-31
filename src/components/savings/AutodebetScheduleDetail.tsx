@@ -124,6 +124,49 @@ function InfoRow({
   );
 }
 
+function CustomerInfoCard({
+  title,
+  customerName,
+  customerId,
+  address,
+  tone,
+}: {
+  title: string;
+  customerName: string;
+  customerId: string;
+  address: string;
+  tone: "source" | "target";
+}) {
+  const toneClassName =
+    tone === "source" ? "bg-[#6f3fc3]" : "bg-[#17a2b8]";
+
+  return (
+    <div className={cn("rounded-[8px] p-5 text-white shadow-sm", toneClassName)}>
+      <div className="text-[14px] font-extrabold tracking-tight">{title}</div>
+
+      <div className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+        <div>
+          <div className="text-[11px] text-white/80">Nama Nasabah</div>
+          <div className="mt-1 text-[13px] font-bold">{customerName}</div>
+        </div>
+
+        <div>
+          <div className="text-[11px] text-white/80">Kode Nasabah</div>
+          <div className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold">
+            {customerId}
+            <ExternalLink className="h-3.5 w-3.5" />
+          </div>
+        </div>
+
+        <div className="sm:col-span-2">
+          <div className="text-[11px] text-white/80">Alamat Nasabah</div>
+          <div className="mt-1 text-[13px] font-bold">{address}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AccountInfoCard({
   title,
   account,
@@ -264,44 +307,22 @@ export default function AutodebetScheduleDetail({
           <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-6">
             <SectionHeader>Informasi Data Nasabah/Anggota</SectionHeader>
 
-            <div className="mt-5 grid gap-8 lg:grid-cols-2">
-              <div>
-                <div className="text-[14px] font-extrabold uppercase text-[#002060]">
-                  Rekening Sumber
-                </div>
-                <div className="mt-3">
-                  <InfoRow
-                    label="Nama Nasabah"
-                    value={sourceAccount.customerName}
-                  />
-                  <InfoRow
-                    label="Kode Nasabah"
-                    value={sourceAccount.customerId}
-                    link
-                  />
-                  <InfoRow
-                    label="Alamat Nasabah"
-                    value="Jl. Sri Rama No. 49"
-                  />
-                </div>
-              </div>
+            <div className="mt-5 grid gap-4 lg:grid-cols-2">
+              <CustomerInfoCard
+                title="Rekening Sumber"
+                tone="source"
+                customerName={sourceAccount.customerName}
+                customerId={sourceAccount.customerId}
+                address="Jl. Sri Rama No. 49"
+              />
 
-              <div>
-                <div className="text-[14px] font-extrabold uppercase text-[#002060]">
-                  Rekening Tujuan
-                </div>
-                <div className="mt-3">
-                  <InfoRow
-                    label="Nama Nasabah"
-                    value={targetCustomerName}
-                  />
-                  <InfoRow label="Kode Nasabah" value="N2400045" link />
-                  <InfoRow
-                    label="Alamat Nasabah"
-                    value="Jl. Sri Rama No. 49"
-                  />
-                </div>
-              </div>
+              <CustomerInfoCard
+                title="Rekening Tujuan"
+                tone="target"
+                customerName={targetCustomerName}
+                customerId="N2400045"
+                address="Jl. Sri Rama No. 49"
+              />
             </div>
           </section>
 
