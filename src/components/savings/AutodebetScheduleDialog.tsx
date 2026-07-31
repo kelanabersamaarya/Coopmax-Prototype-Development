@@ -77,7 +77,6 @@ export default function AutodebetScheduleDialog({
   const [interMember, setInterMember] = React.useState(false);
   const [product, setProduct] = React.useState("");
   const [accountNo, setAccountNo] = React.useState("");
-  const [date, setDate] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState(false);
 
@@ -87,7 +86,6 @@ export default function AutodebetScheduleDialog({
     setInterMember(false);
     setProduct("");
     setAccountNo("");
-    setDate("");
     setDescription("");
     setStatus(false);
   }, [open]);
@@ -103,15 +101,10 @@ export default function AutodebetScheduleDialog({
       return;
     }
 
-    if (!date) {
-      toast("Tanggal autodebet wajib dipilih");
-      return;
-    }
-
     onProcess({
       product,
       accountNo,
-      date,
+      date: "Setiap periode",
       description,
       status,
     });
@@ -209,15 +202,6 @@ export default function AutodebetScheduleDialog({
                   ))}
                 </SelectContent>
               </Select>
-
-              <Label className={labelClassName}>Tanggal Autodebet</Label>
-              <Input
-                value={date}
-                onChange={(event) => setDate(event.target.value)}
-                placeholder="Pilih Tanggal"
-                inputMode="numeric"
-                className={inputClassName}
-              />
 
               <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
               <Textarea
