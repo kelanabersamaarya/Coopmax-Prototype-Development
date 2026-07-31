@@ -38,6 +38,22 @@
   max-width: none !important;
 }
 
+/* Header Form Perubahan Suku Bunga. */
+[data-radix-dialog-content]
+  .rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200:has(
+    input[placeholder="%"]
+  )
+  > div:first-child {
+  margin: -1.25rem -1.25rem 0 !important;
+  padding: 0.875rem 1.25rem !important;
+  background-color: #f9faff !important;
+  color: #0f172a !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.025em !important;
+}
+
 @media (min-width: 768px) {
   [data-radix-dialog-content]:has(input[placeholder="%"])
     main.max-h-\[60vh\].overflow-auto {
