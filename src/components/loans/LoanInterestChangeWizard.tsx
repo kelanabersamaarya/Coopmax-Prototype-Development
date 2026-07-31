@@ -205,7 +205,7 @@ export default function LoanInterestChangeWizard({
         <div className="bg-white">
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
-              Ubah Bunga Pinjaman
+              Ubah Suku Bunga Pinjaman
             </h2>
 
             <button
@@ -348,7 +348,7 @@ export default function LoanInterestChangeWizard({
                 )}
               >
                 <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                {step === 1 ? "Kembali" : "Kembali"}
+                Kembali
               </button>
 
               {step === 2 ? (
