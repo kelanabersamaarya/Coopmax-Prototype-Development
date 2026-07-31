@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, X } from "lucide-react";
+import { Check, CheckSquare, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -210,6 +210,36 @@ function ValidationErrorDialog({
   );
 }
 
+function SuccessDialog({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <ModalShell open={open}>
+      <div className="flex min-h-[300px] flex-col items-center justify-center px-8 py-8 text-center sm:px-10">
+        <div className="flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dcefd5] bg-white">
+          <Check className="h-[56px] w-[56px] text-[#9edb84]" strokeWidth={2.4} />
+        </div>
+
+        <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#565656]">
+          Berhasil menambahkan data
+        </h3>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-8 h-[52px] min-w-[96px] rounded-[5px] bg-[#2f80ed] px-6 text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
+        >
+          OK
+        </button>
+      </div>
+    </ModalShell>
+  );
+}
+
 export default function AutodebetScheduleDialog({
   open,
   onOpenChange,
@@ -226,6 +256,7 @@ export default function AutodebetScheduleDialog({
   const [status, setStatus] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [validationErrorOpen, setValidationErrorOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
   const [missingFields, setMissingFields] = React.useState<string[]>([]);
 
   const selectedAccount = React.useMemo(
@@ -279,6 +310,7 @@ export default function AutodebetScheduleDialog({
     });
 
     onOpenChange(false);
+    setSuccessOpen(true);
   }
 
   const inputClassName = cn(
@@ -302,6 +334,11 @@ export default function AutodebetScheduleDialog({
         open={validationErrorOpen}
         missingFields={missingFields}
         onClose={() => setValidationErrorOpen(false)}
+      />
+
+      <SuccessDialog
+        open={successOpen}
+        onClose={() => setSuccessOpen(false)}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
