@@ -33,22 +33,21 @@ input[placeholder="Cari tanggal..."]:focus-visible {
   --tw-ring-offset-width: 0px !important;
 }
 
-/* Card rekening simpanan: ubah label Saldo Rekening menjadi Saldo Simpanan. */
-.autodebet-dialog-field
-  + div.grid.gap-4
-  > div.rounded-\[5px\]:has(> div.grid > div:nth-child(4):last-child)
+/* Informasi rekening simpanan terpilih pada dialog Jadwal Autodebet. */
+div.grid.gap-4:has(> .autodebet-dialog-field)
+  > div.rounded-\[5px\].border.border-slate-300.bg-white
   > div.grid
   > div:nth-child(4)
   > div:first-child {
   font-size: 0 !important;
 }
 
-.autodebet-dialog-field
-  + div.grid.gap-4
-  > div.rounded-\[5px\]:has(> div.grid > div:nth-child(4):last-child)
+div.grid.gap-4:has(> .autodebet-dialog-field)
+  > div.rounded-\[5px\].border.border-slate-300.bg-white
   > div.grid
   > div:nth-child(4)
   > div:first-child::after {
   content: "Saldo Simpanan";
   font-size: 11px;
+  font-weight: 600;
 }
