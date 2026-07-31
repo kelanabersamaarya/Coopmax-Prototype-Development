@@ -1,0 +1,28 @@
+/* Wizard Ubah Suku Bunga — Step 2
+   Label dibuat lebih dekat ke sisi kiri modal dan area input dibuat lebih lebar.
+*/
+[data-radix-dialog-content]
+  .max-h-\[60vh\]
+  > .mx-auto.max-w-\[730px\] {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+[data-radix-dialog-content]
+  .max-h-\[60vh\]
+  > .mx-auto.max-w-\[730px\]
+  > .grid.gap-5 {
+  width: 100% !important;
+}
+
+@media (min-width: 640px) {
+  [data-radix-dialog-content]
+    .max-h-\[60vh\]
+    > .mx-auto.max-w-\[730px\]
+    > .grid.gap-5
+    > .sm\:grid-cols-\[190px_minmax\(0\,1fr\)\] {
+    grid-template-columns: 155px minmax(0, 1fr) !important;
+    column-gap: 1.5rem !important;
+  }
+}

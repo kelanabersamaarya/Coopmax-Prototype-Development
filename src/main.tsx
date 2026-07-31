@@ -45,5 +45,6 @@ import "./styles/autodebet-action-icons.css";
 import "./styles/autodebet-date-search.css";
 import "./styles/loan-account-qr-style.css";
 import "./styles/loan-interest-history-table.css";
+import "./styles/loan-interest-wizard-step-two.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
