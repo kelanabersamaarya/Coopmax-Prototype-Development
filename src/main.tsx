@@ -40,5 +40,6 @@ import "./styles/new-mbanking-register-password-clear.css";
 import "./styles/payment-link-loan-product-form.css";
 import "./styles/sidebar-readable.css";
 import "./styles/autodebet-action-icons.css";
+import "./styles/autodebet-date-search.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

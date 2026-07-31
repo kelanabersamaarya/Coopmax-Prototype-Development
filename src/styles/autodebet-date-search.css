@@ -1,0 +1,18 @@
+div:has(> input[placeholder="Cari tanggal..."]) > svg {
+  display: none !important;
+}
+
+input[placeholder="Cari tanggal..."] {
+  padding-left: 0.75rem !important;
+}
+
+input[placeholder="Cari tanggal..."]::placeholder {
+  color: transparent !important;
+}
+
+input[placeholder="Cari tanggal..."]:focus,
+input[placeholder="Cari tanggal..."]:focus-visible {
+  border-color: #000000 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
