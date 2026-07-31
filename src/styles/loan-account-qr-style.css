@@ -13,17 +13,24 @@
   display: none !important;
 }
 
-/* Menghapus jarak bekas header dan padding kartu agar QR sejajar dengan atas kartu Pinjaman Bulanan. */
+/* Area QR dinaikkan agar sejajar dengan ujung atas kartu Pinjaman Bulanan. */
 .rounded-3xl:has(> div > span > .lucide-qr-code)
   > div[class*="overflow-hidden"][class*="ring-1"] {
   margin-top: 0 !important;
-  transform: translateY(-1rem);
+  transform: translateY(-2rem);
   overflow: visible !important;
   border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-shadow: 0 0 #0000 !important;
+}
+
+/* Tombol Preview dan Cetak ikut naik serta dirapatkan ke QR code. */
+.rounded-3xl:has(> div > span > .lucide-qr-code)
+  > div.mt-4.grid.grid-cols-2 {
+  margin-top: -1rem !important;
+  transform: translateY(-2rem);
 }
 
 /* QR memakai pola kotak hitam-putih seperti pada Detail Rekening Simpanan. */
