@@ -23,14 +23,14 @@ export type AutodebetSchedule = {
 
 const accountOptions: Record<string, string[]> = {
   "Produk Simpanan": [
-    "4260029 - Pangeran Sirait",
-    "112233222 - Gaby",
-    "SWJ-2600006 - Laura Patel",
+    "SMG250001 - Rika Wastuti - Simpanan Multiguna",
+    "4260029 - Pangeran Sirait - Simpanan Sukarela",
+    "112233222 - Gaby - Simpanan Mapan",
   ],
   "Produk Pinjaman": [
-    "SMG260004 - Bapak Bagus",
-    "12260006 - Pangeran Sirait",
-    "072260001 - Rika Wastuti",
+    "09240017 - Rika Wastuti - Pinjaman Bulanan",
+    "SMG260004 - Bapak Bagus - Pinjaman Billing",
+    "12260006 - Pangeran Sirait - Pinjaman Bulanan",
   ],
 };
 
@@ -141,6 +141,7 @@ export default function AutodebetScheduleDialog({
             <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
               Jadwal Autodebet
             </h2>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
