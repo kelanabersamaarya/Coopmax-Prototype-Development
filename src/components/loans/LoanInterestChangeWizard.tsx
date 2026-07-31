@@ -10,13 +10,13 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 const steps = [
-  { id: 1, label: "Informasi Pinjaman" },
-  { id: 2, label: "Perubahan Suku Bunga" },
-  { id: 3, label: "Simulasi" },
+  { id: 1, label: "Informasi & Perubahan" },
+  { id: 2, label: "Simulasi" },
+  { id: 3, label: "Pratinjau" },
 ] as const;
 
 const accountDetails = [
-  ["No.Rek. Pinjaman", "SMG260004"],
+  ["No. Rek. Pinjaman", "SMG260004"],
   ["Nama Anggota", "Bapak Bagus"],
   ["Produk Pinjaman", "Pinjaman Bulanan"],
   ["Suku Bunga Saat Ini", "12,00% per tahun"],
@@ -124,7 +124,6 @@ function WizardStepper({ step }: { step: number }) {
                 >
                   {item.id}
                 </div>
-
                 <div
                   className={cn(
                     "mt-2 text-center text-[14px] font-semibold leading-tight",
@@ -208,6 +207,28 @@ function SummaryTile({
             {after}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function PreviewRow({
+  label,
+  before,
+  after,
+}: {
+  label: string;
+  before: string;
+  after: string;
+}) {
+  return (
+    <div className="grid gap-2 border-b border-slate-100 py-3 last:border-b-0 sm:grid-cols-[180px_1fr_1fr] sm:items-center">
+      <div className="text-[13px] font-semibold text-slate-700">{label}</div>
+      <div className="rounded-[8px] bg-slate-100 px-3 py-2 text-[13px] font-medium text-slate-700">
+        {before}
+      </div>
+      <div className="rounded-[8px] bg-violet-50 px-3 py-2 text-[13px] font-extrabold text-[#5B3DF5] ring-1 ring-violet-100">
+        {after}
       </div>
     </div>
   );
@@ -376,30 +397,33 @@ export default function LoanInterestChangeWizard({
     };
   }, [effectiveDate, newRate]);
 
-  function next() {
-    if (step === 2) {
-      if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
-        toast("Suku bunga baru belum valid", {
-          description: "Masukkan suku bunga baru yang lebih dari 0.",
-        });
-        return;
-      }
-
-      if (!effectiveDate.trim()) {
-        toast("Tanggal efektif wajib diisi", {
-          description: "Silakan pilih tanggal efektif perubahan bunga.",
-        });
-        return;
-      }
-
-      if (!changeReason.trim()) {
-        toast("Alasan perubahan wajib diisi", {
-          description: "Mohon isi alasan perubahan suku bunga.",
-        });
-        return;
-      }
+  function validateForm() {
+    if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
+      toast("Suku bunga baru belum valid", {
+        description: "Masukkan suku bunga baru yang lebih dari 0.",
+      });
+      return false;
     }
 
+    if (!effectiveDate.trim()) {
+      toast("Tanggal efektif wajib diisi", {
+        description: "Silakan pilih tanggal efektif perubahan bunga.",
+      });
+      return false;
+    }
+
+    if (!changeReason.trim()) {
+      toast("Alasan perubahan wajib diisi", {
+        description: "Mohon isi alasan perubahan suku bunga.",
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  function next() {
+    if (step === 1 && !validateForm()) return;
     setStep((current) => Math.min(3, current + 1));
   }
 
@@ -452,76 +476,79 @@ export default function LoanInterestChangeWizard({
 
             <main className="max-h-[60vh] overflow-auto border-t border-slate-100 px-6 py-6">
               {step === 1 ? (
-                <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="text-[16px] font-extrabold tracking-wide text-white/90">
-                      INFORMASI REKENING PINJAMAN
+                <div className="grid gap-7">
+                  <div className="overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="text-[16px] font-extrabold tracking-wide text-white/90">
+                        INFORMASI REKENING PINJAMAN
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setHistoryOpen(true)}
+                        className="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] shadow-sm transition hover:bg-slate-100"
+                      >
+                        <Eye className="h-4 w-4" />
+                        Riwayat Perubahan Suku Bunga
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setHistoryOpen(true)}
-                      className="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] shadow-sm transition hover:bg-slate-100"
-                    >
-                      <Eye className="h-4 w-4" />
-                      Riwayat Perubahan Suku Bunga
-                    </button>
+
+                    <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+                      {accountDetails.map(([label, value]) => (
+                        <LoanInfoField
+                          key={label}
+                          label={label}
+                          value={label === "No. Rek. Pinjaman" ? accountNo : value}
+                        />
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
-                    {accountDetails.map(([label, value]) => (
-                      <LoanInfoField
-                        key={label}
-                        label={label}
-                        value={label === "No.Rek. Pinjaman" ? accountNo : value}
-                      />
-                    ))}
+                  <div className="rounded-[12px] bg-slate-50 p-5 ring-1 ring-slate-200">
+                    <div className="text-[17px] font-extrabold text-slate-900">
+                      Form Perubahan Suku Bunga
+                    </div>
+                    <div className="mt-5 grid gap-5">
+                      <ChangeFieldRow label="Suku Bunga Baru">
+                        <Input
+                          value={displayInterestRate(newRate)}
+                          onChange={(event) =>
+                            setNewRate(sanitizeInterestRate(event.target.value))
+                          }
+                          placeholder="%"
+                          inputMode="decimal"
+                          className={fieldClassName}
+                        />
+                      </ChangeFieldRow>
+
+                      <ChangeFieldRow label="Tanggal Efektif">
+                        <DatePickerDmyField
+                          value={effectiveDate}
+                          onChange={setEffectiveDate}
+                          inputClassName={fieldClassName}
+                          placeholder="Pilih Tanggal Efektif"
+                        />
+                      </ChangeFieldRow>
+
+                      <ChangeFieldRow label="Alasan Perubahan" textarea>
+                        <Textarea
+                          value={changeReason}
+                          onChange={(event) => setChangeReason(event.target.value)}
+                          placeholder="Masukkan alasan perubahan suku bunga"
+                          className={textareaClassName}
+                        />
+                      </ChangeFieldRow>
+                    </div>
                   </div>
                 </div>
               ) : null}
 
               {step === 2 ? (
-                <div className="mx-auto max-w-[730px]">
-                  <div className="grid gap-5">
-                    <ChangeFieldRow label="Suku Bunga Baru">
-                      <Input
-                        value={displayInterestRate(newRate)}
-                        onChange={(event) =>
-                          setNewRate(sanitizeInterestRate(event.target.value))
-                        }
-                        placeholder="%"
-                        inputMode="decimal"
-                        className={fieldClassName}
-                      />
-                    </ChangeFieldRow>
-
-                    <ChangeFieldRow label="Tanggal Efektif">
-                      <DatePickerDmyField
-                        value={effectiveDate}
-                        onChange={setEffectiveDate}
-                        inputClassName={fieldClassName}
-                        placeholder="Pilih Tanggal Efektif"
-                      />
-                    </ChangeFieldRow>
-
-                    <ChangeFieldRow label="Alasan Perubahan" textarea>
-                      <Textarea
-                        value={changeReason}
-                        onChange={(event) => setChangeReason(event.target.value)}
-                        placeholder="Masukkan alasan perubahan suku bunga"
-                        className={textareaClassName}
-                      />
-                    </ChangeFieldRow>
-                  </div>
-                </div>
-              ) : null}
-
-              {step === 3 ? (
                 <div className="mx-auto max-w-[780px]">
                   <div className="text-[18px] font-extrabold text-slate-900">
                     Simulasi Perubahan Bunga
                   </div>
                   <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
-                    Perbandingan ini memperlihatkan estimasi pembaruan angsuran berdasarkan suku bunga baru{" "}
+                    Estimasi pembayaran setelah perubahan suku bunga menjadi{" "}
                     <span className="font-bold text-[#5B3DF5]">
                       {simulation.rate.toFixed(2)}% per tahun
                     </span>
@@ -610,6 +637,62 @@ export default function LoanInterestChangeWizard({
                   </div>
                 </div>
               ) : null}
+
+              {step === 3 ? (
+                <div className="mx-auto max-w-[780px]">
+                  <div className="text-[18px] font-extrabold text-slate-900">
+                    Pratinjau Perubahan
+                  </div>
+                  <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
+                    Tinjau seluruh perubahan sebelum disimpan ke rekening pinjaman.
+                  </p>
+
+                  <div className="mt-5 overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                    <div className="grid bg-slate-50 px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-500 sm:grid-cols-[180px_1fr_1fr]">
+                      <div>Informasi</div>
+                      <div>Sebelum</div>
+                      <div>Sesudah</div>
+                    </div>
+
+                    <div className="px-4">
+                      <PreviewRow
+                        label="Suku Bunga"
+                        before={`${currentRate.toFixed(2)}% per tahun`}
+                        after={`${simulation.rate.toFixed(2)}% per tahun`}
+                      />
+                      <PreviewRow
+                        label="Tanggal Efektif"
+                        before="-"
+                        after={effectiveDate}
+                      />
+                      <PreviewRow
+                        label="Angsuran Bulanan"
+                        before={simulation.beforeInstallment}
+                        after={simulation.afterInstallment}
+                      />
+                      <PreviewRow
+                        label="Total Bunga Sisa Tenor"
+                        before={simulation.beforeTotalInterest}
+                        after={simulation.afterTotalInterest}
+                      />
+                      <PreviewRow
+                        label="Tanggal Jatuh Tempo Terakhir"
+                        before="07-05-2027"
+                        after={simulation.lastDueDate}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-5 rounded-[12px] bg-[#F6FAFF] px-4 py-4 ring-1 ring-[#D8E8FF]">
+                    <div className="text-[12px] font-extrabold uppercase tracking-wide text-[#315E8F]">
+                      Alasan Perubahan
+                    </div>
+                    <p className="mt-2 text-[14px] leading-relaxed text-slate-700">
+                      {changeReason}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
             </main>
 
             <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
@@ -625,18 +708,8 @@ export default function LoanInterestChangeWizard({
                   )}
                 >
                   <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                  Kembali
+                  {step === 1 ? "Batal" : "Kembali"}
                 </button>
-
-                {step >= 2 ? (
-                  <button
-                    type="button"
-                    onClick={() => onOpenChange(false)}
-                    className="h-10 px-2 text-[13px] font-semibold text-rose-600 transition hover:text-rose-700"
-                  >
-                    Batal
-                  </button>
-                ) : null}
               </div>
 
               <button
