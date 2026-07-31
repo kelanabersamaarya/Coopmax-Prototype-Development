@@ -33,10 +33,10 @@ function LoanInfoField({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[11px] font-semibold leading-tight text-white/85">
+      <div className="text-[14px] font-semibold leading-tight text-white/85">
         {label}
       </div>
-      <div className="mt-1 break-words text-[14px] font-extrabold leading-snug tracking-tight text-white">
+      <div className="mt-1 break-words text-[16px] font-extrabold leading-snug tracking-tight text-white">
         {value}
       </div>
     </div>
@@ -46,7 +46,7 @@ function LoanInfoField({
 function WizardStepper({ step }: { step: number }) {
   return (
     <div className="overflow-x-auto px-6 py-5">
-      <div className="flex min-w-[520px] items-start">
+      <div className="flex min-w-[560px] items-start">
         {steps.map((item, index) => {
           const active = item.id === step;
           const completed = item.id < step;
@@ -54,10 +54,10 @@ function WizardStepper({ step }: { step: number }) {
 
           return (
             <React.Fragment key={item.id}>
-              <div className="flex w-[145px] shrink-0 flex-col items-center">
+              <div className="flex w-[160px] shrink-0 flex-col items-center">
                 <div
                   className={cn(
-                    "grid h-8 w-8 place-items-center rounded-full text-[13px] font-extrabold",
+                    "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
                     active || completed
                       ? "bg-[#5B3DF5] text-white shadow-[0_4px_10px_rgba(91,61,245,0.28)]"
                       : "bg-slate-100 text-slate-500",
@@ -65,9 +65,10 @@ function WizardStepper({ step }: { step: number }) {
                 >
                   {item.id}
                 </div>
+
                 <div
                   className={cn(
-                    "mt-2 text-center text-[11px] font-semibold leading-tight",
+                    "mt-2 text-center text-[14px] font-semibold leading-tight",
                     active ? "text-slate-900" : "text-slate-600",
                   )}
                 >
@@ -76,7 +77,7 @@ function WizardStepper({ step }: { step: number }) {
               </div>
 
               {hasNextStep ? (
-                <div className="mt-[15px] h-[2px] flex-1 bg-slate-200">
+                <div className="mt-[19px] h-[2px] flex-1 bg-slate-200">
                   <div
                     className={cn(
                       "h-full bg-[#5B3DF5] transition-all duration-300",
@@ -164,7 +165,7 @@ export default function LoanInterestChangeWizard({
           <main className="border-t border-slate-100 px-6 py-6">
             {step === 1 ? (
               <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-                <div className="text-[12px] font-extrabold tracking-wide text-white/90">
+                <div className="text-[16px] font-extrabold tracking-wide text-white/90">
                   INFORMASI REKENING PINJAMAN
                 </div>
 
@@ -185,9 +186,11 @@ export default function LoanInterestChangeWizard({
                 <span className="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-[#479DF4] ring-1 ring-blue-100">
                   <Percent className="h-6 w-6" />
                 </span>
+
                 <div className="mt-5 text-[16px] font-extrabold text-slate-900">
                   Perubahan Suku Bunga
                 </div>
+
                 <p className="mt-1 text-[13px] text-slate-600">
                   Suku bunga saat ini adalah 12,00% per tahun.
                 </p>
@@ -196,6 +199,7 @@ export default function LoanInterestChangeWizard({
                   <label className="text-[13px] font-bold text-slate-700">
                     Suku Bunga Baru (% per tahun)
                   </label>
+
                   <Input
                     value={newRate}
                     onChange={(event) => setNewRate(event.target.value)}
@@ -213,9 +217,11 @@ export default function LoanInterestChangeWizard({
                 <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
                   <Check className="h-7 w-7" strokeWidth={3} />
                 </span>
+
                 <div className="mt-5 text-[18px] font-extrabold text-slate-900">
                   Simulasi Perubahan Bunga
                 </div>
+
                 <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
                   Suku bunga rekening{" "}
                   <span className="font-bold text-slate-900">{accountNo}</span>{" "}
@@ -233,12 +239,14 @@ export default function LoanInterestChangeWizard({
                       10.553.571,00
                     </span>
                   </div>
+
                   <div className="flex items-center justify-between gap-4 text-[13px]">
                     <span className="text-slate-600">Sisa Tenor</span>
                     <span className="font-extrabold text-slate-900">
                       10 Bulan
                     </span>
                   </div>
+
                   <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3 text-[13px]">
                     <span className="font-bold text-slate-900">
                       Bunga Baru
