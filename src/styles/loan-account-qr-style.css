@@ -1,7 +1,15 @@
 /* Rekening Pinjaman > Detail:
-   QR dibuat menggunakan pola hitam-putih seperti QR pada detail rekening simpanan.
+   Hilangkan frame kartu terluar pada area QR, sisakan QR dan tombol aksinya.
 */
-.rounded-3xl:has(.lucide-qr-code)
+.rounded-3xl:has(> div > span > .lucide-qr-code) {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-shadow: 0 0 #0000 !important;
+}
+
+.rounded-3xl:has(> div > span > .lucide-qr-code)
   > div[class*="overflow-hidden"][class*="ring-1"] {
   overflow: visible !important;
   border-radius: 0 !important;
@@ -11,7 +19,7 @@
   --tw-shadow: 0 0 #0000 !important;
 }
 
-.rounded-3xl:has(.lucide-qr-code)
+.rounded-3xl:has(> div > span > .lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50 {
   position: relative;
   overflow: hidden;
@@ -26,15 +34,12 @@
   box-shadow: none !important;
 }
 
-.rounded-3xl:has(.lucide-qr-code)
+.rounded-3xl:has(> div > span > .lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50
-  > div {
-  display: none !important;
-}
-
-.rounded-3xl:has(.lucide-qr-code)
+  > div,
+.rounded-3xl:has(> div > span > .lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::before,
-.rounded-3xl:has(.lucide-qr-code)
+.rounded-3xl:has(> div > span > .lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::after {
   display: none !important;
 }
