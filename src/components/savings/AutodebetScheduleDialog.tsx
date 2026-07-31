@@ -21,18 +21,59 @@ export type AutodebetSchedule = {
   status: boolean;
 };
 
-const accountOptions: Record<string, string[]> = {
+type AccountOption = {
+  accountNo: string;
+  customerName: string;
+  productType: string;
+  balance: string;
+};
+
+const accountOptions: Record<string, AccountOption[]> = {
   "Produk Simpanan": [
-    "SMG250001 - Rika Wastuti - Simpanan Multiguna",
-    "4260029 - Pangeran Sirait - Simpanan Sukarela",
-    "112233222 - Gaby - Simpanan Mapan",
+    {
+      accountNo: "SMG250001",
+      customerName: "Rika Wastuti",
+      productType: "Simpanan Multiguna",
+      balance: "2.500.000,00",
+    },
+    {
+      accountNo: "4260029",
+      customerName: "Pangeran Sirait",
+      productType: "Simpanan Sukarela",
+      balance: "2.750.000,00",
+    },
+    {
+      accountNo: "112233222",
+      customerName: "Gaby",
+      productType: "Simpanan Mapan",
+      balance: "20.000.000,00",
+    },
   ],
   "Produk Pinjaman": [
-    "09240017 - Rika Wastuti - Pinjaman Bulanan",
-    "SMG260004 - Bapak Bagus - Pinjaman Billing",
-    "12260006 - Pangeran Sirait - Pinjaman Bulanan",
+    {
+      accountNo: "09240017",
+      customerName: "Rika Wastuti",
+      productType: "Pinjaman Bulanan",
+      balance: "8.900.000,00",
+    },
+    {
+      accountNo: "SMG260004",
+      customerName: "Bapak Bagus",
+      productType: "Pinjaman Billing",
+      balance: "10.553.571,00",
+    },
+    {
+      accountNo: "12260006",
+      customerName: "Pangeran Sirait",
+      productType: "Pinjaman Bulanan",
+      balance: "1.040.000,00",
+    },
   ],
 };
+
+function accountValue(account: AccountOption) {
+  return `${account.accountNo} - ${account.customerName} - ${account.productType}`;
+}
 
 function AutodebetToggle({
   checked,
@@ -85,6 +126,14 @@ export default function AutodebetScheduleDialog({
   const [accountNo, setAccountNo] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState(false);
+
+  const selectedAccount = React.useMemo(
+    () =>
+      (accountOptions[product] ?? []).find(
+        (account) => accountValue(account) === accountNo,
+      ) ?? null,
+    [accountNo, product],
+  );
 
   React.useEffect(() => {
     if (!open) return;
@@ -189,27 +238,61 @@ export default function AutodebetScheduleDialog({
               </Select>
 
               <Label className={labelClassName}>No. Rekening Tujuan</Label>
-              <Select
-                value={accountNo}
-                onValueChange={setAccountNo}
-                disabled={!product}
-              >
-                <SelectTrigger
-                  className={cn(
-                    inputClassName,
-                    !product ? "bg-slate-100 text-slate-400" : "",
-                  )}
+              <div className="grid gap-4">
+                <Select
+                  value={accountNo}
+                  onValueChange={setAccountNo}
+                  disabled={!product}
                 >
-                  <SelectValue placeholder="Pilih Rekening" />
-                </SelectTrigger>
-                <SelectContent className="rounded-[5px] border-slate-200">
-                  {(accountOptions[product] ?? []).map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                  <SelectTrigger
+                    className={cn(
+                      inputClassName,
+                      !product ? "bg-slate-100 text-slate-400" : "",
+                    )}
+                  >
+                    <SelectValue placeholder="Pilih Rekening" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-[5px] border-slate-200">
+                    {(accountOptions[product] ?? []).map((account) => (
+                      <SelectItem
+                        key={account.accountNo}
+                        value={accountValue(account)}
+                      >
+                        {accountValue(account)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {selectedAccount ? (
+                  <div className="grid gap-3 text-[14px] font-normal text-[#1F2A3D]">
+                    <div>
+                      No. Rekening :{" "}
+                      <span className="font-semibold">
+                        {selectedAccount.accountNo}
+                      </span>
+                    </div>
+                    <div>
+                      Nama Nasabah :{" "}
+                      <span className="font-semibold">
+                        {selectedAccount.customerName}
+                      </span>
+                    </div>
+                    <div>
+                      Tipe Produk :{" "}
+                      <span className="font-semibold">
+                        {selectedAccount.productType}
+                      </span>
+                    </div>
+                    <div>
+                      Saldo :{" "}
+                      <span className="font-semibold">
+                        {selectedAccount.balance}
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
 
               <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
               <Textarea
