@@ -8,6 +8,36 @@
   margin-right: 0 !important;
 }
 
+/* Tampilkan suffix persen hanya setelah nilai bunga baru diisi. */
+[data-radix-dialog-content]
+  main
+  > div.mx-auto.max-w-\[730px\]
+  div.min-w-0:has(> input[placeholder="%"]) {
+  position: relative;
+}
+
+[data-radix-dialog-content]
+  main
+  > div.mx-auto.max-w-\[730px\]
+  div.min-w-0:has(> input[placeholder="%"]:not(:placeholder-shown))::after {
+  content: "%";
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  color: #526685;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+[data-radix-dialog-content]
+  main
+  > div.mx-auto.max-w-\[730px\]
+  input[placeholder="%"]:not(:placeholder-shown) {
+  padding-right: 2rem !important;
+}
+
 @media (min-width: 640px) {
   [data-radix-dialog-content]
     main
