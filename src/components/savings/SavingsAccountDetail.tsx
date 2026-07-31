@@ -5,7 +5,6 @@ import {
   History,
   Info,
   List,
-  Pencil,
   Plus,
   Printer,
   ReceiptText,
@@ -24,6 +23,7 @@ import { cn } from "@/lib/utils";
 import AutodebetScheduleDialog, {
   type AutodebetSchedule,
 } from "@/components/savings/AutodebetScheduleDialog";
+import AutodebetDeleteConfirmDialog from "@/components/savings/AutodebetDeleteConfirmDialog";
 import {
   getAutodebetSchedules,
   saveAutodebetSchedules,
@@ -190,6 +190,9 @@ export default function SavingsAccountDetail({
   const [editingScheduleIndex, setEditingScheduleIndex] = useState<number | null>(
     null,
   );
+  const [deletingScheduleIndex, setDeletingScheduleIndex] = useState<number | null>(
+    null,
+  );
   const [autodebitRows, setAutodebitRows] = useState<AutodebetSchedule[]>(() =>
     getAutodebetSchedules(account.accountNo),
   );
@@ -203,6 +206,7 @@ export default function SavingsAccountDetail({
   useEffect(() => {
     setAutodebitRows(getAutodebetSchedules(account.accountNo));
     setEditingScheduleIndex(null);
+    setDeletingScheduleIndex(null);
   }, [account.accountNo]);
 
   function updateSchedules(nextSchedules: AutodebetSchedule[]) {
@@ -241,12 +245,16 @@ export default function SavingsAccountDetail({
     setEditingScheduleIndex(null);
   }
 
-  function deleteSchedule(index: number) {
+  function confirmDeleteSchedule() {
+    if (deletingScheduleIndex === null) return;
+
     updateSchedules(
       autodebitRows.filter(
-        (_schedule, scheduleIndex) => scheduleIndex !== index,
+        (_schedule, scheduleIndex) => scheduleIndex !== deletingScheduleIndex,
       ),
     );
+
+    setDeletingScheduleIndex(null);
     toast.success("Jadwal autodebet dihapus");
   }
 
@@ -262,6 +270,12 @@ export default function SavingsAccountDetail({
         onProcess={saveSchedule}
       />
 
+      <AutodebetDeleteConfirmDialog
+        open={deletingScheduleIndex !== null}
+        onCancel={() => setDeletingScheduleIndex(null)}
+        onConfirm={confirmDeleteSchedule}
+      />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
@@ -271,12 +285,32 @@ export default function SavingsAccountDetail({
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-end gap-2">
-          <ActionButton icon={History} label="Riwayat Transaksi Autodebet" onClick={() => toast("Riwayat Autodebet (prototype)")} />
-          <ActionButton icon={ReceiptText} label="Riwayat Transaksi" onClick={() => toast("Riwayat Transaksi (prototype)")} />
-          <ActionButton icon={XSquare} label="Tutup Rekening" onClick={() => toast("Tutup Rekening (prototype)")} />
-          <ActionButton icon={Printer} label="Dokumen" onClick={() => toast("Dokumen (prototype)")} />
+          <ActionButton
+            icon={History}
+            label="Riwayat Transaksi Autodebet"
+            onClick={() => toast("Riwayat Autodebet (prototype)")}
+          />
+          <ActionButton
+            icon={ReceiptText}
+            label="Riwayat Transaksi"
+            onClick={() => toast("Riwayat Transaksi (prototype)")}
+          />
+          <ActionButton
+            icon={XSquare}
+            label="Tutup Rekening"
+            onClick={() => toast("Tutup Rekening (prototype)")}
+          />
+          <ActionButton
+            icon={Printer}
+            label="Dokumen"
+            onClick={() => toast("Dokumen (prototype)")}
+          />
           <ActionButton icon={List} label="Kembali ke Daftar" onClick={onBack} />
-          <ActionButton icon={SquarePen} label="Ubah" onClick={() => toast("Ubah Rekening (prototype)")} />
+          <ActionButton
+            icon={SquarePen}
+            label="Ubah"
+            onClick={() => toast("Ubah Rekening (prototype)")}
+          />
         </div>
 
         <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
@@ -287,12 +321,19 @@ export default function SavingsAccountDetail({
           <div className="mt-4 grid gap-5 lg:grid-cols-[210px_minmax(0,1fr)]">
             <div className="flex w-full flex-col items-center gap-3 lg:self-stretch">
               <QrPreview />
+
               <div className="grid w-full grid-cols-2 gap-3 lg:mt-auto">
-                <Button onClick={() => toast("Preview QR (prototype)")} className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700">
+                <Button
+                  onClick={() => toast("Preview QR (prototype)")}
+                  className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
+                >
                   <List className="mr-2 h-3.5 w-3.5 shrink-0" />
                   Preview
                 </Button>
-                <Button onClick={() => toast("Cetak QR (prototype)")} className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700">
+                <Button
+                  onClick={() => toast("Cetak QR (prototype)")}
+                  className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
+                >
                   <Printer className="mr-2 h-3.5 w-3.5 shrink-0" />
                   Cetak
                 </Button>
@@ -303,6 +344,7 @@ export default function SavingsAccountDetail({
               <div className="text-[12px] font-extrabold uppercase tracking-wide">
                 {account.product}
               </div>
+
               <div className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   ["Kode Tabungan", account.accountNo],
@@ -316,13 +358,25 @@ export default function SavingsAccountDetail({
                     <div className="mt-1 text-[13px] font-bold">{value}</div>
                   </div>
                 ))}
+
                 <div>
-                  <div className="text-[11px] text-white/80">Tabungan Berjangka</div>
-                  <span className="mt-1 inline-flex rounded-[4px] bg-[#DC3545] px-2 py-1 text-[11px] font-bold text-white">Tidak</span>
+                  <div className="text-[11px] text-white/80">
+                    Tabungan Berjangka
+                  </div>
+                  <span className="mt-1 inline-flex rounded-[4px] bg-[#DC3545] px-2 py-1 text-[11px] font-bold text-white">
+                    Tidak
+                  </span>
                 </div>
                 <div>
                   <div className="text-[11px] text-white/80">Status</div>
-                  <span className={cn("mt-1 inline-flex rounded-[4px] px-2 py-1 text-[11px] font-bold", active ? "bg-[#3BB001] text-white" : "bg-rose-500 text-white")}>
+                  <span
+                    className={cn(
+                      "mt-1 inline-flex rounded-[4px] px-2 py-1 text-[11px] font-bold",
+                      active
+                        ? "bg-[#3BB001] text-white"
+                        : "bg-rose-500 text-white",
+                    )}
+                  >
                     {account.status}
                   </span>
                 </div>
@@ -342,7 +396,12 @@ export default function SavingsAccountDetail({
 
           <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div>
-              <InfoRow label="ID" value={<span className="text-blue-600">{account.customerId} ↗</span>} />
+              <InfoRow
+                label="ID"
+                value={
+                  <span className="text-blue-600">{account.customerId} ↗</span>
+                }
+              />
               <InfoRow label="NIP" value="-" />
               <InfoRow label="Nama" value={account.customerName} />
               <InfoRow label="Tanggal Lahir" value="1990-01-02" />
@@ -354,8 +413,21 @@ export default function SavingsAccountDetail({
               <InfoRow label="Tag" value="-" />
               <InfoRow label="Unit" value="-" />
               <InfoRow label="Status Verifikasi KTP" value={<VerificationStatus />} />
-              <InfoRow label="Status" value={<span className={cn("inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white", active ? "bg-[#3BB001]" : "bg-rose-600")}>{active ? "Aktif" : account.status}</span>} />
+              <InfoRow
+                label="Status"
+                value={
+                  <span
+                    className={cn(
+                      "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white",
+                      active ? "bg-[#3BB001]" : "bg-rose-600",
+                    )}
+                  >
+                    {active ? "Aktif" : account.status}
+                  </span>
+                }
+              />
             </div>
+
             <div>
               <InfoRow label="Agama" value="Hindu" />
               <InfoRow label="Profesi" value="SWASTA" />
@@ -387,15 +459,31 @@ export default function SavingsAccountDetail({
               <table className="w-full min-w-[850px] border-collapse text-black">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-black">
-                    {["No.", "Produk Tujuan", "No. Rekening Tujuan", "Pemilik Rekening Tujuan", "Setiap Tanggal", "Tanggal Transaksi Selanjutnya", "Keterangan", "Status", "Aksi"].map((label) => (
-                      <th key={label} className="px-3 py-3 text-black">{label}</th>
+                    {[
+                      "No.",
+                      "Produk Tujuan",
+                      "No. Rekening Tujuan",
+                      "Pemilik Rekening Tujuan",
+                      "Setiap Tanggal",
+                      "Tanggal Transaksi Selanjutnya",
+                      "Keterangan",
+                      "Status",
+                      "Aksi",
+                    ].map((label) => (
+                      <th key={label} className="px-3 py-3 text-black">
+                        {label}
+                      </th>
                     ))}
                   </tr>
                 </thead>
+
                 <tbody>
                   {autodebitRows.length === 0 ? (
                     <tr>
-                      <td colSpan={9} className="px-4 py-8 text-center text-[12px] text-black">
+                      <td
+                        colSpan={9}
+                        className="px-4 py-8 text-center text-[12px] text-black"
+                      >
                         No data available in table
                       </td>
                     </tr>
@@ -404,30 +492,60 @@ export default function SavingsAccountDetail({
                       const [accountNo, owner = "-"] = row.accountNo.split(" - ");
 
                       return (
-                        <tr key={`${row.accountNo}-${row.date}-${index}`} className="border-b border-slate-200 text-[12px] text-black last:border-b-0">
+                        <tr
+                          key={`${row.accountNo}-${row.date}-${index}`}
+                          className="border-b border-slate-200 text-[12px] text-black last:border-b-0"
+                        >
                           <td className="px-3 py-3 text-black">{index + 1}</td>
-                          <td className="px-3 py-3 font-semibold text-black">{row.product}</td>
+                          <td className="px-3 py-3 font-semibold text-black">
+                            {row.product}
+                          </td>
                           <td className="px-3 py-3 text-black">{accountNo}</td>
                           <td className="px-3 py-3 text-black">{owner}</td>
                           <td className="px-3 py-3 text-black">
                             <ScheduleDateCell date={row.date} />
                           </td>
                           <td className="px-3 py-3 text-black">31-08-2026</td>
-                          <td className="px-3 py-3 text-black">{row.description || "-"}</td>
+                          <td className="px-3 py-3 text-black">
+                            {row.description || "-"}
+                          </td>
                           <td className="px-3 py-3">
-                            <span className={cn("inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white", row.status ? "bg-[#3BB001]" : "bg-[#DC3545]")}>
+                            <span
+                              className={cn(
+                                "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white",
+                                row.status ? "bg-[#3BB001]" : "bg-[#DC3545]",
+                              )}
+                            >
                               {row.status ? "Aktif" : "Nonaktif"}
                             </span>
                           </td>
                           <td className="px-3 py-3">
                             <div className="flex items-center gap-1">
-                              <ScheduleActionButton label="Lihat jadwal" tone="slate" onClick={() => toast("Detail Jadwal Autodebet", { description: `${row.product} • ${accountNo}` })}>
+                              <ScheduleActionButton
+                                label="Lihat jadwal"
+                                tone="slate"
+                                onClick={() =>
+                                  toast("Detail Jadwal Autodebet", {
+                                    description: `${row.product} • ${accountNo}`,
+                                  })
+                                }
+                              >
                                 <Eye className="h-6 w-6" strokeWidth={2.3} />
                               </ScheduleActionButton>
-                              <ScheduleActionButton label="Ubah jadwal" tone="blue" onClick={() => openEditSchedule(index)}>
+
+                              <ScheduleActionButton
+                                label="Ubah jadwal"
+                                tone="blue"
+                                onClick={() => openEditSchedule(index)}
+                              >
                                 <SquarePen className="h-6 w-6" strokeWidth={2.3} />
                               </ScheduleActionButton>
-                              <ScheduleActionButton label="Hapus jadwal" tone="red" onClick={() => deleteSchedule(index)}>
+
+                              <ScheduleActionButton
+                                label="Hapus jadwal"
+                                tone="red"
+                                onClick={() => setDeletingScheduleIndex(index)}
+                              >
                                 <CircleX className="h-6 w-6" strokeWidth={2.2} />
                               </ScheduleActionButton>
                             </div>
