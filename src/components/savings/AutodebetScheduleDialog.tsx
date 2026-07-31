@@ -247,8 +247,8 @@ function SavingsAccountSummaryCard({
       details={[
         { label: "No. Rekening", value: account.accountNo },
         { label: "Nama Nasabah", value: account.customerName },
-        { label: "Tipe Produk", value: account.productType },
-        { label: "Saldo Rekening", value: account.balance },
+        { label: "Produk Simpanan", value: account.productType },
+        { label: "Saldo Simpanan", value: account.balance },
       ]}
     />
   );
