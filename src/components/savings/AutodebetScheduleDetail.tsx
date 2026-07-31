@@ -17,7 +17,7 @@ type SavingsAccount = {
   registeredAt: string;
 };
 
-const NEXT_TRANSACTION_DATE = "31-08-2026";
+const NEXT_TRANSACTION_DATE = "31 Agustus 2026";
 
 function ActionButton({
   icon: Icon,
