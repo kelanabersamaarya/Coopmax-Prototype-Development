@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronRight, Percent, X } from "lucide-react";
+import { Check, ChevronRight, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -240,21 +240,6 @@ export default function LoanInterestChangeWizard({
 
             {step === 2 ? (
               <div className="mx-auto max-w-[700px]">
-                <div className="mb-6 flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-[8px] bg-blue-50 text-[#479DF4] ring-1 ring-blue-100">
-                    <Percent className="h-5 w-5" />
-                  </span>
-
-                  <div>
-                    <div className="text-[16px] font-extrabold text-slate-900">
-                      Perubahan Suku Bunga
-                    </div>
-                    <p className="mt-1 text-[13px] text-slate-600">
-                      Suku bunga saat ini adalah 12,00% per tahun.
-                    </p>
-                  </div>
-                </div>
-
                 <div className="grid gap-5">
                   <ChangeFieldRow label="Suku Bunga Baru">
                     <Input
