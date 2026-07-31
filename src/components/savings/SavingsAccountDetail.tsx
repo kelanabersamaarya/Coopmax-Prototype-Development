@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   CalendarDays,
+  FileText,
   History,
   List,
   Printer,
@@ -147,6 +148,7 @@ export default function SavingsAccountDetail({
                   onClick={() => toast("Preview QR (prototype)")}
                   className="h-8 rounded-[5px] bg-blue-600 px-2 text-[11px] font-semibold text-white hover:bg-blue-700"
                 >
+                  <List className="mr-1 h-3.5 w-3.5" />
                   Preview
                 </Button>
                 <Button
