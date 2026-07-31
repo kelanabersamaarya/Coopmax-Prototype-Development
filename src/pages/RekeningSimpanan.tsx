@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SavingsAccountDetail from "@/components/savings/SavingsAccountDetail";
 
 type AccountStatus = "Aktif" | "Nonaktif" | "Ditutup";
 
@@ -172,6 +173,8 @@ function Pagination({
 }
 
 export default function RekeningSimpanan() {
+  const [selectedAccount, setSelectedAccount] =
+    React.useState<SavingsAccount | null>(null);
   const [pageSize, setPageSize] = React.useState(20);
   const [page, setPage] = React.useState(1);
 
@@ -265,6 +268,15 @@ export default function RekeningSimpanan() {
   const th = "px-2 py-2.5";
   const filterCell = "px-2 py-1.5";
   const td = "px-2 py-2";
+
+  if (selectedAccount) {
+    return (
+      <SavingsAccountDetail
+        account={selectedAccount}
+        onBack={() => setSelectedAccount(null)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -454,11 +466,7 @@ export default function RekeningSimpanan() {
                         <td className={td}>
                           <button
                             type="button"
-                            onClick={() =>
-                              toast("Rekening Simpanan", {
-                                description: `${row.accountNo} • ${row.customerName}`,
-                              })
-                            }
+                            onClick={() => setSelectedAccount(row)}
                             className="font-semibold text-blue-600 hover:underline"
                           >
                             {row.accountNo}
