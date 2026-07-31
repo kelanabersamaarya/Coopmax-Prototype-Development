@@ -1,0 +1,51 @@
+/* Rekening Pinjaman > Detail:
+   QR dibuat menggunakan pola hitam-putih seperti QR pada detail rekening simpanan.
+*/
+.rounded-3xl:has(.lucide-qr-code)
+  .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50 {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 !important;
+  background-color: #ffffff !important;
+  background-image:
+    linear-gradient(90deg, #111827 10px, transparent 10px),
+    linear-gradient(#111827 10px, transparent 10px),
+    linear-gradient(90deg, transparent 7px, #111827 7px 13px, transparent 13px),
+    linear-gradient(transparent 7px, #111827 7px 13px, transparent 13px);
+  background-size: 30px 30px, 30px 30px, 20px 20px, 20px 20px;
+  background-position: 0 0, 0 0, 5px 9px, 11px 4px;
+  box-shadow: none !important;
+}
+
+.rounded-3xl:has(.lucide-qr-code)
+  .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50
+  > div {
+  display: none !important;
+}
+
+.rounded-3xl:has(.lucide-qr-code)
+  .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::before,
+.rounded-3xl:has(.lucide-qr-code)
+  .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  height: 42px;
+  width: 42px;
+  border: 7px solid #111827;
+  background: #ffffff;
+}
+
+.rounded-3xl:has(.lucide-qr-code)
+  .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::before {
+  left: 10px;
+  top: 10px;
+  box-shadow: 78px 0 0 -7px #ffffff, 78px 0 0 0 #111827;
+}
+
+.rounded-3xl:has(.lucide-qr-code)
+  .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50::after {
+  bottom: 10px;
+  left: 10px;
+}
