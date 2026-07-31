@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   CalendarDays,
-  FileText,
+  History,
   List,
   Printer,
   ReceiptText,
@@ -103,7 +103,7 @@ export default function SavingsAccountDetail({
 
         <div className="mt-8 flex flex-wrap items-center justify-end gap-2">
           <ActionButton
-            icon={CalendarDays}
+            icon={History}
             label="Riwayat Transaksi Autodebet"
             onClick={() => toast("Riwayat Autodebet (prototype)")}
           />
@@ -118,7 +118,7 @@ export default function SavingsAccountDetail({
             onClick={() => toast("Tutup Rekening (prototype)")}
           />
           <ActionButton
-            icon={FileText}
+            icon={Printer}
             label="Dokumen"
             onClick={() => toast("Dokumen (prototype)")}
           />
@@ -139,8 +139,8 @@ export default function SavingsAccountDetail({
             Informasi Rekening
           </div>
 
-          <div className="mt-4 grid gap-5 lg:grid-cols-[110px_minmax(0,1fr)]">
-            <div className="flex flex-col items-center gap-2">
+          <div className="mt-4 grid gap-5 lg:grid-cols-[150px_minmax(0,1fr)]">
+            <div className="flex w-full flex-col items-center gap-2">
               <QrPreview />
               <div className="grid w-full grid-cols-2 gap-2">
                 <Button
@@ -200,7 +200,9 @@ export default function SavingsAccountDetail({
                   <div className="text-[11px] text-white/80">
                     Tabungan Berjangka
                   </div>
-                  <div className="mt-1 text-[13px] font-bold">Tidak</div>
+                  <span className="mt-1 inline-flex rounded-[4px] bg-[#DC3545] px-2 py-1 text-[11px] font-bold text-white">
+                    Tidak
+                  </span>
                 </div>
                 <div>
                   <div className="text-[11px] text-white/80">Status</div>
@@ -208,7 +210,7 @@ export default function SavingsAccountDetail({
                     className={cn(
                       "mt-1 inline-flex rounded-[4px] px-2 py-1 text-[11px] font-bold",
                       active
-                        ? "bg-lime-500 text-white"
+                        ? "bg-[#3BB001] text-white"
                         : "bg-rose-500 text-white",
                     )}
                   >
@@ -264,7 +266,7 @@ export default function SavingsAccountDetail({
                   <span
                     className={cn(
                       "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white",
-                      active ? "bg-lime-500" : "bg-rose-600",
+                      active ? "bg-[#3BB001]" : "bg-rose-600",
                     )}
                   >
                     {active ? "Aktif" : account.status}
