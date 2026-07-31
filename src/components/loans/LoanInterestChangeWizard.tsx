@@ -5,7 +5,9 @@ import { Check, ChevronRight, Percent, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 const steps = [
   { id: 1, label: "Informasi Pinjaman" },
@@ -105,22 +107,39 @@ export default function LoanInterestChangeWizard({
 }) {
   const [step, setStep] = React.useState(1);
   const [newRate, setNewRate] = React.useState("");
+  const [effectiveDate, setEffectiveDate] = React.useState("");
+  const [changeReason, setChangeReason] = React.useState("");
 
   React.useEffect(() => {
     if (!open) return;
     setStep(1);
     setNewRate("");
+    setEffectiveDate("");
+    setChangeReason("");
   }, [open]);
 
   function next() {
-    if (
-      step === 2 &&
-      (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0)
-    ) {
-      toast("Suku bunga belum valid", {
-        description: "Masukkan suku bunga baru yang lebih dari 0.",
-      });
-      return;
+    if (step === 2) {
+      if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
+        toast("Suku bunga baru belum valid", {
+          description: "Masukkan suku bunga baru yang lebih dari 0.",
+        });
+        return;
+      }
+
+      if (!effectiveDate.trim()) {
+        toast("Tanggal efektif wajib diisi", {
+          description: "Silakan pilih tanggal efektif perubahan bunga.",
+        });
+        return;
+      }
+
+      if (!changeReason.trim()) {
+        toast("Alasan perubahan wajib diisi", {
+          description: "Mohon isi alasan perubahan suku bunga.",
+        });
+        return;
+      }
     }
 
     setStep((current) => Math.min(3, current + 1));
@@ -128,7 +147,7 @@ export default function LoanInterestChangeWizard({
 
   function save() {
     toast.success("Perubahan bunga tersimpan (prototype)", {
-      description: `Rekening ${accountNo} menggunakan bunga baru ${newRate}%.`,
+      description: `Rekening ${accountNo} menggunakan bunga baru ${newRate}% mulai ${effectiveDate}.`,
     });
     onOpenChange(false);
   }
@@ -198,19 +217,47 @@ export default function LoanInterestChangeWizard({
                   Suku bunga saat ini adalah 12,00% per tahun.
                 </p>
 
-                <div className="mt-6">
-                  <label className="text-[13px] font-bold text-slate-700">
-                    Suku Bunga Baru (% per tahun)
-                  </label>
+                <div className="mt-6 grid gap-5">
+                  <div>
+                    <label className="text-[13px] font-bold text-slate-700">
+                      Suku Bunga Baru (% per tahun)
+                    </label>
 
-                  <Input
-                    value={newRate}
-                    onChange={(event) => setNewRate(event.target.value)}
-                    placeholder="Contoh: 10,50"
-                    inputMode="decimal"
-                    className="mt-2 h-11 rounded-xl border-slate-300 text-[14px] font-semibold"
-                    autoFocus
-                  />
+                    <Input
+                      value={newRate}
+                      onChange={(event) => setNewRate(event.target.value)}
+                      placeholder="Contoh: 10,50"
+                      inputMode="decimal"
+                      className="mt-2 h-11 rounded-xl border-slate-300 text-[14px] font-semibold"
+                      autoFocus
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[13px] font-bold text-slate-700">
+                      Tanggal Efektif
+                    </label>
+
+                    <DatePickerDmyField
+                      value={effectiveDate}
+                      onChange={setEffectiveDate}
+                      inputClassName="mt-2 h-11 rounded-xl border-slate-300 text-[14px] font-semibold"
+                      placeholder="DD-MM-YYYY"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[13px] font-bold text-slate-700">
+                      Alasan Perubahan
+                    </label>
+
+                    <Textarea
+                      value={changeReason}
+                      onChange={(event) => setChangeReason(event.target.value)}
+                      placeholder="Masukkan alasan perubahan suku bunga"
+                      className="mt-2 min-h-[110px] rounded-xl border-slate-300 text-[14px]"
+                    />
+                  </div>
                 </div>
               </div>
             ) : null}
@@ -232,7 +279,11 @@ export default function LoanInterestChangeWizard({
                   <span className="font-bold text-slate-900">12,00%</span>{" "}
                   menjadi{" "}
                   <span className="font-bold text-slate-900">{newRate}%</span>{" "}
-                  per tahun.
+                  per tahun mulai{" "}
+                  <span className="font-bold text-slate-900">
+                    {effectiveDate}
+                  </span>
+                  .
                 </p>
 
                 <div className="mt-6 grid gap-3 rounded-2xl bg-slate-50 p-4 text-left ring-1 ring-slate-200">
@@ -257,6 +308,15 @@ export default function LoanInterestChangeWizard({
                     <span className="font-extrabold text-[#5B3DF5]">
                       {newRate}% per tahun
                     </span>
+                  </div>
+
+                  <div className="border-t border-slate-200 pt-3 text-[13px]">
+                    <div className="font-bold text-slate-900">
+                      Alasan Perubahan
+                    </div>
+                    <div className="mt-1 leading-relaxed text-slate-600">
+                      {changeReason}
+                    </div>
                   </div>
                 </div>
               </div>
