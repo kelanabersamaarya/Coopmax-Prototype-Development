@@ -40,6 +40,14 @@ function ActionButton({
   );
 }
 
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-[14px] font-extrabold uppercase tracking-wide text-[#002060]">
+      {children}
+    </div>
+  );
+}
+
 function InfoRow({
   label,
   value,
@@ -185,9 +193,7 @@ export default function AutodebetScheduleDetail({
 
         <div className="mt-6 grid gap-4">
           <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-6">
-            <div className="text-[13px] font-extrabold uppercase tracking-wide text-[#002060]">
-              Informasi Jadwal Autodebet
-            </div>
+            <SectionHeader>Informasi Jadwal Autodebet</SectionHeader>
 
             <div className="mt-4">
               <InfoRow
@@ -206,13 +212,11 @@ export default function AutodebetScheduleDetail({
           </section>
 
           <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-6">
-            <div className="text-[13px] font-extrabold uppercase tracking-wide text-[#002060]">
-              Informasi Data Nasabah/Anggota
-            </div>
+            <SectionHeader>Informasi Data Nasabah/Anggota</SectionHeader>
 
             <div className="mt-5 grid gap-8 lg:grid-cols-2">
               <div>
-                <div className="text-[15px] font-extrabold uppercase text-[#002060]">
+                <div className="text-[14px] font-extrabold uppercase text-[#002060]">
                   Rekening Sumber
                 </div>
                 <div className="mt-3">
@@ -233,7 +237,7 @@ export default function AutodebetScheduleDetail({
               </div>
 
               <div>
-                <div className="text-[15px] font-extrabold uppercase text-[#002060]">
+                <div className="text-[14px] font-extrabold uppercase text-[#002060]">
                   Rekening Tujuan
                 </div>
                 <div className="mt-3">
@@ -252,9 +256,7 @@ export default function AutodebetScheduleDetail({
           </section>
 
           <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-6">
-            <div className="text-[13px] font-extrabold uppercase tracking-wide text-[#002060]">
-              Informasi Rekening
-            </div>
+            <SectionHeader>Informasi Rekening</SectionHeader>
 
             <div className="mt-5 grid gap-4 lg:grid-cols-2">
               <AccountInfoCard
