@@ -95,7 +95,7 @@ export default function LoanAccountDetailHeader({
           <div className="sr-only">{accountNo}</div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-2">
+        <div className="mt-10 flex flex-wrap items-center gap-2">
           <ActionPill
             icon={Calendar}
             label="Perpanjangan Pinjaman"
@@ -139,7 +139,10 @@ export default function LoanAccountDetailHeader({
             label="Ubah"
             onClick={() =>
               navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`, {
-                state: { fromLoanAccountDetail: true, selectedAccountNo: accountNo },
+                state: {
+                  fromLoanAccountDetail: true,
+                  selectedAccountNo: accountNo,
+                },
               })
             }
           />
@@ -181,7 +184,11 @@ export default function LoanAccountDetailHeader({
             Kembali ke Daftar
           </Button>
 
-          <ActionPill icon={List} label="Simulasi" onClick={() => onAction("Simulasi")} />
+          <ActionPill
+            icon={List}
+            label="Simulasi"
+            onClick={() => onAction("Simulasi")}
+          />
 
           <Button
             onClick={() => onAction("Dapatkan Analisa 5C")}
