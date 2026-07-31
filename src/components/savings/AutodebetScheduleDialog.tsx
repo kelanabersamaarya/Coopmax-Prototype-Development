@@ -1,6 +1,5 @@
 import * as React from "react";
 import { CheckSquare, X } from "lucide-react";
-import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -42,12 +41,6 @@ const accountOptions: Record<string, AccountOption[]> = {
       productType: "Simpanan Sukarela",
       balance: "2.750.000,00",
     },
-    {
-      accountNo: "112233222",
-      customerName: "Gaby",
-      productType: "Simpanan Mapan",
-      balance: "20.000.000,00",
-    },
   ],
   "Produk Pinjaman": [
     {
@@ -88,27 +81,49 @@ function AutodebetToggle({
       onClick={() => onChange(!checked)}
       className={cn(
         "relative inline-flex h-[22px] w-[49px] items-center rounded-full p-[3px]",
-        "transition-colors focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
         checked ? "bg-[#635BFF]" : "bg-[#A89BFF]",
       )}
       aria-pressed={checked}
     >
       <span
         className={cn(
-          "absolute text-[9px] font-bold leading-none text-white",
+          "absolute text-[9px] font-bold text-white",
           checked ? "left-[7px]" : "right-[7px]",
         )}
       >
         {checked ? "ON" : "OFF"}
       </span>
-
       <span
         className={cn(
-          "relative z-10 h-[16px] w-[16px] rounded-full bg-white shadow-sm transition-transform",
+          "h-[16px] w-[16px] rounded-full bg-white shadow-sm transition-transform",
           checked ? "translate-x-[27px]" : "translate-x-0",
         )}
       />
     </button>
+  );
+}
+
+function ModalShell({
+  open,
+  children,
+}: {
+  open: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Dialog open={open}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-2rem)] sm:w-[528px]",
+          "max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        {children}
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -122,64 +137,38 @@ function ProcessConfirmDialog({
   onConfirm: () => void;
 }) {
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}
-    >
-      <DialogContent
-        className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[528px]",
-          "max-w-[528px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
-          "overflow-hidden",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-          "[&_[data-radix-dialog-close]]:hidden",
-        )}
-      >
-        <div className="px-8 pb-5 pt-10 text-center sm:px-10">
-          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6] bg-white">
-            <div className="text-[54px] font-light leading-none text-[#f2b98f]">
-              !
-            </div>
-          </div>
-
-          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
-            Yakin untuk menambahkan
-            <br />
-            Jadwal Autodebet ?
-          </h3>
-
-          <div className="mt-8 flex items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={onConfirm}
-              className={cn(
-                "h-[48px] w-[104px] rounded-[5px]",
-                "bg-[#2f80ed] text-[16px] font-semibold text-white",
-                "ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25",
-              )}
-            >
-              Yes
-            </button>
-
-            <button
-              type="button"
-              onClick={onCancel}
-              className={cn(
-                "h-[48px] w-[126px] rounded-[5px]",
-                "bg-[#a6a6a6] text-[16px] font-semibold text-white",
-                "ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696]",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#a6a6a6]/25",
-              )}
-            >
-              Cancel
-            </button>
+    <ModalShell open={open}>
+      <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+        <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
+          <div className="text-[54px] font-light leading-none text-[#f2b98f]">
+            !
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+
+        <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+          Yakin untuk menambahkan
+          <br />
+          Jadwal Autodebet ?
+        </h3>
+
+        <div className="mt-8 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={onConfirm}
+            className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            onClick={onCancel}
+            className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696]"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </ModalShell>
   );
 }
 
@@ -193,50 +182,31 @@ function ValidationErrorDialog({
   onClose: () => void;
 }) {
   return (
-    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onClose() : null)}>
-      <DialogContent
-        className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[540px]",
-          "max-w-[540px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
-          "overflow-hidden",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-          "[&_[data-radix-dialog-close]]:hidden",
-        )}
-      >
-        <div className="px-8 pb-5 pt-10 text-center sm:px-10">
-          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f87373] bg-white">
-            <X className="h-[58px] w-[58px] text-[#f87373]" strokeWidth={2} />
-          </div>
-
-          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
-            Kesalahan
-          </h3>
-
-          <div className="mt-3 text-[17px] font-normal leading-relaxed text-[#3b4863]">
-            {missingFields.map((field) => (
-              <div key={field}>{field} wajib diisi.</div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex justify-center">
-            <button
-              type="button"
-              onClick={onClose}
-              className={cn(
-                "h-[52px] min-w-[96px] rounded-[5px] px-6",
-                "bg-[#2f80ed] text-[16px] font-semibold text-white",
-                "ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25",
-              )}
-            >
-              OK
-            </button>
-          </div>
+    <ModalShell open={open}>
+      <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+        <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f87373]">
+          <X className="h-[58px] w-[58px] text-[#f87373]" strokeWidth={2} />
         </div>
-      </DialogContent>
-    </Dialog>
+
+        <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+          Kesalahan
+        </h3>
+
+        <div className="mt-3 text-[17px] font-normal leading-relaxed text-[#3b4863]">
+          {missingFields.map((field) => (
+            <div key={field}>{field} wajib diisi.</div>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-6 h-[52px] min-w-[96px] rounded-[5px] bg-[#2f80ed] px-6 text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
+        >
+          OK
+        </button>
+      </div>
+    </ModalShell>
   );
 }
 
@@ -283,29 +253,18 @@ export default function AutodebetScheduleDialog({
     const fields: string[] = [];
 
     if (!product) fields.push("Produk Tujuan");
-    if (!accountNo) fields.push("No Rekening Tujuan");
+    if (!accountNo) fields.push("No. Rekening Tujuan");
     if (!description.trim()) fields.push("Keterangan");
 
     return fields;
   }
 
-  function requestProcess() {
-    const fields = validateForm();
-
-    if (fields.length > 0) {
-      setMissingFields(fields);
-      setValidationErrorOpen(true);
-      return;
-    }
-
-    setConfirmOpen(true);
-  }
-
   function confirmProcess() {
     const fields = validateForm();
 
+    setConfirmOpen(false);
+
     if (fields.length > 0) {
-      setConfirmOpen(false);
       setMissingFields(fields);
       setValidationErrorOpen(true);
       return;
@@ -319,7 +278,6 @@ export default function AutodebetScheduleDialog({
       status,
     });
 
-    setConfirmOpen(false);
     onOpenChange(false);
   }
 
@@ -379,13 +337,11 @@ export default function AutodebetScheduleDialog({
               <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
                 Jadwal Autodebet
               </h2>
-
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100"
                 aria-label="Tutup"
-                title="Tutup"
               >
                 <X className="h-5 w-5" strokeWidth={3} />
               </button>
@@ -488,8 +444,7 @@ export default function AutodebetScheduleDialog({
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
                   className={cn(
-                    "autodebet-dialog-field",
-                    "min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px]",
+                    "autodebet-dialog-field min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px]",
                     "focus-visible:ring-0 focus-visible:ring-offset-0",
                   )}
                 />
@@ -506,7 +461,7 @@ export default function AutodebetScheduleDialog({
             <div className="flex justify-end gap-3 border-t border-[#CBD5E1] px-4 py-4">
               <button
                 type="button"
-                onClick={requestProcess}
+                onClick={() => setConfirmOpen(true)}
                 className="h-[38px] rounded-[7px] bg-[#6F42C1] px-5 text-[14px] font-semibold text-white transition hover:bg-[#643ab0]"
               >
                 Proses
