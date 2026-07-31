@@ -149,6 +149,7 @@ function LoanBillingSummaryCard({
   const valuesByAccount: Record<
     string,
     {
+      totalPinjaman: string;
       sisaPinjaman: string;
       tagihanPokok: string;
       tagihanBunga: string;
@@ -157,6 +158,7 @@ function LoanBillingSummaryCard({
     }
   > = {
     SMG260004: {
+      totalPinjaman: "12.000.000,00",
       sisaPinjaman: "10.553.571,00",
       tagihanPokok: "833.333,00",
       tagihanBunga: "83.333,00",
@@ -164,6 +166,7 @@ function LoanBillingSummaryCard({
       totalTagihan: "991.666,00",
     },
     "12260006": {
+      totalPinjaman: "2.000.000,00",
       sisaPinjaman: "1.040.000,00",
       tagihanPokok: "500.000,00",
       tagihanBunga: "40.000,00",
@@ -171,6 +174,7 @@ function LoanBillingSummaryCard({
       totalTagihan: "540.000,00",
     },
     "09240017": {
+      totalPinjaman: "10.000.000,00",
       sisaPinjaman: "8.900.000,00",
       tagihanPokok: "900.000,00",
       tagihanBunga: "89.000,00",
@@ -180,6 +184,7 @@ function LoanBillingSummaryCard({
   };
 
   const summary = valuesByAccount[account.accountNo] ?? {
+    totalPinjaman: account.balance,
     sisaPinjaman: account.balance,
     tagihanPokok: "0,00",
     tagihanBunga: "0,00",
@@ -188,6 +193,7 @@ function LoanBillingSummaryCard({
   };
 
   const details = [
+    { label: "Total Pinjaman", value: summary.totalPinjaman },
     { label: "Sisa Pinjaman", value: summary.sisaPinjaman },
     { label: "Tagihan Pokok", value: summary.tagihanPokok },
     { label: "Tagihan Bunga", value: summary.tagihanBunga },
@@ -198,7 +204,7 @@ function LoanBillingSummaryCard({
   return (
     <div className="rounded-[5px] border border-slate-300 bg-white p-4 text-slate-900 shadow-sm">
       <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-        {account.productType}
+        Informasi Pinjaman
       </div>
 
       <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
