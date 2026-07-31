@@ -44,7 +44,7 @@ export default function LoanProductCreate() {
 
         <div
           className={cn(
-            "mt-6 grid gap-4",
+            "loan-product-create-form mt-6 grid gap-4",
             isSakCabangConsolidationCreate
               ? "sak-ep-cabang-loan-product-consolidation-form"
               : "",

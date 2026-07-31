@@ -1,0 +1,34 @@
+/* Produk Pinjaman:
+   Tampilkan status teks ON/OFF pada semua switch di form tambah dan ubah.
+*/
+.loan-product-create-form button[role="switch"],
+.loan-product-edit-form button[role="switch"],
+.loan-product-terms-section button[role="switch"] {
+  position: relative !important;
+  width: 58px !important;
+  height: 26px !important;
+  padding: 3px !important;
+}
+
+.loan-product-create-form button[role="switch"]::after,
+.loan-product-edit-form button[role="switch"]::after,
+.loan-product-terms-section button[role="switch"]::after {
+  content: "OFF";
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.loan-product-create-form button[role="switch"][data-state="checked"]::after,
+.loan-product-edit-form button[role="switch"][data-state="checked"]::after,
+.loan-product-terms-section button[role="switch"][data-state="checked"]::after {
+  content: "ON";
+  left: 8px;
+  right: auto;
+}
