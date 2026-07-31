@@ -1,9 +1,7 @@
 import {
-  ArrowLeft,
   ExternalLink,
   List,
-  Pencil,
-  Trash2,
+  SquarePen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { AutodebetSchedule } from "@/components/savings/AutodebetScheduleDialog";
@@ -18,6 +16,19 @@ type SavingsAccount = {
 };
 
 const NEXT_TRANSACTION_DATE = "31 Agustus 2026";
+
+function FilledTrashIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M9 3.5c0-.83.67-1.5 1.5-1.5h3c.83 0 1.5.67 1.5 1.5V4h4a1.25 1.25 0 1 1 0 2.5H5A1.25 1.25 0 0 1 5 4h4v-.5ZM6.5 8h11l-.7 11.12A3.1 3.1 0 0 1 13.7 22h-3.4a3.1 3.1 0 0 1-3.1-2.88L6.5 8Z" />
+    </svg>
+  );
+}
 
 function ActionButton({
   icon: Icon,
@@ -179,16 +190,16 @@ export default function AutodebetScheduleDetail({
             onClick={onBack}
           />
           <ActionButton
-            icon={Pencil}
+            icon={SquarePen}
             label="Edit Jadwal Autodebet"
             onClick={onEdit}
           />
           <ActionButton
-            icon={ArrowLeft}
+            icon={List}
             label="Kembali ke Rekening"
             onClick={onBack}
           />
-          <ActionButton icon={Trash2} label="Hapus" onClick={onDelete} />
+          <ActionButton icon={FilledTrashIcon} label="Hapus" onClick={onDelete} />
         </div>
 
         <div className="mt-6 grid gap-4">
