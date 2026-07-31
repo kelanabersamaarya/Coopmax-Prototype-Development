@@ -8,5 +8,5 @@
     input[placeholder="Masukkan suku bunga baru"]
   )
   main.border-t.border-slate-100 {
-  border-color: rgb(226 232 240);
+  border-top-color: rgb(226 232 240) !important;
 }
