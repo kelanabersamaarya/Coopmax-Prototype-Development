@@ -437,7 +437,7 @@ export default function SavingsAccountDetail({
                                   })
                                 }
                               >
-                                <Pencil className="h-6 w-6" strokeWidth={2.5} />
+                                <SquarePen className="h-6 w-6" strokeWidth={2.3} />
                               </ScheduleActionButton>
 
                               <ScheduleActionButton
