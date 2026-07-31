@@ -1,6 +1,8 @@
 import * as React from "react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -267,11 +269,26 @@ export default function RekeningSimpanan() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex items-baseline gap-2">
-          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Daftar Rekening
-          </h1>
-          <span className="text-sm font-semibold text-slate-500">Simpanan</span>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-baseline gap-2">
+            <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+              Rekening Tabungan
+            </h1>
+            <span className="text-sm font-semibold text-slate-500">Daftar</span>
+          </div>
+
+          <Button
+            variant="outline"
+            onClick={() =>
+              toast("Tambah Rekening Tabungan (prototype)", {
+                description: "Form tambah rekening tabungan belum dibuat.",
+              })
+            }
+            className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Tambah
+          </Button>
         </div>
 
         <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
