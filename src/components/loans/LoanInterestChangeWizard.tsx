@@ -154,7 +154,7 @@ function ChangeFieldRow({
   return (
     <div
       className={cn(
-        "grid gap-2 sm:grid-cols-[180px_minmax(0,1fr)]",
+        "grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)]",
         textarea ? "sm:items-start" : "sm:items-center",
       )}
     >
@@ -465,7 +465,7 @@ export default function LoanInterestChangeWizard({
               ) : null}
 
               {step === 2 ? (
-                <div className="mx-auto max-w-[700px]">
+                <div className="mx-auto max-w-[730px]">
                   <div className="grid gap-5">
                     <ChangeFieldRow label="Suku Bunga Baru">
                       <Input
