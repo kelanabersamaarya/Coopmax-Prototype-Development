@@ -12,8 +12,8 @@
   [data-radix-dialog-content]
     main
     > div.mx-auto.max-w-\[730px\]
-    > div
-    > div {
+    > div.grid.gap-5
+    > div.grid {
     grid-template-columns: 150px minmax(0, 1fr) !important;
     column-gap: 1rem !important;
   }
@@ -21,9 +21,9 @@
   [data-radix-dialog-content]
     main
     > div.mx-auto.max-w-\[730px\]
-    > div
-    > div
-    > label {
+    > div.grid.gap-5
+    > div.grid
+    > div:first-child {
     position: relative !important;
     left: -42px !important;
   }
@@ -33,9 +33,9 @@
   [data-radix-dialog-content]
     main
     > div.mx-auto.max-w-\[730px\]
-    > div
-    > div
-    > label {
+    > div.grid.gap-5
+    > div.grid
+    > div:first-child {
     position: relative !important;
     left: -14px !important;
   }
