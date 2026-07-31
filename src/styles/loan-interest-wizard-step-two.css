@@ -1,34 +1,42 @@
-/* Wizard Ubah Suku Bunga — Step 2
-   Target langsung tiga baris field melalui placeholder uniknya.
-*/
+/* Wizard Ubah Suku Bunga — langkah kedua */
 [data-radix-dialog-content]
-  main:has(input[placeholder="Masukkan suku bunga baru"])
-  [class*="sm:grid-cols-[190px"] {
+  main
+  > div.mx-auto.max-w-\[730px\] {
   width: 100% !important;
   max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 @media (min-width: 640px) {
   [data-radix-dialog-content]
-    main:has(input[placeholder="Masukkan suku bunga baru"])
-    [class*="sm:grid-cols-[190px"] {
-    grid-template-columns: 95px minmax(0, 1fr) !important;
+    main
+    > div.mx-auto.max-w-\[730px\]
+    > div
+    > div {
+    grid-template-columns: 150px minmax(0, 1fr) !important;
     column-gap: 1rem !important;
   }
 
   [data-radix-dialog-content]
-    main:has(input[placeholder="Masukkan suku bunga baru"])
-    [class*="sm:grid-cols-[190px"]
-    > div:first-child {
-    transform: translateX(-34px) !important;
+    main
+    > div.mx-auto.max-w-\[730px\]
+    > div
+    > div
+    > label {
+    position: relative !important;
+    left: -42px !important;
   }
 }
 
 @media (max-width: 639px) {
   [data-radix-dialog-content]
-    main:has(input[placeholder="Masukkan suku bunga baru"])
-    [class*="sm:grid-cols-[190px"]
-    > div:first-child {
-    transform: translateX(-14px) !important;
+    main
+    > div.mx-auto.max-w-\[730px\]
+    > div
+    > div
+    > label {
+    position: relative !important;
+    left: -14px !important;
   }
 }
