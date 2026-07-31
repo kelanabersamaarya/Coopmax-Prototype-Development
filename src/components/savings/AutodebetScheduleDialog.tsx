@@ -135,9 +135,38 @@ function FieldInfoTooltip() {
       </TooltipTrigger>
       <TooltipContent className="max-w-[300px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
         Autodebet pinjaman dilakukan otomatis di akhir bulan, yaitu antara
-        tanggal 28, 29, 30, 31 sesuai tanggal terakhir pada bulan berjalan
+        tanggal 28, 29, 30, 31 sesuai tanggal terakhir pada bulan berjalan.
       </TooltipContent>
     </Tooltip>
+  );
+}
+
+function SummaryCard({
+  title,
+  details,
+}: {
+  title: string;
+  details: Array<{ label: string; value: string }>;
+}) {
+  return (
+    <div className="rounded-[5px] border border-slate-300 bg-white p-4 text-slate-900 shadow-sm">
+      <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+        {title}
+      </div>
+
+      <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+        {details.map((detail) => (
+          <div key={detail.label} className="min-w-0">
+            <div className="text-[11px] font-semibold text-slate-600">
+              {detail.label}
+            </div>
+            <div className="mt-1 text-[14px] font-extrabold tracking-tight text-slate-900">
+              {detail.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -192,34 +221,36 @@ function LoanBillingSummaryCard({
     totalTagihan: "0,00",
   };
 
-  const details = [
-    { label: "Total Pinjaman", value: summary.totalPinjaman },
-    { label: "Sisa Pinjaman", value: summary.sisaPinjaman },
-    { label: "Tagihan Pokok", value: summary.tagihanPokok },
-    { label: "Tagihan Bunga", value: summary.tagihanBunga },
-    { label: "Tagihan Denda", value: summary.tagihanDenda },
-    { label: "Total Tagihan", value: summary.totalTagihan },
-  ];
-
   return (
-    <div className="rounded-[5px] border border-slate-300 bg-white p-4 text-slate-900 shadow-sm">
-      <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-        Informasi Pinjaman
-      </div>
+    <SummaryCard
+      title="Informasi Pinjaman"
+      details={[
+        { label: "Total Pinjaman", value: summary.totalPinjaman },
+        { label: "Sisa Pinjaman", value: summary.sisaPinjaman },
+        { label: "Tagihan Pokok", value: summary.tagihanPokok },
+        { label: "Tagihan Bunga", value: summary.tagihanBunga },
+        { label: "Tagihan Denda", value: summary.tagihanDenda },
+        { label: "Total Tagihan", value: summary.totalTagihan },
+      ]}
+    />
+  );
+}
 
-      <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-        {details.map((detail) => (
-          <div key={detail.label} className="min-w-0">
-            <div className="text-[11px] font-semibold text-slate-600">
-              {detail.label}
-            </div>
-            <div className="mt-1 text-[14px] font-extrabold tracking-tight text-slate-900">
-              {detail.value}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+function SavingsAccountSummaryCard({
+  account,
+}: {
+  account: AccountOption;
+}) {
+  return (
+    <SummaryCard
+      title="Informasi Rekening"
+      details={[
+        { label: "No. Rekening", value: account.accountNo },
+        { label: "Nama Nasabah", value: account.customerName },
+        { label: "Tipe Produk", value: account.productType },
+        { label: "Saldo Rekening", value: account.balance },
+      ]}
+    />
   );
 }
 
@@ -269,7 +300,7 @@ function ProcessConfirmDialog({
         <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
           {isEditing ? "Yakin untuk mengubah" : "Yakin untuk menambahkan"}
           <br />
-          Jadwal Autodebet ?
+          Jadwal Autodebet?
         </h3>
         <div className="mt-8 flex items-center justify-center gap-2">
           <button
@@ -603,33 +634,8 @@ export default function AutodebetScheduleDialog({
                     <LoanBillingSummaryCard account={selectedAccount} />
                   ) : null}
 
-                  {selectedAccount && !isLoanProduct ? (
-                    <div className="grid gap-3 text-[14px] font-normal text-[#1F2A3D]">
-                      <div>
-                        No. Rekening :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.accountNo}
-                        </span>
-                      </div>
-                      <div>
-                        Nama Nasabah :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.customerName}
-                        </span>
-                      </div>
-                      <div>
-                        Tipe Produk :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.productType}
-                        </span>
-                      </div>
-                      <div>
-                        Saldo :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.balance}
-                        </span>
-                      </div>
-                    </div>
+                  {selectedAccount && isSavingsProduct ? (
+                    <SavingsAccountSummaryCard account={selectedAccount} />
                   ) : null}
                 </div>
 
