@@ -3,6 +3,7 @@ import {
   CircleX,
   History,
   List,
+  Plus,
   Printer,
   ReceiptText,
   SquarePen,
@@ -332,5 +333,9 @@ export default function SavingsAccountDetail({
 }
 
 function PlusIcon() {
-  return <span className="mr-1 text-lg font-semibold leading-none">+</span>;
+  return (
+    <span className="mr-1 inline-flex h-4 w-4 items-center justify-center rounded-[3px] border border-slate-400 text-slate-600">
+      <Plus className="h-3 w-3" strokeWidth={3} />
+    </span>
+  );
 }
