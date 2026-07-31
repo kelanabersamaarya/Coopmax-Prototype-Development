@@ -1,8 +1,15 @@
+import { type ReactNode } from "react";
 import {
   ExternalLink,
+  Info,
   List,
   SquarePen,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { AutodebetSchedule } from "@/components/savings/AutodebetScheduleDialog";
 
@@ -51,11 +58,43 @@ function ActionButton({
   );
 }
 
-function SectionHeader({ children }: { children: React.ReactNode }) {
+function SectionHeader({ children }: { children: ReactNode }) {
   return (
     <div className="text-[14px] font-extrabold uppercase tracking-wide text-[#002060]">
       {children}
     </div>
+  );
+}
+
+function TransactionDateValue({
+  date,
+  isLoan,
+}: {
+  date: string;
+  isLoan: boolean;
+}) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      {date}
+      {isLoan ? (
+        <Tooltip delayDuration={150}>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#2563EB]/20 transition hover:bg-[#1D4ED8]"
+              aria-label="Informasi tanggal autodebet"
+              title="Informasi"
+            >
+              <Info className="h-3.5 w-3.5" strokeWidth={2.8} />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-[300px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
+            Autodebet pinjaman dilakukan otomatis di akhir bulan, yaitu antara
+            tanggal 28, 29, 30, 31 sesuai tanggal terakhir pada bulan berjalan.
+          </TooltipContent>
+        </Tooltip>
+      ) : null}
+    </span>
   );
 }
 
@@ -65,7 +104,7 @@ function InfoRow({
   link = false,
 }: {
   label: string;
-  value: string;
+  value: ReactNode;
   link?: boolean;
 }) {
   return (
@@ -209,7 +248,7 @@ export default function AutodebetScheduleDetail({
             <div className="mt-4">
               <InfoRow
                 label="Tanggal dilakukan transaksi"
-                value={transactionDate}
+                value={<TransactionDateValue date={transactionDate} isLoan={isLoan} />}
               />
               <InfoRow
                 label="Transaksi Selanjutnya"
