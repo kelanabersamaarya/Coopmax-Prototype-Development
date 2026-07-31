@@ -18,3 +18,10 @@ button.group:has(> span > svg.lucide-plus):hover {
   background-color: transparent !important;
   color: #7c3aed !important;
 }
+
+/* Kolom Aksi Jadwal Autodebet: ikon tetap berwarna tanpa background saat hover. */
+button[title="Lihat jadwal"]:hover,
+button[title="Ubah jadwal"]:hover,
+button[title="Hapus jadwal"]:hover {
+  background-color: transparent !important;
+}
