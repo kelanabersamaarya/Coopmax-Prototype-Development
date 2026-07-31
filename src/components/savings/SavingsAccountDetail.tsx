@@ -362,7 +362,7 @@ export default function SavingsAccountDetail({
             <Button
               onClick={() => setScheduleOpen(true)}
               variant="ghost"
-              className="h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:bg-slate-100"
+              className="group h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:bg-slate-100 hover:text-violet-600"
             >
               <PlusIcon />
               Tambah
@@ -483,7 +483,7 @@ export default function SavingsAccountDetail({
 
 function PlusIcon() {
   return (
-    <span className="mr-1 inline-flex h-4 w-4 items-center justify-center rounded-[3px] border border-slate-400 text-slate-600">
+    <span className="mr-1 inline-flex h-4 w-4 items-center justify-center rounded-[3px] border border-current text-current transition-colors">
       <Plus className="h-3 w-3" strokeWidth={3} />
     </span>
   );
