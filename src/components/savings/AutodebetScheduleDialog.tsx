@@ -2,7 +2,6 @@ import * as React from "react";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -23,9 +22,16 @@ export type AutodebetSchedule = {
 };
 
 const accountOptions: Record<string, string[]> = {
-  "Simpanan Sukarela": ["4260029 - Pangeran Sirait"],
-  "Simpanan Mapan": ["112233222 - Gaby"],
-  "Simpanan Wajib": ["SWJ-2600006 - Laura Patel"],
+  "Produk Simpanan": [
+    "4260029 - Pangeran Sirait",
+    "112233222 - Gaby",
+    "SWJ-2600006 - Laura Patel",
+  ],
+  "Produk Pinjaman": [
+    "SMG260004 - Bapak Bagus",
+    "12260006 - Pangeran Sirait",
+    "072260001 - Rika Wastuti",
+  ],
 };
 
 function AutodebetToggle({
@@ -172,11 +178,12 @@ export default function AutodebetScheduleDialog({
                   <SelectValue placeholder="Pilih Produk" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
-                  {Object.keys(accountOptions).map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="Produk Simpanan">
+                    Produk Simpanan
+                  </SelectItem>
+                  <SelectItem value="Produk Pinjaman">
+                    Produk Pinjaman
+                  </SelectItem>
                 </SelectContent>
               </Select>
 
