@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 export type AutodebetSchedule = {
   product: string;
@@ -252,12 +253,15 @@ export default function AutodebetScheduleDialog({
   const [interMember, setInterMember] = React.useState(false);
   const [product, setProduct] = React.useState("");
   const [accountNo, setAccountNo] = React.useState("");
+  const [transactionDate, setTransactionDate] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [validationErrorOpen, setValidationErrorOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [missingFields, setMissingFields] = React.useState<string[]>([]);
+
+  const isSavingsProduct = product === "Produk Simpanan";
 
   const selectedAccount = React.useMemo(
     () =>
@@ -273,6 +277,7 @@ export default function AutodebetScheduleDialog({
     setInterMember(false);
     setProduct("");
     setAccountNo("");
+    setTransactionDate("");
     setDescription("");
     setStatus(false);
     setConfirmOpen(false);
@@ -285,6 +290,9 @@ export default function AutodebetScheduleDialog({
 
     if (!product) fields.push("Produk Tujuan");
     if (!accountNo) fields.push("No. Rekening Tujuan");
+    if (isSavingsProduct && !transactionDate.trim()) {
+      fields.push("Tanggal Transaksi");
+    }
     if (!description.trim()) fields.push("Keterangan");
 
     return fields;
@@ -304,7 +312,7 @@ export default function AutodebetScheduleDialog({
     onProcess({
       product,
       accountNo,
-      date: "Setiap periode",
+      date: isSavingsProduct ? transactionDate : "Setiap periode",
       description,
       status,
     });
@@ -336,10 +344,7 @@ export default function AutodebetScheduleDialog({
         onClose={() => setValidationErrorOpen(false)}
       />
 
-      <SuccessDialog
-        open={successOpen}
-        onClose={() => setSuccessOpen(false)}
-      />
+      <SuccessDialog open={successOpen} onClose={() => setSuccessOpen(false)} />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
@@ -404,6 +409,7 @@ export default function AutodebetScheduleDialog({
                   onValueChange={(value) => {
                     setProduct(value);
                     setAccountNo("");
+                    setTransactionDate("");
                   }}
                 >
                   <SelectTrigger className={inputClassName}>
@@ -475,6 +481,24 @@ export default function AutodebetScheduleDialog({
                     </div>
                   ) : null}
                 </div>
+
+                {isSavingsProduct ? (
+                  <>
+                    <Label className={labelClassName}>
+                      Tanggal Transaksi
+                    </Label>
+                    <DatePickerDmyField
+                      value={transactionDate}
+                      onChange={setTransactionDate}
+                      inputClassName={cn(
+                        "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-[#526685] shadow-none",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                      popoverAlign="end"
+                      placeholder="DD-MM-YYYY"
+                    />
+                  </>
+                ) : null}
 
                 <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
                 <Textarea
