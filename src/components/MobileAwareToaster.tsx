@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentInputFix";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 
 export default function MobileAwareToaster() {
@@ -32,6 +33,7 @@ export default function MobileAwareToaster() {
 
   return (
     <>
+      <LoanInterestPercentInputFix />
       <LoanProductTermsSection />
       {shouldHideToaster ? null : (
         <Sonner
