@@ -155,6 +155,12 @@ export default function LoanInterestChangeWizard({
   const footerButtonClass =
     "inline-flex h-10 items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold transition";
 
+  const fieldClassName =
+    "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+
+  const textareaClassName =
+    "min-h-[108px] rounded-[5px] border-[#CBD5E1] bg-white px-3 py-2 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -219,7 +225,7 @@ export default function LoanInterestChangeWizard({
 
                 <div className="mt-6 grid gap-5">
                   <div>
-                    <label className="text-[13px] font-bold text-slate-700">
+                    <label className="text-[14px] font-normal text-[#002060]">
                       Suku Bunga Baru (% per tahun)
                     </label>
 
@@ -228,26 +234,26 @@ export default function LoanInterestChangeWizard({
                       onChange={(event) => setNewRate(event.target.value)}
                       placeholder="Contoh: 10,50"
                       inputMode="decimal"
-                      className="mt-2 h-11 rounded-xl border-slate-300 text-[14px] font-semibold"
+                      className={cn("mt-2", fieldClassName)}
                       autoFocus
                     />
                   </div>
 
                   <div>
-                    <label className="text-[13px] font-bold text-slate-700">
+                    <label className="text-[14px] font-normal text-[#002060]">
                       Tanggal Efektif
                     </label>
 
                     <DatePickerDmyField
                       value={effectiveDate}
                       onChange={setEffectiveDate}
-                      inputClassName="mt-2 h-11 rounded-xl border-slate-300 text-[14px] font-semibold"
+                      inputClassName={cn(fieldClassName, "mt-2")}
                       placeholder="DD-MM-YYYY"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[13px] font-bold text-slate-700">
+                    <label className="text-[14px] font-normal text-[#002060]">
                       Alasan Perubahan
                     </label>
 
@@ -255,7 +261,7 @@ export default function LoanInterestChangeWizard({
                       value={changeReason}
                       onChange={(event) => setChangeReason(event.target.value)}
                       placeholder="Masukkan alasan perubahan suku bunga"
-                      className="mt-2 min-h-[110px] rounded-xl border-slate-300 text-[14px]"
+                      className={cn("mt-2", textareaClassName)}
                     />
                   </div>
                 </div>
