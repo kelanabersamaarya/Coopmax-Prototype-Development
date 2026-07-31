@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
+import SidebarSimpananMenu from "@/components/SidebarSimpananMenu";
 import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import SidebarObsMenu from "@/components/SidebarObsMenu";
 import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
@@ -33,6 +34,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 // Routes yang benar-benar ada saat ini
 const implementedRoutes = new Set([
   "/dashboard",
+  "/simpanan/rekening",
   "/sak-ep-cabang/dashboard",
   "/obs-samudra-harta",
   "/pengaturan-umum",
@@ -184,6 +186,9 @@ export default function Index() {
                             <>
                               {/* Djoinpay (collapsible) - hide in OBS area */}
                               {!isObsArea ? <SidebarDjoinpayMenu /> : null}
+
+                              {/* Simpanan (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarSimpananMenu /> : null}
 
                               {/* Anggota (collapsible) - hide in OBS area */}
                               {!isObsArea ? <SidebarAnggotaMenu /> : null}

@@ -46,6 +46,7 @@ import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
 import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
 import SavingsProductCancelRouteGate from "./components/savings/products/SavingsProductCancelRouteGate";
 import SakAkunting from "./pages/SakAkunting";
+import RekeningSimpanan from "./pages/RekeningSimpanan";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ const App = () => (
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="simpanan/rekening" element={<RekeningSimpanan />} />
             <Route path="payment-link" element={<PaymentLink />} />
             <Route
               path="payment-link/status-pembayaran"
@@ -272,6 +274,9 @@ const App = () => (
             />
             <Route
               path="loans/applications/new"
+              element={<LoanApplicationCreate />}
+            />
+            <Route path="anggota/Path="loans/applications/new"
               element={<LoanApplicationCreate />}
             />
             <Route path="anggota/transaksi" element={<AnggotaTransaksi />} />
