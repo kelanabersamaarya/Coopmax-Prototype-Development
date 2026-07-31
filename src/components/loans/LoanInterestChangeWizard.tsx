@@ -45,6 +45,34 @@ const interestHistory = [
   },
 ];
 
+const currentRate = 12;
+const remainingPrincipal = 10_553_571;
+const remainingTenor = 10;
+const currentInstallment = 1_120_000;
+
+function formatIdr(value: number) {
+  return `${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
+function formatDmy(date: Date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${day}-${month}-${date.getFullYear()}`;
+}
+
+function parseDmy(value: string) {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
+  if (!match) return new Date(2026, 7, 7);
+
+  return new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+}
+
+function addMonths(date: Date, months: number) {
+  const next = new Date(date);
+  next.setMonth(next.getMonth() + months);
+  return next;
+}
+
 function LoanInfoField({
   label,
   value,
@@ -71,7 +99,6 @@ function WizardStepper({ step }: { step: number }) {
         {steps.map((item, index) => {
           const active = item.id === step;
           const completed = item.id < step;
-          const hasNextStep = index < steps.length - 1;
 
           return (
             <React.Fragment key={item.id}>
@@ -97,7 +124,7 @@ function WizardStepper({ step }: { step: number }) {
                 </div>
               </div>
 
-              {hasNextStep ? (
+              {index < steps.length - 1 ? (
                 <div className="mt-[19px] h-[2px] flex-1 bg-slate-200">
                   <div
                     className={cn(
@@ -145,6 +172,34 @@ function ChangeFieldRow({
   );
 }
 
+function SummaryTile({
+  label,
+  before,
+  after,
+}: {
+  label: string;
+  before: string;
+  after: string;
+}) {
+  return (
+    <div className="rounded-[12px] bg-slate-50 p-4 ring-1 ring-slate-200">
+      <div className="text-[12px] font-semibold text-slate-500">{label}</div>
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <div>
+          <div className="text-[11px] font-medium text-slate-500">Sebelum</div>
+          <div className="mt-1 text-[14px] font-bold text-slate-700">{before}</div>
+        </div>
+        <div className="border-l border-slate-200 pl-3">
+          <div className="text-[11px] font-medium text-[#5B3DF5]">Sesudah</div>
+          <div className="mt-1 text-[14px] font-extrabold text-[#5B3DF5]">
+            {after}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function InterestHistoryDialog({
   open,
   onOpenChange,
@@ -168,7 +223,6 @@ function InterestHistoryDialog({
             <h3 className="text-lg font-extrabold tracking-tight text-slate-900">
               Riwayat Perubahan Suku Bunga
             </h3>
-
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -188,15 +242,10 @@ function InterestHistoryDialog({
                       <th className="w-[150px] px-4 py-3">Suku Bunga Lama</th>
                       <th className="w-[150px] px-4 py-3">Suku Bunga Baru</th>
                       <th className="w-[150px] px-4 py-3">Tanggal Efektif</th>
-                      <th className="min-w-[270px] px-4 py-3">
-                        Alasan Perubahan
-                      </th>
-                      <th className="w-[190px] px-4 py-3">
-                        Tanggal & Waktu Perubahan
-                      </th>
+                      <th className="min-w-[270px] px-4 py-3">Alasan Perubahan</th>
+                      <th className="w-[190px] px-4 py-3">Tanggal & Waktu Perubahan</th>
                     </tr>
                   </thead>
-
                   <tbody className="bg-white">
                     {interestHistory.map((history, index) => (
                       <tr
@@ -206,21 +255,11 @@ function InterestHistoryDialog({
                           index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                         )}
                       >
-                        <td className="px-4 py-3 font-semibold tabular-nums text-slate-900">
-                          {history.oldRate}
-                        </td>
-                        <td className="px-4 py-3 font-semibold tabular-nums text-[#5B3DF5]">
-                          {history.newRate}
-                        </td>
-                        <td className="px-4 py-3 tabular-nums text-slate-800">
-                          {history.effectiveDate}
-                        </td>
-                        <td className="px-4 py-3 leading-relaxed text-slate-700">
-                          {history.reason}
-                        </td>
-                        <td className="px-4 py-3 tabular-nums text-slate-700">
-                          {history.changedAt}
-                        </td>
+                        <td className="px-4 py-3 font-semibold tabular-nums text-slate-900">{history.oldRate}</td>
+                        <td className="px-4 py-3 font-semibold tabular-nums text-[#5B3DF5]">{history.newRate}</td>
+                        <td className="px-4 py-3 tabular-nums text-slate-800">{history.effectiveDate}</td>
+                        <td className="px-4 py-3 leading-relaxed text-slate-700">{history.reason}</td>
+                        <td className="px-4 py-3 tabular-nums text-slate-700">{history.changedAt}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -269,6 +308,50 @@ export default function LoanInterestChangeWizard({
     setHistoryOpen(false);
   }, [open]);
 
+  const simulation = React.useMemo(() => {
+    const parsedRate = Number(newRate.replace(",", ".")) || currentRate;
+    const interestFactor = parsedRate / currentRate;
+    const beforeMonthlyInterest = (remainingPrincipal * (currentRate / 100)) / 12;
+    const afterMonthlyInterest = (remainingPrincipal * (parsedRate / 100)) / 12;
+    const beforeInstallment = currentInstallment;
+    const afterInstallment = Math.max(
+      0,
+      beforeInstallment - beforeMonthlyInterest + afterMonthlyInterest,
+    );
+    const beforeTotalInterest = beforeMonthlyInterest * remainingTenor;
+    const afterTotalInterest = afterMonthlyInterest * remainingTenor;
+    const scheduleStart = parseDmy(effectiveDate || "07-08-2026");
+    const lastDueDate = addMonths(scheduleStart, remainingTenor - 1);
+
+    const schedule = Array.from({ length: remainingTenor }, (_, index) => {
+      const dueDate = addMonths(scheduleStart, index);
+      const principal = remainingPrincipal / remainingTenor;
+      const interest = afterMonthlyInterest * Math.max(1, 1 - index / remainingTenor);
+      const installment = principal + interest;
+
+      return {
+        installmentNo: index + 1,
+        dueDate: formatDmy(dueDate),
+        principal: formatIdr(principal),
+        interest: formatIdr(interest),
+        total: formatIdr(installment),
+      };
+    });
+
+    return {
+      rate: parsedRate,
+      rateDelta: parsedRate - currentRate,
+      beforeInstallment: formatIdr(beforeInstallment),
+      afterInstallment: formatIdr(afterInstallment),
+      beforeTotalInterest: formatIdr(beforeTotalInterest),
+      afterTotalInterest: formatIdr(afterTotalInterest),
+      tenor: `${remainingTenor} Bulan`,
+      lastDueDate: formatDmy(lastDueDate),
+      schedule,
+      interestFactor,
+    };
+  }, [effectiveDate, newRate]);
+
   function next() {
     if (step === 2) {
       if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
@@ -298,7 +381,7 @@ export default function LoanInterestChangeWizard({
 
   function save() {
     toast.success("Perubahan bunga tersimpan (prototype)", {
-      description: `Rekening ${accountNo} menggunakan bunga baru ${newRate}% mulai ${effectiveDate}.`,
+      description: `Rekening ${accountNo} menggunakan bunga baru ${simulation.rate.toFixed(2)}% mulai ${effectiveDate}.`,
     });
     onOpenChange(false);
   }
@@ -314,16 +397,13 @@ export default function LoanInterestChangeWizard({
 
   return (
     <>
-      <InterestHistoryDialog
-        open={historyOpen}
-        onOpenChange={setHistoryOpen}
-      />
+      <InterestHistoryDialog open={historyOpen} onOpenChange={setHistoryOpen} />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           className={cn(
-            "w-[calc(100vw-1rem)] sm:w-[760px]",
-            "max-w-[760px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "w-[calc(100vw-1rem)] sm:w-[860px]",
+            "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
             "[&>button[aria-label=Close]]:hidden",
             "[&>button.absolute.right-4.top-4]:hidden",
             "[&_[data-slot=dialog-close]]:hidden",
@@ -334,7 +414,6 @@ export default function LoanInterestChangeWizard({
               <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
                 Ubah Suku Bunga Pinjaman
               </h2>
-
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
@@ -347,14 +426,13 @@ export default function LoanInterestChangeWizard({
 
             <WizardStepper step={step} />
 
-            <main className="border-t border-slate-100 px-6 py-6">
+            <main className="max-h-[60vh] overflow-auto border-t border-slate-100 px-6 py-6">
               {step === 1 ? (
                 <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div className="text-[16px] font-extrabold tracking-wide text-white/90">
                       INFORMASI REKENING PINJAMAN
                     </div>
-
                     <button
                       type="button"
                       onClick={() => setHistoryOpen(true)}
@@ -412,59 +490,93 @@ export default function LoanInterestChangeWizard({
               ) : null}
 
               {step === 3 ? (
-                <div className="mx-auto max-w-md text-center">
-                  <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
-                    <Check className="h-7 w-7" strokeWidth={3} />
-                  </span>
-
-                  <div className="mt-5 text-[18px] font-extrabold text-slate-900">
+                <div className="mx-auto max-w-[780px]">
+                  <div className="text-[18px] font-extrabold text-slate-900">
                     Simulasi Perubahan Bunga
                   </div>
-
                   <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
-                    Suku bunga rekening{" "}
-                    <span className="font-bold text-slate-900">{accountNo}</span>{" "}
-                    berubah dari{" "}
-                    <span className="font-bold text-slate-900">12,00%</span>{" "}
-                    menjadi{" "}
-                    <span className="font-bold text-slate-900">{newRate}%</span>{" "}
-                    per tahun mulai{" "}
-                    <span className="font-bold text-slate-900">
-                      {effectiveDate}
+                    Perbandingan ini memperlihatkan estimasi pembaruan angsuran berdasarkan suku bunga baru{" "}
+                    <span className="font-bold text-[#5B3DF5]">
+                      {simulation.rate.toFixed(2)}% per tahun
                     </span>
                     .
                   </p>
 
-                  <div className="mt-6 grid gap-3 rounded-2xl bg-slate-50 p-4 text-left ring-1 ring-slate-200">
-                    <div className="flex items-center justify-between gap-4 text-[13px]">
-                      <span className="text-slate-600">Baki Debet</span>
-                      <span className="font-extrabold text-slate-900">
-                        10.553.571,00
-                      </span>
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    <SummaryTile
+                      label="Angsuran Bulanan"
+                      before={simulation.beforeInstallment}
+                      after={simulation.afterInstallment}
+                    />
+                    <SummaryTile
+                      label="Total Bunga Sisa Tenor"
+                      before={simulation.beforeTotalInterest}
+                      after={simulation.afterTotalInterest}
+                    />
+                    <SummaryTile
+                      label="Sisa Tenor"
+                      before={`${remainingTenor} Bulan`}
+                      after={simulation.tenor}
+                    />
+                    <SummaryTile
+                      label="Tanggal Jatuh Tempo Terakhir"
+                      before="07-05-2027"
+                      after={simulation.lastDueDate}
+                    />
+                  </div>
+
+                  <div className="mt-6 rounded-[12px] border border-[#D8E8FF] bg-[#F6FAFF] px-4 py-3 text-[13px] leading-relaxed text-[#315E8F]">
+                    Jadwal pembayaran diperbarui mulai tanggal efektif{" "}
+                    <span className="font-bold">{effectiveDate}</span>. Nilai
+                    simulasi dapat berubah apabila terdapat pembayaran, denda, atau
+                    penyesuaian pokok lainnya.
+                  </div>
+
+                  <div className="mt-6">
+                    <div className="text-[15px] font-extrabold text-slate-900">
+                      Jadwal Pembayaran yang Diperbarui
                     </div>
 
-                    <div className="flex items-center justify-between gap-4 text-[13px]">
-                      <span className="text-slate-600">Sisa Tenor</span>
-                      <span className="font-extrabold text-slate-900">
-                        10 Bulan
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3 text-[13px]">
-                      <span className="font-bold text-slate-900">
-                        Bunga Baru
-                      </span>
-                      <span className="font-extrabold text-[#5B3DF5]">
-                        {newRate}% per tahun
-                      </span>
-                    </div>
-
-                    <div className="border-t border-slate-200 pt-3 text-[13px]">
-                      <div className="font-bold text-slate-900">
-                        Alasan Perubahan
-                      </div>
-                      <div className="mt-1 leading-relaxed text-slate-600">
-                        {changeReason}
+                    <div className="mt-3 overflow-hidden rounded-[8px] border border-slate-200">
+                      <div className="safe-x-scroll">
+                        <table className="w-full min-w-[680px] border-collapse">
+                          <thead className="bg-slate-50">
+                            <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
+                              <th className="w-[100px] px-4 py-3">Angsuran Ke</th>
+                              <th className="w-[160px] px-4 py-3">Jatuh Tempo</th>
+                              <th className="px-4 py-3 text-right">Pokok</th>
+                              <th className="px-4 py-3 text-right">Bunga</th>
+                              <th className="px-4 py-3 text-right">Total Angsuran</th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white">
+                            {simulation.schedule.map((item, index) => (
+                              <tr
+                                key={item.installmentNo}
+                                className={cn(
+                                  "border-b border-slate-100 text-[13px] last:border-b-0",
+                                  index % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                                )}
+                              >
+                                <td className="px-4 py-3 font-semibold tabular-nums text-slate-900">
+                                  {item.installmentNo}
+                                </td>
+                                <td className="px-4 py-3 tabular-nums text-slate-700">
+                                  {item.dueDate}
+                                </td>
+                                <td className="px-4 py-3 text-right tabular-nums text-slate-700">
+                                  {item.principal}
+                                </td>
+                                <td className="px-4 py-3 text-right tabular-nums text-[#5B3DF5]">
+                                  {item.interest}
+                                </td>
+                                <td className="px-4 py-3 text-right font-extrabold tabular-nums text-slate-900">
+                                  {item.total}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
