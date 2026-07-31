@@ -10,13 +10,32 @@ import { cn } from "@/lib/utils";
 const accountDetails = [
   ["Nomor Rekening Pinjaman", "SMG260004"],
   ["Nama Anggota / Debitur", "Bapak Bagus"],
-  ["Produk Pinjaman", "Pinjaman Billing"],
+  ["Produk Pinjaman", "Pinjaman Bulanan"],
   ["Suku Bunga Saat Ini", "12,00% per tahun"],
   ["Baki Debet", "10.553.571,00"],
   ["Sisa Tenor", "10 Bulan"],
   ["Angsuran Berjalan", "1.120.000,00"],
   ["Tanggal Jatuh Tempo Berikutnya", "07-08-2026"],
 ] as const;
+
+function LoanInfoField({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[11px] font-semibold leading-tight text-white/85">
+        {label}
+      </div>
+      <div className="mt-1 break-words text-[14px] font-extrabold leading-snug tracking-tight text-white">
+        {value}
+      </div>
+    </div>
+  );
+}
 
 export default function LoanInterestChangeWizard({
   open,
@@ -37,7 +56,10 @@ export default function LoanInterestChangeWizard({
   }, [open]);
 
   function next() {
-    if (step === 2 && (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0)) {
+    if (
+      step === 2 &&
+      (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0)
+    ) {
       toast("Suku bunga belum valid", {
         description: "Masukkan suku bunga baru yang lebih dari 0.",
       });
@@ -109,20 +131,24 @@ export default function LoanInterestChangeWizard({
                   Pastikan data rekening berikut sudah sesuai sebelum melanjutkan.
                 </p>
 
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {accountDetails.map(([label, value]) => (
-                    <div
-                      key={label}
-                      className="rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200"
-                    >
-                      <div className="text-[11px] font-semibold text-slate-500">
-                        {label}
-                      </div>
-                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                        {label === "Nomor Rekening Pinjaman" ? accountNo : value}
-                      </div>
-                    </div>
-                  ))}
+                <div className="mt-5 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
+                  <div className="text-[12px] font-extrabold tracking-wide text-white/90">
+                    PINJAMAN BULANAN
+                  </div>
+
+                  <div className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+                    {accountDetails.map(([label, value]) => (
+                      <LoanInfoField
+                        key={label}
+                        label={label}
+                        value={
+                          label === "Nomor Rekening Pinjaman"
+                            ? accountNo
+                            : value
+                        }
+                      />
+                    ))}
+                  </div>
                 </div>
               </>
             ) : null}
@@ -164,9 +190,13 @@ export default function LoanInterestChangeWizard({
                   Konfirmasi Perubahan Bunga
                 </div>
                 <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
-                  Suku bunga rekening <span className="font-bold text-slate-900">{accountNo}</span>{" "}
-                  akan diubah dari <span className="font-bold text-slate-900">12,00%</span>{" "}
-                  menjadi <span className="font-bold text-slate-900">{newRate}%</span> per tahun.
+                  Suku bunga rekening{" "}
+                  <span className="font-bold text-slate-900">{accountNo}</span>{" "}
+                  akan diubah dari{" "}
+                  <span className="font-bold text-slate-900">12,00%</span>{" "}
+                  menjadi{" "}
+                  <span className="font-bold text-slate-900">{newRate}%</span>{" "}
+                  per tahun.
                 </p>
               </div>
             ) : null}
@@ -175,7 +205,9 @@ export default function LoanInterestChangeWizard({
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
             <button
               type="button"
-              onClick={() => (step === 1 ? onOpenChange(false) : setStep(step - 1))}
+              onClick={() =>
+                step === 1 ? onOpenChange(false) : setStep(step - 1)
+              }
               className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-[13px] font-semibold text-slate-600 transition hover:bg-slate-100"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -188,7 +220,11 @@ export default function LoanInterestChangeWizard({
               className="inline-flex h-10 items-center gap-2 rounded-full bg-[#479DF4] px-5 text-[13px] font-semibold text-white transition hover:bg-[#2563EB]"
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? <Check className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+              {step === 3 ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <ChevronRight className="h-4 w-4" />
+              )}
             </button>
           </footer>
         </div>
