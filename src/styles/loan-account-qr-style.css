@@ -1,6 +1,16 @@
 /* Rekening Pinjaman > Detail:
-   Pola QR disamakan dengan referensi QR hitam-putih berbingkai tipis.
+   QR dibuat menggunakan pola hitam-putih seperti QR pada detail rekening simpanan.
 */
+.rounded-3xl:has(.lucide-qr-code)
+  > div[class*="overflow-hidden"][class*="ring-1"] {
+  overflow: visible !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-shadow: 0 0 #0000 !important;
+}
+
 .rounded-3xl:has(.lucide-qr-code)
   .grid.h-\[140px\].w-\[140px\].place-items-center.rounded-xl.bg-slate-50 {
   position: relative;
