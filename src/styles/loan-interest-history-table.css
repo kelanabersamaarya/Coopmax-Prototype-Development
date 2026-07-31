@@ -4,9 +4,6 @@
   border-left: 1px solid rgb(226 232 240);
 }
 
-[data-radix-dialog-content]:has(
-    input[placeholder="Masukkan suku bunga baru"]
-  )
-  main.border-t.border-slate-100 {
+[data-radix-dialog-content] main.border-t.border-slate-100 {
   border-top-color: rgb(226 232 240) !important;
 }
