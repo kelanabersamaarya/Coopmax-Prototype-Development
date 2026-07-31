@@ -13,10 +13,11 @@
   display: none !important;
 }
 
-/* Menghapus jarak bekas header agar QR sejajar dengan atas kartu Pinjaman Bulanan. */
+/* Menghapus jarak bekas header dan padding kartu agar QR sejajar dengan atas kartu Pinjaman Bulanan. */
 .rounded-3xl:has(> div > span > .lucide-qr-code)
   > div[class*="overflow-hidden"][class*="ring-1"] {
   margin-top: 0 !important;
+  transform: translateY(-1rem);
   overflow: visible !important;
   border-radius: 0 !important;
   background: transparent !important;
