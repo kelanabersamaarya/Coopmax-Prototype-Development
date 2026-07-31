@@ -387,7 +387,6 @@ export default function LoanInterestChangeWizard({
                         placeholder="Masukkan suku bunga baru"
                         inputMode="decimal"
                         className={fieldClassName}
-                        autoFocus
                       />
                     </ChangeFieldRow>
 
