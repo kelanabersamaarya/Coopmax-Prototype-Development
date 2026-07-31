@@ -39,7 +39,7 @@
   padding: 0.875rem 1.25rem !important;
   background-color: #f9faff !important;
   color: #0f172a !important;
-  font-size: 1rem !important;
+  font-size: 16px !important;
   font-weight: 800 !important;
   letter-spacing: 0.025em !important;
   text-transform: uppercase !important;
@@ -49,6 +49,15 @@
   div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
   > div.mt-5 {
   margin-top: 1.25rem !important;
+}
+
+/* Header INFORMASI REKENING PINJAMAN. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  div.bg-\[\#17a2b8\]
+  > div:first-child
+  > div:first-child {
+  font-size: 16px !important;
+  line-height: 1.25 !important;
 }
 
 @media (min-width: 768px) {
