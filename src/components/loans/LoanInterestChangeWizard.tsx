@@ -26,6 +26,25 @@ const accountDetails = [
   ["Tanggal Jatuh Tempo Berikutnya", "07-08-2026"],
 ] as const;
 
+const interestHistory = [
+  {
+    id: "rate-1",
+    oldRate: "10,00%",
+    newRate: "12,00%",
+    effectiveDate: "01-06-2026",
+    reason: "Penyesuaian kebijakan bunga pinjaman.",
+    changedAt: "30-05-2026 10:15:24",
+  },
+  {
+    id: "rate-2",
+    oldRate: "9,50%",
+    newRate: "10,00%",
+    effectiveDate: "01-01-2026",
+    reason: "Penyesuaian suku bunga periode awal tahun.",
+    changedAt: "28-12-2025 14:42:11",
+  },
+];
+
 function LoanInfoField({
   label,
   value,
@@ -126,6 +145,106 @@ function ChangeFieldRow({
   );
 }
 
+function InterestHistoryDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-1rem)] sm:w-[940px]",
+          "max-w-[940px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="bg-white">
+          <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+            <h3 className="text-lg font-extrabold tracking-tight text-slate-900">
+              Riwayat Perubahan Suku Bunga
+            </h3>
+
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+              aria-label="Tutup"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </header>
+
+          <div className="max-h-[65vh] overflow-auto px-6 py-5">
+            <div className="overflow-hidden rounded-[5px] border border-slate-200">
+              <div className="safe-x-scroll">
+                <table className="w-full min-w-[860px] border-collapse">
+                  <thead className="bg-slate-50">
+                    <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700">
+                      <th className="w-[150px] px-4 py-3">Suku Bunga Lama</th>
+                      <th className="w-[150px] px-4 py-3">Suku Bunga Baru</th>
+                      <th className="w-[150px] px-4 py-3">Tanggal Efektif</th>
+                      <th className="min-w-[270px] px-4 py-3">
+                        Alasan Perubahan
+                      </th>
+                      <th className="w-[190px] px-4 py-3">
+                        Tanggal & Waktu Perubahan
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="bg-white">
+                    {interestHistory.map((history, index) => (
+                      <tr
+                        key={history.id}
+                        className={cn(
+                          "border-b border-slate-200 text-[13px] last:border-b-0",
+                          index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                        )}
+                      >
+                        <td className="px-4 py-3 font-semibold tabular-nums text-slate-900">
+                          {history.oldRate}
+                        </td>
+                        <td className="px-4 py-3 font-semibold tabular-nums text-[#5B3DF5]">
+                          {history.newRate}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums text-slate-800">
+                          {history.effectiveDate}
+                        </td>
+                        <td className="px-4 py-3 leading-relaxed text-slate-700">
+                          {history.reason}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums text-slate-700">
+                          {history.changedAt}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <footer className="flex justify-end border-t border-slate-200 px-6 py-4">
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+            >
+              <X className="h-4 w-4" strokeWidth={3} />
+              Tutup
+            </button>
+          </footer>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function LoanInterestChangeWizard({
   open,
   onOpenChange,
@@ -139,6 +258,7 @@ export default function LoanInterestChangeWizard({
   const [newRate, setNewRate] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [changeReason, setChangeReason] = React.useState("");
+  const [historyOpen, setHistoryOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -146,6 +266,7 @@ export default function LoanInterestChangeWizard({
     setNewRate("");
     setEffectiveDate("");
     setChangeReason("");
+    setHistoryOpen(false);
   }, [open]);
 
   function next() {
@@ -192,209 +313,212 @@ export default function LoanInterestChangeWizard({
     "min-h-[110px] w-full resize-none rounded-[5px] border-[#CBD5E1] bg-white px-3 py-2 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[760px]",
-          "max-w-[760px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
-      >
-        <div className="bg-white">
-          <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
-              Ubah Suku Bunga Pinjaman
-            </h2>
+    <>
+      <InterestHistoryDialog
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+      />
 
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
-              aria-label="Tutup"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </header>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[760px]",
+            "max-w-[760px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+          )}
+        >
+          <div className="bg-white">
+            <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
+                Ubah Suku Bunga Pinjaman
+              </h2>
 
-          <WizardStepper step={step} />
-
-          <main className="border-t border-slate-100 px-6 py-6">
-            {step === 1 ? (
-              <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="text-[16px] font-extrabold tracking-wide text-white/90">
-                    INFORMASI REKENING PINJAMAN
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      toast("Riwayat Perubahan Suku Bunga (prototype)", {
-                        description: `Rekening: ${accountNo}`,
-                      })
-                    }
-                    className="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] shadow-sm transition hover:bg-slate-100"
-                  >
-                    <Eye className="h-4 w-4" />
-                    Riwayat Perubahan Suku Bunga
-                  </button>
-                </div>
-
-                <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
-                  {accountDetails.map(([label, value]) => (
-                    <LoanInfoField
-                      key={label}
-                      label={label}
-                      value={label === "No.Rek. Pinjaman" ? accountNo : value}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            {step === 2 ? (
-              <div className="mx-auto max-w-[700px]">
-                <div className="grid gap-5">
-                  <ChangeFieldRow label="Suku Bunga Baru">
-                    <Input
-                      value={newRate}
-                      onChange={(event) => setNewRate(event.target.value)}
-                      placeholder="Masukkan suku bunga baru"
-                      inputMode="decimal"
-                      className={fieldClassName}
-                      autoFocus
-                    />
-                  </ChangeFieldRow>
-
-                  <ChangeFieldRow label="Tanggal Efektif">
-                    <DatePickerDmyField
-                      value={effectiveDate}
-                      onChange={setEffectiveDate}
-                      inputClassName={fieldClassName}
-                      placeholder="Pilih Tanggal Efektif"
-                    />
-                  </ChangeFieldRow>
-
-                  <ChangeFieldRow label="Alasan Perubahan" textarea>
-                    <Textarea
-                      value={changeReason}
-                      onChange={(event) => setChangeReason(event.target.value)}
-                      placeholder="Masukkan alasan perubahan suku bunga"
-                      className={textareaClassName}
-                    />
-                  </ChangeFieldRow>
-                </div>
-              </div>
-            ) : null}
-
-            {step === 3 ? (
-              <div className="mx-auto max-w-md text-center">
-                <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
-                  <Check className="h-7 w-7" strokeWidth={3} />
-                </span>
-
-                <div className="mt-5 text-[18px] font-extrabold text-slate-900">
-                  Simulasi Perubahan Bunga
-                </div>
-
-                <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
-                  Suku bunga rekening{" "}
-                  <span className="font-bold text-slate-900">{accountNo}</span>{" "}
-                  berubah dari{" "}
-                  <span className="font-bold text-slate-900">12,00%</span>{" "}
-                  menjadi{" "}
-                  <span className="font-bold text-slate-900">{newRate}%</span>{" "}
-                  per tahun mulai{" "}
-                  <span className="font-bold text-slate-900">
-                    {effectiveDate}
-                  </span>
-                  .
-                </p>
-
-                <div className="mt-6 grid gap-3 rounded-2xl bg-slate-50 p-4 text-left ring-1 ring-slate-200">
-                  <div className="flex items-center justify-between gap-4 text-[13px]">
-                    <span className="text-slate-600">Baki Debet</span>
-                    <span className="font-extrabold text-slate-900">
-                      10.553.571,00
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-4 text-[13px]">
-                    <span className="text-slate-600">Sisa Tenor</span>
-                    <span className="font-extrabold text-slate-900">
-                      10 Bulan
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3 text-[13px]">
-                    <span className="font-bold text-slate-900">
-                      Bunga Baru
-                    </span>
-                    <span className="font-extrabold text-[#5B3DF5]">
-                      {newRate}% per tahun
-                    </span>
-                  </div>
-
-                  <div className="border-t border-slate-200 pt-3 text-[13px]">
-                    <div className="font-bold text-slate-900">
-                      Alasan Perubahan
-                    </div>
-                    <div className="mt-1 leading-relaxed text-slate-600">
-                      {changeReason}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </main>
-
-          <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-            <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() =>
-                  step === 1 ? onOpenChange(false) : setStep(step - 1)
-                }
-                className={cn(
-                  footerButtonClass,
-                  "min-w-[105px] bg-[#77839A] text-white hover:bg-[#6b768c]",
-                )}
+                onClick={() => onOpenChange(false)}
+                className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+                aria-label="Tutup"
               >
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                Kembali
+                <X className="h-5 w-5" />
               </button>
+            </header>
+
+            <WizardStepper step={step} />
+
+            <main className="border-t border-slate-100 px-6 py-6">
+              {step === 1 ? (
+                <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="text-[16px] font-extrabold tracking-wide text-white/90">
+                      INFORMASI REKENING PINJAMAN
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setHistoryOpen(true)}
+                      className="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] shadow-sm transition hover:bg-slate-100"
+                    >
+                      <Eye className="h-4 w-4" />
+                      Riwayat Perubahan Suku Bunga
+                    </button>
+                  </div>
+
+                  <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+                    {accountDetails.map(([label, value]) => (
+                      <LoanInfoField
+                        key={label}
+                        label={label}
+                        value={label === "No.Rek. Pinjaman" ? accountNo : value}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : null}
 
               {step === 2 ? (
+                <div className="mx-auto max-w-[700px]">
+                  <div className="grid gap-5">
+                    <ChangeFieldRow label="Suku Bunga Baru">
+                      <Input
+                        value={newRate}
+                        onChange={(event) => setNewRate(event.target.value)}
+                        placeholder="Masukkan suku bunga baru"
+                        inputMode="decimal"
+                        className={fieldClassName}
+                        autoFocus
+                      />
+                    </ChangeFieldRow>
+
+                    <ChangeFieldRow label="Tanggal Efektif">
+                      <DatePickerDmyField
+                        value={effectiveDate}
+                        onChange={setEffectiveDate}
+                        inputClassName={fieldClassName}
+                        placeholder="Pilih Tanggal Efektif"
+                      />
+                    </ChangeFieldRow>
+
+                    <ChangeFieldRow label="Alasan Perubahan" textarea>
+                      <Textarea
+                        value={changeReason}
+                        onChange={(event) => setChangeReason(event.target.value)}
+                        placeholder="Masukkan alasan perubahan suku bunga"
+                        className={textareaClassName}
+                      />
+                    </ChangeFieldRow>
+                  </div>
+                </div>
+              ) : null}
+
+              {step === 3 ? (
+                <div className="mx-auto max-w-md text-center">
+                  <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
+                    <Check className="h-7 w-7" strokeWidth={3} />
+                  </span>
+
+                  <div className="mt-5 text-[18px] font-extrabold text-slate-900">
+                    Simulasi Perubahan Bunga
+                  </div>
+
+                  <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
+                    Suku bunga rekening{" "}
+                    <span className="font-bold text-slate-900">{accountNo}</span>{" "}
+                    berubah dari{" "}
+                    <span className="font-bold text-slate-900">12,00%</span>{" "}
+                    menjadi{" "}
+                    <span className="font-bold text-slate-900">{newRate}%</span>{" "}
+                    per tahun mulai{" "}
+                    <span className="font-bold text-slate-900">
+                      {effectiveDate}
+                    </span>
+                    .
+                  </p>
+
+                  <div className="mt-6 grid gap-3 rounded-2xl bg-slate-50 p-4 text-left ring-1 ring-slate-200">
+                    <div className="flex items-center justify-between gap-4 text-[13px]">
+                      <span className="text-slate-600">Baki Debet</span>
+                      <span className="font-extrabold text-slate-900">
+                        10.553.571,00
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-4 text-[13px]">
+                      <span className="text-slate-600">Sisa Tenor</span>
+                      <span className="font-extrabold text-slate-900">
+                        10 Bulan
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-3 text-[13px]">
+                      <span className="font-bold text-slate-900">
+                        Bunga Baru
+                      </span>
+                      <span className="font-extrabold text-[#5B3DF5]">
+                        {newRate}% per tahun
+                      </span>
+                    </div>
+
+                    <div className="border-t border-slate-200 pt-3 text-[13px]">
+                      <div className="font-bold text-slate-900">
+                        Alasan Perubahan
+                      </div>
+                      <div className="mt-1 leading-relaxed text-slate-600">
+                        {changeReason}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </main>
+
+            <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+              <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => onOpenChange(false)}
-                  className="h-10 px-2 text-[13px] font-semibold text-rose-600 transition hover:text-rose-700"
+                  onClick={() =>
+                    step === 1 ? onOpenChange(false) : setStep(step - 1)
+                  }
+                  className={cn(
+                    footerButtonClass,
+                    "min-w-[105px] bg-[#77839A] text-white hover:bg-[#6b768c]",
+                  )}
                 >
-                  Batal
+                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                  Kembali
                 </button>
-              ) : null}
-            </div>
 
-            <button
-              type="button"
-              onClick={step === 3 ? save : next}
-              className={cn(
-                footerButtonClass,
-                "min-w-[130px] bg-[#5B3DF5] text-white hover:bg-[#4C32D9]",
-              )}
-            >
-              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? (
-                <Check className="h-4 w-4" />
-              ) : (
-                <ChevronRight className="h-4 w-4" />
-              )}
-            </button>
-          </footer>
-        </div>
-      </DialogContent>
-    </Dialog>
+                {step === 2 ? (
+                  <button
+                    type="button"
+                    onClick={() => onOpenChange(false)}
+                    className="h-10 px-2 text-[13px] font-semibold text-rose-600 transition hover:text-rose-700"
+                  >
+                    Batal
+                  </button>
+                ) : null}
+              </div>
+
+              <button
+                type="button"
+                onClick={step === 3 ? save : next}
+                className={cn(
+                  footerButtonClass,
+                  "min-w-[130px] bg-[#5B3DF5] text-white hover:bg-[#4C32D9]",
+                )}
+              >
+                {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+                {step === 3 ? (
+                  <Check className="h-4 w-4" />
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
+                )}
+              </button>
+            </footer>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
