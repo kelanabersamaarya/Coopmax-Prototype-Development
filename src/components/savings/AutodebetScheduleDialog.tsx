@@ -167,6 +167,7 @@ export default function AutodebetScheduleDialog({
   }
 
   const inputClassName = cn(
+    "autodebet-dialog-field",
     "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3",
     "text-[14px] font-normal text-[#526685] shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -185,6 +186,24 @@ export default function AutodebetScheduleDialog({
           "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
+        <style>
+          {`
+            .autodebet-dialog-field:focus,
+            .autodebet-dialog-field:focus-visible,
+            .autodebet-dialog-field[data-state="open"],
+            .autodebet-dialog-field[role="combobox"]:focus,
+            .autodebet-dialog-field[role="combobox"]:focus-visible {
+              border-color: #cbd5e1 !important;
+              box-shadow: none !important;
+              outline: none !important;
+              --tw-ring-color: transparent !important;
+              --tw-ring-shadow: 0 0 #0000 !important;
+              --tw-ring-offset-shadow: 0 0 #0000 !important;
+              --tw-ring-offset-width: 0px !important;
+            }
+          `}
+        </style>
+
         <div className="bg-white">
           <div className="flex items-center justify-between border-b border-[#CBD5E1] px-5 py-4">
             <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
@@ -298,7 +317,11 @@ export default function AutodebetScheduleDialog({
               <Textarea
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
-                className="min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px] focus-visible:ring-0 focus-visible:ring-offset-0"
+                className={cn(
+                  "autodebet-dialog-field",
+                  "min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px]",
+                  "focus-visible:ring-0 focus-visible:ring-offset-0",
+                )}
               />
 
               <Label className={cn(labelClassName, "pt-1")}>
