@@ -112,6 +112,74 @@ function AutodebetToggle({
   );
 }
 
+function ProcessConfirmDialog({
+  open,
+  onCancel,
+  onConfirm,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-2rem)] sm:w-[528px]",
+          "max-w-[528px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "overflow-hidden",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+          "[&_[data-radix-dialog-close]]:hidden",
+        )}
+      >
+        <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6] bg-white">
+            <div className="text-[54px] font-light leading-none text-[#f2b98f]">
+              !
+            </div>
+          </div>
+
+          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+            Yakin untuk menambahkan
+            <br />
+            Jadwal Autodebet ?
+          </h3>
+
+          <div className="mt-8 flex items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={onConfirm}
+              className={cn(
+                "h-[48px] w-[104px] rounded-[5px]",
+                "bg-[#2f80ed] text-[16px] font-semibold text-white",
+                "ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25",
+              )}
+            >
+              Yes
+            </button>
+
+            <button
+              type="button"
+              onClick={onCancel}
+              className={cn(
+                "h-[48px] w-[126px] rounded-[5px]",
+                "bg-[#a6a6a6] text-[16px] font-semibold text-white",
+                "ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696]",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#a6a6a6]/25",
+              )}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function AutodebetScheduleDialog({
   open,
   onOpenChange,
@@ -126,6 +194,7 @@ export default function AutodebetScheduleDialog({
   const [accountNo, setAccountNo] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   const selectedAccount = React.useMemo(
     () =>
@@ -143,9 +212,10 @@ export default function AutodebetScheduleDialog({
     setAccountNo("");
     setDescription("");
     setStatus(false);
+    setConfirmOpen(false);
   }, [open]);
 
-  function processSchedule() {
+  function requestProcess() {
     if (!product) {
       toast("Produk tujuan wajib dipilih");
       return;
@@ -156,6 +226,10 @@ export default function AutodebetScheduleDialog({
       return;
     }
 
+    setConfirmOpen(true);
+  }
+
+  function processSchedule() {
     onProcess({
       product,
       accountNo,
@@ -163,6 +237,8 @@ export default function AutodebetScheduleDialog({
       description,
       status,
     });
+
+    setConfirmOpen(false);
     onOpenChange(false);
   }
 
@@ -176,182 +252,190 @@ export default function AutodebetScheduleDialog({
   const labelClassName = "text-[14px] font-normal text-[#002060]";
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[760px]",
-          "max-w-[760px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
-      >
-        <style>
-          {`
-            .autodebet-dialog-field:focus,
-            .autodebet-dialog-field:focus-visible,
-            .autodebet-dialog-field[data-state="open"],
-            .autodebet-dialog-field[role="combobox"]:focus,
-            .autodebet-dialog-field[role="combobox"]:focus-visible {
-              border-color: #cbd5e1 !important;
-              box-shadow: none !important;
-              outline: none !important;
-              --tw-ring-color: transparent !important;
-              --tw-ring-shadow: 0 0 #0000 !important;
-              --tw-ring-offset-shadow: 0 0 #0000 !important;
-              --tw-ring-offset-width: 0px !important;
-            }
-          `}
-        </style>
+    <>
+      <ProcessConfirmDialog
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={processSchedule}
+      />
 
-        <div className="bg-white">
-          <div className="flex items-center justify-between border-b border-[#CBD5E1] px-5 py-4">
-            <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
-              Jadwal Autodebet
-            </h2>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[760px]",
+            "max-w-[760px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+          )}
+        >
+          <style>
+            {`
+              .autodebet-dialog-field:focus,
+              .autodebet-dialog-field:focus-visible,
+              .autodebet-dialog-field[data-state="open"],
+              .autodebet-dialog-field[role="combobox"]:focus,
+              .autodebet-dialog-field[role="combobox"]:focus-visible {
+                border-color: #cbd5e1 !important;
+                box-shadow: none !important;
+                outline: none !important;
+                --tw-ring-color: transparent !important;
+                --tw-ring-shadow: 0 0 #0000 !important;
+                --tw-ring-offset-shadow: 0 0 #0000 !important;
+                --tw-ring-offset-width: 0px !important;
+              }
+            `}
+          </style>
 
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100"
-              aria-label="Tutup"
-              title="Tutup"
-            >
-              <X className="h-5 w-5" strokeWidth={3} />
-            </button>
-          </div>
+          <div className="bg-white">
+            <div className="flex items-center justify-between border-b border-[#CBD5E1] px-5 py-4">
+              <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
+                Jadwal Autodebet
+              </h2>
 
-          <div className="px-5 py-8 sm:px-10">
-            <div className="grid gap-3 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-start">
-              <Label className={cn(labelClassName, "pt-1")}>
-                Transaksi Rekening
-                <br />
-                Anggota/Nasabah lain
-              </Label>
-              <div className="flex h-[31px] items-center">
-                <AutodebetToggle
-                  checked={interMember}
-                  onChange={setInterMember}
-                />
-              </div>
-
-              <Label className={labelClassName}>Produk Tujuan</Label>
-              <Select
-                value={product}
-                onValueChange={(value) => {
-                  setProduct(value);
-                  setAccountNo("");
-                }}
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100"
+                aria-label="Tutup"
+                title="Tutup"
               >
-                <SelectTrigger className={inputClassName}>
-                  <SelectValue placeholder="Pilih Produk" />
-                </SelectTrigger>
-                <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Produk Simpanan">
-                    Produk Simpanan
-                  </SelectItem>
-                  <SelectItem value="Produk Pinjaman">
-                    Produk Pinjaman
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                <X className="h-5 w-5" strokeWidth={3} />
+              </button>
+            </div>
 
-              <Label className={labelClassName}>No. Rekening Tujuan</Label>
-              <div className="grid gap-4">
+            <div className="px-5 py-8 sm:px-10">
+              <div className="grid gap-3 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-start">
+                <Label className={cn(labelClassName, "pt-1")}>
+                  Transaksi Rekening
+                  <br />
+                  Anggota/Nasabah lain
+                </Label>
+                <div className="flex h-[31px] items-center">
+                  <AutodebetToggle
+                    checked={interMember}
+                    onChange={setInterMember}
+                  />
+                </div>
+
+                <Label className={labelClassName}>Produk Tujuan</Label>
                 <Select
-                  value={accountNo}
-                  onValueChange={setAccountNo}
-                  disabled={!product}
+                  value={product}
+                  onValueChange={(value) => {
+                    setProduct(value);
+                    setAccountNo("");
+                  }}
                 >
-                  <SelectTrigger
-                    className={cn(
-                      inputClassName,
-                      !product ? "bg-slate-100 text-slate-400" : "",
-                    )}
-                  >
-                    <SelectValue placeholder="Pilih Rekening" />
+                  <SelectTrigger className={inputClassName}>
+                    <SelectValue placeholder="Pilih Produk" />
                   </SelectTrigger>
                   <SelectContent className="rounded-[5px] border-slate-200">
-                    {(accountOptions[product] ?? []).map((account) => (
-                      <SelectItem
-                        key={account.accountNo}
-                        value={accountValue(account)}
-                      >
-                        {accountValue(account)}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="Produk Simpanan">
+                      Produk Simpanan
+                    </SelectItem>
+                    <SelectItem value="Produk Pinjaman">
+                      Produk Pinjaman
+                    </SelectItem>
                   </SelectContent>
                 </Select>
 
-                {selectedAccount ? (
-                  <div className="grid gap-3 text-[14px] font-normal text-[#1F2A3D]">
-                    <div>
-                      No. Rekening :{" "}
-                      <span className="font-semibold">
-                        {selectedAccount.accountNo}
-                      </span>
-                    </div>
-                    <div>
-                      Nama Nasabah :{" "}
-                      <span className="font-semibold">
-                        {selectedAccount.customerName}
-                      </span>
-                    </div>
-                    <div>
-                      Tipe Produk :{" "}
-                      <span className="font-semibold">
-                        {selectedAccount.productType}
-                      </span>
-                    </div>
-                    <div>
-                      Saldo :{" "}
-                      <span className="font-semibold">
-                        {selectedAccount.balance}
-                      </span>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
+                <Label className={labelClassName}>No. Rekening Tujuan</Label>
+                <div className="grid gap-4">
+                  <Select
+                    value={accountNo}
+                    onValueChange={setAccountNo}
+                    disabled={!product}
+                  >
+                    <SelectTrigger
+                      className={cn(
+                        inputClassName,
+                        !product ? "bg-slate-100 text-slate-400" : "",
+                      )}
+                    >
+                      <SelectValue placeholder="Pilih Rekening" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-[5px] border-slate-200">
+                      {(accountOptions[product] ?? []).map((account) => (
+                        <SelectItem
+                          key={account.accountNo}
+                          value={accountValue(account)}
+                        >
+                          {accountValue(account)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-              <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
-              <Textarea
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                className={cn(
-                  "autodebet-dialog-field",
-                  "min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px]",
-                  "focus-visible:ring-0 focus-visible:ring-offset-0",
-                )}
-              />
+                  {selectedAccount ? (
+                    <div className="grid gap-3 text-[14px] font-normal text-[#1F2A3D]">
+                      <div>
+                        No. Rekening :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.accountNo}
+                        </span>
+                      </div>
+                      <div>
+                        Nama Nasabah :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.customerName}
+                        </span>
+                      </div>
+                      <div>
+                        Tipe Produk :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.productType}
+                        </span>
+                      </div>
+                      <div>
+                        Saldo :{" "}
+                        <span className="font-semibold">
+                          {selectedAccount.balance}
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
 
-              <Label className={cn(labelClassName, "pt-1")}>
-                Status Autodebet
-              </Label>
-              <div className="flex h-[31px] items-center">
-                <AutodebetToggle checked={status} onChange={setStatus} />
+                <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
+                <Textarea
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  className={cn(
+                    "autodebet-dialog-field",
+                    "min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px]",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                />
+
+                <Label className={cn(labelClassName, "pt-1")}>
+                  Status Autodebet
+                </Label>
+                <div className="flex h-[31px] items-center">
+                  <AutodebetToggle checked={status} onChange={setStatus} />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex justify-end gap-3 border-t border-[#CBD5E1] px-4 py-4">
-            <button
-              type="button"
-              onClick={processSchedule}
-              className="h-[38px] rounded-[7px] bg-[#6F42C1] px-5 text-[14px] font-semibold text-white transition hover:bg-[#643ab0]"
-            >
-              Proses
-            </button>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="inline-flex h-[38px] items-center gap-1.5 rounded-[7px] bg-[#77839A] px-4 text-[14px] font-semibold text-white transition hover:bg-[#6b768c]"
-            >
-              <X className="h-4 w-4" strokeWidth={3} />
-              Tutup
-            </button>
+            <div className="flex justify-end gap-3 border-t border-[#CBD5E1] px-4 py-4">
+              <button
+                type="button"
+                onClick={requestProcess}
+                className="h-[38px] rounded-[7px] bg-[#6F42C1] px-5 text-[14px] font-semibold text-white transition hover:bg-[#643ab0]"
+              >
+                Proses
+              </button>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-[38px] items-center gap-1.5 rounded-[7px] bg-[#77839A] px-4 text-[14px] font-semibold text-white transition hover:bg-[#6b768c]"
+              >
+                <X className="h-4 w-4" strokeWidth={3} />
+                Tutup
+              </button>
+            </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
