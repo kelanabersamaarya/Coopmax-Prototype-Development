@@ -146,16 +146,16 @@ export default function SavingsAccountDetail({
               <div className="grid w-full grid-cols-2 gap-3">
                 <Button
                   onClick={() => toast("Preview QR (prototype)")}
-                  className="h-10 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
+                  className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
                 >
-                  <List className="mr-2 h-4 w-4 shrink-0" />
+                  <List className="mr-2 h-3.5 w-3.5 shrink-0" />
                   Preview
                 </Button>
                 <Button
                   onClick={() => toast("Cetak QR (prototype)")}
-                  className="h-10 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
+                  className="h-8 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
                 >
-                  <Printer className="mr-2 h-4 w-4 shrink-0" />
+                  <Printer className="mr-2 h-3.5 w-3.5 shrink-0" />
                   Cetak
                 </Button>
               </div>
