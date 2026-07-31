@@ -503,7 +503,7 @@ export default function LoanInterestChangeWizard({
                     </div>
                   </div>
 
-                  <div className="rounded-[12px] bg-slate-50 p-5 ring-1 ring-slate-200">
+                  <div className="rounded-[12px] bg-white p-5 ring-1 ring-slate-200">
                     <div className="text-[17px] font-extrabold text-slate-900">
                       Form Perubahan Suku Bunga
                     </div>
