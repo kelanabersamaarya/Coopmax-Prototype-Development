@@ -17,6 +17,8 @@ type SavingsAccount = {
   registeredAt: string;
 };
 
+const NEXT_TRANSACTION_DATE = "31-08-2026";
+
 function ActionButton({
   icon: Icon,
   label,
@@ -152,7 +154,7 @@ export default function AutodebetScheduleDetail({
     customerName: targetCustomerName,
     product: isLoan ? "Pinjaman Bulanan" : "Simpanan Wajib",
     balance: isLoan ? "8.900.000,00" : "50.000,00",
-    registeredAt: isLoan ? "06 Dec 2024" : "06 Dec 2024",
+    registeredAt: "06 Dec 2024",
   };
 
   return (
@@ -163,9 +165,21 @@ export default function AutodebetScheduleDetail({
         </h1>
 
         <div className="mt-6 flex flex-wrap items-center justify-end gap-2">
-          <ActionButton icon={List} label="Kembali ke List Autodebet" onClick={onBack} />
-          <ActionButton icon={Pencil} label="Edit Jadwal Autodebet" onClick={onEdit} />
-          <ActionButton icon={ArrowLeft} label="Kembali ke Rekening" onClick={onBack} />
+          <ActionButton
+            icon={List}
+            label="Kembali ke List Autodebet"
+            onClick={onBack}
+          />
+          <ActionButton
+            icon={Pencil}
+            label="Edit Jadwal Autodebet"
+            onClick={onEdit}
+          />
+          <ActionButton
+            icon={ArrowLeft}
+            label="Kembali ke Rekening"
+            onClick={onBack}
+          />
           <ActionButton icon={Trash2} label="Hapus" onClick={onDelete} />
         </div>
 
@@ -176,9 +190,18 @@ export default function AutodebetScheduleDetail({
             </div>
 
             <div className="mt-4">
-              <InfoRow label="Tanggal dilakukan transaksi" value={transactionDate} />
-              <InfoRow label="Transaksi Selanjutnya" value="1 Agustus 2026" />
-              <InfoRow label="Keterangan" value={schedule.description || "-"} />
+              <InfoRow
+                label="Tanggal dilakukan transaksi"
+                value={transactionDate}
+              />
+              <InfoRow
+                label="Transaksi Selanjutnya"
+                value={NEXT_TRANSACTION_DATE}
+              />
+              <InfoRow
+                label="Keterangan"
+                value={schedule.description || "-"}
+              />
             </div>
           </section>
 
@@ -193,9 +216,19 @@ export default function AutodebetScheduleDetail({
                   Rekening Sumber
                 </div>
                 <div className="mt-3">
-                  <InfoRow label="Nama Nasabah" value={sourceAccount.customerName} />
-                  <InfoRow label="Kode Nasabah" value={sourceAccount.customerId} link />
-                  <InfoRow label="Alamat Nasabah" value="Jl. Sri Rama No. 49" />
+                  <InfoRow
+                    label="Nama Nasabah"
+                    value={sourceAccount.customerName}
+                  />
+                  <InfoRow
+                    label="Kode Nasabah"
+                    value={sourceAccount.customerId}
+                    link
+                  />
+                  <InfoRow
+                    label="Alamat Nasabah"
+                    value="Jl. Sri Rama No. 49"
+                  />
                 </div>
               </div>
 
@@ -204,9 +237,15 @@ export default function AutodebetScheduleDetail({
                   Rekening Tujuan
                 </div>
                 <div className="mt-3">
-                  <InfoRow label="Nama Nasabah" value={targetCustomerName} />
+                  <InfoRow
+                    label="Nama Nasabah"
+                    value={targetCustomerName}
+                  />
                   <InfoRow label="Kode Nasabah" value="N2400045" link />
-                  <InfoRow label="Alamat Nasabah" value="Jl. Sri Rama No. 49" />
+                  <InfoRow
+                    label="Alamat Nasabah"
+                    value="Jl. Sri Rama No. 49"
+                  />
                 </div>
               </div>
             </div>
