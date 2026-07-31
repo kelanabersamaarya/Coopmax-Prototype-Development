@@ -133,11 +133,7 @@ export default function SavingsAccountDetail({
             label="Dokumen"
             onClick={() => toast("Dokumen (prototype)")}
           />
-          <ActionButton
-            icon={List}
-            label="Kembali ke Daftar"
-            onClick={onBack}
-          />
+          <ActionButton icon={List} label="Kembali ke Daftar" onClick={onBack} />
           <ActionButton
             icon={SquarePen}
             label="Ubah"
@@ -178,38 +174,19 @@ export default function SavingsAccountDetail({
               </div>
 
               <div className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-                <div>
-                  <div className="text-[11px] text-white/80">Kode Tabungan</div>
-                  <div className="mt-1 text-[13px] font-bold">
-                    {account.accountNo}
+                {[
+                  ["Kode Tabungan", account.accountNo],
+                  ["Kolektor", "Dinda Sudiati"],
+                  ["Tanggal Dibuat", account.registeredAt],
+                  ["Saldo", account.balance],
+                  ["Bunga Per Tahun (%)", "2,00 %"],
+                ].map(([label, value]) => (
+                  <div key={label}>
+                    <div className="text-[11px] text-white/80">{label}</div>
+                    <div className="mt-1 text-[13px] font-bold">{value}</div>
                   </div>
-                </div>
-                <div>
-                  <div className="text-[11px] text-white/80">Kolektor</div>
-                  <div className="mt-1 text-[13px] font-bold">
-                    Dinda Sudiati
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[11px] text-white/80">
-                    Tanggal Dibuat
-                  </div>
-                  <div className="mt-1 text-[13px] font-bold">
-                    {account.registeredAt}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[11px] text-white/80">Saldo</div>
-                  <div className="mt-1 text-[13px] font-bold">
-                    {account.balance}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[11px] text-white/80">
-                    Bunga Per Tahun (%)
-                  </div>
-                  <div className="mt-1 text-[13px] font-bold">2,00 %</div>
-                </div>
+                ))}
+
                 <div>
                   <div className="text-[11px] text-white/80">
                     Tabungan Berjangka
@@ -355,5 +332,5 @@ export default function SavingsAccountDetail({
 }
 
 function PlusIcon() {
-  return <span className="mr-1 text-base leading-none">⊞</span>;
+  return <span className="mr-1 text-lg font-semibold leading-none">+</span>;
 }
