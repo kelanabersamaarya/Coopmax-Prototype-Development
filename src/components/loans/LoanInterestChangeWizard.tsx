@@ -471,7 +471,7 @@ export default function LoanInterestChangeWizard({
                       <Input
                         value={newRate}
                         onChange={(event) => setNewRate(event.target.value)}
-                        placeholder="Masukkan suku bunga baru"
+                        placeholder="%"
                         inputMode="decimal"
                         className={fieldClassName}
                       />
