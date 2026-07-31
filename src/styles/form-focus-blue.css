@@ -1,4 +1,4 @@
-/* Field tetap memakai warna border normal saat diklik atau difokuskan. */
+/* Field mempertahankan warna border aslinya ketika diklik atau difokuskan. */
 :where(input, textarea, select):focus,
 :where(input, textarea, select):focus-visible,
 :where(
@@ -22,7 +22,7 @@
     [data-slot="popover-trigger"],
     [data-slot="dropdown-menu-trigger"]
   )[data-state="open"] {
-  border-color: #cbd5e1 !important;
+  border-color: revert !important;
   box-shadow: none !important;
   outline: none !important;
   --tw-ring-color: transparent !important;
@@ -38,7 +38,7 @@
   :where([data-slot="select-trigger"], [role="combobox"]):focus-visible,
 .no-purple-select
   :where([data-slot="select-trigger"], [role="combobox"])[data-state="open"] {
-  border-color: #cbd5e1 !important;
+  border-color: revert !important;
   box-shadow: none !important;
   outline: none !important;
   --tw-ring-color: transparent !important;
