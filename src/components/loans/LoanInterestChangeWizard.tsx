@@ -134,7 +134,7 @@ export default function LoanInterestChangeWizard({
   }
 
   const footerButtonClass =
-    "inline-flex h-10 min-w-[130px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold transition";
+    "inline-flex h-10 items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold transition";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -271,7 +271,7 @@ export default function LoanInterestChangeWizard({
               }
               className={cn(
                 footerButtonClass,
-                "bg-[#77839A] text-white hover:bg-[#6b768c]",
+                "min-w-[105px] bg-[#77839A] text-white hover:bg-[#6b768c]",
               )}
             >
               <X className="h-4 w-4" strokeWidth={3} />
@@ -283,7 +283,7 @@ export default function LoanInterestChangeWizard({
               onClick={step === 3 ? save : next}
               className={cn(
                 footerButtonClass,
-                "bg-[#5B3DF5] text-white hover:bg-[#4C32D9]",
+                "min-w-[130px] bg-[#5B3DF5] text-white hover:bg-[#4C32D9]",
               )}
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
