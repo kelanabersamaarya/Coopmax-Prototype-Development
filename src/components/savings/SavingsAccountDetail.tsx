@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ArrowLeft,
   CalendarDays,
   FileText,
   List,
@@ -102,7 +101,7 @@ export default function SavingsAccountDetail({
           <span className="text-sm font-semibold text-slate-500">Detail</span>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="mt-8 flex flex-wrap items-center justify-end gap-2">
           <ActionButton
             icon={CalendarDays}
             label="Riwayat Transaksi Autodebet"
