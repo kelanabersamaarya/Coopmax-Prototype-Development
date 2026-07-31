@@ -5,6 +5,28 @@ import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import FieldTooltip from "@/components/loans/FieldTooltip";
+
+const terms = [
+  {
+    id: "interest",
+    label: "Penyesuaian Suku Bunga Pinjaman",
+    tooltip:
+      "Aktifkan agar suku bunga pinjaman dapat disesuaikan setelah rekening pinjaman dibuat.",
+  },
+  {
+    id: "arrears",
+    label: "Penyesuaian Tunggakan Bunga",
+    tooltip:
+      "Aktifkan agar nilai tunggakan bunga pinjaman dapat disesuaikan sesuai kebutuhan transaksi.",
+  },
+  {
+    id: "tenor",
+    label: "Penyesuaian Jangka Waktu Pinjaman",
+    tooltip:
+      "Aktifkan agar jangka waktu atau tenor pinjaman dapat disesuaikan setelah rekening pinjaman dibuat.",
+  },
+] as const;
 
 function isLoanProductFormPath(pathname: string) {
   return (
@@ -16,8 +38,7 @@ function isLoanProductFormPath(pathname: string) {
 function findFormCard() {
   const headings = Array.from(document.querySelectorAll<HTMLElement>("div"));
   const graceHeading = headings.find(
-    (element) =>
-      element.textContent?.trim() === "Konfigurasi Grace Period",
+    (element) => element.textContent?.trim() === "Konfigurasi Grace Period",
   );
 
   if (!graceHeading) return null;
@@ -35,10 +56,11 @@ function findActionButtons(card: HTMLElement) {
 export default function LoanProductTermsSection() {
   const location = useLocation();
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
-  const [interestAdjustment, setInterestAdjustment] = React.useState(false);
-  const [interestArrearsAdjustment, setInterestArrearsAdjustment] =
-    React.useState(false);
-  const [tenorAdjustment, setTenorAdjustment] = React.useState(false);
+  const [enabledTerms, setEnabledTerms] = React.useState<Record<string, boolean>>({
+    interest: false,
+    arrears: false,
+    tenor: false,
+  });
 
   React.useEffect(() => {
     if (!isLoanProductFormPath(location.pathname)) {
@@ -90,38 +112,28 @@ export default function LoanProductTermsSection() {
       </div>
 
       <div className="mt-4 grid gap-5">
-        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="text-sm font-normal text-slate-900">
-            Penyesuaian Suku Bunga Pinjaman
-          </div>
-          <Switch
-            checked={interestAdjustment}
-            onCheckedChange={setInterestAdjustment}
-            aria-label="Penyesuaian Suku Bunga Pinjaman"
-          />
-        </div>
+        {terms.map((term) => (
+          <div
+            key={term.id}
+            className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center"
+          >
+            <div className="inline-flex items-center text-sm font-normal text-slate-900">
+              {term.label}
+              <FieldTooltip content={term.tooltip} />
+            </div>
 
-        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="text-sm font-normal text-slate-900">
-            Penyesuaian Tunggakan Bunga
+            <Switch
+              checked={enabledTerms[term.id]}
+              onCheckedChange={(checked) =>
+                setEnabledTerms((current) => ({
+                  ...current,
+                  [term.id]: checked,
+                }))
+              }
+              aria-label={term.label}
+            />
           </div>
-          <Switch
-            checked={interestArrearsAdjustment}
-            onCheckedChange={setInterestArrearsAdjustment}
-            aria-label="Penyesuaian Tunggakan Bunga"
-          />
-        </div>
-
-        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="text-sm font-normal text-slate-900">
-            Penyesuaian Jangka Waktu Pinjaman
-          </div>
-          <Switch
-            checked={tenorAdjustment}
-            onCheckedChange={setTenorAdjustment}
-            aria-label="Penyesuaian Jangka Waktu Pinjaman"
-          />
-        </div>
+        ))}
       </div>
     </section>,
     target,
