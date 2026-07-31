@@ -140,22 +140,22 @@ export default function SavingsAccountDetail({
             Informasi Rekening
           </div>
 
-          <div className="mt-4 grid gap-5 lg:grid-cols-[150px_minmax(0,1fr)]">
-            <div className="flex w-full flex-col items-center gap-3">
+          <div className="mt-4 grid gap-5 lg:grid-cols-[210px_minmax(0,1fr)]">
+            <div className="flex w-full flex-col items-center gap-4">
               <QrPreview />
-              <div className="grid w-full grid-cols-2 gap-2">
+              <div className="grid w-full grid-cols-2 gap-3">
                 <Button
                   onClick={() => toast("Preview QR (prototype)")}
-                  className="h-9 rounded-[6px] bg-blue-600 px-3 text-[12px] font-semibold text-white hover:bg-blue-700"
+                  className="h-11 rounded-[7px] bg-blue-600 px-4 text-[13px] font-semibold text-white hover:bg-blue-700"
                 >
-                  <List className="mr-1.5 h-4 w-4" />
+                  <List className="mr-2 h-4 w-4 shrink-0" />
                   Preview
                 </Button>
                 <Button
                   onClick={() => toast("Cetak QR (prototype)")}
-                  className="h-9 rounded-[6px] bg-blue-600 px-3 text-[12px] font-semibold text-white hover:bg-blue-700"
+                  className="h-11 rounded-[7px] bg-blue-600 px-4 text-[13px] font-semibold text-white hover:bg-blue-700"
                 >
-                  <Printer className="mr-1.5 h-4 w-4" />
+                  <Printer className="mr-2 h-4 w-4 shrink-0" />
                   Cetak
                 </Button>
               </div>
