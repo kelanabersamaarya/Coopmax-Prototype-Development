@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 const accountDetails = [
-  ["Nomor Rekening Pinjaman", "SMG260004"],
-  ["Nama Anggota / Debitur", "Bapak Bagus"],
+  ["No.Rek. Pinjaman", "SMG260004"],
+  ["Nama Anggota", "Bapak Bagus"],
   ["Produk Pinjaman", "Pinjaman Bulanan"],
   ["Suku Bunga Saat Ini", "12,00% per tahun"],
   ["Baki Debet", "10.553.571,00"],
@@ -93,9 +93,11 @@ export default function LoanInterestChangeWizard({
               <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
                 Ubah Bunga Pinjaman
               </h2>
-              <p className="mt-1 text-[13px] text-slate-600">
-                Langkah {step} dari 3
-              </p>
+              {step > 1 ? (
+                <p className="mt-1 text-[13px] text-slate-600">
+                  Langkah {step} dari 3
+                </p>
+              ) : null}
             </div>
             <button
               type="button"
@@ -123,34 +125,21 @@ export default function LoanInterestChangeWizard({
 
           <main className="min-h-[360px] px-6 py-6">
             {step === 1 ? (
-              <>
-                <div className="text-[16px] font-extrabold text-slate-900">
-                  Informasi Pinjaman
+              <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
+                <div className="text-[12px] font-extrabold tracking-wide text-white/90">
+                  INFORMASI REKENING PINJAMAN
                 </div>
-                <p className="mt-1 text-[13px] text-slate-600">
-                  Pastikan data rekening berikut sudah sesuai sebelum melanjutkan.
-                </p>
 
-                <div className="mt-5 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-                  <div className="text-[12px] font-extrabold tracking-wide text-white/90">
-                    PINJAMAN BULANAN
-                  </div>
-
-                  <div className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-                    {accountDetails.map(([label, value]) => (
-                      <LoanInfoField
-                        key={label}
-                        label={label}
-                        value={
-                          label === "Nomor Rekening Pinjaman"
-                            ? accountNo
-                            : value
-                        }
-                      />
-                    ))}
-                  </div>
+                <div className="mt-5 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+                  {accountDetails.map(([label, value]) => (
+                    <LoanInfoField
+                      key={label}
+                      label={label}
+                      value={label === "No.Rek. Pinjaman" ? accountNo : value}
+                    />
+                  ))}
                 </div>
-              </>
+              </div>
             ) : null}
 
             {step === 2 ? (
