@@ -81,7 +81,7 @@ function TransactionDateValue({
           <TooltipTrigger asChild>
             <button
               type="button"
-              className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#2563EB]/20 transition hover:bg-[#1D4ED8]"
+              className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/30 transition hover:bg-white/30"
               aria-label="Informasi tanggal autodebet"
               title="Informasi"
             >
@@ -98,28 +98,49 @@ function TransactionDateValue({
   );
 }
 
-function InfoRow({
-  label,
-  value,
-  link = false,
+function ScheduleInfoCard({
+  transactionDate,
+  nextTransactionDate,
+  description,
+  isLoan,
 }: {
-  label: string;
-  value: ReactNode;
-  link?: boolean;
+  transactionDate: string;
+  nextTransactionDate: string;
+  description: string;
+  isLoan: boolean;
 }) {
   return (
-    <div className="grid grid-cols-[minmax(0,164px)_12px_minmax(0,1fr)] gap-2 py-1.5 text-[13px]">
-      <span className="text-slate-500">{label}</span>
-      <span className="text-center text-slate-400">:</span>
-      <span
-        className={cn(
-          "font-semibold",
-          link ? "inline-flex items-center gap-1 text-blue-600" : "text-slate-800",
-        )}
-      >
-        {value}
-        {link ? <ExternalLink className="h-3.5 w-3.5" /> : null}
-      </span>
+    <div className="mt-5 rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10">
+      <div className="text-[14px] font-extrabold tracking-tight">
+        JADWAL AUTODEBET
+      </div>
+
+      <div className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="min-w-0">
+          <div className="text-[11px] text-white/80">
+            Tanggal Dilakukan Transaksi
+          </div>
+          <div className="mt-1 text-[13px] font-bold">
+            <TransactionDateValue date={transactionDate} isLoan={isLoan} />
+          </div>
+        </div>
+
+        <div className="min-w-0">
+          <div className="text-[11px] text-white/80">
+            Transaksi Selanjutnya
+          </div>
+          <div className="mt-1 text-[13px] font-bold">
+            {nextTransactionDate}
+          </div>
+        </div>
+
+        <div className="min-w-0">
+          <div className="text-[11px] text-white/80">Keterangan</div>
+          <div className="mt-1 text-[13px] font-bold">
+            {description || "-"}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -288,20 +309,12 @@ export default function AutodebetScheduleDetail({
           <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-6">
             <SectionHeader>Informasi Jadwal Autodebet</SectionHeader>
 
-            <div className="mt-4">
-              <InfoRow
-                label="Tanggal dilakukan transaksi"
-                value={<TransactionDateValue date={transactionDate} isLoan={isLoan} />}
-              />
-              <InfoRow
-                label="Transaksi Selanjutnya"
-                value={NEXT_TRANSACTION_DATE}
-              />
-              <InfoRow
-                label="Keterangan"
-                value={schedule.description || "-"}
-              />
-            </div>
+            <ScheduleInfoCard
+              transactionDate={transactionDate}
+              nextTransactionDate={NEXT_TRANSACTION_DATE}
+              description={schedule.description}
+              isLoan={isLoan}
+            />
           </section>
 
           <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-6">
