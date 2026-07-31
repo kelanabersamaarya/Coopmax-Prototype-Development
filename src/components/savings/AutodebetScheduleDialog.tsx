@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Check, CheckSquare, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown, Search, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -244,6 +245,108 @@ function SuccessDialog({
   );
 }
 
+function AutodebetDaySelect({
+  value,
+  onChange,
+  className,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  className?: string;
+}) {
+  const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
+
+  const filteredDays = React.useMemo(() => {
+    const normalizedQuery = query.trim();
+
+    if (!normalizedQuery) return autodebetDays;
+
+    return autodebetDays.filter((day) => day.includes(normalizedQuery));
+  }, [query]);
+
+  React.useEffect(() => {
+    if (open) return;
+    setQuery("");
+  }, [open]);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((current) => !current)}
+        className={cn(
+          "flex h-[31px] w-full items-center justify-between rounded-[5px] border border-slate-500 bg-white px-3",
+          "text-left text-[14px] font-normal text-[#526685] shadow-none",
+          "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+          className,
+        )}
+        aria-expanded={open}
+        aria-label="Pilih Tanggal Autodebet"
+      >
+        <span className={value ? "text-[#526685]" : "text-slate-400"}>
+          {value || "Pilih Tanggal Autodebet"}
+        </span>
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 text-[#526685] transition",
+            open ? "rotate-180" : "",
+          )}
+        />
+      </button>
+
+      {open ? (
+        <div className="absolute left-0 right-0 top-[35px] z-50 overflow-hidden rounded-[2px] border border-slate-500 bg-white shadow-xl">
+          <div className="border-b border-slate-200 p-2">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input
+                autoFocus
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Cari tanggal..."
+                inputMode="numeric"
+                className="h-[30px] rounded-[3px] border-slate-300 bg-white pl-8 text-[13px] text-slate-700 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              />
+            </div>
+          </div>
+
+          <div className="max-h-[210px] overflow-y-auto p-1">
+            {filteredDays.length > 0 ? (
+              filteredDays.map((day) => {
+                const selected = value === day;
+
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    onClick={() => {
+                      onChange(day);
+                      setOpen(false);
+                    }}
+                    className={cn(
+                      "flex h-7 w-full items-center rounded-none px-2 text-left text-[14px] font-normal transition",
+                      selected
+                        ? "bg-[#5B3DF5] text-white"
+                        : "text-[#002060] hover:bg-[#5B3DF5] hover:text-white",
+                    )}
+                  >
+                    {day}
+                  </button>
+                );
+              })
+            ) : (
+              <div className="px-2 py-3 text-[13px] text-slate-500">
+                Tanggal tidak ditemukan.
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function AutodebetScheduleDialog({
   open,
   onOpenChange,
@@ -334,26 +437,6 @@ export default function AutodebetScheduleDialog({
   );
 
   const labelClassName = "text-[14px] font-normal text-[#002060]";
-
-  const autodebetDaySelectContentClassName = cn(
-    "max-h-[210px] overflow-y-auto rounded-[2px] border border-slate-500 bg-white p-1 shadow-xl",
-    "[&_[data-radix-select-viewport]]:p-0",
-    "[&_[data-radix-select-item-indicator]]:hidden",
-    "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&>span.absolute.right-2]:hidden",
-    "[&_[data-radix-collection-item]]:h-7",
-    "[&_[data-radix-collection-item]]:min-h-7",
-    "[&_[data-radix-collection-item]]:rounded-none",
-    "[&_[data-radix-collection-item]]:px-2",
-    "[&_[data-radix-collection-item]]:py-1",
-    "[&_[data-radix-collection-item]]:text-[14px]",
-    "[&_[data-radix-collection-item]]:font-normal",
-    "[&_[data-radix-collection-item]]:text-[#002060]",
-    "[&_[data-radix-collection-item][data-state=checked]]:bg-[#5B3DF5]",
-    "[&_[data-radix-collection-item][data-state=checked]]:text-white",
-    "[&_[data-radix-collection-item][data-highlighted]]:bg-[#5B3DF5]",
-    "[&_[data-radix-collection-item][data-highlighted]]:text-white",
-  );
 
   return (
     <>
@@ -512,28 +595,10 @@ export default function AutodebetScheduleDialog({
                     <Label className={labelClassName}>
                       Tanggal Autodebet
                     </Label>
-                    <Select value={autodebetDay} onValueChange={setAutodebetDay}>
-                      <SelectTrigger
-                        className={cn(
-                          inputClassName,
-                          "justify-between border-slate-500",
-                        )}
-                      >
-                        <SelectValue placeholder="Pilih Tanggal Autodebet" />
-                        <ChevronDown className="h-4 w-4 text-[#526685]" />
-                      </SelectTrigger>
-                      <SelectContent
-                        position="popper"
-                        sideOffset={2}
-                        className={autodebetDaySelectContentClassName}
-                      >
-                        {autodebetDays.map((day) => (
-                          <SelectItem key={day} value={day}>
-                            {day}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <AutodebetDaySelect
+                      value={autodebetDay}
+                      onChange={setAutodebetDay}
+                    />
                   </>
                 ) : null}
 
