@@ -25,3 +25,15 @@ button[title="Ubah jadwal"]:hover,
 button[title="Hapus jadwal"]:hover {
   background-color: transparent !important;
 }
+
+/* Tabel Jadwal Autodebet: semua teks berukuran 12px. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black tbody td,
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black tbody td * {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
