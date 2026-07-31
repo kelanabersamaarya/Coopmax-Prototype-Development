@@ -1,35 +1,41 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import MobileAwareToaster from "./components/MobileAwareToaster";
+import SavingsProductCancelRouteGate from "./components/savings/products/SavingsProductCancelRouteGate";
+import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
+import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
+import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import LoanProducts from "./pages/LoanProducts";
+import Dashboard from "./pages/Dashboard";
+import RekeningSimpanan from "./pages/RekeningSimpanan";
 import NewLoan from "./pages/NewLoan";
-import LoanProductCreate from "./pages/LoanProductCreate";
-import LoanProductEdit from "./pages/LoanProductEdit";
-import LoanProductDetail from "./pages/LoanProductDetail";
-import LoanProductsCabang from "./pages/LoanProductsCabang";
-import AnggotaTransaksi from "./pages/AnggotaTransaksi";
 import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
-import Dashboard from "./pages/Dashboard";
+import LoanProductCreate from "./pages/LoanProductCreate";
+import LoanProductDetail from "./pages/LoanProductDetail";
+import LoanProductEdit from "./pages/LoanProductEdit";
+import LoanProducts from "./pages/LoanProducts";
+import LoanProductsCabang from "./pages/LoanProductsCabang";
 import RekeningPinjaman from "./pages/RekeningPinjaman";
-import LaporanKolektibilitas from "./pages/LaporanKolektibilitas";
 import LoanAccountEdit from "./pages/LoanAccountEdit";
 import LoanTransactions from "./pages/LoanTransactions";
 import LoanInstallmentPayment from "./pages/LoanInstallmentPayment";
 import LoanInstallmentPaymentV2 from "./pages/LoanInstallmentPaymentV2";
 import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
 import TransaksiPinjamanDetail from "./pages/TransaksiPinjamanDetail";
-import ObsSamudraHarta from "./pages/ObsSamudraHarta";
-import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
-import ObsWeb from "./pages/ObsWeb";
+import AnggotaTransaksi from "./pages/AnggotaTransaksi";
+import LaporanKolektibilitas from "./pages/LaporanKolektibilitas";
 import LaporanPinjaman from "./pages/LaporanPinjaman";
 import LaporanDetailPinjaman from "./pages/LaporanDetailPinjaman";
 import LaporanPortofolioPinjamanCabang from "./pages/LaporanPortofolioPinjamanCabang";
 import LaporanProduktivitas from "./pages/LaporanProduktivitas";
 import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 import PengaturanUmum from "./pages/PengaturanUmum";
+import ObsSamudraHarta from "./pages/ObsSamudraHarta";
+import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
+import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
 import MobilePaymentLinkStatus from "./pages/MobilePaymentLinkStatus";
@@ -38,15 +44,9 @@ import PaymentLink from "./pages/PaymentLink";
 import PaymentLinkDetail from "./pages/PaymentLinkDetail";
 import PaymentLinkStatus from "./pages/PaymentLinkStatus";
 import PaymentLinkTransactionDetail from "./pages/PaymentLinkTransactionDetail";
-import MobileAwareToaster from "./components/MobileAwareToaster";
-import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
-import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
 import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
-import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
-import SavingsProductCancelRouteGate from "./components/savings/products/SavingsProductCancelRouteGate";
 import SakAkunting from "./pages/SakAkunting";
-import RekeningSimpanan from "./pages/RekeningSimpanan";
 
 const queryClient = new QueryClient();
 
@@ -55,11 +55,14 @@ const App = () => (
     <TooltipProvider>
       <BrowserRouter>
         <MobileAwareToaster />
+
         <Routes>
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
+
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="simpanan/rekening" element={<RekeningSimpanan />} />
+
             <Route path="payment-link" element={<PaymentLink />} />
             <Route
               path="payment-link/status-pembayaran"
@@ -76,13 +79,14 @@ const App = () => (
               element={<LoanProductCreate />}
             />
             <Route
-              path="payment-link/loan-products/:id/edit"
-              element={<LoanProductEdit />}
-            />
-            <Route
               path="payment-link/loan-products/:id"
               element={<LoanProductDetail />}
             />
+            <Route
+              path="payment-link/loan-products/:id/edit"
+              element={<LoanProductEdit />}
+            />
+
             <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
             <Route path="sak-ep-cabang/akunting" element={<SakAkunting />} />
             <Route
@@ -191,6 +195,7 @@ const App = () => (
                 </SavingsProductSaveConfirmGate>
               }
             />
+
             <Route path="sak-ep-cabang/loan-products" element={<LoanProducts />} />
             <Route
               path="sak-ep-cabang/loan-products/cabang"
@@ -208,7 +213,9 @@ const App = () => (
               path="sak-ep-cabang/loan-products/:id/edit"
               element={<LoanProductEdit />}
             />
+
             <Route path="pengaturan-umum" element={<PengaturanUmum />} />
+
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
             <Route path="mobile/m-banking" element={<MobileMBanking />} />
             <Route
@@ -216,6 +223,7 @@ const App = () => (
               element={<MobilePaymentLinkStatus />}
             />
             <Route path="mobile/new-mbanking" element={<NewMBanking />} />
+
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
             <Route
               path="obs-samudra-harta/loan-products"
@@ -246,13 +254,16 @@ const App = () => (
               element={<ObsSamudraHartaDetail />}
             />
             <Route path="obs-web" element={<ObsWeb />} />
+
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/cabang" element={<LoanProductsCabang />} />
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loan-products/:id" element={<LoanProductDetail />} />
             <Route path="loan-products/:id/edit" element={<LoanProductEdit />} />
+
             <Route path="loans/new" element={<NewLoan />} />
             <Route path="loans/applications" element={<LoanApplications />} />
+            <Route path="loans/applications/new" element={<LoanApplicationCreate />} />
             <Route path="loans/accounts" element={<RekeningPinjaman />} />
             <Route
               path="loans/accounts/:accountNo/edit"
@@ -272,14 +283,9 @@ const App = () => (
               path="loans/transactions/installment-payment-v2"
               element={<LoanInstallmentPaymentV2 />}
             />
-            <Route
-              path="loans/applications/new"
-              element={<LoanApplicationCreate />}
-            />
-            <Route path="anggota/Path="loans/applications/new"
-              element={<LoanApplicationCreate />}
-            />
+
             <Route path="anggota/transaksi" element={<AnggotaTransaksi />} />
+
             <Route
               path="laporan/kolektibilitas"
               element={<LaporanKolektibilitas />}
@@ -302,13 +308,16 @@ const App = () => (
               path="laporan/portofolio-pinjaman-cabang"
               element={<LaporanPortofolioPinjamanCabang />}
             />
-            <Route path="laporan/produktivitas" element={<LaporanProduktivitas />} />
+            <Route
+              path="laporan/produktivitas"
+              element={<LaporanProduktivitas />}
+            />
             <Route
               path="laporan/produktivitas-cabang"
               element={<LaporanProduktivitasCabang />}
             />
           </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
