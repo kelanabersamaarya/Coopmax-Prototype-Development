@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Eye, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -223,8 +223,23 @@ export default function LoanInterestChangeWizard({
           <main className="border-t border-slate-100 px-6 py-6">
             {step === 1 ? (
               <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-                <div className="text-[16px] font-extrabold tracking-wide text-white/90">
-                  INFORMASI REKENING PINJAMAN
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="text-[16px] font-extrabold tracking-wide text-white/90">
+                    INFORMASI REKENING PINJAMAN
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      toast("Riwayat Perubahan Suku Bunga (prototype)", {
+                        description: `Rekening: ${accountNo}`,
+                      })
+                    }
+                    className="inline-flex h-9 w-fit items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] shadow-sm transition hover:bg-slate-100"
+                  >
+                    <Eye className="h-4 w-4" />
+                    Riwayat Perubahan Suku Bunga
+                  </button>
                 </div>
 
                 <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
