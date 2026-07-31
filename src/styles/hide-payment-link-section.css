@@ -1,0 +1,8 @@
+/* Produk Pinjaman:
+   Section Pengingat Pembayaran Tagihan / Payment Link dinonaktifkan dari tampilan
+   pada halaman tambah dan ubah produk pinjaman.
+*/
+.loan-product-payment-link-section,
+.loan-product-payment-link-portal-target {
+  display: none !important;
+}

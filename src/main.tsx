@@ -38,6 +38,7 @@ import "./styles/new-mbanking-portfolio-tabs-spacing.css";
 import "./styles/new-mbanking-hide-bill-review-clear.css";
 import "./styles/new-mbanking-register-password-clear.css";
 import "./styles/payment-link-loan-product-form.css";
+import "./styles/hide-payment-link-section.css";
 import "./styles/sidebar-readable.css";
 import "./styles/autodebet-action-icons.css";
 import "./styles/autodebet-date-search.css";
