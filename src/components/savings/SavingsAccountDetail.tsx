@@ -37,7 +37,7 @@ function ActionButton({
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-[13px] font-semibold text-slate-700 transition hover:bg-slate-100"
+      className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[13px] font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50"
     >
       <Icon className="h-4 w-4 text-slate-600" />
       <span className="whitespace-nowrap">{label}</span>
@@ -65,7 +65,10 @@ function QrPreview() {
   const cells = Array.from({ length: 81 }, (_, index) => {
     const row = Math.floor(index / 9);
     const col = index % 9;
-    const corner = (row < 3 && col < 3) || (row < 3 && col > 5) || (row > 5 && col < 3);
+    const corner =
+      (row < 3 && col < 3) ||
+      (row < 3 && col > 5) ||
+      (row > 5 && col < 3);
 
     return corner || (row * 5 + col * 3) % 4 === 0;
   });
@@ -92,42 +95,44 @@ export default function SavingsAccountDetail({
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-baseline gap-2">
-            <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-              Rekening Tabungan
-            </h1>
-            <span className="text-sm font-semibold text-slate-500">Detail</span>
-          </div>
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+            Rekening Tabungan
+          </h1>
+          <span className="text-sm font-semibold text-slate-500">Detail</span>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-1 md:justify-end">
-            <ActionButton
-              icon={CalendarDays}
-              label="Riwayat Transaksi Autodebet"
-              onClick={() => toast("Riwayat Autodebet (prototype)")}
-            />
-            <ActionButton
-              icon={ReceiptText}
-              label="Riwayat Transaksi"
-              onClick={() => toast("Riwayat Transaksi (prototype)")}
-            />
-            <ActionButton
-              icon={XSquare}
-              label="Tutup Rekening"
-              onClick={() => toast("Tutup Rekening (prototype)")}
-            />
-            <ActionButton
-              icon={FileText}
-              label="Dokumen"
-              onClick={() => toast("Dokumen (prototype)")}
-            />
-            <ActionButton icon={List} label="Kembali ke Daftar" onClick={onBack} />
-            <ActionButton
-              icon={SquarePen}
-              label="Ubah"
-              onClick={() => toast("Ubah Rekening (prototype)")}
-            />
-          </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <ActionButton
+            icon={CalendarDays}
+            label="Riwayat Transaksi Autodebet"
+            onClick={() => toast("Riwayat Autodebet (prototype)")}
+          />
+          <ActionButton
+            icon={ReceiptText}
+            label="Riwayat Transaksi"
+            onClick={() => toast("Riwayat Transaksi (prototype)")}
+          />
+          <ActionButton
+            icon={XSquare}
+            label="Tutup Rekening"
+            onClick={() => toast("Tutup Rekening (prototype)")}
+          />
+          <ActionButton
+            icon={FileText}
+            label="Dokumen"
+            onClick={() => toast("Dokumen (prototype)")}
+          />
+          <ActionButton
+            icon={List}
+            label="Kembali ke Daftar"
+            onClick={onBack}
+          />
+          <ActionButton
+            icon={SquarePen}
+            label="Ubah"
+            onClick={() => toast("Ubah Rekening (prototype)")}
+          />
         </div>
 
         <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
@@ -162,26 +167,40 @@ export default function SavingsAccountDetail({
               <div className="mt-4 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
                   <div className="text-[11px] text-white/80">Kode Tabungan</div>
-                  <div className="mt-1 text-[13px] font-bold">{account.accountNo}</div>
+                  <div className="mt-1 text-[13px] font-bold">
+                    {account.accountNo}
+                  </div>
                 </div>
                 <div>
                   <div className="text-[11px] text-white/80">Kolektor</div>
-                  <div className="mt-1 text-[13px] font-bold">Dinda Sudiati</div>
+                  <div className="mt-1 text-[13px] font-bold">
+                    Dinda Sudiati
+                  </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-white/80">Tanggal Dibuat</div>
-                  <div className="mt-1 text-[13px] font-bold">{account.registeredAt}</div>
+                  <div className="text-[11px] text-white/80">
+                    Tanggal Dibuat
+                  </div>
+                  <div className="mt-1 text-[13px] font-bold">
+                    {account.registeredAt}
+                  </div>
                 </div>
                 <div>
                   <div className="text-[11px] text-white/80">Saldo</div>
-                  <div className="mt-1 text-[13px] font-bold">{account.balance}</div>
+                  <div className="mt-1 text-[13px] font-bold">
+                    {account.balance}
+                  </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-white/80">Bunga Per Tahun (%)</div>
+                  <div className="text-[11px] text-white/80">
+                    Bunga Per Tahun (%)
+                  </div>
                   <div className="mt-1 text-[13px] font-bold">2,00 %</div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-white/80">Tabungan Berjangka</div>
+                  <div className="text-[11px] text-white/80">
+                    Tabungan Berjangka
+                  </div>
                   <div className="mt-1 text-[13px] font-bold">Tidak</div>
                 </div>
                 <div>
@@ -189,7 +208,9 @@ export default function SavingsAccountDetail({
                   <span
                     className={cn(
                       "mt-1 inline-flex rounded-[4px] px-2 py-1 text-[11px] font-bold",
-                      active ? "bg-lime-500 text-white" : "bg-rose-500 text-white",
+                      active
+                        ? "bg-lime-500 text-white"
+                        : "bg-rose-500 text-white",
                     )}
                   >
                     {account.status}
@@ -213,7 +234,9 @@ export default function SavingsAccountDetail({
             <div>
               <InfoRow
                 label="ID"
-                value={<span className="text-blue-600">{account.customerId} ↗</span>}
+                value={
+                  <span className="text-blue-600">{account.customerId} ↗</span>
+                }
               />
               <InfoRow label="NIP" value="-" />
               <InfoRow label="Nama" value={account.customerName} />
@@ -221,7 +244,10 @@ export default function SavingsAccountDetail({
               <InfoRow label="Kategori Nasabah" value="Anggota" />
               <InfoRow label="Jenis Kelamin" value="Perempuan" />
               <InfoRow label="Alamat" value="Jl. Sri Rama No. 49" />
-              <InfoRow label="Hubungan dengan Koperasi" value="Calon Anggota" />
+              <InfoRow
+                label="Hubungan dengan Koperasi"
+                value="Calon Anggota"
+              />
               <InfoRow label="Tanggal Daftar" value={account.registeredAt} />
               <InfoRow label="Tag" value="-" />
               <InfoRow label="Unit" value="-" />
@@ -299,7 +325,10 @@ export default function SavingsAccountDetail({
                 <tbody>
                   {autodebitRows.length === 0 ? (
                     <tr>
-                      <td colSpan={9} className="px-4 py-8 text-center text-[12px] text-slate-500">
+                      <td
+                        colSpan={9}
+                        className="px-4 py-8 text-center text-[12px] text-slate-500"
+                      >
                         No data available in table
                       </td>
                     </tr>
