@@ -26,18 +26,14 @@
 }
 
 /* Header Form Perubahan Suku Bunga. */
-[data-radix-dialog-content]
-  main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-7
-  > div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200 {
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200 {
   overflow: hidden !important;
   padding: 0 1.25rem 1.25rem !important;
 }
 
-[data-radix-dialog-content]
-  main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-7
-  > div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
   > div:first-child {
   margin: 0 -1.25rem !important;
   padding: 0.875rem 1.25rem !important;
@@ -49,10 +45,8 @@
   text-transform: uppercase !important;
 }
 
-[data-radix-dialog-content]
-  main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-7
-  > div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
   > div.mt-5 {
   margin-top: 1.25rem !important;
 }
