@@ -139,16 +139,20 @@ function FieldInfoTooltip() {
 function ModalShell({
   open,
   children,
+  size = "compact",
 }: {
   open: boolean;
   children: React.ReactNode;
+  size?: "compact" | "wide";
 }) {
   return (
     <Dialog open={open}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[760px]",
-          "max-w-[760px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
+          "w-[calc(100vw-1rem)] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
+          size === "wide"
+            ? "sm:w-[760px] sm:max-w-[760px]"
+            : "sm:w-[528px] sm:max-w-[528px]",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
