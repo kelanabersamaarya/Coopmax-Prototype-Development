@@ -1,8 +1,10 @@
 import { useState } from "react";
 import {
   CircleX,
+  Eye,
   History,
   List,
+  Pencil,
   Plus,
   Printer,
   ReceiptText,
@@ -96,6 +98,42 @@ function QrPreview() {
   );
 }
 
+function ScheduleActionButton({
+  label,
+  tone,
+  onClick,
+  children,
+}: {
+  label: string;
+  tone: "slate" | "blue" | "red";
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  const toneClassName =
+    tone === "red"
+      ? "text-[#B71C2B] hover:text-[#991524]"
+      : tone === "blue"
+        ? "text-[#3D65FF] hover:text-[#244BEB]"
+        : "text-[#7D8CA7] hover:text-[#60708E]";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex h-9 w-9 items-center justify-center rounded-[5px]",
+        "transition hover:bg-slate-100",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+        toneClassName,
+      )}
+      aria-label={label}
+      title={label}
+    >
+      {children}
+    </button>
+  );
+}
+
 export default function SavingsAccountDetail({
   account,
   onBack,
@@ -110,8 +148,15 @@ export default function SavingsAccountDetail({
   function addSchedule(schedule: AutodebetSchedule) {
     setAutodebitRows((current) => [...current, schedule]);
     toast.success("Jadwal autodebet ditambahkan", {
-      description: `${schedule.product} • ${schedule.date}`,
+      description: `${schedule.product} • setiap tanggal 31`,
     });
+  }
+
+  function deleteSchedule(index: number) {
+    setAutodebitRows((current) =>
+      current.filter((_schedule, scheduleIndex) => scheduleIndex !== index),
+    );
+    toast.success("Jadwal autodebet dihapus");
   }
 
   return (
@@ -306,11 +351,11 @@ export default function SavingsAccountDetail({
             </Button>
           </div>
 
-          <div className="mt-4 overflow-hidden rounded-[5px] ring-1 ring-slate-200">
+          <div className="mt-4 bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[850px] border-collapse">
+              <table className="w-full min-w-[850px] border-collapse text-black">
                 <thead className="bg-white">
-                  <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-700">
+                  <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-black">
                     {[
                       "No.",
                       "Produk Tujuan",
@@ -322,18 +367,19 @@ export default function SavingsAccountDetail({
                       "Status",
                       "Aksi",
                     ].map((label) => (
-                      <th key={label} className="px-3 py-3">
+                      <th key={label} className="px-3 py-3 text-black">
                         {label}
                       </th>
                     ))}
                   </tr>
                 </thead>
+
                 <tbody>
                   {autodebitRows.length === 0 ? (
                     <tr>
                       <td
                         colSpan={9}
-                        className="px-4 py-8 text-center text-[12px] text-slate-500"
+                        className="px-4 py-8 text-center text-[12px] text-black"
                       >
                         No data available in table
                       </td>
@@ -345,26 +391,64 @@ export default function SavingsAccountDetail({
                       return (
                         <tr
                           key={`${row.accountNo}-${row.date}-${index}`}
-                          className="border-b border-slate-200 text-[12px] text-slate-700"
+                          className="border-b border-slate-200 text-[12px] text-black last:border-b-0"
                         >
-                          <td className="px-3 py-3">{index + 1}</td>
-                          <td className="px-3 py-3 font-semibold">{row.product}</td>
-                          <td className="px-3 py-3">{accountNo}</td>
-                          <td className="px-3 py-3">{owner}</td>
-                          <td className="px-3 py-3">{row.date}</td>
-                          <td className="px-3 py-3">{row.date}</td>
-                          <td className="px-3 py-3">{row.description || "-"}</td>
+                          <td className="px-3 py-3 text-black">{index + 1}</td>
+                          <td className="px-3 py-3 font-semibold text-black">
+                            {row.product}
+                          </td>
+                          <td className="px-3 py-3 text-black">{accountNo}</td>
+                          <td className="px-3 py-3 text-black">{owner}</td>
+                          <td className="px-3 py-3 text-black">31</td>
+                          <td className="px-3 py-3 text-black">31-08-2026</td>
+                          <td className="px-3 py-3 text-black">
+                            {row.description || "-"}
+                          </td>
                           <td className="px-3 py-3">
                             <span
                               className={cn(
                                 "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white",
-                                row.status ? "bg-[#3BB001]" : "bg-slate-400",
+                                row.status ? "bg-[#3BB001]" : "bg-[#DC3545]",
                               )}
                             >
                               {row.status ? "Aktif" : "Nonaktif"}
                             </span>
                           </td>
-                          <td className="px-3 py-3">-</td>
+                          <td className="px-3 py-3">
+                            <div className="flex items-center gap-1">
+                              <ScheduleActionButton
+                                label="Lihat jadwal"
+                                tone="slate"
+                                onClick={() =>
+                                  toast("Detail Jadwal Autodebet", {
+                                    description: `${row.product} • ${accountNo}`,
+                                  })
+                                }
+                              >
+                                <Eye className="h-6 w-6" strokeWidth={2.3} />
+                              </ScheduleActionButton>
+
+                              <ScheduleActionButton
+                                label="Ubah jadwal"
+                                tone="blue"
+                                onClick={() =>
+                                  toast("Ubah Jadwal Autodebet (prototype)", {
+                                    description: `${row.product} • ${accountNo}`,
+                                  })
+                                }
+                              >
+                                <Pencil className="h-6 w-6" strokeWidth={2.5} />
+                              </ScheduleActionButton>
+
+                              <ScheduleActionButton
+                                label="Hapus jadwal"
+                                tone="red"
+                                onClick={() => deleteSchedule(index)}
+                              >
+                                <CircleX className="h-7 w-7" strokeWidth={2.2} />
+                              </ScheduleActionButton>
+                            </div>
+                          </td>
                         </tr>
                       );
                     })
