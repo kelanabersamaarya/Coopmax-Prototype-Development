@@ -11,7 +11,7 @@ type SubItem = {
 };
 
 const items: SubItem[] = [
-  { label: "Rekening Simpanan", to: "/simpanan/rekening" },
+  { label: "Daftar Rekening", to: "/simpanan/rekening" },
 ];
 
 export default function SidebarSimpananMenu() {
