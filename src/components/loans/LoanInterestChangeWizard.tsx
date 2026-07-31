@@ -169,7 +169,7 @@ export default function LoanInterestChangeWizard({
                   INFORMASI REKENING PINJAMAN
                 </div>
 
-                <div className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
                   {accountDetails.map(([label, value]) => (
                     <LoanInfoField
                       key={label}
