@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -28,6 +27,43 @@ const accountOptions: Record<string, string[]> = {
   "Simpanan Mapan": ["112233222 - Gaby"],
   "Simpanan Wajib": ["SWJ-2600006 - Laura Patel"],
 };
+
+function AutodebetToggle({
+  checked,
+  onChange,
+}: {
+  checked: boolean;
+  onChange: (value: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className={cn(
+        "relative inline-flex h-[22px] w-[49px] items-center rounded-full p-[3px]",
+        "transition-colors focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        checked ? "bg-[#635BFF]" : "bg-[#A89BFF]",
+      )}
+      aria-pressed={checked}
+    >
+      <span
+        className={cn(
+          "absolute text-[9px] font-bold leading-none text-white",
+          checked ? "left-[7px]" : "right-[7px]",
+        )}
+      >
+        {checked ? "ON" : "OFF"}
+      </span>
+
+      <span
+        className={cn(
+          "relative z-10 h-[16px] w-[16px] rounded-full bg-white shadow-sm transition-transform",
+          checked ? "translate-x-[27px]" : "translate-x-0",
+        )}
+      />
+    </button>
+  );
+}
 
 export default function AutodebetScheduleDialog({
   open,
@@ -125,7 +161,10 @@ export default function AutodebetScheduleDialog({
                 Anggota/Nasabah lain
               </Label>
               <div className="flex h-[31px] items-center">
-                <Switch checked={interMember} onCheckedChange={setInterMember} />
+                <AutodebetToggle
+                  checked={interMember}
+                  onChange={setInterMember}
+                />
               </div>
 
               <Label className={labelClassName}>Produk Tujuan</Label>
@@ -191,7 +230,7 @@ export default function AutodebetScheduleDialog({
                 Status Autodebet
               </Label>
               <div className="flex h-[31px] items-center">
-                <Switch checked={status} onCheckedChange={setStatus} />
+                <AutodebetToggle checked={status} onChange={setStatus} />
               </div>
             </div>
           </div>
