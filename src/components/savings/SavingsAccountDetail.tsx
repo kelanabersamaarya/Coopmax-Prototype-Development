@@ -62,9 +62,9 @@ function InfoRow({
 
 function VerificationStatus() {
   return (
-    <span className="inline-flex min-h-16 items-center gap-3 rounded-[5px] bg-rose-100 px-4 py-3 text-[17px] font-medium text-red-600">
-      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
-        <CircleX className="h-6 w-6" strokeWidth={2.2} />
+    <span className="inline-flex min-h-12 items-center gap-2.5 rounded-[5px] bg-rose-100 px-3 py-2 text-[14px] font-medium text-red-600">
+      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
+        <CircleX className="h-5 w-5" strokeWidth={2.2} />
       </span>
       BELUM TERVERIFIKASI
     </span>
