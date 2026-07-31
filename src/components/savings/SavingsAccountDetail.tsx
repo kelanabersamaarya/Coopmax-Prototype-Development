@@ -51,7 +51,7 @@ function InfoRow({
   value: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-[132px_12px_minmax(0,1fr)] gap-2 py-1.5 text-[12px]">
+    <div className="grid grid-cols-[132px_12px_minmax(0,1fr)] gap-2 py-1.5 text-[14px]">
       <span className="text-slate-500">{label}</span>
       <span className="text-center text-slate-400">:</span>
       <span className="font-semibold text-slate-800">{value}</span>
