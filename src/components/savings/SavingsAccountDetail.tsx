@@ -74,7 +74,7 @@ function QrPreview() {
   });
 
   return (
-    <div className="grid h-24 w-24 grid-cols-9 gap-0.5 bg-white p-1 ring-1 ring-slate-300">
+    <div className="grid h-20 w-20 grid-cols-9 gap-0.5 bg-white p-1 ring-1 ring-slate-300">
       {cells.map((active, index) => (
         <span key={index} className={active ? "bg-black" : "bg-white"} />
       ))}
@@ -141,19 +141,19 @@ export default function SavingsAccountDetail({
           </div>
 
           <div className="mt-4 grid gap-5 lg:grid-cols-[210px_minmax(0,1fr)]">
-            <div className="flex w-full flex-col items-center gap-4">
+            <div className="flex w-full flex-col items-center gap-3">
               <QrPreview />
               <div className="grid w-full grid-cols-2 gap-3">
                 <Button
                   onClick={() => toast("Preview QR (prototype)")}
-                  className="h-11 rounded-[7px] bg-blue-600 px-4 text-[13px] font-semibold text-white hover:bg-blue-700"
+                  className="h-10 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
                 >
                   <List className="mr-2 h-4 w-4 shrink-0" />
                   Preview
                 </Button>
                 <Button
                   onClick={() => toast("Cetak QR (prototype)")}
-                  className="h-11 rounded-[7px] bg-blue-600 px-4 text-[13px] font-semibold text-white hover:bg-blue-700"
+                  className="h-10 rounded-[7px] bg-blue-600 px-4 text-[12px] font-semibold text-white hover:bg-blue-700"
                 >
                   <Printer className="mr-2 h-4 w-4 shrink-0" />
                   Cetak
