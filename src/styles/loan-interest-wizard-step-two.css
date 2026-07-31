@@ -5,7 +5,7 @@
   padding-right: 1.5rem !important;
 }
 
-/* Konten step kedua memakai keseluruhan lebar modal, bukan lebar kolom tengah. */
+/* Konten simulasi memakai keseluruhan lebar modal. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
   > div.mx-auto.max-w-\[780px\] {
@@ -15,7 +15,7 @@
   margin-right: 0 !important;
 }
 
-/* Label dipadatkan agar field input mendapatkan ruang yang lebih luas. */
+/* Label form dipadatkan agar field memiliki ruang yang lebih luas. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
   > div.mx-auto.max-w-\[780px\]
@@ -25,33 +25,36 @@
   column-gap: 1rem !important;
 }
 
-/* Pastikan label tidak lagi membawa offset posisi lama. */
-[data-radix-dialog-content]:has(input[placeholder="%"])
-  main.max-h-\[60vh\].overflow-auto
-  > div.mx-auto.max-w-\[780px\]
-  > div.grid.gap-5
-  > div.grid
-  > div:first-child {
-  position: static !important;
-  left: auto !important;
-  width: auto !important;
-  max-width: none !important;
-}
-
 /* Header Form Perubahan Suku Bunga. */
 [data-radix-dialog-content]
-  .rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200:has(
-    input[placeholder="%"]
-  )
+  main.max-h-\[60vh\].overflow-auto
+  > div.grid.gap-7
+  > div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200 {
+  overflow: hidden !important;
+  padding: 0 1.25rem 1.25rem !important;
+}
+
+[data-radix-dialog-content]
+  main.max-h-\[60vh\].overflow-auto
+  > div.grid.gap-7
+  > div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
   > div:first-child {
-  margin: -1.25rem -1.25rem 0 !important;
+  margin: 0 -1.25rem !important;
   padding: 0.875rem 1.25rem !important;
   background-color: #f9faff !important;
   color: #0f172a !important;
   font-size: 1rem !important;
   font-weight: 800 !important;
-  text-transform: uppercase !important;
   letter-spacing: 0.025em !important;
+  text-transform: uppercase !important;
+}
+
+[data-radix-dialog-content]
+  main.max-h-\[60vh\].overflow-auto
+  > div.grid.gap-7
+  > div.rounded-\[12px\].bg-white.p-5.ring-1.ring-slate-200
+  > div.mt-5 {
+  margin-top: 1.25rem !important;
 }
 
 @media (min-width: 768px) {
