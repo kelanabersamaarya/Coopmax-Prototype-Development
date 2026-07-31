@@ -12,3 +12,9 @@ div:has(> button[title="Lihat jadwal"]):has(> button[title="Ubah jadwal"]):has(>
 div:has(> button[title="Lihat jadwal"]):has(> button[title="Ubah jadwal"]):has(> button[title="Hapus jadwal"]) > button {
   width: 1.75rem !important;
 }
+
+/* Tombol Tambah Jadwal Autodebet: teks dan ikon ungu tanpa background saat hover. */
+button.group:has(> span > svg.lucide-plus):hover {
+  background-color: transparent !important;
+  color: #7c3aed !important;
+}
