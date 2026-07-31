@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronLeft, ChevronRight, Percent, X } from "lucide-react";
+import { Check, ChevronRight, Percent, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -132,6 +132,9 @@ export default function LoanInterestChangeWizard({
     });
     onOpenChange(false);
   }
+
+  const footerButtonClass =
+    "inline-flex h-10 min-w-[130px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold transition";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -266,7 +269,10 @@ export default function LoanInterestChangeWizard({
               onClick={() =>
                 step === 1 ? onOpenChange(false) : setStep(step - 1)
               }
-              className="inline-flex h-[28px] w-[90px] items-center justify-center gap-1.5 rounded-[6px] bg-[#77839A] px-2 text-[11px] font-bold tracking-tight text-white transition hover:bg-[#6b768c]"
+              className={cn(
+                footerButtonClass,
+                "bg-[#77839A] text-white hover:bg-[#6b768c]",
+              )}
             >
               <X className="h-4 w-4" strokeWidth={3} />
               {step === 1 ? "Batal" : "Kembali"}
@@ -275,7 +281,10 @@ export default function LoanInterestChangeWizard({
             <button
               type="button"
               onClick={step === 3 ? save : next}
-              className="inline-flex h-10 items-center gap-2 rounded-[5px] bg-[#5B3DF5] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4C32D9]"
+              className={cn(
+                footerButtonClass,
+                "bg-[#5B3DF5] text-white hover:bg-[#4C32D9]",
+              )}
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
               {step === 3 ? (
