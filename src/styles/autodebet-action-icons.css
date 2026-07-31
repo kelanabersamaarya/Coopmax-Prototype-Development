@@ -37,3 +37,17 @@ button[title="Hapus jadwal"]:hover {
   font-size: 12px !important;
   font-weight: 400 !important;
 }
+
+/* Perkecil kolom tanggal transaksi selanjutnya agar keterangan memiliki ruang lebih lebar. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:nth-child(6),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(6) {
+  width: 120px !important;
+  max-width: 120px !important;
+  white-space: nowrap !important;
+}
+
+/* Kolom keterangan dipertahankan dalam satu baris. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:nth-child(7),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(7) {
+  white-space: nowrap !important;
+}
