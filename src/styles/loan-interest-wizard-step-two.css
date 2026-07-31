@@ -8,29 +8,14 @@
   margin-right: 0 !important;
 }
 
-/* Field suku bunga: % tampil sebagai placeholder dan suffix saat memiliki nilai. */
-[data-radix-dialog-content] div:has(> input[placeholder="%"]) {
-  position: relative;
-}
-
-[data-radix-dialog-content]
-  div:has(> input[placeholder="%"]:not(:placeholder-shown))::after {
-  content: "%";
-  pointer-events: none;
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  z-index: 2;
-  transform: translateY(-50%);
-  color: #526685;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-}
-
+/* Field suku bunga: % tampil sebagai placeholder lalu sebagai suffix setelah nilai diisi. */
 [data-radix-dialog-content]
   input[placeholder="%"]:not(:placeholder-shown) {
-  padding-right: 2.25rem !important;
+  padding-right: 2.5rem !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='20' viewBox='0 0 14 20'%3E%3Ctext x='0' y='15' fill='%23526685' font-family='Arial,sans-serif' font-size='14'%3E%25%3C/text%3E%3C/svg%3E") !important;
+  background-position: right 0.75rem center !important;
+  background-repeat: no-repeat !important;
+  background-size: 14px 20px !important;
 }
 
 @media (min-width: 640px) {
