@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronDown, Search, X } from "lucide-react";
+import { Check, ChevronDown, Info, Search, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 export type AutodebetSchedule = {
@@ -69,6 +74,8 @@ const autodebetDays = Array.from({ length: 31 }, (_, index) =>
   String(index + 1),
 );
 
+const loanAutodebetDays = "28, 29, 30, 31";
+
 function accountValue(account: AccountOption) {
   return `${account.accountNo} - ${account.customerName} - ${account.productType}`;
 }
@@ -105,6 +112,27 @@ function AutodebetToggle({
         )}
       />
     </button>
+  );
+}
+
+function FieldInfoTooltip() {
+  return (
+    <Tooltip delayDuration={150}>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#2563EB]/20 transition hover:bg-[#1D4ED8]"
+          aria-label="Informasi tanggal autodebet pinjaman"
+          title="Informasi"
+        >
+          <Info className="h-3.5 w-3.5" strokeWidth={2.8} />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent className="max-w-[260px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
+        Tanggal autodebet pinjaman hanya tersedia pada tanggal 28, 29, 30,
+        dan 31.
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -149,13 +177,11 @@ function ProcessConfirmDialog({
             !
           </div>
         </div>
-
         <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
           Yakin untuk menambahkan
           <br />
           Jadwal Autodebet ?
         </h3>
-
         <div className="mt-8 flex items-center justify-center gap-2">
           <button
             type="button"
@@ -192,17 +218,14 @@ function ValidationErrorDialog({
         <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f87373]">
           <X className="h-[58px] w-[58px] text-[#f87373]" strokeWidth={2} />
         </div>
-
         <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
           Kesalahan
         </h3>
-
         <div className="mt-3 text-[17px] font-normal leading-relaxed text-[#3b4863]">
           {missingFields.map((field) => (
             <div key={field}>{field} wajib diisi.</div>
           ))}
         </div>
-
         <button
           type="button"
           onClick={onClose}
@@ -228,11 +251,9 @@ function SuccessDialog({
         <div className="flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dcefd5] bg-white">
           <Check className="h-[56px] w-[56px] text-[#9edb84]" strokeWidth={2.4} />
         </div>
-
         <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#565656]">
           Berhasil menambahkan data
         </h3>
-
         <button
           type="button"
           onClick={onClose}
@@ -248,26 +269,22 @@ function SuccessDialog({
 function AutodebetDaySelect({
   value,
   onChange,
-  className,
 }: {
   value: string;
   onChange: (value: string) => void;
-  className?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
 
   const filteredDays = React.useMemo(() => {
     const normalizedQuery = query.trim();
-
-    if (!normalizedQuery) return autodebetDays;
-
-    return autodebetDays.filter((day) => day.includes(normalizedQuery));
+    return normalizedQuery
+      ? autodebetDays.filter((day) => day.includes(normalizedQuery))
+      : autodebetDays;
   }, [query]);
 
   React.useEffect(() => {
-    if (open) return;
-    setQuery("");
+    if (!open) setQuery("");
   }, [open]);
 
   return (
@@ -275,14 +292,8 @@ function AutodebetDaySelect({
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={cn(
-          "flex h-[31px] w-full items-center justify-between rounded-[5px] border border-slate-500 bg-white px-3",
-          "text-left text-[14px] font-normal text-[#526685] shadow-none",
-          "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-          className,
-        )}
+        className="flex h-[31px] w-full items-center justify-between rounded-[5px] border border-slate-500 bg-white px-3 text-left text-[14px] font-normal text-[#526685] shadow-none"
         aria-expanded={open}
-        aria-label="Pilih Tanggal Autodebet"
       >
         <span className={value ? "text-[#526685]" : "text-slate-400"}>
           {value || "Pilih Tanggal Autodebet"}
@@ -298,43 +309,36 @@ function AutodebetDaySelect({
       {open ? (
         <div className="absolute left-0 right-0 top-[35px] z-50 overflow-hidden rounded-[2px] border border-slate-500 bg-white shadow-xl">
           <div className="border-b border-slate-200 p-2">
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <Input
-                autoFocus
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Cari tanggal..."
-                inputMode="numeric"
-                className="h-[30px] rounded-[3px] border-slate-300 bg-white pl-8 text-[13px] text-slate-700 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-              />
-            </div>
+            <Input
+              autoFocus
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              inputMode="numeric"
+              aria-label="Cari tanggal"
+              className="h-[30px] rounded-[3px] border-slate-300 bg-white px-3 text-[13px] text-slate-700 shadow-none focus:border-black focus-visible:border-black focus-visible:ring-0 focus-visible:ring-offset-0"
+            />
           </div>
 
           <div className="max-h-[210px] overflow-y-auto p-1">
             {filteredDays.length > 0 ? (
-              filteredDays.map((day) => {
-                const selected = value === day;
-
-                return (
-                  <button
-                    key={day}
-                    type="button"
-                    onClick={() => {
-                      onChange(day);
-                      setOpen(false);
-                    }}
-                    className={cn(
-                      "flex h-7 w-full items-center rounded-none px-2 text-left text-[14px] font-normal transition",
-                      selected
-                        ? "bg-[#5B3DF5] text-white"
-                        : "text-[#002060] hover:bg-[#5B3DF5] hover:text-white",
-                    )}
-                  >
-                    {day}
-                  </button>
-                );
-              })
+              filteredDays.map((day) => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => {
+                    onChange(day);
+                    setOpen(false);
+                  }}
+                  className={cn(
+                    "flex h-7 w-full items-center rounded-none px-2 text-left text-[14px] font-normal transition",
+                    value === day
+                      ? "bg-[#5B3DF5] text-white"
+                      : "text-[#002060] hover:bg-[#5B3DF5] hover:text-white",
+                  )}
+                >
+                  {day}
+                </button>
+              ))
             ) : (
               <div className="px-2 py-3 text-[13px] text-slate-500">
                 Tanggal tidak ditemukan.
@@ -368,6 +372,7 @@ export default function AutodebetScheduleDialog({
   const [missingFields, setMissingFields] = React.useState<string[]>([]);
 
   const isSavingsProduct = product === "Produk Simpanan";
+  const isLoanProduct = product === "Produk Pinjaman";
 
   const selectedAccount = React.useMemo(
     () =>
@@ -396,9 +401,7 @@ export default function AutodebetScheduleDialog({
 
     if (!product) fields.push("Produk Tujuan");
     if (!accountNo) fields.push("No. Rekening Tujuan");
-    if (isSavingsProduct && !autodebetDay) {
-      fields.push("Tanggal Autodebet");
-    }
+    if (isSavingsProduct && !autodebetDay) fields.push("Tanggal Autodebet");
     if (!description.trim()) fields.push("Keterangan");
 
     return fields;
@@ -406,7 +409,6 @@ export default function AutodebetScheduleDialog({
 
   function confirmProcess() {
     const fields = validateForm();
-
     setConfirmOpen(false);
 
     if (fields.length > 0) {
@@ -420,7 +422,9 @@ export default function AutodebetScheduleDialog({
       accountNo,
       date: isSavingsProduct
         ? `Setiap tanggal ${autodebetDay}`
-        : "Setiap periode",
+        : isLoanProduct
+          ? `Tanggal tersedia: ${loanAutodebetDays}`
+          : "Setiap periode",
       description,
       status,
     });
@@ -445,13 +449,11 @@ export default function AutodebetScheduleDialog({
         onCancel={() => setConfirmOpen(false)}
         onConfirm={confirmProcess}
       />
-
       <ValidationErrorDialog
         open={validationErrorOpen}
         missingFields={missingFields}
         onClose={() => setValidationErrorOpen(false)}
       />
-
       <SuccessDialog open={successOpen} onClose={() => setSuccessOpen(false)} />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -464,24 +466,6 @@ export default function AutodebetScheduleDialog({
             "[&_[data-slot=dialog-close]]:hidden",
           )}
         >
-          <style>
-            {`
-              .autodebet-dialog-field:focus,
-              .autodebet-dialog-field:focus-visible,
-              .autodebet-dialog-field[data-state="open"],
-              .autodebet-dialog-field[role="combobox"]:focus,
-              .autodebet-dialog-field[role="combobox"]:focus-visible {
-                border-color: #cbd5e1 !important;
-                box-shadow: none !important;
-                outline: none !important;
-                --tw-ring-color: transparent !important;
-                --tw-ring-shadow: 0 0 #0000 !important;
-                --tw-ring-offset-shadow: 0 0 #0000 !important;
-                --tw-ring-offset-width: 0px !important;
-              }
-            `}
-          </style>
-
           <div className="bg-white">
             <div className="flex items-center justify-between border-b border-[#CBD5E1] px-5 py-4">
               <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
@@ -602,14 +586,26 @@ export default function AutodebetScheduleDialog({
                   </>
                 ) : null}
 
+                {isLoanProduct ? (
+                  <>
+                    <Label className="flex items-center pt-1 text-[14px] font-normal text-[#002060]">
+                      Tanggal Autodebet
+                      <FieldInfoTooltip />
+                    </Label>
+                    <Input
+                      value={loanAutodebetDays}
+                      readOnly
+                      aria-readonly="true"
+                      className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-100 px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                    />
+                  </>
+                ) : null}
+
                 <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
                 <Textarea
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
-                  className={cn(
-                    "autodebet-dialog-field min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px]",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0",
-                  )}
+                  className="min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px] focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
 
                 <Label className={cn(labelClassName, "pt-1")}>
