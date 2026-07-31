@@ -73,6 +73,17 @@ function addMonths(date: Date, months: number) {
   return next;
 }
 
+function sanitizeInterestRate(value: string) {
+  return value
+    .replace("%", "")
+    .replace(/[^\d,.-]/g, "")
+    .replace(/[.](?=.*[.])/g, "");
+}
+
+function displayInterestRate(value: string) {
+  return value ? `${value}%` : "";
+}
+
 function LoanInfoField({
   label,
   value,
@@ -187,7 +198,9 @@ function SummaryTile({
       <div className="mt-3 grid grid-cols-2 gap-3">
         <div>
           <div className="text-[11px] font-medium text-slate-500">Sebelum</div>
-          <div className="mt-1 text-[14px] font-bold text-slate-700">{before}</div>
+          <div className="mt-1 text-[14px] font-bold text-slate-700">
+            {before}
+          </div>
         </div>
         <div className="border-l border-slate-200 pl-3">
           <div className="text-[11px] font-medium text-[#5B3DF5]">Sesudah</div>
@@ -242,7 +255,9 @@ function InterestHistoryDialog({
                       <th className="w-[150px] px-4 py-3">Suku Bunga Lama</th>
                       <th className="w-[150px] px-4 py-3">Suku Bunga Baru</th>
                       <th className="w-[150px] px-4 py-3">Tanggal Efektif</th>
-                      <th className="min-w-[270px] px-4 py-3">Alasan Perubahan</th>
+                      <th className="min-w-[270px] px-4 py-3">
+                        Alasan Perubahan
+                      </th>
                       <th className="w-[190px] px-4 py-3">
                         Tanggal & Waktu Perubahan
                       </th>
@@ -468,26 +483,15 @@ export default function LoanInterestChangeWizard({
                 <div className="mx-auto max-w-[730px]">
                   <div className="grid gap-5">
                     <ChangeFieldRow label="Suku Bunga Baru">
-                      <div className="relative">
-                        <Input
-                          value={newRate}
-                          onChange={(event) =>
-                            setNewRate(
-                              event.target.value
-                                .replace(/[^\d,.-]/g, "")
-                                .replace(/[.](?=.*[.])/g, ""),
-                            )
-                          }
-                          placeholder="%"
-                          inputMode="decimal"
-                          className={cn(fieldClassName, newRate ? "pr-10" : "")}
-                        />
-                        {newRate ? (
-                          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[14px] font-normal text-[#526685]">
-                            %
-                          </span>
-                        ) : null}
-                      </div>
+                      <Input
+                        value={displayInterestRate(newRate)}
+                        onChange={(event) =>
+                          setNewRate(sanitizeInterestRate(event.target.value))
+                        }
+                        placeholder="%"
+                        inputMode="decimal"
+                        className={fieldClassName}
+                      />
                     </ChangeFieldRow>
 
                     <ChangeFieldRow label="Tanggal Efektif">
