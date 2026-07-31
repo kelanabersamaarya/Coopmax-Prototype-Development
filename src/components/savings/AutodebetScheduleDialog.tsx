@@ -80,6 +80,11 @@ function accountValue(account: AccountOption) {
   return `${account.accountNo} - ${account.customerName} - ${account.productType}`;
 }
 
+function getAutodebetDay(date: string) {
+  const match = /(\d+)/.exec(date ?? "");
+  return match?.[1] ?? "";
+}
+
 function AutodebetToggle({
   checked,
   onChange,
@@ -139,20 +144,16 @@ function FieldInfoTooltip() {
 function ModalShell({
   open,
   children,
-  size = "compact",
 }: {
   open: boolean;
   children: React.ReactNode;
-  size?: "compact" | "wide";
 }) {
   return (
     <Dialog open={open}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
-          size === "wide"
-            ? "sm:w-[760px] sm:max-w-[760px]"
-            : "sm:w-[528px] sm:max-w-[528px]",
+          "w-[calc(100vw-1rem)] sm:w-[528px]",
+          "max-w-[528px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -166,10 +167,12 @@ function ModalShell({
 
 function ProcessConfirmDialog({
   open,
+  isEditing,
   onCancel,
   onConfirm,
 }: {
   open: boolean;
+  isEditing: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
@@ -182,7 +185,7 @@ function ProcessConfirmDialog({
           </div>
         </div>
         <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
-          Yakin untuk menambahkan
+          {isEditing ? "Yakin untuk mengubah" : "Yakin untuk menambahkan"}
           <br />
           Jadwal Autodebet ?
         </h3>
@@ -242,34 +245,6 @@ function ValidationErrorDialog({
   );
 }
 
-function SuccessDialog({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <ModalShell open={open}>
-      <div className="flex min-h-[300px] flex-col items-center justify-center px-8 py-8 text-center sm:px-10">
-        <div className="flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dcefd5] bg-white">
-          <Check className="h-[56px] w-[56px] text-[#9edb84]" strokeWidth={2.4} />
-        </div>
-        <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#565656]">
-          Berhasil menambahkan data
-        </h3>
-        <button
-          type="button"
-          onClick={onClose}
-          className="mt-8 h-[52px] min-w-[96px] rounded-[5px] bg-[#2f80ed] px-6 text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
-        >
-          OK
-        </button>
-      </div>
-    </ModalShell>
-  );
-}
-
 function AutodebetDaySelect({
   value,
   onChange,
@@ -302,12 +277,7 @@ function AutodebetDaySelect({
         <span className={value ? "text-[#526685]" : "text-slate-400"}>
           {value || "Pilih Tanggal Autodebet"}
         </span>
-        <ChevronDown
-          className={cn(
-            "h-4 w-4 text-[#526685] transition",
-            open ? "rotate-180" : "",
-          )}
-        />
+        <ChevronDown className={cn("h-4 w-4 text-[#526685] transition", open ? "rotate-180" : "")} />
       </button>
 
       {open ? (
@@ -358,10 +328,12 @@ function AutodebetDaySelect({
 export default function AutodebetScheduleDialog({
   open,
   onOpenChange,
+  schedule,
   onProcess,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  schedule?: AutodebetSchedule | null;
   onProcess: (schedule: AutodebetSchedule) => void;
 }) {
   const [interMember, setInterMember] = React.useState(false);
@@ -372,9 +344,9 @@ export default function AutodebetScheduleDialog({
   const [status, setStatus] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [validationErrorOpen, setValidationErrorOpen] = React.useState(false);
-  const [successOpen, setSuccessOpen] = React.useState(false);
   const [missingFields, setMissingFields] = React.useState<string[]>([]);
 
+  const isEditing = !!schedule;
   const isSavingsProduct = product === "Produk Simpanan";
   const isLoanProduct = product === "Produk Pinjaman";
 
@@ -390,15 +362,15 @@ export default function AutodebetScheduleDialog({
     if (!open) return;
 
     setInterMember(false);
-    setProduct("");
-    setAccountNo("");
-    setAutodebetDay("");
-    setDescription("");
-    setStatus(false);
+    setProduct(schedule?.product ?? "");
+    setAccountNo(schedule?.accountNo ?? "");
+    setAutodebetDay(schedule ? getAutodebetDay(schedule.date) : "");
+    setDescription(schedule?.description ?? "");
+    setStatus(schedule?.status ?? false);
     setConfirmOpen(false);
     setValidationErrorOpen(false);
     setMissingFields([]);
-  }, [open]);
+  }, [open, schedule]);
 
   function validateForm() {
     const fields: string[] = [];
@@ -434,7 +406,6 @@ export default function AutodebetScheduleDialog({
     });
 
     onOpenChange(false);
-    setSuccessOpen(true);
   }
 
   const inputClassName = cn(
@@ -450,6 +421,7 @@ export default function AutodebetScheduleDialog({
     <>
       <ProcessConfirmDialog
         open={confirmOpen}
+        isEditing={isEditing}
         onCancel={() => setConfirmOpen(false)}
         onConfirm={confirmProcess}
       />
@@ -458,7 +430,6 @@ export default function AutodebetScheduleDialog({
         missingFields={missingFields}
         onClose={() => setValidationErrorOpen(false)}
       />
-      <SuccessDialog open={successOpen} onClose={() => setSuccessOpen(false)} />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
@@ -493,10 +464,7 @@ export default function AutodebetScheduleDialog({
                   Anggota/Nasabah lain
                 </Label>
                 <div className="flex h-[31px] items-center">
-                  <AutodebetToggle
-                    checked={interMember}
-                    onChange={setInterMember}
-                  />
+                  <AutodebetToggle checked={interMember} onChange={setInterMember} />
                 </div>
 
                 <Label className={labelClassName}>Produk Tujuan</Label>
@@ -512,36 +480,20 @@ export default function AutodebetScheduleDialog({
                     <SelectValue placeholder="Pilih Produk" />
                   </SelectTrigger>
                   <SelectContent className="rounded-[5px] border-slate-200">
-                    <SelectItem value="Produk Simpanan">
-                      Produk Simpanan
-                    </SelectItem>
-                    <SelectItem value="Produk Pinjaman">
-                      Produk Pinjaman
-                    </SelectItem>
+                    <SelectItem value="Produk Simpanan">Produk Simpanan</SelectItem>
+                    <SelectItem value="Produk Pinjaman">Produk Pinjaman</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Label className={labelClassName}>No. Rekening Tujuan</Label>
                 <div className="grid gap-4">
-                  <Select
-                    value={accountNo}
-                    onValueChange={setAccountNo}
-                    disabled={!product}
-                  >
-                    <SelectTrigger
-                      className={cn(
-                        inputClassName,
-                        !product ? "bg-slate-100 text-slate-400" : "",
-                      )}
-                    >
+                  <Select value={accountNo} onValueChange={setAccountNo} disabled={!product}>
+                    <SelectTrigger className={cn(inputClassName, !product ? "bg-slate-100 text-slate-400" : "")}>
                       <SelectValue placeholder="Pilih Rekening" />
                     </SelectTrigger>
                     <SelectContent className="rounded-[5px] border-slate-200">
                       {(accountOptions[product] ?? []).map((account) => (
-                        <SelectItem
-                          key={account.accountNo}
-                          value={accountValue(account)}
-                        >
+                        <SelectItem key={account.accountNo} value={accountValue(account)}>
                           {accountValue(account)}
                         </SelectItem>
                       ))}
@@ -550,43 +502,18 @@ export default function AutodebetScheduleDialog({
 
                   {selectedAccount ? (
                     <div className="grid gap-3 text-[14px] font-normal text-[#1F2A3D]">
-                      <div>
-                        No. Rekening :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.accountNo}
-                        </span>
-                      </div>
-                      <div>
-                        Nama Nasabah :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.customerName}
-                        </span>
-                      </div>
-                      <div>
-                        Tipe Produk :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.productType}
-                        </span>
-                      </div>
-                      <div>
-                        Saldo :{" "}
-                        <span className="font-semibold">
-                          {selectedAccount.balance}
-                        </span>
-                      </div>
+                      <div>No. Rekening : <span className="font-semibold">{selectedAccount.accountNo}</span></div>
+                      <div>Nama Nasabah : <span className="font-semibold">{selectedAccount.customerName}</span></div>
+                      <div>Tipe Produk : <span className="font-semibold">{selectedAccount.productType}</span></div>
+                      <div>Saldo : <span className="font-semibold">{selectedAccount.balance}</span></div>
                     </div>
                   ) : null}
                 </div>
 
                 {isSavingsProduct ? (
                   <>
-                    <Label className={labelClassName}>
-                      Tanggal Autodebet
-                    </Label>
-                    <AutodebetDaySelect
-                      value={autodebetDay}
-                      onChange={setAutodebetDay}
-                    />
+                    <Label className={labelClassName}>Tanggal Autodebet</Label>
+                    <AutodebetDaySelect value={autodebetDay} onChange={setAutodebetDay} />
                   </>
                 ) : null}
 
@@ -612,9 +539,7 @@ export default function AutodebetScheduleDialog({
                   className="min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px] focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
 
-                <Label className={cn(labelClassName, "pt-1")}>
-                  Status Autodebet
-                </Label>
+                <Label className={cn(labelClassName, "pt-1")}>Status Autodebet</Label>
                 <div className="flex h-[31px] items-center">
                   <AutodebetToggle checked={status} onChange={setStatus} />
                 </div>

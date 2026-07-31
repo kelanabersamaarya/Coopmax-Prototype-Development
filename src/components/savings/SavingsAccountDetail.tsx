@@ -146,13 +146,22 @@ export default function SavingsAccountDetail({
   onBack: () => void;
 }) {
   const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [editingScheduleIndex, setEditingScheduleIndex] = useState<number | null>(
+    null,
+  );
   const [autodebitRows, setAutodebitRows] = useState<AutodebetSchedule[]>(() =>
     getAutodebetSchedules(account.accountNo),
   );
   const active = account.status === "Aktif";
 
+  const editingSchedule =
+    editingScheduleIndex === null
+      ? null
+      : autodebitRows[editingScheduleIndex] ?? null;
+
   useEffect(() => {
     setAutodebitRows(getAutodebetSchedules(account.accountNo));
+    setEditingScheduleIndex(null);
   }, [account.accountNo]);
 
   function updateSchedules(nextSchedules: AutodebetSchedule[]) {
@@ -160,13 +169,34 @@ export default function SavingsAccountDetail({
     saveAutodebetSchedules(account.accountNo, nextSchedules);
   }
 
-  function addSchedule(schedule: AutodebetSchedule) {
-    const nextSchedules = [...autodebitRows, schedule];
-    updateSchedules(nextSchedules);
+  function openAddSchedule() {
+    setEditingScheduleIndex(null);
+    setScheduleOpen(true);
+  }
 
-    toast.success("Jadwal autodebet ditambahkan", {
+  function openEditSchedule(index: number) {
+    setEditingScheduleIndex(index);
+    setScheduleOpen(true);
+  }
+
+  function saveSchedule(schedule: AutodebetSchedule) {
+    if (editingScheduleIndex === null) {
+      updateSchedules([...autodebitRows, schedule]);
+      toast.success("Jadwal autodebet ditambahkan", {
+        description: `${schedule.product} • ${schedule.date}`,
+      });
+      return;
+    }
+
+    const nextSchedules = autodebitRows.map((item, index) =>
+      index === editingScheduleIndex ? schedule : item,
+    );
+
+    updateSchedules(nextSchedules);
+    toast.success("Jadwal autodebet diperbarui", {
       description: `${schedule.product} • ${schedule.date}`,
     });
+    setEditingScheduleIndex(null);
   }
 
   function deleteSchedule(index: number) {
@@ -181,8 +211,12 @@ export default function SavingsAccountDetail({
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <AutodebetScheduleDialog
         open={scheduleOpen}
-        onOpenChange={setScheduleOpen}
-        onProcess={addSchedule}
+        onOpenChange={(open) => {
+          setScheduleOpen(open);
+          if (!open) setEditingScheduleIndex(null);
+        }}
+        schedule={editingSchedule}
+        onProcess={saveSchedule}
       />
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -317,17 +351,11 @@ export default function SavingsAccountDetail({
               <InfoRow label="Kategori Nasabah" value="Anggota" />
               <InfoRow label="Jenis Kelamin" value="Perempuan" />
               <InfoRow label="Alamat" value="Jl. Sri Rama No. 49" />
-              <InfoRow
-                label="Hubungan dengan Koperasi"
-                value="Calon Anggota"
-              />
+              <InfoRow label="Hubungan dengan Koperasi" value="Calon Anggota" />
               <InfoRow label="Tanggal Daftar" value={account.registeredAt} />
               <InfoRow label="Tag" value="-" />
               <InfoRow label="Unit" value="-" />
-              <InfoRow
-                label="Status Verifikasi KTP"
-                value={<VerificationStatus />}
-              />
+              <InfoRow label="Status Verifikasi KTP" value={<VerificationStatus />} />
               <InfoRow
                 label="Status"
                 value={
@@ -360,7 +388,7 @@ export default function SavingsAccountDetail({
               Jadwal Autodebet
             </div>
             <Button
-              onClick={() => setScheduleOpen(true)}
+              onClick={openAddSchedule}
               variant="ghost"
               className="group h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:bg-slate-100 hover:text-violet-600"
             >
@@ -395,10 +423,7 @@ export default function SavingsAccountDetail({
                 <tbody>
                   {autodebitRows.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={9}
-                        className="px-4 py-8 text-center text-[12px] text-black"
-                      >
+                      <td colSpan={9} className="px-4 py-8 text-center text-[12px] text-black">
                         No data available in table
                       </td>
                     </tr>
@@ -412,16 +437,12 @@ export default function SavingsAccountDetail({
                           className="border-b border-slate-200 text-[12px] text-black last:border-b-0"
                         >
                           <td className="px-3 py-3 text-black">{index + 1}</td>
-                          <td className="px-3 py-3 font-semibold text-black">
-                            {row.product}
-                          </td>
+                          <td className="px-3 py-3 font-semibold text-black">{row.product}</td>
                           <td className="px-3 py-3 text-black">{accountNo}</td>
                           <td className="px-3 py-3 text-black">{owner}</td>
-                          <td className="px-3 py-3 text-black">31</td>
+                          <td className="px-3 py-3 text-black">{row.date.replace("Setiap tanggal ", "")}</td>
                           <td className="px-3 py-3 text-black">31-08-2026</td>
-                          <td className="px-3 py-3 text-black">
-                            {row.description || "-"}
-                          </td>
+                          <td className="px-3 py-3 text-black">{row.description || "-"}</td>
                           <td className="px-3 py-3">
                             <span
                               className={cn(
@@ -449,11 +470,7 @@ export default function SavingsAccountDetail({
                               <ScheduleActionButton
                                 label="Ubah jadwal"
                                 tone="blue"
-                                onClick={() =>
-                                  toast("Ubah Jadwal Autodebet (prototype)", {
-                                    description: `${row.product} • ${accountNo}`,
-                                  })
-                                }
+                                onClick={() => openEditSchedule(index)}
                               >
                                 <SquarePen className="h-6 w-6" strokeWidth={2.3} />
                               </ScheduleActionButton>
