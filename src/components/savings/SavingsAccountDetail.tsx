@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CircleX,
   Eye,
@@ -18,6 +18,10 @@ import { cn } from "@/lib/utils";
 import AutodebetScheduleDialog, {
   type AutodebetSchedule,
 } from "@/components/savings/AutodebetScheduleDialog";
+import {
+  getAutodebetSchedules,
+  saveAutodebetSchedules,
+} from "@/lib/autodebetSchedulesStore";
 
 type SavingsAccountDetail = {
   accountNo: string;
@@ -142,20 +146,34 @@ export default function SavingsAccountDetail({
   onBack: () => void;
 }) {
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [autodebitRows, setAutodebitRows] = useState<AutodebetSchedule[]>([]);
+  const [autodebitRows, setAutodebitRows] = useState<AutodebetSchedule[]>(() =>
+    getAutodebetSchedules(account.accountNo),
+  );
   const active = account.status === "Aktif";
 
+  useEffect(() => {
+    setAutodebitRows(getAutodebetSchedules(account.accountNo));
+  }, [account.accountNo]);
+
+  function updateSchedules(nextSchedules: AutodebetSchedule[]) {
+    setAutodebitRows(nextSchedules);
+    saveAutodebetSchedules(account.accountNo, nextSchedules);
+  }
+
   function addSchedule(schedule: AutodebetSchedule) {
-    setAutodebitRows((current) => [...current, schedule]);
+    const nextSchedules = [...autodebitRows, schedule];
+    updateSchedules(nextSchedules);
+
     toast.success("Jadwal autodebet ditambahkan", {
-      description: `${schedule.product} • setiap tanggal 31`,
+      description: `${schedule.product} • ${schedule.date}`,
     });
   }
 
   function deleteSchedule(index: number) {
-    setAutodebitRows((current) =>
-      current.filter((_schedule, scheduleIndex) => scheduleIndex !== index),
+    const nextSchedules = autodebitRows.filter(
+      (_schedule, scheduleIndex) => scheduleIndex !== index,
     );
+    updateSchedules(nextSchedules);
     toast.success("Jadwal autodebet dihapus");
   }
 
