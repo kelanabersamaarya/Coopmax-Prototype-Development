@@ -1,5 +1,5 @@
 import * as React from "react";
-import { X } from "lucide-react";
+import { CheckSquare, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -122,7 +122,10 @@ function ProcessConfirmDialog({
   onConfirm: () => void;
 }) {
   return (
-    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}
+    >
       <DialogContent
         className={cn(
           "w-[calc(100vw-2rem)] sm:w-[528px]",
@@ -180,6 +183,63 @@ function ProcessConfirmDialog({
   );
 }
 
+function ValidationErrorDialog({
+  open,
+  missingFields,
+  onClose,
+}: {
+  open: boolean;
+  missingFields: string[];
+  onClose: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onClose() : null)}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-2rem)] sm:w-[540px]",
+          "max-w-[540px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "overflow-hidden",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+          "[&_[data-radix-dialog-close]]:hidden",
+        )}
+      >
+        <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f87373] bg-white">
+            <X className="h-[58px] w-[58px] text-[#f87373]" strokeWidth={2} />
+          </div>
+
+          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+            Kesalahan
+          </h3>
+
+          <div className="mt-3 text-[17px] font-normal leading-relaxed text-[#3b4863]">
+            {missingFields.map((field) => (
+              <div key={field}>{field} wajib diisi.</div>
+            ))}
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={onClose}
+              className={cn(
+                "h-[52px] min-w-[96px] rounded-[5px] px-6",
+                "bg-[#2f80ed] text-[16px] font-semibold text-white",
+                "ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25",
+              )}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function AutodebetScheduleDialog({
   open,
   onOpenChange,
@@ -195,6 +255,8 @@ export default function AutodebetScheduleDialog({
   const [description, setDescription] = React.useState("");
   const [status, setStatus] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [validationErrorOpen, setValidationErrorOpen] = React.useState(false);
+  const [missingFields, setMissingFields] = React.useState<string[]>([]);
 
   const selectedAccount = React.useMemo(
     () =>
@@ -213,23 +275,42 @@ export default function AutodebetScheduleDialog({
     setDescription("");
     setStatus(false);
     setConfirmOpen(false);
+    setValidationErrorOpen(false);
+    setMissingFields([]);
   }, [open]);
 
-  function requestProcess() {
-    if (!product) {
-      toast("Produk tujuan wajib dipilih");
-      return;
-    }
+  function validateForm() {
+    const fields: string[] = [];
 
-    if (!accountNo) {
-      toast("No. rekening tujuan wajib dipilih");
+    if (!product) fields.push("Produk Tujuan");
+    if (!accountNo) fields.push("No Rekening Tujuan");
+    if (!description.trim()) fields.push("Keterangan");
+
+    return fields;
+  }
+
+  function requestProcess() {
+    const fields = validateForm();
+
+    if (fields.length > 0) {
+      setMissingFields(fields);
+      setValidationErrorOpen(true);
       return;
     }
 
     setConfirmOpen(true);
   }
 
-  function processSchedule() {
+  function confirmProcess() {
+    const fields = validateForm();
+
+    if (fields.length > 0) {
+      setConfirmOpen(false);
+      setMissingFields(fields);
+      setValidationErrorOpen(true);
+      return;
+    }
+
     onProcess({
       product,
       accountNo,
@@ -256,7 +337,13 @@ export default function AutodebetScheduleDialog({
       <ProcessConfirmDialog
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
-        onConfirm={processSchedule}
+        onConfirm={confirmProcess}
+      />
+
+      <ValidationErrorDialog
+        open={validationErrorOpen}
+        missingFields={missingFields}
+        onClose={() => setValidationErrorOpen(false)}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
