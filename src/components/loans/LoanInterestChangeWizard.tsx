@@ -161,7 +161,7 @@ export default function LoanInterestChangeWizard({
 
           <WizardStepper step={step} />
 
-          <main className="min-h-[360px] border-t border-slate-100 px-6 py-6">
+          <main className="border-t border-slate-100 px-6 py-6">
             {step === 1 ? (
               <div className="mt-1 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
                 <div className="text-[12px] font-extrabold tracking-wide text-white/90">
