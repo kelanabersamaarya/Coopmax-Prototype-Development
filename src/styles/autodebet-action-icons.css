@@ -43,6 +43,15 @@ button[title="Hapus jadwal"]:hover {
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(6) {
   width: 120px !important;
   max-width: 120px !important;
+}
+
+/* Header tanggal tetap dua baris, sedangkan data tanggalnya tetap satu baris. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:nth-child(6) {
+  white-space: normal !important;
+  line-height: 1.2 !important;
+}
+
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(6) {
   white-space: nowrap !important;
 }
 
