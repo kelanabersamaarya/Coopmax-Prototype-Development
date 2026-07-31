@@ -32,3 +32,10 @@
   left: 8px;
   right: auto;
 }
+
+/* Thumb putih digeser mendekati ujung kanan ketika toggle aktif. */
+.loan-product-create-form button[role="switch"][data-state="checked"] > span,
+.loan-product-edit-form button[role="switch"][data-state="checked"] > span,
+.loan-product-terms-section button[role="switch"][data-state="checked"] > span {
+  transform: translateX(29px) !important;
+}
