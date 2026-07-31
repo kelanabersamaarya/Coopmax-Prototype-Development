@@ -243,7 +243,9 @@ function InterestHistoryDialog({
                       <th className="w-[150px] px-4 py-3">Suku Bunga Baru</th>
                       <th className="w-[150px] px-4 py-3">Tanggal Efektif</th>
                       <th className="min-w-[270px] px-4 py-3">Alasan Perubahan</th>
-                      <th className="w-[190px] px-4 py-3">Tanggal & Waktu Perubahan</th>
+                      <th className="w-[190px] px-4 py-3">
+                        Tanggal & Waktu Perubahan
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white">
@@ -255,11 +257,21 @@ function InterestHistoryDialog({
                           index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                         )}
                       >
-                        <td className="px-4 py-3 font-semibold tabular-nums text-slate-900">{history.oldRate}</td>
-                        <td className="px-4 py-3 font-semibold tabular-nums text-[#5B3DF5]">{history.newRate}</td>
-                        <td className="px-4 py-3 tabular-nums text-slate-800">{history.effectiveDate}</td>
-                        <td className="px-4 py-3 leading-relaxed text-slate-700">{history.reason}</td>
-                        <td className="px-4 py-3 tabular-nums text-slate-700">{history.changedAt}</td>
+                        <td className="px-4 py-3 font-semibold tabular-nums text-slate-900">
+                          {history.oldRate}
+                        </td>
+                        <td className="px-4 py-3 font-semibold tabular-nums text-[#5B3DF5]">
+                          {history.newRate}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums text-slate-800">
+                          {history.effectiveDate}
+                        </td>
+                        <td className="px-4 py-3 leading-relaxed text-slate-700">
+                          {history.reason}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums text-slate-700">
+                          {history.changedAt}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -310,7 +322,6 @@ export default function LoanInterestChangeWizard({
 
   const simulation = React.useMemo(() => {
     const parsedRate = Number(newRate.replace(",", ".")) || currentRate;
-    const interestFactor = parsedRate / currentRate;
     const beforeMonthlyInterest = (remainingPrincipal * (currentRate / 100)) / 12;
     const afterMonthlyInterest = (remainingPrincipal * (parsedRate / 100)) / 12;
     const beforeInstallment = currentInstallment;
@@ -340,7 +351,6 @@ export default function LoanInterestChangeWizard({
 
     return {
       rate: parsedRate,
-      rateDelta: parsedRate - currentRate,
       beforeInstallment: formatIdr(beforeInstallment),
       afterInstallment: formatIdr(afterInstallment),
       beforeTotalInterest: formatIdr(beforeTotalInterest),
@@ -348,7 +358,6 @@ export default function LoanInterestChangeWizard({
       tenor: `${remainingTenor} Bulan`,
       lastDueDate: formatDmy(lastDueDate),
       schedule,
-      interestFactor,
     };
   }, [effectiveDate, newRate]);
 
@@ -546,7 +555,9 @@ export default function LoanInterestChangeWizard({
                               <th className="w-[160px] px-4 py-3">Jatuh Tempo</th>
                               <th className="px-4 py-3 text-right">Pokok</th>
                               <th className="px-4 py-3 text-right">Bunga</th>
-                              <th className="px-4 py-3 text-right">Total Angsuran</th>
+                              <th className="px-4 py-3 text-right">
+                                Total Angsuran
+                              </th>
                             </tr>
                           </thead>
                           <tbody className="bg-white">
@@ -600,7 +611,7 @@ export default function LoanInterestChangeWizard({
                   Kembali
                 </button>
 
-                {step === 2 ? (
+                {step >= 2 ? (
                   <button
                     type="button"
                     onClick={() => onOpenChange(false)}
