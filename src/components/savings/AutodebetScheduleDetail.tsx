@@ -282,9 +282,12 @@ export default function AutodebetScheduleDetail({
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <h1 className="text-xl font-semibold tracking-tight text-[#002060] md:text-2xl">
-          Jadwal Autodebet Detail
-        </h1>
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+            Jadwal Autodebet
+          </h1>
+          <span className="text-sm font-semibold text-slate-500">Detail</span>
+        </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-end gap-2">
           <ActionButton
