@@ -100,18 +100,10 @@ function ConfirmDialog({
             Yakin untuk melakukan perubahan?
           </h3>
           <div className="mt-8 flex justify-center gap-2">
-            <button
-              type="button"
-              onClick={onConfirm}
-              className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white hover:bg-[#266ed0]"
-            >
+            <button type="button" onClick={onConfirm} className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white hover:bg-[#266ed0]">
               Yes
             </button>
-            <button
-              type="button"
-              onClick={onCancel}
-              className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white hover:bg-[#969696]"
-            >
+            <button type="button" onClick={onCancel} className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white hover:bg-[#969696]">
               Cancel
             </button>
           </div>
@@ -128,21 +120,16 @@ function BillingSimulationTable({
   installments: SimulationInstallment[];
   rate: number;
 }) {
-  const pageSize = 6;
+  const pageSize = 10;
   const [page, setPage] = React.useState(1);
   const pageCount = Math.max(1, Math.ceil(installments.length / pageSize));
-
-  React.useEffect(() => {
-    if (page > pageCount) setPage(pageCount);
-  }, [page, pageCount]);
 
   const pagedInstallments = React.useMemo(() => {
     const start = (page - 1) * pageSize;
     return installments.slice(start, start + pageSize);
   }, [installments, page]);
 
-  const showingStart =
-    installments.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingStart = installments.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(installments.length, page * pageSize);
 
   return (
@@ -169,11 +156,12 @@ function BillingSimulationTable({
               <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sesudah Penyesuaian</th>
             </tr>
           </thead>
+
           <tbody className="text-[12px] text-black">
             {pagedInstallments.map((item, index) => {
-              const inChangedPeriod = item.number >= 4 && item.number <= 10;
+              const inChangedPeriod = item.number >= 4 && item.number <= 12;
               const changeStart = item.number === 4;
-              const changeEnd = item.number === 10;
+              const changeEnd = item.number === 12;
 
               return (
                 <tr
@@ -188,34 +176,16 @@ function BillingSimulationTable({
                 >
                   <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
                   <td className="px-3 py-2.5 tabular-nums">{item.dueDate}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeInstallment)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.principal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(item.afterInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.remainingPrincipal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeRemainingInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(item.afterRemainingInterest)}
-                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInstallment)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.principal)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInterest)}</td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">{formatIdr(item.afterInterest)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.remainingPrincipal)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeRemainingInterest)}</td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">{formatIdr(item.afterRemainingInterest)}</td>
                   <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeInstallment)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(item.afterInstallment)}
-                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInstallment)}</td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">{formatIdr(item.afterInstallment)}</td>
                 </tr>
               );
             })}
@@ -234,11 +204,7 @@ function BillingSimulationTable({
             type="button"
             disabled={page <= 1}
             onClick={() => setPage((current) => Math.max(1, current - 1))}
-            className={cn(
-              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
-              "bg-slate-100 text-slate-600 hover:bg-slate-200",
-              page <= 1 ? "cursor-not-allowed opacity-60" : "",
-            )}
+            className={cn("inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200", page <= 1 ? "cursor-not-allowed opacity-60" : "")}
           >
             <ChevronLeft className="h-4 w-4" />
             Sebelumnya
@@ -250,11 +216,7 @@ function BillingSimulationTable({
             type="button"
             disabled={page >= pageCount}
             onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
-            className={cn(
-              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
-              "bg-slate-100 text-slate-600 hover:bg-slate-200",
-              page >= pageCount ? "cursor-not-allowed opacity-60" : "",
-            )}
+            className={cn("inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200", page >= pageCount ? "cursor-not-allowed opacity-60" : "")}
           >
             Selanjutnya
             <ChevronRight className="h-4 w-4" />
@@ -300,20 +262,12 @@ export default function LoanInterestChangeWizard({
     const newMonthlyInterest = (remainingPrincipal * parsedRate) / 100 / 12;
 
     const installments = Array.from({ length: remainingTenor }, (_, index) => {
-      const principalBeforeInstallment = Math.max(
-        0,
-        remainingPrincipal - monthlyPrincipal * index,
-      );
-      const remainingPrincipalAfterInstallment = Math.max(
-        0,
-        principalBeforeInstallment - monthlyPrincipal,
-      );
+      const principalBeforeInstallment = Math.max(0, remainingPrincipal - monthlyPrincipal * index);
+      const remainingPrincipalAfterInstallment = Math.max(0, principalBeforeInstallment - monthlyPrincipal);
       const beforeInterest = (principalBeforeInstallment * currentRate) / 100 / 12;
       const afterInterest = (principalBeforeInstallment * parsedRate) / 100 / 12;
-      const beforeRemainingInterest =
-        (remainingPrincipalAfterInstallment * currentRate) / 100 / 12;
-      const afterRemainingInterest =
-        (remainingPrincipalAfterInstallment * parsedRate) / 100 / 12;
+      const beforeRemainingInterest = (remainingPrincipalAfterInstallment * currentRate) / 100 / 12;
+      const afterRemainingInterest = (remainingPrincipalAfterInstallment * parsedRate) / 100 / 12;
 
       return {
         number: index + 1,
@@ -332,9 +286,7 @@ export default function LoanInterestChangeWizard({
     return {
       rate: parsedRate,
       beforeInstallment: formatIdr(currentInstallment),
-      afterInstallment: formatIdr(
-        currentInstallment - baseMonthlyInterest + newMonthlyInterest,
-      ),
+      afterInstallment: formatIdr(currentInstallment - baseMonthlyInterest + newMonthlyInterest),
       beforeTotalInterest: formatIdr(baseMonthlyInterest * remainingTenor),
       afterTotalInterest: formatIdr(newMonthlyInterest * remainingTenor),
       installments,
@@ -343,9 +295,7 @@ export default function LoanInterestChangeWizard({
 
   function goToSimulation() {
     if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
-      toast("Suku bunga baru belum valid", {
-        description: "Masukkan suku bunga baru yang lebih dari 0.",
-      });
+      toast("Suku bunga baru belum valid", { description: "Masukkan suku bunga baru yang lebih dari 0." });
       return;
     }
     if (!effectiveDate.trim()) {
@@ -367,16 +317,8 @@ export default function LoanInterestChangeWizard({
 
   return (
     <>
-      <LoanInterestHistoryDialog
-        open={historyOpen}
-        onOpenChange={setHistoryOpen}
-        accountNo={accountNo}
-      />
-      <ConfirmDialog
-        open={confirmOpen}
-        onCancel={() => setConfirmOpen(false)}
-        onConfirm={saveChange}
-      />
+      <LoanInterestHistoryDialog open={historyOpen} onOpenChange={setHistoryOpen} accountNo={accountNo} />
+      <ConfirmDialog open={confirmOpen} onCancel={() => setConfirmOpen(false)} onConfirm={saveChange} />
       <LoanInterestChangeSuccessModal
         open={successOpen}
         onOk={() => {
@@ -386,57 +328,27 @@ export default function LoanInterestChangeWizard({
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent
-          data-loan-interest-wizard="true"
-          className="w-[calc(100vw-1rem)] max-w-[1180px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1180px] [&>button[aria-label=Close]]:hidden"
-        >
+        <DialogContent data-loan-interest-wizard="true" className="w-[calc(100vw-1rem)] max-w-[1180px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1180px] [&>button[aria-label=Close]]:hidden">
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
-              Ubah Suku Bunga Pinjaman
-            </h2>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 hover:bg-slate-100"
-              aria-label="Tutup"
-            >
+            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">Ubah Suku Bunga Pinjaman</h2>
+            <button type="button" onClick={() => onOpenChange(false)} className="grid h-9 w-9 place-items-center rounded-full text-slate-600 hover:bg-slate-100" aria-label="Tutup">
               <X className="h-5 w-5" />
             </button>
           </header>
 
           <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
-            {["Informasi & Perubahan", "Simulasi", "Simpan Perubahan"].map(
-              (label, index) => {
-                const number = index + 1;
-                return (
-                  <React.Fragment key={label}>
-                    <div className="flex flex-col items-center">
-                      <span
-                        className={cn(
-                          "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
-                          number <= step
-                            ? "bg-[#5B3DF5] text-white"
-                            : "bg-slate-100 text-slate-500",
-                        )}
-                      >
-                        {number}
-                      </span>
-                      <span className="mt-2 whitespace-nowrap text-[12px] font-semibold text-slate-700">
-                        {label}
-                      </span>
-                    </div>
-                    {number < 3 ? (
-                      <div
-                        className={cn(
-                          "mb-5 h-[2px] min-w-10 flex-1",
-                          number < step ? "bg-[#5B3DF5]" : "bg-slate-200",
-                        )}
-                      />
-                    ) : null}
-                  </React.Fragment>
-                );
-              },
-            )}
+            {["Informasi & Perubahan", "Simulasi", "Simpan Perubahan"].map((label, index) => {
+              const number = index + 1;
+              return (
+                <React.Fragment key={label}>
+                  <div className="flex flex-col items-center">
+                    <span className={cn("grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold", number <= step ? "bg-[#5B3DF5] text-white" : "bg-slate-100 text-slate-500")}>{number}</span>
+                    <span className="mt-2 whitespace-nowrap text-[12px] font-semibold text-slate-700">{label}</span>
+                  </div>
+                  {number < 3 ? <div className={cn("mb-5 h-[2px] min-w-10 flex-1", number < step ? "bg-[#5B3DF5]" : "bg-slate-200")} /> : null}
+                </React.Fragment>
+              );
+            })}
           </div>
 
           <main className="max-h-[60vh] overflow-auto border-t border-slate-100 px-6 py-6 sm:px-8">
@@ -444,64 +356,30 @@ export default function LoanInterestChangeWizard({
               <div className="grid gap-7">
                 <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white">
                   <div className="flex items-center justify-between gap-4">
-                    <div className="text-[14px] font-extrabold tracking-wide">
-                      INFORMASI REKENING PINJAMAN
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setHistoryOpen(true)}
-                      className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
-                    >
+                    <div className="text-[14px] font-extrabold tracking-wide">INFORMASI REKENING PINJAMAN</div>
+                    <button type="button" onClick={() => setHistoryOpen(true)} className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]">
                       <Eye className="h-4 w-4" />
                       Lihat Riwayat Perubahan Suku Bunga
                     </button>
                   </div>
                   <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
                     {accountDetails.map(([label, value]) => (
-                      <AccountField
-                        key={label}
-                        label={label}
-                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
-                      />
+                      <AccountField key={label} label={label} value={label === "No. Rek. Pinjaman" ? accountNo : value} />
                     ))}
                   </div>
                 </div>
 
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                    Form Perubahan Suku Bunga
-                  </div>
+                  <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">Form Perubahan Suku Bunga</div>
                   <div className="grid gap-5 px-5 py-5">
                     <FieldRow label="Suku Bunga Baru">
-                      <Input
-                        value={newRate ? `${newRate}%` : ""}
-                        onChange={(event) =>
-                          setNewRate(
-                            event.target.value
-                              .replace("%", "")
-                              .replace(/[^\d,.-]/g, ""),
-                          )
-                        }
-                        placeholder="%"
-                        inputMode="decimal"
-                        className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      />
+                      <Input value={newRate ? `${newRate}%` : ""} onChange={(event) => setNewRate(event.target.value.replace("%", "").replace(/[^\d,.-]/g, ""))} placeholder="%" inputMode="decimal" className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" />
                     </FieldRow>
                     <FieldRow label="Tanggal Efektif">
-                      <DatePickerDmyField
-                        value={effectiveDate}
-                        onChange={setEffectiveDate}
-                        inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                        placeholder="Pilih Tanggal Efektif"
-                      />
+                      <DatePickerDmyField value={effectiveDate} onChange={setEffectiveDate} inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" placeholder="Pilih Tanggal Efektif" />
                     </FieldRow>
                     <FieldRow label="Alasan Perubahan">
-                      <Textarea
-                        value={reason}
-                        onChange={(event) => setReason(event.target.value)}
-                        placeholder="Masukkan alasan perubahan suku bunga"
-                        className="min-h-[110px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      />
+                      <Textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Masukkan alasan perubahan suku bunga" className="min-h-[110px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" />
                     </FieldRow>
                   </div>
                 </div>
@@ -511,9 +389,7 @@ export default function LoanInterestChangeWizard({
             {step === 2 ? (
               <div className="grid gap-5">
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="loan-interest-summary-title px-4 py-3">
-                    Ringkasan Perubahan Suku Bunga
-                  </div>
+                  <div className="loan-interest-summary-title px-4 py-3">Ringkasan Perubahan Suku Bunga</div>
                   <div className="safe-x-scroll">
                     <table className="loan-interest-summary w-full min-w-[620px] border-collapse">
                       <thead>
@@ -527,23 +403,17 @@ export default function LoanInterestChangeWizard({
                         <tr className="border-b border-slate-100">
                           <td className="px-4 py-3">Suku Bunga</td>
                           <td className="px-4 py-3">12,00% per tahun</td>
-                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
-                            {simulation.rate.toFixed(2)}% per tahun
-                          </td>
+                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">{simulation.rate.toFixed(2)}% per tahun</td>
                         </tr>
                         <tr className="border-b border-slate-100 bg-slate-50/60">
                           <td className="px-4 py-3">Angsuran</td>
                           <td className="px-4 py-3">{simulation.beforeInstallment}</td>
-                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
-                            {simulation.afterInstallment}
-                          </td>
+                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">{simulation.afterInstallment}</td>
                         </tr>
                         <tr>
                           <td className="px-4 py-3">Total Nominal Pembayaran Bunga</td>
                           <td className="px-4 py-3">{simulation.beforeTotalInterest}</td>
-                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
-                            {simulation.afterTotalInterest}
-                          </td>
+                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">{simulation.afterTotalInterest}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -551,28 +421,19 @@ export default function LoanInterestChangeWizard({
                 </div>
 
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                    Alasan Perubahan
-                  </div>
+                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">Alasan Perubahan</div>
                   <p className="px-4 py-4 text-[14px] text-black">{reason}</p>
                 </div>
 
-                <BillingSimulationTable
-                  installments={simulation.installments}
-                  rate={simulation.rate}
-                />
+                <BillingSimulationTable installments={simulation.installments} rate={simulation.rate} />
               </div>
             ) : null}
 
             {step === 3 ? (
               <div className="grid gap-5">
                 <div>
-                  <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-                    Konfirmasi Perubahan Suku Bunga
-                  </h3>
-                  <p className="mt-2 text-[13px] text-slate-600">
-                    Pastikan semua nilai simulasi sudah sesuai sebelum menyimpan.
-                  </p>
+                  <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">Konfirmasi Perubahan Suku Bunga</h3>
+                  <p className="mt-2 text-[13px] text-slate-600">Pastikan semua nilai simulasi sudah sesuai sebelum menyimpan.</p>
                 </div>
                 <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -601,11 +462,7 @@ export default function LoanInterestChangeWizard({
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
             <button
               type="button"
-              onClick={() =>
-                step === 1
-                  ? onOpenChange(false)
-                  : setStep((current) => current - 1)
-              }
+              onClick={() => step === 1 ? onOpenChange(false) : setStep((current) => current - 1)}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white hover:bg-[#6b768c]"
             >
               {step === 1 ? <X className="h-4 w-4" strokeWidth={3} /> : <ChevronLeft className="h-4 w-4" strokeWidth={3} />}
@@ -613,17 +470,8 @@ export default function LoanInterestChangeWizard({
             </button>
             <button
               type="button"
-              onClick={
-                step === 1
-                  ? goToSimulation
-                  : step === 2
-                    ? () => setStep(3)
-                    : () => setConfirmOpen(true)
-              }
-              className={cn(
-                "inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold text-white",
-                step === 3 ? "bg-[#2fb300] hover:bg-[#279800]" : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
-              )}
+              onClick={step === 1 ? goToSimulation : step === 2 ? () => setStep(3) : () => setConfirmOpen(true)}
+              className={cn("inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold text-white", step === 3 ? "bg-[#2fb300] hover:bg-[#279800]" : "bg-[#5B3DF5] hover:bg-[#4C32D9]")}
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
               {step === 3 ? <Check className="h-4 w-4" strokeWidth={3} /> : <ChevronRight className="h-4 w-4" strokeWidth={3} />}

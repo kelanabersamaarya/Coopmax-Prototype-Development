@@ -1,6 +1,5 @@
 /* Ubah Suku Bunga > Step Simulasi:
-   Perubahan bunga berlaku pada angsuran ke-4 hingga ke-10.
-   Bingkai dibagi lintas halaman agar tetap konsisten saat data dipaginasi.
+   Perubahan bunga berlaku pada angsuran ke-4 hingga ke-12.
 */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
@@ -29,7 +28,6 @@
   border-right: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
-/* Awal blok periode: angsuran ke-4. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -52,7 +50,7 @@
   tbody
   tr[data-interest-change-start="true"]
   td:first-child::before {
-  content: "Periode Perubahan Suku Bunga\A Perubahan suku bunga diterapkan mulai angsuran ke-4 sampai ke-10. Nominal bunga dan total angsuran pada periode ini dihitung menggunakan suku bunga baru.";
+  content: "Periode Perubahan Suku Bunga\A Perubahan suku bunga diterapkan mulai angsuran ke-4 sampai ke-12. Nominal bunga dan total angsuran pada periode ini dihitung menggunakan suku bunga baru.";
   position: absolute;
   z-index: 3;
   left: 10px;
@@ -95,7 +93,6 @@
   line-height: 1;
 }
 
-/* Akhir blok periode: angsuran ke-10. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -104,7 +101,6 @@
   border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
-/* Nilai hasil bunga baru tetap diberi warna biru pada seluruh periode perubahan. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
