@@ -604,7 +604,7 @@ export default function LoanInterestChangeWizard({
                   onClick={() => onOpenChange(false)}
                   className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
                 >
-                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                  <X className="h-4 w-4" strokeWidth={3} />
                   Batal
                 </button>
               )}
