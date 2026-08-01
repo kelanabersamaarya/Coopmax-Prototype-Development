@@ -72,14 +72,6 @@ function FieldRow({
   );
 }
 
-function FormChangeInterestHeader() {
-  return (
-    <div className="bg-[#F9FAFF] px-5 py-3 text-[16px] font-extrabold uppercase tracking-[0.025em] text-slate-900">
-      Form Perubahan Suku Bunga
-    </div>
-  );
-}
-
 function AccountField({
   label,
   value,
@@ -293,7 +285,9 @@ export default function LoanInterestChangeWizard({
                 </div>
 
                 <div className="overflow-hidden rounded-[12px] bg-white pb-5 ring-1 ring-slate-200">
-                  <FormChangeInterestHeader />
+                  <div className="bg-[#F9FAFF] px-5 py-3 text-[16px] font-extrabold uppercase tracking-[0.025em] text-slate-900">
+                    Form Perubahan Suku Bunga
+                  </div>
 
                   <div className="grid gap-5 px-5 pt-5">
                     <FieldRow label="Suku Bunga Baru">
@@ -336,24 +330,14 @@ export default function LoanInterestChangeWizard({
 
             {step === 2 ? (
               <div className="grid gap-5">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <h3 className="text-[18px] font-extrabold text-slate-900">
-                      Simulasi Perubahan Bunga
-                    </h3>
-                    <p className="mt-2 text-[13px] text-slate-600">
-                      Estimasi bunga baru:{" "}
-                      <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => onOpenChange(false)}
-                    className="inline-flex h-9 items-center rounded-[5px] px-3 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50 hover:text-[#B71C2B]"
-                  >
-                    Batal
-                  </button>
+                <div>
+                  <h3 className="text-[18px] font-extrabold text-slate-900">
+                    Simulasi Perubahan Bunga
+                  </h3>
+                  <p className="mt-2 text-[13px] text-slate-600">
+                    Estimasi bunga baru:{" "}
+                    <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
+                  </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -481,17 +465,29 @@ export default function LoanInterestChangeWizard({
             ) : null}
           </main>
 
-          <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-            <button
-              type="button"
-              onClick={() =>
-                step === 1 ? onOpenChange(false) : setStep(step - 1)
-              }
-              className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
-            >
-              <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-              {step === 1 ? "Batal" : "Kembali"}
-            </button>
+          <footer className="flex items-center justify-between gap-3 border-t border-slate-200 px-6 py-4">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() =>
+                  step === 1 ? onOpenChange(false) : setStep(step - 1)
+                }
+                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+              >
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                {step === 1 ? "Batal" : "Kembali"}
+              </button>
+
+              {step === 2 ? (
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className="inline-flex h-10 min-w-[78px] items-center justify-center rounded-[5px] px-3 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50 hover:text-[#B71C2B]"
+                >
+                  Batal
+                </button>
+              ) : null}
+            </div>
 
             <button
               type="button"
