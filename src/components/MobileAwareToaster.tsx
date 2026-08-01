@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentInputFix";
+import LoanInterestChangeSuccessGate from "@/components/loans/LoanInterestChangeSuccessGate";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 
 export default function MobileAwareToaster() {
@@ -34,6 +35,7 @@ export default function MobileAwareToaster() {
   return (
     <>
       <LoanInterestPercentInputFix />
+      <LoanInterestChangeSuccessGate />
       <LoanProductTermsSection />
       {shouldHideToaster ? null : (
         <Sonner
