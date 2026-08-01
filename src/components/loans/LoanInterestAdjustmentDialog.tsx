@@ -125,6 +125,10 @@ export default function LoanInterestAdjustmentDialog({
 
   const nominalInputClassName = cn(inputClassName, "text-left tabular-nums");
 
+  const amountLabel = isAdditionalInterest
+    ? "Nominal Bunga Tambahan"
+    : "Nominal Pengurangan";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -203,9 +207,7 @@ export default function LoanInterestAdjustmentDialog({
                   {adjustmentType !== "Pembebasan Seluruh Bunga" ? (
                     <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                       <label className="text-[14px] font-normal text-[#002060]">
-                        {isAdditionalInterest
-                          ? "Nominal Bunga Tambahan"
-                          : "Nominal Penyesuaian"}
+                        {amountLabel}
                         <span className="text-rose-600"> *</span>
                       </label>
                       <FormattedNominalInput
