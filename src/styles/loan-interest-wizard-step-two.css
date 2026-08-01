@@ -60,12 +60,154 @@
   line-height: 1.25 !important;
 }
 
-/* Langkah kedua: hilangkan teks "Estimasi bunga baru" tepat setelah judul simulasi. */
+/* ==========================================================================
+   STEP 2 — SIMULASI PERUBAHAN SUKU BUNGA
+   ========================================================================== */
+
+/* Setiap judul section menggunakan kapital, 14px, dan warna hitam. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  h3.text-\[18px\].font-extrabold.text-slate-900,
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.overflow-hidden.rounded-\[12px\].border
+  > div:first-child,
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.rounded-\[12px\].bg-\[\#F6FAFF\]
+  > div:first-child {
+  color: #000000 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.025em !important;
+  text-transform: uppercase !important;
+}
+
+/* Sembunyikan deskripsi estimasi lama di bawah judul simulasi. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
   h3.text-\[18px\].font-extrabold.text-slate-900
   + p {
   display: none !important;
+}
+
+/* Semua isi tabel simulasi normal dan berwarna hitam. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  tbody
+  td,
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  tbody
+  td
+  * {
+  color: #000000 !important;
+  font-weight: 400 !important;
+}
+
+/* Table header menggunakan #F9FAFF, hitam, dan boleh bold. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  thead,
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  thead
+  tr,
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  thead
+  th {
+  background-color: #f9faff !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* Kolom sesudah penyesuaian tetap menjadi satu-satunya isi tabel yang berwarna. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  tbody
+  td:nth-child(5),
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  tbody
+  td:nth-child(5)
+  *,
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  tbody
+  td:nth-child(7),
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  table
+  tbody
+  td:nth-child(7)
+  * {
+  color: #5b3df5 !important;
+  font-weight: 400 !important;
+}
+
+/* Section alasan perubahan menyerupai tabel:
+   hanya header memakai #F9FAFF, isi putih dengan teks hitam normal. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.rounded-\[12px\].bg-\[\#F6FAFF\].ring-1 {
+  overflow: hidden !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+}
+
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.rounded-\[12px\].bg-\[\#F6FAFF\].ring-1
+  > div:first-child {
+  margin: -1rem -1rem 0 !important;
+  padding: 0.75rem 1rem !important;
+  background-color: #f9faff !important;
+}
+
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.rounded-\[12px\].bg-\[\#F6FAFF\].ring-1
+  > p {
+  color: #000000 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+/* Ubah judul tabel simulasi tanpa mengubah struktur komponen. */
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.overflow-hidden.rounded-\[12px\].border
+  > div:first-child {
+  font-size: 0 !important;
+  line-height: 1 !important;
+}
+
+[data-radix-dialog-content]:has(input[placeholder="%"])
+  main.max-h-\[60vh\].overflow-auto
+  > div
+  > div.overflow-hidden.rounded-\[12px\].border
+  > div:first-child::before {
+  content: "SIMULASI ANGSURAN SETELAH PERUBAHAN SUKU BUNGA";
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
 }
 
 @media (min-width: 768px) {
