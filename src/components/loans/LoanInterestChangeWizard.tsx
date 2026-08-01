@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import LoanInterestHistoryDialog from "@/components/loans/LoanInterestHistoryDialog";
 
 const steps = [
   { id: 1, label: "Informasi & Perubahan" },
@@ -280,6 +281,7 @@ export default function LoanInterestChangeWizard({
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [historyOpen, setHistoryOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -289,6 +291,7 @@ export default function LoanInterestChangeWizard({
     setEffectiveDate("");
     setReason("");
     setConfirmOpen(false);
+    setHistoryOpen(false);
   }, [open]);
 
   const simulation = React.useMemo(() => {
@@ -370,6 +373,12 @@ export default function LoanInterestChangeWizard({
 
   return (
     <>
+      <LoanInterestHistoryDialog
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+        accountNo={accountNo}
+      />
+
       <ChangeConfirmDialog
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
@@ -414,7 +423,7 @@ export default function LoanInterestChangeWizard({
                       </div>
                       <button
                         type="button"
-                        onClick={() => toast("Riwayat perubahan bunga (prototype)")}
+                        onClick={() => setHistoryOpen(true)}
                         className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
                       >
                         <Eye className="h-4 w-4" />
@@ -485,11 +494,11 @@ export default function LoanInterestChangeWizard({
                     afterTotalInterest={simulation.afterTotalInterest}
                   />
 
-                  <div className="rounded-[12px] bg-[#F6FAFF] px-4 py-4 ring-1 ring-[#D8E8FF]">
-                    <div className="text-[12px] font-extrabold uppercase tracking-wide text-[#315E8F]">
+                  <div className="overflow-hidden rounded-[12px] bg-white pb-4 ring-1 ring-slate-200">
+                    <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                       Alasan Perubahan
                     </div>
-                    <p className="mt-2 text-[14px] leading-relaxed text-slate-700">
+                    <p className="px-4 pt-4 text-[14px] leading-relaxed text-black">
                       {reason}
                     </p>
                   </div>
@@ -569,14 +578,7 @@ export default function LoanInterestChangeWizard({
               ) : null}
             </main>
 
-            <footer
-              className={cn(
-                "flex border-t border-slate-200 px-6 py-4",
-                isSimulationStep
-                  ? "items-center justify-between"
-                  : "items-center justify-between",
-              )}
-            >
+            <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
               {isSimulationStep ? (
                 <div className="flex items-center gap-4">
                   <button
