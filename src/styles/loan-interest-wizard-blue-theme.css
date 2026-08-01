@@ -1,0 +1,32 @@
+/* Ubah Suku Bunga:
+   Samakan indikator langkah dan tombol navigasi wizard dengan warna biru. */
+
+[data-loan-interest-wizard="true"] {
+  --loan-interest-blue: #2563eb;
+  --loan-interest-blue-hover: #1d4ed8;
+  --loan-interest-blue-soft: #eff6ff;
+}
+
+/* Lingkaran langkah aktif dan garis penghubung. */
+[data-loan-interest-wizard="true"] .bg-\[\#5B3DF5\] {
+  background-color: var(--loan-interest-blue) !important;
+}
+
+[data-loan-interest-wizard="true"] .bg-\[\#5B3DF5\]:hover {
+  background-color: var(--loan-interest-blue-hover) !important;
+}
+
+/* Tombol Lanjutkan pada langkah pertama dan kedua. */
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#5B3DF5\] {
+  background-color: var(--loan-interest-blue) !important;
+}
+
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#5B3DF5\]:hover {
+  background-color: var(--loan-interest-blue-hover) !important;
+}
+
+/* Nilai hasil perhitungan setelah penyesuaian tetap konsisten biru. */
+[data-loan-interest-wizard="true"] .text-\[\#5B3DF5\],
+[data-loan-interest-wizard="true"] .text-\[\#5B3DF5\] * {
+  color: var(--loan-interest-blue) !important;
+}

@@ -50,5 +50,6 @@ import "./styles/loan-interest-wizard-save-icon.css";
 import "./styles/loan-interest-change-marker.css";
 import "./styles/loan-interest-simulation-outside-period.css";
 import "./styles/loan-debt-change-wizard.css";
+import "./styles/loan-interest-wizard-blue-theme.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
