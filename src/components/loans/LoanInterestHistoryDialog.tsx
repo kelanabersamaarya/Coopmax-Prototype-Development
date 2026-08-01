@@ -6,12 +6,11 @@ import { cn } from "@/lib/utils";
 
 const historyRows = [
   {
-    date: "07-04-2026",
     previousRate: "10,00%",
     newRate: "12,00%",
     effectiveDate: "07-04-2026",
     reason: "Penyesuaian bunga sesuai kebijakan produk pinjaman.",
-    updatedBy: "Gina Farida M.M.",
+    changedAt: "07-04-2026 10:35:20",
   },
 ];
 
@@ -61,21 +60,19 @@ export default function LoanInterestHistoryDialog({
               <table className="w-full min-w-[760px] border-collapse">
                 <thead className="bg-[#F9FAFF]">
                   <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-black">
-                    <th className="px-4 py-3">Tanggal Perubahan</th>
-                    <th className="px-4 py-3">Bunga Sebelumnya</th>
-                    <th className="px-4 py-3">Bunga Baru</th>
+                    <th className="px-4 py-3">Suku Bunga Lama</th>
+                    <th className="px-4 py-3">Suku Bunga Baru</th>
                     <th className="px-4 py-3">Tanggal Efektif</th>
-                    <th className="px-4 py-3">Alasan</th>
-                    <th className="px-4 py-3">Diubah Oleh</th>
+                    <th className="px-4 py-3">Alasan Perubahan</th>
+                    <th className="px-4 py-3">Tanggal & Waktu Perubahan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {historyRows.map((row) => (
                     <tr
-                      key={`${row.date}-${row.newRate}`}
+                      key={`${row.changedAt}-${row.newRate}`}
                       className="border-b border-slate-100 text-[12px] text-black last:border-b-0"
                     >
-                      <td className="px-4 py-3 tabular-nums">{row.date}</td>
                       <td className="px-4 py-3 tabular-nums">
                         {row.previousRate}
                       </td>
@@ -86,7 +83,9 @@ export default function LoanInterestHistoryDialog({
                         {row.effectiveDate}
                       </td>
                       <td className="px-4 py-3">{row.reason}</td>
-                      <td className="px-4 py-3">{row.updatedBy}</td>
+                      <td className="px-4 py-3 tabular-nums whitespace-nowrap">
+                        {row.changedAt}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
