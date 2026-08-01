@@ -51,7 +51,12 @@ function FieldRow({
         textarea ? "sm:items-start" : "sm:items-center",
       )}
     >
-      <label className={cn("text-[14px] font-normal text-[#002060]", textarea && "sm:pt-1")}>
+      <label
+        className={cn(
+          "text-[14px] font-normal text-[#002060]",
+          textarea && "sm:pt-1",
+        )}
+      >
         {label} <span className="text-rose-600">*</span>
       </label>
       {children}
@@ -61,7 +66,7 @@ function FieldRow({
 
 function FormChangeInterestHeader() {
   return (
-    <div className="bg-[#F9FAFF] px-5 py-3 text-[17px] font-extrabold uppercase tracking-[0.025em] text-slate-900">
+    <div className="bg-[#F9FAFF] px-5 py-3 text-[16px] font-extrabold uppercase tracking-[0.025em] text-slate-900">
       Form Perubahan Suku Bunga
     </div>
   );
@@ -108,9 +113,15 @@ function WizardStepper({ step }: { step: number }) {
                 {item.label}
               </div>
             </div>
+
             {index < steps.length - 1 ? (
               <div className="mt-[19px] h-[2px] flex-1 bg-slate-200">
-                <div className={cn("h-full bg-[#5B3DF5]", item.id < step ? "w-full" : "w-0")} />
+                <div
+                  className={cn(
+                    "h-full bg-[#5B3DF5]",
+                    item.id < step ? "w-full" : "w-0",
+                  )}
+                />
               </div>
             ) : null}
           </React.Fragment>
@@ -136,6 +147,7 @@ export default function LoanInterestChangeWizard({
 
   React.useEffect(() => {
     if (!open) return;
+
     setStep(1);
     setNewRate("");
     setEffectiveDate("");
@@ -203,6 +215,7 @@ export default function LoanInterestChangeWizard({
             <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
               Ubah Suku Bunga Pinjaman
             </h2>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -220,12 +233,15 @@ export default function LoanInterestChangeWizard({
               <div className="grid gap-7">
                 <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm md:p-6">
                   <div className="flex items-center justify-between gap-4">
-                    <div className="text-[15px] font-extrabold tracking-wide">
+                    <div className="text-[16px] font-extrabold tracking-wide">
                       INFORMASI REKENING PINJAMAN
                     </div>
+
                     <button
                       type="button"
-                      onClick={() => toast("Riwayat perubahan bunga (prototype)")}
+                      onClick={() =>
+                        toast("Riwayat perubahan bunga (prototype)")
+                      }
                       className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
                     >
                       <Eye className="h-4 w-4" />
@@ -238,7 +254,9 @@ export default function LoanInterestChangeWizard({
                       <AccountField
                         key={label}
                         label={label}
-                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
+                        value={
+                          label === "No. Rek. Pinjaman" ? accountNo : value
+                        }
                       />
                     ))}
                   </div>
@@ -293,13 +311,16 @@ export default function LoanInterestChangeWizard({
                     Simulasi Perubahan Bunga
                   </h3>
                   <p className="mt-2 text-[13px] text-slate-600">
-                    Estimasi bunga baru: <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
+                    Estimasi bunga baru:{" "}
+                    <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
                   </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-[12px] bg-slate-50 p-4 ring-1 ring-slate-200">
-                    <div className="text-[12px] text-slate-500">Angsuran Bulanan</div>
+                    <div className="text-[12px] text-slate-500">
+                      Angsuran Bulanan
+                    </div>
                     <div className="mt-2 text-[13px] text-slate-600">
                       Sebelum: {simulation.beforeInstallment}
                     </div>
@@ -309,7 +330,9 @@ export default function LoanInterestChangeWizard({
                   </div>
 
                   <div className="rounded-[12px] bg-slate-50 p-4 ring-1 ring-slate-200">
-                    <div className="text-[12px] text-slate-500">Total Bunga Sisa Tenor</div>
+                    <div className="text-[12px] text-slate-500">
+                      Total Bunga Sisa Tenor
+                    </div>
                     <div className="mt-2 text-[13px] text-slate-600">
                       Sebelum: {simulation.beforeTotalInterest}
                     </div>
@@ -338,8 +361,11 @@ export default function LoanInterestChangeWizard({
                     <div>Sebelum</div>
                     <div>Sesudah</div>
                   </div>
+
                   <div className="grid gap-2 px-4 py-4 text-[13px] sm:grid-cols-[180px_1fr_1fr]">
-                    <div className="font-semibold text-slate-700">Suku Bunga</div>
+                    <div className="font-semibold text-slate-700">
+                      Suku Bunga
+                    </div>
                     <div className="rounded-[8px] bg-slate-100 px-3 py-2">
                       {currentRate.toFixed(2)}% per tahun
                     </div>
@@ -362,7 +388,9 @@ export default function LoanInterestChangeWizard({
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
             <button
               type="button"
-              onClick={() => (step === 1 ? onOpenChange(false) : setStep(step - 1))}
+              onClick={() =>
+                step === 1 ? onOpenChange(false) : setStep(step - 1)
+              }
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
               <ChevronLeft className="h-4 w-4" strokeWidth={3} />
