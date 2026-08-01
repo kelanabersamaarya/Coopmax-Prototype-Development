@@ -35,14 +35,9 @@ export default function LoanInterestHistoryDialog({
         )}
       >
         <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-          <div>
-            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
-              Riwayat Perubahan Suku Bunga
-            </h2>
-            <p className="mt-1 text-[12px] font-medium text-slate-500">
-              Rekening pinjaman: {accountNo}
-            </p>
-          </div>
+          <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
+            Riwayat Perubahan Suku Bunga
+          </h2>
 
           <button
             type="button"
@@ -103,6 +98,8 @@ export default function LoanInterestHistoryDialog({
             Tutup
           </button>
         </footer>
+
+        <span className="sr-only">{accountNo}</span>
       </DialogContent>
     </Dialog>
   );
