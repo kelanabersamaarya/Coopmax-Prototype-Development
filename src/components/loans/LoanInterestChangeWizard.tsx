@@ -39,6 +39,7 @@ function formatDueDate(monthOffset: number) {
   const date = new Date(2026, 7 + monthOffset, 7);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
+
   return `${day}-${month}-${date.getFullYear()}`;
 }
 
@@ -335,14 +336,24 @@ export default function LoanInterestChangeWizard({
 
             {step === 2 ? (
               <div className="grid gap-5">
-                <div>
-                  <h3 className="text-[18px] font-extrabold text-slate-900">
-                    Simulasi Perubahan Bunga
-                  </h3>
-                  <p className="mt-2 text-[13px] text-slate-600">
-                    Estimasi bunga baru:{" "}
-                    <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
-                  </p>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-[18px] font-extrabold text-slate-900">
+                      Simulasi Perubahan Bunga
+                    </h3>
+                    <p className="mt-2 text-[13px] text-slate-600">
+                      Estimasi bunga baru:{" "}
+                      <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => onOpenChange(false)}
+                    className="inline-flex h-9 items-center rounded-[5px] px-3 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50 hover:text-[#B71C2B]"
+                  >
+                    Batal
+                  </button>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -384,8 +395,12 @@ export default function LoanInterestChangeWizard({
                           <th className="px-3 py-3">Jatuh Tempo</th>
                           <th className="px-3 py-3 text-right">Pokok</th>
                           <th className="px-3 py-3 text-right">Bunga</th>
-                          <th className="px-3 py-3 text-right">Total Angsuran</th>
-                          <th className="px-3 py-3 text-right">Sisa Pinjaman</th>
+                          <th className="px-3 py-3 text-right">
+                            Total Angsuran
+                          </th>
+                          <th className="px-3 py-3 text-right">
+                            Sisa Pinjaman
+                          </th>
                         </tr>
                       </thead>
 
