@@ -15,7 +15,7 @@ import { saveLoanInterestRate } from "@/lib/loanInterestStore";
 const currentRate = 12;
 const currentInstallment = 1_120_000;
 const remainingPrincipal = 10_553_571;
-const remainingTenor = 10;
+const remainingTenor = 12;
 
 const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
@@ -23,10 +23,23 @@ const accountDetails = [
   ["Produk Pinjaman", "Pinjaman Bulanan"],
   ["Suku Bunga Saat Ini", "12,00% per tahun"],
   ["Baki Debet", "10.553.571,00"],
-  ["Sisa Tenor", "10 Bulan"],
+  ["Sisa Tenor", "12 Bulan"],
   ["Angsuran Berjalan", "1.120.000,00"],
   ["Tanggal Jatuh Tempo Berikutnya", "07-08-2026"],
 ] as const;
+
+type SimulationInstallment = {
+  number: number;
+  dueDate: string;
+  principal: number;
+  beforeInterest: number;
+  afterInterest: number;
+  remainingPrincipal: number;
+  beforeRemainingInterest: number;
+  afterRemainingInterest: number;
+  beforeInstallment: number;
+  afterInstallment: number;
+};
 
 function formatIdr(value: number) {
   return `${Math.round(value).toLocaleString("id-ID")},00`;
@@ -112,20 +125,26 @@ function BillingSimulationTable({
   installments,
   rate,
 }: {
-  installments: Array<{
-    number: number;
-    dueDate: string;
-    principal: number;
-    beforeInterest: number;
-    afterInterest: number;
-    remainingPrincipal: number;
-    beforeRemainingInterest: number;
-    afterRemainingInterest: number;
-    beforeInstallment: number;
-    afterInstallment: number;
-  }>;
+  installments: SimulationInstallment[];
   rate: number;
 }) {
+  const pageSize = 6;
+  const [page, setPage] = React.useState(1);
+  const pageCount = Math.max(1, Math.ceil(installments.length / pageSize));
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const pagedInstallments = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return installments.slice(start, start + pageSize);
+  }, [installments, page]);
+
+  const showingStart =
+    installments.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(installments.length, page * pageSize);
+
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
@@ -151,52 +170,96 @@ function BillingSimulationTable({
             </tr>
           </thead>
           <tbody className="text-[12px] text-black">
-            {installments.map((item, index) => (
-              <tr
-                key={item.number}
-                className={cn(
-                  "border-b border-slate-100",
-                  index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                )}
-              >
-                <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
-                <td className="px-3 py-2.5 tabular-nums">{item.dueDate}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">
-                  {formatIdr(item.beforeInstallment)}
-                </td>
-                <td className="px-3 py-2.5 text-right tabular-nums">
-                  {formatIdr(item.principal)}
-                </td>
-                <td className="px-3 py-2.5 text-right tabular-nums">
-                  {formatIdr(item.beforeInterest)}
-                </td>
-                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                  {formatIdr(item.afterInterest)}
-                </td>
-                <td className="px-3 py-2.5 text-right tabular-nums">
-                  {formatIdr(item.remainingPrincipal)}
-                </td>
-                <td className="px-3 py-2.5 text-right tabular-nums">
-                  {formatIdr(item.beforeRemainingInterest)}
-                </td>
-                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                  {formatIdr(item.afterRemainingInterest)}
-                </td>
-                <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">
-                  {formatIdr(item.beforeInstallment)}
-                </td>
-                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                  {formatIdr(item.afterInstallment)}
-                </td>
-              </tr>
-            ))}
+            {pagedInstallments.map((item, index) => {
+              const inChangedPeriod = item.number >= 4 && item.number <= 10;
+              const changeStart = item.number === 4;
+              const changeEnd = item.number === 10;
+
+              return (
+                <tr
+                  key={item.number}
+                  data-interest-change={inChangedPeriod ? "true" : undefined}
+                  data-interest-change-start={changeStart ? "true" : undefined}
+                  data-interest-change-end={changeEnd ? "true" : undefined}
+                  className={cn(
+                    "border-b border-slate-100",
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                  )}
+                >
+                  <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
+                  <td className="px-3 py-2.5 tabular-nums">{item.dueDate}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeInstallment)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.principal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(item.afterInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.remainingPrincipal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeRemainingInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(item.afterRemainingInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeInstallment)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(item.afterInstallment)}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
-      <div className="border-t border-slate-200 bg-slate-50 px-4 py-3 text-[12px] text-slate-600">
-        Simulasi menggunakan suku bunga baru {rate.toFixed(2)}% per tahun.
+      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-[12px] text-slate-600">
+          Menampilkan {showingStart} sampai {showingEnd} dari {installments.length} periode tagihan
+          <span className="ml-1">• Suku bunga baru {rate.toFixed(2)}% per tahun.</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={page <= 1}
+            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            className={cn(
+              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
+              "bg-slate-100 text-slate-600 hover:bg-slate-200",
+              page <= 1 ? "cursor-not-allowed opacity-60" : "",
+            )}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Sebelumnya
+          </button>
+          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">
+            {page}
+          </span>
+          <button
+            type="button"
+            disabled={page >= pageCount}
+            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
+            className={cn(
+              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
+              "bg-slate-100 text-slate-600 hover:bg-slate-200",
+              page >= pageCount ? "cursor-not-allowed opacity-60" : "",
+            )}
+          >
+            Selanjutnya
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -563,7 +626,7 @@ export default function LoanInterestChangeWizard({
               )}
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? <Check className="h-4 w-4" strokeWidth={3} /> : <ChevronRight className="h-4 w-4" />}
+              {step === 3 ? <Check className="h-4 w-4" strokeWidth={3} /> : <ChevronRight className="h-4 w-4" strokeWidth={3} />}
             </button>
           </footer>
         </DialogContent>
