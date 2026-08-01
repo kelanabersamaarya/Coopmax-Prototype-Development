@@ -25,7 +25,7 @@
   text-transform: uppercase !important;
 }
 
-/* Seluruh header tabel berwarna putih dengan font 14px. */
+/* Tabel ringkasan perubahan memakai header putih. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   table
@@ -46,7 +46,7 @@
   font-weight: 700 !important;
 }
 
-/* Seluruh isi tabel normal, hitam, dan berukuran 14px. */
+/* Isi tabel ringkasan tetap normal dan hitam. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   table
@@ -83,6 +83,59 @@
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   table
+  tbody
+  td:nth-child(7)
+  * {
+  color: #5b3df5 !important;
+}
+
+/* Khusus tabel Simulasi Angsuran Setelah Perubahan Suku Bunga. */
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  thead,
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  thead
+  tr,
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  thead
+  th {
+  background-color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Seluruh angka dan isi baris tabel simulasi angsuran menjadi 12px. */
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  tbody
+  td,
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  tbody
+  td
+  * {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+/* Penekanan warna tetap diterapkan pada nilai sesudah penyesuaian. */
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  tbody
+  td:nth-child(5),
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  tbody
+  td:nth-child(5)
+  *,
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
+  tbody
+  td:nth-child(7),
+[data-loan-interest-wizard="true"]
+  table.w-full.min-w-\[1180px\]
   tbody
   td:nth-child(7)
   * {
