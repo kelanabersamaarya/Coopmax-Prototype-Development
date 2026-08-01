@@ -56,20 +56,18 @@ function FieldRow({
   );
 }
 
-function AccountField({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function AccountField({ label, value }: DebtField) {
   return (
-    <div>
+    <div className="min-w-0">
       <div className="text-[11px] font-semibold text-white/85">{label}</div>
-      <div className="mt-1 text-[14px] font-extrabold text-white">{value}</div>
+      <div className="mt-1 break-words text-[14px] font-extrabold leading-snug text-white">
+        {value}
+      </div>
     </div>
   );
 }
+
+type DebtField = { label: string; value: string };
 
 function ConfirmationDialog({
   open,
@@ -312,7 +310,7 @@ export default function LoanInterestChangeWizard({
                         className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
                       >
                         <Eye className="h-4 w-4" />
-                        Riwayat Perubahan Suku Bunga
+                        Lihat Riwayat Perubahan Suku Bunga
                       </button>
                     </div>
 

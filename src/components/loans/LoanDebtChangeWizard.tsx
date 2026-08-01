@@ -284,7 +284,7 @@ export default function LoanDebtChangeWizard({
                     className="inline-flex h-9 items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
                   >
                     <Clock3 className="h-4 w-4" />
-                    Riwayat Perubahan
+                    Lihat Riwayat Perubahan
                   </button>
                 </div>
 
