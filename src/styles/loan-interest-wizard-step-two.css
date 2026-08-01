@@ -60,12 +60,11 @@
   line-height: 1.25 !important;
 }
 
-/* Langkah kedua: sembunyikan deskripsi estimasi bunga, pertahankan judul simulasi. */
+/* Langkah kedua: hilangkan teks "Estimasi bunga baru" tepat setelah judul simulasi. */
 [data-radix-dialog-content]:has(input[placeholder="%"])
   main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-5
-  > div:first-child
-  > p {
+  h3.text-\[18px\].font-extrabold.text-slate-900
+  + p {
   display: none !important;
 }
 
