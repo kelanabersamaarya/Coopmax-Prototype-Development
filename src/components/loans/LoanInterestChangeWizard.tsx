@@ -35,6 +35,13 @@ function formatIdr(value: number) {
   return `${Math.round(value).toLocaleString("id-ID")},00`;
 }
 
+function formatDueDate(monthOffset: number) {
+  const date = new Date(2026, 7 + monthOffset, 7);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  return `${day}-${month}-${date.getFullYear()}`;
+}
+
 function FieldRow({
   label,
   children,
@@ -159,6 +166,27 @@ export default function LoanInterestChangeWizard({
     const beforeInterest = (remainingPrincipal * currentRate) / 100 / 12;
     const afterInterest = (remainingPrincipal * rate) / 100 / 12;
     const afterInstallment = currentInstallment - beforeInterest + afterInterest;
+    const monthlyPrincipal = remainingPrincipal / remainingTenor;
+
+    let outstanding = remainingPrincipal;
+
+    const installments = Array.from({ length: remainingTenor }, (_, index) => {
+      const principal = Math.min(monthlyPrincipal, outstanding);
+      const interest = (outstanding * rate) / 100 / 12;
+      const installment = principal + interest;
+      const remaining = Math.max(0, outstanding - principal);
+
+      outstanding = remaining;
+
+      return {
+        installmentNo: index + 1,
+        dueDate: formatDueDate(index),
+        principal,
+        interest,
+        installment,
+        remaining,
+      };
+    });
 
     return {
       rate,
@@ -166,6 +194,7 @@ export default function LoanInterestChangeWizard({
       afterInstallment: formatIdr(afterInstallment),
       beforeTotalInterest: formatIdr(beforeInterest * remainingTenor),
       afterTotalInterest: formatIdr(afterInterest * remainingTenor),
+      installments,
     };
   }, [newRate]);
 
@@ -339,6 +368,58 @@ export default function LoanInterestChangeWizard({
                     <div className="mt-1 text-[14px] font-extrabold text-[#5B3DF5]">
                       Sesudah: {simulation.afterTotalInterest}
                     </div>
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-3 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                    Tabel Simulasi Angsuran
+                  </div>
+
+                  <div className="safe-x-scroll">
+                    <table className="w-full min-w-[720px] border-collapse">
+                      <thead className="bg-white">
+                        <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
+                          <th className="px-3 py-3">Angsuran Ke</th>
+                          <th className="px-3 py-3">Jatuh Tempo</th>
+                          <th className="px-3 py-3 text-right">Pokok</th>
+                          <th className="px-3 py-3 text-right">Bunga</th>
+                          <th className="px-3 py-3 text-right">Total Angsuran</th>
+                          <th className="px-3 py-3 text-right">Sisa Pinjaman</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {simulation.installments.map((installment, index) => (
+                          <tr
+                            key={installment.installmentNo}
+                            className={cn(
+                              "border-b border-slate-100 text-[13px]",
+                              index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                            )}
+                          >
+                            <td className="px-3 py-2.5 font-semibold tabular-nums text-slate-900">
+                              {installment.installmentNo}
+                            </td>
+                            <td className="px-3 py-2.5 tabular-nums text-slate-700">
+                              {installment.dueDate}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-900">
+                              {formatIdr(installment.principal)}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-900">
+                              {formatIdr(installment.interest)}
+                            </td>
+                            <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                              {formatIdr(installment.installment)}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
+                              {formatIdr(installment.remaining)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
