@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
 
 type AdjustmentType =
   | "Pengurangan Bunga"
@@ -104,6 +105,11 @@ export default function LoanInterestAdjustmentDialog({
     "cursor-not-allowed bg-slate-200/80 text-slate-700",
   );
 
+  const nominalInputClassName = cn(
+    inputClassName,
+    "text-right tabular-nums",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -172,7 +178,10 @@ export default function LoanInterestAdjustmentDialog({
                       value="83.333,00"
                       readOnly
                       aria-readonly="true"
-                      className={readOnlyInputClassName}
+                      className={cn(
+                        readOnlyInputClassName,
+                        "text-right tabular-nums",
+                      )}
                     />
                   </div>
 
@@ -184,12 +193,12 @@ export default function LoanInterestAdjustmentDialog({
                           : "Nominal Penyesuaian"}
                         <span className="text-rose-600"> *</span>
                       </label>
-                      <Input
+                      <FormattedNominalInput
                         value={amount}
-                        onChange={(event) => setAmount(event.target.value)}
+                        onChange={setAmount}
                         placeholder="0,00"
-                        inputMode="decimal"
-                        className={inputClassName}
+                        inputMode="numeric"
+                        className={nominalInputClassName}
                       />
                     </div>
                   ) : null}
