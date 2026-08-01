@@ -4,7 +4,7 @@ import * as React from "react";
 import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BillingRow } from "@/components/anggota/BillingTableView2";
-import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
+import LoanInterestAdjustmentDialog from "@/components/loans/LoanInterestAdjustmentDialog";
 
 const seedRows: BillingRow[] = [
   {
@@ -53,7 +53,9 @@ export default function LoanBillingTablePreview({
   const rows = React.useMemo(() => seedRows, []);
   const pageSize = 6;
   const [page, setPage] = React.useState(1);
-  const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
+  const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(
+    null,
+  );
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
@@ -74,10 +76,12 @@ export default function LoanBillingTablePreview({
         className,
       )}
     >
-      <LoanInterestChangeWizard
-        open={interestWizardOpen}
-        onOpenChange={setInterestWizardOpen}
-        accountNo={accountNo}
+      <LoanInterestAdjustmentDialog
+        open={adjustmentDueDate !== null}
+        onOpenChange={(open) => {
+          if (!open) setAdjustmentDueDate(null);
+        }}
+        dueDate={adjustmentDueDate ?? ""}
       />
 
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
@@ -160,10 +164,10 @@ export default function LoanBillingTablePreview({
 
                       <button
                         type="button"
-                        onClick={() => setInterestWizardOpen(true)}
+                        onClick={() => setAdjustmentDueDate(row.jatuhTempo)}
                         className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white transition hover:bg-[#1D4ED8] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563EB]/25"
-                        aria-label={`Ubah bunga tagihan ${row.jatuhTempo}`}
-                        title="Ubah bunga"
+                        aria-label={`Penyesuaian bunga tagihan ${row.jatuhTempo}`}
+                        title="Penyesuaian bunga"
                       >
                         <Pencil className="h-3.5 w-3.5" strokeWidth={2.8} />
                       </button>
