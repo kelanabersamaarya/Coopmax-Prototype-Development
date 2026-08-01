@@ -101,13 +101,14 @@
   color: #000000 !important;
 }
 
+/* Nilai kolom Sesudah Perubahan menggunakan biru. */
 [data-loan-interest-wizard="true"] .loan-interest-summary tbody td:nth-child(3),
 [data-loan-interest-wizard="true"]
   .loan-interest-summary
   tbody
   td:nth-child(3)
   * {
-  color: #5b3df5 !important;
+  color: #2563eb !important;
 }
 
 /* Tabel simulasi angsuran setelah perubahan bunga. */
