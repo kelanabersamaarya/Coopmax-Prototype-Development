@@ -1,6 +1,6 @@
-/* Header modal Ubah Hutang Pinjaman */
+/* Modal Ubah Hutang Pinjaman: panel informasi dibuat rapat ke garis pembatas atas. */
 [data-radix-dialog-content] main.max-h-\[58vh\] {
-  padding-top: 0.75rem !important;
+  padding-top: 0 !important;
 }
 
 /* Hilangkan tombol close bawaan Dialog agar hanya tombol X header yang tampil. */
