@@ -515,10 +515,10 @@ export default function LoanInterestChangeWizard({
                               Tagihan Bunga Sesudah Penyesuaian
                             </th>
                             <th className="w-[200px] px-3 py-3 text-right">
-                              Total Angsuran Sebelum Penyesuaian
+                              Total Tagihan Sebelum Penyesuaian
                             </th>
                             <th className="w-[200px] px-3 py-3 text-right">
-                              Total Angsuran Sesudah Penyesuaian
+                              Total Tagihan Sesudah Penyesuaian
                             </th>
                             <th className="w-[160px] px-3 py-3 text-right">
                               Sisa Pinjaman
