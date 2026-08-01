@@ -150,7 +150,7 @@ export default function LoanDebtChangeWizard({
             "rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
           )}
         >
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
             <h3 className="text-[18px] font-extrabold text-slate-900">
               Riwayat Perubahan Hutang
             </h3>
@@ -192,26 +192,57 @@ export default function LoanDebtChangeWizard({
             "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
           )}
         >
-          <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-            <h2 className="text-[20px] font-extrabold tracking-tight text-slate-900">
-              Ubah Hutang Pinjaman
-            </h2>
+          <header className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 sm:px-6">
+            <div className="min-w-0">
+              <h2 className="text-[20px] font-extrabold leading-tight tracking-tight text-slate-900">
+                Ubah Hutang Pinjaman
+              </h2>
+              <div className="mt-1 text-[13px] font-semibold text-slate-500">
+                Rekening Pinjaman: {accountNo}
+              </div>
+            </div>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
               aria-label="Tutup"
+              title="Tutup"
             >
               <X className="h-5 w-5" />
             </button>
           </header>
 
           <div className="flex items-start gap-2 px-6 py-5">
-            <StepIndicator number={1} label="Informasi Pinjaman" active={step === 1} complete={step > 1} />
-            <div className={cn("mt-[18px] h-[2px] flex-1", step > 1 ? "bg-[#5B3DF5]" : "bg-slate-200")} />
-            <StepIndicator number={2} label="Simulasi" active={step === 2} complete={step > 2} />
-            <div className={cn("mt-[18px] h-[2px] flex-1", step > 2 ? "bg-[#5B3DF5]" : "bg-slate-200")} />
-            <StepIndicator number={3} label="Simpan Perubahan" active={step === 3} />
+            <StepIndicator
+              number={1}
+              label="Informasi Pinjaman"
+              active={step === 1}
+              complete={step > 1}
+            />
+            <div
+              className={cn(
+                "mt-[18px] h-[2px] flex-1",
+                step > 1 ? "bg-[#5B3DF5]" : "bg-slate-200",
+              )}
+            />
+            <StepIndicator
+              number={2}
+              label="Simulasi"
+              active={step === 2}
+              complete={step > 2}
+            />
+            <div
+              className={cn(
+                "mt-[18px] h-[2px] flex-1",
+                step > 2 ? "bg-[#5B3DF5]" : "bg-slate-200",
+              )}
+            />
+            <StepIndicator
+              number={3}
+              label="Simpan Perubahan"
+              active={step === 3}
+            />
           </div>
 
           <Separator className="bg-slate-200" />
@@ -248,22 +279,44 @@ export default function LoanDebtChangeWizard({
                     Simulasi Perubahan Hutang
                   </h3>
                   <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
-                    Masukkan penyesuaian kewajiban untuk melihat ringkasan sebelum disimpan.
+                    Masukkan penyesuaian kewajiban untuk melihat ringkasan sebelum
+                    disimpan.
                   </p>
                 </div>
 
                 <div className="grid gap-4 rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
                   <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] text-[#002060]">Tunggakan Pokok Baru</label>
-                    <Input value={principalDebt} onChange={(event) => setPrincipalDebt(event.target.value)} className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" inputMode="decimal" />
+                    <label className="text-[14px] text-[#002060]">
+                      Tunggakan Pokok Baru
+                    </label>
+                    <Input
+                      value={principalDebt}
+                      onChange={(event) => setPrincipalDebt(event.target.value)}
+                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      inputMode="decimal"
+                    />
                   </div>
                   <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] text-[#002060]">Tunggakan Bunga Baru</label>
-                    <Input value={interestDebt} onChange={(event) => setInterestDebt(event.target.value)} className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" inputMode="decimal" />
+                    <label className="text-[14px] text-[#002060]">
+                      Tunggakan Bunga Baru
+                    </label>
+                    <Input
+                      value={interestDebt}
+                      onChange={(event) => setInterestDebt(event.target.value)}
+                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      inputMode="decimal"
+                    />
                   </div>
                   <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] text-[#002060]">Denda dan Biaya Lainnya</label>
-                    <Input value={otherDebt} onChange={(event) => setOtherDebt(event.target.value)} className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" inputMode="decimal" />
+                    <label className="text-[14px] text-[#002060]">
+                      Denda dan Biaya Lainnya
+                    </label>
+                    <Input
+                      value={otherDebt}
+                      onChange={(event) => setOtherDebt(event.target.value)}
+                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      inputMode="decimal"
+                    />
                   </div>
                 </div>
 
@@ -273,10 +326,26 @@ export default function LoanDebtChangeWizard({
                     <span className="text-right">Sebelum</span>
                     <span className="text-right">Simulasi</span>
                   </div>
-                  <SummaryRow label="Tunggakan Pokok" before="0,00" after={principalDebt || "0,00"} />
-                  <SummaryRow label="Tunggakan Bunga" before="0,00" after={interestDebt || "0,00"} />
-                  <SummaryRow label="Denda dan Biaya" before="0,00" after={otherDebt || "0,00"} />
-                  <SummaryRow label="Total Kewajiban" before="10.553.571,00" after="10.553.571,00 + penyesuaian" />
+                  <SummaryRow
+                    label="Tunggakan Pokok"
+                    before="0,00"
+                    after={principalDebt || "0,00"}
+                  />
+                  <SummaryRow
+                    label="Tunggakan Bunga"
+                    before="0,00"
+                    after={interestDebt || "0,00"}
+                  />
+                  <SummaryRow
+                    label="Denda dan Biaya"
+                    before="0,00"
+                    after={otherDebt || "0,00"}
+                  />
+                  <SummaryRow
+                    label="Total Kewajiban"
+                    before="10.553.571,00"
+                    after="10.553.571,00 + penyesuaian"
+                  />
                 </div>
               </div>
             ) : null}
@@ -295,12 +364,20 @@ export default function LoanDebtChangeWizard({
                 <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <div className="text-[12px] font-semibold text-slate-500">Rekening Pinjaman</div>
-                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">{accountNo}</div>
+                      <div className="text-[12px] font-semibold text-slate-500">
+                        Rekening Pinjaman
+                      </div>
+                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                        {accountNo}
+                      </div>
                     </div>
                     <div>
-                      <div className="text-[12px] font-semibold text-slate-500">Nama Debitur</div>
-                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">Bapak Bagus</div>
+                      <div className="text-[12px] font-semibold text-slate-500">
+                        Nama Debitur
+                      </div>
+                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                        Bapak Bagus
+                      </div>
                     </div>
                   </div>
 
@@ -309,15 +386,23 @@ export default function LoanDebtChangeWizard({
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between gap-4 text-[14px]">
                       <span className="text-slate-600">Tunggakan Pokok</span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">{principalDebt || "0,00"}</span>
+                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
+                        {principalDebt || "0,00"}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between gap-4 text-[14px]">
                       <span className="text-slate-600">Tunggakan Bunga</span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">{interestDebt || "0,00"}</span>
+                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
+                        {interestDebt || "0,00"}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between gap-4 text-[14px]">
-                      <span className="text-slate-600">Denda dan Biaya Lainnya</span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">{otherDebt || "0,00"}</span>
+                      <span className="text-slate-600">
+                        Denda dan Biaya Lainnya
+                      </span>
+                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
+                        {otherDebt || "0,00"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -351,7 +436,9 @@ export default function LoanDebtChangeWizard({
               onClick={nextStep}
               className={cn(
                 "inline-flex h-10 min-w-[145px] items-center justify-center gap-2 rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-                step === 3 ? "bg-[#2fb300] hover:bg-[#279800]" : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
+                step === 3
+                  ? "bg-[#2fb300] hover:bg-[#279800]"
+                  : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
               )}
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
