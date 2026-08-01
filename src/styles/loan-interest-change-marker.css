@@ -28,7 +28,7 @@
   border-right: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
-/* Awal periode perubahan: angsuran ke-4. */
+/* Awal periode perubahan asli: angsuran ke-4. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -92,6 +92,15 @@
   font-size: 14px;
   font-weight: 800;
   line-height: 1;
+}
+
+/* Awal halaman lanjutan: periode perubahan tetap dibuka dengan garis atas biru. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]:first-child
+  td {
+  border-top: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
 /* Akhir periode asli: angsuran ke-12. */
