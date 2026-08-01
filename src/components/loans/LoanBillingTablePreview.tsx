@@ -9,22 +9,8 @@ import LoanInterestAdjustmentDialog, {
 } from "@/components/loans/LoanInterestAdjustmentDialog";
 
 const seedRows: BillingRow[] = [
-  {
-    jatuhTempo: "25-01-2026",
-    totalBelumDibayar: "916.667",
-    tagihanPokok: "833.333",
-    tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
-  },
-  {
-    jatuhTempo: "25-02-2026",
-    totalBelumDibayar: "916.667",
-    tagihanPokok: "833.333",
-    tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
-  },
+  { jatuhTempo: "25-01-2026", totalBelumDibayar: "916.667", tagihanPokok: "833.333", tagihanBunga: "83.333", sisaPokok: "783.333", sisaBunga: "26.389" },
+  { jatuhTempo: "25-02-2026", totalBelumDibayar: "916.667", tagihanPokok: "833.333", tagihanBunga: "83.333", sisaPokok: "783.333", sisaBunga: "26.389" },
   ...Array.from({ length: 8 }).map((_, index) => ({
     jatuhTempo: `25-${String(3 + index).padStart(2, "0")}-2026`,
     totalBelumDibayar: "916.667",
@@ -44,17 +30,11 @@ function parseIdr(value: string) {
 }
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value))
-    .toLocaleString("id-ID")
-    .replace(/,/g, ".");
+  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
 }
 
 function NumericCell({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="block w-full text-right tabular-nums whitespace-nowrap">
-      {children}
-    </span>
-  );
+  return <span className="block w-full text-right tabular-nums whitespace-nowrap">{children}</span>;
 }
 
 export default function LoanBillingTablePreview({
@@ -67,35 +47,43 @@ export default function LoanBillingTablePreview({
   const rows = React.useMemo(() => seedRows, []);
   const pageSize = 6;
   const [page, setPage] = React.useState(1);
-  const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(
-    null,
-  );
-  const [interestAdjustments, setInterestAdjustments] = React.useState<
-    Record<string, InterestAdjustment>
-  >({});
+  const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(null);
+  const [interestAdjustments, setInterestAdjustments] = React.useState<Record<string, InterestAdjustment>>({});
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
-
   const pagedRows = React.useMemo(() => {
     const start = (page - 1) * pageSize;
     return rows.slice(start, start + pageSize);
   }, [page, rows]);
 
-  const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
-  const showingEnd = Math.min(rows.length, page * pageSize);
-  const previousDisabled = page <= 1;
-  const nextDisabled = page >= pageCount;
+  const currentInterest = React.useMemo(() => {
+    if (!adjustmentDueDate) return "0,00";
+    const row = rows.find((item) => item.jatuhTempo === adjustmentDueDate);
+    if (!row) return "0,00";
+
+    const adjustment = interestAdjustments[adjustmentDueDate];
+    const baseInterest = parseIdr(row.tagihanBunga);
+
+    if (!adjustment) return formatIdr(baseInterest);
+    if (adjustment.type === "Pembebasan Seluruh Bunga") return "0,00";
+
+    const adjustmentAmount = parseIdr(adjustment.amount);
+    const nextInterest =
+      adjustment.type === "Penambahan Bunga"
+        ? baseInterest + adjustmentAmount
+        : Math.max(0, baseInterest - adjustmentAmount);
+
+    return formatIdr(nextInterest);
+  }, [adjustmentDueDate, interestAdjustments, rows]);
 
   function getAdjustedInterest(row: BillingRow) {
     const baseInterest = parseIdr(row.tagihanBunga);
     const adjustment = interestAdjustments[row.jatuhTempo];
 
     if (!adjustment) return baseInterest;
-
     if (adjustment.type === "Pembebasan Seluruh Bunga") return 0;
 
     const adjustmentAmount = parseIdr(adjustment.amount);
-
     return adjustment.type === "Penambahan Bunga"
       ? baseInterest + adjustmentAmount
       : Math.max(0, baseInterest - adjustmentAmount);
@@ -110,19 +98,20 @@ export default function LoanBillingTablePreview({
     }));
   }
 
+  const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(rows.length, page * pageSize);
+  const previousDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
+
   return (
-    <section
-      className={cn(
-        "loan-debt-billing-preview overflow-hidden rounded-[12px] border border-slate-200 bg-white shadow-sm",
-        className,
-      )}
-    >
+    <section className={cn("loan-debt-billing-preview overflow-hidden rounded-[12px] border border-slate-200 bg-white shadow-sm", className)}>
       <LoanInterestAdjustmentDialog
         open={adjustmentDueDate !== null}
         onOpenChange={(open) => {
           if (!open) setAdjustmentDueDate(null);
         }}
         dueDate={adjustmentDueDate ?? ""}
+        currentInterest={currentInterest}
         onSave={saveInterestAdjustment}
       />
 
@@ -134,41 +123,13 @@ export default function LoanBillingTablePreview({
         <table className="w-full min-w-[900px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[110px] px-4 py-3">
-                Jatuh
-                <br />
-                Tempo
-              </th>
-              <th className="w-[128px] px-4 py-3 text-right">
-                Total Tagihan
-                <br />
-                Belum Dibayar
-              </th>
-              <th className="w-[130px] px-4 py-3 text-right">
-                Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[130px] px-4 py-3 text-right">
-                Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[140px] px-4 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[140px] px-4 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[130px] px-4 py-3 text-right">
-                Tagihan
-                <br />
-                Denda
-              </th>
+              <th className="w-[110px] px-4 py-3">Jatuh<br />Tempo</th>
+              <th className="w-[128px] px-4 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
+              <th className="w-[130px] px-4 py-3 text-right">Tagihan<br />Pokok</th>
+              <th className="w-[130px] px-4 py-3 text-right">Tagihan<br />Bunga</th>
+              <th className="w-[140px] px-4 py-3 text-right">Sisa Tagihan<br />Pokok</th>
+              <th className="w-[140px] px-4 py-3 text-right">Sisa Tagihan<br />Bunga</th>
+              <th className="w-[130px] px-4 py-3 text-right">Tagihan<br />Denda</th>
             </tr>
           </thead>
 
@@ -179,9 +140,8 @@ export default function LoanBillingTablePreview({
               const inGracePeriod = globalIndex < 2;
               const adjustedInterest = getAdjustedInterest(row);
               const originalInterest = parseIdr(row.tagihanBunga);
-              const totalTagihan = parseIdr(row.totalBelumDibayar);
               const adjustedTotal =
-                totalTagihan - originalInterest + adjustedInterest;
+                parseIdr(row.totalBelumDibayar) - originalInterest + adjustedInterest;
 
               return (
                 <tr
@@ -191,24 +151,12 @@ export default function LoanBillingTablePreview({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
-                    {row.jatuhTempo}
-                  </td>
-
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>{formatIdr(adjustedTotal)}</NumericCell>
-                  </td>
-
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>
-                      {inGracePeriod ? "0,00" : row.tagihanPokok}
-                    </NumericCell>
-                  </td>
-
+                  <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">{row.jatuhTempo}</td>
+                  <td className="px-4 py-3 text-right"><NumericCell>{formatIdr(adjustedTotal)}</NumericCell></td>
+                  <td className="px-4 py-3 text-right"><NumericCell>{inGracePeriod ? "0,00" : row.tagihanPokok}</NumericCell></td>
                   <td className="px-4 py-3">
                     <div className="flex w-full items-center justify-end gap-2">
                       <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
-
                       <button
                         type="button"
                         onClick={() => setAdjustmentDueDate(row.jatuhTempo)}
@@ -220,20 +168,9 @@ export default function LoanBillingTablePreview({
                       </button>
                     </div>
                   </td>
-
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>
-                      {inGracePeriod ? "0,00" : row.sisaPokok}
-                    </NumericCell>
-                  </td>
-
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>{row.sisaBunga}</NumericCell>
-                  </td>
-
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
-                  </td>
+                  <td className="px-4 py-3 text-right"><NumericCell>{inGracePeriod ? "0,00" : row.sisaPokok}</NumericCell></td>
+                  <td className="px-4 py-3 text-right"><NumericCell>{row.sisaBunga}</NumericCell></td>
+                  <td className="px-4 py-3 text-right"><NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell></td>
                 </tr>
               );
             })}
@@ -245,7 +182,6 @@ export default function LoanBillingTablePreview({
         <div className="text-[12px] text-slate-600">
           Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
         </div>
-
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -260,17 +196,11 @@ export default function LoanBillingTablePreview({
             <ChevronLeft className="h-4 w-4" />
             Sebelumnya
           </button>
-
-          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">
-            {page}
-          </span>
-
+          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">{page}</span>
           <button
             type="button"
             disabled={nextDisabled}
-            onClick={() =>
-              setPage((current) => Math.min(pageCount, current + 1))
-            }
+            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
             className={cn(
               "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
               "bg-slate-100 text-slate-600 hover:bg-slate-200",
@@ -282,6 +212,8 @@ export default function LoanBillingTablePreview({
           </button>
         </div>
       </div>
+
+      <span className="sr-only">{accountNo}</span>
     </section>
   );
 }

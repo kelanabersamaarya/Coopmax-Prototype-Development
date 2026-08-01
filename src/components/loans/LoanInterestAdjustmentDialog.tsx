@@ -48,13 +48,7 @@ function AdjustmentConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
       <DialogContent
-        className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[528px]",
-          "max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
+        className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
       >
         <div className="px-8 pb-5 pt-10 text-center sm:px-10">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
@@ -62,11 +56,9 @@ function AdjustmentConfirmDialog({
               !
             </span>
           </div>
-
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
             Yakin untuk melakukan penyesuaian bunga?
           </h3>
-
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
               type="button"
@@ -99,23 +91,15 @@ function AdjustmentSuccessDialog({
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
       <DialogContent
-        className={cn(
-          "h-[300px] w-[calc(100vw-2rem)] max-w-[519px]",
-          "overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
+        className="h-[300px] w-[calc(100vw-2rem)] max-w-[519px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
       >
         <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
             <Check className="h-12 w-12 text-[#33aa00]" strokeWidth={3} />
           </div>
-
           <h3 className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
             Berhasil Melakukan Penyesuaian Bunga
           </h3>
-
           <button
             type="button"
             onClick={onOk}
@@ -133,11 +117,13 @@ export default function LoanInterestAdjustmentDialog({
   open,
   onOpenChange,
   dueDate,
+  currentInterest = "0,00",
   onSave,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dueDate: string;
+  currentInterest?: string;
   onSave?: (adjustment: InterestAdjustment) => void;
 }) {
   const [adjustmentType, setAdjustmentType] = React.useState<
@@ -151,6 +137,9 @@ export default function LoanInterestAdjustmentDialog({
   const [successOpen, setSuccessOpen] = React.useState(false);
 
   const isAdditionalInterest = adjustmentType === "Penambahan Bunga";
+  const amountLabel = isAdditionalInterest
+    ? "Nominal Bunga Tambahan"
+    : "Nominal Pengurangan";
 
   React.useEffect(() => {
     if (!open) return;
@@ -169,22 +158,18 @@ export default function LoanInterestAdjustmentDialog({
       toast("Jenis penyesuaian wajib dipilih");
       return false;
     }
-
     if (adjustmentType !== "Pembebasan Seluruh Bunga" && !amount.trim()) {
       toast("Nominal penyesuaian wajib diisi");
       return false;
     }
-
     if (isAdditionalInterest && !effectiveDate.trim()) {
       toast("Tanggal efektif wajib diisi");
       return false;
     }
-
     if (isAdditionalInterest && !interestPeriod.trim()) {
       toast("Periode bunga wajib diisi");
       return false;
     }
-
     if (!reason.trim()) {
       toast(
         isAdditionalInterest
@@ -193,13 +178,7 @@ export default function LoanInterestAdjustmentDialog({
       );
       return false;
     }
-
     return true;
-  }
-
-  function requestSave() {
-    if (!validateAdjustment()) return;
-    setConfirmOpen(true);
   }
 
   function confirmSave() {
@@ -212,33 +191,15 @@ export default function LoanInterestAdjustmentDialog({
       interestPeriod,
       reason,
     });
-
     setConfirmOpen(false);
     setSuccessOpen(true);
-  }
-
-  function closeSuccess() {
-    setSuccessOpen(false);
-    onOpenChange(false);
   }
 
   const inputClassName = cn(
     "h-[32px] rounded-[5px] border-[#CBD5E1] bg-white px-3",
     "text-[14px] font-normal text-slate-900 shadow-none",
-    "placeholder:text-[#64748B]",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "placeholder:text-[#64748B] focus-visible:ring-0 focus-visible:ring-offset-0",
   );
-
-  const readOnlyInputClassName = cn(
-    inputClassName,
-    "cursor-not-allowed bg-slate-200/80 text-slate-700",
-  );
-
-  const nominalInputClassName = cn(inputClassName, "text-left tabular-nums");
-
-  const amountLabel = isAdditionalInterest
-    ? "Nominal Bunga Tambahan"
-    : "Nominal Pengurangan";
 
   return (
     <>
@@ -247,176 +208,165 @@ export default function LoanInterestAdjustmentDialog({
         onCancel={() => setConfirmOpen(false)}
         onConfirm={confirmSave}
       />
-
-      <AdjustmentSuccessDialog open={successOpen} onOk={closeSuccess} />
-
-      <Dialog
-        open={open && !successOpen}
-        onOpenChange={(nextOpen) => {
-          if (!nextOpen) onOpenChange(false);
+      <AdjustmentSuccessDialog
+        open={successOpen}
+        onOk={() => {
+          setSuccessOpen(false);
+          onOpenChange(false);
         }}
-      >
+      />
+
+      <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
         <DialogContent
-          className={cn(
-            "w-[calc(100vw-1rem)] sm:w-[720px]",
-            "max-w-[720px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
-            "[&>button[aria-label=Close]]:hidden",
-            "[&>button.absolute.right-4.top-4]:hidden",
-            "[&_[data-slot=dialog-close]]:hidden",
-          )}
+          className="w-[calc(100vw-1rem)] max-w-[720px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[720px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
         >
-          <div className="bg-white">
-            <header className="flex items-center justify-between border-b border-[#CBD5E1] px-6 py-4">
-              <h2 className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
-                Penyesuaian Bunga
-              </h2>
+          <header className="flex items-center justify-between border-b border-[#CBD5E1] px-6 py-4">
+            <h2 className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
+              Penyesuaian Bunga
+            </h2>
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
+              aria-label="Tutup"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </header>
 
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
-                aria-label="Tutup"
-                title="Tutup"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </header>
+          <main className="max-h-[60vh] overflow-auto px-6 py-6">
+            <div className="grid gap-5">
+              <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                <label className="text-[14px] font-normal text-[#002060]">
+                  Jenis Penyesuaian<span className="text-rose-600"> *</span>
+                </label>
+                <Select
+                  value={adjustmentType}
+                  onValueChange={(value) => {
+                    setAdjustmentType(value as InterestAdjustmentType);
+                    setAmount("");
+                    setEffectiveDate("");
+                    setInterestPeriod("");
+                    setReason("");
+                  }}
+                >
+                  <SelectTrigger className={inputClassName}>
+                    <SelectValue placeholder="Pilih Jenis Penyesuaian" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-[5px] border-slate-200">
+                    {adjustmentOptions.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <main className="max-h-[60vh] overflow-auto px-6 py-6">
-              <div className="grid gap-5">
-                <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                  <label className="text-[14px] font-normal text-[#002060]">
-                    Jenis Penyesuaian<span className="text-rose-600"> *</span>
-                  </label>
+              {adjustmentType ? (
+                <>
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Nominal Bunga Saat Ini
+                    </label>
+                    <Input
+                      value={currentInterest}
+                      readOnly
+                      aria-readonly="true"
+                      className={cn(
+                        inputClassName,
+                        "cursor-not-allowed bg-slate-200/80 text-left tabular-nums text-slate-700",
+                      )}
+                    />
+                  </div>
 
-                  <Select
-                    value={adjustmentType}
-                    onValueChange={(value) => {
-                      setAdjustmentType(value as InterestAdjustmentType);
-                      setAmount("");
-                      setEffectiveDate("");
-                      setInterestPeriod("");
-                      setReason("");
-                    }}
-                  >
-                    <SelectTrigger className={inputClassName}>
-                      <SelectValue placeholder="Pilih Jenis Penyesuaian" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-[5px] border-slate-200">
-                      {adjustmentOptions.map((option) => (
-                        <SelectItem key={option} value={option}>
-                          {option}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {adjustmentType ? (
-                  <>
+                  {adjustmentType !== "Pembebasan Seluruh Bunga" ? (
                     <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                       <label className="text-[14px] font-normal text-[#002060]">
-                        Nominal Bunga Saat Ini
+                        {amountLabel}<span className="text-rose-600"> *</span>
                       </label>
-                      <Input
-                        value="83.333,00"
-                        readOnly
-                        aria-readonly="true"
-                        className={cn(
-                          readOnlyInputClassName,
-                          "text-left tabular-nums",
-                        )}
+                      <FormattedNominalInput
+                        value={amount}
+                        onChange={setAmount}
+                        placeholder="0,00"
+                        inputMode="numeric"
+                        selectOnFocus
+                        className={cn(inputClassName, "text-left tabular-nums")}
                       />
                     </div>
+                  ) : null}
 
-                    {adjustmentType !== "Pembebasan Seluruh Bunga" ? (
+                  {isAdditionalInterest ? (
+                    <>
                       <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                         <label className="text-[14px] font-normal text-[#002060]">
-                          {amountLabel}
-                          <span className="text-rose-600"> *</span>
+                          Tanggal Efektif<span className="text-rose-600"> *</span>
                         </label>
-                        <FormattedNominalInput
-                          value={amount}
-                          onChange={setAmount}
-                          placeholder="0,00"
-                          inputMode="numeric"
-                          selectOnFocus
-                          className={nominalInputClassName}
+                        <DatePickerDmyField
+                          value={effectiveDate}
+                          onChange={setEffectiveDate}
+                          inputClassName={inputClassName}
+                          placeholder="DD-MM-YYYY"
                         />
                       </div>
-                    ) : null}
 
-                    {isAdditionalInterest ? (
-                      <>
-                        <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                          <label className="text-[14px] font-normal text-[#002060]">
-                            Tanggal Efektif<span className="text-rose-600"> *</span>
-                          </label>
-                          <DatePickerDmyField
-                            value={effectiveDate}
-                            onChange={setEffectiveDate}
-                            inputClassName={inputClassName}
-                            placeholder="DD-MM-YYYY"
-                          />
-                        </div>
+                      <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                        <label className="text-[14px] font-normal text-[#002060]">
+                          Periode Bunga<span className="text-rose-600"> *</span>
+                        </label>
+                        <Input
+                          value={interestPeriod}
+                          onChange={(event) => setInterestPeriod(event.target.value)}
+                          placeholder="Masukkan periode bunga"
+                          className={inputClassName}
+                        />
+                      </div>
+                    </>
+                  ) : null}
 
-                        <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                          <label className="text-[14px] font-normal text-[#002060]">
-                            Periode Bunga<span className="text-rose-600"> *</span>
-                          </label>
-                          <Input
-                            value={interestPeriod}
-                            onChange={(event) => setInterestPeriod(event.target.value)}
-                            placeholder="Masukkan periode bunga"
-                            className={inputClassName}
-                          />
-                        </div>
-                      </>
-                    ) : null}
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start">
+                    <label className="pt-2 text-[14px] font-normal text-[#002060]">
+                      {isAdditionalInterest
+                        ? "Alasan Penambahan"
+                        : "Alasan Penyesuaian"}
+                      <span className="text-rose-600"> *</span>
+                    </label>
+                    <Textarea
+                      value={reason}
+                      onChange={(event) => setReason(event.target.value)}
+                      placeholder={
+                        isAdditionalInterest
+                          ? "Masukkan alasan penambahan bunga"
+                          : "Masukkan alasan penyesuaian bunga"
+                      }
+                      className="min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none focus-visible:ring-0"
+                    />
+                  </div>
+                </>
+              ) : null}
+            </div>
+          </main>
 
-                    <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start">
-                      <label className="pt-2 text-[14px] font-normal text-[#002060]">
-                        {isAdditionalInterest
-                          ? "Alasan Penambahan"
-                          : "Alasan Penyesuaian"}
-                        <span className="text-rose-600"> *</span>
-                      </label>
-                      <Textarea
-                        value={reason}
-                        onChange={(event) => setReason(event.target.value)}
-                        placeholder={
-                          isAdditionalInterest
-                            ? "Masukkan alasan penambahan bunga"
-                            : "Masukkan alasan penyesuaian bunga"
-                        }
-                        className="min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none focus-visible:ring-0"
-                      />
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            </main>
-
-            <footer className="flex justify-end gap-3 border-t border-[#CBD5E1] px-6 py-4">
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="inline-flex h-[32px] min-w-[90px] items-center justify-center gap-2 rounded-[6px] bg-[#77839A] px-3 text-[12px] font-bold text-white transition hover:bg-[#6b768c]"
-              >
-                <X className="h-4 w-4" strokeWidth={3} />
-                Batal
-              </button>
-
-              <button
-                type="button"
-                onClick={requestSave}
-                className="inline-flex h-[32px] min-w-[90px] items-center justify-center gap-2 rounded-[6px] bg-[#2fb300] px-3 text-[12px] font-bold text-white transition hover:bg-[#279800]"
-              >
-                <CheckSquare className="h-4 w-4" strokeWidth={3} />
-                Simpan
-              </button>
-            </footer>
-          </div>
+          <footer className="flex justify-end gap-3 border-t border-[#CBD5E1] px-6 py-4">
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-[32px] min-w-[90px] items-center justify-center gap-2 rounded-[6px] bg-[#77839A] px-3 text-[12px] font-bold text-white transition hover:bg-[#6b768c]"
+            >
+              <X className="h-4 w-4" strokeWidth={3} />
+              Batal
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (validateAdjustment()) setConfirmOpen(true);
+              }}
+              className="inline-flex h-[32px] min-w-[90px] items-center justify-center gap-2 rounded-[6px] bg-[#2fb300] px-3 text-[12px] font-bold text-white transition hover:bg-[#279800]"
+            >
+              <CheckSquare className="h-4 w-4" strokeWidth={3} />
+              Simpan
+            </button>
+          </footer>
         </DialogContent>
       </Dialog>
     </>
