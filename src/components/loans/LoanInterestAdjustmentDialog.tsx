@@ -105,10 +105,7 @@ export default function LoanInterestAdjustmentDialog({
     "cursor-not-allowed bg-slate-200/80 text-slate-700",
   );
 
-  const nominalInputClassName = cn(
-    inputClassName,
-    "text-right tabular-nums",
-  );
+  const nominalInputClassName = cn(inputClassName, "tabular-nums");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -178,10 +175,7 @@ export default function LoanInterestAdjustmentDialog({
                       value="83.333,00"
                       readOnly
                       aria-readonly="true"
-                      className={cn(
-                        readOnlyInputClassName,
-                        "text-right tabular-nums",
-                      )}
+                      className={cn(readOnlyInputClassName, "tabular-nums")}
                     />
                   </div>
 
