@@ -119,3 +119,29 @@
   color: rgb(29 78 216) !important;
   font-weight: 700 !important;
 }
+
+/* Scroll horizontal dipindahkan ke pembungkus tabel dan pagination,
+   sehingga tampil setelah area pagination. */
+[data-loan-interest-wizard="true"]
+  div.overflow-hidden.rounded-\[12px\].border:has(
+    table[class*="min-w-[1780px]"]
+  ) {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+[data-loan-interest-wizard="true"]
+  div.overflow-hidden.rounded-\[12px\].border:has(
+    table[class*="min-w-[1780px]"]
+  )
+  > .safe-x-scroll {
+  overflow-x: visible !important;
+}
+
+/* Hilangkan informasi tambahan suku bunga pada area pagination. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  ~ div
+  .ml-1 {
+  display: none !important;
+}
