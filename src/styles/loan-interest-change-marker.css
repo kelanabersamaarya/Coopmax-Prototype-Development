@@ -7,16 +7,9 @@
   tbody
   tr:nth-child(4)
   td {
+  position: relative;
   border-top: 2px solid rgb(37 99 235 / 0.7) !important;
   background-color: rgb(239 246 255) !important;
-}
-
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(4)
-  td:first-child {
-  position: relative;
   padding-top: 88px !important;
 }
 
