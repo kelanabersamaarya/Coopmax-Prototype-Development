@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronLeft, ChevronRight, Clock3, Eye, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -18,9 +18,9 @@ const accountFields: DebtField[] = [
   { label: "Status Pinjaman", value: "Aktif / Sudah Dicairkan" },
   { label: "Baki Debet Pokok", value: "10.553.571,00" },
   { label: "Tunggakan Pokok", value: "0,00" },
-  { label: "Tunggakan Bunga", value: "0,00" },
+  { label: "Tunggakan Bunga", value: "125.000,00" },
   { label: "Denda dan Biaya Lainnya", value: "0,00" },
-  { label: "Total Kewajiban", value: "10.553.571,00" },
+  { label: "Total Kewajiban", value: "10.678.571,00" },
 ];
 
 function AccountField({ label, value }: DebtField) {
@@ -107,7 +107,7 @@ export default function LoanDebtChangeWizard({
 }) {
   const [step, setStep] = React.useState(1);
   const [principalDebt, setPrincipalDebt] = React.useState("0,00");
-  const [interestDebt, setInterestDebt] = React.useState("0,00");
+  const [interestDebt, setInterestDebt] = React.useState("125.000,00");
   const [otherDebt, setOtherDebt] = React.useState("0,00");
 
   React.useEffect(() => {
@@ -115,7 +115,7 @@ export default function LoanDebtChangeWizard({
 
     setStep(1);
     setPrincipalDebt("0,00");
-    setInterestDebt("0,00");
+    setInterestDebt("125.000,00");
     setOtherDebt("0,00");
   }, [open]);
 
@@ -249,7 +249,9 @@ export default function LoanDebtChangeWizard({
                     className="grid grid-cols-[1fr_0.8fr_0.8fr] gap-3 border-t border-slate-100 px-4 py-3 text-[13px]"
                   >
                     <span className="font-medium text-slate-800">{row.label}</span>
-                    <span className="text-right text-slate-600">0,00</span>
+                    <span className="text-right text-slate-600">
+                      {row.label === "Tunggakan Bunga" ? "125.000,00" : "0,00"}
+                    </span>
                     <span className="text-right font-bold text-[#5B3DF5]">
                       {row.value || "0,00"}
                     </span>
@@ -313,7 +315,9 @@ export default function LoanDebtChangeWizard({
         <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
           <button
             type="button"
-            onClick={() => (step === 1 ? onOpenChange(false) : setStep((current) => current - 1))}
+            onClick={() =>
+              step === 1 ? onOpenChange(false) : setStep((current) => current - 1)
+            }
             className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
           >
             {step === 1 ? (
