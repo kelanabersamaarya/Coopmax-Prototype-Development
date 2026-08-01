@@ -9,7 +9,7 @@
   td {
   position: relative;
   border-top: 2px solid rgb(37 99 235 / 0.7) !important;
-  background-color: rgb(239 246 255) !important;
+  background-color: white !important;
   padding-top: 88px !important;
 }
 
@@ -37,7 +37,7 @@
   white-space: pre-line;
   border: 1px solid rgb(191 219 254);
   border-radius: 12px;
-  background-color: rgb(239 246 255);
+  background-color: white;
   padding: 12px 14px 12px 50px;
   color: rgb(30 64 175);
   font-size: 12px;
@@ -45,7 +45,6 @@
   line-height: 1.45;
   letter-spacing: 0;
   text-transform: none;
-  box-shadow: inset 32px 0 0 rgb(219 234 254);
 }
 
 [data-loan-interest-wizard="true"]
