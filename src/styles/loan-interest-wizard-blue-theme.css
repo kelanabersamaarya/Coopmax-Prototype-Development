@@ -7,10 +7,10 @@
   --loan-interest-blue-soft: #eff6ff;
 }
 
-/* Lebar modal Ubah Suku Bunga ditetapkan langsung agar mengalahkan kelas bawaan komponen. */
-[data-radix-dialog-content]:has([data-loan-interest-wizard="true"]),
-[data-slot="dialog-content"]:has([data-loan-interest-wizard="true"]),
-[role="dialog"]:has([data-loan-interest-wizard="true"]) {
+/* Atribut wizard dipasang langsung pada DialogContent. */
+[data-loan-interest-wizard="true"][data-radix-dialog-content],
+[data-loan-interest-wizard="true"][data-slot="dialog-content"],
+[data-loan-interest-wizard="true"][role="dialog"] {
   width: min(800px, calc(100vw - 2rem)) !important;
   max-width: 800px !important;
 }
