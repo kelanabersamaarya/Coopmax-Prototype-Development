@@ -56,38 +56,38 @@ export default function LoanBillingTablePreview({
     return rows.slice(start, start + pageSize);
   }, [page, rows]);
 
-  const currentInterest = React.useMemo(() => {
-    if (!adjustmentDueDate) return "0,00";
-    const row = rows.find((item) => item.jatuhTempo === adjustmentDueDate);
-    if (!row) return "0,00";
-
-    const adjustment = interestAdjustments[adjustmentDueDate];
-    const baseInterest = parseIdr(row.tagihanBunga);
-
-    if (!adjustment) return formatIdr(baseInterest);
-    if (adjustment.type === "Pembebasan Seluruh Bunga") return "0,00";
-
-    const adjustmentAmount = parseIdr(adjustment.amount);
-    const nextInterest =
-      adjustment.type === "Penambahan Bunga"
-        ? baseInterest + adjustmentAmount
-        : Math.max(0, baseInterest - adjustmentAmount);
-
-    return formatIdr(nextInterest);
-  }, [adjustmentDueDate, interestAdjustments, rows]);
-
   function getAdjustedInterest(row: BillingRow) {
-    const baseInterest = parseIdr(row.tagihanBunga);
     const adjustment = interestAdjustments[row.jatuhTempo];
+    const baseInterest = adjustment?.previousInterest
+      ? parseIdr(adjustment.previousInterest)
+      : parseIdr(row.tagihanBunga);
 
     if (!adjustment) return baseInterest;
     if (adjustment.type === "Pembebasan Seluruh Bunga") return 0;
 
     const adjustmentAmount = parseIdr(adjustment.amount);
+
     return adjustment.type === "Penambahan Bunga"
       ? baseInterest + adjustmentAmount
       : Math.max(0, baseInterest - adjustmentAmount);
   }
+
+  const selectedRow = React.useMemo(
+    () => rows.find((row) => row.jatuhTempo === adjustmentDueDate) ?? null,
+    [adjustmentDueDate, rows],
+  );
+
+  const currentInterest = selectedRow
+    ? formatIdr(getAdjustedInterest(selectedRow))
+    : "0,00";
+
+  const currentTotal = selectedRow
+    ? formatIdr(
+        parseIdr(selectedRow.totalBelumDibayar) -
+          parseIdr(selectedRow.tagihanBunga) +
+          getAdjustedInterest(selectedRow),
+      )
+    : "0,00";
 
   function saveInterestAdjustment(adjustment: InterestAdjustment) {
     if (!adjustmentDueDate) return;
@@ -112,6 +112,7 @@ export default function LoanBillingTablePreview({
         }}
         dueDate={adjustmentDueDate ?? ""}
         currentInterest={currentInterest}
+        currentTotal={currentTotal}
         onSave={saveInterestAdjustment}
       />
 
@@ -139,9 +140,10 @@ export default function LoanBillingTablePreview({
               const hasPenalty = globalIndex < 3;
               const inGracePeriod = globalIndex < 2;
               const adjustedInterest = getAdjustedInterest(row);
-              const originalInterest = parseIdr(row.tagihanBunga);
               const adjustedTotal =
-                parseIdr(row.totalBelumDibayar) - originalInterest + adjustedInterest;
+                parseIdr(row.totalBelumDibayar) -
+                parseIdr(row.tagihanBunga) +
+                adjustedInterest;
 
               return (
                 <tr
@@ -151,9 +153,15 @@ export default function LoanBillingTablePreview({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">{row.jatuhTempo}</td>
-                  <td className="px-4 py-3 text-right"><NumericCell>{formatIdr(adjustedTotal)}</NumericCell></td>
-                  <td className="px-4 py-3 text-right"><NumericCell>{inGracePeriod ? "0,00" : row.tagihanPokok}</NumericCell></td>
+                  <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
+                    {row.jatuhTempo}
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{formatIdr(adjustedTotal)}</NumericCell>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{inGracePeriod ? "0,00" : row.tagihanPokok}</NumericCell>
+                  </td>
                   <td className="px-4 py-3">
                     <div className="flex w-full items-center justify-end gap-2">
                       <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
@@ -168,9 +176,15 @@ export default function LoanBillingTablePreview({
                       </button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-right"><NumericCell>{inGracePeriod ? "0,00" : row.sisaPokok}</NumericCell></td>
-                  <td className="px-4 py-3 text-right"><NumericCell>{row.sisaBunga}</NumericCell></td>
-                  <td className="px-4 py-3 text-right"><NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell></td>
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{inGracePeriod ? "0,00" : row.sisaPokok}</NumericCell>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{row.sisaBunga}</NumericCell>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
+                  </td>
                 </tr>
               );
             })}
@@ -196,7 +210,9 @@ export default function LoanBillingTablePreview({
             <ChevronLeft className="h-4 w-4" />
             Sebelumnya
           </button>
-          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">{page}</span>
+          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">
+            {page}
+          </span>
           <button
             type="button"
             disabled={nextDisabled}

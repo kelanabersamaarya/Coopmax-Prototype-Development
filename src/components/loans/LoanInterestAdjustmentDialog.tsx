@@ -28,6 +28,7 @@ export type InterestAdjustment = {
   effectiveDate: string;
   interestPeriod: string;
   reason: string;
+  previousInterest?: string;
 };
 
 const adjustmentOptions: InterestAdjustmentType[] = [
@@ -35,6 +36,16 @@ const adjustmentOptions: InterestAdjustmentType[] = [
   "Pembebasan Seluruh Bunga",
   "Penambahan Bunga",
 ];
+
+function parseIdr(value: string) {
+  const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
+}
 
 function AdjustmentConfirmDialog({
   open,
@@ -56,9 +67,11 @@ function AdjustmentConfirmDialog({
               !
             </span>
           </div>
+
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
             Yakin untuk melakukan penyesuaian bunga?
           </h3>
+
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
               type="button"
@@ -113,17 +126,104 @@ function AdjustmentSuccessDialog({
   );
 }
 
+function SimulationTable({
+  dueDate,
+  currentInterest,
+  currentTotal,
+  adjustmentType,
+  amount,
+}: {
+  dueDate: string;
+  currentInterest: string;
+  currentTotal: string;
+  adjustmentType: InterestAdjustmentType;
+  amount: string;
+}) {
+  const beforeInterest = parseIdr(currentInterest);
+  const beforeTotal = parseIdr(currentTotal);
+  const adjustmentAmount = parseIdr(amount);
+
+  const afterInterest =
+    adjustmentType === "Pembebasan Seluruh Bunga"
+      ? 0
+      : adjustmentType === "Penambahan Bunga"
+        ? beforeInterest + adjustmentAmount
+        : Math.max(0, beforeInterest - adjustmentAmount);
+
+  const afterTotal = Math.max(0, beforeTotal - beforeInterest + afterInterest);
+
+  return (
+    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+        Simulasi Penyesuaian Bunga
+      </div>
+
+      <div className="safe-x-scroll">
+        <table className="w-full min-w-[880px] border-collapse">
+          <thead className="bg-white">
+            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
+              <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Tunggakan Bunga Sebelum
+              </th>
+              <th className="w-[175px] px-3 py-3">Jenis Penyesuaian</th>
+              <th className="w-[145px] px-3 py-3 text-right">
+                Nominal Penyesuaian
+              </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Tunggakan Bunga Setelah
+              </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Total Kewajiban Sebelum
+              </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Total Kewajiban Setelah
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="text-[12px] text-black">
+            <tr className="border-b border-slate-100 bg-white">
+              <td className="px-3 py-3 font-semibold tabular-nums">{dueDate}</td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(beforeInterest)}
+              </td>
+              <td className="px-3 py-3 font-semibold">{adjustmentType}</td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {adjustmentType === "Pembebasan Seluruh Bunga"
+                  ? formatIdr(beforeInterest)
+                  : formatIdr(adjustmentAmount)}
+              </td>
+              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
+                {formatIdr(afterInterest)}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(beforeTotal)}
+              </td>
+              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
+                {formatIdr(afterTotal)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInterestAdjustmentDialog({
   open,
   onOpenChange,
   dueDate,
   currentInterest = "0,00",
+  currentTotal = "0,00",
   onSave,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dueDate: string;
   currentInterest?: string;
+  currentTotal?: string;
   onSave?: (adjustment: InterestAdjustment) => void;
 }) {
   const [adjustmentType, setAdjustmentType] = React.useState<
@@ -190,6 +290,7 @@ export default function LoanInterestAdjustmentDialog({
       effectiveDate,
       interestPeriod,
       reason,
+      previousInterest: currentInterest,
     });
     setConfirmOpen(false);
     setSuccessOpen(true);
@@ -218,7 +319,7 @@ export default function LoanInterestAdjustmentDialog({
 
       <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
         <DialogContent
-          className="w-[calc(100vw-1rem)] max-w-[720px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[720px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+          className="w-[calc(100vw-1rem)] max-w-[880px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[880px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-[#CBD5E1] px-6 py-4">
             <h2 className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
@@ -234,7 +335,7 @@ export default function LoanInterestAdjustmentDialog({
             </button>
           </header>
 
-          <main className="max-h-[60vh] overflow-auto px-6 py-6">
+          <main className="max-h-[65vh] overflow-auto px-6 py-6">
             <div className="grid gap-5">
               <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                 <label className="text-[14px] font-normal text-[#002060]">
@@ -342,6 +443,14 @@ export default function LoanInterestAdjustmentDialog({
                       className="min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none focus-visible:ring-0"
                     />
                   </div>
+
+                  <SimulationTable
+                    dueDate={dueDate}
+                    currentInterest={currentInterest}
+                    currentTotal={currentTotal}
+                    adjustmentType={adjustmentType}
+                    amount={amount}
+                  />
                 </>
               ) : null}
             </div>
