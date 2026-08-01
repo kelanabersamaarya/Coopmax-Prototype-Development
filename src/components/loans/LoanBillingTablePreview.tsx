@@ -1,11 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
-import BillingTableView2, {
-  type BillingRow,
-} from "@/components/anggota/BillingTableView2";
+import type { BillingRow } from "@/components/anggota/BillingTableView2";
+import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
 
 const seedRows: BillingRow[] = [
   {
@@ -34,14 +33,27 @@ const seedRows: BillingRow[] = [
   })),
 ];
 
+const penaltyAmount = "75.000";
+
+function NumericCell({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="block w-full text-right tabular-nums whitespace-nowrap">
+      {children}
+    </span>
+  );
+}
+
 export default function LoanBillingTablePreview({
   className,
+  accountNo = "SMG260004",
 }: {
   className?: string;
+  accountNo?: string;
 }) {
   const rows = React.useMemo(() => seedRows, []);
   const pageSize = 6;
   const [page, setPage] = React.useState(1);
+  const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
@@ -50,17 +62,8 @@ export default function LoanBillingTablePreview({
     return rows.slice(start, start + pageSize);
   }, [page, rows]);
 
-  const [selected, setSelected] = React.useState<boolean[]>(() =>
-    pagedRows.map(() => true),
-  );
-
-  React.useEffect(() => {
-    setSelected(pagedRows.map(() => true));
-  }, [pagedRows]);
-
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
-
   const previousDisabled = page <= 1;
   const nextDisabled = page >= pageCount;
 
@@ -71,27 +74,120 @@ export default function LoanBillingTablePreview({
         className,
       )}
     >
+      <LoanInterestChangeWizard
+        open={interestWizardOpen}
+        onOpenChange={setInterestWizardOpen}
+        accountNo={accountNo}
+      />
+
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
         Informasi Tagihan dan Denda
       </div>
 
-      <div className="p-4">
-        <BillingTableView2
-          rows={pagedRows}
-          selected={selected}
-          setSelected={setSelected}
-          isLocked
-          showNextBillInfo={false}
-          showGraceInfo={false}
-          highlightGraceBlock={false}
-          keepGraceShellWithoutInfo={false}
-          hideSelection
-          showPenaltyColumn
-          disableRowActiveRing
-          disableRowRings
-          rowDensity="default"
-          penaltyIndexOffset={(page - 1) * pageSize}
-        />
+      <div className="safe-x-scroll p-4">
+        <table className="w-full min-w-[900px] border-collapse">
+          <thead>
+            <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
+              <th className="w-[110px] px-4 py-3">
+                Jatuh
+                <br />
+                Tempo
+              </th>
+              <th className="w-[128px] px-4 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[130px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[130px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[140px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[140px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[130px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {pagedRows.map((row, index) => {
+              const globalIndex = (page - 1) * pageSize + index;
+              const hasPenalty = globalIndex < 3;
+              const inGracePeriod = globalIndex < 2;
+
+              return (
+                <tr
+                  key={`${row.jatuhTempo}-${globalIndex}`}
+                  className={cn(
+                    "border-t border-slate-200 text-[13px] text-slate-900",
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                  )}
+                >
+                  <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
+                    {row.jatuhTempo}
+                  </td>
+
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{row.totalBelumDibayar}</NumericCell>
+                  </td>
+
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>
+                      {inGracePeriod ? "0,00" : row.tagihanPokok}
+                    </NumericCell>
+                  </td>
+
+                  <td className="px-4 py-3">
+                    <div className="flex w-full items-center justify-end gap-2">
+                      <NumericCell>{row.tagihanBunga}</NumericCell>
+
+                      <button
+                        type="button"
+                        onClick={() => setInterestWizardOpen(true)}
+                        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white transition hover:bg-[#1D4ED8] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563EB]/25"
+                        aria-label={`Ubah bunga tagihan ${row.jatuhTempo}`}
+                        title="Ubah bunga"
+                      >
+                        <Pencil className="h-3.5 w-3.5" strokeWidth={2.8} />
+                      </button>
+                    </div>
+                  </td>
+
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>
+                      {inGracePeriod ? "0,00" : row.sisaPokok}
+                    </NumericCell>
+                  </td>
+
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{row.sisaBunga}</NumericCell>
+                  </td>
+
+                  <td className="px-4 py-3 text-right">
+                    <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
