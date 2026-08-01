@@ -47,6 +47,7 @@ import "./styles/loan-account-qr-style.css";
 import "./styles/loan-interest-history-table.css";
 import "./styles/loan-interest-wizard-step-two.css";
 import "./styles/loan-interest-wizard-save-icon.css";
+import "./styles/loan-interest-change-marker.css";
 import "./styles/loan-debt-change-wizard.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
