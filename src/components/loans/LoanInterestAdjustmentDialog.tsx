@@ -17,12 +17,20 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
 
-type AdjustmentType =
+export type InterestAdjustmentType =
   | "Pengurangan Bunga"
   | "Pembebasan Seluruh Bunga"
   | "Penambahan Bunga";
 
-const adjustmentOptions: AdjustmentType[] = [
+export type InterestAdjustment = {
+  type: InterestAdjustmentType;
+  amount: string;
+  effectiveDate: string;
+  interestPeriod: string;
+  reason: string;
+};
+
+const adjustmentOptions: InterestAdjustmentType[] = [
   "Pengurangan Bunga",
   "Pembebasan Seluruh Bunga",
   "Penambahan Bunga",
@@ -32,13 +40,15 @@ export default function LoanInterestAdjustmentDialog({
   open,
   onOpenChange,
   dueDate,
+  onSave,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   dueDate: string;
+  onSave?: (adjustment: InterestAdjustment) => void;
 }) {
   const [adjustmentType, setAdjustmentType] = React.useState<
-    AdjustmentType | ""
+    InterestAdjustmentType | ""
   >("");
   const [amount, setAmount] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
@@ -87,6 +97,14 @@ export default function LoanInterestAdjustmentDialog({
       return;
     }
 
+    onSave?.({
+      type: adjustmentType,
+      amount,
+      effectiveDate,
+      interestPeriod,
+      reason,
+    });
+
     toast.success("Penyesuaian bunga tersimpan", {
       description: `${adjustmentType} • Tagihan ${dueDate}`,
     });
@@ -131,7 +149,7 @@ export default function LoanInterestAdjustmentDialog({
               aria-label="Tutup"
               title="Tutup"
             >
-              <X className="h-5 w-5" strokeWidth={3} />
+              <X className="h-5 w-5" />
             </button>
           </header>
 
@@ -145,7 +163,7 @@ export default function LoanInterestAdjustmentDialog({
                 <Select
                   value={adjustmentType}
                   onValueChange={(value) => {
-                    setAdjustmentType(value as AdjustmentType);
+                    setAdjustmentType(value as InterestAdjustmentType);
                     setAmount("");
                     setEffectiveDate("");
                     setInterestPeriod("");
@@ -175,7 +193,10 @@ export default function LoanInterestAdjustmentDialog({
                       value="83.333,00"
                       readOnly
                       aria-readonly="true"
-                      className={cn(readOnlyInputClassName, "text-left tabular-nums")}
+                      className={cn(
+                        readOnlyInputClassName,
+                        "text-left tabular-nums",
+                      )}
                     />
                   </div>
 

@@ -4,7 +4,9 @@ import * as React from "react";
 import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BillingRow } from "@/components/anggota/BillingTableView2";
-import LoanInterestAdjustmentDialog from "@/components/loans/LoanInterestAdjustmentDialog";
+import LoanInterestAdjustmentDialog, {
+  type InterestAdjustment,
+} from "@/components/loans/LoanInterestAdjustmentDialog";
 
 const seedRows: BillingRow[] = [
   {
@@ -35,6 +37,18 @@ const seedRows: BillingRow[] = [
 
 const penaltyAmount = "75.000";
 
+function parseIdr(value: string) {
+  const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
+}
+
 function NumericCell({ children }: { children: React.ReactNode }) {
   return (
     <span className="block w-full text-right tabular-nums whitespace-nowrap">
@@ -56,6 +70,9 @@ export default function LoanBillingTablePreview({
   const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(
     null,
   );
+  const [interestAdjustments, setInterestAdjustments] = React.useState<
+    Record<string, InterestAdjustment>
+  >({});
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
@@ -68,6 +85,30 @@ export default function LoanBillingTablePreview({
   const showingEnd = Math.min(rows.length, page * pageSize);
   const previousDisabled = page <= 1;
   const nextDisabled = page >= pageCount;
+
+  function getAdjustedInterest(row: BillingRow) {
+    const baseInterest = parseIdr(row.tagihanBunga);
+    const adjustment = interestAdjustments[row.jatuhTempo];
+
+    if (!adjustment) return baseInterest;
+
+    if (adjustment.type === "Pembebasan Seluruh Bunga") return 0;
+
+    const adjustmentAmount = parseIdr(adjustment.amount);
+
+    return adjustment.type === "Penambahan Bunga"
+      ? baseInterest + adjustmentAmount
+      : Math.max(0, baseInterest - adjustmentAmount);
+  }
+
+  function saveInterestAdjustment(adjustment: InterestAdjustment) {
+    if (!adjustmentDueDate) return;
+
+    setInterestAdjustments((current) => ({
+      ...current,
+      [adjustmentDueDate]: adjustment,
+    }));
+  }
 
   return (
     <section
@@ -82,6 +123,7 @@ export default function LoanBillingTablePreview({
           if (!open) setAdjustmentDueDate(null);
         }}
         dueDate={adjustmentDueDate ?? ""}
+        onSave={saveInterestAdjustment}
       />
 
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
@@ -135,6 +177,11 @@ export default function LoanBillingTablePreview({
               const globalIndex = (page - 1) * pageSize + index;
               const hasPenalty = globalIndex < 3;
               const inGracePeriod = globalIndex < 2;
+              const adjustedInterest = getAdjustedInterest(row);
+              const originalInterest = parseIdr(row.tagihanBunga);
+              const totalTagihan = parseIdr(row.totalBelumDibayar);
+              const adjustedTotal =
+                totalTagihan - originalInterest + adjustedInterest;
 
               return (
                 <tr
@@ -149,7 +196,7 @@ export default function LoanBillingTablePreview({
                   </td>
 
                   <td className="px-4 py-3 text-right">
-                    <NumericCell>{row.totalBelumDibayar}</NumericCell>
+                    <NumericCell>{formatIdr(adjustedTotal)}</NumericCell>
                   </td>
 
                   <td className="px-4 py-3 text-right">
@@ -160,7 +207,7 @@ export default function LoanBillingTablePreview({
 
                   <td className="px-4 py-3">
                     <div className="flex w-full items-center justify-end gap-2">
-                      <NumericCell>{row.tagihanBunga}</NumericCell>
+                      <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
 
                       <button
                         type="button"
