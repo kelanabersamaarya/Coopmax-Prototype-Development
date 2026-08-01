@@ -68,36 +68,26 @@
 }
 
 [data-loan-interest-wizard="true"] .loan-interest-summary tbody td:nth-child(3),
-[data-loan-interest-wizard="true"] .loan-interest-summary tbody td:nth-child(3) * {
+[data-loan-interest-wizard="true"]
+  .loan-interest-summary
+  tbody
+  td:nth-child(3)
+  * {
   color: #5b3df5 !important;
 }
 
 /* Tabel simulasi angsuran setelah perubahan bunga. */
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1180px]"]
-  thead,
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1180px]"]
-  thead
-  tr,
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1180px]"]
-  thead
-  th {
+[data-loan-interest-wizard="true"] table[class*="min-w-[1180px]"] thead,
+[data-loan-interest-wizard="true"] table[class*="min-w-[1180px]"] thead tr,
+[data-loan-interest-wizard="true"] table[class*="min-w-[1180px]"] thead th {
   background-color: #ffffff !important;
   color: #000000 !important;
   font-size: 12px !important;
   font-weight: 700 !important;
 }
 
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1180px]"]
-  tbody
-  tr,
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1180px]"]
-  tbody
-  td,
+[data-loan-interest-wizard="true"] table[class*="min-w-[1180px]"] tbody tr,
+[data-loan-interest-wizard="true"] table[class*="min-w-[1180px]"] tbody td,
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1180px]"]
   tbody
@@ -162,11 +152,9 @@
 }
 
 /* Tombol Simpan Perubahan pada langkah kedua. */
-[data-loan-interest-wizard="true"]
-  footer
-  > button.bg-\[\#2fb300\] {
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] {
   min-width: 210px !important;
-  height: 48px !important;
+  height: 40px !important;
   flex-direction: row-reverse !important;
   gap: 14px !important;
   border: 0 !important;
@@ -178,18 +166,13 @@
   box-shadow: none !important;
 }
 
-[data-loan-interest-wizard="true"]
-  footer
-  > button.bg-\[\#2fb300\]
-  svg {
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] svg {
   height: 22px !important;
   width: 22px !important;
   stroke-width: 3.5 !important;
 }
 
-[data-loan-interest-wizard="true"]
-  footer
-  > button.bg-\[\#2fb300\]:hover {
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\]:hover {
   background-color: #279800 !important;
 }
 
@@ -206,9 +189,7 @@
     padding-right: 1rem !important;
   }
 
-  [data-loan-interest-wizard="true"]
-    footer
-    > button.bg-\[\#2fb300\] {
+  [data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] {
     min-width: 0 !important;
   }
 }
