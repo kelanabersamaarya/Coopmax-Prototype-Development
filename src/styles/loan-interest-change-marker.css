@@ -1,33 +1,60 @@
 /* Ubah Suku Bunga > Step Simulasi:
-   Perubahan bunga mulai diterapkan pada angsuran ke-4 dengan gaya blok Grace Period.
+   Perubahan bunga berlaku dari angsuran ke-4 sampai ke-10,
+   dengan bingkai seperti blok Grace Period.
 */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(4)
+  tr:nth-child(n + 4):nth-child(-n + 10)
   td {
   position: relative;
-  border-top: 2px solid rgb(37 99 235 / 0.7) !important;
-  border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
   background-color: white !important;
-  padding-top: 88px !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
 }
 
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(4)
+  tr:nth-child(n + 4):nth-child(-n + 10)
   td:first-child {
-  z-index: 2;
   border-left: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(4)
+  tr:nth-child(n + 4):nth-child(-n + 10)
   td:last-child {
   border-right: 2px solid rgb(37 99 235 / 0.7) !important;
+}
+
+/* Garis atas periode dimulai pada angsuran ke-4. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(4)
+  td {
+  border-top: 2px solid rgb(37 99 235 / 0.7) !important;
+  padding-top: 88px !important;
+}
+
+/* Garis bawah periode berakhir pada angsuran ke-10. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(10)
+  td {
+  border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
+}
+
+/* Informasi periode hanya muncul di awal blok, pada angsuran ke-4. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(4)
+  td:first-child {
+  z-index: 2;
 }
 
 [data-loan-interest-wizard="true"]
@@ -35,7 +62,7 @@
   tbody
   tr:nth-child(4)
   td:first-child::before {
-  content: "Periode Perubahan Suku Bunga\A Perubahan suku bunga mulai diterapkan pada angsuran ke-4. Nominal bunga dan total angsuran berikutnya dihitung menggunakan suku bunga baru.";
+  content: "Periode Perubahan Suku Bunga\A Perubahan suku bunga diterapkan mulai angsuran ke-4 sampai ke-10. Nominal bunga dan total angsuran pada periode ini dihitung menggunakan suku bunga baru.";
   position: absolute;
   z-index: 3;
   left: 10px;
@@ -78,20 +105,21 @@
   line-height: 1;
 }
 
+/* Nilai hasil perhitungan bunga baru berwarna biru untuk seluruh periode perubahan. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(4)
+  tr:nth-child(n + 4):nth-child(-n + 10)
   td:nth-child(6),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(4)
+  tr:nth-child(n + 4):nth-child(-n + 10)
   td:nth-child(9),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(4)
+  tr:nth-child(n + 4):nth-child(-n + 10)
   td:nth-child(12) {
   color: rgb(29 78 216) !important;
   font-weight: 700 !important;
