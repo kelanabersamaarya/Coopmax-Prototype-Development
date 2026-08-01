@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Clock3, X } from "lucide-react";
+import { Check, Clock3, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -30,24 +32,48 @@ function AccountField({ label, value }: DebtField) {
   );
 }
 
+function SummaryRow({
+  label,
+  before,
+  after,
+}: {
+  label: string;
+  before: string;
+  after: string;
+}) {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-3 border-t border-slate-100 px-4 py-3 text-[13px]">
+      <div className="font-medium text-slate-800">{label}</div>
+      <div className="text-right tabular-nums text-slate-600">{before}</div>
+      <div className="text-right font-bold tabular-nums text-[#5B3DF5]">
+        {after}
+      </div>
+    </div>
+  );
+}
+
 function StepIndicator({
   number,
   label,
   active,
+  complete,
 }: {
   number: number;
   label: string;
   active?: boolean;
+  complete?: boolean;
 }) {
   return (
     <div className="flex min-w-0 flex-1 flex-col items-center gap-2 text-center">
       <span
         className={cn(
           "grid h-9 w-9 place-items-center rounded-full text-[14px] font-extrabold",
-          active ? "bg-[#5B3DF5] text-white" : "bg-slate-100 text-slate-500",
+          active || complete
+            ? "bg-[#5B3DF5] text-white"
+            : "bg-slate-100 text-slate-500",
         )}
       >
-        {number}
+        {complete ? <Check className="h-4 w-4" strokeWidth={3} /> : number}
       </span>
       <span
         className={cn(
@@ -70,10 +96,20 @@ export default function LoanDebtChangeWizard({
   onOpenChange: (open: boolean) => void;
   accountNo: string;
 }) {
+  const [step, setStep] = React.useState(1);
   const [historyOpen, setHistoryOpen] = React.useState(false);
+  const [principalDebt, setPrincipalDebt] = React.useState("0,00");
+  const [interestDebt, setInterestDebt] = React.useState("0,00");
+  const [otherDebt, setOtherDebt] = React.useState("0,00");
 
   React.useEffect(() => {
-    if (!open) setHistoryOpen(false);
+    if (!open) return;
+
+    setStep(1);
+    setHistoryOpen(false);
+    setPrincipalDebt("0,00");
+    setInterestDebt("0,00");
+    setOtherDebt("0,00");
   }, [open]);
 
   const fields: DebtField[] = [
@@ -88,6 +124,23 @@ export default function LoanDebtChangeWizard({
     { label: "Total Kewajiban", value: "10.553.571,00" },
   ];
 
+  const nextStep = () => {
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
+    if (step === 2) {
+      setStep(3);
+      return;
+    }
+
+    toast.success("Perubahan hutang tersimpan", {
+      description: `Rekening ${accountNo} berhasil diperbarui.`,
+    });
+    onOpenChange(false);
+  };
+
   return (
     <>
       <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
@@ -95,9 +148,6 @@ export default function LoanDebtChangeWizard({
           className={cn(
             "w-[calc(100vw-1rem)] max-w-[760px] overflow-hidden",
             "rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
-            "[&>button[aria-label=Close]]:hidden",
-            "[&>button.absolute.right-4.top-4]:hidden",
-            "[&_[data-slot=dialog-close]]:hidden",
           )}
         >
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
@@ -140,9 +190,6 @@ export default function LoanDebtChangeWizard({
           className={cn(
             "w-[calc(100vw-1rem)] sm:w-[860px]",
             "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
-            "[&>button[aria-label=Close]]:hidden",
-            "[&>button.absolute.right-4.top-4]:hidden",
-            "[&_[data-slot=dialog-close]]:hidden",
           )}
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
@@ -160,46 +207,159 @@ export default function LoanDebtChangeWizard({
           </header>
 
           <div className="flex items-start gap-2 px-6 py-5">
-            <StepIndicator number={1} label="Informasi Pinjaman" active />
-            <div className="mt-[18px] h-[2px] flex-1 bg-slate-200" />
-            <StepIndicator number={2} label="Penyesuaian Hutang" />
-            <div className="mt-[18px] h-[2px] flex-1 bg-slate-200" />
-            <StepIndicator number={3} label="Konfirmasi" />
+            <StepIndicator number={1} label="Informasi Pinjaman" active={step === 1} complete={step > 1} />
+            <div className={cn("mt-[18px] h-[2px] flex-1", step > 1 ? "bg-[#5B3DF5]" : "bg-slate-200")} />
+            <StepIndicator number={2} label="Simulasi" active={step === 2} complete={step > 2} />
+            <div className={cn("mt-[18px] h-[2px] flex-1", step > 2 ? "bg-[#5B3DF5]" : "bg-slate-200")} />
+            <StepIndicator number={3} label="Simpan Perubahan" active={step === 3} />
           </div>
 
           <Separator className="bg-slate-200" />
 
           <main className="max-h-[58vh] overflow-auto px-6 py-6 sm:px-8">
-            <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-[14px] font-extrabold tracking-wide">
-                  INFORMASI REKENING PINJAMAN
+            {step === 1 ? (
+              <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="text-[14px] font-extrabold tracking-wide">
+                    INFORMASI REKENING PINJAMAN
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setHistoryOpen(true)}
+                    className="inline-flex h-9 items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
+                  >
+                    <Clock3 className="h-4 w-4" />
+                    Riwayat Perubahan
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setHistoryOpen(true)}
-                  className="inline-flex h-9 items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
-                >
-                  <Clock3 className="h-4 w-4" />
-                  Riwayat Perubahan
-                </button>
-              </div>
 
-              <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-                {fields.map((field) => (
-                  <AccountField key={field.label} {...field} />
-                ))}
+                <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+                  {fields.map((field) => (
+                    <AccountField key={field.label} {...field} />
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
+
+            {step === 2 ? (
+              <div className="grid gap-6">
+                <div>
+                  <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
+                    Simulasi Perubahan Hutang
+                  </h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
+                    Masukkan penyesuaian kewajiban untuk melihat ringkasan sebelum disimpan.
+                  </p>
+                </div>
+
+                <div className="grid gap-4 rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
+                  <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] text-[#002060]">Tunggakan Pokok Baru</label>
+                    <Input value={principalDebt} onChange={(event) => setPrincipalDebt(event.target.value)} className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" inputMode="decimal" />
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] text-[#002060]">Tunggakan Bunga Baru</label>
+                    <Input value={interestDebt} onChange={(event) => setInterestDebt(event.target.value)} className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" inputMode="decimal" />
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] text-[#002060]">Denda dan Biaya Lainnya</label>
+                    <Input value={otherDebt} onChange={(event) => setOtherDebt(event.target.value)} className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0" inputMode="decimal" />
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.8fr)] gap-3 bg-[#F9FAFF] px-4 py-3 text-[12px] font-bold uppercase text-black">
+                    <span>Informasi</span>
+                    <span className="text-right">Sebelum</span>
+                    <span className="text-right">Simulasi</span>
+                  </div>
+                  <SummaryRow label="Tunggakan Pokok" before="0,00" after={principalDebt || "0,00"} />
+                  <SummaryRow label="Tunggakan Bunga" before="0,00" after={interestDebt || "0,00"} />
+                  <SummaryRow label="Denda dan Biaya" before="0,00" after={otherDebt || "0,00"} />
+                  <SummaryRow label="Total Kewajiban" before="10.553.571,00" after="10.553.571,00 + penyesuaian" />
+                </div>
+              </div>
+            ) : null}
+
+            {step === 3 ? (
+              <div className="grid gap-6">
+                <div>
+                  <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
+                    Simpan Perubahan Hutang
+                  </h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
+                    Periksa kembali penyesuaian berikut sebelum menyimpan.
+                  </p>
+                </div>
+
+                <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <div className="text-[12px] font-semibold text-slate-500">Rekening Pinjaman</div>
+                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">{accountNo}</div>
+                    </div>
+                    <div>
+                      <div className="text-[12px] font-semibold text-slate-500">Nama Debitur</div>
+                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">Bapak Bagus</div>
+                    </div>
+                  </div>
+
+                  <Separator className="my-5 bg-slate-200" />
+
+                  <div className="grid gap-4">
+                    <div className="flex items-center justify-between gap-4 text-[14px]">
+                      <span className="text-slate-600">Tunggakan Pokok</span>
+                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">{principalDebt || "0,00"}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4 text-[14px]">
+                      <span className="text-slate-600">Tunggakan Bunga</span>
+                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">{interestDebt || "0,00"}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4 text-[14px]">
+                      <span className="text-slate-600">Denda dan Biaya Lainnya</span>
+                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">{otherDebt || "0,00"}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </main>
 
-          <footer className="flex justify-end border-t border-slate-200 px-6 py-4">
+          <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+            {step === 1 ? (
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
+              >
+                <X className="h-4 w-4" strokeWidth={3} />
+                Batal
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setStep((current) => current - 1)}
+                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
+              >
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                Kembali
+              </button>
+            )}
+
             <button
               type="button"
-              onClick={() => onOpenChange(false)}
-              className="h-10 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
+              onClick={nextStep}
+              className={cn(
+                "inline-flex h-10 min-w-[145px] items-center justify-center gap-2 rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
+                step === 3 ? "bg-[#2fb300] hover:bg-[#279800]" : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
+              )}
             >
-              Tutup
+              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 3 ? (
+                <Check className="h-4 w-4" strokeWidth={3} />
+              ) : (
+                <ChevronRight className="h-4 w-4" strokeWidth={3} />
+              )}
             </button>
           </footer>
         </DialogContent>
