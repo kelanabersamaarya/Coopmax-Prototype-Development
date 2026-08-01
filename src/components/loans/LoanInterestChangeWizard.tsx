@@ -81,9 +81,7 @@ function ConfirmDialog({
       <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
         <div className="px-8 pb-5 pt-10 text-center">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[54px] font-light leading-none text-[#f2b98f]">
-              !
-            </span>
+            <span className="text-[54px] font-light leading-none text-[#f2b98f]">!</span>
           </div>
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight text-[#3b4863]">
             Yakin untuk melakukan perubahan?
@@ -117,11 +115,14 @@ function BillingSimulationTable({
   installments: Array<{
     number: number;
     dueDate: string;
-    total: number;
     principal: number;
-    interest: number;
+    beforeInterest: number;
+    afterInterest: number;
     remainingPrincipal: number;
-    remainingInterest: number;
+    beforeRemainingInterest: number;
+    afterRemainingInterest: number;
+    beforeInstallment: number;
+    afterInstallment: number;
   }>;
   rate: number;
 }) {
@@ -132,17 +133,21 @@ function BillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[930px] border-collapse">
+        <table className="w-full min-w-[1780px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[155px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[135px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[135px] px-3 py-3 text-right">Tagihan<br />Bunga</th>
+              <th className="w-[145px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
+              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sesudah Penyesuaian</th>
               <th className="w-[150px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[150px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
+              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sesudah Penyesuaian</th>
               <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sebelum Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sesudah Penyesuaian</th>
             </tr>
           </thead>
           <tbody className="text-[12px] text-black">
@@ -156,12 +161,34 @@ function BillingSimulationTable({
               >
                 <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
                 <td className="px-3 py-2.5 tabular-nums">{item.dueDate}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.total)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.principal)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.interest)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.remainingPrincipal)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.remainingInterest)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.beforeInstallment)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.principal)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.beforeInterest)}
+                </td>
+                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                  {formatIdr(item.afterInterest)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.remainingPrincipal)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.beforeRemainingInterest)}
+                </td>
+                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                  {formatIdr(item.afterRemainingInterest)}
+                </td>
                 <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.beforeInstallment)}
+                </td>
+                <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                  {formatIdr(item.afterInstallment)}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -205,36 +232,47 @@ export default function LoanInterestChangeWizard({
 
   const simulation = React.useMemo(() => {
     const parsedRate = Number(newRate.replace(",", ".")) || currentRate;
-    const oldMonthlyInterest = (remainingPrincipal * currentRate) / 100 / 12;
-    const newMonthlyInterest = (remainingPrincipal * parsedRate) / 100 / 12;
-    const newInstallment =
-      currentInstallment - oldMonthlyInterest + newMonthlyInterest;
     const monthlyPrincipal = remainingPrincipal / remainingTenor;
+    const baseMonthlyInterest = (remainingPrincipal * currentRate) / 100 / 12;
+    const newMonthlyInterest = (remainingPrincipal * parsedRate) / 100 / 12;
 
     const installments = Array.from({ length: remainingTenor }, (_, index) => {
+      const principalBeforeInstallment = Math.max(
+        0,
+        remainingPrincipal - monthlyPrincipal * index,
+      );
       const remainingPrincipalAfterInstallment = Math.max(
         0,
-        remainingPrincipal - monthlyPrincipal * (index + 1),
+        principalBeforeInstallment - monthlyPrincipal,
       );
-      const interest =
+      const beforeInterest = (principalBeforeInstallment * currentRate) / 100 / 12;
+      const afterInterest = (principalBeforeInstallment * parsedRate) / 100 / 12;
+      const beforeRemainingInterest =
+        (remainingPrincipalAfterInstallment * currentRate) / 100 / 12;
+      const afterRemainingInterest =
         (remainingPrincipalAfterInstallment * parsedRate) / 100 / 12;
 
       return {
         number: index + 1,
         dueDate: formatDueDate(index),
         principal: monthlyPrincipal,
-        total: monthlyPrincipal + interest,
-        interest,
+        beforeInterest,
+        afterInterest,
         remainingPrincipal: remainingPrincipalAfterInstallment,
-        remainingInterest: interest * (remainingTenor - index - 1),
+        beforeRemainingInterest,
+        afterRemainingInterest,
+        beforeInstallment: monthlyPrincipal + beforeInterest,
+        afterInstallment: monthlyPrincipal + afterInterest,
       };
     });
 
     return {
       rate: parsedRate,
       beforeInstallment: formatIdr(currentInstallment),
-      afterInstallment: formatIdr(newInstallment),
-      beforeTotalInterest: formatIdr(oldMonthlyInterest * remainingTenor),
+      afterInstallment: formatIdr(
+        currentInstallment - baseMonthlyInterest + newMonthlyInterest,
+      ),
+      beforeTotalInterest: formatIdr(baseMonthlyInterest * remainingTenor),
       afterTotalInterest: formatIdr(newMonthlyInterest * remainingTenor),
       installments,
     };
