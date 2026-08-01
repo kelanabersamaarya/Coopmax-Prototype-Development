@@ -3,6 +3,11 @@
   padding-right: 1.5rem !important;
 }
 
+/* Samakan garis di atas informasi rekening dengan modal Ubah Hutang. */
+[data-loan-interest-wizard="true"] main.border-t.border-slate-100 {
+  border-top-color: rgb(226 232 240) !important;
+}
+
 /* Semua tombol di wizard memakai ukuran dan bentuk yang konsisten. */
 [data-loan-interest-wizard="true"] button {
   border: 0 !important;
@@ -38,16 +43,16 @@
 
 /* Semua judul section pada wizard simulasi. */
 [data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
+  main
   > div.grid.gap-5
   > h3,
 [data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
+  main
   > div.grid.gap-5
   > div.overflow-hidden.rounded-\[12px\].border
   > div:first-child,
 [data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
+  main
   > div.grid.gap-5
   > div.rounded-\[12px\].bg-\[\#F6FAFF\]
   > div:first-child {
@@ -149,7 +154,7 @@
 
 /* Section alasan perubahan: header abu terang dan isi putih. */
 [data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
+  main
   > div.grid.gap-5
   > div.rounded-\[12px\].bg-\[\#F6FAFF\].ring-1 {
   overflow: hidden !important;
@@ -160,7 +165,7 @@
 }
 
 [data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
+  main
   > div.grid.gap-5
   > div.rounded-\[12px\].bg-\[\#F6FAFF\].ring-1
   > div:first-child {
@@ -170,7 +175,7 @@
 }
 
 [data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
+  main
   > div.grid.gap-5
   > div.rounded-\[12px\].bg-\[\#F6FAFF\].ring-1
   > p {
