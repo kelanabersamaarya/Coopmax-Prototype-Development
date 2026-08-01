@@ -193,18 +193,17 @@ export default function LoanDebtChangeWizard({
                     <AccountField
                       key={field.label}
                       label={field.label}
-                      value={field.label === "No. Rek. Pinjaman" ? accountNo : field.value}
+                      value={
+                        field.label === "No. Rek. Pinjaman"
+                          ? accountNo
+                          : field.value
+                      }
                     />
                   ))}
                 </div>
               </div>
 
-              <div>
-                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                  INFORMASI TAGIHAN DAN DENDA
-                </div>
-                <LoanBillingTablePreview className="mt-3" />
-              </div>
+              <LoanBillingTablePreview />
             </div>
           ) : null}
 
