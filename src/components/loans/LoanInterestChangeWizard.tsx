@@ -12,7 +12,7 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 const steps = [
   { id: 1, label: "Informasi & Perubahan" },
   { id: 2, label: "Simulasi" },
-  { id: 3, label: "Konfirmasi Perubahan" },
+  { id: 3, label: "Simpan Perubahan" },
 ] as const;
 
 const currentRate = 12;
@@ -185,7 +185,6 @@ function ComparisonTable({
               <th className="px-4 py-3">Sesudah Perubahan</th>
             </tr>
           </thead>
-
           <tbody>
             {rows.map((row, index) => (
               <tr
@@ -335,28 +334,21 @@ export default function LoanInterestChangeWizard({
     };
   }, [newRate]);
 
-  function next() {
-    if (step === 1) {
-      if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
-        toast("Suku bunga baru belum valid", {
-          description: "Masukkan suku bunga baru yang lebih dari 0.",
-        });
-        return;
-      }
-
-      if (!effectiveDate.trim()) {
-        toast("Tanggal efektif wajib diisi");
-        return;
-      }
-
-      if (!reason.trim()) {
-        toast("Alasan perubahan wajib diisi");
-        return;
-      }
+  function goToSimulation() {
+    if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
+      toast("Suku bunga baru belum valid", {
+        description: "Masukkan suku bunga baru yang lebih dari 0.",
+      });
+      return;
     }
 
-    if (step === 2) {
-      setConfirmOpen(true);
+    if (!effectiveDate.trim()) {
+      toast("Tanggal efektif wajib diisi");
+      return;
+    }
+
+    if (!reason.trim()) {
+      toast("Alasan perubahan wajib diisi");
       return;
     }
 
@@ -373,6 +365,8 @@ export default function LoanInterestChangeWizard({
 
     onOpenChange(false);
   }
+
+  const isSimulationStep = step === 2;
 
   return (
     <>
@@ -575,25 +569,60 @@ export default function LoanInterestChangeWizard({
               ) : null}
             </main>
 
-            <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-              <button
-                type="button"
-                onClick={() =>
-                  step === 1 ? onOpenChange(false) : setStep(step - 1)
-                }
-                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
-              >
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                {step === 1 ? "Batal" : "Kembali"}
-              </button>
+            <footer
+              className={cn(
+                "flex border-t border-slate-200 px-6 py-4",
+                isSimulationStep
+                  ? "items-center justify-between"
+                  : "items-center justify-between",
+              )}
+            >
+              {isSimulationStep ? (
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+                  >
+                    <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                    Kembali
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => onOpenChange(false)}
+                    className="text-[13px] font-semibold text-[#DC3545] transition hover:text-[#b91c1c]"
+                  >
+                    Batal
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+                >
+                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                  Batal
+                </button>
+              )}
 
               <button
                 type="button"
-                onClick={next}
-                className="inline-flex h-10 min-w-[130px] items-center justify-center gap-2 rounded-[5px] bg-[#5B3DF5] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4C32D9]"
+                onClick={isSimulationStep ? () => setConfirmOpen(true) : goToSimulation}
+                className={cn(
+                  "inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold text-white transition",
+                  isSimulationStep
+                    ? "bg-[#2fb300] hover:bg-[#279800]"
+                    : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
+                )}
               >
-                Lanjutkan
-                <ChevronRight className="h-4 w-4" />
+                {isSimulationStep ? "Simpan Perubahan" : "Lanjutkan"}
+                {isSimulationStep ? (
+                  <Check className="h-4 w-4" strokeWidth={3} />
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
+                )}
               </button>
             </footer>
           </div>
