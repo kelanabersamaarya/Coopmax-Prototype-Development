@@ -474,7 +474,11 @@ export default function LoanInterestChangeWizard({
                 }
                 className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
               >
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                {step === 1 ? (
+                  <X className="h-4 w-4" strokeWidth={3} />
+                ) : (
+                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                )}
                 {step === 1 ? "Batal" : "Kembali"}
               </button>
 
@@ -482,8 +486,9 @@ export default function LoanInterestChangeWizard({
                 <button
                   type="button"
                   onClick={() => onOpenChange(false)}
-                  className="inline-flex h-10 min-w-[78px] items-center justify-center rounded-[5px] px-3 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50 hover:text-[#B71C2B]"
+                  className="inline-flex h-10 min-w-[78px] items-center justify-center gap-2 rounded-[5px] px-3 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50 hover:text-[#B71C2B]"
                 >
+                  <X className="h-4 w-4" strokeWidth={3} />
                   Batal
                 </button>
               ) : null}
