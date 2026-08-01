@@ -1,6 +1,5 @@
 /* Ubah Suku Bunga > Step Simulasi:
-   Perubahan bunga mulai diterapkan pada angsuran ke-4 dengan gaya seperti
-   penanda periode grace period pada tabel tagihan.
+   Perubahan bunga mulai diterapkan pada angsuran ke-4 dengan gaya blok Grace Period.
 */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
@@ -9,6 +8,7 @@
   td {
   position: relative;
   border-top: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
   background-color: white !important;
   padding-top: 88px !important;
 }
@@ -19,6 +19,15 @@
   tr:nth-child(4)
   td:first-child {
   z-index: 2;
+  border-left: 2px solid rgb(37 99 235 / 0.7) !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(4)
+  td:last-child {
+  border-right: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
 [data-loan-interest-wizard="true"]
@@ -35,10 +44,10 @@
   width: calc(1780px - 20px);
   min-height: 60px;
   white-space: pre-line;
-  border: 1px solid rgb(191 219 254);
+  border: 2px solid rgb(37 99 235 / 0.7);
   border-radius: 12px;
   background-color: white;
-  padding: 12px 14px 12px 50px;
+  padding: 11px 13px 11px 49px;
   color: rgb(30 64 175);
   font-size: 12px;
   font-weight: 600;
