@@ -15,10 +15,9 @@
 }
 
 /*
-  Samakan template kolom isi dengan lebar header BillingTableHeader:
+  Samakan template kolom isi dengan BillingTableHeader:
   Jatuh Tempo 110px, Total Tagihan 128px, Pokok 130px, Bunga 120px,
   Sisa Pokok 140px, Sisa Bunga 140px, dan Denda 130px.
-  Dengan ini angka pada setiap kolom berada tepat di bawah headernya.
 */
 .loan-debt-billing-preview .grid.items-center.gap-0 {
   grid-template-columns:
@@ -29,6 +28,34 @@
     140px
     140px
     130px !important;
+}
+
+/*
+  Header angka memakai padding horizontal 16px. Seluruh sel nominal disamakan
+  agar angka sejajar tepat pada sisi kanan header kolom masing-masing.
+*/
+.loan-debt-billing-preview .grid.items-center.gap-0 > div:nth-child(n + 2) {
+  box-sizing: border-box !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  text-align: right !important;
+}
+
+/* Jaga isi NumericCell tetap menempel ke sisi kanan area nominal. */
+.loan-debt-billing-preview
+  .grid.items-center.gap-0
+  > div:nth-child(n + 2)
+  > span {
+  width: 100% !important;
+  text-align: right !important;
+}
+
+/* Kolom denda juga mengikuti padding kanan yang sama setelah ikon disembunyikan. */
+.loan-debt-billing-preview
+  .grid.items-center.gap-0
+  > div:nth-child(7)
+  > div {
+  justify-content: flex-end !important;
 }
 
 @media (max-width: 900px) {
