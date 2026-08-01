@@ -7,6 +7,12 @@
   --loan-interest-blue-soft: #eff6ff;
 }
 
+/* Modal dibuat lebih ringkas, sementara tabel simulasi tetap bisa digeser. */
+[data-radix-dialog-content]:has([data-loan-interest-wizard="true"]) {
+  width: calc(100vw - 2rem) !important;
+  max-width: 900px !important;
+}
+
 /* Lingkaran langkah aktif dan garis penghubung. */
 [data-loan-interest-wizard="true"] .bg-\[\#5B3DF5\] {
   background-color: var(--loan-interest-blue) !important;
