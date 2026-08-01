@@ -1,15 +1,11 @@
-[data-radix-dialog-content]:has(h2:contains("Ubah Hutang Pinjaman")) > button[aria-label="Close"],
-[data-radix-dialog-content]:has(h2:contains("Ubah Hutang Pinjaman")) > button.absolute.right-4.top-4,
-[data-radix-dialog-content]:has(h2:contains("Ubah Hutang Pinjaman")) [data-slot="dialog-close"] {
-  display: none !important;
-}
-
 /* Header modal Ubah Hutang Pinjaman */
-[data-radix-dialog-content]:has(h2:contains("Ubah Hutang Pinjaman")) h2 {
-  font-size: 18px !important;
+[data-radix-dialog-content] main.max-h-\[58vh\] {
+  padding-top: 0.75rem !important;
 }
 
-/* Menyembunyikan konteks nomor rekening di bawah judul modal. */
-[data-radix-dialog-content]:has(h2:contains("Ubah Hutang Pinjaman")) h2 + div {
+/* Hilangkan tombol close bawaan Dialog agar hanya tombol X header yang tampil. */
+[data-radix-dialog-content] > button[aria-label="Close"],
+[data-radix-dialog-content] > button.absolute.right-4.top-4,
+[data-radix-dialog-content] [data-slot="dialog-close"] {
   display: none !important;
 }
