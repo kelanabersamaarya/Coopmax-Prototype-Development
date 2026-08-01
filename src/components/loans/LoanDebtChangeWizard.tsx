@@ -23,6 +23,28 @@ const accountFields: DebtField[] = [
   { label: "Total Kewajiban", value: "10.678.571,00" },
 ];
 
+const billingRow = {
+  jatuhTempo: "25-07-2026",
+  totalBelumDibayar: "1.120.000,00",
+  tagihanPokok: "1.000.000,00",
+  tagihanBunga: "120.000,00",
+  sisaPokok: "10.553.571,00",
+  sisaBunga: "1.266.429,00",
+  tagihanDenda: "0,00",
+};
+
+function parseIdr(value: string) {
+  const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
+}
+
 function AccountField({ label, value }: DebtField) {
   return (
     <div className="min-w-0">
@@ -92,6 +114,162 @@ function StepIndicator({ step }: { step: number }) {
           </React.Fragment>
         );
       })}
+    </div>
+  );
+}
+
+function DebtSimulationBillingTable({
+  principalDebt,
+  interestDebt,
+  otherDebt,
+}: {
+  principalDebt: string;
+  interestDebt: string;
+  otherDebt: string;
+}) {
+  const previousPrincipalDebt = 0;
+  const previousInterestDebt = 125_000;
+  const previousOtherDebt = 0;
+
+  const nextPrincipalDebt = parseIdr(principalDebt);
+  const nextInterestDebt = parseIdr(interestDebt);
+  const nextOtherDebt = parseIdr(otherDebt);
+
+  const previousTotalObligation =
+    parseIdr(billingRow.totalBelumDibayar) +
+    previousPrincipalDebt +
+    previousInterestDebt +
+    previousOtherDebt;
+
+  const nextTotalObligation =
+    parseIdr(billingRow.totalBelumDibayar) +
+    nextPrincipalDebt +
+    nextInterestDebt +
+    nextOtherDebt;
+
+  const adjustmentAmount = Math.abs(nextInterestDebt - previousInterestDebt);
+  const adjustmentType =
+    nextInterestDebt > previousInterestDebt
+      ? "Penambahan Hutang Bunga"
+      : nextInterestDebt < previousInterestDebt
+        ? "Pengurangan Hutang Bunga"
+        : "Tidak Ada Perubahan";
+
+  return (
+    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+        Simulasi Perubahan Hutang Bunga
+      </div>
+
+      <div className="safe-x-scroll">
+        <table className="w-full min-w-[2050px] border-collapse">
+          <thead className="bg-white">
+            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
+              <th className="w-[115px] px-3 py-3">Jatuh Tempo</th>
+              <th className="w-[145px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[120px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[190px] px-3 py-3">
+                Jenis Penyesuaian
+              </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Nominal
+                <br />
+                Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Setelah Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Setelah Penyesuaian
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="text-[12px] text-black">
+            <tr className="border-b border-slate-100 bg-white">
+              <td className="px-3 py-3 font-semibold tabular-nums">
+                {billingRow.jatuhTempo}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.totalBelumDibayar}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.tagihanPokok}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.tagihanBunga}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.sisaPokok}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.sisaBunga}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.tagihanDenda}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(previousInterestDebt)}
+              </td>
+              <td className="px-3 py-3 font-semibold">{adjustmentType}</td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(adjustmentAmount)}
+              </td>
+              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
+                {formatIdr(nextInterestDebt)}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(previousTotalObligation)}
+              </td>
+              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
+                {formatIdr(nextTotalObligation)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -203,7 +381,7 @@ export default function LoanDebtChangeWizard({
                 </div>
               </div>
 
-              <LoanBillingTablePreview />
+              <LoanBillingTablePreview accountNo={accountNo} />
             </div>
           ) : null}
 
@@ -211,10 +389,11 @@ export default function LoanDebtChangeWizard({
             <div className="grid gap-5">
               <div>
                 <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-                  Simulasi Perubahan Hutang
+                  Simulasi Perubahan Hutang Bunga
                 </h3>
                 <p className="mt-2 text-[13px] text-slate-600">
-                  Masukkan penyesuaian kewajiban untuk melihat ringkasan sebelum disimpan.
+                  Masukkan perubahan kewajiban untuk melihat dampaknya pada tagihan
+                  dan total kewajiban pinjaman.
                 </p>
               </div>
 
@@ -236,27 +415,11 @@ export default function LoanDebtChangeWizard({
                 />
               </div>
 
-              <div className="overflow-hidden rounded-[12px] border border-slate-200">
-                <div className="grid grid-cols-[1fr_0.8fr_0.8fr] gap-3 bg-[#F9FAFF] px-4 py-3 text-[12px] font-bold uppercase text-black">
-                  <span>Informasi</span>
-                  <span className="text-right">Sebelum</span>
-                  <span className="text-right">Simulasi</span>
-                </div>
-                {simulationRows.map((row) => (
-                  <div
-                    key={row.label}
-                    className="grid grid-cols-[1fr_0.8fr_0.8fr] gap-3 border-t border-slate-100 px-4 py-3 text-[13px]"
-                  >
-                    <span className="font-medium text-slate-800">{row.label}</span>
-                    <span className="text-right text-slate-600">
-                      {row.label === "Tunggakan Bunga" ? "125.000,00" : "0,00"}
-                    </span>
-                    <span className="text-right font-bold text-[#5B3DF5]">
-                      {row.value || "0,00"}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <DebtSimulationBillingTable
+                principalDebt={principalDebt}
+                interestDebt={interestDebt}
+                otherDebt={otherDebt}
+              />
             </div>
           ) : null}
 
