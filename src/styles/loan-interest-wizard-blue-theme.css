@@ -12,7 +12,7 @@
 [data-slot="dialog-content"]:has([data-loan-interest-wizard="true"]),
 [role="dialog"]:has([data-loan-interest-wizard="true"]) {
   width: calc(100vw - 2rem) !important;
-  max-width: 600px !important;
+  max-width: 500px !important;
 }
 
 /* Lingkaran langkah aktif dan garis penghubung. */
