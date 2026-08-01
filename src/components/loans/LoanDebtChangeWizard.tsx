@@ -124,7 +124,7 @@ export default function LoanDebtChangeWizard({
     { label: "Total Kewajiban", value: "10.553.571,00" },
   ];
 
-  const nextStep = () => {
+  function nextStep() {
     if (step === 1) {
       setStep(2);
       return;
@@ -139,7 +139,7 @@ export default function LoanDebtChangeWizard({
       description: `Rekening ${accountNo} berhasil diperbarui.`,
     });
     onOpenChange(false);
-  };
+  }
 
   return (
     <>
@@ -148,6 +148,9 @@ export default function LoanDebtChangeWizard({
           className={cn(
             "w-[calc(100vw-1rem)] max-w-[760px] overflow-hidden",
             "rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
           )}
         >
           <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
@@ -190,17 +193,15 @@ export default function LoanDebtChangeWizard({
           className={cn(
             "w-[calc(100vw-1rem)] sm:w-[860px]",
             "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
           )}
         >
           <header className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 sm:px-6">
-            <div className="min-w-0">
-              <h2 className="text-[20px] font-extrabold leading-tight tracking-tight text-slate-900">
-                Ubah Hutang Pinjaman
-              </h2>
-              <div className="mt-1 text-[13px] font-semibold text-slate-500">
-                Rekening Pinjaman: {accountNo}
-              </div>
-            </div>
+            <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-slate-900">
+              Ubah Hutang Pinjaman
+            </h2>
 
             <button
               type="button"
