@@ -18,9 +18,9 @@ function findInterestConfirmButton(target: EventTarget | null) {
 }
 
 function findCancelButton(dialog: Element | null) {
-  return Array.from(dialog?.querySelectorAll<HTMLButtonElement>("button") ?? []).find(
-    (button) => (button.textContent ?? "").trim() === "Cancel",
-  );
+  return Array.from(
+    dialog?.querySelectorAll<HTMLButtonElement>("button") ?? [],
+  ).find((button) => (button.textContent ?? "").trim() === "Cancel");
 }
 
 export default function LoanInterestChangeSuccessGate() {
@@ -29,13 +29,14 @@ export default function LoanInterestChangeSuccessGate() {
   const bypassRef = React.useRef(false);
 
   React.useEffect(() => {
-    function interceptConfirmation(event: MouseEvent) {
+    function interceptConfirmation(event: PointerEvent) {
       if (bypassRef.current) return;
 
       const confirmButton = findInterestConfirmButton(event.target);
       if (!confirmButton) return;
 
       event.preventDefault();
+      event.stopPropagation();
       event.stopImmediatePropagation();
 
       confirmButtonRef.current = confirmButton;
@@ -52,19 +53,23 @@ export default function LoanInterestChangeSuccessGate() {
       }, 0);
     }
 
-    document.addEventListener("click", interceptConfirmation, true);
+    document.addEventListener("pointerdown", interceptConfirmation, true);
 
     return () => {
-      document.removeEventListener("click", interceptConfirmation, true);
+      document.removeEventListener("pointerdown", interceptConfirmation, true);
     };
   }, []);
 
   function finishChange() {
     setOpen(false);
+
+    const confirmButton = confirmButtonRef.current;
+    if (!confirmButton) return;
+
     bypassRef.current = true;
 
     window.requestAnimationFrame(() => {
-      confirmButtonRef.current?.click();
+      confirmButton.click();
 
       window.setTimeout(() => {
         bypassRef.current = false;
