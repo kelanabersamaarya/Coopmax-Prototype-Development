@@ -9,3 +9,35 @@
 [data-radix-dialog-content] [data-slot="dialog-close"] {
   display: none !important;
 }
+
+/* Samakan indikator langkah Ubah Hutang dengan wizard Ubah Bunga. */
+[data-radix-dialog-content]:has(main.max-h-\[58vh\]) > header + div.flex.items-start.gap-2.px-6.py-5 {
+  gap: 0.75rem !important;
+}
+
+[data-radix-dialog-content]:has(main.max-h-\[58vh\])
+  > header
+  + div.flex.items-start.gap-2.px-6.py-5
+  > div.flex.min-w-0.flex-1.flex-col.items-center.gap-2.text-center
+  > span:first-child {
+  height: 2.5rem !important;
+  width: 2.5rem !important;
+  font-size: 18px !important;
+}
+
+[data-radix-dialog-content]:has(main.max-h-\[58vh\])
+  > header
+  + div.flex.items-start.gap-2.px-6.py-5
+  > div.flex.min-w-0.flex-1.flex-col.items-center.gap-2.text-center
+  > span:last-child {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+[data-radix-dialog-content]:has(main.max-h-\[58vh\])
+  > header
+  + div.flex.items-start.gap-2.px-6.py-5
+  > div.mt-\[18px\].h-\[2px\].flex-1 {
+  margin-bottom: 1.25rem !important;
+}
