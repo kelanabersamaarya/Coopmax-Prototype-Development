@@ -19,11 +19,11 @@ const changeHistory = [
   },
 ];
 
-function InfoField({ label, value }: DebtField) {
+function AccountField({ label, value }: DebtField) {
   return (
-    <div className="min-w-0 rounded-[10px] bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
-      <div className="text-[12px] font-semibold text-slate-500">{label}</div>
-      <div className="mt-1 break-words text-[14px] font-extrabold leading-snug text-slate-900">
+    <div className="min-w-0">
+      <div className="text-[11px] font-semibold text-white/85">{label}</div>
+      <div className="mt-1 break-words text-[14px] font-extrabold leading-snug text-white">
         {value}
       </div>
     </div>
@@ -77,7 +77,7 @@ export default function LoanDebtChangeWizard({
   }, [open]);
 
   const fields: DebtField[] = [
-    { label: "Nomor Rekening Pinjaman", value: accountNo },
+    { label: "No. Rek. Pinjaman", value: accountNo },
     { label: "Nama Anggota / Debitur", value: "Bapak Bagus" },
     { label: "Produk Pinjaman", value: "Pinjaman Billing" },
     { label: "Status Pinjaman", value: "Aktif / Sudah Dicairkan" },
@@ -91,7 +91,15 @@ export default function LoanDebtChangeWizard({
   return (
     <>
       <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
-        <DialogContent className="w-[calc(100vw-1rem)] max-w-[760px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl">
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] max-w-[760px] overflow-hidden",
+            "rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+          )}
+        >
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <h3 className="text-[18px] font-extrabold text-slate-900">
               Riwayat Perubahan Hutang
@@ -105,12 +113,22 @@ export default function LoanDebtChangeWizard({
               <X className="h-5 w-5" />
             </button>
           </div>
+
           <div className="p-6">
             {changeHistory.map((item) => (
-              <div key={item.date} className="rounded-[10px] bg-slate-50 p-4 ring-1 ring-slate-200">
-                <div className="text-[13px] font-extrabold text-slate-900">{item.date}</div>
-                <div className="mt-1 text-[12px] font-semibold text-[#5B3DF5]">{item.user}</div>
-                <div className="mt-2 text-[13px] leading-relaxed text-slate-600">{item.description}</div>
+              <div
+                key={item.date}
+                className="rounded-[10px] bg-slate-50 p-4 ring-1 ring-slate-200"
+              >
+                <div className="text-[13px] font-extrabold text-slate-900">
+                  {item.date}
+                </div>
+                <div className="mt-1 text-[12px] font-semibold text-[#5B3DF5]">
+                  {item.user}
+                </div>
+                <div className="mt-2 text-[13px] leading-relaxed text-slate-600">
+                  {item.description}
+                </div>
               </div>
             ))}
           </div>
@@ -118,7 +136,15 @@ export default function LoanDebtChangeWizard({
       </Dialog>
 
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="w-[calc(100vw-1rem)] max-w-[880px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl">
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[860px]",
+            "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+          )}
+        >
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <h2 className="text-[20px] font-extrabold tracking-tight text-slate-900">
               Ubah Hutang Pinjaman
@@ -143,30 +169,27 @@ export default function LoanDebtChangeWizard({
 
           <Separator className="bg-slate-200" />
 
-          <main className="max-h-[58vh] overflow-auto px-6 py-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h3 className="text-[15px] font-extrabold text-slate-900">
-                  Informasi Pinjaman
-                </h3>
-                <p className="mt-1 text-[13px] text-slate-600">
-                  Pastikan informasi kewajiban pinjaman sebelum melakukan penyesuaian.
-                </p>
+          <main className="max-h-[58vh] overflow-auto px-6 py-6 sm:px-8">
+            <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="text-[14px] font-extrabold tracking-wide">
+                  INFORMASI REKENING PINJAMAN
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setHistoryOpen(true)}
+                  className="inline-flex h-9 items-center justify-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
+                >
+                  <Clock3 className="h-4 w-4" />
+                  Riwayat Perubahan
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setHistoryOpen(true)}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-white px-4 text-[13px] font-semibold text-[#5B3DF5] ring-1 ring-violet-200 transition hover:bg-violet-50"
-              >
-                <Clock3 className="h-4 w-4" />
-                Riwayat Perubahan
-              </button>
-            </div>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {fields.map((field) => (
-                <InfoField key={field.label} {...field} />
-              ))}
+              <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+                {fields.map((field) => (
+                  <AccountField key={field.label} {...field} />
+                ))}
+              </div>
             </div>
           </main>
 
