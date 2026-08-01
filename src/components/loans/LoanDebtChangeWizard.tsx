@@ -248,9 +248,9 @@ export default function LoanDebtChangeWizard({
 
           <Separator className="bg-slate-200" />
 
-          <main className="max-h-[58vh] overflow-auto px-6 py-6 sm:px-8">
+          <main className="max-h-[58vh] overflow-auto px-6 pb-6 pt-0 sm:px-8">
             {step === 1 ? (
-              <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+              <div className="rounded-b-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-[14px] font-extrabold tracking-wide">
                     INFORMASI REKENING PINJAMAN
@@ -274,7 +274,7 @@ export default function LoanDebtChangeWizard({
             ) : null}
 
             {step === 2 ? (
-              <div className="grid gap-6">
+              <div className="grid gap-6 pt-6">
                 <div>
                   <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
                     Simulasi Perubahan Hutang
@@ -352,7 +352,7 @@ export default function LoanDebtChangeWizard({
             ) : null}
 
             {step === 3 ? (
-              <div className="grid gap-6">
+              <div className="grid gap-6 pt-6">
                 <div>
                   <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
                     Simpan Perubahan Hutang
