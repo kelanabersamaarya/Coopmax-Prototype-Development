@@ -3,6 +3,14 @@
   padding-right: 1.5rem !important;
 }
 
+/* Semua tombol di wizard memakai ukuran dan bentuk yang konsisten. */
+[data-loan-interest-wizard="true"] button {
+  border: 0 !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+}
+
 /* Semua judul section pada wizard simulasi. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
@@ -161,11 +169,11 @@
   height: 48px !important;
   flex-direction: row-reverse !important;
   gap: 14px !important;
-  border: 4px solid #d9f2d4 !important;
-  border-radius: 22px !important;
+  border: 0 !important;
+  border-radius: 5px !important;
   background-color: #2fb300 !important;
   padding: 0 24px !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: 700 !important;
   box-shadow: none !important;
 }
@@ -174,8 +182,8 @@
   footer
   > button.bg-\[\#2fb300\]
   svg {
-  height: 25px !important;
-  width: 25px !important;
+  height: 22px !important;
+  width: 22px !important;
   stroke-width: 3.5 !important;
 }
 
