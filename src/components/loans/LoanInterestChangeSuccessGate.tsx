@@ -5,78 +5,42 @@ import { Check } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-function findInterestConfirmButton(target: EventTarget | null) {
+function isInterestChangeConfirmation(target: EventTarget | null) {
   const button = target instanceof Element ? target.closest("button") : null;
 
-  if (!button || (button.textContent ?? "").trim() !== "Yes") return null;
+  if (!button || (button.textContent ?? "").trim() !== "Yes") {
+    return false;
+  }
 
   const dialog = button.closest("[data-radix-dialog-content]");
-  const isInterestConfirmation =
-    dialog?.textContent?.includes("Yakin untuk melakukan perubahan?") ?? false;
 
-  return isInterestConfirmation ? (button as HTMLButtonElement) : null;
-}
-
-function findCancelButton(dialog: Element | null) {
-  return Array.from(
-    dialog?.querySelectorAll<HTMLButtonElement>("button") ?? [],
-  ).find((button) => (button.textContent ?? "").trim() === "Cancel");
+  return (
+    dialog?.textContent?.includes("Yakin untuk melakukan perubahan?") ?? false
+  );
 }
 
 export default function LoanInterestChangeSuccessGate() {
   const [open, setOpen] = React.useState(false);
-  const confirmButtonRef = React.useRef<HTMLButtonElement | null>(null);
-  const bypassRef = React.useRef(false);
 
   React.useEffect(() => {
-    function interceptConfirmation(event: PointerEvent) {
-      if (bypassRef.current) return;
+    function showSuccessAfterConfirmation(event: MouseEvent) {
+      if (!isInterestChangeConfirmation(event.target)) return;
 
-      const confirmButton = findInterestConfirmButton(event.target);
-      if (!confirmButton) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
-
-      confirmButtonRef.current = confirmButton;
-
-      const confirmDialog = confirmButton.closest("[data-radix-dialog-content]");
-      const cancelButton = findCancelButton(confirmDialog);
-
-      bypassRef.current = true;
-      cancelButton?.click();
-
-      window.setTimeout(() => {
-        bypassRef.current = false;
-        setOpen(true);
-      }, 0);
+      // Biarkan tombol Yes menjalankan proses simpan asli dari wizard.
+      // Popup sukses ditampilkan setelah event klik tersebut selesai diproses.
+      window.setTimeout(() => setOpen(true), 0);
     }
 
-    document.addEventListener("pointerdown", interceptConfirmation, true);
+    document.addEventListener("click", showSuccessAfterConfirmation, true);
 
     return () => {
-      document.removeEventListener("pointerdown", interceptConfirmation, true);
+      document.removeEventListener(
+        "click",
+        showSuccessAfterConfirmation,
+        true,
+      );
     };
   }, []);
-
-  function finishChange() {
-    setOpen(false);
-
-    const confirmButton = confirmButtonRef.current;
-    if (!confirmButton) return;
-
-    bypassRef.current = true;
-
-    window.requestAnimationFrame(() => {
-      confirmButton.click();
-
-      window.setTimeout(() => {
-        bypassRef.current = false;
-        confirmButtonRef.current = null;
-      }, 0);
-    });
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -101,7 +65,7 @@ export default function LoanInterestChangeSuccessGate() {
 
           <button
             type="button"
-            onClick={finishChange}
+            onClick={() => setOpen(false)}
             className={cn(
               "mt-7 h-[60px] w-[190px] rounded-[10px]",
               "bg-[#2f80ed] text-[16px] font-semibold text-white",
