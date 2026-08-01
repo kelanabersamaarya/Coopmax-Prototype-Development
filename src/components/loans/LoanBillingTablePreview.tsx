@@ -67,15 +67,15 @@ export default function LoanBillingTablePreview({
   return (
     <section
       className={cn(
-        "loan-debt-billing-preview rounded-[8px] border border-slate-200 bg-white p-4 shadow-sm",
+        "loan-debt-billing-preview overflow-hidden rounded-[12px] border border-slate-200 bg-white shadow-sm",
         className,
       )}
     >
-      <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
         Informasi Tagihan dan Denda
       </div>
 
-      <div className="mt-3">
+      <div className="p-4">
         <BillingTableView2
           rows={pagedRows}
           selected={selected}
@@ -94,7 +94,7 @@ export default function LoanBillingTablePreview({
         />
       </div>
 
-      <div className="mt-4 flex flex-col gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
           Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
         </div>
