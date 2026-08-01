@@ -7,12 +7,12 @@
   --loan-interest-blue-soft: #eff6ff;
 }
 
-/* Fallback untuk semua container dialog yang membungkus wizard. */
+/* Lebar modal Ubah Suku Bunga ditetapkan langsung agar mengalahkan kelas bawaan komponen. */
 [data-radix-dialog-content]:has([data-loan-interest-wizard="true"]),
 [data-slot="dialog-content"]:has([data-loan-interest-wizard="true"]),
 [role="dialog"]:has([data-loan-interest-wizard="true"]) {
-  width: calc(100vw - 2rem) !important;
-  max-width: 500px !important;
+  width: min(800px, calc(100vw - 2rem)) !important;
+  max-width: 800px !important;
 }
 
 /* Lingkaran langkah aktif dan garis penghubung. */
