@@ -332,7 +332,7 @@ export default function LoanInterestChangeWizard({
               <div className="grid gap-5">
                 <div>
                   <h3 className="text-[18px] font-extrabold text-slate-900">
-                    Simulasi Perubahan Bunga
+                    Simulasi Perubahan Suku Bunga
                   </h3>
                 </div>
 
