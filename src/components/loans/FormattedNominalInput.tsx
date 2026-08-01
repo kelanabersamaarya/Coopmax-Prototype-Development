@@ -71,6 +71,7 @@ export default function FormattedNominalInput({
   placeholder = "0,00",
   inputMode = "decimal",
   readOnly = false,
+  selectOnFocus = false,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -79,6 +80,7 @@ export default function FormattedNominalInput({
   placeholder?: string;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   readOnly?: boolean;
+  selectOnFocus?: boolean;
 }) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const caretDigitsRef = React.useRef<number | null>(null);
@@ -101,10 +103,8 @@ export default function FormattedNominalInput({
       ref={inputRef}
       value={displayValue}
       onFocus={(event) => {
-        if (event.currentTarget.value === "0,00") {
-          requestAnimationFrame(() => {
-            event.currentTarget.select();
-          });
+        if (selectOnFocus || event.currentTarget.value === "0,00") {
+          event.currentTarget.select();
         }
       }}
       onChange={(event) => {
@@ -129,7 +129,7 @@ export default function FormattedNominalInput({
       inputMode={inputMode}
       className={cn(
         "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
-        "text-[14px] font-medium text-slate-900 shadow-none",
+        "text-left text-[14px] font-medium text-slate-900 shadow-none",
         "placeholder:text-[#64748B]",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
         disabled ? "pointer-events-none opacity-60" : "",
