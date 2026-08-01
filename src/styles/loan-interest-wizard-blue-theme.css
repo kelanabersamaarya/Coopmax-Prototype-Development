@@ -10,7 +10,7 @@
 /* Modal dibuat lebih ringkas, sementara tabel simulasi tetap bisa digeser. */
 [data-radix-dialog-content]:has([data-loan-interest-wizard="true"]) {
   width: calc(100vw - 2rem) !important;
-  max-width: 900px !important;
+  max-width: 600px !important;
 }
 
 /* Lingkaran langkah aktif dan garis penghubung. */
