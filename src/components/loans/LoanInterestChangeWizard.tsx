@@ -407,10 +407,6 @@ export default function LoanInterestChangeWizard({
 
             {step === 2 ? (
               <div className="grid gap-5">
-                <h3 className="text-[18px] font-extrabold text-slate-900">
-                  Simulasi Perubahan Suku Bunga
-                </h3>
-
                 <ComparisonTable
                   rate={simulation.rate}
                   beforeInstallment={simulation.beforeInstallment}
