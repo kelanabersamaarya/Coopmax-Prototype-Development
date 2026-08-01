@@ -35,11 +35,11 @@
   text-transform: none !important;
 }
 
-/* Header tabel ringkasan dibuat 12px dan tetap menggunakan huruf kapital penuh. */
+/* Header tabel ringkasan berwarna putih dengan ukuran 12px. */
 [data-loan-interest-wizard="true"] .loan-interest-summary thead,
 [data-loan-interest-wizard="true"] .loan-interest-summary thead tr,
 [data-loan-interest-wizard="true"] .loan-interest-summary thead th {
-  background-color: #f9faff !important;
+  background-color: #ffffff !important;
   color: #000000 !important;
   font-size: 12px !important;
   font-weight: 700 !important;
