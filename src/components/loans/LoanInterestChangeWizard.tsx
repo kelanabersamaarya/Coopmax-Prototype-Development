@@ -7,10 +7,10 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { saveLoanInterestRate } from "@/lib/loanInterestStore";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanInterestHistoryDialog from "@/components/loans/LoanInterestHistoryDialog";
 import LoanInterestChangeSuccessModal from "@/components/loans/LoanInterestChangeSuccessModal";
+import { saveLoanInterestRate } from "@/lib/loanInterestStore";
 
 const currentRate = 12;
 const currentInstallment = 1_120_000;
@@ -56,7 +56,7 @@ function FieldRow({
   );
 }
 
-function AccountField({ label, value }: DebtField) {
+function AccountField({ label, value }: { label: string; value: string }) {
   return (
     <div className="min-w-0">
       <div className="text-[11px] font-semibold text-white/85">{label}</div>
@@ -66,8 +66,6 @@ function AccountField({ label, value }: DebtField) {
     </div>
   );
 }
-
-type DebtField = { label: string; value: string };
 
 function ConfirmationDialog({
   open,
@@ -91,14 +89,14 @@ function ConfirmationDialog({
       >
         <div className="px-8 pb-5 pt-10 text-center sm:px-10">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[54px] font-light leading-none text-[#f2b98f]">
+            <div className="text-[54px] font-light leading-none text-[#f2b98f]">
               !
-            </span>
+            </div>
           </div>
 
-          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+          <div className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
             Yakin untuk melakukan perubahan?
-          </h3>
+          </div>
 
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
@@ -119,6 +117,169 @@ function ConfirmationDialog({
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function BillingSimulationTable({
+  installments,
+  adjustmentRate,
+}: {
+  installments: Array<{
+    number: number;
+    dueDate: string;
+    principal: number;
+    before: number;
+    after: number;
+    remaining: number;
+  }>;
+  adjustmentRate: number;
+}) {
+  return (
+    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+        Simulasi Angsuran Setelah Perubahan Suku Bunga
+      </div>
+
+      <div className="safe-x-scroll">
+        <table className="w-full min-w-[2180px] border-collapse">
+          <thead className="bg-white">
+            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
+              <th className="w-[78px] px-3 py-3">Angsuran Ke</th>
+              <th className="w-[115px] px-3 py-3">Jatuh Tempo</th>
+              <th className="w-[145px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[120px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3">
+                Jenis Penyesuaian
+              </th>
+              <th className="w-[145px] px-3 py-3 text-right">
+                Nominal
+                <br />
+                Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Setelah Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Setelah Penyesuaian
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="text-[12px] text-black">
+            {installments.map((item, index) => {
+              const beforeInterest = Math.max(0, item.before - item.principal);
+              const afterInterest = Math.max(0, item.after - item.principal);
+              const interestAdjustment = afterInterest - beforeInterest;
+              const beforeTotal = item.before;
+              const afterTotal = item.after;
+              const remainingInterestBefore = beforeInterest * (remainingTenor - index);
+              const remainingInterestAfter = afterInterest * (remainingTenor - index);
+              const adjustmentType =
+                interestAdjustment > 0
+                  ? "Penambahan Bunga"
+                  : interestAdjustment < 0
+                    ? "Pengurangan Bunga"
+                    : "Tidak Ada Perubahan";
+
+              return (
+                <tr
+                  key={item.number}
+                  className={cn(
+                    "border-b border-slate-100",
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                  )}
+                >
+                  <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
+                  <td className="px-3 py-2.5 tabular-nums whitespace-nowrap">
+                    {item.dueDate}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(beforeTotal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.principal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(beforeInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.remaining)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(remainingInterestBefore)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(beforeInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 font-semibold">
+                    {adjustmentType}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(Math.abs(interestAdjustment))}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-bold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(afterInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(beforeTotal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-bold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(afterTotal)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="border-t border-slate-200 bg-slate-50 px-4 py-3 text-[12px] font-medium text-slate-600">
+        Simulasi menggunakan suku bunga baru {adjustmentRate.toFixed(2)}% per tahun.
+      </div>
+    </div>
   );
 }
 
@@ -240,7 +401,7 @@ export default function LoanInterestChangeWizard({
         <DialogContent
           data-loan-interest-wizard="true"
           className={cn(
-            "w-[calc(100vw-1rem)] sm:w-[860px] max-w-[860px]",
+            "w-[calc(100vw-1rem)] sm:w-[1180px] max-w-[1180px]",
             "overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
             "[&>button[aria-label=Close]]:hidden",
             "[&>button.absolute.right-4.top-4]:hidden",
@@ -367,22 +528,24 @@ export default function LoanInterestChangeWizard({
                     </div>
                   </div>
                 </div>
-              ) : (
+              ) : null}
+
+              {step === 2 ? (
                 <div className="grid gap-5">
                   <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                    <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold text-black">
+                    <div className="loan-interest-summary-title px-4 py-3">
                       Ringkasan Perubahan Suku Bunga
                     </div>
                     <div className="safe-x-scroll">
-                      <table className="w-full min-w-[620px] border-collapse">
-                        <thead className="bg-white">
-                          <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase text-black">
+                      <table className="loan-interest-summary w-full min-w-[620px] border-collapse">
+                        <thead>
+                          <tr className="border-b border-slate-200 text-left">
                             <th className="px-4 py-3">Informasi</th>
                             <th className="px-4 py-3">Sebelum Perubahan</th>
                             <th className="px-4 py-3">Sesudah Perubahan</th>
                           </tr>
                         </thead>
-                        <tbody className="text-[12px]">
+                        <tbody>
                           <tr className="border-b border-slate-100">
                             <td className="px-4 py-3">Suku Bunga</td>
                             <td className="px-4 py-3">12,00% per tahun</td>
@@ -416,76 +579,72 @@ export default function LoanInterestChangeWizard({
                   </div>
 
                   <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                    <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase text-black">
+                    <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                       Alasan Perubahan
                     </div>
                     <p className="px-4 py-4 text-[14px] text-black">{reason}</p>
                   </div>
 
-                  <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                    <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase text-black">
-                      Simulasi Angsuran Setelah Perubahan Suku Bunga
-                    </div>
-                    <div className="safe-x-scroll">
-                      <table className="w-full min-w-[980px] border-collapse">
-                        <thead className="bg-white">
-                          <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase text-black">
-                            <th className="px-3 py-3">Angsuran Ke</th>
-                            <th className="px-3 py-3">Jatuh Tempo</th>
-                            <th className="px-3 py-3 text-right">Tagihan Pokok</th>
-                            <th className="px-3 py-3 text-right">
-                              Total Sebelum Penyesuaian
-                            </th>
-                            <th className="px-3 py-3 text-right">
-                              Total Sesudah Penyesuaian
-                            </th>
-                            <th className="px-3 py-3 text-right">Sisa Pinjaman</th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-[12px]">
-                          {simulation.installments.map((item, index) => (
-                            <tr
-                              key={item.number}
-                              className={cn(
-                                "border-b border-slate-100",
-                                index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                              )}
-                            >
-                              <td className="px-3 py-2.5">{item.number}</td>
-                              <td className="px-3 py-2.5">{item.dueDate}</td>
-                              <td className="px-3 py-2.5 text-right">
-                                {formatIdr(item.principal)}
-                              </td>
-                              <td className="px-3 py-2.5 text-right">
-                                {formatIdr(item.before)}
-                              </td>
-                              <td className="px-3 py-2.5 text-right font-semibold text-[#5B3DF5]">
-                                {formatIdr(item.after)}
-                              </td>
-                              <td className="px-3 py-2.5 text-right">
-                                {formatIdr(item.remaining)}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                  <BillingSimulationTable
+                    installments={simulation.installments}
+                    adjustmentRate={simulation.rate}
+                  />
+                </div>
+              ) : null}
+
+              {step === 3 ? (
+                <div className="grid gap-5">
+                  <div>
+                    <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
+                      Konfirmasi Perubahan Suku Bunga
+                    </h3>
+                    <p className="mt-2 text-[13px] text-slate-600">
+                      Pastikan semua nilai simulasi sudah sesuai sebelum menyimpan.
+                    </p>
+                  </div>
+
+                  <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <div className="text-[12px] font-semibold text-slate-500">
+                          Rekening Pinjaman
+                        </div>
+                        <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                          {accountNo}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[12px] font-semibold text-slate-500">
+                          Suku Bunga Baru
+                        </div>
+                        <div className="mt-1 text-[14px] font-extrabold text-[#5B3DF5]">
+                          {simulation.rate.toFixed(2)}% per tahun
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[12px] font-semibold text-slate-500">
+                          Tanggal Efektif
+                        </div>
+                        <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                          {effectiveDate}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[12px] font-semibold text-slate-500">
+                          Alasan Perubahan
+                        </div>
+                        <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                          {reason}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              )}
+              ) : null}
             </main>
 
             <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-              {step === 2 ? (
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
-                >
-                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                  Kembali
-                </button>
-              ) : (
+              {step === 1 ? (
                 <button
                   type="button"
                   onClick={() => onOpenChange(false)}
@@ -494,25 +653,38 @@ export default function LoanInterestChangeWizard({
                   <X className="h-4 w-4" strokeWidth={3} />
                   Batal
                 </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setStep((current) => current - 1)}
+                  className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+                >
+                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                  Kembali
+                </button>
               )}
 
               <button
                 type="button"
                 onClick={
-                  step === 1 ? continueToSimulation : () => setConfirmOpen(true)
+                  step === 1
+                    ? continueToSimulation
+                    : step === 2
+                      ? () => setStep(3)
+                      : () => setConfirmOpen(true)
                 }
                 className={cn(
                   "inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold text-white transition",
-                  step === 1
-                    ? "bg-[#5B3DF5] hover:bg-[#4C32D9]"
-                    : "bg-[#2fb300] hover:bg-[#279800]",
+                  step === 3
+                    ? "bg-[#2fb300] hover:bg-[#279800]"
+                    : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
                 )}
               >
-                {step === 1 ? "Lanjutkan" : "Simpan Perubahan"}
-                {step === 1 ? (
-                  <ChevronRight className="h-4 w-4" />
-                ) : (
+                {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+                {step === 3 ? (
                   <Check className="h-4 w-4" strokeWidth={3} />
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
                 )}
               </button>
             </footer>
