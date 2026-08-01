@@ -72,6 +72,14 @@ function FieldRow({
   );
 }
 
+function FormChangeInterestHeader() {
+  return (
+    <div className="bg-[#F9FAFF] px-5 py-3 text-[16px] font-extrabold uppercase tracking-[0.025em] text-slate-900">
+      Form Perubahan Suku Bunga
+    </div>
+  );
+}
+
 function AccountField({
   label,
   value,
@@ -231,22 +239,28 @@ export default function LoanInterestChangeWizard({
     const afterInstallment = currentInstallment - beforeInterest + afterInterest;
     const monthlyPrincipal = remainingPrincipal / remainingTenor;
 
-    let outstanding = remainingPrincipal;
+    let beforeOutstanding = remainingPrincipal;
+    let afterOutstanding = remainingPrincipal;
 
     const installments = Array.from({ length: remainingTenor }, (_, index) => {
-      const principal = Math.min(monthlyPrincipal, outstanding);
-      const interest = (outstanding * rate) / 100 / 12;
-      const installment = principal + interest;
-      const remaining = Math.max(0, outstanding - principal);
+      const principal = Math.min(monthlyPrincipal, beforeOutstanding);
+      const interestBefore = (beforeOutstanding * currentRate) / 100 / 12;
+      const interestAfter = (afterOutstanding * rate) / 100 / 12;
+      const totalBefore = principal + interestBefore;
+      const totalAfter = principal + interestAfter;
+      const remaining = Math.max(0, beforeOutstanding - principal);
 
-      outstanding = remaining;
+      beforeOutstanding = remaining;
+      afterOutstanding = remaining;
 
       return {
         installmentNo: index + 1,
         dueDate: formatDueDate(index),
         principal,
-        interest,
-        installment,
+        interestBefore,
+        interestAfter,
+        totalBefore,
+        totalAfter,
         remaining,
       };
     });
@@ -307,7 +321,6 @@ export default function LoanInterestChangeWizard({
             <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
               Ubah Suku Bunga Pinjaman
             </h2>
-
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -328,12 +341,9 @@ export default function LoanInterestChangeWizard({
                     <div className="text-[16px] font-extrabold tracking-wide">
                       INFORMASI REKENING PINJAMAN
                     </div>
-
                     <button
                       type="button"
-                      onClick={() =>
-                        toast("Riwayat perubahan bunga (prototype)")
-                      }
+                      onClick={() => toast("Riwayat perubahan bunga (prototype)")}
                       className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
                     >
                       <Eye className="h-4 w-4" />
@@ -346,18 +356,14 @@ export default function LoanInterestChangeWizard({
                       <AccountField
                         key={label}
                         label={label}
-                        value={
-                          label === "No. Rek. Pinjaman" ? accountNo : value
-                        }
+                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
                       />
                     ))}
                   </div>
                 </div>
 
                 <div className="overflow-hidden rounded-[12px] bg-white pb-5 ring-1 ring-slate-200">
-                  <div className="bg-[#F9FAFF] px-5 py-3 text-[16px] font-extrabold uppercase tracking-[0.025em] text-slate-900">
-                    Form Perubahan Suku Bunga
-                  </div>
+                  <FormChangeInterestHeader />
 
                   <div className="grid gap-5 px-5 pt-5">
                     <FieldRow label="Suku Bunga Baru">
@@ -427,17 +433,27 @@ export default function LoanInterestChangeWizard({
                   </div>
 
                   <div className="safe-x-scroll">
-                    <table className="w-full min-w-[720px] border-collapse">
+                    <table className="w-full min-w-[1180px] border-collapse">
                       <thead className="bg-white">
-                        <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
-                          <th className="px-3 py-3">Angsuran Ke</th>
-                          <th className="px-3 py-3">Jatuh Tempo</th>
-                          <th className="px-3 py-3 text-right">Pokok</th>
-                          <th className="px-3 py-3 text-right">Bunga</th>
-                          <th className="px-3 py-3 text-right">
-                            Total Angsuran
+                        <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-600">
+                          <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
+                          <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
+                          <th className="w-[150px] px-3 py-3 text-right">
+                            Tagihan Pokok
                           </th>
-                          <th className="px-3 py-3 text-right">
+                          <th className="w-[190px] px-3 py-3 text-right">
+                            Tagihan Bunga Sebelum Penyesuaian
+                          </th>
+                          <th className="w-[190px] px-3 py-3 text-right">
+                            Tagihan Bunga Sesudah Penyesuaian
+                          </th>
+                          <th className="w-[200px] px-3 py-3 text-right">
+                            Total Angsuran Sebelum Penyesuaian
+                          </th>
+                          <th className="w-[200px] px-3 py-3 text-right">
+                            Total Angsuran Sesudah Penyesuaian
+                          </th>
+                          <th className="w-[160px] px-3 py-3 text-right">
                             Sisa Pinjaman
                           </th>
                         </tr>
@@ -461,11 +477,17 @@ export default function LoanInterestChangeWizard({
                             <td className="px-3 py-2.5 text-right tabular-nums text-slate-900">
                               {formatIdr(installment.principal)}
                             </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-900">
-                              {formatIdr(installment.interest)}
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
+                              {formatIdr(installment.interestBefore)}
                             </td>
                             <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                              {formatIdr(installment.installment)}
+                              {formatIdr(installment.interestAfter)}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
+                              {formatIdr(installment.totalBefore)}
+                            </td>
+                            <td className="px-3 py-2.5 text-right font-extrabold tabular-nums text-[#5B3DF5]">
+                              {formatIdr(installment.totalAfter)}
                             </td>
                             <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
                               {formatIdr(installment.remaining)}
@@ -496,11 +518,8 @@ export default function LoanInterestChangeWizard({
                     <div>Sebelum</div>
                     <div>Sesudah</div>
                   </div>
-
                   <div className="grid gap-2 px-4 py-4 text-[13px] sm:grid-cols-[180px_1fr_1fr]">
-                    <div className="font-semibold text-slate-700">
-                      Suku Bunga
-                    </div>
+                    <div className="font-semibold text-slate-700">Suku Bunga</div>
                     <div className="rounded-[8px] bg-slate-100 px-3 py-2">
                       {currentRate.toFixed(2)}% per tahun
                     </div>
@@ -520,34 +539,17 @@ export default function LoanInterestChangeWizard({
             ) : null}
           </main>
 
-          <footer className="flex items-center justify-between gap-3 border-t border-slate-200 px-6 py-4">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() =>
-                  step === 1 ? onOpenChange(false) : setStep(step - 1)
-                }
-                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
-              >
-                {step === 1 ? (
-                  <X className="h-4 w-4" strokeWidth={3} />
-                ) : (
-                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                )}
-                {step === 1 ? "Batal" : "Kembali"}
-              </button>
-
-              {step === 2 ? (
-                <button
-                  type="button"
-                  onClick={() => onOpenChange(false)}
-                  className="inline-flex h-10 min-w-[78px] items-center justify-center gap-2 rounded-[5px] px-3 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50 hover:text-[#B71C2B]"
-                >
-                  <X className="h-4 w-4" strokeWidth={3} />
-                  Batal
-                </button>
-              ) : null}
-            </div>
+          <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+            <button
+              type="button"
+              onClick={() =>
+                step === 1 ? onOpenChange(false) : setStep(step - 1)
+              }
+              className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+            >
+              <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+              {step === 1 ? "Batal" : "Kembali"}
+            </button>
 
             <button
               type="button"
