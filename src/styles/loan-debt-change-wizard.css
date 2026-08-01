@@ -10,9 +10,14 @@
   display: none !important;
 }
 
-/* Samakan indikator langkah Ubah Hutang dengan wizard Ubah Bunga. */
-[data-radix-dialog-content]:has(main.max-h-\[58vh\]) > header + div.flex.items-start.gap-2.px-6.py-5 {
+/* Samakan indikator langkah Ubah Hutang dengan wizard Ubah Suku Bunga. */
+[data-radix-dialog-content]:has(main.max-h-\[58vh\])
+  > header
+  + div.flex.items-start.gap-2.px-6.py-5 {
+  align-items: center !important;
+  justify-content: center !important;
   gap: 0.75rem !important;
+  overflow-x: auto !important;
 }
 
 [data-radix-dialog-content]:has(main.max-h-\[58vh\])
@@ -39,5 +44,6 @@
   > header
   + div.flex.items-start.gap-2.px-6.py-5
   > div.mt-\[18px\].h-\[2px\].flex-1 {
+  margin-top: 0 !important;
   margin-bottom: 1.25rem !important;
 }
