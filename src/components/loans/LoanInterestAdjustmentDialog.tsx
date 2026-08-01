@@ -237,7 +237,7 @@ export default function LoanInterestAdjustmentDialog({
                           ? "Masukkan alasan penambahan bunga"
                           : "Masukkan alasan penyesuaian bunga"
                       }
-                      className="min-h-[112px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      className="min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none focus-visible:ring-0"
                     />
                   </div>
                 </>
