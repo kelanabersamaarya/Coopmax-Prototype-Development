@@ -5,13 +5,22 @@ import { Check } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-function isInterestChangeConfirmButton(target: EventTarget | null) {
+function findInterestConfirmButton(target: EventTarget | null) {
   const button = target instanceof Element ? target.closest("button") : null;
 
-  if (!button || (button.textContent ?? "").trim() !== "Yes") return false;
+  if (!button || (button.textContent ?? "").trim() !== "Yes") return null;
 
   const dialog = button.closest("[data-radix-dialog-content]");
-  return dialog?.textContent?.includes("Yakin untuk melakukan perubahan?") ?? false;
+  const isInterestConfirmation =
+    dialog?.textContent?.includes("Yakin untuk melakukan perubahan?") ?? false;
+
+  return isInterestConfirmation ? (button as HTMLButtonElement) : null;
+}
+
+function findCancelButton(dialog: Element | null) {
+  return Array.from(dialog?.querySelectorAll<HTMLButtonElement>("button") ?? []).find(
+    (button) => (button.textContent ?? "").trim() === "Cancel",
+  );
 }
 
 export default function LoanInterestChangeSuccessGate() {
@@ -21,17 +30,26 @@ export default function LoanInterestChangeSuccessGate() {
 
   React.useEffect(() => {
     function interceptConfirmation(event: MouseEvent) {
-      if (bypassRef.current || !isInterestChangeConfirmButton(event.target)) {
-        return;
-      }
+      if (bypassRef.current) return;
+
+      const confirmButton = findInterestConfirmButton(event.target);
+      if (!confirmButton) return;
 
       event.preventDefault();
       event.stopImmediatePropagation();
 
-      confirmButtonRef.current = (event.target as Element).closest(
-        "button",
-      ) as HTMLButtonElement;
-      setOpen(true);
+      confirmButtonRef.current = confirmButton;
+
+      const confirmDialog = confirmButton.closest("[data-radix-dialog-content]");
+      const cancelButton = findCancelButton(confirmDialog);
+
+      bypassRef.current = true;
+      cancelButton?.click();
+
+      window.setTimeout(() => {
+        bypassRef.current = false;
+        setOpen(true);
+      }, 0);
     }
 
     document.addEventListener("click", interceptConfirmation, true);
@@ -60,7 +78,7 @@ export default function LoanInterestChangeSuccessGate() {
       <DialogContent
         className={cn(
           "w-[calc(100vw-2rem)] sm:w-[519px]",
-          "max-w-[519px] h-[300px]",
+          "h-[300px] max-w-[519px]",
           "overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
