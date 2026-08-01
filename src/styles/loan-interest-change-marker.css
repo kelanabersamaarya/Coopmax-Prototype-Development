@@ -103,6 +103,33 @@
   border-top: 2px solid rgb(37 99 235 / 0.7) !important;
 }
 
+/* Sudut atas penanda periode. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change-start="true"]
+  td:first-child,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]:first-child
+  td:first-child {
+  border-top-left-radius: 6px;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change-start="true"]
+  td:last-child,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]:first-child
+  td:last-child {
+  border-top-right-radius: 6px;
+}
+
 /* Akhir periode asli: angsuran ke-12. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
@@ -120,6 +147,33 @@
   tr[data-interest-change="true"]:last-child
   td {
   border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
+}
+
+/* Sudut bawah penanda periode. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change-end="true"]
+  td:first-child,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]:last-child
+  td:first-child {
+  border-bottom-left-radius: 6px;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change-end="true"]
+  td:last-child,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]:last-child
+  td:last-child {
+  border-bottom-right-radius: 6px;
 }
 
 /* Nilai hasil bunga baru tetap diberi warna biru pada seluruh periode perubahan. */
