@@ -5,14 +5,9 @@
   --loan-interest-blue: #2563eb;
   --loan-interest-blue-hover: #1d4ed8;
   --loan-interest-blue-soft: #eff6ff;
-}
 
-/* Atribut wizard dipasang langsung pada DialogContent. */
-[data-loan-interest-wizard="true"][data-radix-dialog-content],
-[data-loan-interest-wizard="true"][data-slot="dialog-content"],
-[data-loan-interest-wizard="true"][role="dialog"] {
-  width: min(800px, calc(100vw - 2rem)) !important;
-  max-width: 800px !important;
+  width: min(900px, calc(100vw - 2rem)) !important;
+  max-width: 900px !important;
 }
 
 /* Lingkaran langkah aktif dan garis penghubung. */
