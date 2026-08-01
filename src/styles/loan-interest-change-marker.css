@@ -32,7 +32,7 @@
   left: 10px;
   top: 10px;
   display: block;
-  width: min(620px, calc(100vw - 4rem));
+  width: calc(1780px - 20px);
   min-height: 60px;
   white-space: pre-line;
   border: 1px solid rgb(191 219 254);
