@@ -48,7 +48,13 @@ export default function LoanBillingTablePreview({
   }, [rows]);
 
   return (
-    <div className={cn(className)}>
+    <div
+      className={cn(
+        "[&_[aria-label='Lihat Detail Denda']]:hidden",
+        "[&_[aria-label='Tambah Denda']]:hidden",
+        className,
+      )}
+    >
       <BillingTableView2
         rows={rows}
         selected={selected}
