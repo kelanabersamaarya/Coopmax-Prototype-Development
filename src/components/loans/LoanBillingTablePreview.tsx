@@ -53,14 +53,16 @@ export default function LoanBillingTablePreview({
         rows={rows}
         selected={selected}
         setSelected={setSelected}
-        isLocked={false}
+        isLocked
         showNextBillInfo={false}
-        showGraceInfo={true}
-        highlightGraceBlock={true}
+        showGraceInfo={false}
+        highlightGraceBlock={false}
         keepGraceShellWithoutInfo={false}
-        hideSelection={false}
-        showPenaltyColumn={true}
-        disableRowActiveRing={true}
+        hideSelection
+        showPenaltyColumn
+        disableRowActiveRing
+        disableRowRings
+        rowDensity="default"
         penaltyIndexOffset={0}
       />
     </div>
