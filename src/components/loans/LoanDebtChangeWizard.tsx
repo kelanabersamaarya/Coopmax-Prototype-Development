@@ -1,17 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { Check, Clock3, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-type DebtField = {
-  label: string;
-  value: string;
-};
+type DebtField = { label: string; value: string };
 
 const changeHistory = [
   {
@@ -125,13 +122,8 @@ export default function LoanDebtChangeWizard({
   ];
 
   function nextStep() {
-    if (step === 1) {
-      setStep(2);
-      return;
-    }
-
-    if (step === 2) {
-      setStep(3);
+    if (step < 3) {
+      setStep((current) => current + 1);
       return;
     }
 
@@ -202,13 +194,11 @@ export default function LoanDebtChangeWizard({
             <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-slate-900">
               Ubah Hutang Pinjaman
             </h2>
-
             <button
               type="button"
               onClick={() => onOpenChange(false)}
               className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
               aria-label="Tutup"
-              title="Tutup"
             >
               <X className="h-5 w-5" />
             </button>
@@ -250,7 +240,7 @@ export default function LoanDebtChangeWizard({
 
           <main className="max-h-[58vh] overflow-auto px-6 pb-6 pt-0 sm:px-8">
             {step === 1 ? (
-              <div className="rounded-b-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+              <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-[14px] font-extrabold tracking-wide">
                     INFORMASI REKENING PINJAMAN
@@ -286,39 +276,38 @@ export default function LoanDebtChangeWizard({
                 </div>
 
                 <div className="grid gap-4 rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
-                  <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] text-[#002060]">
-                      Tunggakan Pokok Baru
-                    </label>
-                    <Input
-                      value={principalDebt}
-                      onChange={(event) => setPrincipalDebt(event.target.value)}
-                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      inputMode="decimal"
-                    />
-                  </div>
-                  <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] text-[#002060]">
-                      Tunggakan Bunga Baru
-                    </label>
-                    <Input
-                      value={interestDebt}
-                      onChange={(event) => setInterestDebt(event.target.value)}
-                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      inputMode="decimal"
-                    />
-                  </div>
-                  <div className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] text-[#002060]">
-                      Denda dan Biaya Lainnya
-                    </label>
-                    <Input
-                      value={otherDebt}
-                      onChange={(event) => setOtherDebt(event.target.value)}
-                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      inputMode="decimal"
-                    />
-                  </div>
+                  {[
+                    {
+                      label: "Tunggakan Pokok Baru",
+                      value: principalDebt,
+                      onChange: setPrincipalDebt,
+                    },
+                    {
+                      label: "Tunggakan Bunga Baru",
+                      value: interestDebt,
+                      onChange: setInterestDebt,
+                    },
+                    {
+                      label: "Denda dan Biaya Lainnya",
+                      value: otherDebt,
+                      onChange: setOtherDebt,
+                    },
+                  ].map((field) => (
+                    <div
+                      key={field.label}
+                      className="grid gap-2 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-center"
+                    >
+                      <label className="text-[14px] text-[#002060]">
+                        {field.label}
+                      </label>
+                      <Input
+                        value={field.value}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                        inputMode="decimal"
+                      />
+                    </div>
+                  ))}
                 </div>
 
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
@@ -385,26 +374,21 @@ export default function LoanDebtChangeWizard({
                   <Separator className="my-5 bg-slate-200" />
 
                   <div className="grid gap-4">
-                    <div className="flex items-center justify-between gap-4 text-[14px]">
-                      <span className="text-slate-600">Tunggakan Pokok</span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
-                        {principalDebt || "0,00"}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4 text-[14px]">
-                      <span className="text-slate-600">Tunggakan Bunga</span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
-                        {interestDebt || "0,00"}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4 text-[14px]">
-                      <span className="text-slate-600">
-                        Denda dan Biaya Lainnya
-                      </span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
-                        {otherDebt || "0,00"}
-                      </span>
-                    </div>
+                    {[
+                      { label: "Tunggakan Pokok", value: principalDebt },
+                      { label: "Tunggakan Bunga", value: interestDebt },
+                      { label: "Denda dan Biaya Lainnya", value: otherDebt },
+                    ].map((field) => (
+                      <div
+                        key={field.label}
+                        className="flex items-center justify-between gap-4 text-[14px]"
+                      >
+                        <span className="text-slate-600">{field.label}</span>
+                        <span className="font-extrabold tabular-nums text-[#5B3DF5]">
+                          {field.value || "0,00"}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
