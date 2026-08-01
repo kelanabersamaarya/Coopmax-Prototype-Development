@@ -17,7 +17,7 @@
   tbody
   tr[data-interest-change="true"]
   td:first-child {
-  border-left: 0 !important;
+  border-left: 2px solid #2563eb !important;
 }
 
 [data-loan-interest-wizard="true"]
@@ -25,7 +25,7 @@
   tbody
   tr[data-interest-change="true"]
   td:last-child {
-  border-right: 0 !important;
+  border-right: 2px solid #2563eb !important;
 }
 
 /* Awal periode perubahan asli: angsuran ke-4. */
@@ -34,7 +34,7 @@
   tbody
   tr[data-interest-change-start="true"]
   td {
-  border-top: 0 !important;
+  border-top: 2px solid #2563eb !important;
   padding-top: 76px !important;
 }
 
@@ -46,6 +46,7 @@
   z-index: 2;
 }
 
+/* Panel informasi: tanpa border, teks hitam, dan latar #EFF6FF. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -94,13 +95,13 @@
   line-height: 1;
 }
 
-/* Awal blok pada halaman lanjutan, termasuk pagination kedua. */
+/* Awal blok perubahan pada halaman lanjutan. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change-page-start="true"]
   td {
-  border-top: 0 !important;
+  border-top: 2px solid #2563eb !important;
 }
 
 /* Akhir periode asli: angsuran ke-12. */
@@ -109,19 +110,19 @@
   tbody
   tr[data-interest-change-end="true"]
   td {
-  border-bottom: 0 !important;
+  border-bottom: 2px solid #2563eb !important;
 }
 
-/* Akhir blok pada setiap halaman, termasuk pagination pertama. */
+/* Akhir blok perubahan pada setiap halaman. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change-page-end="true"]
   td {
-  border-bottom: 0 !important;
+  border-bottom: 2px solid #2563eb !important;
 }
 
-/* Hilangkan pseudo-element sudut border biru dari blok lama. */
+/* Hilangkan pseudo-element sudut border lama. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -148,7 +149,7 @@
   border: 0;
 }
 
-/* Nilai hasil bunga baru tetap diberi warna biru pada seluruh periode perubahan. */
+/* Nilai hasil bunga baru tetap berwarna biru dalam periode perubahan. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -168,8 +169,7 @@
   font-weight: 700 !important;
 }
 
-/* Scroll horizontal dipindahkan ke pembungkus tabel dan pagination,
-   sehingga tampil setelah area pagination. */
+/* Scroll horizontal berada di pembungkus tabel beserta pagination. */
 [data-loan-interest-wizard="true"]
   div.overflow-hidden.rounded-\[12px\].border:has(
     table[class*="min-w-[1780px]"]
