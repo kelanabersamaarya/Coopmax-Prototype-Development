@@ -8,7 +8,9 @@
 }
 
 /* Modal dibuat lebih ringkas, sementara tabel simulasi tetap bisa digeser. */
-[data-radix-dialog-content]:has([data-loan-interest-wizard="true"]) {
+[data-radix-dialog-content]:has([data-loan-interest-wizard="true"]),
+[data-slot="dialog-content"]:has([data-loan-interest-wizard="true"]),
+[role="dialog"]:has([data-loan-interest-wizard="true"]) {
   width: calc(100vw - 2rem) !important;
   max-width: 600px !important;
 }
