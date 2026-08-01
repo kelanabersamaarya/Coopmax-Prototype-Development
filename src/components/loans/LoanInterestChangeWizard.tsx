@@ -441,7 +441,7 @@ export default function LoanInterestChangeWizard({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           data-loan-interest-wizard="true"
-          className="w-[calc(100vw-1rem)] max-w-[1180px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1180px] [&>button[aria-label=Close]]:hidden"
+          className="w-[calc(100vw-2rem)] max-w-[500px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[500px] [&>button[aria-label=Close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
