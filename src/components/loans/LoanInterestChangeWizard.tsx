@@ -334,10 +334,6 @@ export default function LoanInterestChangeWizard({
                   <h3 className="text-[18px] font-extrabold text-slate-900">
                     Simulasi Perubahan Bunga
                   </h3>
-                  <p className="mt-2 text-[13px] text-slate-600">
-                    Estimasi bunga baru:{" "}
-                    <strong>{simulation.rate.toFixed(2)}% per tahun</strong>
-                  </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
