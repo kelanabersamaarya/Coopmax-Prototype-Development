@@ -21,6 +21,7 @@ import {
 import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
+import LoanDebtChangeWizard from "@/components/loans/LoanDebtChangeWizard";
 import { useNavigate } from "react-router-dom";
 
 type ActionPillProps = {
@@ -70,6 +71,7 @@ export default function LoanAccountDetailHeader({
   const [pemutihanOpen, setPemutihanOpen] = React.useState(false);
   const [txHistoryOpen, setTxHistoryOpen] = React.useState(false);
   const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
+  const [debtWizardOpen, setDebtWizardOpen] = React.useState(false);
 
   return (
     <>
@@ -88,6 +90,12 @@ export default function LoanAccountDetailHeader({
       <LoanInterestChangeWizard
         open={interestWizardOpen}
         onOpenChange={setInterestWizardOpen}
+        accountNo={accountNo}
+      />
+
+      <LoanDebtChangeWizard
+        open={debtWizardOpen}
+        onOpenChange={setDebtWizardOpen}
         accountNo={accountNo}
       />
 
@@ -123,7 +131,7 @@ export default function LoanAccountDetailHeader({
               })
             }
           />
-          <ActionPill icon={Banknote} label="Ubah Hutang" onClick={() => onAction("Ubah Hutang")} />
+          <ActionPill icon={Banknote} label="Ubah Hutang" onClick={() => setDebtWizardOpen(true)} />
           <ActionPill icon={Calendar} label="Ubah Jatuh Tempo" onClick={() => onAction("Ubah Jatuh Tempo")} />
           <ActionPill icon={Percent} label="Ubah Bunga" onClick={() => setInterestWizardOpen(true)} />
           <ActionPill icon={Printer} label="Simulasi Tunggakan" onClick={() => onAction("Simulasi Tunggakan")} />
