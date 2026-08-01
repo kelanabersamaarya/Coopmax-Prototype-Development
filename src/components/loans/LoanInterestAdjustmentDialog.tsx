@@ -31,6 +31,15 @@ export type InterestAdjustment = {
   previousInterest?: string;
 };
 
+export type InterestAdjustmentBillingRow = {
+  totalBelumDibayar: string;
+  tagihanPokok: string;
+  tagihanBunga: string;
+  sisaPokok: string;
+  sisaBunga: string;
+  tagihanDenda: string;
+};
+
 const adjustmentOptions: InterestAdjustmentType[] = [
   "Pengurangan Bunga",
   "Pembebasan Seluruh Bunga",
@@ -126,31 +135,32 @@ function AdjustmentSuccessDialog({
   );
 }
 
-function SimulationTable({
+function SimulationBillingTable({
   dueDate,
-  currentInterest,
-  currentTotal,
+  billingRow,
   adjustmentType,
   amount,
 }: {
   dueDate: string;
-  currentInterest: string;
-  currentTotal: string;
+  billingRow: InterestAdjustmentBillingRow;
   adjustmentType: InterestAdjustmentType;
   amount: string;
 }) {
-  const beforeInterest = parseIdr(currentInterest);
-  const beforeTotal = parseIdr(currentTotal);
-  const adjustmentAmount = parseIdr(amount);
+  const beforeArrears = parseIdr(billingRow.tagihanBunga);
+  const beforeTotal = parseIdr(billingRow.totalBelumDibayar);
+  const adjustmentAmount =
+    adjustmentType === "Pembebasan Seluruh Bunga"
+      ? beforeArrears
+      : parseIdr(amount);
 
-  const afterInterest =
+  const afterArrears =
     adjustmentType === "Pembebasan Seluruh Bunga"
       ? 0
       : adjustmentType === "Penambahan Bunga"
-        ? beforeInterest + adjustmentAmount
-        : Math.max(0, beforeInterest - adjustmentAmount);
+        ? beforeArrears + adjustmentAmount
+        : Math.max(0, beforeArrears - adjustmentAmount);
 
-  const afterTotal = Math.max(0, beforeTotal - beforeInterest + afterInterest);
+  const afterTotal = Math.max(0, beforeTotal - beforeArrears + afterArrears);
 
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
@@ -159,25 +169,67 @@ function SimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[880px] border-collapse">
+        <table className="w-full min-w-[1900px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[155px] px-3 py-3 text-right">
-                Tunggakan Bunga Sebelum
-              </th>
-              <th className="w-[175px] px-3 py-3">Jenis Penyesuaian</th>
+              <th className="w-[115px] px-3 py-3">Jatuh Tempo</th>
               <th className="w-[145px] px-3 py-3 text-right">
-                Nominal Penyesuaian
+                Total Tagihan
+                <br />
+                Belum Dibayar
               </th>
-              <th className="w-[155px] px-3 py-3 text-right">
-                Tunggakan Bunga Setelah
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
               </th>
-              <th className="w-[155px] px-3 py-3 text-right">
-                Total Kewajiban Sebelum
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
               </th>
-              <th className="w-[155px] px-3 py-3 text-right">
-                Total Kewajiban Setelah
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[120px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3">
+                Jenis Penyesuaian
+              </th>
+              <th className="w-[145px] px-3 py-3 text-right">
+                Nominal
+                <br />
+                Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Setelah Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Setelah Penyesuaian
               </th>
             </tr>
           </thead>
@@ -186,16 +238,32 @@ function SimulationTable({
             <tr className="border-b border-slate-100 bg-white">
               <td className="px-3 py-3 font-semibold tabular-nums">{dueDate}</td>
               <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(beforeInterest)}
+                {formatIdr(beforeTotal)}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.tagihanPokok}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(beforeArrears)}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.sisaPokok}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.sisaBunga}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {billingRow.tagihanDenda}
+              </td>
+              <td className="px-3 py-3 text-right tabular-nums">
+                {formatIdr(beforeArrears)}
               </td>
               <td className="px-3 py-3 font-semibold">{adjustmentType}</td>
               <td className="px-3 py-3 text-right tabular-nums">
-                {adjustmentType === "Pembebasan Seluruh Bunga"
-                  ? formatIdr(beforeInterest)
-                  : formatIdr(adjustmentAmount)}
+                {formatIdr(adjustmentAmount)}
               </td>
               <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
-                {formatIdr(afterInterest)}
+                {formatIdr(afterArrears)}
               </td>
               <td className="px-3 py-3 text-right tabular-nums">
                 {formatIdr(beforeTotal)}
@@ -217,6 +285,7 @@ export default function LoanInterestAdjustmentDialog({
   dueDate,
   currentInterest = "0,00",
   currentTotal = "0,00",
+  billingRow,
   onSave,
 }: {
   open: boolean;
@@ -224,6 +293,7 @@ export default function LoanInterestAdjustmentDialog({
   dueDate: string;
   currentInterest?: string;
   currentTotal?: string;
+  billingRow?: InterestAdjustmentBillingRow;
   onSave?: (adjustment: InterestAdjustment) => void;
 }) {
   const [adjustmentType, setAdjustmentType] = React.useState<
@@ -240,6 +310,18 @@ export default function LoanInterestAdjustmentDialog({
   const amountLabel = isAdditionalInterest
     ? "Nominal Bunga Tambahan"
     : "Nominal Pengurangan";
+
+  const simulatedBillingRow = React.useMemo<InterestAdjustmentBillingRow>(
+    () => ({
+      totalBelumDibayar: currentTotal,
+      tagihanPokok: billingRow?.tagihanPokok ?? "0,00",
+      tagihanBunga: currentInterest,
+      sisaPokok: billingRow?.sisaPokok ?? "0,00",
+      sisaBunga: billingRow?.sisaBunga ?? "0,00",
+      tagihanDenda: billingRow?.tagihanDenda ?? "0,00",
+    }),
+    [billingRow, currentInterest, currentTotal],
+  );
 
   React.useEffect(() => {
     if (!open) return;
@@ -319,7 +401,7 @@ export default function LoanInterestAdjustmentDialog({
 
       <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
         <DialogContent
-          className="w-[calc(100vw-1rem)] max-w-[880px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[880px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+          className="w-[calc(100vw-1rem)] max-w-[1100px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[1100px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-[#CBD5E1] px-6 py-4">
             <h2 className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
@@ -444,10 +526,9 @@ export default function LoanInterestAdjustmentDialog({
                     />
                   </div>
 
-                  <SimulationTable
+                  <SimulationBillingTable
                     dueDate={dueDate}
-                    currentInterest={currentInterest}
-                    currentTotal={currentTotal}
+                    billingRow={simulatedBillingRow}
                     adjustmentType={adjustmentType}
                     amount={amount}
                   />

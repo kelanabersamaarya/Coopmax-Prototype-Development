@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { BillingRow } from "@/components/anggota/BillingTableView2";
 import LoanInterestAdjustmentDialog, {
   type InterestAdjustment,
+  type InterestAdjustmentBillingRow,
 } from "@/components/loans/LoanInterestAdjustmentDialog";
 
 const seedRows: BillingRow[] = [
@@ -89,6 +90,24 @@ export default function LoanBillingTablePreview({
       )
     : "0,00";
 
+  const currentBillingRow = React.useMemo<InterestAdjustmentBillingRow | undefined>(() => {
+    if (!selectedRow) return undefined;
+
+    const selectedRowIndex = rows.findIndex(
+      (row) => row.jatuhTempo === selectedRow.jatuhTempo,
+    );
+    const hasPenalty = selectedRowIndex >= 0 && selectedRowIndex < 3;
+
+    return {
+      totalBelumDibayar: currentTotal,
+      tagihanPokok: selectedRow.tagihanPokok,
+      tagihanBunga: currentInterest,
+      sisaPokok: selectedRow.sisaPokok,
+      sisaBunga: selectedRow.sisaBunga,
+      tagihanDenda: hasPenalty ? penaltyAmount : "0,00",
+    };
+  }, [currentInterest, currentTotal, rows, selectedRow]);
+
   function saveInterestAdjustment(adjustment: InterestAdjustment) {
     if (!adjustmentDueDate) return;
 
@@ -113,6 +132,7 @@ export default function LoanBillingTablePreview({
         dueDate={adjustmentDueDate ?? ""}
         currentInterest={currentInterest}
         currentTotal={currentTotal}
+        billingRow={currentBillingRow}
         onSave={saveInterestAdjustment}
       />
 
