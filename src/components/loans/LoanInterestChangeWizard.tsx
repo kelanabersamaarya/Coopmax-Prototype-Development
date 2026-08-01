@@ -34,6 +34,7 @@ function formatIdr(value: number) {
 
 function formatDueDate(monthOffset: number) {
   const date = new Date(2026, 7 + monthOffset, 7);
+
   return `${String(date.getDate()).padStart(2, "0")}-${String(
     date.getMonth() + 1,
   ).padStart(2, "0")}-${date.getFullYear()}`;
@@ -128,9 +129,10 @@ function BillingSimulationTable({
     number: number;
     dueDate: string;
     principal: number;
-    before: number;
-    after: number;
-    remaining: number;
+    total: number;
+    interest: number;
+    remainingPrincipal: number;
+    remainingInterest: number;
   }>;
   adjustmentRate: number;
 }) {
@@ -141,137 +143,75 @@ function BillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[2180px] border-collapse">
+        <table className="w-full min-w-[930px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[78px] px-3 py-3">Angsuran Ke</th>
-              <th className="w-[115px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[145px] px-3 py-3 text-right">
+              <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
+              <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
+              <th className="w-[155px] px-3 py-3 text-right">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[125px] px-3 py-3 text-right">
+              <th className="w-[135px] px-3 py-3 text-right">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[125px] px-3 py-3 text-right">
+              <th className="w-[135px] px-3 py-3 text-right">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">
+              <th className="w-[150px] px-3 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">
+              <th className="w-[150px] px-3 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[120px] px-3 py-3 text-right">
+              <th className="w-[125px] px-3 py-3 text-right">
                 Tagihan
                 <br />
                 Denda
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3">
-                Jenis Penyesuaian
-              </th>
-              <th className="w-[145px] px-3 py-3 text-right">
-                Nominal
-                <br />
-                Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Setelah Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Setelah Penyesuaian
               </th>
             </tr>
           </thead>
 
           <tbody className="text-[12px] text-black">
-            {installments.map((item, index) => {
-              const beforeInterest = Math.max(0, item.before - item.principal);
-              const afterInterest = Math.max(0, item.after - item.principal);
-              const interestAdjustment = afterInterest - beforeInterest;
-              const beforeTotal = item.before;
-              const afterTotal = item.after;
-              const remainingInterestBefore = beforeInterest * (remainingTenor - index);
-              const remainingInterestAfter = afterInterest * (remainingTenor - index);
-              const adjustmentType =
-                interestAdjustment > 0
-                  ? "Penambahan Bunga"
-                  : interestAdjustment < 0
-                    ? "Pengurangan Bunga"
-                    : "Tidak Ada Perubahan";
-
-              return (
-                <tr
-                  key={item.number}
-                  className={cn(
-                    "border-b border-slate-100",
-                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                  )}
-                >
-                  <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
-                  <td className="px-3 py-2.5 tabular-nums whitespace-nowrap">
-                    {item.dueDate}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(beforeTotal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.principal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(beforeInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.remaining)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(remainingInterestBefore)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(beforeInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 font-semibold">
-                    {adjustmentType}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(Math.abs(interestAdjustment))}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-bold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(afterInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(beforeTotal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-bold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(afterTotal)}
-                  </td>
-                </tr>
-              );
-            })}
+            {installments.map((item, index) => (
+              <tr
+                key={item.number}
+                className={cn(
+                  "border-b border-slate-100",
+                  index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                )}
+              >
+                <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
+                <td className="px-3 py-2.5 tabular-nums whitespace-nowrap">
+                  {item.dueDate}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.total)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.principal)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.interest)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.remainingPrincipal)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">
+                  {formatIdr(item.remainingInterest)}
+                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -326,21 +266,21 @@ export default function LoanInterestChangeWizard({
       beforeTotalInterest: formatIdr(beforeInterest * remainingTenor),
       afterTotalInterest: formatIdr(afterInterest * remainingTenor),
       installments: Array.from({ length: remainingTenor }, (_, index) => {
-        const remaining = Math.max(
+        const remainingPrincipal = Math.max(
           0,
           remainingPrincipal - monthlyPrincipal * (index + 1),
         );
-        const interestBefore =
-          (Math.max(remaining, 0) * currentRate) / 100 / 12;
-        const interestAfter = (Math.max(remaining, 0) * rate) / 100 / 12;
+        const interest =
+          (Math.max(remainingPrincipal, 0) * rate) / 100 / 12;
 
         return {
           number: index + 1,
           dueDate: formatDueDate(index),
           principal: monthlyPrincipal,
-          before: monthlyPrincipal + interestBefore,
-          after: monthlyPrincipal + interestAfter,
-          remaining,
+          total: monthlyPrincipal + interest,
+          interest,
+          remainingPrincipal,
+          remainingInterest: interest * (remainingTenor - index - 1),
         };
       }),
     };
@@ -424,37 +364,39 @@ export default function LoanInterestChangeWizard({
             </header>
 
             <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
-              {[1, 2, 3].map((number) => (
-                <React.Fragment key={number}>
-                  <div className="flex flex-col items-center">
-                    <span
-                      className={cn(
-                        "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
-                        number <= step
-                          ? "bg-[#5B3DF5] text-white"
-                          : "bg-slate-100 text-slate-500",
-                      )}
-                    >
-                      {number}
-                    </span>
-                    <span className="mt-2 whitespace-nowrap text-[12px] font-semibold text-slate-700">
-                      {number === 1
-                        ? "Informasi & Perubahan"
-                        : number === 2
-                          ? "Simulasi"
-                          : "Simpan Perubahan"}
-                    </span>
-                  </div>
-                  {number < 3 ? (
-                    <div
-                      className={cn(
-                        "mb-5 h-[2px] min-w-10 flex-1",
-                        number < step ? "bg-[#5B3DF5]" : "bg-slate-200",
-                      )}
-                    />
-                  ) : null}
-                </React.Fragment>
-              ))}
+              {["Informasi & Perubahan", "Simulasi", "Simpan Perubahan"].map(
+                (label, index) => {
+                  const number = index + 1;
+
+                  return (
+                    <React.Fragment key={label}>
+                      <div className="flex flex-col items-center">
+                        <span
+                          className={cn(
+                            "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
+                            number <= step
+                              ? "bg-[#5B3DF5] text-white"
+                              : "bg-slate-100 text-slate-500",
+                          )}
+                        >
+                          {number}
+                        </span>
+                        <span className="mt-2 whitespace-nowrap text-[12px] font-semibold text-slate-700">
+                          {label}
+                        </span>
+                      </div>
+                      {number < 3 ? (
+                        <div
+                          className={cn(
+                            "mb-5 h-[2px] min-w-10 flex-1",
+                            number < step ? "bg-[#5B3DF5]" : "bg-slate-200",
+                          )}
+                        />
+                      ) : null}
+                    </React.Fragment>
+                  );
+                },
+              )}
             </div>
 
             <main className="max-h-[60vh] overflow-auto border-t border-slate-100 px-6 py-6 sm:px-8">
@@ -480,7 +422,9 @@ export default function LoanInterestChangeWizard({
                         <AccountField
                           key={label}
                           label={label}
-                          value={label === "No. Rek. Pinjaman" ? accountNo : value}
+                          value={
+                            label === "No. Rek. Pinjaman" ? accountNo : value
+                          }
                         />
                       ))}
                     </div>
