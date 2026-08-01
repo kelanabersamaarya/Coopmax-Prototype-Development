@@ -12,7 +12,7 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 const steps = [
   { id: 1, label: "Informasi & Perubahan" },
   { id: 2, label: "Simulasi" },
-  { id: 3, label: "Pratinjau" },
+  { id: 3, label: "Konfirmasi Perubahan" },
 ] as const;
 
 const currentRate = 12;
@@ -178,7 +178,7 @@ function ComparisonTable({
 
       <div className="safe-x-scroll">
         <table className="w-full min-w-[620px] border-collapse">
-          <thead className="bg-[#F9FAFF]">
+          <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-black">
               <th className="px-4 py-3">Informasi</th>
               <th className="px-4 py-3">Sebelum Perubahan</th>
@@ -213,6 +213,60 @@ function ComparisonTable({
   );
 }
 
+function ChangeConfirmDialog({
+  open,
+  onCancel,
+  onConfirm,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-2rem)] sm:w-[528px]",
+          "max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
+            <span className="text-[54px] font-light leading-none text-[#f2b98f]">
+              !
+            </span>
+          </div>
+
+          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+            Yakin untuk melakukan perubahan?
+          </h3>
+
+          <div className="mt-8 flex items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
+            >
+              Yes
+            </button>
+
+            <button
+              type="button"
+              onClick={onCancel}
+              className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696]"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function LoanInterestChangeWizard({
   open,
   onOpenChange,
@@ -226,6 +280,7 @@ export default function LoanInterestChangeWizard({
   const [newRate, setNewRate] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -234,6 +289,7 @@ export default function LoanInterestChangeWizard({
     setNewRate("");
     setEffectiveDate("");
     setReason("");
+    setConfirmOpen(false);
   }, [open]);
 
   const simulation = React.useMemo(() => {
@@ -299,274 +355,250 @@ export default function LoanInterestChangeWizard({
       }
     }
 
-    setStep((current) => Math.min(3, current + 1));
+    if (step === 2) {
+      setConfirmOpen(true);
+      return;
+    }
+
+    setStep(2);
   }
 
   function save() {
+    setConfirmOpen(false);
+    setStep(3);
+
     toast.success("Perubahan bunga tersimpan (prototype)", {
       description: `Bunga baru ${simulation.rate.toFixed(2)}% per tahun.`,
     });
+
     onOpenChange(false);
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        data-loan-interest-wizard="true"
-        className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[860px]",
-          "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
-      >
-        <div className="bg-white">
-          <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-            <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
-              Ubah Suku Bunga Pinjaman
-            </h2>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
-              aria-label="Tutup"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </header>
+    <>
+      <ChangeConfirmDialog
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={save}
+      />
 
-          <WizardStepper step={step} />
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          data-loan-interest-wizard="true"
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[860px]",
+            "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+          )}
+        >
+          <div className="bg-white">
+            <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
+                Ubah Suku Bunga Pinjaman
+              </h2>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+                aria-label="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </header>
 
-          <main className="max-h-[60vh] overflow-auto border-t border-slate-100 px-6 py-6 sm:px-8">
-            {step === 1 ? (
-              <div className="grid gap-7">
-                <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm md:p-6">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="text-[16px] font-extrabold tracking-wide">
-                      INFORMASI REKENING PINJAMAN
+            <WizardStepper step={step} />
+
+            <main className="max-h-[60vh] overflow-auto border-t border-slate-100 px-6 py-6 sm:px-8">
+              {step === 1 ? (
+                <div className="grid gap-7">
+                  <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm md:p-6">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="text-[16px] font-extrabold tracking-wide">
+                        INFORMASI REKENING PINJAMAN
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => toast("Riwayat perubahan bunga (prototype)")}
+                        className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
+                      >
+                        <Eye className="h-4 w-4" />
+                        Riwayat Perubahan Suku Bunga
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => toast("Riwayat perubahan bunga (prototype)")}
-                      className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
-                    >
-                      <Eye className="h-4 w-4" />
-                      Riwayat Perubahan Suku Bunga
-                    </button>
+
+                    <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+                      {accountDetails.map(([label, value]) => (
+                        <AccountField
+                          key={label}
+                          label={label}
+                          value={label === "No. Rek. Pinjaman" ? accountNo : value}
+                        />
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {accountDetails.map(([label, value]) => (
-                      <AccountField
-                        key={label}
-                        label={label}
-                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
-                      />
-                    ))}
-                  </div>
-                </div>
+                  <div className="overflow-hidden rounded-[12px] bg-white pb-5 ring-1 ring-slate-200">
+                    <FormChangeInterestHeader />
 
-                <div className="overflow-hidden rounded-[12px] bg-white pb-5 ring-1 ring-slate-200">
-                  <FormChangeInterestHeader />
+                    <div className="grid gap-5 px-5 pt-5">
+                      <FieldRow label="Suku Bunga Baru">
+                        <Input
+                          value={newRate ? `${newRate}%` : ""}
+                          onChange={(event) =>
+                            setNewRate(
+                              event.target.value
+                                .replace("%", "")
+                                .replace(/[^\d,.-]/g, ""),
+                            )
+                          }
+                          placeholder="%"
+                          inputMode="decimal"
+                          className="h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] text-[#526685] shadow-none focus-visible:ring-0"
+                        />
+                      </FieldRow>
 
-                  <div className="grid gap-5 px-5 pt-5">
-                    <FieldRow label="Suku Bunga Baru">
-                      <Input
-                        value={newRate ? `${newRate}%` : ""}
-                        onChange={(event) =>
-                          setNewRate(
-                            event.target.value
-                              .replace("%", "")
-                              .replace(/[^\d,.-]/g, ""),
-                          )
-                        }
-                        placeholder="%"
-                        inputMode="decimal"
-                        className="h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] text-[#526685] shadow-none focus-visible:ring-0"
-                      />
-                    </FieldRow>
+                      <FieldRow label="Tanggal Efektif">
+                        <DatePickerDmyField
+                          value={effectiveDate}
+                          onChange={setEffectiveDate}
+                          inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] text-[#526685] shadow-none focus-visible:ring-0"
+                          placeholder="Pilih Tanggal Efektif"
+                        />
+                      </FieldRow>
 
-                    <FieldRow label="Tanggal Efektif">
-                      <DatePickerDmyField
-                        value={effectiveDate}
-                        onChange={setEffectiveDate}
-                        inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] text-[#526685] shadow-none focus-visible:ring-0"
-                        placeholder="Pilih Tanggal Efektif"
-                      />
-                    </FieldRow>
-
-                    <FieldRow label="Alasan Perubahan" textarea>
-                      <Textarea
-                        value={reason}
-                        onChange={(event) => setReason(event.target.value)}
-                        placeholder="Masukkan alasan perubahan suku bunga"
-                        className="min-h-[110px] rounded-[5px] border-[#CBD5E1] text-[14px] text-[#526685] shadow-none focus-visible:ring-0"
-                      />
-                    </FieldRow>
+                      <FieldRow label="Alasan Perubahan" textarea>
+                        <Textarea
+                          value={reason}
+                          onChange={(event) => setReason(event.target.value)}
+                          placeholder="Masukkan alasan perubahan suku bunga"
+                          className="min-h-[110px] rounded-[5px] border-[#CBD5E1] text-[14px] text-[#526685] shadow-none focus-visible:ring-0"
+                        />
+                      </FieldRow>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
 
-            {step === 2 ? (
-              <div className="grid gap-5">
-                <ComparisonTable
-                  rate={simulation.rate}
-                  beforeInstallment={simulation.beforeInstallment}
-                  afterInstallment={simulation.afterInstallment}
-                  beforeTotalInterest={simulation.beforeTotalInterest}
-                  afterTotalInterest={simulation.afterTotalInterest}
-                />
+              {step === 2 ? (
+                <div className="grid gap-5">
+                  <ComparisonTable
+                    rate={simulation.rate}
+                    beforeInstallment={simulation.beforeInstallment}
+                    afterInstallment={simulation.afterInstallment}
+                    beforeTotalInterest={simulation.beforeTotalInterest}
+                    afterTotalInterest={simulation.afterTotalInterest}
+                  />
 
-                <div className="rounded-[12px] bg-[#F6FAFF] px-4 py-4 ring-1 ring-[#D8E8FF]">
-                  <div className="text-[12px] font-extrabold uppercase tracking-wide text-[#315E8F]">
-                    Alasan Perubahan
-                  </div>
-                  <p className="mt-2 text-[14px] leading-relaxed text-slate-700">
-                    {reason}
-                  </p>
-                </div>
-
-                <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-3 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                    Simulasi Angsuran Setelah Perubahan Suku Bunga
+                  <div className="rounded-[12px] bg-[#F6FAFF] px-4 py-4 ring-1 ring-[#D8E8FF]">
+                    <div className="text-[12px] font-extrabold uppercase tracking-wide text-[#315E8F]">
+                      Alasan Perubahan
+                    </div>
+                    <p className="mt-2 text-[14px] leading-relaxed text-slate-700">
+                      {reason}
+                    </p>
                   </div>
 
-                  <div className="safe-x-scroll">
-                    <table className="w-full min-w-[1180px] border-collapse">
-                      <thead className="bg-white">
-                        <tr className="border-b border-slate-200 text-left text-[14px] font-extrabold uppercase tracking-wide text-slate-600">
-                          <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
-                          <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
-                          <th className="w-[150px] px-3 py-3 text-right">
-                            Tagihan Pokok
-                          </th>
-                          <th className="w-[190px] px-3 py-3 text-right">
-                            Tagihan Bunga Sebelum Penyesuaian
-                          </th>
-                          <th className="w-[190px] px-3 py-3 text-right">
-                            Tagihan Bunga Sesudah Penyesuaian
-                          </th>
-                          <th className="w-[200px] px-3 py-3 text-right">
-                            Total Angsuran Sebelum Penyesuaian
-                          </th>
-                          <th className="w-[200px] px-3 py-3 text-right">
-                            Total Angsuran Sesudah Penyesuaian
-                          </th>
-                          <th className="w-[160px] px-3 py-3 text-right">
-                            Sisa Pinjaman
-                          </th>
-                        </tr>
-                      </thead>
+                  <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                    <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-3 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                      Simulasi Angsuran Setelah Perubahan Suku Bunga
+                    </div>
 
-                      <tbody>
-                        {simulation.installments.map((installment, index) => (
-                          <tr
-                            key={installment.installmentNo}
-                            className={cn(
-                              "border-b border-slate-100 text-[14px]",
-                              index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                            )}
-                          >
-                            <td className="px-3 py-2.5 font-semibold tabular-nums text-slate-900">
-                              {installment.installmentNo}
-                            </td>
-                            <td className="px-3 py-2.5 tabular-nums text-slate-700">
-                              {installment.dueDate}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-900">
-                              {formatIdr(installment.principal)}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
-                              {formatIdr(installment.interestBefore)}
-                            </td>
-                            <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                              {formatIdr(installment.interestAfter)}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
-                              {formatIdr(installment.totalBefore)}
-                            </td>
-                            <td className="px-3 py-2.5 text-right font-extrabold tabular-nums text-[#5B3DF5]">
-                              {formatIdr(installment.totalAfter)}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
-                              {formatIdr(installment.remaining)}
-                            </td>
+                    <div className="safe-x-scroll">
+                      <table className="w-full min-w-[1180px] border-collapse">
+                        <thead className="bg-white">
+                          <tr className="border-b border-slate-200 text-left text-[14px] font-extrabold uppercase tracking-wide text-slate-600">
+                            <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
+                            <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
+                            <th className="w-[150px] px-3 py-3 text-right">
+                              Tagihan Pokok
+                            </th>
+                            <th className="w-[190px] px-3 py-3 text-right">
+                              Tagihan Bunga Sebelum Penyesuaian
+                            </th>
+                            <th className="w-[190px] px-3 py-3 text-right">
+                              Tagihan Bunga Sesudah Penyesuaian
+                            </th>
+                            <th className="w-[200px] px-3 py-3 text-right">
+                              Total Angsuran Sebelum Penyesuaian
+                            </th>
+                            <th className="w-[200px] px-3 py-3 text-right">
+                              Total Angsuran Sesudah Penyesuaian
+                            </th>
+                            <th className="w-[160px] px-3 py-3 text-right">
+                              Sisa Pinjaman
+                            </th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            ) : null}
+                        </thead>
 
-            {step === 3 ? (
-              <div className="grid gap-5">
-                <div>
-                  <h3 className="text-[18px] font-extrabold text-slate-900">
-                    Pratinjau Perubahan
-                  </h3>
-                  <p className="mt-2 text-[13px] text-slate-600">
-                    Tinjau perubahan sebelum disimpan.
-                  </p>
-                </div>
-
-                <div className="overflow-hidden rounded-[12px] border border-slate-200">
-                  <div className="grid bg-[#F9FAFF] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-500 sm:grid-cols-[180px_1fr_1fr]">
-                    <div>Informasi</div>
-                    <div>Sebelum</div>
-                    <div>Sesudah</div>
-                  </div>
-                  <div className="grid gap-2 px-4 py-4 text-[13px] sm:grid-cols-[180px_1fr_1fr]">
-                    <div className="font-semibold text-slate-700">Suku Bunga</div>
-                    <div className="rounded-[8px] bg-slate-100 px-3 py-2">
-                      {currentRate.toFixed(2)}% per tahun
+                        <tbody>
+                          {simulation.installments.map((installment, index) => (
+                            <tr
+                              key={installment.installmentNo}
+                              className={cn(
+                                "border-b border-slate-100 text-[14px]",
+                                index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                              )}
+                            >
+                              <td className="px-3 py-2.5 font-semibold tabular-nums text-slate-900">
+                                {installment.installmentNo}
+                              </td>
+                              <td className="px-3 py-2.5 tabular-nums text-slate-700">
+                                {installment.dueDate}
+                              </td>
+                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-900">
+                                {formatIdr(installment.principal)}
+                              </td>
+                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
+                                {formatIdr(installment.interestBefore)}
+                              </td>
+                              <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                                {formatIdr(installment.interestAfter)}
+                              </td>
+                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
+                                {formatIdr(installment.totalBefore)}
+                              </td>
+                              <td className="px-3 py-2.5 text-right font-extrabold tabular-nums text-[#5B3DF5]">
+                                {formatIdr(installment.totalAfter)}
+                              </td>
+                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-700">
+                                {formatIdr(installment.remaining)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    <div className="rounded-[8px] bg-violet-50 px-3 py-2 font-extrabold text-[#5B3DF5]">
-                      {simulation.rate.toFixed(2)}% per tahun
-                    </div>
                   </div>
                 </div>
+              ) : null}
+            </main>
 
-                <div className="rounded-[12px] bg-[#F6FAFF] px-4 py-4 ring-1 ring-[#D8E8FF]">
-                  <div className="text-[12px] font-extrabold uppercase tracking-wide text-[#315E8F]">
-                    Alasan Perubahan
-                  </div>
-                  <p className="mt-2 text-[14px] text-slate-700">{reason}</p>
-                </div>
-              </div>
-            ) : null}
-          </main>
+            <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+              <button
+                type="button"
+                onClick={() =>
+                  step === 1 ? onOpenChange(false) : setStep(step - 1)
+                }
+                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
+              >
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                {step === 1 ? "Batal" : "Kembali"}
+              </button>
 
-          <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-            <button
-              type="button"
-              onClick={() =>
-                step === 1 ? onOpenChange(false) : setStep(step - 1)
-              }
-              className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6b768c]"
-            >
-              <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-              {step === 1 ? "Batal" : "Kembali"}
-            </button>
-
-            <button
-              type="button"
-              onClick={step === 3 ? save : next}
-              className="inline-flex h-10 min-w-[130px] items-center justify-center gap-2 rounded-[5px] bg-[#5B3DF5] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4C32D9]"
-            >
-              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? (
-                <Check className="h-4 w-4" />
-              ) : (
+              <button
+                type="button"
+                onClick={next}
+                className="inline-flex h-10 min-w-[130px] items-center justify-center gap-2 rounded-[5px] bg-[#5B3DF5] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4C32D9]"
+              >
+                Lanjutkan
                 <ChevronRight className="h-4 w-4" />
-              )}
-            </button>
-          </footer>
-        </div>
-      </DialogContent>
-    </Dialog>
+              </button>
+            </footer>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
