@@ -155,6 +155,15 @@
   text-transform: none !important;
 }
 
+/* Tombol Lanjutkan pada step pertama. */
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#5B3DF5\] {
+  min-width: 120px !important;
+  height: 40px !important;
+  gap: 8px !important;
+  padding: 0 18px !important;
+  font-size: 12px !important;
+}
+
 /* Tombol Simpan Perubahan pada langkah kedua. */
 [data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] {
   min-width: 210px !important;
