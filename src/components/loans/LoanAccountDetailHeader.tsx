@@ -117,24 +117,65 @@ export default function LoanAccountDetailHeader({
             label="Perpanjangan Pinjaman"
             onClick={() => onAction("Perpanjangan Pinjaman")}
           />
-          <ActionPill icon={Printer} label="Cetak" withCaret onClick={() => onAction("Cetak")} />
-          <ActionPill icon={Printer} label="Dokumen" withCaret onClick={() => onAction("Dokumen")} />
-          <ActionPill icon={Clock3} label="Riwayat Angsuran" onClick={() => setTxHistoryOpen(true)} />
-          <ActionPill icon={Eraser} label="Pemutihan Pinjaman" onClick={() => setPemutihanOpen(true)} />
-          <ActionPill icon={Calendar} label="Riwayat Transaksi Autodebet" onClick={() => onAction("Riwayat Transaksi Autodebet")} />
+          <ActionPill
+            icon={Printer}
+            label="Cetak"
+            withCaret
+            onClick={() => onAction("Cetak")}
+          />
+          <ActionPill
+            icon={Printer}
+            label="Dokumen"
+            withCaret
+            onClick={() => onAction("Dokumen")}
+          />
+          <ActionPill
+            icon={Clock3}
+            label="Riwayat Angsuran"
+            onClick={() => setTxHistoryOpen(true)}
+          />
+          <ActionPill
+            icon={Eraser}
+            label="Pemutihan Pinjaman"
+            onClick={() => setPemutihanOpen(true)}
+          />
+          <ActionPill
+            icon={Calendar}
+            label="Riwayat Transaksi Autodebet"
+            onClick={() => onAction("Riwayat Transaksi Autodebet")}
+          />
           <ActionPill
             icon={Pencil}
             label="Ubah"
             onClick={() =>
               navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`, {
-                state: { fromLoanAccountDetail: true, selectedAccountNo: accountNo },
+                state: {
+                  fromLoanAccountDetail: true,
+                  selectedAccountNo: accountNo,
+                },
               })
             }
           />
-          <ActionPill icon={Banknote} label="Ubah Hutang" onClick={() => setDebtWizardOpen(true)} />
-          <ActionPill icon={Calendar} label="Ubah Jatuh Tempo" onClick={() => onAction("Ubah Jatuh Tempo")} />
-          <ActionPill icon={Percent} label="Ubah Bunga" onClick={() => setInterestWizardOpen(true)} />
-          <ActionPill icon={Printer} label="Simulasi Tunggakan" onClick={() => onAction("Simulasi Tunggakan")} />
+          <ActionPill
+            icon={Banknote}
+            label="Ubah Hutang"
+            onClick={() => setDebtWizardOpen(true)}
+          />
+          <ActionPill
+            icon={Calendar}
+            label="Ubah Jatuh Tempo"
+            onClick={() => onAction("Ubah Jatuh Tempo")}
+          />
+          <ActionPill
+            icon={Percent}
+            label="Ubah Suku Bunga"
+            onClick={() => setInterestWizardOpen(true)}
+          />
+          <ActionPill
+            icon={Printer}
+            label="Simulasi Tunggakan"
+            onClick={() => onAction("Simulasi Tunggakan")}
+          />
 
           <Button
             variant="outline"
@@ -149,7 +190,11 @@ export default function LoanAccountDetailHeader({
             Kembali ke Daftar
           </Button>
 
-          <ActionPill icon={List} label="Simulasi" onClick={() => onAction("Simulasi")} />
+          <ActionPill
+            icon={List}
+            label="Simulasi"
+            onClick={() => onAction("Simulasi")}
+          />
 
           <Button
             onClick={() => onAction("Dapatkan Analisa 5C")}
