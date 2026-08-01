@@ -49,38 +49,56 @@ function SummaryRow({
   );
 }
 
-function StepIndicator({
-  number,
-  label,
-  active,
-  complete,
+function ConfirmationDialog({
+  open,
+  onCancel,
+  onYes,
 }: {
-  number: number;
-  label: string;
-  active?: boolean;
-  complete?: boolean;
+  open: boolean;
+  onCancel: () => void;
+  onYes: () => void;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col items-center gap-2 text-center">
-      <span
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
+      <DialogContent
         className={cn(
-          "grid h-9 w-9 place-items-center rounded-full text-[14px] font-extrabold",
-          active || complete
-            ? "bg-[#5B3DF5] text-white"
-            : "bg-slate-100 text-slate-500",
+          "w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px]",
+          "border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
-        {complete ? <Check className="h-4 w-4" strokeWidth={3} /> : number}
-      </span>
-      <span
-        className={cn(
-          "text-[11px] font-semibold leading-tight",
-          active ? "text-slate-900" : "text-slate-500",
-        )}
-      >
-        {label}
-      </span>
-    </div>
+        <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
+            <div className="text-[54px] font-light leading-none text-[#f2b98f]">
+              !
+            </div>
+          </div>
+
+          <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+            Yakin untuk melakukan perubahan?
+          </h3>
+
+          <div className="mt-8 flex items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={onYes}
+              className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696]"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -180,8 +198,15 @@ export default function LoanDebtChangeWizard({
         </DialogContent>
       </Dialog>
 
+      <ConfirmationDialog
+        open={false}
+        onCancel={() => {}}
+        onYes={() => {}}
+      />
+
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
+          data-loan-debt-wizard="true"
           className={cn(
             "w-[calc(100vw-1rem)] sm:w-[860px]",
             "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
@@ -204,36 +229,44 @@ export default function LoanDebtChangeWizard({
             </button>
           </header>
 
-          <div className="flex items-start gap-2 px-6 py-5">
-            <StepIndicator
-              number={1}
-              label="Informasi Pinjaman"
-              active={step === 1}
-              complete={step > 1}
-            />
-            <div
-              className={cn(
-                "mt-[18px] h-[2px] flex-1",
-                step > 1 ? "bg-[#5B3DF5]" : "bg-slate-200",
-              )}
-            />
-            <StepIndicator
-              number={2}
-              label="Simulasi"
-              active={step === 2}
-              complete={step > 2}
-            />
-            <div
-              className={cn(
-                "mt-[18px] h-[2px] flex-1",
-                step > 2 ? "bg-[#5B3DF5]" : "bg-slate-200",
-              )}
-            />
-            <StepIndicator
-              number={3}
-              label="Simpan Perubahan"
-              active={step === 3}
-            />
+          <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
+            {[1, 2, 3].map((number) => (
+              <React.Fragment key={number}>
+                <div className="flex min-w-0 flex-1 flex-col items-center gap-2 text-center">
+                  <span
+                    className={cn(
+                      "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
+                      number <= step
+                        ? "bg-[#5B3DF5] text-white"
+                        : "bg-slate-100 text-slate-500",
+                    )}
+                  >
+                    {number}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[12px] font-semibold leading-tight",
+                      step === number ? "text-slate-900" : "text-slate-500",
+                    )}
+                  >
+                    {number === 1
+                      ? "Informasi Pinjaman"
+                      : number === 2
+                        ? "Simulasi"
+                        : "Simpan Perubahan"}
+                  </span>
+                </div>
+
+                {number < 3 ? (
+                  <div
+                    className={cn(
+                      "mb-5 h-[2px] min-w-10 flex-1",
+                      number < step ? "bg-[#5B3DF5]" : "bg-slate-200",
+                    )}
+                  />
+                ) : null}
+              </React.Fragment>
+            ))}
           </div>
 
           <Separator className="bg-slate-200" />
