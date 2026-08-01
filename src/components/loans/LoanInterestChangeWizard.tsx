@@ -171,11 +171,15 @@ function ComparisonTable({
   ];
 
   return (
-    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+    <div className="loan-interest-summary overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+      <div className="loan-interest-summary-title bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold text-black">
+        Ringkasan Perubahan Suku Bunga
+      </div>
+
       <div className="safe-x-scroll">
         <table className="w-full min-w-[620px] border-collapse">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[14px] font-extrabold uppercase tracking-wide text-slate-500">
+          <thead className="bg-[#F9FAFF]">
+            <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-black">
               <th className="px-4 py-3">Informasi</th>
               <th className="px-4 py-3">Sebelum Perubahan</th>
               <th className="px-4 py-3">Sesudah Perubahan</th>
@@ -187,17 +191,17 @@ function ComparisonTable({
               <tr
                 key={row.label}
                 className={cn(
-                  "border-b border-slate-100 text-[14px]",
+                  "border-b border-slate-100 text-[12px]",
                   index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                 )}
               >
-                <td className="px-4 py-3 font-semibold text-slate-700">
+                <td className="px-4 py-3 font-normal text-black">
                   {row.label}
                 </td>
-                <td className="px-4 py-3 tabular-nums text-slate-700">
+                <td className="px-4 py-3 font-normal tabular-nums text-black">
                   {row.before}
                 </td>
-                <td className="px-4 py-3 font-extrabold tabular-nums text-[#5B3DF5]">
+                <td className="px-4 py-3 font-normal tabular-nums text-[#5B3DF5]">
                   {row.after}
                 </td>
               </tr>
