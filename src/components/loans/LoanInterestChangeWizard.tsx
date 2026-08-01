@@ -308,6 +308,7 @@ export default function LoanInterestChangeWizard({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
+        data-loan-interest-wizard="true"
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[860px]",
           "max-w-[860px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
@@ -429,12 +430,12 @@ export default function LoanInterestChangeWizard({
 
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                   <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-3 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                    Tabel Simulasi Angsuran
+                    Simulasi Angsuran Setelah Perubahan Suku Bunga
                   </div>
 
                   <div className="safe-x-scroll">
                     <table className="w-full min-w-[1180px] border-collapse">
-                      <thead className="bg-white">
+                      <thead className="bg-[#F9FAFF]">
                         <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-600">
                           <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
                           <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
