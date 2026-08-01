@@ -131,6 +131,76 @@ function WizardStepper({ step }: { step: number }) {
   );
 }
 
+function ComparisonTable({
+  rate,
+  beforeInstallment,
+  afterInstallment,
+  beforeTotalInterest,
+  afterTotalInterest,
+}: {
+  rate: number;
+  beforeInstallment: string;
+  afterInstallment: string;
+  beforeTotalInterest: string;
+  afterTotalInterest: string;
+}) {
+  const rows = [
+    {
+      label: "Suku Bunga",
+      before: `${currentRate.toFixed(2)}% per tahun`,
+      after: `${rate.toFixed(2)}% per tahun`,
+    },
+    {
+      label: "Angsuran",
+      before: beforeInstallment,
+      after: afterInstallment,
+    },
+    {
+      label: "Total Nominal Pembayaran Bunga",
+      before: beforeTotalInterest,
+      after: afterTotalInterest,
+    },
+  ];
+
+  return (
+    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+      <div className="safe-x-scroll">
+        <table className="w-full min-w-[620px] border-collapse">
+          <thead className="bg-[#F9FAFF]">
+            <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-500">
+              <th className="px-4 py-3">Informasi</th>
+              <th className="px-4 py-3">Sebelum Perubahan</th>
+              <th className="px-4 py-3">Sesudah Perubahan</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {rows.map((row, index) => (
+              <tr
+                key={row.label}
+                className={cn(
+                  "border-b border-slate-100 text-[13px]",
+                  index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                )}
+              >
+                <td className="px-4 py-3 font-semibold text-slate-700">
+                  {row.label}
+                </td>
+                <td className="px-4 py-3 tabular-nums text-slate-700">
+                  {row.before}
+                </td>
+                <td className="px-4 py-3 font-extrabold tabular-nums text-[#5B3DF5]">
+                  {row.after}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInterestChangeWizard({
   open,
   onOpenChange,
@@ -330,36 +400,25 @@ export default function LoanInterestChangeWizard({
 
             {step === 2 ? (
               <div className="grid gap-5">
-                <div>
-                  <h3 className="text-[18px] font-extrabold text-slate-900">
-                    Simulasi Perubahan Suku Bunga
-                  </h3>
-                </div>
+                <h3 className="text-[18px] font-extrabold text-slate-900">
+                  Simulasi Perubahan Suku Bunga
+                </h3>
 
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[12px] bg-slate-50 p-4 ring-1 ring-slate-200">
-                    <div className="text-[12px] text-slate-500">
-                      Angsuran Bulanan
-                    </div>
-                    <div className="mt-2 text-[13px] text-slate-600">
-                      Sebelum: {simulation.beforeInstallment}
-                    </div>
-                    <div className="mt-1 text-[14px] font-extrabold text-[#5B3DF5]">
-                      Sesudah: {simulation.afterInstallment}
-                    </div>
-                  </div>
+                <ComparisonTable
+                  rate={simulation.rate}
+                  beforeInstallment={simulation.beforeInstallment}
+                  afterInstallment={simulation.afterInstallment}
+                  beforeTotalInterest={simulation.beforeTotalInterest}
+                  afterTotalInterest={simulation.afterTotalInterest}
+                />
 
-                  <div className="rounded-[12px] bg-slate-50 p-4 ring-1 ring-slate-200">
-                    <div className="text-[12px] text-slate-500">
-                      Total Bunga Sisa Tenor
-                    </div>
-                    <div className="mt-2 text-[13px] text-slate-600">
-                      Sebelum: {simulation.beforeTotalInterest}
-                    </div>
-                    <div className="mt-1 text-[14px] font-extrabold text-[#5B3DF5]">
-                      Sesudah: {simulation.afterTotalInterest}
-                    </div>
+                <div className="rounded-[12px] bg-[#F6FAFF] px-4 py-4 ring-1 ring-[#D8E8FF]">
+                  <div className="text-[12px] font-extrabold uppercase tracking-wide text-[#315E8F]">
+                    Alasan Perubahan
                   </div>
+                  <p className="mt-2 text-[14px] leading-relaxed text-slate-700">
+                    {reason}
+                  </p>
                 </div>
 
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
