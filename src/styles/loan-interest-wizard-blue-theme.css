@@ -6,8 +6,8 @@
   --loan-interest-blue-hover: #1d4ed8;
   --loan-interest-blue-soft: #eff6ff;
 
-  width: min(900px, calc(100vw - 2rem)) !important;
-  max-width: 900px !important;
+  width: min(950px, calc(100vw - 2rem)) !important;
+  max-width: 950px !important;
 }
 
 /* Lingkaran langkah aktif dan garis penghubung. */
