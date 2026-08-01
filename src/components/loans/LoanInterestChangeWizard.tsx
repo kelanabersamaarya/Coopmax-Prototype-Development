@@ -7,6 +7,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { saveLoanInterestRate } from "@/lib/loanInterestStore";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanInterestHistoryDialog from "@/components/loans/LoanInterestHistoryDialog";
 import LoanInterestChangeSuccessModal from "@/components/loans/LoanInterestChangeSuccessModal";
@@ -208,6 +209,7 @@ export default function LoanInterestChangeWizard({
   }
 
   function confirmSave() {
+    saveLoanInterestRate(accountNo, simulation.rate);
     setConfirmOpen(false);
     setSuccessOpen(true);
   }
