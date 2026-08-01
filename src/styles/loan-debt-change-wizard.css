@@ -13,3 +13,30 @@
 .loan-debt-billing-preview button[aria-label="Tambah Denda"] {
   display: none !important;
 }
+
+/*
+  Samakan template kolom isi dengan lebar header BillingTableHeader:
+  Jatuh Tempo 110px, Total Tagihan 128px, Pokok 130px, Bunga 120px,
+  Sisa Pokok 140px, Sisa Bunga 140px, dan Denda 130px.
+  Dengan ini angka pada setiap kolom berada tepat di bawah headernya.
+*/
+.loan-debt-billing-preview .grid.items-center.gap-0 {
+  grid-template-columns:
+    110px
+    128px
+    130px
+    120px
+    140px
+    140px
+    130px !important;
+}
+
+@media (max-width: 900px) {
+  .loan-debt-billing-preview {
+    overflow-x: auto;
+  }
+
+  .loan-debt-billing-preview > div {
+    min-width: 898px;
+  }
+}
