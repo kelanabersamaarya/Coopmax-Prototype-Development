@@ -1,0 +1,53 @@
+/* Ubah Suku Bunga > Step Simulasi:
+   Untuk angsuran di luar periode perubahan suku bunga, tampilkan 0,00
+   berwarna hitam pada kolom hasil penyesuaian dan sisa bunga.
+*/
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(6),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(8),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(9),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(12) {
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(6)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(8)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(9)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:not([data-interest-change="true"])
+  td:nth-child(12)::after {
+  content: "0,00";
+  color: #000000;
+  font-size: 12px;
+  font-weight: 400;
+}
