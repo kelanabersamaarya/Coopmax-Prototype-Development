@@ -1,2 +1,4 @@
-/* Ubah Hutang Pinjaman mengikuti struktur dan spacing bawaan
-   dari wizard Ubah Suku Bunga secara langsung. */
+/* Ubah Hutang Pinjaman memakai susunan rapat seperti wizard Ubah Suku Bunga. */
+[data-loan-debt-wizard="true"] {
+  gap: 0 !important;
+}
