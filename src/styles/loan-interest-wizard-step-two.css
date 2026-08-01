@@ -3,7 +3,7 @@
   padding-right: 1.5rem !important;
 }
 
-/* Langkah simulasi: semua judul section konsisten. */
+/* Semua judul section: kapital, hitam, 14px. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   > div.grid.gap-5
@@ -25,7 +25,7 @@
   text-transform: uppercase !important;
 }
 
-/* Hanya header tabel yang bold. */
+/* Seluruh header tabel berwarna putih dengan font 14px. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   table
@@ -40,12 +40,13 @@
   table
   thead
   th {
-  background-color: #f9faff !important;
+  background-color: #ffffff !important;
   color: #000000 !important;
+  font-size: 14px !important;
   font-weight: 700 !important;
 }
 
-/* Semua isi tabel normal dan hitam secara default. */
+/* Seluruh isi tabel normal, hitam, dan berukuran 14px. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   table
@@ -58,10 +59,11 @@
   td
   * {
   color: #000000 !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
 }
 
-/* Kolom informasi sesudah penyesuaian tetap menggunakan warna penekanan. */
+/* Kolom sesudah penyesuaian tetap memiliki warna penekanan. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   table
@@ -85,10 +87,9 @@
   td:nth-child(7)
   * {
   color: #5b3df5 !important;
-  font-weight: 400 !important;
 }
 
-/* Alasan perubahan mengikuti struktur tabel: header #F9FAFF dan body putih. */
+/* Section alasan perubahan: header #F9FAFF, body putih. */
 [data-loan-interest-wizard="true"]
   main.max-h-\[60vh\].overflow-auto
   > div.grid.gap-5
@@ -117,29 +118,6 @@
   > p {
   color: #000000 !important;
   font-size: 14px !important;
-  font-weight: 400 !important;
-}
-
-/* Judul tabel simulasi tidak lagi memakai pseudo-content. */
-[data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-5
-  > div.overflow-hidden.rounded-\[12px\].border
-  > div:first-child {
-  background-color: #f9faff !important;
-}
-
-/* Teks body selain tabel dibuat normal dan hitam pada langkah simulasi. */
-[data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-5
-  > p,
-[data-loan-interest-wizard="true"]
-  main.max-h-\[60vh\].overflow-auto
-  > div.grid.gap-5
-  > div:not(.overflow-hidden):not(.rounded-\[12px\])
-  > p {
-  color: #000000 !important;
   font-weight: 400 !important;
 }
 

@@ -174,8 +174,8 @@ function ComparisonTable({
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
       <div className="safe-x-scroll">
         <table className="w-full min-w-[620px] border-collapse">
-          <thead className="bg-[#F9FAFF]">
-            <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-500">
+          <thead className="bg-white">
+            <tr className="border-b border-slate-200 text-left text-[14px] font-extrabold uppercase tracking-wide text-slate-500">
               <th className="px-4 py-3">Informasi</th>
               <th className="px-4 py-3">Sebelum Perubahan</th>
               <th className="px-4 py-3">Sesudah Perubahan</th>
@@ -187,7 +187,7 @@ function ComparisonTable({
               <tr
                 key={row.label}
                 className={cn(
-                  "border-b border-slate-100 text-[13px]",
+                  "border-b border-slate-100 text-[14px]",
                   index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                 )}
               >
@@ -435,8 +435,8 @@ export default function LoanInterestChangeWizard({
 
                   <div className="safe-x-scroll">
                     <table className="w-full min-w-[1180px] border-collapse">
-                      <thead className="bg-[#F9FAFF]">
-                        <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-600">
+                      <thead className="bg-white">
+                        <tr className="border-b border-slate-200 text-left text-[14px] font-extrabold uppercase tracking-wide text-slate-600">
                           <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
                           <th className="w-[120px] px-3 py-3">Jatuh Tempo</th>
                           <th className="w-[150px] px-3 py-3 text-right">
@@ -465,7 +465,7 @@ export default function LoanInterestChangeWizard({
                           <tr
                             key={installment.installmentNo}
                             className={cn(
-                              "border-b border-slate-100 text-[13px]",
+                              "border-b border-slate-100 text-[14px]",
                               index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                             )}
                           >
