@@ -99,6 +99,11 @@ export default function LoanInterestAdjustmentDialog({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  const readOnlyInputClassName = cn(
+    inputClassName,
+    "cursor-not-allowed bg-slate-200/80 text-slate-700",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -159,6 +164,18 @@ export default function LoanInterestAdjustmentDialog({
 
               {adjustmentType ? (
                 <>
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Nominal Bunga Saat Ini
+                    </label>
+                    <Input
+                      value="83.333,00"
+                      readOnly
+                      aria-readonly="true"
+                      className={readOnlyInputClassName}
+                    />
+                  </div>
+
                   {adjustmentType !== "Pembebasan Seluruh Bunga" ? (
                     <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                       <label className="text-[14px] font-normal text-[#002060]">
