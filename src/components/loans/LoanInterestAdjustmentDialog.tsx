@@ -76,11 +76,9 @@ function AdjustmentConfirmDialog({
               !
             </span>
           </div>
-
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
             Yakin untuk melakukan penyesuaian bunga?
           </h3>
-
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
               type="button"
@@ -401,10 +399,10 @@ export default function LoanInterestAdjustmentDialog({
 
       <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
         <DialogContent
-          className="w-[calc(100vw-1rem)] max-w-[1100px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[1100px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+          className="w-[calc(100vw-1rem)] max-w-[500px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[500px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden [&_[data-radix-dialog-close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-[#CBD5E1] px-6 py-4">
-            <h2 className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
+            <h2 className="text-[18px] font-extrabold tracking-tight text-[#1F2A3D]">
               Penyesuaian Bunga
             </h2>
             <button
@@ -417,7 +415,7 @@ export default function LoanInterestAdjustmentDialog({
             </button>
           </header>
 
-          <main className="max-h-[65vh] overflow-auto px-6 py-6">
+          <div className="max-h-[65vh] overflow-auto px-6 py-6">
             <div className="grid gap-5">
               <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                 <label className="text-[14px] font-normal text-[#002060]">
@@ -535,7 +533,7 @@ export default function LoanInterestAdjustmentDialog({
                 </>
               ) : null}
             </div>
-          </main>
+          </div>
 
           <footer className="flex justify-end gap-3 border-t border-[#CBD5E1] px-6 py-4">
             <button
