@@ -41,7 +41,7 @@ export default function LoanInterestChangeSuccessGate() {
         cancelButton.dataset.interestWizardCancel = "true";
         cancelButton.textContent = "Batal";
         cancelButton.className =
-          "inline-flex h-10 min-w-[72px] items-center justify-center rounded-[5px] px-4 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50";
+          "ml-3 mr-auto inline-flex h-10 min-w-[72px] items-center justify-center rounded-[5px] px-4 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50";
 
         cancelButton.addEventListener("click", () => {
           const closeButton = wizard.querySelector<HTMLButtonElement>(
