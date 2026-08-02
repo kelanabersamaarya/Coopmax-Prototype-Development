@@ -60,5 +60,24 @@ export default function LoanInterestWizardCancelButton() {
     return () => observer.disconnect();
   }, []);
 
-  return null;
+  return (
+    <style>
+      {`
+        [data-loan-interest-wizard="true"] footer > button.bg-\\[\\#77839A\\] {
+          order: 0 !important;
+        }
+
+        [data-loan-interest-wizard="true"] .loan-interest-wizard-step-two-cancel {
+          order: 1 !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+
+        [data-loan-interest-wizard="true"] footer > button.bg-\\[\\#2fb300\\] {
+          order: 2 !important;
+          margin-left: auto !important;
+        }
+      `}
+    </style>
+  );
 }
