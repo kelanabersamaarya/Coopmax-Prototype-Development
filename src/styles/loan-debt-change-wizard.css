@@ -58,6 +58,12 @@
   justify-content: flex-end !important;
 }
 
+/* Modal Penyesuaian Bunga. */
+[data-radix-dialog-content]:has(h2:first-child) {
+  width: min(800px, calc(100vw - 1rem)) !important;
+  max-width: 800px !important;
+}
+
 @media (max-width: 900px) {
   .loan-debt-billing-preview {
     overflow-x: auto;
