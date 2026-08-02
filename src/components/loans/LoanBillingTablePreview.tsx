@@ -10,8 +10,22 @@ import LoanInterestAdjustmentDialog, {
 } from "@/components/loans/LoanInterestAdjustmentDialog";
 
 const seedRows: BillingRow[] = [
-  { jatuhTempo: "25-01-2026", totalBelumDibayar: "916.667", tagihanPokok: "833.333", tagihanBunga: "83.333", sisaPokok: "783.333", sisaBunga: "26.389" },
-  { jatuhTempo: "25-02-2026", totalBelumDibayar: "916.667", tagihanPokok: "833.333", tagihanBunga: "83.333", sisaPokok: "783.333", sisaBunga: "26.389" },
+  {
+    jatuhTempo: "25-01-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  {
+    jatuhTempo: "25-02-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
   ...Array.from({ length: 8 }).map((_, index) => ({
     jatuhTempo: `25-${String(3 + index).padStart(2, "0")}-2026`,
     totalBelumDibayar: "916.667",
@@ -31,11 +45,17 @@ function parseIdr(value: string) {
 }
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
 }
 
 function NumericCell({ children }: { children: React.ReactNode }) {
-  return <span className="block w-full text-left tabular-nums whitespace-nowrap">{children}</span>;
+  return (
+    <span className="block w-full text-left tabular-nums whitespace-nowrap">
+      {children}
+    </span>
+  );
 }
 
 export default function LoanBillingTablePreview({
@@ -48,8 +68,12 @@ export default function LoanBillingTablePreview({
   const rows = React.useMemo(() => seedRows, []);
   const pageSize = 6;
   const [page, setPage] = React.useState(1);
-  const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(null);
-  const [interestAdjustments, setInterestAdjustments] = React.useState<Record<string, InterestAdjustment>>({});
+  const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(
+    null,
+  );
+  const [interestAdjustments, setInterestAdjustments] = React.useState<
+    Record<string, InterestAdjustment>
+  >({});
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
   const pagedRows = React.useMemo(() => {
@@ -90,7 +114,9 @@ export default function LoanBillingTablePreview({
       )
     : "0,00";
 
-  const currentBillingRow = React.useMemo<InterestAdjustmentBillingRow | undefined>(() => {
+  const currentBillingRow = React.useMemo<
+    InterestAdjustmentBillingRow | undefined
+  >(() => {
     if (!selectedRow) return undefined;
 
     const selectedRowIndex = rows.findIndex(
@@ -123,7 +149,12 @@ export default function LoanBillingTablePreview({
   const nextDisabled = page >= pageCount;
 
   return (
-    <section className={cn("loan-debt-billing-preview overflow-hidden rounded-[12px] border border-slate-200 bg-white shadow-sm", className)}>
+    <section
+      className={cn(
+        "loan-debt-billing-preview overflow-hidden rounded-[12px] border border-slate-200 bg-white shadow-sm",
+        className,
+      )}
+    >
       <LoanInterestAdjustmentDialog
         open={adjustmentDueDate !== null}
         onOpenChange={(open) => {
@@ -141,11 +172,11 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="w-full min-w-[970px] border-collapse">
+        <table className="w-full min-w-[990px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[85px] px-4 py-3">
-                Angsuran
+              <th className="w-[100px] px-4 py-3">
+                <span className="whitespace-nowrap">Angsuran</span>
                 <br />
                 Ke
               </th>
@@ -256,6 +287,7 @@ export default function LoanBillingTablePreview({
         <div className="text-[12px] text-slate-600">
           Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
         </div>
+
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -270,9 +302,11 @@ export default function LoanBillingTablePreview({
             <ChevronLeft className="h-4 w-4" />
             Sebelumnya
           </button>
+
           <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#2563EB] px-3 text-[12px] font-extrabold text-white">
             {page}
           </span>
+
           <button
             type="button"
             disabled={nextDisabled}
