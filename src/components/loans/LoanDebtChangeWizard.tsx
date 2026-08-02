@@ -128,7 +128,7 @@ function UnifiedBillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[2140px] border-collapse">
+        <table className="w-full min-w-[2015px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[85px] px-3 py-3">Angsuran Ke</th>
@@ -139,7 +139,6 @@ function UnifiedBillingSimulationTable({
               <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
               <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
               <th className="w-[120px] px-3 py-3 text-right">Tagihan<br />Denda</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tunggakan Bunga<br />Sebelum Penyesuaian</th>
               <th className="w-[95px] px-3 py-3">Jenis Penyesuaian</th>
               <th className="w-[110px] px-3 py-3 text-right">Nominal<br />Penyesuaian</th>
               <th className="w-[135px] px-3 py-3 text-right">Tunggakan Bunga<br />Setelah Penyesuaian</th>
@@ -183,9 +182,6 @@ function UnifiedBillingSimulationTable({
                   <td className="px-3 py-3 text-right tabular-nums">{remainingPrincipal}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{remainingInterest}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{penalty}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {isAdjustedRow ? formatIdr(previousInterest) : "0,00"}
-                  </td>
                   <td className="px-3 py-3">{isAdjustedRow ? adjustmentType : "-"}</td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {isAdjustedRow ? formatIdr(adjustmentAmount) : "0,00"}

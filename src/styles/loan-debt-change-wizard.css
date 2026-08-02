@@ -148,16 +148,16 @@
 
 /* Tabel simulasi: perkecil kolom Angsuran Ke dan Jatuh Tempo. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   th:nth-child(1),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   td:nth-child(1),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   th:nth-child(2),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   td:nth-child(2) {
   width: 85px !important;
   min-width: 85px !important;
@@ -166,35 +166,23 @@
 
 /* Tabel simulasi: perkecil kolom Total Tagihan Belum Dibayar. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   th:nth-child(3),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   td:nth-child(3) {
   width: 115px !important;
   min-width: 115px !important;
   max-width: 115px !important;
 }
 
-/* Tabel simulasi: perkecil kolom Tunggakan Bunga Sebelum Penyesuaian. */
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  th:nth-child(9),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  td:nth-child(9) {
-  width: 125px !important;
-  min-width: 125px !important;
-  max-width: 125px !important;
-}
-
 /* Tabel simulasi: kolom Jenis Penyesuaian dibuat sangat ringkas. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  th:nth-child(10),
+  table.min-w-\[2015px\]
+  th:nth-child(9),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  td:nth-child(10) {
+  table.min-w-\[2015px\]
+  td:nth-child(9) {
   width: 95px !important;
   min-width: 95px !important;
   max-width: 95px !important;
@@ -204,11 +192,11 @@
 
 /* Tabel simulasi: perkecil kolom Nominal Penyesuaian. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  th:nth-child(11),
+  table.min-w-\[2015px\]
+  th:nth-child(10),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  td:nth-child(11) {
+  table.min-w-\[2015px\]
+  td:nth-child(10) {
   width: 110px !important;
   min-width: 110px !important;
   max-width: 110px !important;
@@ -216,23 +204,23 @@
 
 /* Tabel simulasi: perkecil kolom kewajiban dan tunggakan setelah penyesuaian. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
+  th:nth-child(11),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  td:nth-child(11),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
   th:nth-child(12),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   td:nth-child(12),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   th:nth-child(13),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  td:nth-child(13),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  th:nth-child(14),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
-  td:nth-child(14) {
+  table.min-w-\[2015px\]
+  td:nth-child(13) {
   width: 135px !important;
   min-width: 135px !important;
   max-width: 135px !important;
@@ -240,7 +228,7 @@
 
 /* Penanda muncul pada angsuran yang dipilih dari tanggal efektif perubahan. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   tbody
   tr[data-debt-change="true"]
   td {
@@ -252,7 +240,7 @@
 }
 
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   tbody
   tr[data-debt-change="true"]
   td:first-child {
@@ -261,7 +249,7 @@
 }
 
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   tbody
   tr[data-debt-change="true"]
   td:last-child {
@@ -269,7 +257,7 @@
 }
 
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   tbody
   tr[data-debt-change-start="true"]
   td:first-child::before {
@@ -280,7 +268,7 @@
   top: 10px;
   display: flex;
   min-height: 52px;
-  width: calc(2140px - 20px);
+  width: calc(2015px - 20px);
   align-items: center;
   border-radius: 12px;
   background-color: #eff6ff;
@@ -295,7 +283,7 @@
 }
 
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2140px\]
+  table.min-w-\[2015px\]
   tbody
   tr[data-debt-change-start="true"]
   td:first-child::after {
