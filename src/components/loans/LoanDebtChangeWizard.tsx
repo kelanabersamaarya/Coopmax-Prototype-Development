@@ -320,7 +320,7 @@ export default function LoanDebtChangeWizard({
       >
         <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
           <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
-            Ubah Hutang Bunga
+            Ubah Nominal Bunga Pinjaman
           </h2>
           <button
             type="button"
