@@ -141,16 +141,49 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="w-full min-w-[900px] border-collapse">
+        <table className="w-full min-w-[970px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[110px] px-4 py-3">Jatuh<br />Tempo</th>
-              <th className="w-[128px] px-4 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[130px] px-4 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[130px] px-4 py-3 text-right">Tagihan<br />Bunga</th>
-              <th className="w-[140px] px-4 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[140px] px-4 py-3 text-right">Sisa Tagihan<br />Bunga</th>
-              <th className="w-[130px] px-4 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[85px] px-4 py-3">
+                Angsuran
+                <br />
+                Ke
+              </th>
+              <th className="w-[110px] px-4 py-3">
+                Jatuh
+                <br />
+                Tempo
+              </th>
+              <th className="w-[128px] px-4 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[130px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[120px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[140px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[140px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[130px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
             </tr>
           </thead>
 
@@ -173,6 +206,9 @@ export default function LoanBillingTablePreview({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
+                  <td className="px-4 py-3 text-center font-semibold tabular-nums">
+                    {globalIndex + 1}
+                  </td>
                   <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
                   </td>
