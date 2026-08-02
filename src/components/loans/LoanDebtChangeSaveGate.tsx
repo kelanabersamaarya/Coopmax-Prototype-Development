@@ -4,6 +4,30 @@ import * as React from "react";
 import { Check } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { addLoanInterestAdjustmentHistory } from "@/lib/loanInterestAdjustmentHistoryStore";
+
+type PendingAdjustment = {
+  accountNo: string;
+  installmentNo: number;
+  interestBefore: string;
+  adjustmentType: string;
+  adjustmentAmount: string;
+  reason: string;
+  interestAfter: string;
+  totalBefore: string;
+  totalAfter: string;
+};
+
+function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
+  const raw = wizard.dataset.loanDebtAdjustment;
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as PendingAdjustment;
+  } catch {
+    return null;
+  }
+}
 
 function DebtChangeConfirmDialog({
   open,
@@ -115,6 +139,7 @@ export default function LoanDebtChangeSaveGate() {
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const activeWizardRef = React.useRef<HTMLElement | null>(null);
+  const pendingAdjustmentRef = React.useRef<PendingAdjustment | null>(null);
 
   React.useEffect(() => {
     function handleSaveClick(event: MouseEvent) {
@@ -136,6 +161,7 @@ export default function LoanDebtChangeSaveGate() {
       event.stopImmediatePropagation();
 
       activeWizardRef.current = wizard;
+      pendingAdjustmentRef.current = parseSaveData(wizard);
       setConfirmOpen(true);
     }
 
@@ -152,6 +178,27 @@ export default function LoanDebtChangeSaveGate() {
       ?.click();
 
     activeWizardRef.current = null;
+    pendingAdjustmentRef.current = null;
+  }
+
+  function confirmSave() {
+    const adjustment = pendingAdjustmentRef.current;
+
+    if (adjustment) {
+      addLoanInterestAdjustmentHistory(adjustment.accountNo, {
+        installmentNo: adjustment.installmentNo,
+        interestBefore: adjustment.interestBefore,
+        adjustmentType: adjustment.adjustmentType,
+        adjustmentAmount: adjustment.adjustmentAmount,
+        reason: adjustment.reason,
+        interestAfter: adjustment.interestAfter,
+        totalBefore: adjustment.totalBefore,
+        totalAfter: adjustment.totalAfter,
+      });
+    }
+
+    setConfirmOpen(false);
+    setSuccessOpen(true);
   }
 
   return (
@@ -161,11 +208,9 @@ export default function LoanDebtChangeSaveGate() {
         onCancel={() => {
           setConfirmOpen(false);
           activeWizardRef.current = null;
+          pendingAdjustmentRef.current = null;
         }}
-        onConfirm={() => {
-          setConfirmOpen(false);
-          setSuccessOpen(true);
-        }}
+        onConfirm={confirmSave}
       />
 
       <DebtChangeSuccessDialog open={successOpen} onOk={closeWizard} />

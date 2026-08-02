@@ -4,8 +4,14 @@ import * as React from "react";
 import { X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import {
+  getLoanInterestAdjustmentHistory,
+  LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
+  type LoanInterestAdjustmentHistoryEntry,
+} from "@/lib/loanInterestAdjustmentHistoryStore";
 
 type HistoryRow = {
+  id: string;
   installmentNo: number;
   interestBefore: string;
   adjustmentType: string;
@@ -17,9 +23,10 @@ type HistoryRow = {
   adjustedAt: string;
 };
 
-const historyByAccount: Record<string, HistoryRow[]> = {
+const initialHistoryByAccount: Record<string, HistoryRow[]> = {
   SMG260004: [
     {
+      id: "initial-adjustment",
       installmentNo: 3,
       interestBefore: "83.333,00",
       adjustmentType: "Pengurangan Bunga",
@@ -32,6 +39,12 @@ const historyByAccount: Record<string, HistoryRow[]> = {
     },
   ],
 };
+
+function toHistoryRow(
+  entry: LoanInterestAdjustmentHistoryEntry,
+): HistoryRow {
+  return entry;
+}
 
 function Cell({
   children,
@@ -68,7 +81,36 @@ export default function LoanDebtAdjustmentHistoryDialog({
   onOpenChange: (open: boolean) => void;
   accountNo: string;
 }) {
-  const rows = React.useMemo(() => historyByAccount[accountNo] ?? [], [accountNo]);
+  const [savedRows, setSavedRows] = React.useState<
+    LoanInterestAdjustmentHistoryEntry[]
+  >([]);
+
+  React.useEffect(() => {
+    function syncHistory() {
+      setSavedRows(getLoanInterestAdjustmentHistory(accountNo));
+    }
+
+    if (open) syncHistory();
+
+    window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, syncHistory);
+    window.addEventListener("storage", syncHistory);
+
+    return () => {
+      window.removeEventListener(
+        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
+        syncHistory,
+      );
+      window.removeEventListener("storage", syncHistory);
+    };
+  }, [accountNo, open]);
+
+  const rows = React.useMemo(
+    () => [
+      ...savedRows.map(toHistoryRow),
+      ...(initialHistoryByAccount[accountNo] ?? []),
+    ],
+    [accountNo, savedRows],
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -150,17 +192,23 @@ export default function LoanDebtAdjustmentHistoryDialog({
                     </tr>
                   ) : (
                     rows.map((row) => (
-                      <tr key={`${row.installmentNo}-${row.adjustedAt}`} className="bg-white">
+                      <tr key={row.id} className="bg-white">
                         <Cell align="center">{row.installmentNo}</Cell>
                         <Cell align="right">{row.interestBefore}</Cell>
                         <Cell>{row.adjustmentType}</Cell>
                         <Cell align="right">{row.adjustmentAmount}</Cell>
                         <Cell>{row.reason}</Cell>
-                        <Cell align="right" className="font-semibold text-[#2563EB]">
+                        <Cell
+                          align="right"
+                          className="font-semibold text-[#2563EB]"
+                        >
                           {row.interestAfter}
                         </Cell>
                         <Cell align="right">{row.totalBefore}</Cell>
-                        <Cell align="right" className="font-semibold text-[#2563EB]">
+                        <Cell
+                          align="right"
+                          className="font-semibold text-[#2563EB]"
+                        >
                           {row.totalAfter}
                         </Cell>
                         <Cell>{row.adjustedAt}</Cell>
