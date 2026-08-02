@@ -20,15 +20,18 @@ const accountDetails = [
   ["Total Kewajiban", "10.678.571,00"],
 ] as const;
 
-const billingRow = {
-  jatuhTempo: "25-07-2026",
-  totalBelumDibayar: "1.120.000,00",
-  tagihanPokok: "1.000.000,00",
-  tagihanBunga: "120.000,00",
-  sisaPokok: "10.553.571,00",
-  sisaBunga: "1.266.429,00",
-  tagihanDenda: "0,00",
-};
+const billingRows = [
+  ["25-01-2026", "916.667", "0,00", "83.333", "0,00", "26.389", "75.000"],
+  ["25-02-2026", "916.667", "0,00", "83.333", "0,00", "26.389", "75.000"],
+  ["25-03-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "75.000"],
+  ["25-04-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
+  ["25-05-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
+  ["25-06-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
+  ["25-07-2026", "1.120.000,00", "1.000.000,00", "120.000,00", "10.553.571,00", "1.266.429,00", "0,00"],
+  ["25-08-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
+  ["25-09-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
+  ["25-10-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
+] as const;
 
 function parseIdr(value: string) {
   const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
@@ -91,7 +94,7 @@ function StepIndicator({ step }: { step: number }) {
   );
 }
 
-function DebtSimulationBillingTable({
+function UnifiedBillingSimulationTable({
   principalDebt,
   interestDebt,
   otherDebt,
@@ -100,26 +103,10 @@ function DebtSimulationBillingTable({
   interestDebt: string;
   otherDebt: string;
 }) {
-  const previousPrincipalDebt = 0;
   const previousInterestDebt = 125_000;
-  const previousOtherDebt = 0;
-
   const nextPrincipalDebt = parseIdr(principalDebt);
   const nextInterestDebt = parseIdr(interestDebt);
   const nextOtherDebt = parseIdr(otherDebt);
-
-  const previousTotalObligation =
-    parseIdr(billingRow.totalBelumDibayar) +
-    previousPrincipalDebt +
-    previousInterestDebt +
-    previousOtherDebt;
-
-  const nextTotalObligation =
-    parseIdr(billingRow.totalBelumDibayar) +
-    nextPrincipalDebt +
-    nextInterestDebt +
-    nextOtherDebt;
-
   const adjustmentAmount = Math.abs(nextInterestDebt - previousInterestDebt);
   const adjustmentType =
     nextInterestDebt > previousInterestDebt
@@ -139,107 +126,77 @@ function DebtSimulationBillingTable({
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[115px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[145px] px-3 py-3 text-right">
-                Total Tagihan
-                <br />
-                Belum Dibayar
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[120px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Denda
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[190px] px-3 py-3">
-                Jenis Penyesuaian
-              </th>
-              <th className="w-[155px] px-3 py-3 text-right">
-                Nominal
-                <br />
-                Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Setelah Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Setelah Penyesuaian
-              </th>
+              <th className="w-[145px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Bunga</th>
+              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
+              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
+              <th className="w-[120px] px-3 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[175px] px-3 py-3 text-right">Tunggakan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[190px] px-3 py-3">Jenis Penyesuaian</th>
+              <th className="w-[155px] px-3 py-3 text-right">Nominal<br />Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Tunggakan Bunga<br />Setelah Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Total Kewajiban<br />Sebelum Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Total Kewajiban<br />Setelah Penyesuaian</th>
             </tr>
           </thead>
 
           <tbody className="text-[12px] text-black">
-            <tr className="border-b border-slate-100 bg-white">
-              <td className="px-3 py-3 font-semibold tabular-nums">
-                {billingRow.jatuhTempo}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.totalBelumDibayar}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.tagihanPokok}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.tagihanBunga}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.sisaPokok}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.sisaBunga}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.tagihanDenda}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(previousInterestDebt)}
-              </td>
-              <td className="px-3 py-3 font-semibold">{adjustmentType}</td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(adjustmentAmount)}
-              </td>
-              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
-                {formatIdr(nextInterestDebt)}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(previousTotalObligation)}
-              </td>
-              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
-                {formatIdr(nextTotalObligation)}
-              </td>
-            </tr>
+            {billingRows.map((row, index) => {
+              const [
+                dueDate,
+                totalBill,
+                principalBill,
+                interestBill,
+                remainingPrincipal,
+                remainingInterest,
+                penalty,
+              ] = row;
+
+              const isAdjustedRow = dueDate === "25-07-2026";
+              const previousTotal = parseIdr(totalBill) + previousInterestDebt;
+              const nextTotal =
+                parseIdr(totalBill) +
+                nextPrincipalDebt +
+                nextInterestDebt +
+                nextOtherDebt;
+
+              return (
+                <tr
+                  key={dueDate}
+                  className={cn(
+                    "border-b border-slate-100",
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                  )}
+                >
+                  <td className="px-3 py-3 font-semibold tabular-nums">{dueDate}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{totalBill}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{principalBill}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{interestBill}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{remainingPrincipal}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{remainingInterest}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{penalty}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {isAdjustedRow ? formatIdr(previousInterestDebt) : "0,00"}
+                  </td>
+                  <td className="px-3 py-3 font-semibold">
+                    {isAdjustedRow ? adjustmentType : "-"}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {isAdjustedRow ? formatIdr(adjustmentAmount) : "0,00"}
+                  </td>
+                  <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
+                    {isAdjustedRow ? formatIdr(nextInterestDebt) : "0,00"}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {isAdjustedRow ? formatIdr(previousTotal) : totalBill}
+                  </td>
+                  <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
+                    {isAdjustedRow ? formatIdr(nextTotal) : totalBill}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -355,15 +312,11 @@ export default function LoanDebtChangeWizard({
           ) : null}
 
           {step === 2 ? (
-            <div className="grid gap-6">
-              <DebtSimulationBillingTable
-                principalDebt={principalDebt}
-                interestDebt={interestDebt}
-                otherDebt={otherDebt}
-              />
-
-              <LoanBillingTablePreview accountNo={accountNo} />
-            </div>
+            <UnifiedBillingSimulationTable
+              principalDebt={principalDebt}
+              interestDebt={interestDebt}
+              otherDebt={otherDebt}
+            />
           ) : null}
 
           {step === 3 ? (
@@ -454,7 +407,7 @@ export default function LoanDebtChangeWizard({
             className={cn(
               "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
               isSimulationStep
-                ? "min-w-[210px] gap-[14px] bg-[#2fb300] hover:bg-[#279800]"
+                ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
                 : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
             )}
           >
