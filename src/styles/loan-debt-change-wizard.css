@@ -59,29 +59,47 @@
 }
 
 /* Modal Penyesuaian Bunga. */
-[data-radix-dialog-content]:has(h2:first-child) {
+[data-radix-dialog-content]:has(h2) {
   width: min(800px, calc(100vw - 1rem)) !important;
   max-width: 800px !important;
 }
 
 /* Sembunyikan tabel Simulasi Penyesuaian Bunga pada modal ini. */
-[data-radix-dialog-content]:has(h2:first-child)
+[data-radix-dialog-content]:has(h2)
   div.overflow-hidden.rounded-\[12px\].border:has(
     table.min-w-\[1900px\]
   ) {
   display: none !important;
 }
 
-/* Matikan perubahan border, outline, dan focus ring pada field modal Penyesuaian Bunga. */
-[data-radix-dialog-content]:has(h2:first-child)
-  :is(input, textarea, [data-slot="select-trigger"], [role="combobox"]):focus,
-[data-radix-dialog-content]:has(h2:first-child)
-  :is(input, textarea, [data-slot="select-trigger"], [role="combobox"]):focus-visible,
-[data-radix-dialog-content]:has(h2:first-child)
-  :is([data-slot="select-trigger"], [role="combobox"])[data-state="open"] {
+/*
+  Modal Penyesuaian Bunga:
+  paksa fokus tetap memakai border normal dan tanpa outline/ring,
+  termasuk trigger dropdown Radix dalam kondisi dibuka.
+*/
+[data-radix-dialog-content]:has(h2)
+  input:focus,
+[data-radix-dialog-content]:has(h2)
+  input:focus-visible,
+[data-radix-dialog-content]:has(h2)
+  textarea:focus,
+[data-radix-dialog-content]:has(h2)
+  textarea:focus-visible,
+[data-radix-dialog-content]:has(h2)
+  button[role="combobox"]:focus,
+[data-radix-dialog-content]:has(h2)
+  button[role="combobox"]:focus-visible,
+[data-radix-dialog-content]:has(h2)
+  button[role="combobox"][data-state="open"],
+[data-radix-dialog-content]:has(h2)
+  [data-slot="select-trigger"]:focus,
+[data-radix-dialog-content]:has(h2)
+  [data-slot="select-trigger"]:focus-visible,
+[data-radix-dialog-content]:has(h2)
+  [data-slot="select-trigger"][data-state="open"] {
   border-color: #cbd5e1 !important;
-  box-shadow: none !important;
   outline: none !important;
+  box-shadow: none !important;
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
