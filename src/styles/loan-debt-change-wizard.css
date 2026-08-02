@@ -130,6 +130,19 @@
   background-size: contain;
 }
 
+/* Tabel simulasi: kolom Jenis Penyesuaian dibuat lebih ringkas. */
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  th:nth-child(9),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  td:nth-child(9) {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+  white-space: normal !important;
+}
+
 @media (max-width: 900px) {
   .loan-debt-billing-preview {
     overflow-x: auto;
