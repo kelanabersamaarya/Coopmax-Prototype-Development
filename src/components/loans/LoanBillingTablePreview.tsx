@@ -1,7 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Pencil,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BillingRow } from "@/components/anggota/BillingTableView2";
 import LoanInterestAdjustmentDialog, {
@@ -38,6 +42,12 @@ const seedRows: BillingRow[] = [
 
 const penaltyAmount = "75.000";
 
+export type SavedBillingInterestAdjustment = {
+  dueDate: string;
+  installmentNo: number;
+  adjustment: InterestAdjustment;
+};
+
 function parseIdr(value: string) {
   const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
   const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
@@ -61,9 +71,11 @@ function NumericCell({ children }: { children: React.ReactNode }) {
 export default function LoanBillingTablePreview({
   className,
   accountNo = "SMG260004",
+  onInterestAdjustmentSaved,
 }: {
   className?: string;
   accountNo?: string;
+  onInterestAdjustmentSaved?: (value: SavedBillingInterestAdjustment) => void;
 }) {
   const rows = React.useMemo(() => seedRows, []);
   const pageSize = 6;
@@ -137,10 +149,21 @@ export default function LoanBillingTablePreview({
   function saveInterestAdjustment(adjustment: InterestAdjustment) {
     if (!adjustmentDueDate) return;
 
+    const installmentNo =
+      rows.findIndex((row) => row.jatuhTempo === adjustmentDueDate) + 1;
+
     setInterestAdjustments((current) => ({
       ...current,
       [adjustmentDueDate]: adjustment,
     }));
+
+    if (installmentNo > 0) {
+      onInterestAdjustmentSaved?.({
+        dueDate: adjustmentDueDate,
+        installmentNo,
+        adjustment,
+      });
+    }
   }
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
@@ -175,16 +198,8 @@ export default function LoanBillingTablePreview({
         <table className="w-full min-w-[990px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[100px] px-4 py-3">
-                <span className="whitespace-nowrap">Angsuran</span>
-                <br />
-                Ke
-              </th>
-              <th className="w-[110px] px-4 py-3">
-                Jatuh
-                <br />
-                Tempo
-              </th>
+              <th className="w-[100px] px-4 py-3">Angsuran Ke</th>
+              <th className="w-[110px] px-4 py-3">Jatuh Tempo</th>
               <th className="w-[128px] px-4 py-3 text-right">
                 Total Tagihan
                 <br />
