@@ -46,16 +46,6 @@ const adjustmentOptions: InterestAdjustmentType[] = [
   "Penambahan Bunga",
 ];
 
-function parseIdr(value: string) {
-  const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
-  const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function formatIdr(value: number) {
-  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
-}
-
 function AdjustmentConfirmDialog({
   open,
   onCancel,
@@ -76,9 +66,11 @@ function AdjustmentConfirmDialog({
               !
             </span>
           </div>
+
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
             Yakin untuk melakukan penyesuaian bunga?
           </h3>
+
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
               type="button"
@@ -133,157 +125,11 @@ function AdjustmentSuccessDialog({
   );
 }
 
-function SimulationBillingTable({
-  dueDate,
-  billingRow,
-  adjustmentType,
-  amount,
-}: {
-  dueDate: string;
-  billingRow: InterestAdjustmentBillingRow;
-  adjustmentType: InterestAdjustmentType;
-  amount: string;
-}) {
-  const beforeArrears = parseIdr(billingRow.tagihanBunga);
-  const beforeTotal = parseIdr(billingRow.totalBelumDibayar);
-  const adjustmentAmount =
-    adjustmentType === "Pembebasan Seluruh Bunga"
-      ? beforeArrears
-      : parseIdr(amount);
-
-  const afterArrears =
-    adjustmentType === "Pembebasan Seluruh Bunga"
-      ? 0
-      : adjustmentType === "Penambahan Bunga"
-        ? beforeArrears + adjustmentAmount
-        : Math.max(0, beforeArrears - adjustmentAmount);
-
-  const afterTotal = Math.max(0, beforeTotal - beforeArrears + afterArrears);
-
-  return (
-    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-        Simulasi Penyesuaian Bunga
-      </div>
-
-      <div className="safe-x-scroll">
-        <table className="w-full min-w-[1900px] border-collapse">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[115px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[145px] px-3 py-3 text-right">
-                Total Tagihan
-                <br />
-                Belum Dibayar
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[120px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Denda
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3">
-                Jenis Penyesuaian
-              </th>
-              <th className="w-[145px] px-3 py-3 text-right">
-                Nominal
-                <br />
-                Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Setelah Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Setelah Penyesuaian
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="text-[12px] text-black">
-            <tr className="border-b border-slate-100 bg-white">
-              <td className="px-3 py-3 font-semibold tabular-nums">{dueDate}</td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(beforeTotal)}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.tagihanPokok}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(beforeArrears)}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.sisaPokok}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.sisaBunga}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {billingRow.tagihanDenda}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(beforeArrears)}
-              </td>
-              <td className="px-3 py-3 font-semibold">{adjustmentType}</td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(adjustmentAmount)}
-              </td>
-              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
-                {formatIdr(afterArrears)}
-              </td>
-              <td className="px-3 py-3 text-right tabular-nums">
-                {formatIdr(beforeTotal)}
-              </td>
-              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
-                {formatIdr(afterTotal)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
 export default function LoanInterestAdjustmentDialog({
   open,
   onOpenChange,
   dueDate,
   currentInterest = "0,00",
-  currentTotal = "0,00",
-  billingRow,
   onSave,
 }: {
   open: boolean;
@@ -309,18 +155,6 @@ export default function LoanInterestAdjustmentDialog({
     ? "Nominal Bunga Tambahan"
     : "Nominal Pengurangan";
 
-  const simulatedBillingRow = React.useMemo<InterestAdjustmentBillingRow>(
-    () => ({
-      totalBelumDibayar: currentTotal,
-      tagihanPokok: billingRow?.tagihanPokok ?? "0,00",
-      tagihanBunga: currentInterest,
-      sisaPokok: billingRow?.sisaPokok ?? "0,00",
-      sisaBunga: billingRow?.sisaBunga ?? "0,00",
-      tagihanDenda: billingRow?.tagihanDenda ?? "0,00",
-    }),
-    [billingRow, currentInterest, currentTotal],
-  );
-
   React.useEffect(() => {
     if (!open) return;
 
@@ -338,18 +172,22 @@ export default function LoanInterestAdjustmentDialog({
       toast("Jenis penyesuaian wajib dipilih");
       return false;
     }
+
     if (adjustmentType !== "Pembebasan Seluruh Bunga" && !amount.trim()) {
       toast("Nominal penyesuaian wajib diisi");
       return false;
     }
+
     if (isAdditionalInterest && !effectiveDate.trim()) {
       toast("Tanggal efektif wajib diisi");
       return false;
     }
+
     if (isAdditionalInterest && !interestPeriod.trim()) {
       toast("Periode bunga wajib diisi");
       return false;
     }
+
     if (!reason.trim()) {
       toast(
         isAdditionalInterest
@@ -358,6 +196,7 @@ export default function LoanInterestAdjustmentDialog({
       );
       return false;
     }
+
     return true;
   }
 
@@ -389,6 +228,7 @@ export default function LoanInterestAdjustmentDialog({
         onCancel={() => setConfirmOpen(false)}
         onConfirm={confirmSave}
       />
+
       <AdjustmentSuccessDialog
         open={successOpen}
         onOk={() => {
@@ -523,13 +363,6 @@ export default function LoanInterestAdjustmentDialog({
                       className="min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none focus-visible:ring-0"
                     />
                   </div>
-
-                  <SimulationBillingTable
-                    dueDate={dueDate}
-                    billingRow={simulatedBillingRow}
-                    adjustmentType={adjustmentType}
-                    amount={amount}
-                  />
                 </>
               ) : null}
             </div>
