@@ -355,11 +355,15 @@ export default function LoanDebtChangeWizard({
           ) : null}
 
           {step === 2 ? (
-            <DebtSimulationBillingTable
-              principalDebt={principalDebt}
-              interestDebt={interestDebt}
-              otherDebt={otherDebt}
-            />
+            <div className="grid gap-6">
+              <DebtSimulationBillingTable
+                principalDebt={principalDebt}
+                interestDebt={interestDebt}
+                otherDebt={otherDebt}
+              />
+
+              <LoanBillingTablePreview accountNo={accountNo} />
+            </div>
           ) : null}
 
           {step === 3 ? (
