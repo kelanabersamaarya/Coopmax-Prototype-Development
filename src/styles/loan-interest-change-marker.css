@@ -169,13 +169,12 @@
   font-weight: 700 !important;
 }
 
-/* Scroll horizontal berada di pembungkus tabel beserta pagination. */
+/* Scroll horizontal hanya berlaku untuk tabel; header section tetap lebar penuh. */
 [data-loan-interest-wizard="true"]
   div.overflow-hidden.rounded-\[12px\].border:has(
     table[class*="min-w-[1780px]"]
   ) {
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
+  overflow: hidden !important;
 }
 
 [data-loan-interest-wizard="true"]
@@ -183,7 +182,8 @@
     table[class*="min-w-[1780px]"]
   )
   > .safe-x-scroll {
-  overflow-x: visible !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
 }
 
 /* Hilangkan informasi tambahan suku bunga pada area pagination. */
