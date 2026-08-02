@@ -26,44 +26,50 @@ export default function LoanInterestChangeSuccessGate() {
 
         const saveButton = findButton(footer, "simpan perubahan");
         const backButton = findButton(footer, "kembali");
-        const existingCancel = footer.querySelector<HTMLButtonElement>(
-          '[data-interest-wizard-cancel="true"]',
-        );
-        const existingActionGroup = footer.querySelector<HTMLElement>(
+        const actionGroup = footer.querySelector<HTMLElement>(
           '[data-interest-wizard-left-actions="true"]',
+        );
+        const cancelButton = footer.querySelector<HTMLButtonElement>(
+          '[data-interest-wizard-cancel="true"]',
         );
 
         if (!isSimulationStep(footer) || !saveButton || !backButton) {
-          existingCancel?.remove();
-          existingActionGroup?.remove();
+          actionGroup?.remove();
+          cancelButton?.remove();
           return;
         }
 
-        const actionGroup =
-          existingActionGroup ??
-          Object.assign(document.createElement("div"), {
-            className: "flex items-center gap-3",
-            dataset: { interestWizardLeftActions: "true" },
-          });
-
-        if (!existingActionGroup) {
-          footer.insertBefore(actionGroup, saveButton);
+        if (
+          actionGroup &&
+          actionGroup.contains(backButton) &&
+          actionGroup.contains(cancelButton)
+        ) {
+          return;
         }
 
-        actionGroup.appendChild(backButton);
+        const group = actionGroup ?? document.createElement("div");
+        group.dataset.interestWizardLeftActions = "true";
+        group.className = "flex items-center gap-3";
 
-        const cancelButton =
-          existingCancel ??
-          Object.assign(document.createElement("button"), {
-            type: "button",
-            textContent: "Batal",
-            className:
-              "inline-flex h-10 min-w-[72px] items-center justify-center rounded-[5px] px-4 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50",
-            dataset: { interestWizardCancel: "true" },
-          });
+        if (!actionGroup) {
+          footer.insertBefore(group, saveButton);
+        }
 
-        if (!existingCancel) {
-          cancelButton.addEventListener("click", () => {
+        if (backButton.parentElement !== group) {
+          group.appendChild(backButton);
+        }
+
+        const cancel =
+          cancelButton ?? document.createElement("button");
+
+        if (!cancelButton) {
+          cancel.type = "button";
+          cancel.dataset.interestWizardCancel = "true";
+          cancel.textContent = "Batal";
+          cancel.className =
+            "inline-flex h-10 min-w-[72px] items-center justify-center rounded-[5px] px-4 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50";
+
+          cancel.addEventListener("click", () => {
             const closeButton = wizard.querySelector<HTMLButtonElement>(
               'button[aria-label="Tutup"]',
             );
@@ -71,7 +77,9 @@ export default function LoanInterestChangeSuccessGate() {
           });
         }
 
-        actionGroup.appendChild(cancelButton);
+        if (cancel.parentElement !== group) {
+          group.appendChild(cancel);
+        }
       });
     };
 
