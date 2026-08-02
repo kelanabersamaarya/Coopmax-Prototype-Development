@@ -11,6 +11,12 @@ function isSimulationStep(footer: HTMLElement) {
   );
 }
 
+function findButton(footer: HTMLElement, label: string) {
+  return Array.from(footer.querySelectorAll<HTMLButtonElement>("button")).find(
+    (button) => button.textContent?.trim().toLowerCase() === label,
+  );
+}
+
 export default function LoanInterestChangeSuccessGate() {
   React.useEffect(() => {
     const syncCancelButton = () => {
@@ -18,39 +24,54 @@ export default function LoanInterestChangeSuccessGate() {
         const footer = wizard.querySelector<HTMLElement>("footer");
         if (!footer) return;
 
-        const existingButton = footer.querySelector<HTMLButtonElement>(
+        const saveButton = findButton(footer, "simpan perubahan");
+        const backButton = findButton(footer, "kembali");
+        const existingCancel = footer.querySelector<HTMLButtonElement>(
           '[data-interest-wizard-cancel="true"]',
         );
+        const existingActionGroup = footer.querySelector<HTMLElement>(
+          '[data-interest-wizard-left-actions="true"]',
+        );
 
-        if (!isSimulationStep(footer)) {
-          existingButton?.remove();
+        if (!isSimulationStep(footer) || !saveButton || !backButton) {
+          existingCancel?.remove();
+          existingActionGroup?.remove();
           return;
         }
 
-        if (existingButton) return;
+        const actionGroup =
+          existingActionGroup ??
+          Object.assign(document.createElement("div"), {
+            className: "flex items-center gap-3",
+            dataset: { interestWizardLeftActions: "true" },
+          });
 
-        const saveButton = Array.from(footer.querySelectorAll("button")).find(
-          (button) =>
-            button.textContent?.trim().toLowerCase() === "simpan perubahan",
-        );
+        if (!existingActionGroup) {
+          footer.insertBefore(actionGroup, saveButton);
+        }
 
-        if (!saveButton) return;
+        actionGroup.appendChild(backButton);
 
-        const cancelButton = document.createElement("button");
-        cancelButton.type = "button";
-        cancelButton.dataset.interestWizardCancel = "true";
-        cancelButton.textContent = "Batal";
-        cancelButton.className =
-          "ml-3 mr-auto inline-flex h-10 min-w-[72px] items-center justify-center rounded-[5px] px-4 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50";
+        const cancelButton =
+          existingCancel ??
+          Object.assign(document.createElement("button"), {
+            type: "button",
+            textContent: "Batal",
+            className:
+              "inline-flex h-10 min-w-[72px] items-center justify-center rounded-[5px] px-4 text-[13px] font-semibold text-[#DC3545] transition hover:bg-rose-50",
+            dataset: { interestWizardCancel: "true" },
+          });
 
-        cancelButton.addEventListener("click", () => {
-          const closeButton = wizard.querySelector<HTMLButtonElement>(
-            'button[aria-label="Tutup"]',
-          );
-          closeButton?.click();
-        });
+        if (!existingCancel) {
+          cancelButton.addEventListener("click", () => {
+            const closeButton = wizard.querySelector<HTMLButtonElement>(
+              'button[aria-label="Tutup"]',
+            );
+            closeButton?.click();
+          });
+        }
 
-        footer.insertBefore(cancelButton, saveButton);
+        actionGroup.appendChild(cancelButton);
       });
     };
 
