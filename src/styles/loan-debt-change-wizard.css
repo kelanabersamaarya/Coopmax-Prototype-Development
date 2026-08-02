@@ -144,6 +144,41 @@
   overflow-wrap: anywhere !important;
 }
 
+/* Tabel simulasi: perkecil kolom nominal hasil penyesuaian dan kewajiban. */
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  th:nth-child(10),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  td:nth-child(10) {
+  width: 110px !important;
+  min-width: 110px !important;
+  max-width: 110px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  th:nth-child(11),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  td:nth-child(11),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  th:nth-child(12),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  td:nth-child(12),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  th:nth-child(13),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2050px\]
+  td:nth-child(13) {
+  width: 135px !important;
+  min-width: 135px !important;
+  max-width: 135px !important;
+}
+
 @media (max-width: 900px) {
   .loan-debt-billing-preview {
     overflow-x: auto;
