@@ -56,5 +56,6 @@ import "./styles/loan-interest-history-button-label.css";
 import "./styles/loan-interest-simulation-labels.css";
 import "./styles/loan-debt-save-change-button.css";
 import "./styles/loan-debt-hide-adjustment-hint.css";
+import "./styles/loan-debt-confirm-modal.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
