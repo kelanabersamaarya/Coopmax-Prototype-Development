@@ -18,6 +18,12 @@
 [data-loan-interest-wizard="true"]
   textarea:focus-visible,
 [data-loan-interest-wizard="true"]
+  button[role="combobox"]:focus,
+[data-loan-interest-wizard="true"]
+  button[role="combobox"]:focus-visible,
+[data-loan-interest-wizard="true"]
+  button[role="combobox"][data-state="open"],
+[data-loan-interest-wizard="true"]
   [data-slot="select-trigger"]:focus,
 [data-loan-interest-wizard="true"]
   [data-slot="select-trigger"]:focus-visible,
@@ -240,12 +246,12 @@
   text-transform: none !important;
 }
 
-/* Tombol Lanjutkan pada step pertama. */
+/* Tombol Lanjutkan pada langkah pertama dibuat lebih ringkas. */
 [data-loan-interest-wizard="true"] footer > button.bg-\[\#5B3DF5\] {
-  min-width: 120px !important;
+  min-width: 102px !important;
   height: 40px !important;
-  gap: 8px !important;
-  padding: 0 18px !important;
+  gap: 6px !important;
+  padding: 0 13px !important;
   font-size: 12px !important;
 }
 
