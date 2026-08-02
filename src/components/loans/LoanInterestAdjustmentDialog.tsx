@@ -183,7 +183,7 @@ export default function LoanInterestAdjustmentDialog({
       return false;
     }
 
-    if (isAdditionalInterest && !interestPeriod.trim()) {
+    if (!interestPeriod.trim()) {
       toast("Periode bunga wajib diisi");
       return false;
     }
@@ -218,7 +218,7 @@ export default function LoanInterestAdjustmentDialog({
   const inputClassName = cn(
     "h-[32px] rounded-[5px] border-[#CBD5E1] bg-white px-3",
     "text-[14px] font-normal text-slate-900 shadow-none",
-    "placeholder:text-[#64748B] focus-visible:ring-0 focus-visible:ring-offset-0",
+    "placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
   return (
@@ -346,32 +346,33 @@ export default function LoanInterestAdjustmentDialog({
                   ) : null}
 
                   {isAdditionalInterest ? (
-                    <>
-                      <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                        <label className="text-[14px] font-normal text-[#002060]">
-                          Tanggal Efektif<span className="text-rose-600"> *</span>
-                        </label>
-                        <DatePickerDmyField
-                          value={effectiveDate}
-                          onChange={setEffectiveDate}
-                          inputClassName={inputClassName}
-                          placeholder="DD-MM-YYYY"
-                        />
-                      </div>
-
-                      <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                        <label className="text-[14px] font-normal text-[#002060]">
-                          Periode Bunga<span className="text-rose-600"> *</span>
-                        </label>
-                        <Input
-                          value={interestPeriod}
-                          onChange={(event) => setInterestPeriod(event.target.value)}
-                          placeholder="Masukkan periode bunga"
-                          className={inputClassName}
-                        />
-                      </div>
-                    </>
+                    <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                      <label className="text-[14px] font-normal text-[#002060]">
+                        Tanggal Efektif<span className="text-rose-600"> *</span>
+                      </label>
+                      <DatePickerDmyField
+                        value={effectiveDate}
+                        onChange={setEffectiveDate}
+                        inputClassName={inputClassName}
+                        placeholder="DD-MM-YYYY"
+                      />
+                    </div>
                   ) : null}
+
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Periode Bunga<span className="text-rose-600"> *</span>
+                    </label>
+                    <Input
+                      value={interestPeriod}
+                      onChange={(event) => setInterestPeriod(event.target.value)}
+                      placeholder="Masukkan periode bunga"
+                      className={cn(
+                        inputClassName,
+                        !interestPeriod.trim() ? "text-slate-400" : "text-slate-900",
+                      )}
+                    />
+                  </div>
 
                   <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start">
                     <label className="pt-2 text-[14px] font-normal text-[#002060]">
@@ -388,7 +389,11 @@ export default function LoanInterestAdjustmentDialog({
                           ? "Masukkan alasan penambahan bunga"
                           : "Masukkan alasan penyesuaian bunga"
                       }
-                      className="min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none focus-visible:ring-0"
+                      className={cn(
+                        "min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none",
+                        "placeholder:text-slate-400 focus-visible:ring-0",
+                        !reason.trim() ? "text-slate-400" : "text-slate-900",
+                      )}
                     />
                   </div>
                 </>
