@@ -288,6 +288,8 @@ export default function LoanDebtChangeWizard({
     { label: "Denda dan Biaya Lainnya", value: otherDebt },
   ];
 
+  const isSimulationStep = step === 2;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -411,7 +413,7 @@ export default function LoanDebtChangeWizard({
           ) : null}
         </main>
 
-        <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+        <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
           <button
             type="button"
             onClick={() =>
@@ -432,14 +434,29 @@ export default function LoanDebtChangeWizard({
             )}
           </button>
 
+          {isSimulationStep ? (
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-10 min-w-[90px] items-center justify-center rounded-[5px] bg-transparent px-5 text-[12px] font-semibold text-[#DC3545] transition hover:text-[#B71C2B]"
+            >
+              Batal
+            </button>
+          ) : null}
+
           <button
             type="button"
             onClick={nextStep}
-            className="inline-flex h-10 min-w-[145px] items-center justify-center gap-2 rounded-[5px] bg-[#2563EB] px-5 text-[12px] font-semibold text-white transition hover:bg-[#1D4ED8]"
+            className={cn(
+              "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
+              isSimulationStep
+                ? "min-w-[210px] gap-[14px] bg-[#2fb300] hover:bg-[#279800]"
+                : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
+            )}
           >
-            {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-            {step === 3 ? (
-              <Check className="h-4 w-4" strokeWidth={3} />
+            {isSimulationStep ? "Simpan Perubahan" : "Lanjutkan"}
+            {isSimulationStep ? (
+              <Check className="h-5 w-5" strokeWidth={3.5} />
             ) : (
               <ChevronRight className="h-4 w-4" strokeWidth={3} />
             )}
