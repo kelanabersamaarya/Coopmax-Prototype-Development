@@ -135,9 +135,11 @@ export default function FormattedNominalInput({
         "text-left text-[14px] font-medium shadow-none",
         "placeholder:text-[#64748B]",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-        mutedWhenDefault && isDefaultValue ? "text-slate-400" : "text-slate-900",
         disabled ? "pointer-events-none opacity-60" : "",
         className,
+        mutedWhenDefault && isDefaultValue
+          ? "!text-slate-400"
+          : "!text-slate-900",
       )}
     />
   );
