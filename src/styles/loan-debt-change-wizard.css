@@ -202,7 +202,7 @@
   max-width: 110px !important;
 }
 
-/* Tabel simulasi: perkecil kolom kewajiban dan tunggakan setelah penyesuaian. */
+/* Tabel simulasi: perkecil kolom tagihan dan total setelah penyesuaian. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   th:nth-child(11),
@@ -224,6 +224,63 @@
   width: 135px !important;
   min-width: 135px !important;
   max-width: 135px !important;
+}
+
+/* Penyesuaian label tiga kolom akhir pada tabel simulasi langkah kedua. */
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(11),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(12),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(13) {
+  font-size: 0 !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(11)::after,
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(12)::after,
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(13)::after {
+  color: #000000 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+  white-space: pre !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(11)::after {
+  content: "Tagihan Bunga\A Setelah Penyesuaian";
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(12)::after {
+  content: "Total Tagihan\A Sebelum Penyesuaian";
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  thead
+  th:nth-child(13)::after {
+  content: "Total Tagihan\A Setelah Penyesuaian";
 }
 
 /* Penanda muncul pada angsuran yang dipilih dari tanggal efektif perubahan. */
