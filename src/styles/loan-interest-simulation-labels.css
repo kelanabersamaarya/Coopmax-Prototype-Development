@@ -1,0 +1,41 @@
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(11),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(12) {
+  font-size: 0 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(11)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(12)::after {
+  color: #000000;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(11)::after {
+  content: "Total Tagihan\A Sebelum Penyesuaian";
+  white-space: pre;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(12)::after {
+  content: "Total Tagihan\A Sesudah Penyesuaian";
+  white-space: pre;
+}
