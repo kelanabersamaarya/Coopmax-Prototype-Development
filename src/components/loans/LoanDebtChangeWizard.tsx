@@ -135,7 +135,11 @@ function UnifiedBillingSimulationTable({
               <th className="w-[85px] px-3 py-3">Jatuh Tempo</th>
               <th className="w-[115px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
               <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Bunga</th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
               <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
               <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
               <th className="w-[120px] px-3 py-3 text-right">Tagihan<br />Denda</th>
@@ -219,7 +223,7 @@ function UnifiedBillingSimulationTable({
               page <= 1 ? "cursor-not-allowed opacity-60" : "",
             )}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4 />
             Sebelumnya
           </button>
 
