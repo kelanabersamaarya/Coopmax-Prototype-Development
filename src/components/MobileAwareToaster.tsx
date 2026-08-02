@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentInputFix";
 import LoanInterestChangeSuccessGate from "@/components/loans/LoanInterestChangeSuccessGate";
+import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizardCancelButton";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 
 export default function MobileAwareToaster() {
@@ -36,6 +37,7 @@ export default function MobileAwareToaster() {
     <>
       <LoanInterestPercentInputFix />
       <LoanInterestChangeSuccessGate />
+      <LoanInterestWizardCancelButton />
       <LoanProductTermsSection />
       {shouldHideToaster ? null : (
         <Sonner

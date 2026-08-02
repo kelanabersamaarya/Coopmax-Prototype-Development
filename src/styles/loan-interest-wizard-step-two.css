@@ -16,6 +16,36 @@
   font-size: 12px !important;
 }
 
+/* Tombol Batal khusus pada langkah kedua. */
+[data-loan-interest-wizard="true"] footer {
+  gap: 10px !important;
+}
+
+[data-loan-interest-wizard="true"] .loan-interest-wizard-step-two-cancel {
+  order: 1;
+  margin-left: auto;
+  height: 40px;
+  min-width: 90px;
+  background: transparent !important;
+  color: #dc3545 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  transition: color 150ms ease;
+}
+
+[data-loan-interest-wizard="true"] .loan-interest-wizard-step-two-cancel:hover {
+  background: transparent !important;
+  color: #b71c2b !important;
+}
+
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#77839A\] {
+  order: 0;
+}
+
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] {
+  order: 2;
+}
+
 /* Ikon tombol lihat riwayat pada ubah suku bunga disamakan dengan ikon jam. */
 [data-loan-interest-wizard="true"]
   button:has(> svg.lucide-eye):has(> .h-4) {
@@ -240,6 +270,7 @@
     padding-right: 1rem !important;
   }
 
+  [data-loan-interest-wizard="true"] .loan-interest-wizard-step-two-cancel,
   [data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] {
     min-width: 0 !important;
   }
