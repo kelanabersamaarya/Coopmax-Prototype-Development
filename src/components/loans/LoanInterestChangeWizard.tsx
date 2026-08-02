@@ -91,7 +91,7 @@ function ConfirmDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={(value) => (!value ? onCancel() : null)}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden [&_[data-radix-dialog-close]]:hidden">
         <div className="px-8 pb-5 pt-10 text-center">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
             <span className="text-[54px] font-light leading-none text-[#f2b98f]">
@@ -373,7 +373,7 @@ export default function LoanInterestChangeWizard({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           data-loan-interest-wizard="true"
-          className="w-[calc(100vw-2rem)] max-w-[1000px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1000px] [&>button[aria-label=Close]]:hidden"
+          className="w-[calc(100vw-2rem)] max-w-[1000px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1000px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden [&_[data-radix-dialog-close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <h2 className="text-lg font-extrabold tracking-tight text-slate-900">
