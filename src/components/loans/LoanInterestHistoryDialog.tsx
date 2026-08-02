@@ -112,7 +112,7 @@ export default function LoanInterestHistoryDialog({
                       <td className="px-4 py-3 tabular-nums">
                         {row.previousRate}
                       </td>
-                      <td className="px-4 py-3 font-semibold tabular-nums text-[#5B3DF5]">
+                      <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">
                         {row.newRate}
                       </td>
                       <td className="px-4 py-3 tabular-nums">
