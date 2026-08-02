@@ -1,27 +1,16 @@
-[data-radix-dialog-content]:has(span.text-\[58px\]) {
+[data-loan-debt-confirm-dialog="true"] {
   width: min(580px, calc(100vw - 1.5rem)) !important;
   max-width: 580px !important;
+  height: 365px !important;
   min-height: 365px !important;
   border-radius: 5px !important;
 }
 
-[data-radix-dialog-content]:has(span.text-\[58px\]) > div {
-  display: flex !important;
+[data-loan-debt-confirm-dialog="true"] > div {
   min-height: 365px !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 42px 40px 22px !important;
 }
 
-[data-radix-dialog-content]:has(span.text-\[58px\]) span.text-\[58px\] {
-  font-size: 58px !important;
-  color: #f2b98f !important;
-}
-
-[data-radix-dialog-content]:has(span.text-\[58px\]) h2 {
-  max-width: 480px !important;
-  margin-top: 30px !important;
+[data-loan-debt-confirm-dialog="true"] h2 {
   color: #3b4863 !important;
   font-size: 30px !important;
   font-weight: 800 !important;
@@ -29,42 +18,6 @@
   letter-spacing: -0.03em !important;
 }
 
-[data-radix-dialog-content]:has(span.text-\[58px\]) h2 {
-  font-size: 0 !important;
-}
-
-[data-radix-dialog-content]:has(span.text-\[58px\]) h2::after {
-  content: "Yakin untuk melakukan penyesuaian bunga?" !important;
-  font-size: 30px !important;
-  font-weight: 800 !important;
-  line-height: 1.2 !important;
-}
-
-[data-radix-dialog-content]:has(span.text-\[58px\]) > div > div:last-child {
-  margin-top: 34px !important;
-  gap: 9px !important;
-}
-
-[data-radix-dialog-content]:has(span.text-\[58px\]) > div > div:last-child > button {
-  height: 53px !important;
-  border-radius: 5px !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
+[data-loan-debt-confirm-dialog="true"] button {
   box-shadow: none !important;
-}
-
-[data-radix-dialog-content]:has(span.text-\[58px\])
-  > div
-  > div:last-child
-  > button:first-child {
-  width: 114px !important;
-  background-color: #3380e8 !important;
-}
-
-[data-radix-dialog-content]:has(span.text-\[58px\])
-  > div
-  > div:last-child
-  > button:last-child {
-  width: 138px !important;
-  background-color: #a6a6a6 !important;
 }
