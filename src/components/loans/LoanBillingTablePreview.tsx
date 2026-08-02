@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Pencil,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BillingRow } from "@/components/anggota/BillingTableView2";
 import LoanInterestAdjustmentDialog, {
@@ -42,6 +38,9 @@ const seedRows: BillingRow[] = [
 
 const penaltyAmount = "75.000";
 
+type AdjustmentMap = Record<string, InterestAdjustment>;
+const wizardAdjustmentsByAccount: Record<string, AdjustmentMap> = {};
+
 export type SavedBillingInterestAdjustment = {
   dueDate: string;
   installmentNo: number;
@@ -68,6 +67,10 @@ function NumericCell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function getInitialAdjustments(accountNo: string): AdjustmentMap {
+  return wizardAdjustmentsByAccount[accountNo] ?? {};
+}
+
 export default function LoanBillingTablePreview({
   className,
   accountNo = "SMG260004",
@@ -83,9 +86,12 @@ export default function LoanBillingTablePreview({
   const [adjustmentDueDate, setAdjustmentDueDate] = React.useState<string | null>(
     null,
   );
-  const [interestAdjustments, setInterestAdjustments] = React.useState<
-    Record<string, InterestAdjustment>
-  >({});
+  const [interestAdjustments, setInterestAdjustments] =
+    React.useState<AdjustmentMap>(() => getInitialAdjustments(accountNo));
+
+  React.useEffect(() => {
+    setInterestAdjustments(getInitialAdjustments(accountNo));
+  }, [accountNo]);
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
   const pagedRows = React.useMemo(() => {
@@ -152,10 +158,13 @@ export default function LoanBillingTablePreview({
     const installmentNo =
       rows.findIndex((row) => row.jatuhTempo === adjustmentDueDate) + 1;
 
-    setInterestAdjustments((current) => ({
-      ...current,
+    const nextAdjustments = {
+      ...interestAdjustments,
       [adjustmentDueDate]: adjustment,
-    }));
+    };
+
+    wizardAdjustmentsByAccount[accountNo] = nextAdjustments;
+    setInterestAdjustments(nextAdjustments);
 
     if (installmentNo > 0) {
       onInterestAdjustmentSaved?.({
