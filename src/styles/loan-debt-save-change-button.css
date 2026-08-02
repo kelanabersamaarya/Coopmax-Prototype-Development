@@ -1,4 +1,4 @@
-[data-loan-debt-wizard="true"] footer > button:last-child {
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child {
   min-width: 172px !important;
   height: 40px !important;
   gap: 9px !important;
@@ -11,19 +11,19 @@
   box-shadow: none !important;
 }
 
-[data-loan-debt-wizard="true"] footer > button:last-child:hover:not(:disabled) {
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child:hover:not(:disabled) {
   background-color: #279800 !important;
 }
 
-[data-loan-debt-wizard="true"] footer > button:last-child:disabled {
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child:disabled {
   background-color: #94a3b8 !important;
 }
 
-[data-loan-debt-wizard="true"] footer > button:last-child svg {
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child svg {
   display: none !important;
 }
 
-[data-loan-debt-wizard="true"] footer > button:last-child::before {
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child::before {
   content: "";
   display: inline-block;
   height: 20px;
@@ -35,7 +35,7 @@
   background-size: contain;
 }
 
-[data-loan-debt-wizard="true"] footer > button:last-child::after {
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child::after {
   content: "Simpan Perubahan";
   color: #ffffff;
   font-size: 12px;
@@ -45,7 +45,7 @@
 }
 
 @media (max-width: 639px) {
-  [data-loan-debt-wizard="true"] footer > button:last-child {
+  [data-loan-debt-wizard="true"][data-loan-debt-step="2"] footer > button:last-child {
     min-width: 0 !important;
   }
 }
