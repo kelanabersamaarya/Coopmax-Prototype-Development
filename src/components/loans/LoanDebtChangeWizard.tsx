@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import LoanBillingTablePreview, {
   type SavedBillingInterestAdjustment,
 } from "@/components/loans/LoanBillingTablePreview";
+import LoanDebtAdjustmentHistoryDialog from "@/components/loans/LoanDebtAdjustmentHistoryDialog";
 
 const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
@@ -274,6 +275,7 @@ export default function LoanDebtChangeWizard({
   accountNo: string;
 }) {
   const [step, setStep] = React.useState(1);
+  const [historyOpen, setHistoryOpen] = React.useState(false);
   const [savedAdjustment, setSavedAdjustment] =
     React.useState<SavedBillingInterestAdjustment | null>(null);
 
@@ -281,6 +283,7 @@ export default function LoanDebtChangeWizard({
     if (!open) return;
 
     setStep(1);
+    setHistoryOpen(false);
     setSavedAdjustment(null);
   }, [open]);
 
@@ -312,204 +315,208 @@ export default function LoanDebtChangeWizard({
   const isSimulationStep = step === 2;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        data-loan-debt-wizard="true"
-        data-loan-debt-step={step}
-        className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
-      >
-        <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
-          <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
-            Ubah Nominal Bunga Pinjaman
-          </h2>
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
-            aria-label="Tutup"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </header>
+    <>
+      <LoanDebtAdjustmentHistoryDialog
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+        accountNo={accountNo}
+      />
 
-        <StepIndicator step={step} />
-        <Separator className="bg-slate-200" />
-
-        <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
-          {step === 1 ? (
-            <div className="grid gap-6">
-              <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="text-[14px] font-extrabold tracking-wide">
-                    INFORMASI REKENING PINJAMAN
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      toast("Riwayat Perubahan Hutang (prototype)", {
-                        description: `Rekening: ${accountNo}`,
-                      })
-                    }
-                    className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
-                  >
-                    <Clock3 className="h-4 w-4" />
-                    Lihat Riwayat Perubahan
-                  </button>
-                </div>
-
-                <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-                  {accountDetails.map((field) => (
-                    <AccountField
-                      key={field[0]}
-                      label={field[0]}
-                      value={field[0] === "No. Rek. Pinjaman" ? accountNo : field[1]}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <LoanBillingTablePreview
-                accountNo={accountNo}
-                onInterestAdjustmentSaved={setSavedAdjustment}
-              />
-
-              {savedAdjustment ? (
-                <div className="rounded-[8px] bg-emerald-50 px-4 py-3 text-[13px] font-semibold text-emerald-800 ring-1 ring-emerald-200">
-                  Penyesuaian bunga pada angsuran ke-{savedAdjustment.installmentNo} (
-                  {savedAdjustment.dueDate}) sudah disimpan.
-                </div>
-              ) : (
-                <div className="rounded-[8px] bg-amber-50 px-4 py-3 text-[13px] font-semibold text-amber-800 ring-1 ring-amber-200">
-                  Simpan satu penyesuaian pada kolom Tagihan Bunga untuk
-                  melanjutkan ke simulasi.
-                </div>
-              )}
-            </div>
-          ) : null}
-
-          {step === 2 && savedAdjustment ? (
-            <UnifiedBillingSimulationTable adjustedBill={savedAdjustment} />
-          ) : null}
-
-          {step === 3 && savedAdjustment ? (
-            <div className="grid gap-5">
-              <div>
-                <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-                  Simpan Perubahan Hutang
-                </h3>
-                <p className="mt-2 text-[13px] text-slate-600">
-                  Periksa kembali penyesuaian bunga sebelum menyimpan.
-                </p>
-              </div>
-
-              <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <div className="text-[12px] font-semibold text-slate-500">
-                      Rekening Pinjaman
-                    </div>
-                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                      {accountNo}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[12px] font-semibold text-slate-500">
-                      Tagihan Disesuaikan
-                    </div>
-                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                      Angsuran ke-{savedAdjustment.installmentNo}
-                    </div>
-                  </div>
-                </div>
-
-                <Separator className="my-5 bg-slate-200" />
-
-                <div className="grid gap-4 text-[14px]">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Jatuh Tempo</span>
-                    <span className="font-extrabold text-[#2563EB]">
-                      {savedAdjustment.dueDate}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Jenis Penyesuaian</span>
-                    <span className="font-extrabold text-[#2563EB]">
-                      {savedAdjustment.adjustment.type}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Nominal Penyesuaian</span>
-                    <span className="font-extrabold text-[#2563EB]">
-                      {savedAdjustment.adjustment.amount || "0,00"}
-                    </span>
-                  </div>
-                  <div className="border-t border-slate-200 pt-4 text-slate-600">
-                    Alasan:{" "}
-                    <span className="font-semibold text-slate-900">
-                      {savedAdjustment.adjustment.reason}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
-        </main>
-
-        <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
-          <button
-            type="button"
-            onClick={() =>
-              step === 1 ? onOpenChange(false) : setStep((current) => current - 1)
-            }
-            className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
-          >
-            {step === 1 ? (
-              <>
-                <X className="h-4 w-4" strokeWidth={3} />
-                Batal
-              </>
-            ) : (
-              <>
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                Kembali
-              </>
-            )}
-          </button>
-
-          {isSimulationStep ? (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          data-loan-debt-wizard="true"
+          data-loan-debt-step={step}
+          className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+        >
+          <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+            <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
+              Ubah Nominal Bunga Pinjaman
+            </h2>
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-10 min-w-[90px] items-center justify-center rounded-[5px] bg-transparent px-5 text-[12px] font-semibold text-[#DC3545] transition hover:text-[#B71C2B]"
+              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+              aria-label="Tutup"
             >
-              Batal
+              <X className="h-5 w-5" />
             </button>
-          ) : null}
+          </header>
 
-          <button
-            type="button"
-            disabled={step === 1 && !savedAdjustment}
-            onClick={nextStep}
-            className={cn(
-              "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-              step === 3
-                ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
-                : step === 2
-                  ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
-                  : savedAdjustment
+          <StepIndicator step={step} />
+          <Separator className="bg-slate-200" />
+
+          <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
+            {step === 1 ? (
+              <div className="grid gap-6">
+                <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="text-[14px] font-extrabold tracking-wide">
+                      INFORMASI REKENING PINJAMAN
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setHistoryOpen(true)}
+                      className="inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294]"
+                    >
+                      <Clock3 className="h-4 w-4" />
+                      Lihat Riwayat Perubahan
+                    </button>
+                  </div>
+
+                  <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {accountDetails.map((field) => (
+                      <AccountField
+                        key={field[0]}
+                        label={field[0]}
+                        value={field[0] === "No. Rek. Pinjaman" ? accountNo : field[1]}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <LoanBillingTablePreview
+                  accountNo={accountNo}
+                  onInterestAdjustmentSaved={setSavedAdjustment}
+                />
+
+                {savedAdjustment ? (
+                  <div className="rounded-[8px] bg-emerald-50 px-4 py-3 text-[13px] font-semibold text-emerald-800 ring-1 ring-emerald-200">
+                    Penyesuaian bunga pada angsuran ke-{savedAdjustment.installmentNo} (
+                    {savedAdjustment.dueDate}) sudah disimpan.
+                  </div>
+                ) : (
+                  <div className="rounded-[8px] bg-amber-50 px-4 py-3 text-[13px] font-semibold text-amber-800 ring-1 ring-amber-200">
+                    Simpan satu penyesuaian pada kolom Tagihan Bunga untuk
+                    melanjutkan ke simulasi.
+                  </div>
+                )}
+              </div>
+            ) : null}
+
+            {step === 2 && savedAdjustment ? (
+              <UnifiedBillingSimulationTable adjustedBill={savedAdjustment} />
+            ) : null}
+
+            {step === 3 && savedAdjustment ? (
+              <div className="grid gap-5">
+                <div>
+                  <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
+                    Simpan Perubahan Hutang
+                  </h3>
+                  <p className="mt-2 text-[13px] text-slate-600">
+                    Periksa kembali penyesuaian bunga sebelum menyimpan.
+                  </p>
+                </div>
+
+                <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <div className="text-[12px] font-semibold text-slate-500">
+                        Rekening Pinjaman
+                      </div>
+                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                        {accountNo}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[12px] font-semibold text-slate-500">
+                        Tagihan Disesuaikan
+                      </div>
+                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                        Angsuran ke-{savedAdjustment.installmentNo}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator className="my-5 bg-slate-200" />
+
+                  <div className="grid gap-4 text-[14px]">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Jatuh Tempo</span>
+                      <span className="font-extrabold text-[#2563EB]">
+                        {savedAdjustment.dueDate}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Jenis Penyesuaian</span>
+                      <span className="font-extrabold text-[#2563EB]">
+                        {savedAdjustment.adjustment.type}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Nominal Penyesuaian</span>
+                      <span className="font-extrabold text-[#2563EB]">
+                        {savedAdjustment.adjustment.amount || "0,00"}
+                      </span>
+                    </div>
+                    <div className="border-t border-slate-200 pt-4 text-slate-600">
+                      Alasan:{" "}
+                      <span className="font-semibold text-slate-900">
+                        {savedAdjustment.adjustment.reason}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </main>
+
+          <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
+            <button
+              type="button"
+              onClick={() =>
+                step === 1 ? onOpenChange(false) : setStep((current) => current - 1)
+              }
+              className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
+            >
+              {step === 1 ? (
+                <>
+                  <X className="h-4 w-4" strokeWidth={3} />
+                  Batal
+                </>
+              ) : (
+                <>
+                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+                  Kembali
+                </>
+              )}
+            </button>
+
+            {isSimulationStep ? (
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-10 min-w-[90px] items-center justify-center rounded-[5px] bg-transparent px-5 text-[12px] font-semibold text-[#DC3545] transition hover:text-[#B71C2B]"
+              >
+                Batal
+              </button>
+            ) : null}
+
+            <button
+              type="button"
+              disabled={step === 1 && !savedAdjustment}
+              onClick={nextStep}
+              className={cn(
+                "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
+                step === 3
+                  ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
+                  : step === 2
                     ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
-                    : "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500",
-            )}
-          >
-            {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-            {step === 3 ? (
-              <Check className="h-5 w-5" strokeWidth={3.5} />
-            ) : (
-              <ChevronRight className="h-4 w-4" strokeWidth={3} />
-            )}
-          </button>
-        </footer>
-      </DialogContent>
-    </Dialog>
+                    : savedAdjustment
+                      ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
+                      : "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500",
+              )}
+            >
+              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 3 ? (
+                <Check className="h-5 w-5" strokeWidth={3.5} />
+              ) : (
+                <ChevronRight className="h-4 w-4" strokeWidth={3} />
+              )}
+            </button>
+          </footer>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
