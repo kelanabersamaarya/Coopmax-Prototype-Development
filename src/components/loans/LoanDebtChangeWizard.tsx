@@ -47,9 +47,9 @@ function formatIdr(value: number) {
 
 function AccountField({ label, value }: DebtField) {
   return (
-    <div className="min-w-0">
+    <div>
       <div className="text-[11px] font-semibold text-white/85">{label}</div>
-      <div className="mt-1 break-words text-[14px] font-extrabold leading-snug text-white">
+      <div className="mt-1 text-[14px] font-extrabold leading-snug text-white">
         {value}
       </div>
     </div>
@@ -93,7 +93,7 @@ function StepIndicator({ step }: { step: number }) {
                 className={cn(
                   "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
                   number <= step
-                    ? "bg-[#5B3DF5] text-white"
+                    ? "bg-[#2563EB] text-white"
                     : "bg-slate-100 text-slate-500",
                 )}
               >
@@ -107,7 +107,7 @@ function StepIndicator({ step }: { step: number }) {
               <div
                 className={cn(
                   "mb-5 h-[2px] min-w-10 flex-1",
-                  number < step ? "bg-[#5B3DF5]" : "bg-slate-200",
+                  number < step ? "bg-[#2563EB]" : "bg-slate-200",
                 )}
               />
             ) : null}
@@ -257,13 +257,13 @@ function DebtSimulationBillingTable({
               <td className="px-3 py-3 text-right tabular-nums">
                 {formatIdr(adjustmentAmount)}
               </td>
-              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
+              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
                 {formatIdr(nextInterestDebt)}
               </td>
               <td className="px-3 py-3 text-right tabular-nums">
                 {formatIdr(previousTotalObligation)}
               </td>
-              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#5B3DF5]">
+              <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
                 {formatIdr(nextTotalObligation)}
               </td>
             </tr>
@@ -329,7 +329,7 @@ export default function LoanDebtChangeWizard({
       >
         <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
           <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
-            Ubah Hutang Pinjaman
+            Ubah Hutang Bunga
           </h2>
           <button
             type="button"
@@ -463,7 +463,7 @@ export default function LoanDebtChangeWizard({
                       className="flex items-center justify-between gap-4 text-[14px]"
                     >
                       <span className="text-slate-600">{row.label}</span>
-                      <span className="font-extrabold tabular-nums text-[#5B3DF5]">
+                      <span className="font-extrabold tabular-nums text-[#2563EB]">
                         {row.value || "0,00"}
                       </span>
                     </div>
@@ -498,12 +498,7 @@ export default function LoanDebtChangeWizard({
           <button
             type="button"
             onClick={nextStep}
-            className={cn(
-              "inline-flex h-10 min-w-[145px] items-center justify-center gap-2 rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-              step === 3
-                ? "bg-[#2fb300] hover:bg-[#279800]"
-                : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
-            )}
+            className="inline-flex h-10 min-w-[145px] items-center justify-center gap-2 rounded-[5px] bg-[#2563EB] px-5 text-[12px] font-semibold text-white transition hover:bg-[#1D4ED8]"
           >
             {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
             {step === 3 ? (
