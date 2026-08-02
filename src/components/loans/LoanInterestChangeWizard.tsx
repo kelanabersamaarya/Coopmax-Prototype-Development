@@ -550,27 +550,22 @@ export default function LoanInterestChangeWizard({
           </main>
 
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white hover:bg-[#6b768c]"
-              >
+            <button
+              type="button"
+              onClick={() =>
+                step === 1
+                  ? onOpenChange(false)
+                  : setStep(1)
+              }
+              className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white hover:bg-[#6b768c]"
+            >
+              {step === 1 ? (
                 <X className="h-4 w-4" strokeWidth={3} />
-                Batal
-              </button>
-
-              {step === 2 ? (
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-slate-100 px-5 text-[13px] font-semibold text-slate-700 hover:bg-slate-200"
-                >
-                  <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-                  Kembali
-                </button>
-              ) : null}
-            </div>
+              ) : (
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+              )}
+              {step === 1 ? "Batal" : "Kembali"}
+            </button>
 
             <button
               type="button"
