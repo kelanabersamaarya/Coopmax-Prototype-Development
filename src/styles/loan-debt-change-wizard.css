@@ -64,6 +64,14 @@
   max-width: 800px !important;
 }
 
+/* Sembunyikan tabel Simulasi Penyesuaian Bunga pada modal ini. */
+[data-radix-dialog-content]:has(h2:first-child)
+  div.overflow-hidden.rounded-\[12px\].border:has(
+    table.min-w-\[1900px\]
+  ) {
+  display: none !important;
+}
+
 @media (max-width: 900px) {
   .loan-debt-billing-preview {
     overflow-x: auto;
