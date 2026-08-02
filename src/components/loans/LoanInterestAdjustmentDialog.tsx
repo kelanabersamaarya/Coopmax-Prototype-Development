@@ -239,8 +239,35 @@ export default function LoanInterestAdjustmentDialog({
 
       <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
         <DialogContent
+          data-interest-adjustment-dialog="true"
           className="w-[calc(100vw-1rem)] max-w-[800px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl sm:w-[800px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden [&_[data-radix-dialog-close]]:hidden"
         >
+          <style>
+            {`
+              [data-interest-adjustment-dialog="true"] input:focus,
+              [data-interest-adjustment-dialog="true"] input:focus-visible,
+              [data-interest-adjustment-dialog="true"] textarea:focus,
+              [data-interest-adjustment-dialog="true"] textarea:focus-visible,
+              [data-interest-adjustment-dialog="true"] button[role="combobox"]:focus,
+              [data-interest-adjustment-dialog="true"] button[role="combobox"]:focus-visible,
+              [data-interest-adjustment-dialog="true"] button[role="combobox"][data-state="open"],
+              [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"]:focus,
+              [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"]:focus-visible,
+              [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"][data-state="open"],
+              [data-interest-adjustment-dialog="true"] [data-slot="popover-trigger"]:focus,
+              [data-interest-adjustment-dialog="true"] [data-slot="popover-trigger"]:focus-visible,
+              [data-interest-adjustment-dialog="true"] [data-slot="popover-trigger"][data-state="open"] {
+                border-color: #cbd5e1 !important;
+                outline: 0 !important;
+                box-shadow: none !important;
+                --tw-ring-color: transparent !important;
+                --tw-ring-shadow: 0 0 #0000 !important;
+                --tw-ring-offset-shadow: 0 0 #0000 !important;
+                --tw-ring-offset-width: 0px !important;
+              }
+            `}
+          </style>
+
           <header className="flex items-center justify-between border-b border-[#CBD5E1] px-6 py-4">
             <h2 className="text-[18px] font-extrabold tracking-tight text-[#1F2A3D]">
               Penyesuaian Bunga
