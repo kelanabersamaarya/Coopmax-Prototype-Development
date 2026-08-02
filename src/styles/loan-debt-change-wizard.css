@@ -72,6 +72,22 @@
   display: none !important;
 }
 
+/* Matikan perubahan border, outline, dan focus ring pada field modal Penyesuaian Bunga. */
+[data-radix-dialog-content]:has(h2:first-child)
+  :is(input, textarea, [data-slot="select-trigger"], [role="combobox"]):focus,
+[data-radix-dialog-content]:has(h2:first-child)
+  :is(input, textarea, [data-slot="select-trigger"], [role="combobox"]):focus-visible,
+[data-radix-dialog-content]:has(h2:first-child)
+  :is([data-slot="select-trigger"], [role="combobox"])[data-state="open"] {
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
+}
+
 @media (max-width: 900px) {
   .loan-debt-billing-preview {
     overflow-x: auto;
