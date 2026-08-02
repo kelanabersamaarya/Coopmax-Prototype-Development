@@ -5,7 +5,10 @@ import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanBillingTablePreview from "@/components/loans/LoanBillingTablePreview";
 
 const accountDetails = [
@@ -33,6 +36,8 @@ const billingRows = [
   ["25-10-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
 ] as const;
 
+const PREVIOUS_INTEREST_DEBT = 125_000;
+
 function parseIdr(value: string) {
   const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
   const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
@@ -41,6 +46,26 @@ function parseIdr(value: string) {
 
 function formatIdr(value: number) {
   return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
+}
+
+function parseDmy(value: string) {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
+  if (!match) return null;
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
 }
 
 function AccountField({ label, value }: { label: string; value: string }) {
@@ -98,10 +123,12 @@ function UnifiedBillingSimulationTable({
   principalDebt,
   interestDebt,
   otherDebt,
+  changeStartInstallment,
 }: {
   principalDebt: string;
   interestDebt: string;
   otherDebt: string;
+  changeStartInstallment: number;
 }) {
   const [page, setPage] = React.useState(1);
   const pageSize = 10;
@@ -109,15 +136,14 @@ function UnifiedBillingSimulationTable({
   const start = (page - 1) * pageSize;
   const pagedRows = billingRows.slice(start, start + pageSize);
 
-  const previousInterestDebt = 125_000;
   const nextPrincipalDebt = parseIdr(principalDebt);
   const nextInterestDebt = parseIdr(interestDebt);
   const nextOtherDebt = parseIdr(otherDebt);
-  const adjustmentAmount = Math.abs(nextInterestDebt - previousInterestDebt);
+  const adjustmentAmount = Math.abs(nextInterestDebt - PREVIOUS_INTEREST_DEBT);
   const adjustmentType =
-    nextInterestDebt > previousInterestDebt
+    nextInterestDebt > PREVIOUS_INTEREST_DEBT
       ? "Penambahan Hutang Bunga"
-      : nextInterestDebt < previousInterestDebt
+      : nextInterestDebt < PREVIOUS_INTEREST_DEBT
         ? "Pengurangan Hutang Bunga"
         : "Tidak Ada Perubahan";
 
@@ -133,18 +159,62 @@ function UnifiedBillingSimulationTable({
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[85px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[85px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[115px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Bunga</th>
-              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
-              <th className="w-[120px] px-3 py-3 text-right">Tagihan<br />Denda</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tunggakan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[115px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[120px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
               <th className="w-[95px] px-3 py-3">Jenis Penyesuaian</th>
-              <th className="w-[110px] px-3 py-3 text-right">Nominal<br />Penyesuaian</th>
-              <th className="w-[135px] px-3 py-3 text-right">Tunggakan Bunga<br />Setelah Penyesuaian</th>
-              <th className="w-[135px] px-3 py-3 text-right">Total Kewajiban<br />Sebelum Penyesuaian</th>
-              <th className="w-[135px] px-3 py-3 text-right">Total Kewajiban<br />Setelah Penyesuaian</th>
+              <th className="w-[110px] px-3 py-3 text-right">
+                Nominal
+                <br />
+                Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Tunggakan Bunga
+                <br />
+                Setelah Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Total Kewajiban
+                <br />
+                Setelah Penyesuaian
+              </th>
             </tr>
           </thead>
 
@@ -161,8 +231,8 @@ function UnifiedBillingSimulationTable({
               ] = row;
 
               const installmentNo = start + index + 1;
-              const isAdjustedRow = dueDate === "25-07-2026";
-              const previousTotal = parseIdr(totalBill) + previousInterestDebt;
+              const isAdjustedRow = installmentNo === changeStartInstallment;
+              const previousTotal = parseIdr(totalBill) + PREVIOUS_INTEREST_DEBT;
               const nextTotal =
                 parseIdr(totalBill) +
                 nextPrincipalDebt +
@@ -172,6 +242,9 @@ function UnifiedBillingSimulationTable({
               return (
                 <tr
                   key={dueDate}
+                  data-debt-change={isAdjustedRow ? "true" : undefined}
+                  data-debt-change-start={isAdjustedRow ? "true" : undefined}
+                  data-debt-change-end={isAdjustedRow ? "true" : undefined}
                   className={cn(
                     "border-b border-slate-100",
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
@@ -188,7 +261,7 @@ function UnifiedBillingSimulationTable({
                   <td className="px-3 py-3 text-right tabular-nums">{remainingInterest}</td>
                   <td className="px-3 py-3 text-right tabular-nums">{penalty}</td>
                   <td className="px-3 py-3 text-right tabular-nums">
-                    {isAdjustedRow ? formatIdr(previousInterestDebt) : "0,00"}
+                    {isAdjustedRow ? formatIdr(PREVIOUS_INTEREST_DEBT) : "0,00"}
                   </td>
                   <td className="px-3 py-3">
                     {isAdjustedRow ? adjustmentType : "-"}
@@ -269,6 +342,8 @@ export default function LoanDebtChangeWizard({
   const [principalDebt, setPrincipalDebt] = React.useState("0,00");
   const [interestDebt, setInterestDebt] = React.useState("125.000,00");
   const [otherDebt, setOtherDebt] = React.useState("0,00");
+  const [effectiveDate, setEffectiveDate] = React.useState("");
+  const [reason, setReason] = React.useState("");
 
   React.useEffect(() => {
     if (!open) return;
@@ -277,11 +352,38 @@ export default function LoanDebtChangeWizard({
     setPrincipalDebt("0,00");
     setInterestDebt("125.000,00");
     setOtherDebt("0,00");
+    setEffectiveDate("");
+    setReason("");
   }, [open]);
 
+  const parsedInterestDebt = parseIdr(interestDebt);
+  const effectiveDateValue = parseDmy(effectiveDate);
+
+  const hasValidChange =
+    parsedInterestDebt !== PREVIOUS_INTEREST_DEBT &&
+    effectiveDateValue !== null &&
+    reason.trim().length > 0;
+
+  const changeStartInstallment = React.useMemo(() => {
+    if (!effectiveDateValue) return 1;
+
+    const firstAffectedIndex = billingRows.findIndex(([dueDate]) => {
+      const dueDateValue = parseDmy(dueDate);
+      return dueDateValue ? dueDateValue >= effectiveDateValue : false;
+    });
+
+    return firstAffectedIndex >= 0 ? firstAffectedIndex + 1 : billingRows.length;
+  }, [effectiveDateValue]);
+
   function nextStep() {
-    if (step < 3) {
-      setStep((current) => current + 1);
+    if (step === 1) {
+      if (!hasValidChange) return;
+      setStep(2);
+      return;
+    }
+
+    if (step === 2) {
+      setStep(3);
       return;
     }
 
@@ -295,6 +397,8 @@ export default function LoanDebtChangeWizard({
     { label: "Tunggakan Pokok", value: principalDebt },
     { label: "Tunggakan Bunga", value: interestDebt },
     { label: "Denda dan Biaya Lainnya", value: otherDebt },
+    { label: "Tanggal Efektif", value: effectiveDate },
+    { label: "Angsuran Mulai Berubah", value: `Angsuran ke-${changeStartInstallment}` },
   ];
 
   const isSimulationStep = step === 2;
@@ -356,6 +460,77 @@ export default function LoanDebtChangeWizard({
               </div>
 
               <LoanBillingTablePreview accountNo={accountNo} />
+
+              <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                  Form Perubahan Hutang Bunga
+                </div>
+
+                <div className="grid gap-5 px-5 py-5">
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Tunggakan Pokok
+                    </label>
+                    <Input
+                      value={principalDebt}
+                      onChange={(event) => setPrincipalDebt(event.target.value)}
+                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      inputMode="decimal"
+                    />
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Tunggakan Bunga Baru
+                      <span className="text-rose-600"> *</span>
+                    </label>
+                    <Input
+                      value={interestDebt}
+                      onChange={(event) => setInterestDebt(event.target.value)}
+                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      inputMode="decimal"
+                    />
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Denda dan Biaya Lainnya
+                    </label>
+                    <Input
+                      value={otherDebt}
+                      onChange={(event) => setOtherDebt(event.target.value)}
+                      className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      inputMode="decimal"
+                    />
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Tanggal Efektif
+                      <span className="text-rose-600"> *</span>
+                    </label>
+                    <DatePickerDmyField
+                      value={effectiveDate}
+                      onChange={setEffectiveDate}
+                      inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                      placeholder="Pilih Tanggal Efektif"
+                    />
+                  </div>
+
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start">
+                    <label className="pt-2 text-[14px] font-normal text-[#002060]">
+                      Alasan Perubahan
+                      <span className="text-rose-600"> *</span>
+                    </label>
+                    <Textarea
+                      value={reason}
+                      onChange={(event) => setReason(event.target.value)}
+                      placeholder="Masukkan alasan perubahan hutang bunga"
+                      className="min-h-[110px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           ) : null}
 
@@ -364,6 +539,7 @@ export default function LoanDebtChangeWizard({
               principalDebt={principalDebt}
               interestDebt={interestDebt}
               otherDebt={otherDebt}
+              changeStartInstallment={changeStartInstallment}
             />
           ) : null}
 
@@ -381,12 +557,20 @@ export default function LoanDebtChangeWizard({
               <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <div className="text-[12px] font-semibold text-slate-500">Rekening Pinjaman</div>
-                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">{accountNo}</div>
+                    <div className="text-[12px] font-semibold text-slate-500">
+                      Rekening Pinjaman
+                    </div>
+                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                      {accountNo}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-[12px] font-semibold text-slate-500">Nama Debitur</div>
-                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">Bapak Bagus</div>
+                    <div className="text-[12px] font-semibold text-slate-500">
+                      Nama Debitur
+                    </div>
+                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+                      Bapak Bagus
+                    </div>
                   </div>
                 </div>
 
@@ -394,13 +578,21 @@ export default function LoanDebtChangeWizard({
 
                 <div className="grid gap-4">
                   {simulationRows.map((row) => (
-                    <div key={row.label} className="flex items-center justify-between gap-4 text-[14px]">
+                    <div
+                      key={row.label}
+                      className="flex items-center justify-between gap-4 text-[14px]"
+                    >
                       <span className="text-slate-600">{row.label}</span>
                       <span className="font-extrabold tabular-nums text-[#2563EB]">
                         {row.value || "0,00"}
                       </span>
                     </div>
                   ))}
+
+                  <div className="border-t border-slate-200 pt-4 text-[14px] text-slate-600">
+                    Alasan:{" "}
+                    <span className="font-semibold text-slate-900">{reason}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -440,16 +632,21 @@ export default function LoanDebtChangeWizard({
 
           <button
             type="button"
+            disabled={step === 1 && !hasValidChange}
             onClick={nextStep}
             className={cn(
               "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-              isSimulationStep
+              step === 3
                 ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
-                : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
+                : step === 2
+                  ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
+                  : hasValidChange
+                    ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
+                    : "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500",
             )}
           >
-            {isSimulationStep ? "Simpan Perubahan" : "Lanjutkan"}
-            {isSimulationStep ? (
+            {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+            {step === 3 ? (
               <Check className="h-5 w-5" strokeWidth={3.5} />
             ) : (
               <ChevronRight className="h-4 w-4" strokeWidth={3} />
