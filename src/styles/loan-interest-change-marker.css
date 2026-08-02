@@ -186,10 +186,15 @@
   overflow-y: hidden !important;
 }
 
-/* Hilangkan informasi tambahan suku bunga pada area pagination. */
+/* Sembunyikan informasi tambahan suku bunga pada area pagination. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   ~ div
-  .ml-1 {
+  .ml-1,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  ~ div
+  > div:first-child
+  > span:last-child {
   display: none !important;
 }
