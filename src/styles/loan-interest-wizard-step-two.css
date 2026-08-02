@@ -8,6 +8,30 @@
   border-top-color: rgb(226 232 240) !important;
 }
 
+/* Field pada langkah pertama tidak berubah warna ketika diklik atau difokuskan. */
+[data-loan-interest-wizard="true"]
+  input:focus,
+[data-loan-interest-wizard="true"]
+  input:focus-visible,
+[data-loan-interest-wizard="true"]
+  textarea:focus,
+[data-loan-interest-wizard="true"]
+  textarea:focus-visible,
+[data-loan-interest-wizard="true"]
+  [data-slot="select-trigger"]:focus,
+[data-loan-interest-wizard="true"]
+  [data-slot="select-trigger"]:focus-visible,
+[data-loan-interest-wizard="true"]
+  [data-slot="select-trigger"][data-state="open"] {
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
+}
+
 /* Semua tombol di wizard memakai ukuran dan bentuk yang konsisten. */
 [data-loan-interest-wizard="true"] button {
   border: 0 !important;
