@@ -103,6 +103,12 @@ function UnifiedBillingSimulationTable({
   interestDebt: string;
   otherDebt: string;
 }) {
+  const [page, setPage] = React.useState(1);
+  const pageSize = 5;
+  const pageCount = Math.max(1, Math.ceil(billingRows.length / pageSize));
+  const start = (page - 1) * pageSize;
+  const pagedRows = billingRows.slice(start, start + pageSize);
+
   const previousInterestDebt = 125_000;
   const nextPrincipalDebt = parseIdr(principalDebt);
   const nextInterestDebt = parseIdr(interestDebt);
@@ -127,69 +133,23 @@ function UnifiedBillingSimulationTable({
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[85px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[85px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[115px] px-3 py-3 text-right">
-                Total Tagihan
-                <br />
-                Belum Dibayar
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[120px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Denda
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[95px] px-3 py-3">
-                Jenis Penyesuaian
-              </th>
-              <th className="w-[110px] px-3 py-3 text-right">
-                Nominal
-                <br />
-                Penyesuaian
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Tunggakan Bunga
-                <br />
-                Setelah Penyesuaian
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Total Kewajiban
-                <br />
-                Setelah Penyesuaian
-              </th>
+              <th className="w-[115px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Bunga</th>
+              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
+              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
+              <th className="w-[120px] px-3 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tunggakan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[95px] px-3 py-3">Jenis Penyesuaian</th>
+              <th className="w-[110px] px-3 py-3 text-right">Nominal<br />Penyesuaian</th>
+              <th className="w-[135px] px-3 py-3 text-right">Tunggakan Bunga<br />Setelah Penyesuaian</th>
+              <th className="w-[135px] px-3 py-3 text-right">Total Kewajiban<br />Sebelum Penyesuaian</th>
+              <th className="w-[135px] px-3 py-3 text-right">Total Kewajiban<br />Setelah Penyesuaian</th>
             </tr>
           </thead>
 
           <tbody className="text-[12px] text-black">
-            {billingRows.map((row, index) => {
+            {pagedRows.map((row, index) => {
               const [
                 dueDate,
                 totalBill,
@@ -200,7 +160,7 @@ function UnifiedBillingSimulationTable({
                 penalty,
               ] = row;
 
-              const installmentNo = index + 1;
+              const installmentNo = start + index + 1;
               const isAdjustedRow = dueDate === "25-07-2026";
               const previousTotal = parseIdr(totalBill) + previousInterestDebt;
               const nextTotal =
@@ -217,46 +177,32 @@ function UnifiedBillingSimulationTable({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-3 py-3 text-center font-semibold tabular-nums">
+                  <td className="px-3 py-3 text-left tabular-nums">
                     {installmentNo}
                   </td>
-                  <td className="px-3 py-3 font-semibold tabular-nums">
-                    {dueDate}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {totalBill}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {principalBill}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {interestBill}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {remainingPrincipal}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {remainingInterest}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {penalty}
-                  </td>
+                  <td className="px-3 py-3 tabular-nums">{dueDate}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{totalBill}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{principalBill}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{interestBill}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{remainingPrincipal}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{remainingInterest}</td>
+                  <td className="px-3 py-3 text-right tabular-nums">{penalty}</td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {isAdjustedRow ? formatIdr(previousInterestDebt) : "0,00"}
                   </td>
-                  <td className="px-3 py-3 font-semibold">
+                  <td className="px-3 py-3">
                     {isAdjustedRow ? adjustmentType : "-"}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {isAdjustedRow ? formatIdr(adjustmentAmount) : "0,00"}
                   </td>
-                  <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
+                  <td className="px-3 py-3 text-right tabular-nums text-[#2563EB]">
                     {isAdjustedRow ? formatIdr(nextInterestDebt) : "0,00"}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {isAdjustedRow ? formatIdr(previousTotal) : totalBill}
                   </td>
-                  <td className="px-3 py-3 text-right font-bold tabular-nums text-[#2563EB]">
+                  <td className="px-3 py-3 text-right tabular-nums text-[#2563EB]">
                     {isAdjustedRow ? formatIdr(nextTotal) : totalBill}
                   </td>
                 </tr>
@@ -264,6 +210,47 @@ function UnifiedBillingSimulationTable({
             })}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-[12px] text-slate-600">
+          Menampilkan {billingRows.length === 0 ? 0 : start + 1} sampai{" "}
+          {Math.min(billingRows.length, start + pageSize)} dari {billingRows.length} entri
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            disabled={page <= 1}
+            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            className={cn(
+              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
+              "bg-slate-100 text-slate-600 hover:bg-slate-200",
+              page <= 1 ? "cursor-not-allowed opacity-60" : "",
+            )}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Sebelumnya
+          </button>
+
+          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#2563EB] px-3 text-[12px] font-extrabold text-white">
+            {page}
+          </span>
+
+          <button
+            type="button"
+            disabled={page >= pageCount}
+            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
+            className={cn(
+              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
+              "bg-slate-100 text-slate-600 hover:bg-slate-200",
+              page >= pageCount ? "cursor-not-allowed opacity-60" : "",
+            )}
+          >
+            Selanjutnya
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -362,11 +349,7 @@ export default function LoanDebtChangeWizard({
                     <AccountField
                       key={field[0]}
                       label={field[0]}
-                      value={
-                        field[0] === "No. Rek. Pinjaman"
-                          ? accountNo
-                          : field[1]
-                      }
+                      value={field[0] === "No. Rek. Pinjaman" ? accountNo : field[1]}
                     />
                   ))}
                 </div>
@@ -398,20 +381,12 @@ export default function LoanDebtChangeWizard({
               <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <div className="text-[12px] font-semibold text-slate-500">
-                      Rekening Pinjaman
-                    </div>
-                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                      {accountNo}
-                    </div>
+                    <div className="text-[12px] font-semibold text-slate-500">Rekening Pinjaman</div>
+                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">{accountNo}</div>
                   </div>
                   <div>
-                    <div className="text-[12px] font-semibold text-slate-500">
-                      Nama Debitur
-                    </div>
-                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                      Bapak Bagus
-                    </div>
+                    <div className="text-[12px] font-semibold text-slate-500">Nama Debitur</div>
+                    <div className="mt-1 text-[14px] font-extrabold text-slate-900">Bapak Bagus</div>
                   </div>
                 </div>
 
@@ -419,10 +394,7 @@ export default function LoanDebtChangeWizard({
 
                 <div className="grid gap-4">
                   {simulationRows.map((row) => (
-                    <div
-                      key={row.label}
-                      className="flex items-center justify-between gap-4 text-[14px]"
-                    >
+                    <div key={row.label} className="flex items-center justify-between gap-4 text-[14px]">
                       <span className="text-slate-600">{row.label}</span>
                       <span className="font-extrabold tabular-nums text-[#2563EB]">
                         {row.value || "0,00"}
