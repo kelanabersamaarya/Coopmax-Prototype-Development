@@ -16,6 +16,14 @@
   display: none !important;
 }
 
+/* Sembunyikan notifikasi bahwa penyesuaian bunga telah disimpan pada langkah pertama. */
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.bg-emerald-50 {
+  display: none !important;
+}
+
 /* Khusus tabel billing di modal Ubah Hutang: nominal denda tetap tampil tanpa aksi mata atau tambah. */
 .loan-debt-billing-preview button[aria-label="Lihat Detail Denda"],
 .loan-debt-billing-preview button[aria-label="Tambah Denda"] {
