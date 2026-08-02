@@ -52,7 +52,7 @@ function formatIdr(value: number) {
 
 function NumericCell({ children }: { children: React.ReactNode }) {
   return (
-    <span className="block w-full text-left font-normal tabular-nums whitespace-nowrap">
+    <span className="block w-full text-right font-normal tabular-nums whitespace-nowrap">
       {children}
     </span>
   );
@@ -185,32 +185,32 @@ export default function LoanBillingTablePreview({
                 <br />
                 Tempo
               </th>
-              <th className="w-[128px] px-4 py-3">
+              <th className="w-[128px] px-4 py-3 text-right">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[130px] px-4 py-3">
+              <th className="w-[130px] px-4 py-3 text-right">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[120px] px-4 py-3">
+              <th className="w-[120px] px-4 py-3 text-right">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[140px] px-4 py-3">
+              <th className="w-[140px] px-4 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[140px] px-4 py-3">
+              <th className="w-[140px] px-4 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[130px] px-4 py-3">
+              <th className="w-[130px] px-4 py-3 text-right">
                 Tagihan
                 <br />
                 Denda
@@ -243,16 +243,16 @@ export default function LoanBillingTablePreview({
                   <td className="px-4 py-3 text-left font-normal tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
                   </td>
-                  <td className="px-4 py-3 text-left">
+                  <td className="px-4 py-3 text-right">
                     <NumericCell>{formatIdr(adjustedTotal)}</NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-left">
+                  <td className="px-4 py-3 text-right">
                     <NumericCell>
                       {inGracePeriod ? "0,00" : row.tagihanPokok}
                     </NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-left">
-                    <div className="flex w-full items-center justify-start gap-2">
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex w-full items-center justify-end gap-2">
                       <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
                       <button
                         type="button"
@@ -265,15 +265,15 @@ export default function LoanBillingTablePreview({
                       </button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-left">
+                  <td className="px-4 py-3 text-right">
                     <NumericCell>
                       {inGracePeriod ? "0,00" : row.sisaPokok}
                     </NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-left">
+                  <td className="px-4 py-3 text-right">
                     <NumericCell>{row.sisaBunga}</NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-left">
+                  <td className="px-4 py-3 text-right">
                     <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
                   </td>
                 </tr>
@@ -299,7 +299,7 @@ export default function LoanBillingTablePreview({
               previousDisabled ? "cursor-not-allowed opacity-60" : "",
             )}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4 />
             Sebelumnya
           </button>
 
