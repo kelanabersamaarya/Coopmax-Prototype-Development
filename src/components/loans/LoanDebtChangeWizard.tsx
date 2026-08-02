@@ -34,8 +34,6 @@ const billingRows = [
   ["25-10-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "0,00"],
 ] as const;
 
-const PREVIOUS_INTEREST_DEBT = 125_000;
-
 function parseIdr(value: string) {
   const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
   const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
@@ -133,21 +131,37 @@ function UnifiedBillingSimulationTable({
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[85px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[85px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[115px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan Bunga
-                <br />
-                Sebelum Penyesuaian
+              <th className="w-[115px] px-3 py-3 text-right">
+                Total Tagihan<br />Belum Dibayar
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[135px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
-              <th className="w-[120px] px-3 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan<br />Pokok
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan Bunga<br />Sebelum Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan<br />Pokok
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Sisa Tagihan<br />Bunga
+              </th>
+              <th className="w-[120px] px-3 py-3 text-right">
+                Tagihan<br />Denda
+              </th>
               <th className="w-[95px] px-3 py-3">Jenis Penyesuaian</th>
-              <th className="w-[110px] px-3 py-3 text-right">Nominal<br />Penyesuaian</th>
-              <th className="w-[135px] px-3 py-3 text-right">Tunggakan Bunga<br />Setelah Penyesuaian</th>
-              <th className="w-[135px] px-3 py-3 text-right">Total Kewajiban<br />Sebelum Penyesuaian</th>
-              <th className="w-[135px] px-3 py-3 text-right">Total Kewajiban<br />Setelah Penyesuaian</th>
+              <th className="w-[110px] px-3 py-3 text-right">
+                Nominal<br />Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Tagihan Bunga<br />Setelah Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Total Tagihan<br />Sebelum Penyesuaian
+              </th>
+              <th className="w-[135px] px-3 py-3 text-right">
+                Total Tagihan<br />Setelah Penyesuaian
+              </th>
             </tr>
           </thead>
 
@@ -223,7 +237,7 @@ function UnifiedBillingSimulationTable({
               page <= 1 ? "cursor-not-allowed opacity-60" : "",
             )}
           >
-            <ChevronLeft className="h-4 w-4 />
+            <ChevronLeft className="h-4 w-4" />
             Sebelumnya
           </button>
 
