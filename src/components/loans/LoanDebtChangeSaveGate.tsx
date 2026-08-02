@@ -126,13 +126,11 @@ export default function LoanDebtChangeSaveGate() {
       const wizard = button.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
       const buttonLabel = (button.textContent ?? "").trim().toLowerCase();
 
-      if (
-        !wizard ||
-        wizard.dataset.loanDebtStep !== "3" ||
-        !buttonLabel.includes("simpan perubahan")
-      ) {
-        return;
-      }
+      const isSecondStepSaveButton =
+        wizard?.dataset.loanDebtStep === "2" &&
+        buttonLabel.includes("lanjutkan");
+
+      if (!wizard || !isSecondStepSaveButton) return;
 
       event.preventDefault();
       event.stopImmediatePropagation();
