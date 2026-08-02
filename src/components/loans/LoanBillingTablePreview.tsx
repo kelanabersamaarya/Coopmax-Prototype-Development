@@ -230,7 +230,7 @@ export default function LoanBillingTablePreview({
             <ChevronLeft className="h-4 w-4" />
             Sebelumnya
           </button>
-          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">
+          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#2563EB] px-3 text-[12px] font-extrabold text-white">
             {page}
           </span>
           <button
