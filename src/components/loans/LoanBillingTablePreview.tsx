@@ -299,7 +299,7 @@ export default function LoanBillingTablePreview({
               previousDisabled ? "cursor-not-allowed opacity-60" : "",
             )}
           >
-            <ChevronLeft className="h-4 w-4 />
+            <ChevronLeft className="h-4 w-4" />
             Sebelumnya
           </button>
 
