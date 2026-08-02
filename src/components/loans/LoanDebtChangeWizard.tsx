@@ -104,7 +104,7 @@ function UnifiedBillingSimulationTable({
   otherDebt: string;
 }) {
   const [page, setPage] = React.useState(1);
-  const pageSize = 5;
+  const pageSize = 10;
   const pageCount = Math.max(1, Math.ceil(billingRows.length / pageSize));
   const start = (page - 1) * pageSize;
   const pagedRows = billingRows.slice(start, start + pageSize);
