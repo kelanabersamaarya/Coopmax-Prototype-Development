@@ -54,5 +54,6 @@ import "./styles/loan-debt-table-font-weight.css";
 import "./styles/loan-interest-wizard-blue-theme.css";
 import "./styles/loan-interest-history-button-label.css";
 import "./styles/loan-interest-simulation-labels.css";
+import "./styles/loan-debt-save-change-button.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
