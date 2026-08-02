@@ -125,10 +125,8 @@ function ConfirmDialog({
 
 function BillingSimulationTable({
   installments,
-  rate,
 }: {
   installments: SimulationInstallment[];
-  rate: number;
 }) {
   const pageSize = 10;
   const [page, setPage] = React.useState(1);
@@ -155,16 +153,56 @@ function BillingSimulationTable({
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[145px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sebelum Penyesuaian</th>
-              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sesudah Penyesuaian</th>
-              <th className="w-[150px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sebelum Penyesuaian</th>
-              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sesudah Penyesuaian</th>
-              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Denda</th>
-              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sebelum Penyesuaian</th>
-              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sesudah Penyesuaian</th>
+              <th className="w-[145px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Tagihan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[165px] px-3 py-3 text-right">
+                Tagihan Bunga
+                <br />
+                Sesudah Penyesuaian
+              </th>
+              <th className="w-[150px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Sisa Tagihan Bunga
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Sisa Tagihan Bunga
+                <br />
+                Sesudah Penyesuaian
+              </th>
+              <th className="w-[125px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Total Angsuran
+                <br />
+                Sebelum Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Total Angsuran
+                <br />
+                Sesudah Penyesuaian
+              </th>
             </tr>
           </thead>
 
@@ -194,16 +232,34 @@ function BillingSimulationTable({
                 >
                   <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
                   <td className="px-3 py-2.5 tabular-nums">{item.dueDate}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInstallment)}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.principal)}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInterest)}</td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">{formatIdr(item.afterInterest)}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.remainingPrincipal)}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeRemainingInterest)}</td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">{formatIdr(item.afterRemainingInterest)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeInstallment)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.principal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(item.afterInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.remainingPrincipal)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeRemainingInterest)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(item.afterRemainingInterest)}
+                  </td>
                   <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInstallment)}</td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">{formatIdr(item.afterInstallment)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {formatIdr(item.beforeInstallment)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
+                    {formatIdr(item.afterInstallment)}
+                  </td>
                 </tr>
               );
             })}
@@ -214,7 +270,6 @@ function BillingSimulationTable({
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
           Menampilkan {showingStart} sampai {showingEnd} dari {installments.length} periode tagihan
-          <span className="ml-1">• Suku bunga baru {rate.toFixed(2)}% per tahun.</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -541,10 +596,7 @@ export default function LoanInterestChangeWizard({
                   <p className="px-4 py-4 text-[14px] text-black">{reason}</p>
                 </div>
 
-                <BillingSimulationTable
-                  installments={simulation.installments}
-                  rate={simulation.rate}
-                />
+                <BillingSimulationTable installments={simulation.installments} />
               </div>
             ) : null}
           </main>
