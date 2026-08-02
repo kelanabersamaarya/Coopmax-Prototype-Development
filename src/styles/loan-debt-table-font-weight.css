@@ -1,0 +1,5 @@
+/* Ubah Hutang Bunga: hanya header tabel yang menggunakan teks tebal. */
+[data-loan-debt-wizard="true"] table.min-w-\[2140px\] tbody td,
+[data-loan-debt-wizard="true"] table.min-w-\[2140px\] tbody td * {
+  font-weight: 400 !important;
+}
