@@ -221,6 +221,9 @@ export default function LoanInterestAdjustmentDialog({
     "placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  const mutedInputClassName = cn(inputClassName, "!text-slate-400");
+  const activeInputClassName = cn(inputClassName, "!text-slate-900");
+
   return (
     <>
       <AdjustmentConfirmDialog
@@ -353,7 +356,10 @@ export default function LoanInterestAdjustmentDialog({
                       <DatePickerDmyField
                         value={effectiveDate}
                         onChange={setEffectiveDate}
-                        inputClassName={inputClassName}
+                        inputClassName={cn(
+                          inputClassName,
+                          !effectiveDate.trim() && "!text-slate-400",
+                        )}
                         placeholder="DD-MM-YYYY"
                       />
                     </div>
@@ -367,10 +373,11 @@ export default function LoanInterestAdjustmentDialog({
                       value={interestPeriod}
                       onChange={(event) => setInterestPeriod(event.target.value)}
                       placeholder="Masukkan periode bunga"
-                      className={cn(
-                        inputClassName,
-                        !interestPeriod.trim() ? "text-slate-400" : "text-slate-900",
-                      )}
+                      className={
+                        interestPeriod.trim()
+                          ? activeInputClassName
+                          : mutedInputClassName
+                      }
                     />
                   </div>
 
@@ -392,7 +399,7 @@ export default function LoanInterestAdjustmentDialog({
                       className={cn(
                         "min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none",
                         "placeholder:text-slate-400 focus-visible:ring-0",
-                        !reason.trim() ? "text-slate-400" : "text-slate-900",
+                        reason.trim() ? "!text-slate-900" : "!text-slate-400",
                       )}
                     />
                   </div>
