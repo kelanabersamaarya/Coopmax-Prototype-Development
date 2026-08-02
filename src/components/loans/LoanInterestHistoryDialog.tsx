@@ -1,10 +1,23 @@
 "use client";
 
+import * as React from "react";
 import { X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import {
+  getLoanInterestHistory,
+  type LoanInterestHistoryEntry,
+} from "@/lib/loanInterestHistoryStore";
 
-const historyRows = [
+type HistoryRow = {
+  previousRate: string;
+  newRate: string;
+  effectiveDate: string;
+  reason: string;
+  changedAt: string;
+};
+
+const historyRows: HistoryRow[] = [
   {
     previousRate: "10,00%",
     newRate: "12,00%",
@@ -13,6 +26,20 @@ const historyRows = [
     changedAt: "07-04-2026 10:35:20",
   },
 ];
+
+function formatRate(rate: number) {
+  return `${rate.toFixed(2).replace(".", ",")}%`;
+}
+
+function toHistoryRow(entry: LoanInterestHistoryEntry): HistoryRow {
+  return {
+    previousRate: formatRate(entry.previousRate),
+    newRate: formatRate(entry.newRate),
+    effectiveDate: entry.effectiveDate,
+    reason: entry.reason,
+    changedAt: entry.changedAt.replace(",", ""),
+  };
+}
 
 export default function LoanInterestHistoryDialog({
   open,
@@ -23,6 +50,20 @@ export default function LoanInterestHistoryDialog({
   onOpenChange: (open: boolean) => void;
   accountNo: string;
 }) {
+  const [storedHistory, setStoredHistory] = React.useState<
+    LoanInterestHistoryEntry[]
+  >([]);
+
+  React.useEffect(() => {
+    if (!open) return;
+    setStoredHistory(getLoanInterestHistory(accountNo));
+  }, [accountNo, open]);
+
+  const rows = React.useMemo(
+    () => [...storedHistory.map(toHistoryRow), ...historyRows],
+    [storedHistory],
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -63,7 +104,7 @@ export default function LoanInterestHistoryDialog({
                   </tr>
                 </thead>
                 <tbody>
-                  {historyRows.map((row) => (
+                  {rows.map((row) => (
                     <tr
                       key={`${row.changedAt}-${row.newRate}`}
                       className="border-b border-slate-100 text-[12px] text-black last:border-b-0"
@@ -98,8 +139,6 @@ export default function LoanInterestHistoryDialog({
             Tutup
           </button>
         </footer>
-
-        <span className="sr-only">{accountNo}</span>
       </DialogContent>
     </Dialog>
   );

@@ -11,6 +11,7 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanInterestHistoryDialog from "@/components/loans/LoanInterestHistoryDialog";
 import LoanInterestChangeSuccessModal from "@/components/loans/LoanInterestChangeSuccessModal";
 import { saveLoanInterestRate } from "@/lib/loanInterestStore";
+import { addLoanInterestHistory } from "@/lib/loanInterestHistoryStore";
 
 const currentRate = 12;
 const currentInstallment = 1_120_000;
@@ -399,6 +400,12 @@ export default function LoanInterestChangeWizard({
 
   function saveChange() {
     saveLoanInterestRate(accountNo, simulation.rate);
+    addLoanInterestHistory(accountNo, {
+      previousRate: currentRate,
+      newRate: simulation.rate,
+      effectiveDate,
+      reason,
+    });
     setConfirmOpen(false);
     setSuccessOpen(true);
   }
