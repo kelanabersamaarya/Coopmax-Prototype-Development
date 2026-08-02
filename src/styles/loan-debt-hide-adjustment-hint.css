@@ -1,0 +1,6 @@
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.bg-amber-50 {
+  display: none !important;
+}
