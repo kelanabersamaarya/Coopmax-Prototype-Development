@@ -52,7 +52,7 @@ function formatIdr(value: number) {
 
 function NumericCell({ children }: { children: React.ReactNode }) {
   return (
-    <span className="block w-full text-left tabular-nums whitespace-nowrap">
+    <span className="block w-full text-left font-normal tabular-nums whitespace-nowrap">
       {children}
     </span>
   );
@@ -233,14 +233,14 @@ export default function LoanBillingTablePreview({
                 <tr
                   key={`${row.jatuhTempo}-${globalIndex}`}
                   className={cn(
-                    "border-t border-slate-200 text-[13px] text-slate-900",
+                    "border-t border-slate-200 text-[13px] font-normal text-slate-900",
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-4 py-3 text-left font-semibold tabular-nums">
+                  <td className="px-4 py-3 text-left font-normal tabular-nums">
                     {globalIndex + 1}
                   </td>
-                  <td className="px-4 py-3 text-left font-semibold tabular-nums whitespace-nowrap">
+                  <td className="px-4 py-3 text-left font-normal tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
                   </td>
                   <td className="px-4 py-3 text-left">
