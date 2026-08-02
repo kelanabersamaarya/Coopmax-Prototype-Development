@@ -72,6 +72,7 @@ export default function FormattedNominalInput({
   inputMode = "decimal",
   readOnly = false,
   selectOnFocus = false,
+  mutedWhenDefault = false,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -81,11 +82,13 @@ export default function FormattedNominalInput({
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   readOnly?: boolean;
   selectOnFocus?: boolean;
+  mutedWhenDefault?: boolean;
 }) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const caretDigitsRef = React.useRef<number | null>(null);
 
   const displayValue = React.useMemo(() => formatDisplayValue(value), [value]);
+  const isDefaultValue = displayValue === "0,00";
 
   React.useLayoutEffect(() => {
     const digitsToLeft = caretDigitsRef.current;
@@ -129,9 +132,10 @@ export default function FormattedNominalInput({
       inputMode={inputMode}
       className={cn(
         "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
-        "text-left text-[14px] font-medium text-slate-900 shadow-none",
+        "text-left text-[14px] font-medium shadow-none",
         "placeholder:text-[#64748B]",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        mutedWhenDefault && isDefaultValue ? "text-slate-400" : "text-slate-900",
         disabled ? "pointer-events-none opacity-60" : "",
         className,
       )}

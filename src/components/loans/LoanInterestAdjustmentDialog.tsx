@@ -339,6 +339,7 @@ export default function LoanInterestAdjustmentDialog({
                         placeholder="0,00"
                         inputMode="numeric"
                         selectOnFocus
+                        mutedWhenDefault
                         className={cn(inputClassName, "text-left tabular-nums")}
                       />
                     </div>
