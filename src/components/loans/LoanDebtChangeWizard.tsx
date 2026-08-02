@@ -4,24 +4,21 @@ import * as React from "react";
 import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import LoanBillingTablePreview from "@/components/loans/LoanBillingTablePreview";
 
-type DebtField = { label: string; value: string };
-
-const accountFields: DebtField[] = [
-  { label: "No. Rek. Pinjaman", value: "SMG260004" },
-  { label: "Nama Anggota / Debitur", value: "Bapak Bagus" },
-  { label: "Produk Pinjaman", value: "Pinjaman Billing" },
-  { label: "Status Pinjaman", value: "Aktif / Sudah Dicairkan" },
-  { label: "Baki Debet Pokok", value: "10.553.571,00" },
-  { label: "Tunggakan Pokok", value: "0,00" },
-  { label: "Tunggakan Bunga", value: "125.000,00" },
-  { label: "Denda dan Biaya Lainnya", value: "0,00" },
-  { label: "Total Kewajiban", value: "10.678.571,00" },
-];
+const accountDetails = [
+  ["No. Rek. Pinjaman", "SMG260004"],
+  ["Nama Anggota / Debitur", "Bapak Bagus"],
+  ["Produk Pinjaman", "Pinjaman Billing"],
+  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
+  ["Baki Debet Pokok", "10.553.571,00"],
+  ["Tunggakan Pokok", "0,00"],
+  ["Tunggakan Bunga", "125.000,00"],
+  ["Denda dan Biaya Lainnya", "0,00"],
+  ["Total Kewajiban", "10.678.571,00"],
+] as const;
 
 const billingRow = {
   jatuhTempo: "25-07-2026",
@@ -40,40 +37,16 @@ function parseIdr(value: string) {
 }
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value))
-    .toLocaleString("id-ID")
-    .replace(/,/g, ".");
+  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
 }
 
-function AccountField({ label, value }: DebtField) {
+function AccountField({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div className="text-[11px] font-semibold text-white/85">{label}</div>
       <div className="mt-1 text-[14px] font-extrabold leading-snug text-white">
         {value}
       </div>
-    </div>
-  );
-}
-
-function FormField({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <div className="grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)] sm:items-center">
-      <label className="text-[14px] text-[#002060]">{label}</label>
-      <Input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        inputMode="decimal"
-        className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-      />
     </div>
   );
 }
@@ -319,13 +292,7 @@ export default function LoanDebtChangeWizard({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         data-loan-debt-wizard="true"
-        className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[1040px]",
-          "max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
+        className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
       >
         <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
           <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
@@ -367,14 +334,14 @@ export default function LoanDebtChangeWizard({
                 </div>
 
                 <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-                  {accountFields.map((field) => (
+                  {accountDetails.map((field) => (
                     <AccountField
-                      key={field.label}
-                      label={field.label}
+                      key={field[0]}
+                      label={field[0]}
                       value={
-                        field.label === "No. Rek. Pinjaman"
+                        field[0] === "No. Rek. Pinjaman"
                           ? accountNo
-                          : field.value
+                          : field[1]
                       }
                     />
                   ))}
@@ -386,41 +353,11 @@ export default function LoanDebtChangeWizard({
           ) : null}
 
           {step === 2 ? (
-            <div className="grid gap-5">
-              <div>
-                <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-                  Simulasi Perubahan Hutang Bunga
-                </h3>
-                <p className="mt-2 text-[13px] text-slate-600">
-                  Masukkan perubahan kewajiban untuk melihat dampaknya pada tagihan
-                  dan total kewajiban pinjaman.
-                </p>
-              </div>
-
-              <div className="grid gap-4 rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
-                <FormField
-                  label="Tunggakan Pokok Baru"
-                  value={principalDebt}
-                  onChange={setPrincipalDebt}
-                />
-                <FormField
-                  label="Tunggakan Bunga Baru"
-                  value={interestDebt}
-                  onChange={setInterestDebt}
-                />
-                <FormField
-                  label="Denda dan Biaya Lainnya"
-                  value={otherDebt}
-                  onChange={setOtherDebt}
-                />
-              </div>
-
-              <DebtSimulationBillingTable
-                principalDebt={principalDebt}
-                interestDebt={interestDebt}
-                otherDebt={otherDebt}
-              />
-            </div>
+            <DebtSimulationBillingTable
+              principalDebt={principalDebt}
+              interestDebt={interestDebt}
+              otherDebt={otherDebt}
+            />
           ) : null}
 
           {step === 3 ? (
