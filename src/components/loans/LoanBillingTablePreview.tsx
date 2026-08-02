@@ -35,7 +35,7 @@ function formatIdr(value: number) {
 }
 
 function NumericCell({ children }: { children: React.ReactNode }) {
-  return <span className="block w-full text-right tabular-nums whitespace-nowrap">{children}</span>;
+  return <span className="block w-full text-left tabular-nums whitespace-nowrap">{children}</span>;
 }
 
 export default function LoanBillingTablePreview({
@@ -154,32 +154,32 @@ export default function LoanBillingTablePreview({
                 <br />
                 Tempo
               </th>
-              <th className="w-[128px] px-4 py-3 text-right">
+              <th className="w-[128px] px-4 py-3">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[130px] px-4 py-3 text-right">
+              <th className="w-[130px] px-4 py-3">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[120px] px-4 py-3 text-right">
+              <th className="w-[120px] px-4 py-3">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[140px] px-4 py-3 text-right">
+              <th className="w-[140px] px-4 py-3">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[140px] px-4 py-3 text-right">
+              <th className="w-[140px] px-4 py-3">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[130px] px-4 py-3 text-right">
+              <th className="w-[130px] px-4 py-3">
                 Tagihan
                 <br />
                 Denda
@@ -206,20 +206,22 @@ export default function LoanBillingTablePreview({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-4 py-3 text-center font-semibold tabular-nums">
+                  <td className="px-4 py-3 text-left font-semibold tabular-nums">
                     {globalIndex + 1}
                   </td>
-                  <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
+                  <td className="px-4 py-3 text-left font-semibold tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-left">
                     <NumericCell>{formatIdr(adjustedTotal)}</NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>{inGracePeriod ? "0,00" : row.tagihanPokok}</NumericCell>
+                  <td className="px-4 py-3 text-left">
+                    <NumericCell>
+                      {inGracePeriod ? "0,00" : row.tagihanPokok}
+                    </NumericCell>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex w-full items-center justify-end gap-2">
+                  <td className="px-4 py-3 text-left">
+                    <div className="flex w-full items-center justify-start gap-2">
                       <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
                       <button
                         type="button"
@@ -232,13 +234,15 @@ export default function LoanBillingTablePreview({
                       </button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-right">
-                    <NumericCell>{inGracePeriod ? "0,00" : row.sisaPokok}</NumericCell>
+                  <td className="px-4 py-3 text-left">
+                    <NumericCell>
+                      {inGracePeriod ? "0,00" : row.sisaPokok}
+                    </NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-left">
                     <NumericCell>{row.sisaBunga}</NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-left">
                     <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
                   </td>
                 </tr>
