@@ -57,9 +57,7 @@ function AdjustmentConfirmDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
-      <DialogContent
-        className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
-      >
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden">
         <div className="px-8 pb-5 pt-10 text-center sm:px-10">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
             <span className="text-[54px] font-light leading-none text-[#f2b98f]">
@@ -102,16 +100,16 @@ function AdjustmentSuccessDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
-      <DialogContent
-        className="h-[300px] w-[calc(100vw-2rem)] max-w-[519px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
-      >
+      <DialogContent className="h-[300px] w-[calc(100vw-2rem)] max-w-[519px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden">
         <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
             <Check className="h-12 w-12 text-[#33aa00]" strokeWidth={3} />
           </div>
+
           <h3 className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
             Berhasil Melakukan Penyesuaian Bunga
           </h3>
+
           <button
             type="button"
             onClick={onOk}
@@ -128,7 +126,6 @@ function AdjustmentSuccessDialog({
 export default function LoanInterestAdjustmentDialog({
   open,
   onOpenChange,
-  dueDate,
   currentInterest = "0,00",
   onSave,
 }: {
@@ -211,6 +208,7 @@ export default function LoanInterestAdjustmentDialog({
       reason,
       previousInterest: currentInterest,
     });
+
     setConfirmOpen(false);
     setSuccessOpen(true);
   }
@@ -221,8 +219,8 @@ export default function LoanInterestAdjustmentDialog({
     "placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const mutedInputClassName = cn(inputClassName, "!text-slate-400");
-  const activeInputClassName = cn(inputClassName, "!text-slate-900");
+  const mutedClassName = cn(inputClassName, "interest-adjustment-muted-field");
+  const activeClassName = cn(inputClassName, "interest-adjustment-active-field");
 
   return (
     <>
@@ -247,6 +245,16 @@ export default function LoanInterestAdjustmentDialog({
         >
           <style>
             {`
+              [data-interest-adjustment-dialog="true"] .interest-adjustment-muted-field,
+              [data-interest-adjustment-dialog="true"] .interest-adjustment-muted-field::placeholder {
+                color: #94a3b8 !important;
+                opacity: 1 !important;
+              }
+
+              [data-interest-adjustment-dialog="true"] .interest-adjustment-active-field {
+                color: #0f172a !important;
+              }
+
               [data-interest-adjustment-dialog="true"] input:focus,
               [data-interest-adjustment-dialog="true"] input:focus-visible,
               [data-interest-adjustment-dialog="true"] textarea:focus,
@@ -357,8 +365,9 @@ export default function LoanInterestAdjustmentDialog({
                         value={effectiveDate}
                         onChange={setEffectiveDate}
                         inputClassName={cn(
-                          inputClassName,
-                          !effectiveDate.trim() && "!text-slate-400",
+                          !effectiveDate.trim()
+                            ? mutedClassName
+                            : activeClassName,
                         )}
                         placeholder="DD-MM-YYYY"
                       />
@@ -374,9 +383,7 @@ export default function LoanInterestAdjustmentDialog({
                       onChange={(event) => setInterestPeriod(event.target.value)}
                       placeholder="Masukkan periode bunga"
                       className={
-                        interestPeriod.trim()
-                          ? activeInputClassName
-                          : mutedInputClassName
+                        interestPeriod.trim() ? activeClassName : mutedClassName
                       }
                     />
                   </div>
@@ -398,8 +405,10 @@ export default function LoanInterestAdjustmentDialog({
                       }
                       className={cn(
                         "min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none",
-                        "placeholder:text-slate-400 focus-visible:ring-0",
-                        reason.trim() ? "!text-slate-900" : "!text-slate-400",
+                        "focus-visible:ring-0",
+                        reason.trim()
+                          ? "interest-adjustment-active-field"
+                          : "interest-adjustment-muted-field",
                       )}
                     />
                   </div>
