@@ -75,6 +75,9 @@ export default function LoanInterestWizardCancelButton() {
 
         [data-loan-interest-wizard="true"] footer > button.bg-\\[\\#2fb300\\] {
           order: 2 !important;
+          min-width: 172px !important;
+          padding-left: 16px !important;
+          padding-right: 16px !important;
           margin-left: auto !important;
         }
       `}
