@@ -48,9 +48,30 @@ function formatIdr(value: number) {
 
 function formatDueDate(offset: number) {
   const date = new Date(2026, 7 + offset, 7);
+
   return `${String(date.getDate()).padStart(2, "0")}-${String(
     date.getMonth() + 1,
   ).padStart(2, "0")}-${date.getFullYear()}`;
+}
+
+function parseDmy(value: string) {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
+  if (!match) return null;
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
 }
 
 function AccountField({ label, value }: { label: string; value: string }) {
@@ -92,7 +113,7 @@ function ConfirmDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={(value) => (!value ? onCancel() : null)}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden [&_[data-radix-dialog-close]]:hidden">
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden">
         <div className="px-8 pb-5 pt-10 text-center">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
             <span className="text-[54px] font-light leading-none text-[#f2b98f]">
@@ -126,8 +147,10 @@ function ConfirmDialog({
 
 function BillingSimulationTable({
   installments,
+  changeStartInstallment,
 }: {
   installments: SimulationInstallment[];
+  changeStartInstallment: number;
 }) {
   const pageSize = 10;
   const [page, setPage] = React.useState(1);
@@ -209,9 +232,9 @@ function BillingSimulationTable({
 
           <tbody className="text-[12px] text-black">
             {pagedInstallments.map((item, index) => {
-              const inChangedPeriod = item.number >= 4 && item.number <= 12;
-              const changeStart = item.number === 4;
-              const changeEnd = item.number === 12;
+              const inChangedPeriod = item.number >= changeStartInstallment;
+              const changeStart = item.number === changeStartInstallment;
+              const changeEnd = item.number === installments.length;
               const pageChangeStart = index === 0 && inChangedPeriod;
               const pageChangeEnd =
                 index === pagedInstallments.length - 1 && inChangedPeriod;
@@ -270,7 +293,8 @@ function BillingSimulationTable({
 
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
-          Menampilkan {showingStart} sampai {showingEnd} dari {installments.length} periode tagihan
+          Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+          {installments.length} periode tagihan
         </div>
 
         <div className="flex items-center gap-2">
@@ -279,7 +303,8 @@ function BillingSimulationTable({
             disabled={page <= 1}
             onClick={() => setPage((current) => Math.max(1, current - 1))}
             className={cn(
-              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200",
+              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
+              "bg-slate-100 text-slate-600 hover:bg-slate-200",
               page <= 1 ? "cursor-not-allowed opacity-60" : "",
             )}
           >
@@ -292,9 +317,12 @@ function BillingSimulationTable({
           <button
             type="button"
             disabled={page >= pageCount}
-            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
+            onClick={() =>
+              setPage((current) => Math.min(pageCount, current + 1))
+            }
             className={cn(
-              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition bg-slate-100 text-slate-600 hover:bg-slate-200",
+              "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
+              "bg-slate-100 text-slate-600 hover:bg-slate-200",
               page >= pageCount ? "cursor-not-allowed opacity-60" : "",
             )}
           >
@@ -335,28 +363,39 @@ export default function LoanInterestChangeWizard({
     setSuccessOpen(false);
   }, [open]);
 
+  const parsedRate = Number(newRate.replace(",", "."));
+  const validEffectiveDate = parseDmy(effectiveDate);
+  const hasSavedChangeDraft =
+    Number.isFinite(parsedRate) &&
+    parsedRate > 0 &&
+    parsedRate !== currentRate &&
+    validEffectiveDate !== null &&
+    reason.trim().length > 0;
+
   const simulation = React.useMemo(() => {
-    const parsedRate = Number(newRate.replace(",", ".")) || currentRate;
+    const rate = hasSavedChangeDraft ? parsedRate : currentRate;
     const monthlyPrincipal = remainingPrincipal / remainingTenor;
-    const baseMonthlyInterest = (remainingPrincipal * currentRate) / 100 / 12;
-    const newMonthlyInterest = (remainingPrincipal * parsedRate) / 100 / 12;
+    const effectiveDateValue = validEffectiveDate ?? new Date(2026, 7, 7);
 
     const installments = Array.from({ length: remainingTenor }, (_, index) => {
+      const number = index + 1;
+      const dueDate = formatDueDate(index);
+      const dueDateValue = parseDmy(dueDate) ?? new Date(2026, 7 + index, 7);
       const principalBefore = Math.max(
         0,
         remainingPrincipal - monthlyPrincipal * index,
       );
       const remainingAfter = Math.max(0, principalBefore - monthlyPrincipal);
       const beforeInterest = (principalBefore * currentRate) / 100 / 12;
-      const afterInterest = (principalBefore * parsedRate) / 100 / 12;
+      const afterInterest = (principalBefore * rate) / 100 / 12;
       const beforeRemainingInterest =
         (remainingAfter * currentRate) / 100 / 12;
-      const afterRemainingInterest =
-        (remainingAfter * parsedRate) / 100 / 12;
+      const afterRemainingInterest = (remainingAfter * rate) / 100 / 12;
 
       return {
-        number: index + 1,
-        dueDate: formatDueDate(index),
+        number,
+        dueDate,
+        dueDateValue,
         principal: monthlyPrincipal,
         beforeInterest,
         afterInterest,
@@ -368,33 +407,35 @@ export default function LoanInterestChangeWizard({
       };
     });
 
+    const firstAffectedInstallment =
+      installments.find(
+        (installment) => installment.dueDateValue >= effectiveDateValue,
+      ) ?? installments[installments.length - 1];
+
+    const changeStartInstallment = firstAffectedInstallment?.number ?? 1;
+
     return {
-      rate: parsedRate,
+      rate,
+      changeStartInstallment,
+      changeStartDate: firstAffectedInstallment?.dueDate ?? "-",
       beforeInstallment: formatIdr(currentInstallment),
       afterInstallment: formatIdr(
-        currentInstallment - baseMonthlyInterest + newMonthlyInterest,
+        currentInstallment -
+          ((remainingPrincipal * currentRate) / 100 / 12) +
+          ((remainingPrincipal * rate) / 100 / 12),
       ),
-      beforeTotalInterest: formatIdr(baseMonthlyInterest * remainingTenor),
-      afterTotalInterest: formatIdr(newMonthlyInterest * remainingTenor),
+      beforeTotalInterest: formatIdr(
+        ((remainingPrincipal * currentRate) / 100 / 12) * remainingTenor,
+      ),
+      afterTotalInterest: formatIdr(
+        ((remainingPrincipal * rate) / 100 / 12) * remainingTenor,
+      ),
       installments,
     };
-  }, [newRate]);
+  }, [hasSavedChangeDraft, parsedRate, validEffectiveDate]);
 
   function goToSimulation() {
-    if (!newRate.trim() || Number(newRate.replace(",", ".")) <= 0) {
-      toast("Suku bunga baru belum valid", {
-        description: "Masukkan suku bunga baru yang lebih dari 0.",
-      });
-      return;
-    }
-    if (!effectiveDate.trim()) {
-      toast("Tanggal efektif wajib diisi");
-      return;
-    }
-    if (!reason.trim()) {
-      toast("Alasan perubahan wajib diisi");
-      return;
-    }
+    if (!hasSavedChangeDraft) return;
     setStep(2);
   }
 
@@ -444,7 +485,7 @@ export default function LoanInterestChangeWizard({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 hover:bg-slate-100"
+              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
               aria-label="Tutup"
             >
               <X className="h-5 w-5" />
@@ -579,14 +620,20 @@ export default function LoanInterestChangeWizard({
                         </tr>
                         <tr className="border-b border-slate-100 bg-slate-50/60">
                           <td className="px-4 py-3">Angsuran</td>
-                          <td className="px-4 py-3">{simulation.beforeInstallment}</td>
+                          <td className="px-4 py-3">
+                            {simulation.beforeInstallment}
+                          </td>
                           <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
                             {simulation.afterInstallment}
                           </td>
                         </tr>
                         <tr>
-                          <td className="px-4 py-3">Total Nominal Pembayaran Bunga</td>
-                          <td className="px-4 py-3">{simulation.beforeTotalInterest}</td>
+                          <td className="px-4 py-3">
+                            Total Nominal Pembayaran Bunga
+                          </td>
+                          <td className="px-4 py-3">
+                            {simulation.beforeTotalInterest}
+                          </td>
                           <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
                             {simulation.afterTotalInterest}
                           </td>
@@ -603,7 +650,10 @@ export default function LoanInterestChangeWizard({
                   <p className="px-4 py-4 text-[14px] text-black">{reason}</p>
                 </div>
 
-                <BillingSimulationTable installments={simulation.installments} />
+                <BillingSimulationTable
+                  installments={simulation.installments}
+                  changeStartInstallment={simulation.changeStartInstallment}
+                />
               </div>
             ) : null}
           </main>
@@ -611,11 +661,7 @@ export default function LoanInterestChangeWizard({
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
             <button
               type="button"
-              onClick={() =>
-                step === 1
-                  ? onOpenChange(false)
-                  : setStep(1)
-              }
+              onClick={() => (step === 1 ? onOpenChange(false) : setStep(1))}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white hover:bg-[#6b768c]"
             >
               {step === 1 ? (
@@ -628,12 +674,15 @@ export default function LoanInterestChangeWizard({
 
             <button
               type="button"
+              disabled={step === 1 && !hasSavedChangeDraft}
               onClick={step === 1 ? goToSimulation : () => setConfirmOpen(true)}
               className={cn(
-                "inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold text-white",
+                "inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[13px] font-semibold text-white transition",
                 step === 2
                   ? "bg-[#2fb300] hover:bg-[#279800]"
-                  : "bg-[#5B3DF5] hover:bg-[#4C32D9]",
+                  : hasSavedChangeDraft
+                    ? "bg-[#5B3DF5] hover:bg-[#4C32D9]"
+                    : "cursor-not-allowed bg-slate-300 text-slate-500",
               )}
             >
               {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
