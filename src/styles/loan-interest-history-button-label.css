@@ -1,0 +1,12 @@
+[data-loan-interest-wizard="true"]
+  button:has(> svg.lucide-eye):has(> .h-4) {
+  font-size: 0 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  button:has(> svg.lucide-eye):has(> .h-4)::after {
+  content: "Lihat Riwayat Perubahan";
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+}
