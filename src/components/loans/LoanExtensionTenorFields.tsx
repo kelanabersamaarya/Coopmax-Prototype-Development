@@ -89,7 +89,7 @@ function syncTenorFields() {
   if (!totalField) {
     const created = createReadonlyField(
       TOTAL_FIELD_ID,
-      "Total Tenor Saat Ini",
+      "Total Tenor Baru",
       `${CURRENT_TENOR} Bulan`,
     );
 
