@@ -312,6 +312,19 @@
   font-size: 12px !important;
 }
 
+/* Panel informasi Pembebasan Bunga memakai seluruh teks hitam. */
+[data-interest-adjustment-dialog="true"] .bg-\[\#EFF6FF\],
+[data-interest-adjustment-dialog="true"] .bg-\[\#EFF6FF\] > div > div,
+[data-interest-adjustment-dialog="true"] .bg-\[\#EFF6FF\] > div > div > div {
+  color: #000000 !important;
+}
+
+/* Ikon informasi tetap putih pada lingkaran biru. */
+[data-interest-adjustment-dialog="true"] .bg-\[\#EFF6FF\] > div > span,
+[data-interest-adjustment-dialog="true"] .bg-\[\#EFF6FF\] > div > span svg {
+  color: #ffffff !important;
+}
+
 @media (min-width: 768px) {
   [data-loan-interest-wizard="true"] main.max-h-\[60vh\].overflow-auto {
     padding-left: 2rem !important;
