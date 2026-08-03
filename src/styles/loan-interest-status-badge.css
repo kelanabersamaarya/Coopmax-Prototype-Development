@@ -23,7 +23,6 @@
   align-items: center;
   align-self: start;
   justify-self: start;
-  gap: 0;
   border-radius: 5px;
   background-color: #3bb001;
   padding: 4px 8px;
@@ -33,4 +32,67 @@
   line-height: 1.1;
   text-shadow: none;
   white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+  [data-loan-interest-wizard="true"]
+    main
+    > div.grid.gap-7
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid::before {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  [data-loan-interest-wizard="true"]
+    main
+    > div.grid.gap-7
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid::after {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: -0.45rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  [data-loan-interest-wizard="true"]
+    main
+    > div.grid.gap-7
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid::before {
+    grid-column: 1;
+    grid-row: 5;
+  }
+
+  [data-loan-interest-wizard="true"]
+    main
+    > div.grid.gap-7
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid::after {
+    grid-column: 1;
+    grid-row: 6;
+    margin-top: -0.45rem;
+  }
+}
+
+@media (max-width: 639px) {
+  [data-loan-interest-wizard="true"]
+    main
+    > div.grid.gap-7
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid::before {
+    grid-column: 1;
+    grid-row: 9;
+  }
+
+  [data-loan-interest-wizard="true"]
+    main
+    > div.grid.gap-7
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid::after {
+    grid-column: 1;
+    grid-row: 10;
+    margin-top: -0.45rem;
+  }
 }
