@@ -24,7 +24,10 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 type Step = 1 | 2 | 3;
-type ExtensionMethod = "Tenor Tambahan" | "Tenor Baru" | "Jatuh Tempo Akhir Baru";
+type ExtensionMethod =
+  | "Tenor Tambahan"
+  | "Tenor Baru"
+  | "Jatuh Tempo Akhir Baru";
 
 const accountInfo = [
   ["Nomor Rekening Pinjaman", "SMG260004"],
@@ -37,12 +40,6 @@ const accountInfo = [
   ["Nominal Angsuran", "1.120.000,00"],
   ["Suku Bunga", "12,00% per tahun"],
 ] as const;
-
-const bills = [
-  ["1", "25-01-2026", "916.667,00", "833.333,00", "83.333,00", "75.000,00"],
-  ["2", "25-02-2026", "916.667,00", "833.333,00", "83.333,00", "75.000,00"],
-  ["3", "25-03-2026", "916.667,00", "916.667,00", "83.333,00", "0,00"],
-];
 
 function AccountField({ label, value }: { label: string; value: string }) {
   return (
@@ -80,6 +77,7 @@ function StepIndicator({ step }: { step: Step }) {
                 {label}
               </span>
             </div>
+
             {number < 3 ? (
               <div
                 className={cn(
@@ -91,48 +89,6 @@ function StepIndicator({ step }: { step: Step }) {
           </React.Fragment>
         );
       })}
-    </div>
-  );
-}
-
-function BillingTable() {
-  return (
-    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-        Tagihan dan Tunggakan
-      </div>
-      <div className="safe-x-scroll">
-        <table className="w-full min-w-[850px] border-collapse">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="px-4 py-3">Angsuran Ke</th>
-              <th className="px-4 py-3">Jatuh Tempo</th>
-              <th className="px-4 py-3 text-right">Total Tagihan</th>
-              <th className="px-4 py-3 text-right">Tagihan Pokok</th>
-              <th className="px-4 py-3 text-right">Tagihan Bunga</th>
-              <th className="px-4 py-3 text-right">Tagihan Denda</th>
-            </tr>
-          </thead>
-          <tbody className="text-[12px] text-black">
-            {bills.map((bill, index) => (
-              <tr
-                key={bill[0]}
-                className={cn(
-                  "border-b border-slate-100 last:border-b-0",
-                  index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                )}
-              >
-                <td className="px-4 py-3">{bill[0]}</td>
-                <td className="px-4 py-3 tabular-nums">{bill[1]}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{bill[2]}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{bill[3]}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{bill[4]}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{bill[5]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }
@@ -176,7 +132,8 @@ export default function LoanExtensionWizard({
   accountNo: string;
 }) {
   const [step, setStep] = React.useState<Step>(1);
-  const [method, setMethod] = React.useState<ExtensionMethod>("Tenor Tambahan");
+  const [method, setMethod] =
+    React.useState<ExtensionMethod>("Tenor Tambahan");
   const [additionalTenor, setAdditionalTenor] = React.useState("");
   const [newTenor, setNewTenor] = React.useState("");
   const [newDueMonth, setNewDueMonth] = React.useState("");
@@ -206,7 +163,10 @@ export default function LoanExtensionWizard({
           Number.parseInt(newDueMonth, 10) <= 12 &&
           Number.parseInt(newDueYear, 10) >= 2027;
 
-  const isValid = hasMethodValue && effectiveDate.trim().length > 0 && reason.trim().length > 0;
+  const isValid =
+    hasMethodValue &&
+    effectiveDate.trim().length > 0 &&
+    reason.trim().length > 0;
 
   const tenorAfterExtension = getTenorAfterExtension(
     method,
@@ -282,13 +242,13 @@ export default function LoanExtensionWizard({
                     <AccountField
                       key={label}
                       label={label}
-                      value={label === "Nomor Rekening Pinjaman" ? accountNo : value}
+                      value={
+                        label === "Nomor Rekening Pinjaman" ? accountNo : value
+                      }
                     />
                   ))}
                 </div>
               </div>
-
-              <BillingTable />
 
               <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                 <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
@@ -299,13 +259,17 @@ export default function LoanExtensionWizard({
                   <FormRow label="Metode Perpanjangan">
                     <Select
                       value={method}
-                      onValueChange={(value) => setMethod(value as ExtensionMethod)}
+                      onValueChange={(value) =>
+                        setMethod(value as ExtensionMethod)
+                      }
                     >
                       <SelectTrigger className={inputClassName}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-[5px] border-slate-200">
-                        <SelectItem value="Tenor Tambahan">Tenor Tambahan</SelectItem>
+                        <SelectItem value="Tenor Tambahan">
+                          Tenor Tambahan
+                        </SelectItem>
                         <SelectItem value="Tenor Baru">Tenor Baru</SelectItem>
                         <SelectItem value="Jatuh Tempo Akhir Baru">
                           Jatuh Tempo Akhir Baru
@@ -335,7 +299,9 @@ export default function LoanExtensionWizard({
                       <Input
                         value={newTenor}
                         onChange={(event) =>
-                          setNewTenor(event.target.value.replace(/[^\d]/g, ""))
+                          setNewTenor(
+                            event.target.value.replace(/[^\d]/g, ""),
+                          )
                         }
                         className={inputClassName}
                         inputMode="numeric"
@@ -351,7 +317,9 @@ export default function LoanExtensionWizard({
                           value={newDueMonth}
                           onChange={(event) =>
                             setNewDueMonth(
-                              event.target.value.replace(/[^\d]/g, "").slice(0, 2),
+                              event.target.value
+                                .replace(/[^\d]/g, "")
+                                .slice(0, 2),
                             )
                           }
                           className={inputClassName}
@@ -362,7 +330,9 @@ export default function LoanExtensionWizard({
                           value={newDueYear}
                           onChange={(event) =>
                             setNewDueYear(
-                              event.target.value.replace(/[^\d]/g, "").slice(0, 4),
+                              event.target.value
+                                .replace(/[^\d]/g, "")
+                                .slice(0, 4),
                             )
                           }
                           className={inputClassName}
@@ -461,13 +431,6 @@ export default function LoanExtensionWizard({
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                  Tagihan dan Tunggakan Setelah Perpanjangan
-                </div>
-                <BillingTable />
-              </div>
-
               <div className="rounded-[12px] border border-slate-200 bg-white p-5">
                 <div className="text-[14px] font-bold uppercase tracking-wide text-black">
                   Alasan Perpanjangan
@@ -494,12 +457,17 @@ export default function LoanExtensionWizard({
                 <div className="grid gap-4 text-[14px]">
                   <div className="flex justify-between gap-4">
                     <span className="text-slate-600">Rekening Pinjaman</span>
-                    <span className="font-extrabold text-slate-900">{accountNo}</span>
+                    <span className="font-extrabold text-slate-900">
+                      {accountNo}
+                    </span>
                   </div>
                   <div className="flex justify-between gap-4">
                     <span className="text-slate-600">Metode Perpanjangan</span>
-                    <span className="font-extrabold text-[#2563EB]">{method}</span>
+                    <span className="font-extrabold text-[#2563EB]">
+                      {method}
+                    </span>
                   </div>
+
                   {method === "Tenor Tambahan" ? (
                     <div className="flex justify-between gap-4">
                       <span className="text-slate-600">Tenor Tambahan</span>
@@ -508,6 +476,7 @@ export default function LoanExtensionWizard({
                       </span>
                     </div>
                   ) : null}
+
                   {method === "Tenor Baru" ? (
                     <div className="flex justify-between gap-4">
                       <span className="text-slate-600">Tenor Baru</span>
@@ -516,18 +485,28 @@ export default function LoanExtensionWizard({
                       </span>
                     </div>
                   ) : null}
+
                   <div className="flex justify-between gap-4">
                     <span className="text-slate-600">Tanggal Efektif</span>
                     <span className="font-extrabold text-slate-900">
                       {effectiveDate}
                     </span>
                   </div>
+
                   <div className="flex justify-between gap-4">
-                    <span className="text-slate-600">Jatuh Tempo Akhir Baru</span>
-                    <span className="font-extrabold text-[#2563EB]">{newDueDate}</span>
+                    <span className="text-slate-600">
+                      Jatuh Tempo Akhir Baru
+                    </span>
+                    <span className="font-extrabold text-[#2563EB]">
+                      {newDueDate}
+                    </span>
                   </div>
+
                   <div className="border-t border-slate-200 pt-4 text-slate-600">
-                    Alasan: <span className="font-semibold text-slate-900">{reason}</span>
+                    Alasan:{" "}
+                    <span className="font-semibold text-slate-900">
+                      {reason}
+                    </span>
                   </div>
                 </div>
               </div>
