@@ -27,7 +27,6 @@
   align-items: stretch !important;
 }
 
-/* Sembunyikan semua kolom awal, lalu aktifkan lima kolom pilihan. */
 [data-loan-interest-wizard="true"] table[class*="min-w-[1780px]"] thead th,
 [data-loan-interest-wizard="true"] table[class*="min-w-[1780px]"] tbody td {
   display: none !important;
@@ -249,12 +248,22 @@
   font-weight: 700 !important;
 }
 
-/* Hilangkan panel/garis penanda periode lama karena tidak relevan untuk tabel ringkas ini. */
+/* Hilangkan seluruh border penanda periode perubahan, termasuk sisi kiri. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
-  td {
+  td,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:first-child,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:last-child {
   position: static !important;
   border-top: 0 !important;
   border-right: 0 !important;
