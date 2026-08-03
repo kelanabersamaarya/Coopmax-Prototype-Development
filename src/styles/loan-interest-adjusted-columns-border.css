@@ -3,55 +3,74 @@
    - Tagihan Bunga Sesudah Penyesuaian
    - Sisa Tagihan Bunga Sesudah Penyesuaian
 
-   Kolom asli ke-6 dan ke-9 dirender ulang secara flex pada tabel ringkas,
-   sehingga selector dibuat lebih spesifik agar tidak tertimpa penanda periode lama.
+   Tabel simulasi dirender menggunakan flex. Karena itu, border per-cell
+   akan terlihat terputus oleh garis horizontal antarbaris. Garis bingkai
+   berikut digambar pada container header dan body agar tersambung penuh.
 */
 
-/* Garis atas area hasil penyesuaian pada header. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody {
+  position: relative !important;
+  border-right: 2px solid #2563eb !important;
+}
+
+/* Kolom hasil dimulai setelah:
+   Angsuran Ke (14%) + bunga sebelum (21.5%) + sisa bunga sebelum (21.5%). */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead::before,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody::before {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 57%;
+  width: 2px;
+  background: #2563eb;
+  pointer-events: none;
+}
+
+/* Garis atas bingkai berada pada header. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead {
+  border-top: 2px solid #2563eb !important;
+}
+
+/* Garis bawah menutup bingkai setelah seluruh isi tabel. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody {
+  border-bottom: 2px solid #2563eb !important;
+}
+
+/* Hilangkan border biru per-cell sebelumnya supaya tidak membuat celah
+   atau sambungan diagonal di tiap pergantian baris. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  tr
   th:nth-child(6),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  tr
-  th:nth-child(9) {
-  border-top: 2px solid #2563eb !important;
-}
-
-/* Sisi kiri area dimulai dari Tagihan Bunga Sesudah Penyesuaian. */
+  th:nth-child(9),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr
   td:nth-child(6),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
-  thead
-  tr
-  th:nth-child(6) {
-  border-left: 2px solid #2563eb !important;
-}
-
-/* Sisi kanan area berakhir pada Sisa Tagihan Bunga Sesudah Penyesuaian. */
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
   tbody
-  tr
   td:nth-child(9),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
-  thead
-  tr
-  th:nth-child(9) {
-  border-right: 2px solid #2563eb !important;
-}
-
-/* Pastikan border sisi tetap ada, termasuk untuk baris yang memiliki penanda perubahan bunga. */
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
   td:nth-child(6),
@@ -60,38 +79,19 @@
   tbody
   tr[data-interest-change="true"]
   td:nth-child(9) {
-  border-top: 0 !important;
-  border-right: 0 !important;
-  border-bottom: 1px solid rgb(241 245 249) !important;
   border-left: 0 !important;
+  border-right: 0 !important;
 }
 
+/* Nilai hasil sesudah penyesuaian tetap diberi penekanan biru. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr[data-interest-change="true"]
-  td:nth-child(6) {
-  border-left: 2px solid #2563eb !important;
-}
-
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
-  td:nth-child(9) {
-  border-right: 2px solid #2563eb !important;
-}
-
-/* Garis bawah menutup bingkai pada baris terakhir tabel. */
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:last-child
   td:nth-child(6),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:last-child
   td:nth-child(9) {
-  border-bottom: 2px solid #2563eb !important;
+  color: #2563eb !important;
+  font-weight: 700 !important;
 }
