@@ -38,15 +38,15 @@ export default function LoanExtensionPaymentSchedule({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[1080px] border-collapse">
-          <thead className="bg-white">
+        <table className="w-full min-w-[750px] border-collapse">
+          <thead>
             <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[96px] px-3 py-3">
+              <th className="w-[110px] px-3 py-3">
                 Jatuh
                 <br />
                 Tempo
               </th>
-              <th className="w-[120px] px-3 py-3 text-right">
+              <th className="w-[150px] px-3 py-3 text-right">
                 Total Tagihan
                 <br />
                 Belum Dibayar
@@ -58,16 +58,6 @@ export default function LoanExtensionPaymentSchedule({
               </th>
               <th className="w-[145px] px-3 py-3 text-right">
                 Tagihan
-                <br />
-                Bunga
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Sisa Tagihan
                 <br />
                 Bunga
               </th>
@@ -99,12 +89,6 @@ export default function LoanExtensionPaymentSchedule({
                 </td>
                 <td className="px-3 py-3 text-right font-semibold tabular-nums text-[#2563EB]">
                   {formatIdr(row.interest)}
-                </td>
-                <td className="px-3 py-3 text-right tabular-nums">
-                  {formatIdr(row.remainingPrincipal)}
-                </td>
-                <td className="px-3 py-3 text-right tabular-nums">
-                  {formatIdr(row.remainingInterest)}
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
                   {formatIdr(row.penalty)}
