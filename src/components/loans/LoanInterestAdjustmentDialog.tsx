@@ -46,6 +46,19 @@ const adjustmentOptions: InterestAdjustmentType[] = [
   "Penambahan Bunga",
 ];
 
+function parseIdr(value: string) {
+  const normalized = (value ?? "").trim().replace(/\./g, "").replace(",", ".");
+  const amount = Number(normalized.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(amount) ? amount : 0;
+}
+
+function formatIdr(value: number) {
+  return Math.max(0, value).toLocaleString("id-ID", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
 function AdjustmentConfirmDialog({
   open,
   onCancel,
@@ -148,9 +161,15 @@ export default function LoanInterestAdjustmentDialog({
   const [successOpen, setSuccessOpen] = React.useState(false);
 
   const isAdditionalInterest = adjustmentType === "Penambahan Bunga";
+  const isInterestReduction = adjustmentType === "Pengurangan Bunga";
   const amountLabel = isAdditionalInterest
     ? "Nominal Bunga Tambahan"
     : "Nominal Pengurangan";
+
+  const remainingInterest = React.useMemo(
+    () => formatIdr(parseIdr(currentInterest) - parseIdr(amount)),
+    [amount, currentInterest],
+  );
 
   React.useEffect(() => {
     if (!open) return;
@@ -361,6 +380,23 @@ export default function LoanInterestAdjustmentDialog({
                         selectOnFocus
                         mutedWhenDefault
                         className={cn(inputClassName, "text-left tabular-nums")}
+                      />
+                    </div>
+                  ) : null}
+
+                  {isInterestReduction ? (
+                    <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                      <label className="text-[14px] font-normal text-[#002060]">
+                        Nominal Bunga Setelah Pengurangan
+                      </label>
+                      <Input
+                        value={remainingInterest}
+                        readOnly
+                        aria-readonly="true"
+                        className={cn(
+                          inputClassName,
+                          "cursor-not-allowed bg-slate-200/80 text-left tabular-nums text-slate-700",
+                        )}
                       />
                     </div>
                   ) : null}
