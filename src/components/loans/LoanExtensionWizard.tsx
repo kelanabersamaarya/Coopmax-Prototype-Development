@@ -41,7 +41,6 @@ type SimulationRow = {
 const OLD_TENOR = 12;
 const OLD_DUE_DATE = "07-04-2027";
 const REMAINING_PRINCIPAL = 10_553_571;
-const MONTHLY_PRINCIPAL = 833_333;
 const OLD_MONTHLY_INTEREST = 120_000;
 
 const accountDetails: AccountDetail[] = [
@@ -111,12 +110,11 @@ function AccountField({
   value: React.ReactNode;
 }) {
   return (
-    <div
-      data-loan-extension-account-field="true"
-      className="loan-extension-account-field min-w-0"
-    >
-      <div className="text-[11px] font-semibold text-white/85">{label}</div>
-      <div className="mt-1 text-[14px] font-extrabold leading-snug text-white">
+    <div className="min-w-0">
+      <div className="text-[12px] font-semibold leading-tight text-white/85">
+        {label}
+      </div>
+      <div className="mt-1.5 text-[15px] font-extrabold leading-snug text-white">
         {value}
       </div>
     </div>
@@ -218,12 +216,7 @@ function SimulationSummaryTable({
   newFutureInterest: number;
 }) {
   const rows = [
-    {
-      label: "Metode Perpanjangan",
-      before: "-",
-      after: method,
-      isText: true,
-    },
+    { label: "Metode Perpanjangan", before: "-", after: method, isText: true },
     {
       label: "Tenor",
       before: `${oldTenor} Bulan`,
@@ -268,7 +261,6 @@ function SimulationSummaryTable({
               <th className="w-[30%] px-4 py-3">Sesudah Perpanjangan</th>
             </tr>
           </thead>
-
           <tbody>
             {rows.map((row, index) => (
               <tr
@@ -304,11 +296,7 @@ function SimulationSummaryTable({
   );
 }
 
-function NewPaymentScheduleTable({
-  rows,
-}: {
-  rows: SimulationRow[];
-}) {
+function NewPaymentScheduleTable({ rows }: { rows: SimulationRow[] }) {
   const pageSize = 6;
   const [page, setPage] = React.useState(1);
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
@@ -327,21 +315,12 @@ function NewPaymentScheduleTable({
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[120px] px-4 py-3">Angsuran Ke</th>
               <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-              <th className="w-[160px] px-4 py-3 text-right">
-                Angsuran Pokok
-              </th>
-              <th className="w-[160px] px-4 py-3 text-right">
-                Angsuran Bunga
-              </th>
-              <th className="w-[180px] px-4 py-3 text-right">
-                Total Angsuran
-              </th>
-              <th className="w-[180px] px-4 py-3 text-right">
-                Sisa Pokok
-              </th>
+              <th className="w-[160px] px-4 py-3 text-right">Angsuran Pokok</th>
+              <th className="w-[160px] px-4 py-3 text-right">Angsuran Bunga</th>
+              <th className="w-[180px] px-4 py-3 text-right">Total Angsuran</th>
+              <th className="w-[180px] px-4 py-3 text-right">Sisa Pokok</th>
             </tr>
           </thead>
-
           <tbody>
             {pagedRows.map((row, index) => (
               <tr
@@ -374,8 +353,7 @@ function NewPaymentScheduleTable({
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
           Menampilkan {rows.length === 0 ? 0 : start + 1} sampai{" "}
-          {Math.min(rows.length, start + pageSize)} dari {rows.length} jadwal
-          pembayaran
+          {Math.min(rows.length, start + pageSize)} dari {rows.length} jadwal pembayaran
         </div>
 
         <div className="flex items-center gap-2">
@@ -598,14 +576,12 @@ export default function LoanExtensionWizard({
         <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
           {step === 1 ? (
             <div className="grid gap-6">
-              <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
-                <div className="text-[14px] font-extrabold tracking-wide">
+              <section className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+                <div className="text-[14px] font-extrabold tracking-wide text-white">
                   INFORMASI REKENING PINJAMAN
                 </div>
-                <div
-                  data-loan-extension-account-grid="true"
-                  className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3"
-                >
+
+                <div className="mt-7 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
                   {accountDetails.map((field) => (
                     <AccountField
                       key={field.label}
@@ -618,7 +594,7 @@ export default function LoanExtensionWizard({
                     />
                   ))}
                 </div>
-              </div>
+              </section>
 
               <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                 <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
