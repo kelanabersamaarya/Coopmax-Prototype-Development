@@ -153,6 +153,15 @@ export default function LoanDebtAdjustmentHistoryDialog({
                     <th className="w-[82px] px-3 py-3 text-left">
                       Angsuran Ke
                     </th>
+                    <th className="w-[110px] px-3 py-3 text-left">
+                      Jenis Penyesuaian
+                    </th>
+                    <th className="w-[115px] px-3 py-3 text-left">
+                      Nominal Penyesuaian
+                    </th>
+                    <th className="w-[145px] px-3 py-3 text-left">
+                      Alasan Penyesuaian
+                    </th>
                     <th className="w-[145px] px-3 py-3 text-left">
                       Tagihan Bunga
                       <br />
@@ -162,15 +171,6 @@ export default function LoanDebtAdjustmentHistoryDialog({
                       Total Tagihan
                       <br />
                       Sebelum Penyesuaian
-                    </th>
-                    <th className="w-[110px] px-3 py-3 text-left">
-                      Jenis Penyesuaian
-                    </th>
-                    <th className="w-[115px] px-3 py-3 text-left">
-                      Nominal Penyesuaian
-                    </th>
-                    <th className="w-[145px] px-3 py-3 text-left">
-                      Alasan Penyesuaian
                     </th>
                     <th className="w-[145px] px-3 py-3 text-left">
                       Tagihan Bunga
@@ -205,11 +205,11 @@ export default function LoanDebtAdjustmentHistoryDialog({
                     rows.map((row) => (
                       <tr key={row.id} className="bg-white">
                         <Cell>{row.installmentNo}</Cell>
-                        <Cell align="right">{row.interestBefore}</Cell>
-                        <Cell align="right">{row.totalBefore}</Cell>
                         <Cell>{row.adjustmentType}</Cell>
                         <Cell align="right">{row.adjustmentAmount}</Cell>
                         <Cell>{row.reason}</Cell>
+                        <Cell align="right">{row.interestBefore}</Cell>
+                        <Cell align="right">{row.totalBefore}</Cell>
                         <Cell
                           align="right"
                           className="font-semibold text-[#2563EB]"
