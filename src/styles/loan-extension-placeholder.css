@@ -160,3 +160,66 @@ body:has([data-loan-extension-wizard="true"])
   > div:nth-child(2) {
   order: 3;
 }
+
+/* Jadwal Pembayaran Baru: selaraskan dengan tabel tagihan di Transaksi Anggota. */
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] {
+  font-variant-numeric: tabular-nums;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th {
+  background: #ffffff !important;
+  color: #334155 !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.04em !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  color: #1e293b !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody tr:nth-child(even) {
+  background-color: rgb(248 250 252 / 0.7) !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th:nth-child(n + 3),
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:nth-child(n + 3) {
+  text-align: right !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:nth-child(2) {
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:nth-child(5) {
+  color: #2563eb !important;
+  font-weight: 700 !important;
+}
+
+/* Kolom total angsuran diperlakukan sebagai total tagihan seperti tabel anggota. */
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:nth-child(5) {
+  background-color: rgb(239 246 255 / 0.65) !important;
+}
+
+/* Panel tabel mengikuti bentuk dan garis tabel tagihan. */
+[data-loan-extension-wizard="true"]
+  div.overflow-hidden.rounded-\[12px\].border:has(table.min-w-\[860px\]) {
+  border-color: #e2e8f0 !important;
+  border-radius: 5px !important;
+}
+
+[data-loan-extension-wizard="true"]
+  div.overflow-hidden.rounded-\[12px\].border:has(table.min-w-\[860px\])
+  > div:first-child {
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
