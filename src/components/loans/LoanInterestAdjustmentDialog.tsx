@@ -64,9 +64,11 @@ function AdjustmentConfirmDialog({
               !
             </div>
           </div>
+
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
             Yakin Melakukan Perubahan Bunga?
           </h3>
+
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
               type="button"
@@ -140,7 +142,6 @@ export default function LoanInterestAdjustmentDialog({
   >("");
   const [amount, setAmount] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
-  const [interestPeriod, setInterestPeriod] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -156,7 +157,6 @@ export default function LoanInterestAdjustmentDialog({
     setAdjustmentType("");
     setAmount("");
     setEffectiveDate("");
-    setInterestPeriod("");
     setReason("");
     setConfirmOpen(false);
     setSuccessOpen(false);
@@ -175,11 +175,6 @@ export default function LoanInterestAdjustmentDialog({
 
     if (isAdditionalInterest && !effectiveDate.trim()) {
       toast("Tanggal efektif wajib diisi");
-      return false;
-    }
-
-    if (!interestPeriod.trim()) {
-      toast("Periode bunga wajib diisi");
       return false;
     }
 
@@ -202,7 +197,7 @@ export default function LoanInterestAdjustmentDialog({
       type: adjustmentType,
       amount,
       effectiveDate,
-      interestPeriod,
+      interestPeriod: "",
       reason,
       previousInterest: currentInterest,
     });
@@ -281,6 +276,7 @@ export default function LoanInterestAdjustmentDialog({
             <h2 className="text-[18px] font-extrabold tracking-tight text-[#1F2A3D]">
               Penyesuaian Bunga
             </h2>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -303,7 +299,6 @@ export default function LoanInterestAdjustmentDialog({
                     setAdjustmentType(value as InterestAdjustmentType);
                     setAmount("");
                     setEffectiveDate("");
-                    setInterestPeriod("");
                     setReason("");
                   }}
                 >
@@ -371,20 +366,6 @@ export default function LoanInterestAdjustmentDialog({
                       />
                     </div>
                   ) : null}
-
-                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                    <label className="text-[14px] font-normal text-[#002060]">
-                      Periode Bunga<span className="text-rose-600"> *</span>
-                    </label>
-                    <Input
-                      value={interestPeriod}
-                      onChange={(event) => setInterestPeriod(event.target.value)}
-                      placeholder="Masukkan periode bunga"
-                      className={
-                        interestPeriod.trim() ? activeClassName : mutedClassName
-                      }
-                    />
-                  </div>
 
                   <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start">
                     <label className="pt-2 text-[14px] font-normal text-[#002060]">
