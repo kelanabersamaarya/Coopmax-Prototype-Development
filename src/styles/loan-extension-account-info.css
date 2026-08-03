@@ -48,6 +48,13 @@
   overflow: visible !important;
 }
 
+/* Status Pinjaman dipindahkan ke urutan terakhir. */
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:nth-child(4) {
+  order: 99 !important;
+}
+
 [data-loan-extension-wizard="true"]
   section.loan-extension-account-info
   .loan-extension-account-field
@@ -86,10 +93,18 @@
 [data-loan-extension-wizard="true"]
   section.loan-extension-account-info
   .loan-extension-account-field
-  [class*="bg-[#31b900]"] {
+  [class*="bg-lime-400"] {
   display: inline-flex !important;
   visibility: visible !important;
   opacity: 1 !important;
+  color: #ffffff !important;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field
+  [class*="bg-lime-400"]
+  * {
   color: #ffffff !important;
 }
 
