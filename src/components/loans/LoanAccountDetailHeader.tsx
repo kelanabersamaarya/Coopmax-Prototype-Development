@@ -22,6 +22,7 @@ import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
 import LoanDebtChangeWizard from "@/components/loans/LoanDebtChangeWizard";
+import LoanExtensionWizard from "@/components/loans/LoanExtensionWizard";
 import { useNavigate } from "react-router-dom";
 
 type ActionPillProps = {
@@ -72,6 +73,7 @@ export default function LoanAccountDetailHeader({
   const [txHistoryOpen, setTxHistoryOpen] = React.useState(false);
   const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
   const [debtWizardOpen, setDebtWizardOpen] = React.useState(false);
+  const [extensionWizardOpen, setExtensionWizardOpen] = React.useState(false);
 
   return (
     <>
@@ -99,6 +101,12 @@ export default function LoanAccountDetailHeader({
         accountNo={accountNo}
       />
 
+      <LoanExtensionWizard
+        open={extensionWizardOpen}
+        onOpenChange={setExtensionWizardOpen}
+        accountNo={accountNo}
+      />
+
       <div className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
         <div className="min-w-0">
           <div className="flex items-baseline gap-2">
@@ -115,7 +123,7 @@ export default function LoanAccountDetailHeader({
           <ActionPill
             icon={Calendar}
             label="Perpanjangan Pinjaman"
-            onClick={() => onAction("Perpanjangan Pinjaman")}
+            onClick={() => setExtensionWizardOpen(true)}
           />
           <ActionPill
             icon={Printer}
