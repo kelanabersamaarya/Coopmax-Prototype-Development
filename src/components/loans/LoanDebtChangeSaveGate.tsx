@@ -50,7 +50,7 @@ function DebtChangeConfirmDialog({
           "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
-        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center sm:px-10">
+        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
           <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
             <span className="text-[58px] font-light leading-none text-[#f2b98f]">
               !
@@ -58,7 +58,7 @@ function DebtChangeConfirmDialog({
           </div>
 
           <h2 className="mt-[32px] max-w-[490px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
-            Yakin untuk melakukan penyesuaian bunga?
+            Yakin Melakukan Perubahan Bunga?
           </h2>
 
           <div className="mt-[34px] flex items-center justify-center gap-[9px]">
@@ -149,7 +149,7 @@ export default function LoanDebtChangeSaveGate() {
 
       if (!button || button.disabled) return;
 
-      const wizard = button.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
+      const wizard = button?.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
       const buttonLabel = (button.textContent ?? "").trim().toLowerCase();
 
       const isSecondStepSaveButton =
