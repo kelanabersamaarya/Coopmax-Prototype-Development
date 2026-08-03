@@ -148,43 +148,46 @@ export default function LoanDebtAdjustmentHistoryDialog({
           <div className="overflow-hidden rounded-[8px] border border-slate-200 bg-white">
             <div className="safe-x-scroll">
               <table className="w-full min-w-[1290px] border-collapse">
-                <thead className="bg-[#F9FAFF]">
-                  <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-                    <th className="w-[82px] px-3 py-3 text-left">Angsuran Ke</th>
-                    <th className="w-[150px] px-3 py-3 text-left">
-                      Tagihan Bunga
-                      <br />
+                <thead className="bg-[#F9FAFF] text-left text-[11px] font-bold uppercase tracking-wide text-black">
+                  <tr className="border-b border-slate-200">
+                    <th rowSpan={2} className="w-[82px] px-3 py-3 text-left">
+                      Angsuran Ke
+                    </th>
+                    <th colSpan={2} className="px-3 py-3 text-left">
                       Sebelum Penyesuaian
                     </th>
-                    <th className="w-[125px] px-3 py-3 text-left">
+                    <th rowSpan={2} className="w-[110px] px-3 py-3 text-left">
                       Jenis Penyesuaian
                     </th>
-                    <th className="w-[130px] px-3 py-3 text-left">
+                    <th rowSpan={2} className="w-[115px] px-3 py-3 text-left">
                       Nominal Penyesuaian
                     </th>
-                    <th className="w-[180px] px-3 py-3 text-left">
+                    <th rowSpan={2} className="w-[145px] px-3 py-3 text-left">
                       Alasan Penyesuaian
                     </th>
-                    <th className="w-[155px] px-3 py-3 text-left">
-                      Tagihan Bunga
-                      <br />
+                    <th colSpan={2} className="px-3 py-3 text-left">
                       Sesudah Penyesuaian
                     </th>
-                    <th className="w-[155px] px-3 py-3 text-left">
-                      Total Tagihan
-                      <br />
-                      Sebelum Penyesuaian
-                    </th>
-                    <th className="w-[135px] px-3 py-3 text-left">
-                      Total Tagihan
-                      <br />
-                      Setelah Penyesuaian
-                    </th>
-                    <th className="w-[130px] px-3 py-3 text-left">
+                    <th rowSpan={2} className="w-[120px] px-3 py-3 text-left">
                       Diubah Oleh
                     </th>
-                    <th className="w-[175px] px-3 py-3 text-left">
+                    <th rowSpan={2} className="w-[165px] px-3 py-3 text-left">
                       Tanggal & Waktu Penyesuaian
+                    </th>
+                  </tr>
+
+                  <tr className="border-b border-slate-200">
+                    <th className="w-[145px] px-3 py-3 text-left">
+                      Tagihan Bunga
+                    </th>
+                    <th className="w-[145px] px-3 py-3 text-left">
+                      Total Tagihan
+                    </th>
+                    <th className="w-[145px] px-3 py-3 text-left">
+                      Tagihan Bunga
+                    </th>
+                    <th className="w-[120px] px-3 py-3 text-left">
+                      Total Tagihan
                     </th>
                   </tr>
                 </thead>
@@ -204,6 +207,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
                       <tr key={row.id} className="bg-white">
                         <Cell>{row.installmentNo}</Cell>
                         <Cell align="right">{row.interestBefore}</Cell>
+                        <Cell align="right">{row.totalBefore}</Cell>
                         <Cell>{row.adjustmentType}</Cell>
                         <Cell align="right">{row.adjustmentAmount}</Cell>
                         <Cell>{row.reason}</Cell>
@@ -213,7 +217,6 @@ export default function LoanDebtAdjustmentHistoryDialog({
                         >
                           {row.interestAfter}
                         </Cell>
-                        <Cell align="right">{row.totalBefore}</Cell>
                         <Cell
                           align="right"
                           className="font-semibold text-[#2563EB]"
