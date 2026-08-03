@@ -11,6 +11,7 @@ import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizar
 import LoanExtensionContinueGate from "@/components/loans/LoanExtensionContinueGate";
 import LoanExtensionSaveConfirmGate from "@/components/loans/LoanExtensionSaveConfirmGate";
 import LoanExtensionStepTwoSaveGate from "@/components/loans/LoanExtensionStepTwoSaveGate";
+import LoanExtensionTenorFields from "@/components/loans/LoanExtensionTenorFields";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
@@ -48,6 +49,7 @@ export default function MobileAwareToaster() {
       <LoanExtensionContinueGate />
       <LoanExtensionSaveConfirmGate />
       <LoanExtensionStepTwoSaveGate />
+      <LoanExtensionTenorFields />
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
