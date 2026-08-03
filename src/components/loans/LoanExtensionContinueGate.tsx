@@ -33,7 +33,7 @@ function syncWizardButtons() {
   const footer = wizard.querySelector<HTMLElement>("footer");
   if (!footer) return;
 
-  const buttons = Array.from(footer.querySelectorAll<HTMLButtonElement>("button"));
+  const buttons = Array.from(footer.querySelectorAll("button"));
   const backButton = buttons.find(
     (button) => button.textContent?.trim() === "Kembali",
   );
@@ -125,6 +125,13 @@ export default function LoanExtensionContinueGate() {
   return (
     <style>
       {`
+        [data-loan-extension-wizard="true"]
+          table.min-w-\\[650px\\]
+          tbody
+          tr:first-child {
+          display: none !important;
+        }
+
         [data-loan-extension-wizard="true"] footer {
           justify-content: flex-start !important;
           gap: 10px !important;
