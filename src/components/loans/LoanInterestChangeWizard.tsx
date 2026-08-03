@@ -450,7 +450,7 @@ export default function LoanInterestChangeWizard({
     setSuccessOpen(true);
   }
 
-  const steps = ["Informasi & Perubahan", "Simulasi", "Simpan Perubahan"];
+  const steps = ["Informasi & Perubahan", "Pratinjau dan Simulasi"];
 
   return (
     <>
