@@ -1,31 +1,28 @@
-/* Placeholder Metode Perpanjangan memakai abu-abu yang sama dengan field kosong. */
+/* Metode Perpanjangan mengikuti warna placeholder Tanggal Efektif. */
 [data-loan-extension-wizard="true"]
-  button[role="combobox"][data-placeholder],
+  [data-slot="select-trigger"]:has(
+    [data-slot="select-value"][data-placeholder]
+  ),
 [data-loan-extension-wizard="true"]
-  [data-slot="select-trigger"][data-placeholder],
-[data-loan-extension-wizard="true"]
-  button[role="combobox"]:has([data-placeholder]),
-[data-loan-extension-wizard="true"]
-  [data-slot="select-trigger"]:has([data-placeholder]) {
-  color: #94a3b8 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  button[role="combobox"][data-placeholder]
-  [data-slot="select-value"],
-[data-loan-extension-wizard="true"]
-  [data-slot="select-trigger"][data-placeholder]
+  [data-slot="select-trigger"]:has(
+    [data-slot="select-value"][data-placeholder]
+  )
   [data-slot="select-value"],
 [data-loan-extension-wizard="true"]
   [data-slot="select-value"][data-placeholder] {
-  color: #94a3b8 !important;
+  color: #64748b !important;
   opacity: 1 !important;
 }
 
-/* Nilai pilihan tetap menggunakan warna teks utama. */
+/* Nilai pilihan tetap memakai warna teks utama. */
 [data-loan-extension-wizard="true"]
-  button[role="combobox"]:not([data-placeholder]),
+  [data-slot="select-trigger"]:has(
+    [data-slot="select-value"]:not([data-placeholder])
+  ),
 [data-loan-extension-wizard="true"]
-  [data-slot="select-trigger"]:not([data-placeholder]) {
-  color: #0f172a;
+  [data-slot="select-trigger"]:has(
+    [data-slot="select-value"]:not([data-placeholder])
+  )
+  [data-slot="select-value"] {
+  color: #0f172a !important;
 }
