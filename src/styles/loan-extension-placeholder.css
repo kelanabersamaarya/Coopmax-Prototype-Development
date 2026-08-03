@@ -34,12 +34,25 @@
   opacity: 1 !important;
 }
 
-/* Placeholder tanggal berada di dalam trigger Popover. */
-[data-loan-extension-wizard="true"]
-  [data-slot="popover-trigger"]
-  input:placeholder-shown,
-[data-loan-extension-wizard="true"]
-  button[aria-label="Pilih tanggal"]
-  input:placeholder-shown {
-  color: #7987b6 !important;
+/* Modal Perpanjangan Pinjaman: field tetap netral saat diklik, fokus, atau dropdown dibuka. */
+[data-loan-extension-wizard="true"] input:focus,
+[data-loan-extension-wizard="true"] input:focus-visible,
+[data-loan-extension-wizard="true"] textarea:focus,
+[data-loan-extension-wizard="true"] textarea:focus-visible,
+[data-loan-extension-wizard="true"] button[role="combobox"]:focus,
+[data-loan-extension-wizard="true"] button[role="combobox"]:focus-visible,
+[data-loan-extension-wizard="true"] button[role="combobox"][data-state="open"],
+[data-loan-extension-wizard="true"] [data-slot="select-trigger"]:focus,
+[data-loan-extension-wizard="true"] [data-slot="select-trigger"]:focus-visible,
+[data-loan-extension-wizard="true"] [data-slot="select-trigger"][data-state="open"],
+[data-loan-extension-wizard="true"] [data-slot="popover-trigger"]:focus,
+[data-loan-extension-wizard="true"] [data-slot="popover-trigger"]:focus-visible,
+[data-loan-extension-wizard="true"] [data-slot="popover-trigger"][data-state="open"] {
+  border-color: #cbd5e1 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
 }
