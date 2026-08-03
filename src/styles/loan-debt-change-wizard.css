@@ -283,83 +283,48 @@
   content: "Total Tagihan\A Setelah Penyesuaian";
 }
 
-/* Penanda muncul pada angsuran yang dipilih dari tanggal efektif perubahan. */
+/* Langkah simulasi tidak lagi menampilkan kotak atau panel penanda perubahan. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   tbody
   tr[data-debt-change="true"]
-  td {
-  position: relative;
-  border-top: 2px solid #2563eb !important;
-  border-bottom: 2px solid #2563eb !important;
-  background-color: #ffffff !important;
-  padding-top: 76px !important;
-}
-
+  td,
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   tbody
   tr[data-debt-change="true"]
-  td:first-child {
-  border-left: 2px solid #2563eb !important;
-  z-index: 2;
-}
-
+  td:first-child,
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   tbody
   tr[data-debt-change="true"]
   td:last-child {
-  border-right: 2px solid #2563eb !important;
+  position: static !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid rgb(241 245 249) !important;
+  border-left: 0 !important;
+  background-color: transparent !important;
+  padding-top: 12px !important;
 }
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   tbody
   tr[data-debt-change-start="true"]
-  td:first-child::before {
-  content: "Periode Perubahan Hutang Bunga";
-  position: absolute;
-  z-index: 3;
-  left: 10px;
-  top: 10px;
-  display: flex;
-  min-height: 52px;
-  width: calc(2015px - 20px);
-  align-items: center;
-  border-radius: 12px;
-  background-color: #eff6ff;
-  padding: 11px 13px 11px 49px;
-  color: #000000;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.45;
-  letter-spacing: 0;
-  text-transform: none;
-  pointer-events: none;
-}
-
+  td:first-child::before,
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   tbody
   tr[data-debt-change-start="true"]
+  td:first-child::after,
+[data-loan-debt-wizard="true"]
+  table.min-w-\[2015px\]
+  tbody
+  tr[data-debt-change-end="true"]
   td:first-child::after {
-  content: "i";
-  position: absolute;
-  z-index: 4;
-  left: 21px;
-  top: 25px;
-  display: grid;
-  height: 22px;
-  width: 22px;
-  place-items: center;
-  border-radius: 999px;
-  background-color: #2563eb;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1;
-  pointer-events: none;
+  content: none !important;
+  display: none !important;
 }
 
 @media (max-width: 900px) {
