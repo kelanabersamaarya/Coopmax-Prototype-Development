@@ -220,6 +220,9 @@ export default function SavingsAccountDetail({
     getAutodebetSchedules(account.accountNo),
   );
   const active = account.status === "Aktif";
+  const hasLoanAutodebet = autodebitRows.some(
+    (schedule) => schedule.product === "Produk Pinjaman",
+  );
 
   const editingSchedule =
     editingScheduleIndex === null
@@ -549,6 +552,56 @@ export default function SavingsAccountDetail({
 
           <div className="my-6 h-px bg-slate-200" />
 
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
+            INFORMASI KREDIT
+          </div>
+
+          <div className="mt-4 grid gap-6 lg:grid-cols-2">
+            <div>
+              <InfoRow label="Tanggal Realisasi" value="16-03-2026" />
+              <InfoRow label="Besar Pinjaman / Plafon" value="10.000.000" />
+              <InfoRow label="Biaya Administrasi" value="100.000" />
+              <InfoRow label="Biaya Materai" value="200.000" />
+              <InfoRow label="Jumlah Potongan" value="322.000" />
+              <InfoRow label="Penerimaan Bersih" value="9.678.000" />
+              <InfoRow
+                label="Terbilang"
+                value={
+                  <span className="block leading-snug">
+                    Sembilan Juta Enam Ratus
+                    <br />
+                    Tujuh Puluh Delapan Ribu
+                  </span>
+                }
+              />
+              <InfoRow label="Dicairkan ke Rekening Tabungan" value="8503046" />
+            </div>
+
+            <div>
+              <InfoRow label="Satuan Grace Period" value="Bulan" />
+              <InfoRow label="Durasi Grace Period" value="6" />
+              <InfoRow label="Status Grace Period" value={<ActiveBadge>Aktif</ActiveBadge>} />
+              <InfoRow
+                label="Skema Tagihan"
+                value={<span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>}
+              />
+              <InfoRow
+                label="Tagihan Angsuran Menggunakan Tabel Angsuran"
+                value={<ActiveBadge>Aktif</ActiveBadge>}
+              />
+              <InfoRow
+                label="Status Tabel Angsuran"
+                value={
+                  <SuccessBadge>
+                    <span className="mr-1">✓</span> Berhasil Tersinkron
+                  </SuccessBadge>
+                }
+              />
+            </div>
+          </div>
+
+          <div className="my-6 h-px bg-slate-200" />
+
           <div className="flex items-center justify-between gap-3">
             <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
               Jadwal Autodebet
@@ -568,28 +621,31 @@ export default function SavingsAccountDetail({
               <table className="w-full min-w-[850px] border-collapse text-black">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-black">
-                    {[
-                      "No.",
-                      "Produk Tujuan",
-                      "No. Rekening Tujuan",
-                      "Pemilik Rekening Tujuan",
-                      "Setiap Tanggal",
-                      "Tanggal Transaksi Selanjutnya",
-                      "Keterangan",
-                      "Status",
-                      "Aksi",
-                    ].map((label) => (
-                      <th key={label} className="px-3 py-3 text-black">
-                        {label}
+                    <th className="px-3 py-3 text-black">No.</th>
+                    <th className="px-3 py-3 text-black">Produk Tujuan</th>
+                    <th className="px-3 py-3 text-black">No. Rekening Tujuan</th>
+                    <th className="px-3 py-3 text-black">
+                      Pemilik Rekening Tujuan
+                    </th>
+                    {hasLoanAutodebet ? (
+                      <th className="px-3 py-3 text-right text-black">
+                        Nominal Angsuran
                       </th>
-                    ))}
+                    ) : null}
+                    <th className="px-3 py-3 text-black">Setiap Tanggal</th>
+                    <th className="px-3 py-3 text-black">
+                      Tanggal Transaksi Selanjutnya
+                    </th>
+                    <th className="px-3 py-3 text-black">Keterangan</th>
+                    <th className="px-3 py-3 text-black">Status</th>
+                    <th className="px-3 py-3 text-center text-black">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   {autodebitRows.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={9}
+                        colSpan={hasLoanAutodebet ? 10 : 9}
                         className="px-4 py-8 text-center text-[12px] text-black"
                       >
                         No data available in table
@@ -598,6 +654,7 @@ export default function SavingsAccountDetail({
                   ) : (
                     autodebitRows.map((row, index) => {
                       const [accountNo, owner = "-"] = row.accountNo.split(" - ");
+                      const isLoanSchedule = row.product === "Produk Pinjaman";
 
                       return (
                         <tr
@@ -610,6 +667,11 @@ export default function SavingsAccountDetail({
                           </td>
                           <td className="px-3 py-3 text-black">{accountNo}</td>
                           <td className="px-3 py-3 text-black">{owner}</td>
+                          {hasLoanAutodebet ? (
+                            <td className="px-3 py-3 text-right tabular-nums text-black">
+                              {isLoanSchedule ? "1.120.000,00" : "-"}
+                            </td>
+                          ) : null}
                           <td className="px-3 py-3 text-black">
                             <ScheduleDateCell date={row.date} />
                           </td>
