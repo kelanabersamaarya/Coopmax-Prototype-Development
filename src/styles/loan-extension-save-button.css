@@ -1,4 +1,4 @@
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
   footer
   > button:last-child {
   min-width: 214px !important;
@@ -15,26 +15,26 @@
   box-shadow: none !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
   footer
   > button:last-child:hover:not(:disabled) {
   background-color: #279f00 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
   footer
   > button:last-child:disabled {
   background-color: #94a3b8 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
   footer
   > button:last-child
   svg {
   display: none !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
   footer
   > button:last-child::before {
   content: "";

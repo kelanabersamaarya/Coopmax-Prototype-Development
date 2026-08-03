@@ -19,8 +19,9 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
 import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
+import { addLoanExtensionHistory } from "@/lib/loanExtensionHistoryStore";
 
-type Step = 1 | 2;
+type Step = 1 | 2 | 3;
 type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
@@ -81,8 +82,49 @@ function addMonths(date: Date, months: number) {
   return result;
 }
 
+function AccountField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="loan-extension-account-field min-w-0">
+      <div className="text-[12px] font-semibold text-white/85">{label}</div>
+      <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
+        {label === "Status Pinjaman" ? (
+          <span className="inline-flex rounded-[4px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-slate-900">
+            {value}
+          </span>
+        ) : (
+          value
+        )}
+      </div>
+    </div>
+  );
+}
+
+function FieldRow({
+  label,
+  children,
+  top = false,
+}: {
+  label: string;
+  children: React.ReactNode;
+  top?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)]",
+        top ? "sm:items-start" : "sm:items-center",
+      )}
+    >
+      <label className={cn("text-[14px] font-normal text-[#002060]", top && "pt-2")}>
+        {label} <span className="text-rose-600">*</span>
+      </label>
+      {children}
+    </div>
+  );
+}
+
 function StepIndicator({ step }: { step: Step }) {
-  const steps = ["Informasi & Perpanjangan", "Simulasi"];
+  const steps = ["Informasi & Perpanjangan", "Simulasi", "Simpan Perubahan"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
@@ -118,30 +160,6 @@ function StepIndicator({ step }: { step: Step }) {
           </React.Fragment>
         );
       })}
-    </div>
-  );
-}
-
-function FieldRow({
-  label,
-  children,
-  top = false,
-}: {
-  label: string;
-  children: React.ReactNode;
-  top?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        "grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)]",
-        top ? "sm:items-start" : "sm:items-center",
-      )}
-    >
-      <label className={cn("text-[14px] font-normal text-[#002060]", top && "pt-2")}>
-        {label} <span className="text-rose-600">*</span>
-      </label>
-      {children}
     </div>
   );
 }
@@ -373,8 +391,90 @@ export default function LoanExtensionWizard({
       return;
     }
 
+    if (step === 2) {
+      setStep(3);
+      return;
+    }
+
     setConfirmOpen(true);
   }
+
+  function saveExtension() {
+    addLoanExtensionHistory(accountNo, {
+      method,
+      effectiveDate,
+      previousTenor: `${OLD_TENOR} Bulan`,
+      newTenor: `${simulation.tenor} Bulan`,
+    });
+
+    setConfirmOpen(false);
+    setSuccessOpen(true);
+  }
+
+  const saveSummary = (
+    <div className="grid gap-5">
+      <div>
+        <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
+          Simpan Perubahan Perpanjangan
+        </h3>
+        <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
+          Periksa kembali data perpanjangan pinjaman sebelum menyimpan perubahan.
+        </p>
+      </div>
+
+      <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <div className="text-[12px] font-semibold text-slate-500">
+              Rekening Pinjaman
+            </div>
+            <div className="mt-1 text-[14px] font-extrabold text-slate-900">
+              {accountNo}
+            </div>
+          </div>
+          <div>
+            <div className="text-[12px] font-semibold text-slate-500">
+              Metode Perpanjangan
+            </div>
+            <div className="mt-1 text-[14px] font-extrabold text-[#2563EB]">
+              {method}
+            </div>
+          </div>
+        </div>
+
+        <Separator className="my-5 bg-slate-200" />
+
+        <div className="grid gap-4 text-[14px]">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-slate-600">Tenor Sebelum Perpanjangan</span>
+            <span className="font-extrabold text-slate-900">
+              {OLD_TENOR} Bulan
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-slate-600">Tenor Sesudah Perpanjangan</span>
+            <span className="font-extrabold text-[#2563EB]">
+              {simulation.tenor} Bulan
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-slate-600">Jatuh Tempo Akhir Baru</span>
+            <span className="font-extrabold text-[#2563EB]">
+              {simulation.dueDate}
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-slate-600">Tanggal Efektif</span>
+            <span className="font-extrabold text-slate-900">{effectiveDate}</span>
+          </div>
+          <div className="border-t border-slate-200 pt-4 text-slate-600">
+            Alasan:{" "}
+            <span className="font-semibold text-slate-900">{reason}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -387,10 +487,7 @@ export default function LoanExtensionWizard({
       <ConfirmDialog
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          setConfirmOpen(false);
-          setSuccessOpen(true);
-        }}
+        onConfirm={saveExtension}
       />
 
       <SuccessDialog
@@ -438,29 +535,18 @@ export default function LoanExtensionWizard({
                       onClick={() => setHistoryOpen(true)}
                       className="inline-flex h-9 shrink-0 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] transition hover:bg-slate-50"
                     >
-                      <Clock3 className="h-4 w-4" />
+                      <Clock3 className="h-4 w-4 />
                       Lihat Riwayat Perubahan
                     </button>
                   </div>
 
                   <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
                     {accountDetails.map(([label, value]) => (
-                      <div key={label} className="loan-extension-account-field min-w-0">
-                        <div className="text-[12px] font-semibold text-white/85">
-                          {label}
-                        </div>
-                        <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
-                          {label === "No. Rek. Pinjaman" ? (
-                            accountNo
-                          ) : label === "Status Pinjaman" ? (
-                            <span className="inline-flex rounded-[4px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-slate-900">
-                              {value}
-                            </span>
-                          ) : (
-                            value
-                          )}
-                        </div>
-                      </div>
+                      <AccountField
+                        key={label}
+                        label={label}
+                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
+                      />
                     ))}
                   </div>
                 </section>
@@ -643,16 +729,21 @@ export default function LoanExtensionWizard({
                 <LoanExtensionPaymentSchedule rows={simulation.scheduleRows} />
               </div>
             ) : null}
+
+            {step === 3 ? saveSummary : null}
           </main>
 
           <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
             <button
               type="button"
-              onClick={() =>
-                step === 1
-                  ? onOpenChange(false)
-                  : setStep(1)
-              }
+              onClick={() => {
+                if (step === 1) {
+                  onOpenChange(false);
+                  return;
+                }
+
+                setStep((current) => (current - 1) as Step);
+              }}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
               {step === 1 ? (
@@ -679,15 +770,15 @@ export default function LoanExtensionWizard({
               onClick={continueWizard}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-                step === 2
-                  ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
-                  : !isValid
+                step === 3
+                  ? "min-w-[214px] gap-[8px] bg-[#2fb300] hover:bg-[#279800]"
+                  : step === 1 && !isValid
                     ? "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500"
                     : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
               )}
             >
-              {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 2 ? (
+              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 3 ? (
                 <Check className="h-5 w-5" strokeWidth={3.5} />
               ) : (
                 <ChevronRight className="h-4 w-4" strokeWidth={3} />
