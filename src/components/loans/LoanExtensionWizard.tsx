@@ -45,20 +45,21 @@ const MONTHLY_PRINCIPAL = 833_333;
 const OLD_MONTHLY_INTEREST = 120_000;
 
 const accountDetails: AccountDetail[] = [
-  ["No. Rek. Pinjaman", "SMG260004"],
-  ["Nama Anggota", "Bapak Bagus"],
-  ["Produk Pinjaman", "Pinjaman Billing"],
-  ["Baki Debet", "10.553.571,00"],
-  ["Sisa Tenor", "12 Bulan"],
-  ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE],
-  ["Nominal Angsuran", "953.333,00"],
-  ["Suku Bunga", "12,00% per tahun"],
+  ["Nomor Rekening Pinjaman", "SMG260004"],
+  ["Nama Anggota / Debitur", "Bapak Bagus"],
+  ["Nama Produk", "Pinjaman Billing"],
   [
     "Status Pinjaman",
     <span className="inline-flex rounded-[5px] bg-[#31b900] px-3 py-1 text-[11px] font-extrabold leading-none text-white shadow-sm ring-1 ring-[#31b900]/30">
       Aktif / Sudah Dicairkan
     </span>,
   ],
+  ["Baki Debet Pokok", "10.553.571,00"],
+  ["Sisa Tenor", "12 Bulan"],
+  ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE],
+  ["Nominal Angsuran", "953.333,00"],
+  ["Suku Bunga", "12,00% per tahun"],
+  ["Tagihan dan Tunggakan", "Tagihan berjalan 1.120.000,00 • Tunggakan 0,00"],
 ];
 
 function formatIdr(value: number) {
@@ -111,11 +112,11 @@ function AccountField({
   value: React.ReactNode;
 }) {
   return (
-    <div className="min-w-0">
+    <div className="loan-extension-account-field min-w-0">
       <div className="text-[12px] font-semibold leading-tight text-white/85">
         {label}
       </div>
-      <div className="mt-1.5 text-[15px] font-extrabold leading-snug text-white">
+      <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
         {value}
       </div>
     </div>
@@ -577,18 +578,18 @@ export default function LoanExtensionWizard({
         <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
           {step === 1 ? (
             <div className="grid gap-6">
-              <section className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+              <section className="loan-extension-account-info rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
                 <div className="text-[14px] font-extrabold tracking-wide text-white">
                   INFORMASI REKENING PINJAMAN
                 </div>
 
-                <div className="mt-7 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
                   {accountDetails.map((field) => (
                     <AccountField
                       key={field.label}
                       label={field.label}
                       value={
-                        field.label === "No. Rek. Pinjaman"
+                        field.label === "Nomor Rekening Pinjaman"
                           ? accountNo
                           : field.value
                       }

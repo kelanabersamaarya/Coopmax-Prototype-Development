@@ -1,11 +1,29 @@
-/* Modal Perpanjangan Pinjaman:
-   Section Informasi Rekening Pinjaman sengaja disembunyikan sementara
-   dan akan dibuat ulang berdasarkan detail berikutnya.
-*/
+[data-loan-extension-wizard="true"] .loan-extension-account-info {
+  display: block !important;
+}
 
-[data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > section.rounded-\[8px\].bg-\[\#17a2b8\] {
-  display: none !important;
+[data-loan-extension-wizard="true"] .loan-extension-account-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"] .loan-extension-account-field {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #ffffff !important;
+}
+
+@media (min-width: 640px) {
+  [data-loan-extension-wizard="true"] .loan-extension-account-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-loan-extension-wizard="true"] .loan-extension-account-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
 }
