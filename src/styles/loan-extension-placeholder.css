@@ -56,3 +56,23 @@
   --tw-ring-offset-shadow: 0 0 #0000 !important;
   --tw-ring-offset-width: 0px !important;
 }
+
+/* Opsi dropdown Metode Perpanjangan menggunakan biru saat diarahkan. */
+[data-radix-popper-content-wrapper]
+  :has([data-loan-extension-wizard="true"])
+  [role="option"][data-highlighted],
+[data-radix-popper-content-wrapper]
+  :has([data-loan-extension-wizard="true"])
+  [role="option"]:hover {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+[data-radix-popper-content-wrapper]
+  :has([data-loan-extension-wizard="true"])
+  [role="option"][data-highlighted] *,
+[data-radix-popper-content-wrapper]
+  :has([data-loan-extension-wizard="true"])
+  [role="option"]:hover * {
+  color: #ffffff !important;
+}
