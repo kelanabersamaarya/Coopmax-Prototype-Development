@@ -3,8 +3,8 @@
    - Tagihan Bunga Sesudah Penyesuaian
    - Sisa Tagihan Bunga Sesudah Penyesuaian
 
-   Tabel simulasi dirender menggunakan flex. Garis vertikal dibuat
-   pada container agar tersambung utuh tanpa celah antarbaris.
+   Tabel simulasi dirender menggunakan flex. Garis bingkai digambar pada
+   container header dan isi tabel agar tersambung utuh tanpa celah antarbaris.
 */
 
 [data-loan-interest-wizard="true"]
@@ -36,7 +36,7 @@
   pointer-events: none;
 }
 
-/* Garis atas hanya membingkai dua header hasil penyesuaian. */
+/* Garis atas hanya berada pada dua header hasil penyesuaian. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead::after {
@@ -51,18 +51,30 @@
   pointer-events: none;
 }
 
-/* Tidak ada garis biru di atas kolom header lain. */
+/* Garis bawah hanya berada pada dua kolom hasil penyesuaian.
+   Kolom sebelum penyesuaian tidak lagi memiliki border bawah biru. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
-  thead {
-  border-top: 0 !important;
+  tbody::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  bottom: 0;
+  left: 57%;
+  height: 2px;
+  background: #2563eb;
+  pointer-events: none;
 }
 
-/* Garis bawah menutup bingkai setelah seluruh isi tabel. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead,
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   tbody {
-  border-bottom: 2px solid #2563eb !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
 }
 
 /* Hilangkan border per-sel agar garis vertikal tidak putus antarbaris. */
