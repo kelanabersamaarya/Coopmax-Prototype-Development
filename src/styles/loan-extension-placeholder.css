@@ -34,7 +34,6 @@
   opacity: 1 !important;
 }
 
-/* Grid informasi rekening menggunakan class khusus agar tidak terpengaruh selector global. */
 [data-loan-extension-wizard="true"] .loan-extension-account-grid {
   display: grid !important;
   visibility: visible !important;
@@ -84,10 +83,6 @@
   --tw-ring-offset-width: 0px !important;
 }
 
-/*
-  Opsi Select dirender Radix di luar elemen wizard (portal), sehingga selector
-  ditautkan melalui body selama modal perpanjangan sedang terbuka.
-*/
 body:has([data-loan-extension-wizard="true"])
   [data-radix-select-content]
   [role="option"][data-highlighted],
@@ -119,7 +114,6 @@ body:has([data-loan-extension-wizard="true"])
   color: #ffffff !important;
 }
 
-/* Tombol Lanjutkan abu-abu dan tidak interaktif sebelum form perpanjangan lengkap. */
 [data-loan-extension-wizard="true"] footer > button:last-child:disabled {
   cursor: not-allowed !important;
   pointer-events: none !important;
@@ -132,7 +126,7 @@ body:has([data-loan-extension-wizard="true"])
   color: #64748b !important;
 }
 
-/* Jadwal Pembayaran Baru: selaraskan dengan tabel tagihan di Transaksi Anggota. */
+/* Jadwal Pembayaran Baru. */
 [data-loan-extension-wizard="true"] table.min-w-\[860px\] {
   font-variant-numeric: tabular-nums;
 }
@@ -144,6 +138,14 @@ body:has([data-loan-extension-wizard="true"])
   font-weight: 800 !important;
   line-height: 1.15 !important;
   letter-spacing: 0.04em !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody {
+  counter-reset: extension-installment-row;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody tr {
+  counter-increment: extension-installment-row;
 }
 
 [data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td {
@@ -171,14 +173,9 @@ body:has([data-loan-extension-wizard="true"])
 [data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:nth-child(5) {
   color: #2563eb !important;
   font-weight: 700 !important;
-}
-
-/* Kolom total angsuran diperlakukan sebagai total tagihan seperti tabel anggota. */
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:nth-child(5) {
   background-color: rgb(239 246 255 / 0.65) !important;
 }
 
-/* Panel tabel mengikuti bentuk dan garis tabel tagihan. */
 [data-loan-extension-wizard="true"]
   div.overflow-hidden.rounded-\[12px\].border:has(table.min-w-\[860px\]) {
   border-color: #e2e8f0 !important;
@@ -195,46 +192,51 @@ body:has([data-loan-extension-wizard="true"])
   font-weight: 700 !important;
 }
 
-/* Jadwal Pembayaran Baru: nomor angsuran ditempatkan di sisi kiri Jatuh Tempo. */
+/* Kolom pertama dibagi menjadi Angsuran Ke dan Jatuh Tempo yang lebih sempit. */
 [data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th:first-child {
-  width: 190px !important;
-  min-width: 190px !important;
+  width: 155px !important;
+  min-width: 155px !important;
   display: grid !important;
-  grid-template-columns: 74px minmax(0, 1fr) !important;
-  gap: 12px !important;
+  grid-template-columns: 48px minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 8px !important;
   text-align: left !important;
 }
 
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th:first-child::before {
-  content: "Angsuran\A Ke";
-  white-space: pre;
-}
-
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody {
-  counter-reset: extension-installment-row calc((var(--extension-page, 1) - 1) * 6);
-}
-
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody tr {
-  counter-increment: extension-installment-row;
+[data-loan-extension-wizard="true"]
+  table.min-w-\[860px\]
+  thead
+  th:first-child::before {
+  content: "Angsuran\A Ke" !important;
+  display: block !important;
+  color: #334155 !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.04em !important;
+  white-space: pre !important;
 }
 
 [data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child {
-  width: 190px !important;
-  min-width: 190px !important;
+  width: 155px !important;
+  min-width: 155px !important;
   display: grid !important;
-  grid-template-columns: 74px minmax(0, 1fr) !important;
+  grid-template-columns: 48px minmax(0, 1fr) !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: 8px !important;
   text-align: left !important;
-}
-
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child::before {
-  content: counter(extension-installment-row);
-  color: #1e293b;
-  font-weight: 500;
-  text-align: left;
-}
-
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child {
   white-space: nowrap !important;
+}
+
+[data-loan-extension-wizard="true"]
+  table.min-w-\[860px\]
+  tbody
+  td:first-child::before {
+  content: counter(extension-installment-row) !important;
+  display: block !important;
+  color: #1e293b !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  text-align: left !important;
 }
