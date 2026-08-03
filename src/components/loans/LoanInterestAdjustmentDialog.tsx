@@ -14,7 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
 
 export type InterestAdjustmentType =
@@ -155,7 +154,6 @@ export default function LoanInterestAdjustmentDialog({
     InterestAdjustmentType | ""
   >("");
   const [amount, setAmount] = React.useState("");
-  const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -176,7 +174,6 @@ export default function LoanInterestAdjustmentDialog({
 
     setAdjustmentType("");
     setAmount("");
-    setEffectiveDate("");
     setReason("");
     setConfirmOpen(false);
     setSuccessOpen(false);
@@ -190,11 +187,6 @@ export default function LoanInterestAdjustmentDialog({
 
     if (adjustmentType !== "Pembebasan Seluruh Bunga" && !amount.trim()) {
       toast("Nominal penyesuaian wajib diisi");
-      return false;
-    }
-
-    if (isAdditionalInterest && !effectiveDate.trim()) {
-      toast("Tanggal efektif wajib diisi");
       return false;
     }
 
@@ -216,7 +208,7 @@ export default function LoanInterestAdjustmentDialog({
     onSave?.({
       type: adjustmentType,
       amount,
-      effectiveDate,
+      effectiveDate: "",
       interestPeriod: "",
       reason,
       previousInterest: currentInterest,
@@ -233,7 +225,6 @@ export default function LoanInterestAdjustmentDialog({
   );
 
   const mutedClassName = cn(inputClassName, "interest-adjustment-muted-field");
-  const activeClassName = cn(inputClassName, "interest-adjustment-active-field");
 
   return (
     <>
@@ -264,10 +255,6 @@ export default function LoanInterestAdjustmentDialog({
                 opacity: 1 !important;
               }
 
-              [data-interest-adjustment-dialog="true"] .interest-adjustment-active-field {
-                color: #0f172a !important;
-              }
-
               [data-interest-adjustment-dialog="true"] input:focus,
               [data-interest-adjustment-dialog="true"] input:focus-visible,
               [data-interest-adjustment-dialog="true"] textarea:focus,
@@ -277,10 +264,7 @@ export default function LoanInterestAdjustmentDialog({
               [data-interest-adjustment-dialog="true"] button[role="combobox"][data-state="open"],
               [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"]:focus,
               [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"]:focus-visible,
-              [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"][data-state="open"],
-              [data-interest-adjustment-dialog="true"] [data-slot="popover-trigger"]:focus,
-              [data-interest-adjustment-dialog="true"] [data-slot="popover-trigger"]:focus-visible,
-              [data-interest-adjustment-dialog="true"] [data-slot="popover-trigger"][data-state="open"] {
+              [data-interest-adjustment-dialog="true"] [data-slot="select-trigger"][data-state="open"] {
                 border-color: #cbd5e1 !important;
                 outline: 0 !important;
                 box-shadow: none !important;
@@ -318,7 +302,6 @@ export default function LoanInterestAdjustmentDialog({
                   onValueChange={(value) => {
                     setAdjustmentType(value as InterestAdjustmentType);
                     setAmount("");
-                    setEffectiveDate("");
                     setReason("");
                   }}
                 >
@@ -401,24 +384,6 @@ export default function LoanInterestAdjustmentDialog({
                     </div>
                   ) : null}
 
-                  {isAdditionalInterest ? (
-                    <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                      <label className="text-[14px] font-normal text-[#002060]">
-                        Tanggal Efektif<span className="text-rose-600"> *</span>
-                      </label>
-                      <DatePickerDmyField
-                        value={effectiveDate}
-                        onChange={setEffectiveDate}
-                        inputClassName={cn(
-                          !effectiveDate.trim()
-                            ? mutedClassName
-                            : activeClassName,
-                        )}
-                        placeholder="DD-MM-YYYY"
-                      />
-                    </div>
-                  ) : null}
-
                   <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start">
                     <label className="pt-2 text-[14px] font-normal text-[#002060]">
                       {isAdditionalInterest
@@ -438,7 +403,7 @@ export default function LoanInterestAdjustmentDialog({
                         "min-h-[112px] rounded-[5px] border-[#CBD5E1] bg-white text-[14px] shadow-none",
                         "focus-visible:ring-0",
                         reason.trim()
-                          ? "interest-adjustment-active-field"
+                          ? "text-slate-900"
                           : "interest-adjustment-muted-field",
                       )}
                     />
