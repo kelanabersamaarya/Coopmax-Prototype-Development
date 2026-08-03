@@ -1,0 +1,55 @@
+/* Ubah Suku Bunga > Step Simulasi
+   Beri bingkai biru untuk dua kolom hasil:
+   - Tagihan Bunga Sesudah Penyesuaian
+   - Sisa Tagihan Bunga Sesudah Penyesuaian
+*/
+
+/* Bagian atas bingkai pada kedua header kolom. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9) {
+  border-top: 2px solid #2563eb !important;
+}
+
+/* Sisi kiri bingkai dimulai dari Tagihan Bunga Sesudah Penyesuaian. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(6) {
+  border-left: 2px solid #2563eb !important;
+}
+
+/* Sisi kanan bingkai berakhir pada Sisa Tagihan Bunga Sesudah Penyesuaian. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(9) {
+  border-right: 2px solid #2563eb !important;
+}
+
+/* Garis bawah bingkai pada baris tabel terakhir. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:last-child
+  td:nth-child(6),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:last-child
+  td:nth-child(9) {
+  border-bottom: 2px solid #2563eb !important;
+}
