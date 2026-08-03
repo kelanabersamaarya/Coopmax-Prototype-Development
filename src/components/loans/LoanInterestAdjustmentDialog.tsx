@@ -62,11 +62,11 @@ function InterestForgivenessInfo() {
   return (
     <div className="rounded-[20px] bg-[#EFF6FF] px-4 py-3 text-[#1E3A8A] ring-1 ring-[#DCEBFF]">
       <div className="flex items-start gap-3">
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#1D4ED8]">
-          <Info className="h-6 w-6 text-white" strokeWidth={2.6} />
+        <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#1D4ED8]">
+          <Info className="h-4 w-4 text-white" strokeWidth={2.8} />
         </span>
 
-        <div className="min-w-0 pt-0.5">
+        <div className="min-w-0">
           <div className="text-[15px] font-bold leading-tight text-[#1E3A8A]">
             Pembebasan Bunga
           </div>
