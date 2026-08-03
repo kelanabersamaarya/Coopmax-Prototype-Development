@@ -316,23 +316,23 @@ export default function LoanInterestAdjustmentDialog({
                 </Select>
               </div>
 
-              <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
-                <label className="text-[14px] font-normal text-[#002060]">
-                  Tanggal Transaksi
-                </label>
-                <Input
-                  value={dueDate}
-                  readOnly
-                  aria-readonly="true"
-                  className={cn(
-                    inputClassName,
-                    "cursor-not-allowed bg-slate-200/80 text-left tabular-nums text-slate-700",
-                  )}
-                />
-              </div>
-
               {adjustmentType ? (
                 <>
+                  <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                    <label className="text-[14px] font-normal text-[#002060]">
+                      Tanggal Transaksi
+                    </label>
+                    <Input
+                      value={dueDate}
+                      readOnly
+                      aria-readonly="true"
+                      className={cn(
+                        inputClassName,
+                        "cursor-not-allowed bg-slate-200/80 text-left tabular-nums text-slate-700",
+                      )}
+                    />
+                  </div>
+
                   <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                     <label className="text-[14px] font-normal text-[#002060]">
                       Nominal Bunga Saat Ini
