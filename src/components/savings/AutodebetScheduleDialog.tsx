@@ -342,7 +342,7 @@ export default function AutodebetScheduleDialog({
                     Tanggal Proses Autodebet
                   </Label>
                   <Input
-                    value="Tanggal terakhir setiap bulan"
+                    value="25"
                     readOnly
                     aria-readonly="true"
                     className={cn(
