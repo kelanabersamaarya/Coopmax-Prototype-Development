@@ -1,56 +1,33 @@
 /* Perpanjangan Pinjaman > Jadwal Pembayaran Baru
-   - Sembunyikan informasi Angsuran Ke.
+   - Sembunyikan kolom Angsuran Ke.
    - Isi tabel menggunakan teks hitam dengan bobot normal.
    - Header tabel tetap hitam dan tebal.
 */
 
-/* Header kolom pertama hanya menampilkan Jatuh Tempo. */
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th:first-child {
-  display: table-cell !important;
-  width: 96px !important;
-  min-width: 96px !important;
-  padding-left: 0.75rem !important;
-  padding-right: 0.75rem !important;
-  text-align: left !important;
-}
-
-[data-loan-extension-wizard="true"]
-  table.min-w-\[860px\]
-  thead
-  th:first-child::before {
-  content: none !important;
+/* Tabel aktif memakai min-w-[1080px]. Sembunyikan header dan sel Angsuran Ke. */
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th:first-child,
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td:first-child {
   display: none !important;
 }
 
-/* Sel pertama kembali menjadi kolom Jatuh Tempo saja, tanpa nomor angsuran. */
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child {
-  display: table-cell !important;
-  width: 96px !important;
-  min-width: 96px !important;
-  padding-left: 0.75rem !important;
-  padding-right: 0.75rem !important;
-  text-align: left !important;
-  white-space: nowrap !important;
+/* Header tetap putih, hitam, dan tebal. */
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th,
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
 }
 
-[data-loan-extension-wizard="true"]
-  table.min-w-\[860px\]
-  tbody
-  td:first-child::before {
-  content: none !important;
-  display: none !important;
-}
-
-/* Semua isi tabel menggunakan teks normal berwarna hitam. */
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td,
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td * {
+/* Semua isi tabel hitam dengan ketebalan normal. */
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td,
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td * {
   color: #000000 !important;
   font-weight: 400 !important;
 }
 
-/* Header tetap tebal dan hitam. */
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th,
-[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th * {
-  color: #000000 !important;
-  font-weight: 700 !important;
+/* Kolom jatuh tempo kini menjadi kolom pertama yang terlihat. */
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th:nth-child(2),
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td:nth-child(2) {
+  text-align: left !important;
+  white-space: nowrap !important;
 }
