@@ -33,7 +33,8 @@ input[placeholder="Cari tanggal..."]:focus-visible {
   --tw-ring-offset-width: 0px !important;
 }
 
-/* Produk Pinjaman: tanggal autodebet sudah ditentukan otomatis pada akhir bulan. */
-[data-slot="dialog-content"] div:has(> label + input[readonly][aria-readonly="true"]) {
+/* Produk Pinjaman: tanggal autodebet sudah ditetapkan otomatis pada akhir bulan. */
+body:has(.autodebet-dialog-field)
+  .grid:has(> input[readonly][aria-readonly="true"]) {
   display: none !important;
 }
