@@ -1,0 +1,43 @@
+[data-radix-dialog-content].h-\[365px\] {
+  width: min(440px, calc(100vw - 2rem)) !important;
+  max-width: 440px !important;
+  height: 300px !important;
+  min-height: 300px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] > div {
+  padding-top: 28px !important;
+  padding-bottom: 16px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] > div > div:first-child {
+  height: 76px !important;
+  width: 76px !important;
+  border-width: 3px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] > div > div:first-child > span {
+  font-size: 46px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] h2 {
+  margin-top: 20px !important;
+  font-size: 23px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] h2 + div {
+  margin-top: 24px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] h2 + div button {
+  height: 44px !important;
+  font-size: 14px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] h2 + div button:first-child {
+  width: 96px !important;
+}
+
+[data-radix-dialog-content].h-\[365px\] h2 + div button:last-child {
+  width: 116px !important;
+}

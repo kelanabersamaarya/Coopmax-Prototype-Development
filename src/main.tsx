@@ -60,5 +60,6 @@ import "./styles/loan-debt-confirm-modal.css";
 import "./styles/loan-extension-placeholder.css";
 import "./styles/loan-extension-account-info.css";
 import "./styles/loan-extension-payment-schedule.css";
+import "./styles/loan-extension-confirm-modal-size.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
