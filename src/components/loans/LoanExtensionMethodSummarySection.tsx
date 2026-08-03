@@ -31,12 +31,18 @@ export default function LoanExtensionMethodSummarySection({
           };
 
   return (
-    <section className="rounded-[12px] border border-slate-200 bg-white px-4 py-4">
-      <div className="text-[12px] font-semibold text-slate-500">
-        {detail.label}
+    <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+        Metode Perpanjangan
       </div>
-      <div className="mt-1 text-[14px] font-extrabold text-[#2563EB]">
-        {detail.value}
+
+      <div className="px-4 py-4">
+        <div className="text-[12px] font-semibold text-slate-500">
+          {detail.label}
+        </div>
+        <div className="mt-1 text-[14px] font-extrabold text-[#2563EB]">
+          {detail.value}
+        </div>
       </div>
     </section>
   );
