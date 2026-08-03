@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -124,7 +124,10 @@ function AccountSummary({
 }) {
   const details = isLoan
     ? [
-        ["Total Pinjaman", account.accountNo === "SMG260004" ? "12.000.000,00" : account.balance],
+        [
+          "Total Pinjaman",
+          account.accountNo === "SMG260004" ? "12.000.000,00" : account.balance,
+        ],
         ["Sisa Pinjaman", account.balance],
         ["Tagihan Pokok", "833.333,00"],
         ["Tagihan Bunga", "83.333,00"],
@@ -314,7 +317,7 @@ export default function AutodebetScheduleDialog({
                         key={account.accountNo}
                         value={accountValue(account)}
                       >
-                        {account.customerName}
+                        {accountValue(account)}
                       </SelectItem>
                     ))}
                   </SelectContent>
