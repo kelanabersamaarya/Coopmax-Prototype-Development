@@ -15,58 +15,62 @@ function isFormComplete(wizard: HTMLElement) {
   }
 
   const inputs = Array.from(wizard.querySelectorAll<HTMLInputElement>("input"));
-  const textArea = wizard.querySelector<HTMLTextAreaElement>("textarea");
+  const reason = wizard.querySelector<HTMLTextAreaElement>("textarea");
 
   return (
     inputs.length > 0 &&
     inputs.every((input) => input.value.trim().length > 0) &&
-    Boolean(textArea?.value.trim())
+    Boolean(reason?.value.trim())
   );
 }
 
 function syncContinueButton() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
-  if (!wizard || wizard.dataset.loanExtensionStep !== "1") return;
+  if (!wizard) return;
 
   const footer = wizard.querySelector<HTMLElement>("footer");
-  const continueButton = footer?.querySelector<HTMLButtonElement>(
-    "button:last-child",
+  if (!footer) return;
+
+  const buttons = Array.from(footer.querySelectorAll<HTMLButtonElement>("button"));
+  const continueButton = buttons.find(
+    (button) => button.textContent?.trim() === "Lanjutkan",
   );
 
   if (!continueButton) return;
 
-  const complete = isFormComplete(wizard);
+  const isFirstStep = buttons.some(
+    (button) => button.textContent?.trim() === "Batal",
+  );
 
-  continueButton.disabled = !complete;
-  continueButton.classList.toggle("cursor-not-allowed", !complete);
-  continueButton.classList.toggle("bg-slate-300", !complete);
-  continueButton.classList.toggle("text-slate-500", !complete);
-  continueButton.classList.toggle("bg-[#2563EB]", complete);
-  continueButton.classList.toggle("hover:bg-[#1D4ED8]", complete);
+  if (!isFirstStep) return;
+
+  continueButton.disabled = !isFormComplete(wizard);
 }
 
 export default function LoanExtensionContinueGate() {
   useEffect(() => {
-    const observer = new MutationObserver(syncContinueButton);
+    const syncAfterRender = () => {
+      window.setTimeout(syncContinueButton, 0);
+    };
+
+    const observer = new MutationObserver(syncAfterRender);
 
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: true,
-      characterData: true,
     });
 
-    document.addEventListener("input", syncContinueButton, true);
-    document.addEventListener("change", syncContinueButton, true);
-    document.addEventListener("click", syncContinueButton, true);
+    document.addEventListener("input", syncAfterRender, true);
+    document.addEventListener("change", syncAfterRender, true);
+    document.addEventListener("click", syncAfterRender, true);
 
-    syncContinueButton();
+    syncAfterRender();
 
     return () => {
       observer.disconnect();
-      document.removeEventListener("input", syncContinueButton, true);
-      document.removeEventListener("change", syncContinueButton, true);
-      document.removeEventListener("click", syncContinueButton, true);
+      document.removeEventListener("input", syncAfterRender, true);
+      document.removeEventListener("change", syncAfterRender, true);
+      document.removeEventListener("click", syncAfterRender, true);
     };
   }, []);
 
