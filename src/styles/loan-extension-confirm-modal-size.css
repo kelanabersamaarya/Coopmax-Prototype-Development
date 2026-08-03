@@ -7,7 +7,7 @@
 
 [data-radix-dialog-content].h-\[365px\] > div {
   padding-top: 46px !important;
-  padding-bottom: 24px !important;
+  padding-bottom: 0 !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] > div > div:first-child {
@@ -27,6 +27,7 @@
 
 [data-radix-dialog-content].h-\[365px\] h2 + div {
   margin-top: 34px !important;
+  transform: translateY(24px);
 }
 
 [data-radix-dialog-content].h-\[365px\] h2 + div button {
