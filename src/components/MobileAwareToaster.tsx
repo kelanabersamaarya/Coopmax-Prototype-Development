@@ -11,6 +11,7 @@ import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizar
 import LoanExtensionContinueGate from "@/components/loans/LoanExtensionContinueGate";
 import LoanExtensionSaveConfirmGate from "@/components/loans/LoanExtensionSaveConfirmGate";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
+import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -41,6 +42,7 @@ export default function MobileAwareToaster() {
       <LoanInterestPercentInputFix />
       <LoanInterestChangeSuccessGate />
       <LoanInterestWizardCancelButton />
+      <LoanInterestAdjustmentHoverStyle />
       <LoanExtensionContinueGate />
       <LoanExtensionSaveConfirmGate />
       <LoanDebtChangeSaveGate />
