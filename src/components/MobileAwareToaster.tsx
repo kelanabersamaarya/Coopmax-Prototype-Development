@@ -12,6 +12,7 @@ import LoanExtensionContinueGate from "@/components/loans/LoanExtensionContinueG
 import LoanExtensionSaveConfirmGate from "@/components/loans/LoanExtensionSaveConfirmGate";
 import LoanExtensionStepTwoSaveGate from "@/components/loans/LoanExtensionStepTwoSaveGate";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
+import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
 
 export default function MobileAwareToaster() {
@@ -49,6 +50,7 @@ export default function MobileAwareToaster() {
       <LoanExtensionStepTwoSaveGate />
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
+      <LoanProductAutodebetScheduleSection />
       {shouldHideToaster ? null : (
         <Sonner
           position="top-right"
