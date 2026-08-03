@@ -1,30 +1,8 @@
-/* Informasi rekening pada Wizard Perpanjangan Pinjaman. */
+/* Informasi rekening pada Wizard Perpanjangan Pinjaman.
+   Selector memakai data attribute khusus agar tidak bertabrakan dengan aturan
+   global yang menargetkan class Tailwind .grid. */
 [data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]:has(.loan-extension-account-grid) {
-  min-height: 0 !important;
-}
-
-/* Hilangkan pseudo fallback lama agar tidak menutup atau menimpa data JSX. */
-[data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]:has(.loan-extension-account-grid)::before,
-[data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]:has(.loan-extension-account-grid)::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* Selector lengkap digunakan agar aturan global lain tidak dapat menyembunyikan data rekening. */
-[data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  .loan-extension-account-grid {
+  [data-loan-extension-account-grid="true"] {
   display: grid !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -37,28 +15,22 @@
   gap: 1.5rem 2rem !important;
 }
 
-/* Semua item informasi dipaksa terlihat. */
 [data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  .loan-extension-account-grid
-  > * {
+  [data-loan-extension-account-grid="true"]
+  [data-loan-extension-account-field="true"] {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: static !important;
   height: auto !important;
   min-height: 0 !important;
-  max-height: none !important;
   overflow: visible !important;
+  color: #ffffff !important;
 }
 
 [data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  .loan-extension-account-field
+  [data-loan-extension-account-grid="true"]
+  [data-loan-extension-account-field="true"]
   > div:first-child {
   display: block !important;
   visibility: visible !important;
@@ -69,10 +41,8 @@
 }
 
 [data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  .loan-extension-account-field
+  [data-loan-extension-account-grid="true"]
+  [data-loan-extension-account-field="true"]
   > div:last-child {
   display: block !important;
   visibility: visible !important;
@@ -85,20 +55,14 @@
 
 @media (min-width: 640px) {
   [data-loan-extension-wizard="true"]
-    main
-    > div.grid.gap-6
-    > div.rounded-\[8px\].bg-\[\#17a2b8\]
-    .loan-extension-account-grid {
+    [data-loan-extension-account-grid="true"] {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (min-width: 1024px) {
   [data-loan-extension-wizard="true"]
-    main
-    > div.grid.gap-6
-    > div.rounded-\[8px\].bg-\[\#17a2b8\]
-    .loan-extension-account-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    [data-loan-extension-account-grid="true"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }

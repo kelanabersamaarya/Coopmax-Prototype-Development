@@ -111,7 +111,10 @@ function AccountField({
   value: React.ReactNode;
 }) {
   return (
-    <div className="loan-extension-account-field min-w-0">
+    <div
+      data-loan-extension-account-field="true"
+      className="loan-extension-account-field min-w-0"
+    >
       <div className="text-[11px] font-semibold text-white/85">{label}</div>
       <div className="mt-1 text-[14px] font-extrabold leading-snug text-white">
         {value}
@@ -599,7 +602,10 @@ export default function LoanExtensionWizard({
                 <div className="text-[14px] font-extrabold tracking-wide">
                   INFORMASI REKENING PINJAMAN
                 </div>
-                <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div
+                  data-loan-extension-account-grid="true"
+                  className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3"
+                >
                   {accountDetails.map((field) => (
                     <AccountField
                       key={field.label}
