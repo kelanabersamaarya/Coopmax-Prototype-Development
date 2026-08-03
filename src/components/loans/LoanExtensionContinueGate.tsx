@@ -47,7 +47,7 @@ export default function LoanExtensionContinueGate() {
       if (!button || button.textContent?.trim().toLowerCase() !== "yes") return;
 
       const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
-      if (!wizard || wizard.dataset.loanExtensionStep !== "3") return;
+      if (!wizard || wizard.dataset.loanExtensionStep !== "2") return;
       if (savedWizardRef.current === wizard) return;
 
       const data = getExtensionData(wizard);

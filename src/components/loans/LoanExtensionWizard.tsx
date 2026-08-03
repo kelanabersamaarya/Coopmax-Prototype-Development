@@ -20,7 +20,7 @@ import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionM
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
 import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2;
 type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
@@ -82,7 +82,7 @@ function addMonths(date: Date, months: number) {
 }
 
 function StepIndicator({ step }: { step: Step }) {
-  const steps = ["Informasi & Perpanjangan", "Simulasi", "Simpan Perubahan"];
+  const steps = ["Informasi & Perpanjangan", "Simulasi"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
@@ -368,8 +368,8 @@ export default function LoanExtensionWizard({
       return;
     }
 
-    if (step < 3) {
-      setStep((current) => (current + 1) as Step);
+    if (step === 1) {
+      setStep(2);
       return;
     }
 
@@ -381,6 +381,7 @@ export default function LoanExtensionWizard({
       <LoanExtensionHistoryDialog
         open={historyOpen}
         onOpenChange={setHistoryOpen}
+        accountNo={accountNo}
       />
 
       <ConfirmDialog
@@ -642,47 +643,6 @@ export default function LoanExtensionWizard({
                 <LoanExtensionPaymentSchedule rows={simulation.scheduleRows} />
               </div>
             ) : null}
-
-            {step === 3 ? (
-              <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                  Simpan Perubahan Perpanjangan
-                </div>
-
-                <div className="grid gap-4 p-5 text-[14px]">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Rekening Pinjaman</span>
-                    <span className="font-extrabold text-slate-900">{accountNo}</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Metode Perpanjangan</span>
-                    <span className="font-extrabold text-[#2563EB]">{method}</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Tenor Baru</span>
-                    <span className="font-extrabold text-[#2563EB]">
-                      {simulation.tenor} Bulan
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Jatuh Tempo Baru</span>
-                    <span className="font-extrabold text-[#2563EB]">
-                      {simulation.dueDate}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-slate-600">Tanggal Efektif</span>
-                    <span className="font-extrabold text-slate-900">
-                      {effectiveDate}
-                    </span>
-                  </div>
-                  <div className="border-t border-slate-200 pt-4 text-slate-600">
-                    Alasan:{" "}
-                    <span className="font-semibold text-slate-900">{reason}</span>
-                  </div>
-                </div>
-              </section>
-            ) : null}
           </main>
 
           <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
@@ -691,7 +651,7 @@ export default function LoanExtensionWizard({
               onClick={() =>
                 step === 1
                   ? onOpenChange(false)
-                  : setStep((current) => (current - 1) as Step)
+                  : setStep(1)
               }
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
@@ -719,15 +679,15 @@ export default function LoanExtensionWizard({
               onClick={continueWizard}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-                step === 3
+                step === 2
                   ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
-                  : step === 1 && !isValid
+                  : !isValid
                     ? "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500"
                     : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
               )}
             >
-              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? (
+              {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 2 ? (
                 <Check className="h-5 w-5" strokeWidth={3.5} />
               ) : (
                 <ChevronRight className="h-4 w-4" strokeWidth={3} />
