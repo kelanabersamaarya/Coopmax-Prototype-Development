@@ -169,6 +169,11 @@ export default function LoanInterestAdjustmentDialog({
     [amount, currentInterest],
   );
 
+  const increasedInterest = React.useMemo(
+    () => formatIdr(parseIdr(currentInterest) + parseIdr(amount)),
+    [amount, currentInterest],
+  );
+
   React.useEffect(() => {
     if (!open) return;
 
@@ -374,6 +379,23 @@ export default function LoanInterestAdjustmentDialog({
                       </label>
                       <Input
                         value={remainingInterest}
+                        readOnly
+                        aria-readonly="true"
+                        className={cn(
+                          inputClassName,
+                          "cursor-not-allowed bg-slate-200/80 text-left tabular-nums text-slate-700",
+                        )}
+                      />
+                    </div>
+                  ) : null}
+
+                  {isAdditionalInterest ? (
+                    <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+                      <label className="text-[14px] font-normal text-[#002060]">
+                        Nominal Bunga Setelah Penambahan
+                      </label>
+                      <Input
+                        value={increasedInterest}
                         readOnly
                         aria-readonly="true"
                         className={cn(
