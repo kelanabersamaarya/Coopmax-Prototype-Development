@@ -3,19 +3,14 @@
 import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Users, ChevronDown } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 type SubItem = {
   label: string;
-  to?: string; // jika ada route nyata
-  disabled?: boolean;
+  to: string;
 };
 
-const items: SubItem[] = [
-  { label: "Iuran Simpanan", disabled: true },
-  { label: "Transaksi", to: "/anggota/transaksi" },
-];
+const items: SubItem[] = [{ label: "Transaksi", to: "/anggota/transaksi" }];
 
 export default function SidebarAnggotaMenu() {
   const location = useLocation();
@@ -62,44 +57,22 @@ export default function SidebarAnggotaMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
-              {items.map((it) => {
-                const base =
-                  "block w-full rounded-xl px-2.5 py-2 text-left text-[13px] font-semibold transition";
-
-                if (it.disabled || !it.to) {
-                  return (
-                    <button
-                      key={it.label}
-                      type="button"
-                      onClick={() =>
-                        toast("Iuran Simpanan (prototype)", {
-                          description: "Halaman Iuran Simpanan belum dibuat.",
-                        })
-                      }
-                      className={cn(base, "text-slate-800 hover:bg-slate-50")}
-                    >
-                      {it.label}
-                    </button>
-                  );
-                }
-
-                return (
-                  <NavLink
-                    key={it.label}
-                    to={it.to}
-                    className={({ isActive }) =>
-                      cn(
-                        base,
-                        isActive
-                          ? "bg-violet-600 text-white"
-                          : "text-slate-800 hover:bg-slate-50",
-                      )
-                    }
-                  >
-                    {it.label}
-                  </NavLink>
-                );
-              })}
+              {items.map((item) => (
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  className={({ isActive: itemIsActive }) =>
+                    cn(
+                      "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                      itemIsActive
+                        ? "bg-violet-600 text-white"
+                        : "text-slate-800 hover:bg-slate-50",
+                    )
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ))}
             </div>
           </div>
         </div>
