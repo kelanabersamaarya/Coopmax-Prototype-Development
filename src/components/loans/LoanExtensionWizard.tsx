@@ -662,11 +662,13 @@ export default function LoanExtensionWizard({
                         ))}
 
                         <tr className="border-b border-slate-100 bg-white">
-                          <td className="px-4 py-3 font-medium">
+                          <td className="px-4 py-3 text-[12px] font-medium">
                             Alasan Perpanjangan
                           </td>
-                          <td className="px-4 py-3 text-slate-400">-</td>
-                          <td className="px-4 py-3 font-semibold text-slate-900">
+                          <td className="px-4 py-3 text-[12px] text-slate-400">
+                            -
+                          </td>
+                          <td className="px-4 py-3 text-[12px] font-semibold text-slate-900">
                             {reason}
                           </td>
                         </tr>
