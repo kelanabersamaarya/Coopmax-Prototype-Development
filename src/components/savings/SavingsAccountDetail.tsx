@@ -335,10 +335,12 @@ export default function SavingsAccountDetail({
                 setEditingIndex(null);
                 setScheduleOpen(true);
               }}
-              className="h-8 w-fit rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:text-violet-600"
+              className="group h-8 w-fit rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:bg-transparent hover:text-violet-600"
             >
-              <Plus className="mr-1 h-4 w-4" />
-              Tambah Jadwal Autodebet
+              <span className="mr-1 inline-flex h-[18px] w-[18px] items-center justify-center rounded-[2px] border border-slate-400 text-slate-500">
+                <Plus className="h-3 w-3" strokeWidth={3} />
+              </span>
+              Tambah
             </Button>
           </div>
 
