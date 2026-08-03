@@ -1,0 +1,32 @@
+/* Ubah Nominal Bunga Pinjaman:
+   Status pinjaman dipindahkan ke urutan akhir dan ditampilkan sebagai badge hijau.
+*/
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(4) {
+  order: 99 !important;
+}
+
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(4)
+  > div:last-child {
+  display: inline-flex !important;
+  width: fit-content !important;
+  margin-top: 0.375rem !important;
+  border-radius: 5px !important;
+  background-color: #3bb001 !important;
+  padding: 0.375rem 0.625rem !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+}

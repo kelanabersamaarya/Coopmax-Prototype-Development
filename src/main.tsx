@@ -57,6 +57,7 @@ import "./styles/loan-interest-simulation-labels.css";
 import "./styles/loan-debt-save-change-button.css";
 import "./styles/loan-debt-hide-adjustment-hint.css";
 import "./styles/loan-debt-confirm-modal.css";
+import "./styles/loan-debt-status-info.css";
 import "./styles/loan-extension-placeholder.css";
 import "./styles/loan-extension-account-info.css";
 import "./styles/loan-extension-payment-schedule.css";
