@@ -1,27 +1,62 @@
 /* Perpanjangan Pinjaman > Jadwal Pembayaran Baru
-   Semua isi tabel menggunakan teks hitam dengan bobot normal.
-   Header tabel tetap hitam dan tebal.
+   Header tabel tebal, seluruh isi tabel hitam dengan bobot normal.
 */
 
-/* Header tetap putih, hitam, dan tebal. */
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th,
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th * {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  font-weight: 700 !important;
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] {
+  font-variant-numeric: tabular-nums;
 }
 
-/* Semua isi tabel hitam dengan ketebalan normal. */
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td,
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td * {
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] thead,
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] thead tr,
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] thead th,
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] thead th * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.04em !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] tbody td,
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] tbody td * {
+  color: #000000 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] tbody tr:nth-child(even) {
+  background-color: rgb(248 250 252 / 0.7) !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] thead th:nth-child(n + 2),
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] tbody td:nth-child(n + 2) {
+  text-align: right !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] tbody td:first-child {
+  font-weight: 400 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[750px\] tbody td:nth-child(4) {
   color: #000000 !important;
   font-weight: 400 !important;
 }
 
-/* Kolom pertama adalah Jatuh Tempo. */
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th:first-child,
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td:first-child {
-  display: table-cell !important;
-  text-align: left !important;
-  white-space: nowrap !important;
+[data-loan-extension-wizard="true"]
+  div.overflow-hidden.rounded-\[12px\].border:has(table.min-w-\[750px\]) {
+  border-color: #e2e8f0 !important;
+  border-radius: 5px !important;
+}
+
+[data-loan-extension-wizard="true"]
+  div.overflow-hidden.rounded-\[12px\].border:has(table.min-w-\[750px\])
+  > div:first-child {
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
 }
