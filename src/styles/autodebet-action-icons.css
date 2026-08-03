@@ -61,7 +61,7 @@ button[title="Hapus jadwal"]:hover {
   white-space: nowrap !important;
 }
 
-/* Jadwal autodebet pinjaman selalu berjalan pada akhir bulan. */
+/* Jadwal autodebet pinjaman selalu berjalan pada akhir bulan tanpa ikon tooltip. */
 .safe-x-scroll
   > table.w-full.min-w-\[850px\].border-collapse.text-black
   tbody
@@ -87,6 +87,6 @@ button[title="Hapus jadwal"]:hover {
   > table.w-full.min-w-\[850px\].border-collapse.text-black
   tbody
   td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
-  button {
-  font-size: 12px !important;
+  button[aria-label="Informasi tanggal autodebet pinjaman"] {
+  display: none !important;
 }
