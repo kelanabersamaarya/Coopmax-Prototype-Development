@@ -26,10 +26,12 @@ button[title="Hapus jadwal"]:hover {
   background-color: transparent !important;
 }
 
-/* Tabel Jadwal Autodebet: semua teks berukuran 12px. */
+/* Tabel Jadwal Autodebet: teks isi dan header tetap terbaca saat di-zoom. */
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th {
   font-size: 12px !important;
   font-weight: 700 !important;
+  text-align: left !important;
+  vertical-align: middle !important;
 }
 
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black tbody td,
@@ -38,55 +40,78 @@ button[title="Hapus jadwal"]:hover {
   font-weight: 400 !important;
 }
 
-/* Perkecil kolom tanggal transaksi selanjutnya agar keterangan memiliki ruang lebih lebar. */
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:nth-child(6),
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(6) {
-  width: 120px !important;
-  max-width: 120px !important;
-}
-
-/* Header tanggal tetap dua baris, sedangkan data tanggalnya tetap satu baris. */
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:nth-child(6) {
-  white-space: normal !important;
-  line-height: 1.2 !important;
-}
-
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(6) {
+/* Kolom nomor selalu satu baris. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:first-child,
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:first-child {
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
   white-space: nowrap !important;
 }
 
-/* Kolom keterangan dipertahankan dalam satu baris. */
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black th:nth-child(7),
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(7) {
-  white-space: nowrap !important;
+/* Semua header dibuat rata kiri, termasuk yang sebelumnya memakai text-center/right. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black thead th {
+  text-align: left !important;
 }
 
-/* Jadwal autodebet pinjaman selalu berjalan pada akhir bulan tanpa ikon tooltip. */
-.safe-x-scroll
-  > table.w-full.min-w-\[850px\].border-collapse.text-black
-  tbody
-  td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
-  > div
-  > span {
+/* Header tanggal transaksi selanjutnya dipisah tegas menjadi dua baris. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) th:nth-child(7),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) th:nth-child(6) {
+  width: 138px !important;
+  min-width: 138px !important;
+  max-width: 138px !important;
   font-size: 0 !important;
+  line-height: 1.2 !important;
+  white-space: normal !important;
 }
 
-.safe-x-scroll
-  > table.w-full.min-w-\[850px\].border-collapse.text-black
-  tbody
-  td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
-  > div
-  > span::before {
-  content: "Akhir Bulan";
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) th:nth-child(7)::after,
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) th:nth-child(6)::after {
+  content: "Tanggal Transaksi\A Selanjutnya";
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  white-space: pre-line !important;
+}
+
+/* Kolom tanggal autodebet dipatok menjadi tanggal 30. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) tbody td:nth-child(6),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) tbody td:nth-child(5) {
+  font-size: 0 !important;
+  white-space: nowrap !important;
+}
+
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) tbody td:nth-child(6)::after,
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) tbody td:nth-child(5)::after {
+  content: "30";
+  color: #000000 !important;
   font-size: 12px !important;
   font-weight: 400 !important;
-  color: #000000;
 }
 
-.safe-x-scroll
-  > table.w-full.min-w-\[850px\].border-collapse.text-black
-  tbody
-  td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
-  button[aria-label="Informasi tanggal autodebet pinjaman"] {
-  display: none !important;
+/* Kolom keterangan tetap satu baris. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) th:nth-child(8),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) td:nth-child(8),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) th:nth-child(7),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) td:nth-child(7) {
+  white-space: nowrap !important;
+}
+
+/* Status dibuat tetap satu baris dan sedikit lebih kecil agar aman saat zoom. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) th:nth-child(9),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) td:nth-child(9),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) th:nth-child(8),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) td:nth-child(8) {
+  width: 82px !important;
+  min-width: 82px !important;
+  max-width: 82px !important;
+  white-space: nowrap !important;
+}
+
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) td:nth-child(9) span,
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) td:nth-child(8) span {
+  white-space: nowrap !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
 }
