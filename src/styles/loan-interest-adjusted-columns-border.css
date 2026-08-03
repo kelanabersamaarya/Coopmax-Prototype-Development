@@ -36,7 +36,22 @@
   pointer-events: none;
 }
 
-/* Tidak ada garis biru di atas header tabel. */
+/* Garis atas hanya membingkai dua header hasil penyesuaian. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  left: 57%;
+  height: 2px;
+  background: #2563eb;
+  pointer-events: none;
+}
+
+/* Tidak ada garis biru di atas kolom header lain. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead {
