@@ -1,31 +1,53 @@
-/* Placeholder Metode Perpanjangan memakai abu-abu yang sama dengan field kosong. */
+/* Semua placeholder pada Form Perpanjangan Pinjaman. */
+[data-loan-extension-wizard="true"] input::placeholder,
+[data-loan-extension-wizard="true"] textarea::placeholder {
+  color: #7987b6 !important;
+  opacity: 1 !important;
+}
+
+/* Placeholder dropdown Metode Perpanjangan dari Radix/shadcn. */
 [data-loan-extension-wizard="true"]
-  button[role="combobox"][data-placeholder],
+  [data-slot="select-value"][data-placeholder],
 [data-loan-extension-wizard="true"]
   [data-slot="select-trigger"][data-placeholder],
+[data-loan-extension-wizard="true"]
+  button[role="combobox"][data-placeholder],
 [data-loan-extension-wizard="true"]
   button[role="combobox"]:has([data-placeholder]),
 [data-loan-extension-wizard="true"]
   [data-slot="select-trigger"]:has([data-placeholder]) {
-  color: #94a3b8 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  button[role="combobox"][data-placeholder]
-  [data-slot="select-value"],
-[data-loan-extension-wizard="true"]
-  [data-slot="select-trigger"][data-placeholder]
-  [data-slot="select-value"],
-[data-loan-extension-wizard="true"]
-  [data-slot="select-value"][data-placeholder] {
-  color: #94a3b8 !important;
+  color: #7987b6 !important;
   opacity: 1 !important;
 }
 
-/* Nilai pilihan tetap menggunakan warna teks utama. */
 [data-loan-extension-wizard="true"]
-  button[role="combobox"]:not([data-placeholder]),
+  button[role="combobox"]:has([data-placeholder])
+  span,
 [data-loan-extension-wizard="true"]
-  [data-slot="select-trigger"]:not([data-placeholder]) {
-  color: #0f172a;
+  [data-slot="select-trigger"]:has([data-placeholder])
+  span,
+[data-loan-extension-wizard="true"]
+  [data-slot="select-value"][data-placeholder],
+[data-loan-extension-wizard="true"]
+  [data-slot="select-value"][data-placeholder] * {
+  color: #7987b6 !important;
+  opacity: 1 !important;
+}
+
+/* Placeholder tanggal berada di dalam trigger Popover. */
+[data-loan-extension-wizard="true"]
+  [data-slot="popover-trigger"]
+  input:placeholder-shown,
+[data-loan-extension-wizard="true"]
+  button[aria-label="Pilih tanggal"]
+  input:placeholder-shown {
+  color: #7987b6 !important;
+}
+
+/* Setelah pengguna memilih nilai, teks kembali ke warna utama. */
+[data-loan-extension-wizard="true"]
+  [data-slot="select-value"]:not([data-placeholder]),
+[data-loan-extension-wizard="true"]
+  button[role="combobox"]:not(:has([data-placeholder])) {
+  color: #0f172a !important;
 }
