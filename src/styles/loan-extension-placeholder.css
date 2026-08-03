@@ -43,11 +43,3 @@
   input:placeholder-shown {
   color: #7987b6 !important;
 }
-
-/* Setelah pengguna memilih nilai, teks kembali ke warna utama. */
-[data-loan-extension-wizard="true"]
-  [data-slot="select-value"]:not([data-placeholder]),
-[data-loan-extension-wizard="true"]
-  button[role="combobox"]:not(:has([data-placeholder])) {
-  color: #0f172a !important;
-}
