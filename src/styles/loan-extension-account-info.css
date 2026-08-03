@@ -13,13 +13,24 @@
   background-color: #17a2b8 !important;
 }
 
+/* Header section tetap flex agar tombol riwayat berada di pojok kanan atas. */
 [data-loan-extension-wizard="true"]
   section.loan-extension-account-info
   > div:first-child {
-  display: block !important;
+  display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
   color: #ffffff !important;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  > div:first-child
+  > button {
+  margin-left: auto !important;
 }
 
 [data-loan-extension-wizard="true"]
