@@ -40,7 +40,7 @@ const accountOptions: Record<string, AccountOption[]> = {
     },
     {
       accountNo: "4260029",
-      customerName: "Pangeran Sirait",
+      customerName: "Rika Wastuti",
       productType: "Simpanan Sukarela",
       balance: "2.750.000,00",
     },
@@ -54,13 +54,13 @@ const accountOptions: Record<string, AccountOption[]> = {
     },
     {
       accountNo: "SMG260004",
-      customerName: "Bapak Bagus",
+      customerName: "Rika Wastuti",
       productType: "Pinjaman Billing",
       balance: "10.553.571,00",
     },
     {
       accountNo: "12260006",
-      customerName: "Pangeran Sirait",
+      customerName: "Rika Wastuti",
       productType: "Pinjaman Bulanan",
       balance: "1.040.000,00",
     },
@@ -252,6 +252,7 @@ export default function AutodebetScheduleDialog({
             <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
               Jadwal Autodebet
             </h2>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
