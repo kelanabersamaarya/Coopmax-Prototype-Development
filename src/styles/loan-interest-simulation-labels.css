@@ -1,3 +1,69 @@
+/* Ubah Suku Bunga > Step Simulasi:
+   Hanya tampilkan informasi yang relevan terhadap perubahan suku bunga:
+   - Angsuran Ke
+   - Tagihan Bunga Sebelum Penyesuaian
+   - Sisa Tagihan Bunga Sebelum Penyesuaian
+   - Tagihan Bunga Sesudah Penyesuaian
+   - Sisa Tagihan Bunga Sesudah Penyesuaian
+*/
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"] {
+  min-width: 760px !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  tr,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr {
+  display: grid !important;
+  grid-template-columns:
+    minmax(92px, 0.75fr)
+    minmax(150px, 1.25fr)
+    minmax(170px, 1.4fr)
+    minmax(150px, 1.25fr)
+    minmax(170px, 1.4fr) !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+/* Sembunyikan: jatuh tempo, total tagihan, pokok, sisa pokok,
+   denda, total sebelum, serta total setelah penyesuaian. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(2),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(3),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(4),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(7),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(10),
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
@@ -5,37 +71,179 @@
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  th:nth-child(12) {
-  font-size: 0 !important;
+  th:nth-child(12),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(2),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(3),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(4),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(7),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(10),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(11),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(12) {
+  display: none !important;
+}
+
+/* Susun ulang kolom yang ditampilkan sesuai urutan permintaan. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(1),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(1) {
+  grid-column: 1 !important;
 }
 
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  th:nth-child(11)::after,
+  th:nth-child(5),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(5) {
+  grid-column: 2 !important;
+}
+
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  th:nth-child(12)::after {
+  th:nth-child(8),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(8) {
+  grid-column: 3 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(6) {
+  grid-column: 4 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(9) {
+  grid-column: 5 !important;
+}
+
+/* Penamaan header yang ditampilkan. */
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(1),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8),
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9) {
+  font-size: 0 !important;
+  line-height: 1.2 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(1)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8)::after,
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9)::after {
+  display: block;
   color: #000000;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1.2;
   text-transform: uppercase;
+  white-space: pre-line;
 }
 
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  th:nth-child(11)::after {
-  content: "Total Tagihan\A Sebelum Penyesuaian";
-  white-space: pre;
+  th:nth-child(1)::after {
+  content: "Angsuran Ke";
 }
 
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
-  th:nth-child(12)::after {
-  content: "Total Tagihan\A Sesudah Penyesuaian";
-  white-space: pre;
+  th:nth-child(5)::after {
+  content: "Tagihan Bunga\A Sebelum Penyesuaian";
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8)::after {
+  content: "Sisa Tagihan Bunga\A Sebelum Penyesuaian";
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6)::after {
+  content: "Tagihan Bunga\A Sesudah Penyesuaian";
+}
+
+[data-loan-interest-wizard="true"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9)::after {
+  content: "Sisa Tagihan Bunga\A Sesudah Penyesuaian";
 }
