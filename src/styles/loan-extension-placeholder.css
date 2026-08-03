@@ -245,8 +245,7 @@ body:has([data-loan-extension-wizard="true"])
   text-align: left !important;
 }
 
-/* Indikator selalu menampilkan tiga step.
-   Step ketiga adalah status final; penyimpanan tetap dipicu dari step kedua. */
+/* Indikator wizard Perpanjangan Pinjaman selalu menampilkan tiga step. */
 [data-loan-extension-wizard="true"] > div:nth-child(2) {
   position: relative !important;
   padding-right: 132px !important;

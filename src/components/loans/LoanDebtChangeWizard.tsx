@@ -42,7 +42,9 @@ function parseIdr(value: string) {
 }
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
 }
 
 function AccountField({ label, value }: { label: string; value: string }) {
@@ -57,7 +59,7 @@ function AccountField({ label, value }: { label: string; value: string }) {
 }
 
 function StepIndicator({ step }: { step: number }) {
-  const steps = ["Informasi & Tagihan", "Simulasi", "Simpan Perubahan"];
+  const steps = ["Informasi & Tagihan", "Pratinjau dan Simulasi"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
@@ -287,43 +289,6 @@ export default function LoanDebtChangeWizard({
     setSavedAdjustment(null);
   }, [open]);
 
-  const adjustmentHistoryPayload = React.useMemo(() => {
-    if (!savedAdjustment) return "";
-
-    const previousInterest = parseIdr(
-      savedAdjustment.adjustment.previousInterest ?? "0",
-    );
-    const adjustmentAmount = parseIdr(savedAdjustment.adjustment.amount);
-    const interestAfter =
-      savedAdjustment.adjustment.type === "Pembebasan Seluruh Bunga"
-        ? 0
-        : savedAdjustment.adjustment.type === "Penambahan Bunga"
-          ? previousInterest + adjustmentAmount
-          : Math.max(0, previousInterest - adjustmentAmount);
-
-    const row =
-      billingRows[savedAdjustment.installmentNo - 1] ?? billingRows[0];
-    const totalBefore =
-      parseIdr(row?.[1] ?? "0") - parseIdr(row?.[3] ?? "0") + previousInterest;
-    const totalAfter =
-      parseIdr(row?.[1] ?? "0") - parseIdr(row?.[3] ?? "0") + interestAfter;
-
-    return JSON.stringify({
-      accountNo,
-      installmentNo: savedAdjustment.installmentNo,
-      interestBefore: formatIdr(previousInterest),
-      adjustmentType: savedAdjustment.adjustment.type,
-      adjustmentAmount:
-        savedAdjustment.adjustment.type === "Pembebasan Seluruh Bunga"
-          ? formatIdr(previousInterest)
-          : formatIdr(adjustmentAmount),
-      reason: savedAdjustment.adjustment.reason,
-      interestAfter: formatIdr(interestAfter),
-      totalBefore: formatIdr(totalBefore),
-      totalAfter: formatIdr(totalAfter),
-    });
-  }, [accountNo, savedAdjustment]);
-
   function nextStep() {
     if (step === 1) {
       if (!savedAdjustment) {
@@ -338,18 +303,11 @@ export default function LoanDebtChangeWizard({
       return;
     }
 
-    if (step === 2) {
-      setStep(3);
-      return;
-    }
-
     toast.success("Perubahan hutang tersimpan", {
       description: `Rekening ${accountNo} berhasil diperbarui.`,
     });
     onOpenChange(false);
   }
-
-  const isSimulationStep = step === 2;
 
   return (
     <>
@@ -363,7 +321,6 @@ export default function LoanDebtChangeWizard({
         <DialogContent
           data-loan-debt-wizard="true"
           data-loan-debt-step={step}
-          data-loan-debt-adjustment={adjustmentHistoryPayload || undefined}
           className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
@@ -425,7 +382,7 @@ export default function LoanDebtChangeWizard({
                 ) : (
                   <div className="rounded-[8px] bg-amber-50 px-4 py-3 text-[13px] font-semibold text-amber-800 ring-1 ring-amber-200">
                     Simpan satu penyesuaian pada kolom Tagihan Bunga untuk
-                    melanjutkan ke simulasi.
+                    melanjutkan ke pratinjau.
                   </div>
                 )}
               </div>
@@ -434,76 +391,13 @@ export default function LoanDebtChangeWizard({
             {step === 2 && savedAdjustment ? (
               <UnifiedBillingSimulationTable adjustedBill={savedAdjustment} />
             ) : null}
-
-            {step === 3 && savedAdjustment ? (
-              <div className="grid gap-5">
-                <div>
-                  <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-                    Simpan Perubahan Hutang
-                  </h3>
-                  <p className="mt-2 text-[13px] text-slate-600">
-                    Periksa kembali penyesuaian bunga sebelum menyimpan.
-                  </p>
-                </div>
-
-                <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <div className="text-[12px] font-semibold text-slate-500">
-                        Rekening Pinjaman
-                      </div>
-                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                        {accountNo}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[12px] font-semibold text-slate-500">
-                        Tagihan Disesuaikan
-                      </div>
-                      <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-                        Angsuran ke-{savedAdjustment.installmentNo}
-                      </div>
-                    </div>
-                  </div>
-
-                  <Separator className="my-5 bg-slate-200" />
-
-                  <div className="grid gap-4 text-[14px]">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Jatuh Tempo</span>
-                      <span className="font-extrabold text-[#2563EB]">
-                        {savedAdjustment.dueDate}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Jenis Penyesuaian</span>
-                      <span className="font-extrabold text-[#2563EB]">
-                        {savedAdjustment.adjustment.type}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Nominal Penyesuaian</span>
-                      <span className="font-extrabold text-[#2563EB]">
-                        {savedAdjustment.adjustment.amount || "0,00"}
-                      </span>
-                    </div>
-                    <div className="border-t border-slate-200 pt-4 text-slate-600">
-                      Alasan:{" "}
-                      <span className="font-semibold text-slate-900">
-                        {savedAdjustment.adjustment.reason}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
           </main>
 
           <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
             <button
               type="button"
               onClick={() =>
-                step === 1 ? onOpenChange(false) : setStep((current) => current - 1)
+                step === 1 ? onOpenChange(false) : setStep(1)
               }
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
@@ -520,7 +414,7 @@ export default function LoanDebtChangeWizard({
               )}
             </button>
 
-            {isSimulationStep ? (
+            {step === 2 ? (
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
@@ -536,17 +430,15 @@ export default function LoanDebtChangeWizard({
               onClick={nextStep}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-                step === 3
+                step === 2
                   ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
-                  : step === 2
+                  : savedAdjustment
                     ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
-                    : savedAdjustment
-                      ? "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]"
-                      : "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500",
+                    : "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500",
               )}
             >
-              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? (
+              {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 2 ? (
                 <Check className="h-5 w-5" strokeWidth={3.5} />
               ) : (
                 <ChevronRight className="h-4 w-4" strokeWidth={3} />
