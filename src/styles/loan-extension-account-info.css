@@ -92,6 +92,89 @@
   color: #ffffff !important;
 }
 
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(> div:first-child:last-child) {
+  display: none !important;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(> div:first-child:nth-last-child(2)):has(
+    > div:first-child
+  ) {
+  position: relative;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(> div:first-child:nth-last-child(2))
+  > div:first-child {
+  font-size: 12px !important;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(
+    > div:first-child:nth-last-child(2)
+  ):has(> div:first-child)
+  > div:last-child {
+  color: #ffffff !important;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(> div:first-child):has(
+    > div:first-child
+  )
+  > div:first-child {
+  white-space: normal;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(
+    > div:first-child
+  ):has(> div:last-child) {
+  contain: layout;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(
+    > div:first-child
+  ):has(> div:last-child)
+  > div:first-child {
+  position: relative;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:has(
+    > div:first-child
+  ):has(> div:last-child)
+  > div:last-child {
+  position: relative;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:nth-last-child(2)
+  > div:last-child {
+  font-size: 0 !important;
+}
+
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field:nth-last-child(2)
+  > div:last-child::after {
+  content: "0,00";
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
 @media (min-width: 640px) {
   [data-loan-extension-wizard="true"]
     section.loan-extension-account-info
