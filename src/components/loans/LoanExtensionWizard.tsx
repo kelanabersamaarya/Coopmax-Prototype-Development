@@ -5,13 +5,7 @@ import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -19,26 +13,12 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 
 type Step = 1 | 2 | 3;
-type ExtensionMethod =
-  | "Tenor Tambahan"
-  | "Tenor Baru"
-  | "Jatuh Tempo Akhir Baru";
-
-type ScheduleRow = {
-  dueDate: string;
-  total: number;
-  principal: number;
-  interest: number;
-  remainingPrincipal: number;
-  remainingInterest: number;
-  penalty: number;
-};
+type ExtensionMethod = "Tenor Tambahan" | "Tenor Baru" | "Jatuh Tempo Akhir Baru";
 
 const OLD_TENOR = 12;
 const REMAINING_PRINCIPAL = 10_553_571;
 const MONTHLY_INTEREST = 120_000;
 const OLD_DUE_DATE = "07-04-2027";
-const SCHEDULE_PAGE_SIZE = 15;
 
 const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
@@ -62,12 +42,7 @@ function parseDmy(value: string) {
   const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
   if (!match) return null;
 
-  const date = new Date(
-    Number(match[3]),
-    Number(match[2]) - 1,
-    Number(match[1]),
-  );
-
+  const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
   return date.getDate() === Number(match[1]) ? date : null;
 }
 
@@ -79,53 +54,11 @@ function formatDmy(date: Date) {
 
 function addMonths(date: Date, months: number) {
   const result = new Date(date);
-  const originalDay = result.getDate();
+  const currentDay = result.getDate();
   result.setMonth(result.getMonth() + months);
 
-  if (result.getDate() !== originalDay) result.setDate(0);
-
+  if (result.getDate() !== currentDay) result.setDate(0);
   return result;
-}
-
-function AccountField({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="loan-extension-account-field min-w-0">
-      <div className="text-[12px] font-semibold text-white/85">{label}</div>
-      <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function FormRow({
-  label,
-  children,
-  top = false,
-}: {
-  label: string;
-  children: React.ReactNode;
-  top?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        "grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)]",
-        top ? "sm:items-start" : "sm:items-center",
-      )}
-    >
-      <label className={cn("text-[14px] font-normal text-[#002060]", top && "pt-2")}>
-        {label} <span className="text-rose-600">*</span>
-      </label>
-      {children}
-    </div>
-  );
 }
 
 function StepIndicator({ step }: { step: Step }) {
@@ -169,90 +102,31 @@ function StepIndicator({ step }: { step: Step }) {
   );
 }
 
-function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
-  const [page, setPage] = React.useState(1);
-  const pageCount = Math.max(1, Math.ceil(rows.length / SCHEDULE_PAGE_SIZE));
-  const start = (page - 1) * SCHEDULE_PAGE_SIZE;
-  const pagedRows = rows.slice(start, start + SCHEDULE_PAGE_SIZE);
-
+function FieldRow({
+  label,
+  children,
+  top = false,
+}: {
+  label: string;
+  children: React.ReactNode;
+  top?: boolean;
+}) {
   return (
-    <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-      <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-        Jadwal Pembayaran Baru
-      </div>
-
-      <div className="safe-x-scroll">
-        <table className="w-full min-w-[1080px] border-collapse text-[13px]">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[72px] px-3 py-3">Angsuran<br />Ke</th>
-              <th className="w-[96px] px-3 py-3">Jatuh<br />Tempo</th>
-              <th className="w-[120px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[145px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[145px] px-3 py-3 text-right">Tagihan<br />Bunga</th>
-              <th className="w-[165px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[165px] px-3 py-3 text-right">Sisa Tagihan<br />Bunga</th>
-              <th className="w-[145px] px-3 py-3 text-right">Tagihan<br />Denda</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pagedRows.map((row, index) => (
-              <tr
-                key={row.dueDate}
-                className={cn(
-                  "border-b border-slate-100 text-[13px] text-slate-900 last:border-b-0",
-                  index % 2 ? "bg-slate-50/60" : "bg-white",
-                )}
-              >
-                <td className="px-3 py-3 text-center tabular-nums">{start + index + 1}</td>
-                <td className="px-3 py-3 font-semibold tabular-nums whitespace-nowrap">{row.dueDate}</td>
-                <td className="px-3 py-3 text-right tabular-nums">{formatIdr(row.total)}</td>
-                <td className="px-3 py-3 text-right tabular-nums">{formatIdr(row.principal)}</td>
-                <td className="px-3 py-3 text-right tabular-nums text-[#2563EB]">{formatIdr(row.interest)}</td>
-                <td className="px-3 py-3 text-right tabular-nums">{formatIdr(row.remainingPrincipal)}</td>
-                <td className="px-3 py-3 text-right tabular-nums">{formatIdr(row.remainingInterest)}</td>
-                <td className="px-3 py-3 text-right tabular-nums">{formatIdr(row.penalty)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="text-[12px] text-slate-600">
-          Menampilkan {rows.length === 0 ? 0 : start + 1} sampai{" "}
-          {Math.min(rows.length, start + SCHEDULE_PAGE_SIZE)} dari {rows.length} jadwal pembayaran
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            disabled={page <= 1}
-            onClick={() => setPage((current) => Math.max(1, current - 1))}
-            className="inline-flex h-9 items-center gap-1 rounded-[5px] bg-slate-100 px-3 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <ChevronLeft className="h-4 w-4 />
-            Sebelumnya
-          </button>
-          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#2563EB] px-3 text-[12px] font-extrabold text-white">
-            {page}
-          </span>
-          <button
-            type="button"
-            disabled={page >= pageCount}
-            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
-            className="inline-flex h-9 items-center gap-1 rounded-[5px] bg-slate-100 px-3 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Selanjutnya
-            <ChevronRight className="h-4 w-4 />
-          </button>
-        </div>
-      </div>
+    <div
+      className={cn(
+        "grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)]",
+        top ? "sm:items-start" : "sm:items-center",
+      )}
+    >
+      <label className={cn("text-[14px] font-normal text-[#002060]", top && "pt-2")}>
+        {label} <span className="text-rose-600">*</span>
+      </label>
+      {children}
     </div>
   );
 }
 
-function SaveConfirmationDialog({
+function ConfirmDialog({
   open,
   onCancel,
   onConfirm,
@@ -272,10 +146,18 @@ function SaveConfirmationDialog({
             Yakin untuk melakukan perubahan?
           </h2>
           <div className="mt-[34px] flex items-center justify-center gap-[9px]">
-            <button type="button" onClick={onConfirm} className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]">
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
+            >
               Yes
             </button>
-            <button type="button" onClick={onCancel} className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
+            >
               Cancel
             </button>
           </div>
@@ -296,7 +178,11 @@ function SuccessDialog({ open, onOk }: { open: boolean; onOk: () => void }) {
           <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
             Berhasil Melakukan Perpanjangan Pinjaman
           </h2>
-          <button type="button" onClick={onOk} className="mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]">
+          <button
+            type="button"
+            onClick={onOk}
+            className="mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]"
+          >
             OK
           </button>
         </div>
@@ -322,11 +208,12 @@ export default function LoanExtensionWizard({
   const [dueYear, setDueYear] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const [saveConfirmOpen, setSaveConfirmOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
+
     setStep(1);
     setMethod("");
     setAdditionalTenor("");
@@ -335,7 +222,7 @@ export default function LoanExtensionWizard({
     setDueYear("");
     setEffectiveDate("");
     setReason("");
-    setSaveConfirmOpen(false);
+    setConfirmOpen(false);
     setSuccessOpen(false);
   }, [open]);
 
@@ -344,8 +231,8 @@ export default function LoanExtensionWizard({
     [],
   );
 
-  const parsedDueMonth = Number.parseInt(dueMonth, 10);
-  const parsedDueYear = Number.parseInt(dueYear, 10);
+  const dueMonthNumber = Number.parseInt(dueMonth, 10);
+  const dueYearNumber = Number.parseInt(dueYear, 10);
 
   const hasMethodValue =
     method === "Tenor Tambahan"
@@ -353,24 +240,23 @@ export default function LoanExtensionWizard({
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
         : method === "Jatuh Tempo Akhir Baru"
-          ? parsedDueMonth >= 1 &&
-            parsedDueMonth <= 12 &&
-            parsedDueYear >= oldDueDate.getFullYear()
+          ? dueMonthNumber >= 1 &&
+            dueMonthNumber <= 12 &&
+            dueYearNumber >= oldDueDate.getFullYear()
           : false;
 
+  const validEffectiveDate = parseDmy(effectiveDate);
   const isValid =
-    hasMethodValue &&
-    effectiveDate.trim().length > 0 &&
-    reason.trim().length > 0;
+    hasMethodValue && validEffectiveDate !== null && reason.trim().length > 0;
 
   const simulation = React.useMemo(() => {
     let tenor = OLD_TENOR;
     let dueDate = oldDueDate;
 
     if (method === "Tenor Tambahan") {
-      const addedMonths = Number.parseInt(additionalTenor, 10) || 0;
-      tenor = OLD_TENOR + addedMonths;
-      dueDate = addMonths(oldDueDate, addedMonths);
+      const extraMonths = Number.parseInt(additionalTenor, 10) || 0;
+      tenor = OLD_TENOR + extraMonths;
+      dueDate = addMonths(oldDueDate, extraMonths);
     }
 
     if (method === "Tenor Baru") {
@@ -380,70 +266,35 @@ export default function LoanExtensionWizard({
 
     if (
       method === "Jatuh Tempo Akhir Baru" &&
-      parsedDueMonth >= 1 &&
-      parsedDueMonth <= 12 &&
-      parsedDueYear >= oldDueDate.getFullYear()
+      dueMonthNumber >= 1 &&
+      dueMonthNumber <= 12 &&
+      dueYearNumber >= oldDueDate.getFullYear()
     ) {
-      dueDate = new Date(parsedDueYear, parsedDueMonth - 1, oldDueDate.getDate());
-      if (dueDate.getMonth() !== parsedDueMonth - 1) dueDate.setDate(0);
+      dueDate = new Date(dueYearNumber, dueMonthNumber - 1, oldDueDate.getDate());
+      if (dueDate.getMonth() !== dueMonthNumber - 1) dueDate.setDate(0);
 
-      const monthDifference =
+      const difference =
         (dueDate.getFullYear() - oldDueDate.getFullYear()) * 12 +
         dueDate.getMonth() -
         oldDueDate.getMonth();
 
-      tenor = Math.max(1, OLD_TENOR + monthDifference);
+      tenor = Math.max(1, OLD_TENOR + difference);
     }
 
     const monthlyPrincipal = REMAINING_PRINCIPAL / tenor;
     const interestFactor =
-      tenor > OLD_TENOR
-        ? 1 + (tenor - OLD_TENOR) * 0.025
-        : tenor < OLD_TENOR
-          ? Math.max(0.7, 1 - (OLD_TENOR - tenor) * 0.025)
-          : 1;
-
-    const monthlyNewInterest = MONTHLY_INTEREST * interestFactor;
-
-    const scheduleRows: ScheduleRow[] = Array.from({ length: tenor }, (_, index) => {
-      const principal = Math.min(
-        monthlyPrincipal,
-        Math.max(0, REMAINING_PRINCIPAL - monthlyPrincipal * index),
-      );
-      const remainingPrincipal = Math.max(
-        0,
-        REMAINING_PRINCIPAL - monthlyPrincipal * (index + 1),
-      );
-      const penalty = index < 3 ? 75_000 : 0;
-
-      return {
-        dueDate: formatDmy(addMonths(new Date(2026, 7, 7), index)),
-        total: principal + monthlyNewInterest + penalty,
-        principal,
-        interest: monthlyNewInterest,
-        remainingPrincipal,
-        remainingInterest: remainingPrincipal * 0.01,
-        penalty,
-      };
-    });
+      tenor > OLD_TENOR ? 1 + (tenor - OLD_TENOR) * 0.025 : 1;
+    const monthlyInterest = MONTHLY_INTEREST * interestFactor;
 
     return {
       tenor,
       dueDate: formatDmy(dueDate),
       oldInstallment: REMAINING_PRINCIPAL / OLD_TENOR + MONTHLY_INTEREST,
-      newInstallment: monthlyPrincipal + monthlyNewInterest,
+      newInstallment: monthlyPrincipal + monthlyInterest,
       oldInterest: MONTHLY_INTEREST * OLD_TENOR,
-      newInterest: monthlyNewInterest * tenor,
-      scheduleRows,
+      newInterest: monthlyInterest * tenor,
     };
-  }, [
-    additionalTenor,
-    method,
-    newTenor,
-    oldDueDate,
-    parsedDueMonth,
-    parsedDueYear,
-  ]);
+  }, [additionalTenor, dueMonthNumber, dueYearNumber, method, newTenor, oldDueDate]);
 
   function continueWizard() {
     if (step === 1 && !isValid) {
@@ -459,20 +310,18 @@ export default function LoanExtensionWizard({
       return;
     }
 
-    setSaveConfirmOpen(true);
-  }
-
-  function confirmSave() {
-    setSaveConfirmOpen(false);
-    setSuccessOpen(true);
+    setConfirmOpen(true);
   }
 
   return (
     <>
-      <SaveConfirmationDialog
-        open={saveConfirmOpen}
-        onCancel={() => setSaveConfirmOpen(false)}
-        onConfirm={confirmSave}
+      <ConfirmDialog
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setSuccessOpen(true);
+        }}
       />
       <SuccessDialog
         open={successOpen}
@@ -512,22 +361,18 @@ export default function LoanExtensionWizard({
                   <div className="text-[14px] font-extrabold tracking-wide text-white">
                     INFORMASI REKENING PINJAMAN
                   </div>
+
                   <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
                     {accountDetails.map(([label, value]) => (
-                      <AccountField
-                        key={label}
-                        label={label}
-                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
-                      />
+                      <div key={label} className="loan-extension-account-field min-w-0">
+                        <div className="text-[12px] font-semibold text-white/85">
+                          {label}
+                        </div>
+                        <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
+                          {label === "No. Rek. Pinjaman" ? accountNo : value}
+                        </div>
+                      </div>
                     ))}
-                    <AccountField
-                      label="Status Pinjaman"
-                      value={
-                        <span className="inline-flex rounded-[5px] bg-[#31b900] px-2.5 py-1 text-[13px] font-semibold leading-none text-white">
-                          Aktif / Sudah Dicairkan
-                        </span>
-                      }
-                    />
                   </div>
                 </section>
 
@@ -535,8 +380,9 @@ export default function LoanExtensionWizard({
                   <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                     Data Perpanjangan Pinjaman
                   </div>
+
                   <div className="grid gap-5 p-5">
-                    <FormRow label="Metode Perpanjangan">
+                    <FieldRow label="Metode Perpanjangan">
                       <Select
                         value={method}
                         onValueChange={(value) => {
@@ -558,10 +404,10 @@ export default function LoanExtensionWizard({
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                    </FormRow>
+                    </FieldRow>
 
                     {method === "Tenor Tambahan" ? (
-                      <FormRow label="Tenor Tambahan (Bulan)">
+                      <FieldRow label="Tenor Tambahan (Bulan)">
                         <Input
                           value={additionalTenor}
                           onChange={(event) =>
@@ -571,11 +417,11 @@ export default function LoanExtensionWizard({
                           placeholder="Masukkan tenor tambahan"
                           className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                         />
-                      </FormRow>
+                      </FieldRow>
                     ) : null}
 
                     {method === "Tenor Baru" ? (
-                      <FormRow label="Tenor Baru (Bulan)">
+                      <FieldRow label="Tenor Baru (Bulan)">
                         <Input
                           value={newTenor}
                           onChange={(event) =>
@@ -585,11 +431,11 @@ export default function LoanExtensionWizard({
                           placeholder="Masukkan tenor baru"
                           className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                         />
-                      </FormRow>
+                      </FieldRow>
                     ) : null}
 
                     {method === "Jatuh Tempo Akhir Baru" ? (
-                      <FormRow label="Jatuh Tempo Akhir Baru">
+                      <FieldRow label="Jatuh Tempo Akhir Baru">
                         <div className="grid grid-cols-2 gap-3">
                           <Input
                             value={dueMonth}
@@ -610,26 +456,26 @@ export default function LoanExtensionWizard({
                             className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                           />
                         </div>
-                      </FormRow>
+                      </FieldRow>
                     ) : null}
 
-                    <FormRow label="Tanggal Efektif">
+                    <FieldRow label="Tanggal Efektif">
                       <DatePickerDmyField
                         value={effectiveDate}
                         onChange={setEffectiveDate}
                         inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                         placeholder="DD-MM-YYYY"
                       />
-                    </FormRow>
+                    </FieldRow>
 
-                    <FormRow label="Alasan Perpanjangan" top>
+                    <FieldRow label="Alasan Perpanjangan" top>
                       <Textarea
                         value={reason}
                         onChange={(event) => setReason(event.target.value)}
                         className="min-h-[112px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                         placeholder="Masukkan alasan perpanjangan pinjaman"
                       />
-                    </FormRow>
+                    </FieldRow>
                   </div>
                 </section>
               </div>
@@ -657,10 +503,18 @@ export default function LoanExtensionWizard({
                           ["Angsuran", formatIdr(simulation.oldInstallment), formatIdr(simulation.newInstallment)],
                           ["Total Bunga Masa Depan", formatIdr(simulation.oldInterest), formatIdr(simulation.newInterest)],
                         ].map(([label, before, after], index) => (
-                          <tr key={label} className={cn("border-b border-slate-100 text-[12px] text-black last:border-b-0", index % 2 ? "bg-slate-50/60" : "bg-white")}>
+                          <tr
+                            key={label}
+                            className={cn(
+                              "border-b border-slate-100 text-[12px] text-black last:border-b-0",
+                              index % 2 ? "bg-slate-50/60" : "bg-white",
+                            )}
+                          >
                             <td className="px-4 py-3">{label}</td>
                             <td className="px-4 py-3 tabular-nums">{before}</td>
-                            <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">{after}</td>
+                            <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">
+                              {after}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -668,59 +522,50 @@ export default function LoanExtensionWizard({
                   </div>
                 </section>
 
-                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                    Alasan Perpanjangan
-                  </div>
-                  <p className="px-4 py-4 text-[14px] leading-relaxed text-black">{reason}</p>
-                </section>
-
-                {method ? (
-                  <LoanExtensionMethodSummarySection
-                    method={method}
-                    additionalTenor={additionalTenor}
-                    newTenor={simulation.tenor}
-                    newDueDate={simulation.dueDate}
-                  />
-                ) : null}
-
-                <PaymentScheduleTable rows={simulation.scheduleRows} />
+                <LoanExtensionMethodSummarySection
+                  method={method || "Tenor Baru"}
+                  additionalTenor={additionalTenor}
+                  newTenor={simulation.tenor}
+                  newDueDate={simulation.dueDate}
+                />
               </div>
             ) : null}
 
             {step === 3 ? (
-              <div className="grid gap-5">
-                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                    Simpan Perubahan Perpanjangan
+              <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                  Simpan Perubahan Perpanjangan
+                </div>
+                <div className="grid gap-4 p-5 text-[14px]">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-slate-600">Rekening Pinjaman</span>
+                    <span className="font-extrabold text-slate-900">{accountNo}</span>
                   </div>
-                  <div className="grid gap-4 p-5 text-[14px]">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Rekening Pinjaman</span>
-                      <span className="font-extrabold text-slate-900">{accountNo}</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Metode Perpanjangan</span>
-                      <span className="font-extrabold text-[#2563EB]">{method}</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Tenor Baru</span>
-                      <span className="font-extrabold text-[#2563EB]">{simulation.tenor} Bulan</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Jatuh Tempo Baru</span>
-                      <span className="font-extrabold text-[#2563EB]">{simulation.dueDate}</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-slate-600">Tanggal Efektif</span>
-                      <span className="font-extrabold text-slate-900">{effectiveDate}</span>
-                    </div>
-                    <div className="border-t border-slate-200 pt-4 text-slate-600">
-                      Alasan: <span className="font-semibold text-slate-900">{reason}</span>
-                    </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-slate-600">Metode Perpanjangan</span>
+                    <span className="font-extrabold text-[#2563EB]">{method}</span>
                   </div>
-                </section>
-              </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-slate-600">Tenor Baru</span>
+                    <span className="font-extrabold text-[#2563EB]">
+                      {simulation.tenor} Bulan
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-slate-600">Jatuh Tempo Baru</span>
+                    <span className="font-extrabold text-[#2563EB]">
+                      {simulation.dueDate}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-slate-600">Tanggal Efektif</span>
+                    <span className="font-extrabold text-slate-900">{effectiveDate}</span>
+                  </div>
+                  <div className="border-t border-slate-200 pt-4 text-slate-600">
+                    Alasan: <span className="font-semibold text-slate-900">{reason}</span>
+                  </div>
+                </div>
+              </section>
             ) : null}
           </main>
 
@@ -734,7 +579,11 @@ export default function LoanExtensionWizard({
               }
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
-              {step === 1 ? <X className="h-4 w-4" strokeWidth={3} /> : <ChevronLeft className="h-4 w-4" strokeWidth={3} />}
+              {step === 1 ? (
+                <X className="h-4 w-4" strokeWidth={3} />
+              ) : (
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+              )}
               {step === 1 ? "Batal" : "Kembali"}
             </button>
 
@@ -762,7 +611,11 @@ export default function LoanExtensionWizard({
               )}
             >
               {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? <Check className="h-5 w-5" strokeWidth={3.5} /> : <ChevronRight className="h-4 w-4" strokeWidth={3} />}
+              {step === 3 ? (
+                <Check className="h-5 w-5" strokeWidth={3.5} />
+              ) : (
+                <ChevronRight className="h-4 w-4" strokeWidth={3} />
+              )}
             </button>
           </footer>
         </DialogContent>
