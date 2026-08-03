@@ -77,35 +77,45 @@ export default function LoanAccountDetailHeader({
 
   return (
     <>
-      <LoanPemutihanDialog
-        open={pemutihanOpen}
-        onOpenChange={setPemutihanOpen}
-        accountNo={accountNo}
-      />
+      {pemutihanOpen ? (
+        <LoanPemutihanDialog
+          open={pemutihanOpen}
+          onOpenChange={setPemutihanOpen}
+          accountNo={accountNo}
+        />
+      ) : null}
 
-      <LoanTransactionHistoryDialog
-        open={txHistoryOpen}
-        onOpenChange={setTxHistoryOpen}
-        accountNo={accountNo}
-      />
+      {txHistoryOpen ? (
+        <LoanTransactionHistoryDialog
+          open={txHistoryOpen}
+          onOpenChange={setTxHistoryOpen}
+          accountNo={accountNo}
+        />
+      ) : null}
 
-      <LoanInterestChangeWizard
-        open={interestWizardOpen}
-        onOpenChange={setInterestWizardOpen}
-        accountNo={accountNo}
-      />
+      {interestWizardOpen ? (
+        <LoanInterestChangeWizard
+          open={interestWizardOpen}
+          onOpenChange={setInterestWizardOpen}
+          accountNo={accountNo}
+        />
+      ) : null}
 
-      <LoanDebtChangeWizard
-        open={debtWizardOpen}
-        onOpenChange={setDebtWizardOpen}
-        accountNo={accountNo}
-      />
+      {debtWizardOpen ? (
+        <LoanDebtChangeWizard
+          open={debtWizardOpen}
+          onOpenChange={setDebtWizardOpen}
+          accountNo={accountNo}
+        />
+      ) : null}
 
-      <LoanExtensionWizard
-        open={extensionWizardOpen}
-        onOpenChange={setExtensionWizardOpen}
-        accountNo={accountNo}
-      />
+      {extensionWizardOpen ? (
+        <LoanExtensionWizard
+          open={extensionWizardOpen}
+          onOpenChange={setExtensionWizardOpen}
+          accountNo={accountNo}
+        />
+      ) : null}
 
       <div className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
         <div className="min-w-0">
