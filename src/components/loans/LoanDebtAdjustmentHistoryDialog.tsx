@@ -150,33 +150,9 @@ export default function LoanDebtAdjustmentHistoryDialog({
               <table className="w-full min-w-[1290px] border-collapse">
                 <thead className="bg-[#F9FAFF] text-left text-[11px] font-bold uppercase tracking-wide text-black">
                   <tr className="border-b border-slate-200">
-                    <th rowSpan={2} className="w-[82px] px-3 py-3 text-left">
+                    <th className="w-[82px] px-3 py-3 text-left">
                       Angsuran Ke
                     </th>
-                    <th colSpan={2} className="px-3 py-3 text-left">
-                      Sebelum Penyesuaian
-                    </th>
-                    <th rowSpan={2} className="w-[110px] px-3 py-3 text-left">
-                      Jenis Penyesuaian
-                    </th>
-                    <th rowSpan={2} className="w-[115px] px-3 py-3 text-left">
-                      Nominal Penyesuaian
-                    </th>
-                    <th rowSpan={2} className="w-[145px] px-3 py-3 text-left">
-                      Alasan Penyesuaian
-                    </th>
-                    <th colSpan={2} className="px-3 py-3 text-left">
-                      Sesudah Penyesuaian
-                    </th>
-                    <th rowSpan={2} className="w-[120px] px-3 py-3 text-left">
-                      Diubah Oleh
-                    </th>
-                    <th rowSpan={2} className="w-[165px] px-3 py-3 text-left">
-                      Tanggal & Waktu Penyesuaian
-                    </th>
-                  </tr>
-
-                  <tr className="border-b border-slate-200">
                     <th className="w-[145px] px-3 py-3 text-left">
                       Tagihan Bunga
                       <br />
@@ -186,6 +162,15 @@ export default function LoanDebtAdjustmentHistoryDialog({
                       Total Tagihan
                       <br />
                       Sebelum Penyesuaian
+                    </th>
+                    <th className="w-[110px] px-3 py-3 text-left">
+                      Jenis Penyesuaian
+                    </th>
+                    <th className="w-[115px] px-3 py-3 text-left">
+                      Nominal Penyesuaian
+                    </th>
+                    <th className="w-[145px] px-3 py-3 text-left">
+                      Alasan Penyesuaian
                     </th>
                     <th className="w-[145px] px-3 py-3 text-left">
                       Tagihan Bunga
@@ -196,6 +181,12 @@ export default function LoanDebtAdjustmentHistoryDialog({
                       Total Tagihan
                       <br />
                       Sesudah Penyesuaian
+                    </th>
+                    <th className="w-[120px] px-3 py-3 text-left">
+                      Diubah Oleh
+                    </th>
+                    <th className="w-[165px] px-3 py-3 text-left">
+                      Tanggal & Waktu Penyesuaian
                     </th>
                   </tr>
                 </thead>
