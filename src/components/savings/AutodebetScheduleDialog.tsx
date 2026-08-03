@@ -651,18 +651,16 @@ export default function AutodebetScheduleDialog({
                 ) : null}
 
                 {isLoanProduct ? (
-                  <>
-                    <Label className="flex items-center pt-1 text-[14px] font-normal text-[#002060]">
-                      Tanggal Autodebet
-                      <FieldInfoTooltip />
-                    </Label>
-                    <Input
-                      value={loanAutodebetDays}
-                      readOnly
-                      aria-readonly="true"
-                      className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-100 px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    />
-                  </>
+                  <Label className="flex items-center pt-1 text-[14px] font-normal text-[#002060]">
+                    Jadwal Transaksi
+                    <FieldInfoTooltip />
+                  </Label>
+                ) : null}
+
+                {isLoanProduct ? (
+                  <div className="flex h-[31px] items-center text-[14px] font-semibold text-[#526685]">
+                    Otomatis pada tanggal {loanAutodebetDays}
+                  </div>
                 ) : null}
 
                 <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
