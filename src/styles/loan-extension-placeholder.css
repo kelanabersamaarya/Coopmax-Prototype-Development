@@ -1,0 +1,10 @@
+[data-loan-extension-wizard="true"]
+  [data-slot="select-value"][data-placeholder] {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"]
+  button[role="combobox"]:has([data-placeholder]) {
+  color: #94a3b8 !important;
+}
