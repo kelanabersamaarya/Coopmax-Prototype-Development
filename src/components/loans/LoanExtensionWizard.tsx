@@ -109,13 +109,25 @@ function StepIndicator({ step }: { step: Step }) {
 function FormRow({
   label,
   children,
+  align = "center",
 }: {
   label: string;
   children: React.ReactNode;
+  align?: "center" | "top";
 }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)] sm:items-center">
-      <Label className="text-[14px] font-normal text-[#002060]">
+    <div
+      className={cn(
+        "grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)]",
+        align === "top" ? "sm:items-start" : "sm:items-center",
+      )}
+    >
+      <Label
+        className={cn(
+          "text-[14px] font-normal text-[#002060]",
+          align === "top" ? "pt-2" : "",
+        )}
+      >
         {label}
         <span className="text-rose-600"> *</span>
       </Label>
@@ -266,7 +278,7 @@ export default function LoanExtensionWizard({
 
               <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                 <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                  Form Perpanjangan Pinjaman
+                  DATA PERPANJANGAN PINJAMAN
                 </div>
 
                 <div className="grid gap-5 p-5">
@@ -366,7 +378,7 @@ export default function LoanExtensionWizard({
                     />
                   </FormRow>
 
-                  <FormRow label="Alasan Perpanjangan">
+                  <FormRow label="Alasan Perpanjangan" align="top">
                     <Textarea
                       value={reason}
                       onChange={(event) => setReason(event.target.value)}
