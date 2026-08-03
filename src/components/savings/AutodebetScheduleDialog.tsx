@@ -76,8 +76,7 @@ function accountValue(account: AccountOption) {
 }
 
 function getAutodebetDay(date: string) {
-  const match = /(\d+)/.exec(date ?? "");
-  return match?.[1] ?? "";
+  return /(\d+)/.exec(date ?? "")?.[1] ?? "";
 }
 
 function Toggle({
@@ -129,9 +128,9 @@ function AccountSummary({
           account.accountNo === "SMG260004" ? "12.000.000,00" : account.balance,
         ],
         ["Sisa Pinjaman", account.balance],
-        ["Total Pokok", "833.333,00"],
-        ["Total Bunga", "83.333,00"],
-        ["Total Denda", "75.000,00"],
+        ["Tagihan Pokok", "833.333,00"],
+        ["Tagihan Bunga", "83.333,00"],
+        ["Tagihan Denda", "75.000,00"],
         ["Total Tagihan", "991.666,00"],
       ]
     : [
@@ -233,7 +232,7 @@ export default function AutodebetScheduleDialog({
   }
 
   const inputClassName =
-    "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+    "autodebet-dialog-field h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-[#526685] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
   const labelClassName = "text-[14px] font-normal text-[#002060]";
 
   return (
@@ -357,7 +356,7 @@ export default function AutodebetScheduleDialog({
                   setDescription(event.target.value);
                   setError("");
                 }}
-                className="min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px] focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="autodebet-dialog-field min-h-[108px] rounded-[5px] border-[#CBD5E1] text-[14px] focus-visible:ring-0 focus-visible:ring-offset-0"
               />
 
               <Label className={cn(labelClassName, "pt-1")}>
