@@ -97,6 +97,7 @@ export default function SavingsAccountDetail({
 }) {
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [viewingIndex, setViewingIndex] = useState<number | null>(null);
   const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<AutodebetSchedule[]>(() =>
     getAutodebetSchedules(account.accountNo),
@@ -105,6 +106,7 @@ export default function SavingsAccountDetail({
   useEffect(() => {
     setSchedules(getAutodebetSchedules(account.accountNo));
     setEditingIndex(null);
+    setViewingIndex(null);
     setDeletingIndex(null);
   }, [account.accountNo]);
 
@@ -126,9 +128,62 @@ export default function SavingsAccountDetail({
     toast.success("Jadwal autodebet tersimpan");
   }
 
+  function openEdit(index: number) {
+    setViewingIndex(null);
+    setEditingIndex(index);
+    setScheduleOpen(true);
+  }
+
+  function requestDelete(index: number) {
+    setViewingIndex(null);
+    setDeletingIndex(index);
+  }
+
+  const viewedSchedule =
+    viewingIndex === null ? null : schedules[viewingIndex] ?? null;
+
   const hasLoanSchedule = schedules.some(
     (schedule) => schedule.product === "Produk Pinjaman",
   );
+
+  if (viewedSchedule) {
+    return (
+      <>
+        <AutodebetScheduleDialog
+          open={scheduleOpen}
+          onOpenChange={(open) => {
+            setScheduleOpen(open);
+            if (!open) setEditingIndex(null);
+          }}
+          schedule={editingIndex === null ? null : schedules[editingIndex]}
+          onProcess={saveSchedule}
+        />
+
+        <AutodebetDeleteConfirmDialog
+          open={deletingIndex !== null}
+          onCancel={() => setDeletingIndex(null)}
+          onConfirm={() => {
+            if (deletingIndex === null) return;
+
+            updateSchedules(
+              schedules.filter((_, index) => index !== deletingIndex),
+            );
+            setDeletingIndex(null);
+            setViewingIndex(null);
+            toast.success("Jadwal autodebet dihapus");
+          }}
+        />
+
+        <AutodebetScheduleDetail
+          schedule={viewedSchedule}
+          sourceAccount={account}
+          onBack={() => setViewingIndex(null)}
+          onEdit={() => openEdit(viewingIndex ?? 0)}
+          onDelete={() => requestDelete(viewingIndex ?? 0)}
+        />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -147,6 +202,7 @@ export default function SavingsAccountDetail({
         onCancel={() => setDeletingIndex(null)}
         onConfirm={() => {
           if (deletingIndex === null) return;
+
           updateSchedules(schedules.filter((_, index) => index !== deletingIndex));
           setDeletingIndex(null);
           toast.success("Jadwal autodebet dihapus");
@@ -162,12 +218,32 @@ export default function SavingsAccountDetail({
         </div>
 
         <div className="mt-8 flex flex-wrap justify-end gap-2">
-          <ActionButton icon={History} label="Riwayat Transaksi" onClick={() => toast("Riwayat Transaksi (prototype)")} />
-          <ActionButton icon={ReceiptText} label="Dokumen" onClick={() => toast("Dokumen (prototype)")} />
-          <ActionButton icon={Printer} label="Cetak" onClick={() => toast("Cetak (prototype)")} />
+          <ActionButton
+            icon={History}
+            label="Riwayat Transaksi"
+            onClick={() => toast("Riwayat Transaksi (prototype)")}
+          />
+          <ActionButton
+            icon={ReceiptText}
+            label="Dokumen"
+            onClick={() => toast("Dokumen (prototype)")}
+          />
+          <ActionButton
+            icon={Printer}
+            label="Cetak"
+            onClick={() => toast("Cetak (prototype)")}
+          />
           <ActionButton icon={List} label="Kembali ke Daftar" onClick={onBack} />
-          <ActionButton icon={SquarePen} label="Ubah" onClick={() => toast("Ubah Rekening (prototype)")} />
-          <ActionButton icon={XSquare} label="Tutup Rekening" onClick={() => toast("Tutup Rekening (prototype)")} />
+          <ActionButton
+            icon={SquarePen}
+            label="Ubah"
+            onClick={() => toast("Ubah Rekening (prototype)")}
+          />
+          <ActionButton
+            icon={XSquare}
+            label="Tutup Rekening"
+            onClick={() => toast("Tutup Rekening (prototype)")}
+          />
         </div>
 
         <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
@@ -208,7 +284,10 @@ export default function SavingsAccountDetail({
           </div>
           <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div>
-              <InfoRow label="ID" value={<span className="text-blue-600">{account.customerId} ↗</span>} />
+              <InfoRow
+                label="ID"
+                value={<span className="text-blue-600">{account.customerId} ↗</span>}
+              />
               <InfoRow label="Nama" value={account.customerName} />
               <InfoRow label="Alamat" value="Jl. Sri Rama No. 49" />
               <InfoRow
@@ -225,7 +304,10 @@ export default function SavingsAccountDetail({
               <InfoRow label="Jenis Identitas" value="KTP" />
               <InfoRow label="No. Identitas" value="6203617005258715" />
               <InfoRow label="No. Telp/Handphone" value="023 5822 6972" />
-              <InfoRow label="Status" value={<SuccessBadge>Aktif</SuccessBadge>} />
+              <InfoRow
+                label="Status"
+                value={<SuccessBadge>Aktif</SuccessBadge>}
+              />
             </div>
           </div>
 
@@ -289,7 +371,9 @@ export default function SavingsAccountDetail({
                         className="border-b border-slate-200 last:border-b-0"
                       >
                         <td className="px-3 py-3">{index + 1}</td>
-                        <td className="px-3 py-3 font-semibold">{schedule.product}</td>
+                        <td className="px-3 py-3 font-semibold">
+                          {schedule.product}
+                        </td>
                         <td className="px-3 py-3">{targetAccount}</td>
                         <td className="px-3 py-3">{owner}</td>
                         {hasLoanSchedule ? (
@@ -301,7 +385,9 @@ export default function SavingsAccountDetail({
                           {schedule.date.replace("Setiap tanggal ", "")}
                         </td>
                         <td className="px-3 py-3">31-08-2026</td>
-                        <td className="px-3 py-3">{schedule.description || "-"}</td>
+                        <td className="px-3 py-3">
+                          {schedule.description || "-"}
+                        </td>
                         <td className="px-3 py-3">
                           <span
                             className={cn(
@@ -316,7 +402,7 @@ export default function SavingsAccountDetail({
                           <div className="flex items-center gap-1">
                             <button
                               type="button"
-                              onClick={() => toast("Detail Jadwal (prototype)")}
+                              onClick={() => setViewingIndex(index)}
                               className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-slate-500 hover:bg-slate-100"
                               title="Lihat jadwal"
                             >
@@ -324,10 +410,7 @@ export default function SavingsAccountDetail({
                             </button>
                             <button
                               type="button"
-                              onClick={() => {
-                                setEditingIndex(index);
-                                setScheduleOpen(true);
-                              }}
+                              onClick={() => openEdit(index)}
                               className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-blue-600 hover:bg-slate-100"
                               title="Ubah jadwal"
                             >
@@ -335,7 +418,7 @@ export default function SavingsAccountDetail({
                             </button>
                             <button
                               type="button"
-                              onClick={() => setDeletingIndex(index)}
+                              onClick={() => requestDelete(index)}
                               className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-rose-600 hover:bg-slate-100"
                               title="Hapus jadwal"
                             >
