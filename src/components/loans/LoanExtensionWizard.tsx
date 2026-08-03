@@ -5,15 +5,25 @@ import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
+import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
 
 type Step = 1 | 2 | 3;
-type ExtensionMethod = "Tenor Tambahan" | "Tenor Baru" | "Jatuh Tempo Akhir Baru";
+type ExtensionMethod =
+  | "Tenor Tambahan"
+  | "Tenor Baru"
+  | "Jatuh Tempo Akhir Baru";
 
 const OLD_TENOR = 12;
 const REMAINING_PRINCIPAL = 10_553_571;
@@ -35,14 +45,21 @@ const accountDetails = [
 ] as const;
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
 }
 
 function parseDmy(value: string) {
   const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
   if (!match) return null;
 
-  const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+  const date = new Date(
+    Number(match[3]),
+    Number(match[2]) - 1,
+    Number(match[1]),
+  );
+
   return date.getDate() === Number(match[1]) ? date : null;
 }
 
@@ -54,10 +71,11 @@ function formatDmy(date: Date) {
 
 function addMonths(date: Date, months: number) {
   const result = new Date(date);
-  const currentDay = result.getDate();
+  const originalDay = result.getDate();
   result.setMonth(result.getMonth() + months);
 
-  if (result.getDate() !== currentDay) result.setDate(0);
+  if (result.getDate() !== originalDay) result.setDate(0);
+
   return result;
 }
 
@@ -140,11 +158,15 @@ function ConfirmDialog({
       <DialogContent className="h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
         <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
           <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[58px] font-light leading-none text-[#f2b98f]">!</span>
+            <span className="text-[58px] font-light leading-none text-[#f2b98f]">
+              !
+            </span>
           </div>
+
           <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
             Yakin untuk melakukan perubahan?
           </h2>
+
           <div className="mt-[34px] flex items-center justify-center gap-[9px]">
             <button
               type="button"
@@ -175,9 +197,11 @@ function SuccessDialog({ open, onOk }: { open: boolean; onOk: () => void }) {
           <div className="flex h-[102px] w-[102px] items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
             <Check className="h-[58px] w-[58px] text-[#33aa00]" strokeWidth={3} />
           </div>
+
           <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
             Berhasil Melakukan Perpanjangan Pinjaman
           </h2>
+
           <button
             type="button"
             onClick={onOk}
@@ -231,8 +255,8 @@ export default function LoanExtensionWizard({
     [],
   );
 
-  const dueMonthNumber = Number.parseInt(dueMonth, 10);
-  const dueYearNumber = Number.parseInt(dueYear, 10);
+  const parsedDueMonth = Number.parseInt(dueMonth, 10);
+  const parsedDueYear = Number.parseInt(dueYear, 10);
 
   const hasMethodValue =
     method === "Tenor Tambahan"
@@ -240,23 +264,24 @@ export default function LoanExtensionWizard({
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
         : method === "Jatuh Tempo Akhir Baru"
-          ? dueMonthNumber >= 1 &&
-            dueMonthNumber <= 12 &&
-            dueYearNumber >= oldDueDate.getFullYear()
+          ? parsedDueMonth >= 1 &&
+            parsedDueMonth <= 12 &&
+            parsedDueYear >= oldDueDate.getFullYear()
           : false;
 
-  const validEffectiveDate = parseDmy(effectiveDate);
   const isValid =
-    hasMethodValue && validEffectiveDate !== null && reason.trim().length > 0;
+    hasMethodValue &&
+    effectiveDate.trim().length > 0 &&
+    reason.trim().length > 0;
 
   const simulation = React.useMemo(() => {
     let tenor = OLD_TENOR;
     let dueDate = oldDueDate;
 
     if (method === "Tenor Tambahan") {
-      const extraMonths = Number.parseInt(additionalTenor, 10) || 0;
-      tenor = OLD_TENOR + extraMonths;
-      dueDate = addMonths(oldDueDate, extraMonths);
+      const addedMonths = Number.parseInt(additionalTenor, 10) || 0;
+      tenor = OLD_TENOR + addedMonths;
+      dueDate = addMonths(oldDueDate, addedMonths);
     }
 
     if (method === "Tenor Baru") {
@@ -266,25 +291,51 @@ export default function LoanExtensionWizard({
 
     if (
       method === "Jatuh Tempo Akhir Baru" &&
-      dueMonthNumber >= 1 &&
-      dueMonthNumber <= 12 &&
-      dueYearNumber >= oldDueDate.getFullYear()
+      parsedDueMonth >= 1 &&
+      parsedDueMonth <= 12 &&
+      parsedDueYear >= oldDueDate.getFullYear()
     ) {
-      dueDate = new Date(dueYearNumber, dueMonthNumber - 1, oldDueDate.getDate());
-      if (dueDate.getMonth() !== dueMonthNumber - 1) dueDate.setDate(0);
+      dueDate = new Date(parsedDueYear, parsedDueMonth - 1, oldDueDate.getDate());
+      if (dueDate.getMonth() !== parsedDueMonth - 1) dueDate.setDate(0);
 
-      const difference =
+      const monthDifference =
         (dueDate.getFullYear() - oldDueDate.getFullYear()) * 12 +
         dueDate.getMonth() -
         oldDueDate.getMonth();
 
-      tenor = Math.max(1, OLD_TENOR + difference);
+      tenor = Math.max(1, OLD_TENOR + monthDifference);
     }
 
     const monthlyPrincipal = REMAINING_PRINCIPAL / tenor;
     const interestFactor =
-      tenor > OLD_TENOR ? 1 + (tenor - OLD_TENOR) * 0.025 : 1;
+      tenor > OLD_TENOR
+        ? 1 + (tenor - OLD_TENOR) * 0.025
+        : tenor < OLD_TENOR
+          ? Math.max(0.7, 1 - (OLD_TENOR - tenor) * 0.025)
+          : 1;
     const monthlyInterest = MONTHLY_INTEREST * interestFactor;
+
+    const scheduleRows = Array.from({ length: tenor }, (_, index) => {
+      const principal = Math.min(
+        monthlyPrincipal,
+        Math.max(0, REMAINING_PRINCIPAL - monthlyPrincipal * index),
+      );
+      const remainingPrincipal = Math.max(
+        0,
+        REMAINING_PRINCIPAL - monthlyPrincipal * (index + 1),
+      );
+      const penalty = index < 3 ? 75_000 : 0;
+
+      return {
+        dueDate: formatDmy(addMonths(new Date(2026, 7, 7), index)),
+        total: principal + monthlyInterest + penalty,
+        principal,
+        interest: monthlyInterest,
+        remainingPrincipal,
+        remainingInterest: remainingPrincipal * 0.01,
+        penalty,
+      };
+    });
 
     return {
       tenor,
@@ -293,8 +344,16 @@ export default function LoanExtensionWizard({
       newInstallment: monthlyPrincipal + monthlyInterest,
       oldInterest: MONTHLY_INTEREST * OLD_TENOR,
       newInterest: monthlyInterest * tenor,
+      scheduleRows,
     };
-  }, [additionalTenor, dueMonthNumber, dueYearNumber, method, newTenor, oldDueDate]);
+  }, [
+    additionalTenor,
+    method,
+    newTenor,
+    oldDueDate,
+    parsedDueMonth,
+    parsedDueYear,
+  ]);
 
   function continueWizard() {
     if (step === 1 && !isValid) {
@@ -323,6 +382,7 @@ export default function LoanExtensionWizard({
           setSuccessOpen(true);
         }}
       />
+
       <SuccessDialog
         open={successOpen}
         onOk={() => {
@@ -440,7 +500,9 @@ export default function LoanExtensionWizard({
                           <Input
                             value={dueMonth}
                             onChange={(event) =>
-                              setDueMonth(event.target.value.replace(/[^\d]/g, "").slice(0, 2))
+                              setDueMonth(
+                                event.target.value.replace(/[^\d]/g, "").slice(0, 2),
+                              )
                             }
                             inputMode="numeric"
                             placeholder="Bulan (01-12)"
@@ -449,7 +511,9 @@ export default function LoanExtensionWizard({
                           <Input
                             value={dueYear}
                             onChange={(event) =>
-                              setDueYear(event.target.value.replace(/[^\d]/g, "").slice(0, 4))
+                              setDueYear(
+                                event.target.value.replace(/[^\d]/g, "").slice(0, 4),
+                              )
                             }
                             inputMode="numeric"
                             placeholder="Tahun"
@@ -487,6 +551,7 @@ export default function LoanExtensionWizard({
                   <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                     Ringkasan Perpanjangan Pinjaman
                   </div>
+
                   <div className="safe-x-scroll">
                     <table className="w-full min-w-[650px] border-collapse">
                       <thead className="bg-white">
@@ -500,8 +565,16 @@ export default function LoanExtensionWizard({
                         {[
                           ["Tenor", `${OLD_TENOR} Bulan`, `${simulation.tenor} Bulan`],
                           ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE, simulation.dueDate],
-                          ["Angsuran", formatIdr(simulation.oldInstallment), formatIdr(simulation.newInstallment)],
-                          ["Total Bunga Masa Depan", formatIdr(simulation.oldInterest), formatIdr(simulation.newInterest)],
+                          [
+                            "Angsuran",
+                            formatIdr(simulation.oldInstallment),
+                            formatIdr(simulation.newInstallment),
+                          ],
+                          [
+                            "Total Bunga Masa Depan",
+                            formatIdr(simulation.oldInterest),
+                            formatIdr(simulation.newInterest),
+                          ],
                         ].map(([label, before, after], index) => (
                           <tr
                             key={label}
@@ -528,6 +601,8 @@ export default function LoanExtensionWizard({
                   newTenor={simulation.tenor}
                   newDueDate={simulation.dueDate}
                 />
+
+                <LoanExtensionPaymentSchedule rows={simulation.scheduleRows} />
               </div>
             ) : null}
 
@@ -536,6 +611,7 @@ export default function LoanExtensionWizard({
                 <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                   Simpan Perubahan Perpanjangan
                 </div>
+
                 <div className="grid gap-4 p-5 text-[14px]">
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-slate-600">Rekening Pinjaman</span>
@@ -559,10 +635,13 @@ export default function LoanExtensionWizard({
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-slate-600">Tanggal Efektif</span>
-                    <span className="font-extrabold text-slate-900">{effectiveDate}</span>
+                    <span className="font-extrabold text-slate-900">
+                      {effectiveDate}
+                    </span>
                   </div>
                   <div className="border-t border-slate-200 pt-4 text-slate-600">
-                    Alasan: <span className="font-semibold text-slate-900">{reason}</span>
+                    Alasan:{" "}
+                    <span className="font-semibold text-slate-900">{reason}</span>
                   </div>
                 </div>
               </section>
