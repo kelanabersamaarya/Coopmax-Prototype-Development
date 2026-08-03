@@ -1,26 +1,78 @@
 "use client";
 
+import * as React from "react";
 import { X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import {
+  getLoanExtensionHistory,
+  LOAN_EXTENSION_HISTORY_EVENT,
+  type LoanExtensionHistoryEntry,
+} from "@/lib/loanExtensionHistoryStore";
 
-const historyRows = [
-  {
-    method: "Tenor Tambahan",
-    effectiveDate: "07-04-2026",
-    previousTenor: "12 Bulan",
-    newTenor: "18 Bulan",
-    changedAt: "07-04-2026 10:35:20",
-  },
-];
+type HistoryRow = {
+  id: string;
+  method: string;
+  effectiveDate: string;
+  previousTenor: string;
+  newTenor: string;
+  changedAt: string;
+};
+
+const initialHistoryByAccount: Record<string, HistoryRow[]> = {
+  SMG260004: [
+    {
+      id: "initial-extension",
+      method: "Tenor Tambahan",
+      effectiveDate: "07-04-2026",
+      previousTenor: "12 Bulan",
+      newTenor: "18 Bulan",
+      changedAt: "07-04-2026 10:35:20",
+    },
+  ],
+};
+
+function toHistoryRow(entry: LoanExtensionHistoryEntry): HistoryRow {
+  return entry;
+}
 
 export default function LoanExtensionHistoryDialog({
   open,
   onOpenChange,
+  accountNo,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  accountNo: string;
 }) {
+  const [savedRows, setSavedRows] = React.useState<
+    LoanExtensionHistoryEntry[]
+  >([]);
+
+  React.useEffect(() => {
+    function syncHistory() {
+      setSavedRows(getLoanExtensionHistory(accountNo));
+    }
+
+    if (open) syncHistory();
+
+    window.addEventListener(LOAN_EXTENSION_HISTORY_EVENT, syncHistory);
+    window.addEventListener("storage", syncHistory);
+
+    return () => {
+      window.removeEventListener(LOAN_EXTENSION_HISTORY_EVENT, syncHistory);
+      window.removeEventListener("storage", syncHistory);
+    };
+  }, [accountNo, open]);
+
+  const rows = React.useMemo(
+    () => [
+      ...savedRows.map(toHistoryRow),
+      ...(initialHistoryByAccount[accountNo] ?? []),
+    ],
+    [accountNo, savedRows],
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -61,24 +113,35 @@ export default function LoanExtensionHistoryDialog({
                   </tr>
                 </thead>
                 <tbody>
-                  {historyRows.map((row) => (
-                    <tr
-                      key={row.changedAt}
-                      className="border-b border-slate-100 text-[12px] text-black last:border-b-0"
-                    >
-                      <td className="px-4 py-3">{row.method}</td>
-                      <td className="px-4 py-3 tabular-nums">
-                        {row.effectiveDate}
-                      </td>
-                      <td className="px-4 py-3">{row.previousTenor}</td>
-                      <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                        {row.newTenor}
-                      </td>
-                      <td className="px-4 py-3 tabular-nums whitespace-nowrap">
-                        {row.changedAt}
+                  {rows.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={5}
+                        className="px-4 py-10 text-center text-[13px] text-slate-600"
+                      >
+                        Belum ada riwayat perpanjangan pinjaman.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    rows.map((row) => (
+                      <tr
+                        key={row.id}
+                        className="border-b border-slate-100 text-[12px] text-black last:border-b-0"
+                      >
+                        <td className="px-4 py-3">{row.method}</td>
+                        <td className="px-4 py-3 tabular-nums">
+                          {row.effectiveDate}
+                        </td>
+                        <td className="px-4 py-3">{row.previousTenor}</td>
+                        <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                          {row.newTenor}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums whitespace-nowrap">
+                          {row.changedAt}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
