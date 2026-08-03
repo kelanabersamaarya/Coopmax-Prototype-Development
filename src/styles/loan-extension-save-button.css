@@ -1,0 +1,49 @@
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  footer
+  > button:last-child {
+  min-width: 214px !important;
+  height: 40px !important;
+  gap: 8px !important;
+  border: 0 !important;
+  border-radius: 5px !important;
+  background-color: #2fbd00 !important;
+  padding: 0 14px !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  footer
+  > button:last-child:hover:not(:disabled) {
+  background-color: #279f00 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  footer
+  > button:last-child:disabled {
+  background-color: #94a3b8 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  footer
+  > button:last-child
+  svg {
+  display: none !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  footer
+  > button:last-child::before {
+  content: "";
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  flex: 0 0 auto;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='2.5' stroke='white' stroke-width='2.4'/%3E%3Cpath d='M6.5 12L10.2 15.7L17.8 8.2' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
