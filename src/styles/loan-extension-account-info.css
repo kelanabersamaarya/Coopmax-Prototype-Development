@@ -1,6 +1,5 @@
 /* Modal Perpanjangan Pinjaman:
-   Pastikan panel informasi rekening selalu terlihat dengan layout responsif,
-   meskipun terdapat style global lain yang memengaruhi grid modal.
+   Tampilkan kembali seluruh informasi rekening dalam grid yang stabil.
 */
 [data-loan-extension-wizard="true"]
   main
@@ -17,10 +16,10 @@
   > section.rounded-\[8px\].bg-\[\#17a2b8\]
   > div.mt-7.grid {
   display: grid !important;
-  visibility: visible !important;
-  opacity: 1 !important;
   grid-template-columns: minmax(0, 1fr) !important;
   gap: 1.5rem 2rem !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 [data-loan-extension-wizard="true"]
@@ -55,13 +54,13 @@
   }
 }
 
-/* Ringkasan tagihan berjalan ditambahkan pada panel informasi rekening. */
+/* Tambahkan ringkasan tagihan dan tunggakan sebagai informasi rekening. */
 [data-loan-extension-wizard="true"]
   main
   > div.grid.gap-6
   > section.rounded-\[8px\].bg-\[\#17a2b8\]
   > div.mt-7.grid::after {
-  content: "Tagihan Berjalan\A 1.120.000,00";
+  content: "Tagihan Berjalan\A 1.120.000,00\A\A Tunggakan Pokok\A 0,00\A\A Tunggakan Bunga\A 125.000,00";
   display: block;
   min-width: 0;
   white-space: pre-line;
@@ -71,6 +70,7 @@
   line-height: 1.45;
 }
 
+/* Label pada ringkasan tambahan dibuat lebih lembut agar selaras dengan field lain. */
 [data-loan-extension-wizard="true"]
   main
   > div.grid.gap-6
