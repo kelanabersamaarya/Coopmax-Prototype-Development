@@ -4,17 +4,7 @@ import * as React from "react";
 import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
@@ -23,6 +13,7 @@ type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
   | "Jatuh Tempo Akhir Baru";
+
 type ScheduleRow = {
   dueDate: string;
   totalUnpaid: number;
@@ -32,12 +23,6 @@ type ScheduleRow = {
   remainingInterest: number;
   penaltyBill: number;
 };
-
-const OLD_TENOR = 12;
-const OLD_DUE_DATE = "07-04-2027";
-const REMAINING_PRINCIPAL = 10_553_571;
-const MONTHLY_INTEREST = 120_000;
-const MONTHLY_PRINCIPAL = REMAINING_PRINCIPAL / OLD_TENOR;
 
 const accountDetails = [
   ["Nomor Rekening Pinjaman", "SMG260004"],
@@ -51,6 +36,11 @@ const accountDetails = [
   ["Total Kewajiban", "10.678.571,00"],
 ] as const;
 
+const OLD_TENOR = 12;
+const REMAINING_PRINCIPAL = 10_553_571;
+const MONTHLY_INTEREST = 120_000;
+const OLD_DUE_DATE = "07-04-2027";
+
 function formatIdr(value: number) {
   return Math.max(0, Math.round(value))
     .toLocaleString("id-ID")
@@ -59,6 +49,7 @@ function formatIdr(value: number) {
 
 function parseDmy(value: string) {
   const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
+
   if (!match) return null;
 
   const date = new Date(
@@ -163,14 +154,14 @@ function FormRow({
         align === "top" ? "sm:items-start" : "sm:items-center",
       )}
     >
-      <Label
+      <label
         className={cn(
           "text-[14px] font-normal text-[#002060]",
           align === "top" ? "pt-2" : "",
         )}
       >
         {label} <span className="text-rose-600">*</span>
-      </Label>
+      </label>
       {children}
     </div>
   );
@@ -244,7 +235,7 @@ function SimulationSummaryTable({
 }
 
 function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
-  const pageSize = 6;
+  const pageSize = 15;
   const [page, setPage] = React.useState(1);
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
   const start = (page - 1) * pageSize;
@@ -503,7 +494,7 @@ export default function LoanExtensionWizard({
     return {
       tenor: resolvedTenor,
       dueDate: formatDmy(resolvedDueDate),
-      oldInstallment: MONTHLY_PRINCIPAL + MONTHLY_INTEREST,
+      oldInstallment: REMAINING_PRINCIPAL / OLD_TENOR + MONTHLY_INTEREST,
       newInstallment: newPrincipalBill + newInterestBill,
       oldInterest: MONTHLY_INTEREST * OLD_TENOR,
       newInterest: newInterestBill * resolvedTenor,
