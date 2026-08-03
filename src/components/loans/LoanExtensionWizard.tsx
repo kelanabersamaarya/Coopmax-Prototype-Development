@@ -34,6 +34,7 @@ const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
   ["Nama Anggota", "Bapak Bagus"],
   ["Produk Pinjaman", "Pinjaman Billing"],
+  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
   ["Baki Debet", "10.553.571,00"],
   ["Nominal Angsuran", "1.120.000,00"],
   ["Suku Bunga", "12,00% per tahun"],
@@ -429,7 +430,15 @@ export default function LoanExtensionWizard({
                           {label}
                         </div>
                         <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
-                          {label === "No. Rek. Pinjaman" ? accountNo : value}
+                          {label === "No. Rek. Pinjaman" ? (
+                            accountNo
+                          ) : label === "Status Pinjaman" ? (
+                            <span className="inline-flex rounded-[4px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-slate-900">
+                              {value}
+                            </span>
+                          ) : (
+                            value
+                          )}
                         </div>
                       </div>
                     ))}
