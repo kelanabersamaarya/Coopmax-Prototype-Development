@@ -128,7 +128,9 @@ function AccountSummary({
         ["Total Denda", "75.000,00"],
         [
           "Total Pinjaman",
-          account.accountNo === "SMG260004" ? "12.000.000,00" : account.balance,
+          account.accountNo === "SMG260004"
+            ? "12.000.000,00"
+            : account.balance,
         ],
         ["Sisa Pinjaman", account.balance],
         ["Tagihan Pokok", "833.333,00"],
@@ -327,31 +329,29 @@ export default function AutodebetScheduleDialog({
                 </Select>
 
                 {selectedAccount ? (
-                  <>
-                    <AccountSummary
-                      account={selectedAccount}
-                      isLoan={isLoanProduct}
-                    />
-
-                    {isLoanProduct ? (
-                      <div className="grid gap-2 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-center">
-                        <Label className={labelClassName}>
-                          Tanggal Proses Autodebet
-                        </Label>
-                        <Input
-                          value="Tanggal terakhir setiap bulan"
-                          readOnly
-                          aria-readonly="true"
-                          className={cn(
-                            inputClassName,
-                            "cursor-not-allowed bg-slate-200/80 text-slate-700",
-                          )}
-                        />
-                      </div>
-                    ) : null}
-                  </>
+                  <AccountSummary
+                    account={selectedAccount}
+                    isLoan={isLoanProduct}
+                  />
                 ) : null}
               </div>
+
+              {isLoanProduct && selectedAccount ? (
+                <>
+                  <Label className={labelClassName}>
+                    Tanggal Proses Autodebet
+                  </Label>
+                  <Input
+                    value="Tanggal terakhir setiap bulan"
+                    readOnly
+                    aria-readonly="true"
+                    className={cn(
+                      inputClassName,
+                      "cursor-not-allowed bg-slate-200/80 text-slate-700",
+                    )}
+                  />
+                </>
+              ) : null}
 
               {isSavingsProduct ? (
                 <>
