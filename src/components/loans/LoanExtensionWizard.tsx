@@ -23,7 +23,6 @@ type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
   | "Jatuh Tempo Akhir Baru";
-
 type ScheduleRow = {
   dueDate: string;
   totalUnpaid: number;
@@ -40,6 +39,18 @@ const REMAINING_PRINCIPAL = 10_553_571;
 const MONTHLY_INTEREST = 120_000;
 const MONTHLY_PRINCIPAL = REMAINING_PRINCIPAL / OLD_TENOR;
 
+const accountDetails = [
+  ["Nomor Rekening Pinjaman", "SMG260004"],
+  ["Nama Anggota / Debitur", "Bapak Bagus"],
+  ["Produk Pinjaman", "Pinjaman Billing"],
+  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
+  ["Baki Debet Pokok", "10.553.571,00"],
+  ["Tunggakan Pokok", "0,00"],
+  ["Tunggakan Bunga", "125.000,00"],
+  ["Denda dan Biaya Lainnya", "0,00"],
+  ["Total Kewajiban", "10.678.571,00"],
+] as const;
+
 function formatIdr(value: number) {
   return Math.max(0, Math.round(value))
     .toLocaleString("id-ID")
@@ -50,7 +61,11 @@ function parseDmy(value: string) {
   const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
   if (!match) return null;
 
-  const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+  const date = new Date(
+    Number(match[3]),
+    Number(match[2]) - 1,
+    Number(match[1]),
+  );
 
   return date.getDate() === Number(match[1]) ? date : null;
 }
@@ -245,13 +260,41 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
         <table className="w-full min-w-[1160px] border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[130px] px-4 py-3">Jatuh<br />Tempo</th>
-              <th className="w-[165px] px-4 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
-              <th className="w-[145px] px-4 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[145px] px-4 py-3 text-right">Tagihan<br />Bunga</th>
-              <th className="w-[165px] px-4 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[165px] px-4 py-3 text-right">Sisa Tagihan<br />Bunga</th>
-              <th className="w-[145px] px-4 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[130px] px-4 py-3">
+                Jatuh
+                <br />
+                Tempo
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[145px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[145px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[145px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -293,7 +336,8 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
           Menampilkan {rows.length === 0 ? 0 : start + 1} sampai{" "}
-          {Math.min(rows.length, start + pageSize)} dari {rows.length} jadwal pembayaran
+          {Math.min(rows.length, start + pageSize)} dari {rows.length} jadwal
+          pembayaran
         </div>
 
         <div className="flex items-center gap-2">
@@ -314,7 +358,9 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
           <button
             type="button"
             disabled={page >= pageCount}
-            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
+            onClick={() =>
+              setPage((current) => Math.min(pageCount, current + 1))
+            }
             className="inline-flex h-9 items-center gap-1 rounded-[5px] bg-slate-100 px-3 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Selanjutnya
@@ -389,7 +435,9 @@ export default function LoanExtensionWizard({
                 0,
                 (Number.parseInt(newDueYear, 10) || oldDueDate.getFullYear()) *
                   12 +
-                  ((Number.parseInt(newDueMonth, 10) || oldDueDate.getMonth() + 1) - 1) -
+                  ((Number.parseInt(newDueMonth, 10) ||
+                    oldDueDate.getMonth() + 1) -
+                    1) -
                   (oldDueDate.getFullYear() * 12 + oldDueDate.getMonth()),
               )
             : 0;
@@ -453,7 +501,14 @@ export default function LoanExtensionWizard({
       newInterest: newInterestBill * resolvedTenor,
       scheduleRows,
     };
-  }, [additionalTenor, method, newDueMonth, newDueYear, newTenor, oldDueDate]);
+  }, [
+    additionalTenor,
+    method,
+    newDueMonth,
+    newDueYear,
+    newTenor,
+    oldDueDate,
+  ]);
 
   function continueWizard() {
     if (step === 1 && !isValid) {
