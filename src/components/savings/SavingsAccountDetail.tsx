@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   CircleX,
   Eye,
+  ExternalLink,
   History,
   List,
   Plus,
@@ -9,7 +10,6 @@ import {
   ReceiptText,
   SquarePen,
   XSquare,
-  ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -324,8 +324,22 @@ export default function SavingsAccountDetail({
 
           <div className="my-6 h-px bg-slate-200" />
 
-          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
-            Jadwal Autodebet
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
+              Jadwal Autodebet
+            </div>
+
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setEditingIndex(null);
+                setScheduleOpen(true);
+              }}
+              className="h-8 w-fit rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:text-violet-600"
+            >
+              <Plus className="mr-1 h-4 w-4" />
+              Tambah Jadwal Autodebet
+            </Button>
           </div>
 
           <div className="mt-4 safe-x-scroll">
@@ -434,20 +448,6 @@ export default function SavingsAccountDetail({
                 )}
               </tbody>
             </table>
-          </div>
-
-          <div className="mt-5">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setEditingIndex(null);
-                setScheduleOpen(true);
-              }}
-              className="h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:text-violet-600"
-            >
-              <Plus className="mr-1 h-4 w-4" />
-              Tambah Jadwal Autodebet
-            </Button>
           </div>
         </Card>
       </div>
