@@ -105,7 +105,7 @@ function AdjustmentSuccessDialog({
           </div>
 
           <h3 className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
-            Berhasil Melakukan Penyesuaian Bunga
+            Berhasil Melakukan Perubahan Bunga
           </h3>
 
           <button
