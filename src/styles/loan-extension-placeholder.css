@@ -131,3 +131,32 @@ body:has([data-loan-extension-wizard="true"])
 [data-loan-extension-wizard="true"] footer > button:last-child:disabled svg {
   color: #64748b !important;
 }
+
+/* Langkah simulasi: alasan perpanjangan diletakkan sebelum jadwal pembayaran baru. */
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6:has(table) {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6:has(table)
+  > div:nth-child(1) {
+  order: 1;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6:has(table)
+  > div:nth-child(3) {
+  order: 2;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6:has(table)
+  > div:nth-child(2) {
+  order: 3;
+}
