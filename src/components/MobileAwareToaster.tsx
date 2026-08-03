@@ -8,6 +8,7 @@ import LoanDebtChangeSaveGate from "@/components/loans/LoanDebtChangeSaveGate";
 import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentInputFix";
 import LoanInterestChangeSuccessGate from "@/components/loans/LoanInterestChangeSuccessGate";
 import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizardCancelButton";
+import LoanExtensionContinueGate from "@/components/loans/LoanExtensionContinueGate";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 
 export default function MobileAwareToaster() {
@@ -39,6 +40,7 @@ export default function MobileAwareToaster() {
       <LoanInterestPercentInputFix />
       <LoanInterestChangeSuccessGate />
       <LoanInterestWizardCancelButton />
+      <LoanExtensionContinueGate />
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
       {shouldHideToaster ? null : (
