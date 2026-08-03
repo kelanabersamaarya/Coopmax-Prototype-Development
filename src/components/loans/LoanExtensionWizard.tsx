@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 
 type Step = 1 | 2 | 3;
 type ExtensionMethod =
@@ -305,7 +306,9 @@ export default function LoanExtensionWizard({
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
         : method === "Jatuh Tempo Akhir Baru"
-          ? parsedDueMonth >= 1 && parsedDueMonth <= 12 && parsedDueYear >= oldDueDate.getFullYear()
+          ? parsedDueMonth >= 1 &&
+            parsedDueMonth <= 12 &&
+            parsedDueYear >= oldDueDate.getFullYear()
           : false;
 
   const isValid =
@@ -334,7 +337,11 @@ export default function LoanExtensionWizard({
       parsedDueMonth <= 12 &&
       parsedDueYear >= oldDueDate.getFullYear()
     ) {
-      dueDate = new Date(parsedDueYear, parsedDueMonth - 1, oldDueDate.getDate());
+      dueDate = new Date(
+        parsedDueYear,
+        parsedDueMonth - 1,
+        oldDueDate.getDate(),
+      );
 
       if (dueDate.getMonth() !== parsedDueMonth - 1) {
         dueDate.setDate(0);
@@ -628,6 +635,15 @@ export default function LoanExtensionWizard({
                   {reason}
                 </p>
               </section>
+
+              {method ? (
+                <LoanExtensionMethodSummarySection
+                  method={method}
+                  additionalTenor={additionalTenor}
+                  newTenor={simulation.tenor}
+                  newDueDate={simulation.dueDate}
+                />
+              ) : null}
 
               <PaymentScheduleTable rows={simulation.scheduleRows} />
             </div>
