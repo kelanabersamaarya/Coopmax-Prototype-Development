@@ -24,19 +24,37 @@ type ExtensionMethod =
   | "Tenor Baru"
   | "Jatuh Tempo Akhir Baru";
 
-const accountInfo = [
-  ["Nomor Rekening Pinjaman", "SMG260004"],
-  ["Nama Anggota / Debitur", "Bapak Bagus"],
-  ["Nama Produk", "Pinjaman Billing"],
-  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
-  ["Baki Debet Pokok", "10.553.571,00"],
-  ["Sisa Tenor", "12 Bulan"],
-  ["Tanggal Jatuh Tempo Akhir", "07-04-2027"],
-  ["Nominal Angsuran", "1.120.000,00"],
-  ["Suku Bunga", "12,00% per tahun"],
-] as const;
+type AccountDetail = {
+  label: string;
+  value: React.ReactNode;
+};
 
-function AccountField({ label, value }: { label: string; value: string }) {
+const accountDetails: AccountDetail[] = [
+  { label: "No. Rek. Pinjaman", value: "SMG260004" },
+  { label: "Nama Anggota", value: "Bapak Bagus" },
+  { label: "Produk Pinjaman", value: "Pinjaman Billing" },
+  { label: "Baki Debet", value: "10.553.571,00" },
+  { label: "Sisa Tenor", value: "12 Bulan" },
+  { label: "Tanggal Jatuh Tempo Akhir", value: "07-04-2027" },
+  { label: "Nominal Angsuran", value: "1.120.000,00" },
+  { label: "Suku Bunga", value: "12,00% per tahun" },
+  {
+    label: "Status Pinjaman",
+    value: (
+      <span className="inline-flex rounded-[5px] bg-[#31b900] px-3 py-1 text-[11px] font-extrabold leading-none text-white shadow-sm ring-1 ring-[#31b900]/30">
+        Aktif / Sudah Dicairkan
+      </span>
+    ),
+  },
+];
+
+function AccountField({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
   return (
     <div>
       <div className="text-[11px] font-semibold text-white/85">{label}</div>
@@ -232,12 +250,14 @@ export default function LoanExtensionWizard({
                   INFORMASI REKENING PINJAMAN
                 </div>
                 <div className="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {accountInfo.map(([label, value]) => (
+                  {accountDetails.map((field) => (
                     <AccountField
-                      key={label}
-                      label={label}
+                      key={field.label}
+                      label={field.label}
                       value={
-                        label === "Nomor Rekening Pinjaman" ? accountNo : value
+                        field.label === "No. Rek. Pinjaman"
+                          ? accountNo
+                          : field.value
                       }
                     />
                   ))}
