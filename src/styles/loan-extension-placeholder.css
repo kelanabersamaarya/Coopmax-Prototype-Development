@@ -34,6 +34,49 @@
   opacity: 1 !important;
 }
 
+/* Informasi Rekening Pinjaman harus selalu tampil pada langkah pertama wizard. */
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7 {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7
+  > div {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #ffffff !important;
+}
+
+@media (min-width: 640px) {
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
 /* Modal Perpanjangan Pinjaman: field tetap netral saat diklik, fokus, atau dropdown dibuka. */
 [data-loan-extension-wizard="true"] input:focus,
 [data-loan-extension-wizard="true"] input:focus-visible,
