@@ -312,7 +312,7 @@ export default function LoanAccountDetailSections({
             <KeyValueRow label="Jenis Identitas" value="KTP" right />
             <KeyValueRow label="No. Identitas" value="6203617005258715" right />
             <KeyValueRow label="No. Telp/Handphone" value="023 5822 6972" right />
-            <KeyValueRow label="Alamat Email" value="putua@gmail.com" right />
+            <KeyValueRow label="Alamat Email" value="putu@gmail.com" right />
           </div>
         </div>
       </div>
