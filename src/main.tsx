@@ -59,5 +59,6 @@ import "./styles/loan-debt-hide-adjustment-hint.css";
 import "./styles/loan-debt-confirm-modal.css";
 import "./styles/loan-extension-placeholder.css";
 import "./styles/loan-extension-account-info.css";
+import "./styles/loan-extension-payment-schedule.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
