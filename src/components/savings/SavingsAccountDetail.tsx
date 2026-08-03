@@ -287,7 +287,11 @@ export default function SavingsAccountDetail({
                 />
                 <InfoRow
                   label="Status"
-                  value={<span className="inline-flex rounded-md bg-slate-500 px-2.5 py-1 text-xs font-extrabold text-white">Tidak Aktif</span>}
+                  value={
+                    <span className="inline-flex rounded-md bg-rose-600 px-2.5 py-1 text-xs font-extrabold text-white">
+                      Tidak Aktif
+                    </span>
+                  }
                 />
               </div>
 
