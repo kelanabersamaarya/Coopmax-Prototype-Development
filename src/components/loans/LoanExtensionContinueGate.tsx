@@ -28,6 +28,18 @@ function isFormComplete(wizard: HTMLElement) {
   );
 }
 
+function findPrimaryButton(footer: HTMLElement) {
+  return Array.from(footer.querySelectorAll("button")).find((button) => {
+    const label = button.textContent?.trim().toLowerCase() ?? "";
+
+    return (
+      label === "lanjutkan" ||
+      label === "simpan perubahan" ||
+      label === "simpan perpanjangan"
+    );
+  });
+}
+
 function syncWizardButton() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
   if (!wizard) return;
@@ -35,18 +47,7 @@ function syncWizardButton() {
   const footer = wizard.querySelector<HTMLElement>("footer");
   if (!footer) return;
 
-  const primaryButton = Array.from(footer.querySelectorAll("button")).find(
-    (button) => {
-      const label = button.textContent?.trim().toLowerCase() ?? "";
-
-      return (
-        label === "lanjutkan" ||
-        label === "simpan perubahan" ||
-        label === "simpan perpanjangan"
-      );
-    },
-  );
-
+  const primaryButton = findPrimaryButton(footer);
   if (!primaryButton) return;
 
   const isSimulationStep = wizard.dataset.loanExtensionStep === "2";
@@ -64,9 +65,11 @@ function syncWizardButton() {
 
   primaryButton.removeAttribute(SAVE_ATTRIBUTE);
 
-  if (primaryButton.textContent?.trim() === "Lanjutkan") {
-    primaryButton.disabled = !isFormComplete(wizard);
+  if (primaryButton.textContent?.trim() !== "Lanjutkan") {
+    primaryButton.textContent = "Lanjutkan";
   }
+
+  primaryButton.disabled = !isFormComplete(wizard);
 }
 
 function ConfirmationDialog({
