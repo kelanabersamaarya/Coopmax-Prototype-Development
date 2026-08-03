@@ -1,9 +1,12 @@
-[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child {
   width: 214px !important;
   min-width: 214px !important;
   height: 43px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   gap: 12px !important;
   border: 0 !important;
   border-radius: 5px !important;
@@ -16,36 +19,37 @@
   box-shadow: none !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child:hover:not(:disabled) {
-  background-color: #279f00 !important;
+  background-color: #279800 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child:disabled {
   background-color: #94a3b8 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child
   svg {
   display: block !important;
   width: 20px !important;
   height: 20px !important;
+  color: #ffffff !important;
   stroke-width: 4 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="3"]
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child::before {
   display: none !important;
 }
 
 @media (max-width: 639px) {
-  [data-loan-extension-wizard="true"][data-loan-extension-step="3"]
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
     footer
     > button:last-child {
     width: 100% !important;
