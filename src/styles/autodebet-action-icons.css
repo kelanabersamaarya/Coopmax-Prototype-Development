@@ -54,7 +54,7 @@ button[title="Hapus jadwal"]:hover {
   text-align: left !important;
 }
 
-/* Header tanggal transaksi selanjutnya dipisah tegas menjadi dua baris. */
+/* Header tanggal transaksi selanjutnya dipisah tegas menjadi dua baris dan rata kiri. */
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) th:nth-child(7),
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) th:nth-child(6) {
   width: 138px !important;
@@ -62,17 +62,26 @@ button[title="Hapus jadwal"]:hover {
   max-width: 138px !important;
   font-size: 0 !important;
   line-height: 1.2 !important;
+  text-align: left !important;
   white-space: normal !important;
 }
 
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) th:nth-child(7)::after,
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) th:nth-child(6)::after {
   content: "Tanggal Transaksi\A Selanjutnya";
+  display: block !important;
   color: #000000 !important;
   font-size: 12px !important;
   font-weight: 700 !important;
   line-height: 1.2 !important;
+  text-align: left !important;
   white-space: pre-line !important;
+}
+
+/* Nilai kolom Tanggal Transaksi Selanjutnya juga selalu rata kiri. */
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) tbody td:nth-child(7),
+.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) tbody td:nth-child(6) {
+  text-align: left !important;
 }
 
 /* Kolom tanggal autodebet dipatok menjadi tanggal 30. */
