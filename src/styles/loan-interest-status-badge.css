@@ -1,0 +1,36 @@
+[data-loan-interest-wizard="true"]
+  main
+  > div.grid.gap-7
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid::before {
+  content: "Status";
+  display: block;
+  align-self: start;
+  color: rgb(255 255 255 / 0.85);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+[data-loan-interest-wizard="true"]
+  main
+  > div.grid.gap-7
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid::after {
+  content: "Aktif / Sudah Dicairkan";
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  align-self: start;
+  justify-self: start;
+  gap: 0;
+  border-radius: 5px;
+  background-color: #3bb001;
+  padding: 4px 8px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-shadow: none;
+  white-space: nowrap;
+}
