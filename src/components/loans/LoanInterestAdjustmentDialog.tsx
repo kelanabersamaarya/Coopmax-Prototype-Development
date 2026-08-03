@@ -62,8 +62,8 @@ function InterestForgivenessInfo() {
   return (
     <div className="rounded-[20px] bg-[#EFF6FF] px-4 py-3 text-[#1E3A8A] ring-1 ring-[#DCEBFF]">
       <div className="flex items-start gap-3">
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#DBEAFE] text-[#2563EB] ring-1 ring-[#BFDBFE]">
-          <Info className="h-6 w-6" strokeWidth={2.6} />
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#1D4ED8]">
+          <Info className="h-6 w-6 text-white" strokeWidth={2.6} />
         </span>
 
         <div className="min-w-0 pt-0.5">
@@ -251,8 +251,6 @@ export default function LoanInterestAdjustmentDialog({
     "text-[14px] font-normal text-slate-900 shadow-none",
     "placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
-
-  const mutedClassName = cn(inputClassName, "interest-adjustment-muted-field");
 
   return (
     <>
