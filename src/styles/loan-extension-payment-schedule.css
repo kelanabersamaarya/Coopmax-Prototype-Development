@@ -1,14 +1,7 @@
 /* Perpanjangan Pinjaman > Jadwal Pembayaran Baru
-   - Sembunyikan kolom Angsuran Ke.
-   - Isi tabel menggunakan teks hitam dengan bobot normal.
-   - Header tabel tetap hitam dan tebal.
+   Semua isi tabel menggunakan teks hitam dengan bobot normal.
+   Header tabel tetap hitam dan tebal.
 */
-
-/* Tabel aktif memakai min-w-[1080px]. Sembunyikan header dan sel Angsuran Ke. */
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th:first-child,
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td:first-child {
-  display: none !important;
-}
 
 /* Header tetap putih, hitam, dan tebal. */
 [data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th,
@@ -25,9 +18,10 @@
   font-weight: 400 !important;
 }
 
-/* Kolom jatuh tempo kini menjadi kolom pertama yang terlihat. */
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th:nth-child(2),
-[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td:nth-child(2) {
+/* Kolom pertama adalah Jatuh Tempo. */
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] thead th:first-child,
+[data-loan-extension-wizard="true"] table.min-w-\[1080px\] tbody td:first-child {
+  display: table-cell !important;
   text-align: left !important;
   white-space: nowrap !important;
 }
