@@ -30,6 +30,8 @@ type AccountOption = {
   balance: string;
 };
 
+const LOAN_AUTODEBET_DAY = "25";
+
 const accountOptions: Record<string, AccountOption[]> = {
   "Produk Simpanan": [
     {
@@ -226,9 +228,9 @@ export default function AutodebetScheduleDialog({
     onProcess({
       product,
       accountNo: selectedAccountValue,
-      date: isSavingsProduct
-        ? `Setiap tanggal ${autodebetDay}`
-        : "Otomatis mengikuti jadwal pinjaman",
+      date: isLoanProduct
+        ? `Setiap tanggal ${LOAN_AUTODEBET_DAY}`
+        : `Setiap tanggal ${autodebetDay}`,
       description: description.trim(),
       status,
     });
@@ -342,7 +344,7 @@ export default function AutodebetScheduleDialog({
                     Tanggal Proses Autodebet
                   </Label>
                   <Input
-                    value="25"
+                    value={LOAN_AUTODEBET_DAY}
                     readOnly
                     aria-readonly="true"
                     className={cn(

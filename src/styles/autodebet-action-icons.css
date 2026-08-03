@@ -78,25 +78,10 @@ button[title="Hapus jadwal"]:hover {
   white-space: pre-line !important;
 }
 
-/* Nilai kolom Tanggal Transaksi Selanjutnya juga selalu rata kiri. */
+/* Nilai kolom Tanggal Transaksi Selanjutnya selalu rata kiri dan memakai nilai jadwal tersimpan. */
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) tbody td:nth-child(7),
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) tbody td:nth-child(6) {
   text-align: left !important;
-}
-
-/* Kolom tanggal autodebet dipatok menjadi tanggal 30. */
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) tbody td:nth-child(6),
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) tbody td:nth-child(5) {
-  font-size: 0 !important;
-  white-space: nowrap !important;
-}
-
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:has(th:nth-child(10)) tbody td:nth-child(6)::after,
-.safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black:not(:has(th:nth-child(10))) tbody td:nth-child(5)::after {
-  content: "30";
-  color: #000000 !important;
-  font-size: 12px !important;
-  font-weight: 400 !important;
 }
 
 /* Kolom keterangan tetap satu baris. */
