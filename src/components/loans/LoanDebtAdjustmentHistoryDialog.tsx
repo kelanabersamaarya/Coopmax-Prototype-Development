@@ -20,6 +20,7 @@ type HistoryRow = {
   interestAfter: string;
   totalBefore: string;
   totalAfter: string;
+  changedBy: string;
   adjustedAt: string;
 };
 
@@ -35,6 +36,7 @@ const initialHistoryByAccount: Record<string, HistoryRow[]> = {
       interestAfter: "58.333,00",
       totalBefore: "916.667,00",
       totalAfter: "891.667,00",
+      changedBy: "Arya Dharma",
       adjustedAt: "07-07-2026 10:35:20",
     },
   ],
@@ -43,7 +45,10 @@ const initialHistoryByAccount: Record<string, HistoryRow[]> = {
 function toHistoryRow(
   entry: LoanInterestAdjustmentHistoryEntry,
 ): HistoryRow {
-  return entry;
+  return {
+    ...entry,
+    changedBy: "Arya Dharma",
+  };
 }
 
 function Cell({
@@ -96,10 +101,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
     window.addEventListener("storage", syncHistory);
 
     return () => {
-      window.removeEventListener(
-        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-        syncHistory,
-      );
+      window.removeEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, syncHistory);
       window.removeEventListener("storage", syncHistory);
     };
   }, [accountNo, open]);
@@ -132,9 +134,8 @@ export default function LoanDebtAdjustmentHistoryDialog({
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
+            className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
             aria-label="Tutup"
-            title="Tutup"
           >
             <X className="h-5 w-5" />
           </button>
@@ -143,38 +144,39 @@ export default function LoanDebtAdjustmentHistoryDialog({
         <main className="max-h-[calc(85vh-132px)] overflow-auto px-5 py-5 sm:px-6">
           <div className="overflow-hidden rounded-[8px] border border-slate-200 bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1430px] border-collapse">
+              <table className="w-full min-w-[1290px] border-collapse">
                 <thead className="bg-[#F9FAFF]">
                   <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-                    <th className="w-[100px] px-3 py-3 text-center">Angsuran Ke</th>
-                    <th className="w-[170px] px-3 py-3 text-right">
+                    <th className="w-[82px] px-3 py-3 text-left">Angsuran Ke</th>
+                    <th className="w-[150px] px-3 py-3 text-right">
                       Tagihan Bunga
                       <br />
                       Sebelum Penyesuaian
                     </th>
-                    <th className="w-[170px] px-3 py-3">Jenis Penyesuaian</th>
-                    <th className="w-[155px] px-3 py-3 text-right">
+                    <th className="w-[125px] px-3 py-3">Jenis Penyesuaian</th>
+                    <th className="w-[130px] px-3 py-3 text-right">
                       Nominal Penyesuaian
                     </th>
-                    <th className="min-w-[280px] px-3 py-3">
+                    <th className="w-[180px] px-3 py-3">
                       Alasan Penyesuaian
                     </th>
-                    <th className="w-[170px] px-3 py-3 text-right">
+                    <th className="w-[155px] px-3 py-3 text-right">
                       Tagihan Bunga
                       <br />
                       Sesudah Penyesuaian
                     </th>
-                    <th className="w-[170px] px-3 py-3 text-right">
+                    <th className="w-[155px] px-3 py-3 text-right">
                       Total Tagihan
                       <br />
                       Sebelum Penyesuaian
                     </th>
-                    <th className="w-[170px] px-3 py-3 text-right">
+                    <th className="w-[135px] px-3 py-3 text-right">
                       Total Tagihan
                       <br />
                       Setelah Penyesuaian
                     </th>
-                    <th className="w-[190px] px-3 py-3">
+                    <th className="w-[130px] px-3 py-3">Diubah Oleh</th>
+                    <th className="w-[175px] px-3 py-3">
                       Tanggal & Waktu Penyesuaian
                     </th>
                   </tr>
@@ -184,7 +186,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
                   {rows.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={9}
+                        colSpan={10}
                         className="px-4 py-10 text-center text-[13px] text-slate-600"
                       >
                         Belum ada riwayat perubahan nominal bunga.
@@ -193,7 +195,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
                   ) : (
                     rows.map((row) => (
                       <tr key={row.id} className="bg-white">
-                        <Cell align="center">{row.installmentNo}</Cell>
+                        <Cell align="left">{row.installmentNo}</Cell>
                         <Cell align="right">{row.interestBefore}</Cell>
                         <Cell>{row.adjustmentType}</Cell>
                         <Cell align="right">{row.adjustmentAmount}</Cell>
@@ -211,6 +213,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
                         >
                           {row.totalAfter}
                         </Cell>
+                        <Cell>{row.changedBy}</Cell>
                         <Cell>{row.adjustedAt}</Cell>
                       </tr>
                     ))
