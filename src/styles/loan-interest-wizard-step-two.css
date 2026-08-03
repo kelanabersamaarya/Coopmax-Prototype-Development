@@ -123,6 +123,31 @@
   text-transform: uppercase !important;
 }
 
+/* Status pinjaman sebagai informasi terakhir pada panel rekening. */
+[data-loan-interest-wizard="true"]
+  main
+  > div.grid.gap-7
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid::after {
+  content: "Status\A Aktif / Sudah Dicairkan";
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+  white-space: pre-line;
+}
+
+[data-loan-interest-wizard="true"]
+  main
+  > div.grid.gap-7
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid::after {
+  text-shadow: 0 0 #0000;
+}
+
 /* Section Ringkasan Perubahan Suku Bunga. */
 [data-loan-interest-wizard="true"] .loan-interest-summary-title {
   background-color: #f9faff !important;
