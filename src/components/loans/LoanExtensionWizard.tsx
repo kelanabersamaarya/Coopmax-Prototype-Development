@@ -124,7 +124,7 @@ function FieldRow({
 }
 
 function StepIndicator({ step }: { step: Step }) {
-  const steps = ["Informasi & Perpanjangan", "Simulasi"];
+  const steps = ["Informasi & Perpanjangan", "Pratinjau dan Simulasi"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
