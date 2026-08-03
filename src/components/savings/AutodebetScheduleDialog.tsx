@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronDown, Info, X } from "lucide-react";
+import { Check, ChevronDown, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,11 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 export type AutodebetSchedule = {
@@ -117,27 +112,6 @@ function AutodebetToggle({
         )}
       />
     </button>
-  );
-}
-
-function FieldInfoTooltip() {
-  return (
-    <Tooltip delayDuration={150}>
-      <TooltipTrigger asChild>
-        <button
-          type="button"
-          className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#2563EB] text-white ring-1 ring-[#2563EB]/20 transition hover:bg-[#1D4ED8]"
-          aria-label="Informasi tanggal autodebet pinjaman"
-          title="Informasi"
-        >
-          <Info className="h-3.5 w-3.5" strokeWidth={2.8} />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent className="max-w-[300px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
-        Autodebet pinjaman dilakukan otomatis di akhir bulan, yaitu antara
-        tanggal 28, 29, 30, 31 sesuai tanggal terakhir pada bulan berjalan.
-      </TooltipContent>
-    </Tooltip>
   );
 }
 
@@ -544,6 +518,7 @@ export default function AutodebetScheduleDialog({
         onCancel={() => setConfirmOpen(false)}
         onConfirm={confirmProcess}
       />
+
       <ValidationErrorDialog
         open={validationErrorOpen}
         missingFields={missingFields}
@@ -565,6 +540,7 @@ export default function AutodebetScheduleDialog({
               <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
                 Jadwal Autodebet
               </h2>
+
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
@@ -582,11 +558,13 @@ export default function AutodebetScheduleDialog({
                   <br />
                   Anggota/Nasabah lain
                 </Label>
+
                 <div className="flex h-[31px] items-center">
                   <AutodebetToggle checked={interMember} onChange={setInterMember} />
                 </div>
 
                 <Label className={labelClassName}>Produk Tujuan</Label>
+
                 <Select
                   value={product}
                   onValueChange={(value) => {
@@ -605,6 +583,7 @@ export default function AutodebetScheduleDialog({
                 </Select>
 
                 <Label className={labelClassName}>No. Rekening Tujuan</Label>
+
                 <div className="grid gap-4">
                   <Select
                     value={accountNo}
@@ -650,20 +629,8 @@ export default function AutodebetScheduleDialog({
                   </>
                 ) : null}
 
-                {isLoanProduct ? (
-                  <Label className="flex items-center pt-1 text-[14px] font-normal text-[#002060]">
-                    Jadwal Transaksi
-                    <FieldInfoTooltip />
-                  </Label>
-                ) : null}
-
-                {isLoanProduct ? (
-                  <div className="flex h-[31px] items-center text-[14px] font-semibold text-[#526685]">
-                    Otomatis pada tanggal {loanAutodebetDays}
-                  </div>
-                ) : null}
-
                 <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
+
                 <Textarea
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
@@ -673,6 +640,7 @@ export default function AutodebetScheduleDialog({
                 <Label className={cn(labelClassName, "pt-1")}>
                   Status Autodebet
                 </Label>
+
                 <div className="flex h-[31px] items-center">
                   <AutodebetToggle checked={status} onChange={setStatus} />
                 </div>
@@ -687,6 +655,7 @@ export default function AutodebetScheduleDialog({
               >
                 Proses
               </button>
+
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
