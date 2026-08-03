@@ -21,7 +21,7 @@ import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionM
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
 import { addLoanExtensionHistory } from "@/lib/loanExtensionHistoryStore";
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2;
 type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
@@ -124,7 +124,7 @@ function FieldRow({
 }
 
 function StepIndicator({ step }: { step: Step }) {
-  const steps = ["Informasi & Perpanjangan", "Simulasi", "Simpan Perubahan"];
+  const steps = ["Informasi & Perpanjangan", "Simulasi"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
@@ -378,7 +378,7 @@ export default function LoanExtensionWizard({
   ]);
 
   function continueWizard() {
-    if (step === 1 && !isValid) {
+    if (!isValid) {
       toast("Data perpanjangan belum lengkap", {
         description:
           "Lengkapi metode, nilai perpanjangan, tanggal efektif, dan alasan perpanjangan.",
@@ -386,17 +386,7 @@ export default function LoanExtensionWizard({
       return;
     }
 
-    if (step === 1) {
-      setStep(2);
-      return;
-    }
-
-    if (step === 2) {
-      setStep(3);
-      return;
-    }
-
-    setConfirmOpen(true);
+    setStep(2);
   }
 
   function saveExtension() {
@@ -410,71 +400,6 @@ export default function LoanExtensionWizard({
     setConfirmOpen(false);
     setSuccessOpen(true);
   }
-
-  const saveSummary = (
-    <div className="grid gap-5">
-      <div>
-        <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-          Simpan Perubahan Perpanjangan
-        </h3>
-        <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
-          Periksa kembali data perpanjangan pinjaman sebelum menyimpan perubahan.
-        </p>
-      </div>
-
-      <div className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <div className="text-[12px] font-semibold text-slate-500">
-              Rekening Pinjaman
-            </div>
-            <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-              {accountNo}
-            </div>
-          </div>
-          <div>
-            <div className="text-[12px] font-semibold text-slate-500">
-              Metode Perpanjangan
-            </div>
-            <div className="mt-1 text-[14px] font-extrabold text-[#2563EB]">
-              {method}
-            </div>
-          </div>
-        </div>
-
-        <Separator className="my-5 bg-slate-200" />
-
-        <div className="grid gap-4 text-[14px]">
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-600">Tenor Sebelum Perpanjangan</span>
-            <span className="font-extrabold text-slate-900">
-              {OLD_TENOR} Bulan
-            </span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-600">Tenor Sesudah Perpanjangan</span>
-            <span className="font-extrabold text-[#2563EB]">
-              {simulation.tenor} Bulan
-            </span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-600">Jatuh Tempo Akhir Baru</span>
-            <span className="font-extrabold text-[#2563EB]">
-              {simulation.dueDate}
-            </span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-600">Tanggal Efektif</span>
-            <span className="font-extrabold text-slate-900">{effectiveDate}</span>
-          </div>
-          <div className="border-t border-slate-200 pt-4 text-slate-600">
-            Alasan:{" "}
-            <span className="font-semibold text-slate-900">{reason}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -658,9 +583,7 @@ export default function LoanExtensionWizard({
                   </div>
                 </section>
               </div>
-            ) : null}
-
-            {step === 2 ? (
+            ) : (
               <div className="grid gap-6">
                 <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                   <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
@@ -728,9 +651,7 @@ export default function LoanExtensionWizard({
 
                 <LoanExtensionPaymentSchedule rows={simulation.scheduleRows} />
               </div>
-            ) : null}
-
-            {step === 3 ? saveSummary : null}
+            )}
           </main>
 
           <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
@@ -742,7 +663,7 @@ export default function LoanExtensionWizard({
                   return;
                 }
 
-                setStep((current) => (current - 1) as Step);
+                setStep(1);
               }}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
@@ -767,18 +688,18 @@ export default function LoanExtensionWizard({
             <button
               type="button"
               disabled={step === 1 && !isValid}
-              onClick={continueWizard}
+              onClick={step === 1 ? continueWizard : () => setConfirmOpen(true)}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-                step === 3
+                step === 2
                   ? "min-w-[214px] gap-[8px] bg-[#2fb300] hover:bg-[#279800]"
-                  : step === 1 && !isValid
+                  : !isValid
                     ? "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500"
                     : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
               )}
             >
-              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 3 ? (
+              {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 2 ? (
                 <Check className="h-5 w-5" strokeWidth={3.5} />
               ) : (
                 <ChevronRight className="h-4 w-4" strokeWidth={3} />
