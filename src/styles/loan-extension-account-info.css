@@ -1,9 +1,45 @@
 /* Informasi rekening pada Wizard Perpanjangan Pinjaman.
-   Selector memakai data attribute khusus agar tidak bertabrakan dengan aturan
-   global yang menargetkan class Tailwind .grid. */
+   Area ini diberi data attribute agar tidak terpengaruh selector umum wizard. */
+
 [data-loan-extension-wizard="true"]
   [data-loan-extension-account-grid="true"] {
   display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  isolation: isolate !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 1.5rem 2rem !important;
+  margin-top: 1.75rem !important;
+}
+
+/* Paksa setiap field dan anaknya tetap terlihat walaupun ada aturan global
+   yang menargetkan elemen div/grid pada modal wizard. */
+[data-loan-extension-wizard="true"]
+  [data-loan-extension-account-grid="true"]
+  > [data-loan-extension-account-field="true"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+[data-loan-extension-wizard="true"]
+  [data-loan-extension-account-grid="true"]
+  > [data-loan-extension-account-field="true"]
+  > div {
+  display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: static !important;
@@ -11,29 +47,14 @@
   min-height: 0 !important;
   max-height: none !important;
   overflow: visible !important;
-  grid-template-columns: minmax(0, 1fr) !important;
-  gap: 1.5rem 2rem !important;
+  text-indent: 0 !important;
+  transform: none !important;
 }
 
 [data-loan-extension-wizard="true"]
   [data-loan-extension-account-grid="true"]
-  [data-loan-extension-account-field="true"] {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: static !important;
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: visible !important;
-  color: #ffffff !important;
-}
-
-[data-loan-extension-wizard="true"]
-  [data-loan-extension-account-grid="true"]
-  [data-loan-extension-account-field="true"]
+  > [data-loan-extension-account-field="true"]
   > div:first-child {
-  display: block !important;
-  visibility: visible !important;
   color: rgb(255 255 255 / 0.84) !important;
   font-size: 11px !important;
   font-weight: 600 !important;
@@ -42,10 +63,8 @@
 
 [data-loan-extension-wizard="true"]
   [data-loan-extension-account-grid="true"]
-  [data-loan-extension-account-field="true"]
+  > [data-loan-extension-account-field="true"]
   > div:last-child {
-  display: block !important;
-  visibility: visible !important;
   margin-top: 0.25rem !important;
   color: #ffffff !important;
   font-size: 14px !important;
@@ -53,6 +72,29 @@
   line-height: 1.35 !important;
 }
 
+/* Selector struktur langsung untuk mengalahkan aturan lama yang lebih spesifik. */
+[data-loan-extension-wizard="true"]
+  main
+  > div
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > [data-loan-extension-account-grid="true"] {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > [data-loan-extension-account-grid="true"]
+  > [data-loan-extension-account-field="true"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Tata letak responsif. */
 @media (min-width: 640px) {
   [data-loan-extension-wizard="true"]
     [data-loan-extension-account-grid="true"] {
