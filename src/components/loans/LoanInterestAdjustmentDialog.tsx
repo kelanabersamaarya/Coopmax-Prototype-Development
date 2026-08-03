@@ -319,7 +319,12 @@ export default function LoanInterestAdjustmentDialog({
             </button>
           </header>
 
-          <div className="max-h-[65vh] overflow-auto px-6 py-6">
+          <div
+            className={cn(
+              "max-h-[65vh] overflow-auto px-6 pb-6",
+              isFullInterestForgiveness ? "pt-3" : "pt-6",
+            )}
+          >
             <div className="grid gap-5">
               {isFullInterestForgiveness ? <InterestForgivenessInfo /> : null}
 
