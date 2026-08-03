@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
+import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
 
 type Step = 1 | 2 | 3;
 type ExtensionMethod =
@@ -235,6 +236,7 @@ export default function LoanExtensionWizard({
   const [reason, setReason] = React.useState("");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
+  const [historyOpen, setHistoryOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -249,6 +251,7 @@ export default function LoanExtensionWizard({
     setReason("");
     setConfirmOpen(false);
     setSuccessOpen(false);
+    setHistoryOpen(false);
   }, [open]);
 
   const oldDueDate = React.useMemo(
@@ -375,6 +378,11 @@ export default function LoanExtensionWizard({
 
   return (
     <>
+      <LoanExtensionHistoryDialog
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+      />
+
       <ConfirmDialog
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
@@ -419,8 +427,19 @@ export default function LoanExtensionWizard({
             {step === 1 ? (
               <div className="grid gap-6">
                 <section className="loan-extension-account-info rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
-                  <div className="text-[14px] font-extrabold tracking-wide text-white">
-                    INFORMASI REKENING PINJAMAN
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="text-[14px] font-extrabold tracking-wide text-white">
+                      INFORMASI REKENING PINJAMAN
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setHistoryOpen(true)}
+                      className="inline-flex h-9 shrink-0 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] transition hover:bg-slate-50"
+                    >
+                      <Clock3 className="h-4 w-4" />
+                      Lihat Riwayat Perubahan
+                    </button>
                   </div>
 
                   <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
