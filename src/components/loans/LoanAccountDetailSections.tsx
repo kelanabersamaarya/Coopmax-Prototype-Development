@@ -174,7 +174,9 @@ export default function LoanAccountDetailSections({
               <div className="grid h-[140px] w-[140px] place-items-center rounded-xl bg-slate-50 ring-1 ring-slate-200">
                 <div className="text-center text-[11px] font-semibold text-slate-600">
                   QR CODE
-                  <div className="mt-1 text-[10px] text-slate-500">{accountNo}</div>
+                  <div className="mt-1 text-[10px] text-slate-500">
+                    {accountNo}
+                  </div>
                 </div>
               </div>
             </div>
@@ -267,12 +269,12 @@ export default function LoanAccountDetailSections({
               label="ID"
               value={
                 <span className="inline-flex items-center gap-2">
-                  <span className="text-blue-600">N2600006</span>
+                  <span className="text-blue-600">N2400033</span>
                   <button
                     type="button"
                     onClick={() => toast("Buka data nasabah (prototype)")}
                     className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-blue-700 ring-1 ring-blue-200 hover:bg-blue-100"
-                    aria-label="Buka"
+                    aria-label="Buka data nasabah"
                   >
                     <ExternalLink className="h-4 w-4" />
                   </button>
@@ -280,29 +282,37 @@ export default function LoanAccountDetailSections({
               }
             />
             <KeyValueRow label="NIP" value="-" />
-            <KeyValueRow label="Nama" value="Bapak Bagus" />
-            <KeyValueRow label="Tanggal Lahir" value="2026-04-07" />
+            <KeyValueRow label="Nama" value="Rika Wastuti" />
+            <KeyValueRow label="Tanggal Lahir" value="1990-01-02" />
             <KeyValueRow label="Kategori Nasabah" value="Anggota" />
-            <KeyValueRow label="Jenis Kelamin" value="Laki - Laki" />
-            <KeyValueRow label="Alamat" value="Sidakarya" />
+            <KeyValueRow label="Jenis Kelamin" value="Perempuan" />
+            <KeyValueRow label="Alamat" value="Jl. Sri Rama No. 49" />
             <KeyValueRow label="Hubungan dengan Koperasi" value="Calon Anggota" />
-            <KeyValueRow label="Tanggal Daftar" value="2026-04-07" />
+            <KeyValueRow label="Tanggal Daftar" value="2024-12-06" />
             <KeyValueRow label="Tag" value="-" />
             <KeyValueRow label="Unit" value="-" />
             <KeyValueRow
               label="Status Verifikasi KTP"
-              value={<StatusPill tone="bad">BELUM TERVERIFIKASI</StatusPill>}
+              value={
+                <span className="inline-flex items-center gap-2 rounded-[5px] bg-rose-100 px-3 py-2 text-[12px] font-semibold text-red-600">
+                  <CircleX className="h-4 w-4" />
+                  BELUM TERVERIFIKASI
+                </span>
+              }
             />
-            <KeyValueRow label="Status" value={<StatusPill tone="ok">Aktif</StatusPill>} />
+            <KeyValueRow
+              label="Status"
+              value={<StatusPill tone="bad">Tidak Aktif</StatusPill>}
+            />
           </div>
 
           <div>
             <KeyValueRow label="Agama" value="Hindu" right />
-            <KeyValueRow label="Profesi" value="Tidak Bekerja" right />
+            <KeyValueRow label="Profesi" value="SWASTA" right />
             <KeyValueRow label="Jenis Identitas" value="KTP" right />
-            <KeyValueRow label="No. Identitas" value="887878787878787" right />
-            <KeyValueRow label="No. Telp/Handphone" value="887878787" right />
-            <KeyValueRow label="Alamat Email" value="-" right />
+            <KeyValueRow label="No. Identitas" value="6203617005258715" right />
+            <KeyValueRow label="No. Telp/Handphone" value="023 5822 6972" right />
+            <KeyValueRow label="Alamat Email" value="putua@gmail.com" right />
           </div>
         </div>
       </div>
@@ -336,10 +346,18 @@ export default function LoanAccountDetailSections({
           <div>
             <KeyValueRow label="Satuan Grace Period" value="Bulan" right />
             <KeyValueRow label="Durasi Grace Period" value="6" right />
-            <KeyValueRow label="Status Grace Period" value={<ActiveBadge>Aktif</ActiveBadge>} right />
+            <KeyValueRow
+              label="Status Grace Period"
+              value={<ActiveBadge>Aktif</ActiveBadge>}
+              right
+            />
             <KeyValueRow
               label="Skema Tagihan"
-              value={<span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>}
+              value={
+                <span className="font-semibold">
+                  Tagihan Sesuai Jadwal Angsuran
+                </span>
+              }
               right
             />
             <KeyValueRow
@@ -403,7 +421,9 @@ export default function LoanAccountDetailSections({
       <Separator className="my-6 bg-slate-200/70" />
 
       <SubSectionHeader title="INFORMASI FILE" />
-      <div className="mt-4 text-sm text-slate-700">Tidak ada file yang diupload</div>
+      <div className="mt-4 text-sm text-slate-700">
+        Tidak ada file yang diupload
+      </div>
 
       <Separator className="my-6 bg-slate-200/70" />
 
@@ -426,7 +446,10 @@ export default function LoanAccountDetailSections({
             <tbody>
               {history.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-sm text-slate-600">
+                  <td
+                    colSpan={6}
+                    className="px-4 py-10 text-center text-sm text-slate-600"
+                  >
                     Belum ada riwayat.
                   </td>
                 </tr>
@@ -438,8 +461,12 @@ export default function LoanAccountDetailSections({
                       {row.status}
                     </td>
                     <td className="px-4 py-3 text-slate-800">{row.tanggal}</td>
-                    <td className="px-4 py-3 text-slate-800">{row.diubahOleh}</td>
-                    <td className="px-4 py-3 text-slate-800">{row.deskripsi}</td>
+                    <td className="px-4 py-3 text-slate-800">
+                      {row.diubahOleh}
+                    </td>
+                    <td className="px-4 py-3 text-slate-800">
+                      {row.deskripsi}
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex justify-center">
                         <button
