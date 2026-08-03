@@ -12,6 +12,7 @@ import {
   AlertTriangle,
   ShieldCheck,
   XCircle,
+  CircleX,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLoanInterestRate } from "@/lib/loanInterestStore";
