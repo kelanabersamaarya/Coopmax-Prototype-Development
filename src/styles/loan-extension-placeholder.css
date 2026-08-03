@@ -240,3 +240,38 @@ body:has([data-loan-extension-wizard="true"])
   line-height: 1.2 !important;
   text-align: left !important;
 }
+
+/* Langkah pertama wizard: ikon chevron selalu tampil setelah teks Lanjutkan. */
+[data-loan-extension-wizard="true"][data-loan-extension-step="1"]
+  footer
+  > button:last-child:not(:disabled) {
+  gap: 10px !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="1"]
+  footer
+  > button:last-child:not(:disabled)::after {
+  content: "";
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  flex: 0 0 auto;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 18l6-6-6-6' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="1"]
+  footer
+  > button:last-child:disabled::after {
+  content: "";
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  flex: 0 0 auto;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 18l6-6-6-6' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
