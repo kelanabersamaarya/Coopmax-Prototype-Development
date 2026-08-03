@@ -1,2 +1,82 @@
-/* Layout informasi rekening Perpanjangan Pinjaman ditentukan langsung
-   oleh komponen LoanExtensionWizard untuk mencegah konflik dengan wizard lain. */
+/* Modal Perpanjangan Pinjaman:
+   Pastikan panel informasi rekening selalu terlihat dengan layout responsif,
+   meskipun terdapat style global lain yang memengaruhi grid modal.
+*/
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section.rounded-\[8px\].bg-\[\#17a2b8\] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 1.5rem 2rem !important;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div {
+  display: block !important;
+  min-width: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (min-width: 640px) {
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > section.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > section.rounded-\[8px\].bg-\[\#17a2b8\]
+    > div.mt-7.grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Ringkasan tagihan berjalan ditambahkan pada panel informasi rekening. */
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid::after {
+  content: "Tagihan Berjalan\A 1.120.000,00";
+  display: block;
+  min-width: 0;
+  white-space: pre-line;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid::after::first-line {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 600;
+}
