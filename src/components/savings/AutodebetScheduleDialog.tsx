@@ -180,7 +180,7 @@ export default function AutodebetScheduleDialog({
   const [selectedAccountValue, setSelectedAccountValue] = React.useState("");
   const [autodebetDay, setAutodebetDay] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [status, setStatus] = React.useState(false);
+  const [status, setStatus] = React.useState(true);
   const [error, setError] = React.useState("");
 
   const isSavingsProduct = product === "Produk Simpanan";
@@ -202,7 +202,7 @@ export default function AutodebetScheduleDialog({
     setSelectedAccountValue(schedule?.accountNo ?? "");
     setAutodebetDay(schedule ? getAutodebetDay(schedule.date) : "");
     setDescription(schedule?.description ?? "");
-    setStatus(schedule?.status ?? false);
+    setStatus(schedule?.status ?? true);
     setError("");
   }, [open, schedule]);
 
