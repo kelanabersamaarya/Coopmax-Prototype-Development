@@ -179,15 +179,23 @@ export default function LoanDebtAdjustmentHistoryDialog({
                   <tr className="border-b border-slate-200">
                     <th className="w-[145px] px-3 py-3 text-left">
                       Tagihan Bunga
+                      <br />
+                      Sebelum Penyesuaian
                     </th>
                     <th className="w-[145px] px-3 py-3 text-left">
                       Total Tagihan
+                      <br />
+                      Sebelum Penyesuaian
                     </th>
                     <th className="w-[145px] px-3 py-3 text-left">
                       Tagihan Bunga
+                      <br />
+                      Sesudah Penyesuaian
                     </th>
                     <th className="w-[120px] px-3 py-3 text-left">
                       Total Tagihan
+                      <br />
+                      Sesudah Penyesuaian
                     </th>
                   </tr>
                 </thead>
