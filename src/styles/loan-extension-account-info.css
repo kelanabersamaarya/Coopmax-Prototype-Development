@@ -1,96 +1,80 @@
-/* Wizard Perpanjangan Pinjaman:
-   Detail rekening menggunakan fallback visual yang independen dari state form
-   dan tidak terpengaruh oleh selector grid global lain. */
+/* Wizard Perpanjangan Pinjaman: informasi rekening. */
 [data-loan-extension-wizard="true"]
   main
   > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\] {
-  position: relative !important;
-  min-height: 300px !important;
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]:has(.loan-extension-account-grid) {
+  min-height: 0 !important;
 }
 
+/* Hapus fallback teks lama; gunakan data JSX asli agar label dan nilai terpisah rapi. */
 [data-loan-extension-wizard="true"]
   main
   > div.grid.gap-6
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]::after {
-  content:
-    "No. Rek. Pinjaman\A"
-    "SMG260004\A\A"
-    "Nama Anggota\A"
-    "Bapak Bagus\A\A"
-    "Produk Pinjaman\A"
-    "Pinjaman Billing\A\A"
-    "Baki Debet\A"
-    "10.553.571,00\A\A"
-    "Sisa Tenor\A"
-    "12 Bulan\A\A"
-    "Tanggal Jatuh Tempo Akhir\A"
-    "07-04-2027\A\A"
-    "Nominal Angsuran\A"
-    "953.333,00\A\A"
-    "Suku Bunga\A"
-    "12,00% per tahun\A\A"
-    "Status Pinjaman\A"
-    "Aktif / Sudah Dicairkan";
-  position: absolute !important;
-  left: 1.25rem !important;
-  right: 1.25rem !important;
-  top: 4.25rem !important;
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]:has(.loan-extension-account-grid)::after,
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]:has(.loan-extension-account-grid)::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Seluruh informasi selalu muncul, termasuk saat data perpanjangan masih kosong. */
+[data-loan-extension-wizard="true"] .loan-extension-account-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-flow: column !important;
-  grid-template-rows: repeat(6, auto) !important;
-  column-gap: 2rem !important;
-  row-gap: 0.35rem !important;
-  white-space: pre-line !important;
-  color: #ffffff !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  line-height: 1.4 !important;
   visibility: visible !important;
   opacity: 1 !important;
-  pointer-events: none !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 1.45rem 2rem !important;
 }
 
-/* Tetap pertahankan elemen detail asli jika browser berhasil menampilkannya. */
-[data-loan-extension-wizard="true"] .loan-extension-account-grid,
-[data-loan-extension-wizard="true"] .loan-extension-account-field {
+[data-loan-extension-wizard="true"]
+  .loan-extension-account-grid
+  > .loan-extension-account-field {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  min-width: 0 !important;
+  color: white !important;
 }
 
-@media (max-width: 1023px) {
-  [data-loan-extension-wizard="true"]
-    main
-    > div.grid.gap-6
-    > div.rounded-\[8px\].bg-\[\#17a2b8\] {
-    min-height: 410px !important;
-  }
+[data-loan-extension-wizard="true"]
+  .loan-extension-account-grid
+  > .loan-extension-account-field
+  > div:first-child {
+  display: block !important;
+  color: rgb(255 255 255 / 0.84) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
 
-  [data-loan-extension-wizard="true"]
-    main
-    > div.grid.gap-6
-    > div.rounded-\[8px\].bg-\[\#17a2b8\]::after {
+[data-loan-extension-wizard="true"]
+  .loan-extension-account-grid
+  > .loan-extension-account-field
+  > div:last-child {
+  display: block !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+}
+
+/* Layout mengikuti contoh pada layar desktop. */
+@media (min-width: 640px) {
+  [data-loan-extension-wizard="true"] .loan-extension-account-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: repeat(9, auto) !important;
   }
 }
 
-@media (max-width: 639px) {
-  [data-loan-extension-wizard="true"]
-    main
-    > div.grid.gap-6
-    > div.rounded-\[8px\].bg-\[\#17a2b8\] {
-    min-height: 620px !important;
-  }
-
-  [data-loan-extension-wizard="true"]
-    main
-    > div.grid.gap-6
-    > div.rounded-\[8px\].bg-\[\#17a2b8\]::after {
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: none !important;
-    grid-auto-flow: row !important;
+@media (min-width: 1024px) {
+  [data-loan-extension-wizard="true"] .loan-extension-account-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
 }
