@@ -123,6 +123,9 @@ function AccountSummary({
 }) {
   const details = isLoan
     ? [
+        ["Total Pokok", account.balance],
+        ["Total Bunga", "1.266.429,00"],
+        ["Total Denda", "75.000,00"],
         [
           "Total Pinjaman",
           account.accountNo === "SMG260004" ? "12.000.000,00" : account.balance,
@@ -132,9 +135,6 @@ function AccountSummary({
         ["Tagihan Bunga", "83.333,00"],
         ["Tagihan Denda", "75.000,00"],
         ["Total Tagihan", "991.666,00"],
-        ["Total Pokok", account.balance],
-        ["Total Bunga", "1.266.429,00"],
-        ["Total Denda", "75.000,00"],
       ]
     : [
         ["No. Rekening", account.accountNo],
