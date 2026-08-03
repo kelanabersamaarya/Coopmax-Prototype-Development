@@ -51,7 +51,7 @@
     > div.mt-7.grid::after {
     grid-column: 1;
     grid-row: 4;
-    margin-top: -0.45rem;
+    margin-top: -1.15rem;
   }
 }
 
@@ -72,7 +72,7 @@
     > div.mt-7.grid::after {
     grid-column: 1;
     grid-row: 6;
-    margin-top: -0.45rem;
+    margin-top: -1.15rem;
   }
 }
 
@@ -93,6 +93,6 @@
     > div.mt-7.grid::after {
     grid-column: 1;
     grid-row: 10;
-    margin-top: -0.45rem;
+    margin-top: -1.15rem;
   }
 }
