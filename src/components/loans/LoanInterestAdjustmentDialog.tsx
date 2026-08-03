@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, CheckSquare, X } from "lucide-react";
+import { Check, CheckSquare, Info, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -56,6 +56,27 @@ function formatIdr(value: number) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+}
+
+function InterestForgivenessInfo() {
+  return (
+    <div className="rounded-[20px] bg-[#EFF6FF] px-4 py-3 text-[#1E3A8A] ring-1 ring-[#DCEBFF]">
+      <div className="flex items-start gap-3">
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#DBEAFE] text-[#2563EB] ring-1 ring-[#BFDBFE]">
+          <Info className="h-6 w-6" strokeWidth={2.6} />
+        </span>
+
+        <div className="min-w-0 pt-0.5">
+          <div className="text-[15px] font-bold leading-tight text-[#1E3A8A]">
+            Pembebasan Bunga
+          </div>
+          <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#334155]">
+            Pembebasan bunga akan menghapus seluruh nominal bunga pada periode ini.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function AdjustmentConfirmDialog({
@@ -160,6 +181,8 @@ export default function LoanInterestAdjustmentDialog({
 
   const isAdditionalInterest = adjustmentType === "Penambahan Bunga";
   const isInterestReduction = adjustmentType === "Pengurangan Bunga";
+  const isFullInterestForgiveness =
+    adjustmentType === "Pembebasan Seluruh Bunga";
   const amountLabel = isAdditionalInterest
     ? "Nominal Bunga Tambahan"
     : "Nominal Pengurangan";
@@ -298,6 +321,8 @@ export default function LoanInterestAdjustmentDialog({
 
           <div className="max-h-[65vh] overflow-auto px-6 py-6">
             <div className="grid gap-5">
+              {isFullInterestForgiveness ? <InterestForgivenessInfo /> : null}
+
               <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                 <label className="text-[14px] font-normal text-[#002060]">
                   Jenis Penyesuaian<span className="text-rose-600"> *</span>
