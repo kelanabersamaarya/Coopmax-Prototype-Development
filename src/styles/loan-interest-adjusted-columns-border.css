@@ -3,9 +3,8 @@
    - Tagihan Bunga Sesudah Penyesuaian
    - Sisa Tagihan Bunga Sesudah Penyesuaian
 
-   Tabel simulasi dirender menggunakan flex. Karena itu, border per-cell
-   akan terlihat terputus oleh garis horizontal antarbaris. Garis bingkai
-   berikut digambar pada container header dan body agar tersambung penuh.
+   Tabel simulasi dirender menggunakan flex. Garis vertikal dibuat
+   pada container agar tersambung utuh tanpa celah antarbaris.
 */
 
 [data-loan-interest-wizard="true"]
@@ -18,7 +17,7 @@
   border-right: 2px solid #2563eb !important;
 }
 
-/* Kolom hasil dimulai setelah:
+/* Area hasil dimulai setelah:
    Angsuran Ke (14%) + bunga sebelum (21.5%) + sisa bunga sebelum (21.5%). */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
@@ -37,11 +36,11 @@
   pointer-events: none;
 }
 
-/* Garis atas bingkai berada pada header. */
+/* Tidak ada garis biru di atas header tabel. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead {
-  border-top: 2px solid #2563eb !important;
+  border-top: 0 !important;
 }
 
 /* Garis bawah menutup bingkai setelah seluruh isi tabel. */
@@ -51,8 +50,7 @@
   border-bottom: 2px solid #2563eb !important;
 }
 
-/* Hilangkan border biru per-cell sebelumnya supaya tidak membuat celah
-   atau sambungan diagonal di tiap pergantian baris. */
+/* Hilangkan border per-sel agar garis vertikal tidak putus antarbaris. */
 [data-loan-interest-wizard="true"]
   table[class*="min-w-[1780px]"]
   thead
