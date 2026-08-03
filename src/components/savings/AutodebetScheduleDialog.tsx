@@ -327,10 +327,29 @@ export default function AutodebetScheduleDialog({
                 </Select>
 
                 {selectedAccount ? (
-                  <AccountSummary
-                    account={selectedAccount}
-                    isLoan={isLoanProduct}
-                  />
+                  <>
+                    <AccountSummary
+                      account={selectedAccount}
+                      isLoan={isLoanProduct}
+                    />
+
+                    {isLoanProduct ? (
+                      <div className="grid gap-2 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-center">
+                        <Label className={labelClassName}>
+                          Tanggal Proses Autodebet
+                        </Label>
+                        <Input
+                          value="Tanggal terakhir setiap bulan"
+                          readOnly
+                          aria-readonly="true"
+                          className={cn(
+                            inputClassName,
+                            "cursor-not-allowed bg-slate-200/80 text-slate-700",
+                          )}
+                        />
+                      </div>
+                    ) : null}
+                  </>
                 ) : null}
               </div>
 
