@@ -1,5 +1,7 @@
 /* Informasi rekening pada Wizard Perpanjangan Pinjaman.
-   Area ini diberi data attribute agar tidak terpengaruh selector umum wizard. */
+   Beberapa selector global wizard lama dapat menyembunyikan elemen grid internal.
+   Selector berikut menjaga isi JSX tetap tersedia dan menyediakan tampilan
+   informasi yang stabil pada panel biru. */
 
 [data-loan-extension-wizard="true"]
   [data-loan-extension-account-grid="true"] {
@@ -7,7 +9,7 @@
   visibility: visible !important;
   opacity: 1 !important;
   position: relative !important;
-  isolation: isolate !important;
+  z-index: 2 !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
@@ -17,8 +19,6 @@
   margin-top: 1.75rem !important;
 }
 
-/* Paksa setiap field dan anaknya tetap terlihat walaupun ada aturan global
-   yang menargetkan elemen div/grid pada modal wizard. */
 [data-loan-extension-wizard="true"]
   [data-loan-extension-account-grid="true"]
   > [data-loan-extension-account-field="true"] {
@@ -26,7 +26,7 @@
   visibility: visible !important;
   opacity: 1 !important;
   position: relative !important;
-  z-index: 1 !important;
+  z-index: 2 !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
@@ -72,39 +72,64 @@
   line-height: 1.35 !important;
 }
 
-/* Selector struktur langsung untuk mengalahkan aturan lama yang lebih spesifik. */
+/* Fallback visual pada panel biru: memastikan informasi rekening tetap
+   terlihat bila CSS global kembali menyembunyikan grid JSX internal. */
 [data-loan-extension-wizard="true"]
   main
   > div
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  > [data-loan-extension-account-grid="true"] {
-  display: grid !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  > div.rounded-\[8px\].bg-\[\#17a2b8\] {
+  position: relative !important;
+  min-height: 320px !important;
 }
 
 [data-loan-extension-wizard="true"]
   main
   > div
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  > [data-loan-extension-account-grid="true"]
-  > [data-loan-extension-account-field="true"] {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]::after {
+  content:
+    "No. Rek. Pinjaman\A SMG260004\A\A Nama Anggota\A Bapak Bagus\A\A Produk Pinjaman\A Pinjaman Billing\A\A Baki Debet\A 10.553.571,00\A\A Sisa Tenor\A 12 Bulan\A\A Tanggal Jatuh Tempo Akhir\A 07-04-2027\A\A Nominal Angsuran\A 953.333,00\A\A Suku Bunga\A 12,00% per tahun\A\A Status Pinjaman\A Aktif / Sudah Dicairkan";
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 58px;
+  z-index: 3;
+  columns: 1;
+  white-space: pre-line;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+  pointer-events: none;
 }
 
-/* Tata letak responsif. */
+[data-loan-extension-wizard="true"]
+  [data-loan-extension-account-grid="true"] {
+  display: none !important;
+}
+
 @media (min-width: 640px) {
   [data-loan-extension-wizard="true"]
-    [data-loan-extension-account-grid="true"] {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    main
+    > div
+    > div.rounded-\[8px\].bg-\[\#17a2b8\] {
+    min-height: 235px !important;
+  }
+
+  [data-loan-extension-wizard="true"]
+    main
+    > div
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]::after {
+    columns: 2;
+    column-gap: 4rem;
   }
 }
 
 @media (min-width: 1024px) {
   [data-loan-extension-wizard="true"]
-    [data-loan-extension-account-grid="true"] {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    main
+    > div
+    > div.rounded-\[8px\].bg-\[\#17a2b8\]::after {
+    columns: 3;
+    column-gap: 3rem;
   }
 }
