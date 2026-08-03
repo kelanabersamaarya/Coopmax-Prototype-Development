@@ -1,19 +1,70 @@
+/* Modal Perpanjangan Pinjaman
+   Tampilkan kembali panel INFORMASI REKENING PINJAMAN secara penuh,
+   tepat sebelum panel DATA PERPANJANGAN PINJAMAN.
+*/
+
 [data-loan-extension-wizard="true"] .loan-extension-account-info {
   display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  background-color: #17a2b8 !important;
+}
+
+[data-loan-extension-wizard="true"] .loan-extension-account-info > div:first-child {
+  display: block !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 [data-loan-extension-wizard="true"] .loan-extension-account-grid {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
+  gap: 1.5rem 2rem !important;
   visibility: visible !important;
   opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 [data-loan-extension-wizard="true"] .loan-extension-account-field {
   display: block !important;
+  min-width: 0 !important;
   visibility: visible !important;
   opacity: 1 !important;
   color: #ffffff !important;
+}
+
+[data-loan-extension-wizard="true"] .loan-extension-account-field > div:first-child {
+  display: block !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"] .loan-extension-account-field > div:last-child {
+  display: block !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"] .loan-extension-account-field [class*="bg-[#31b900]"] {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 @media (min-width: 640px) {
