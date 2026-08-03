@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Check } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
@@ -122,10 +123,54 @@ function ConfirmationDialog({
   );
 }
 
+function SuccessDialog({
+  open,
+  onOk,
+}: {
+  open: boolean;
+  onOk: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
+      <DialogContent
+        className={cn(
+          "h-[330px] w-[calc(100vw-2rem)] max-w-[580px] overflow-hidden rounded-[5px]",
+          "border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
+          <div className="flex h-[102px] w-[102px] items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
+            <Check className="h-[58px] w-[58px] text-[#33aa00]" strokeWidth={3} />
+          </div>
+
+          <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
+            Berhasil Melakukan Perpanjangan Pinjaman
+          </h2>
+
+          <button
+            type="button"
+            onClick={onOk}
+            className={cn(
+              "mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed]",
+              "text-[16px] font-semibold text-white",
+              "ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]",
+            )}
+          >
+            OK
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function LoanExtensionContinueGate() {
   const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const targetButtonRef = React.useRef<HTMLButtonElement | null>(null);
-  const bypassRef = React.useRef(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
+  const activeWizardRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     const syncAfterRender = () => {
@@ -143,8 +188,6 @@ export default function LoanExtensionContinueGate() {
     document.addEventListener("change", syncAfterRender, true);
 
     const handleSaveClick = (event: MouseEvent) => {
-      if (bypassRef.current) return;
-
       const target = event.target as HTMLElement | null;
       const button = target?.closest<HTMLButtonElement>("button");
       const wizard = button?.closest<HTMLElement>(WIZARD_SELECTOR);
@@ -162,7 +205,7 @@ export default function LoanExtensionContinueGate() {
       event.preventDefault();
       event.stopImmediatePropagation();
 
-      targetButtonRef.current = button;
+      activeWizardRef.current = wizard;
       setConfirmOpen(true);
     };
 
@@ -177,18 +220,14 @@ export default function LoanExtensionContinueGate() {
     };
   }, []);
 
-  function confirmSave() {
-    setConfirmOpen(false);
-    bypassRef.current = true;
+  function closeWizard() {
+    setSuccessOpen(false);
 
-    window.requestAnimationFrame(() => {
-      targetButtonRef.current?.click();
+    activeWizardRef.current
+      ?.querySelector<HTMLButtonElement>('button[aria-label="Tutup"]')
+      ?.click();
 
-      window.setTimeout(() => {
-        bypassRef.current = false;
-        targetButtonRef.current = null;
-      }, 0);
-    });
+    activeWizardRef.current = null;
   }
 
   return (
@@ -197,10 +236,15 @@ export default function LoanExtensionContinueGate() {
         open={confirmOpen}
         onCancel={() => {
           setConfirmOpen(false);
-          targetButtonRef.current = null;
+          activeWizardRef.current = null;
         }}
-        onConfirm={confirmSave}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setSuccessOpen(true);
+        }}
       />
+
+      <SuccessDialog open={successOpen} onOk={closeWizard} />
 
       <style>
         {`
