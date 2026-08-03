@@ -1,12 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  X,
-} from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -132,8 +127,7 @@ export default function LoanExtensionWizard({
   accountNo: string;
 }) {
   const [step, setStep] = React.useState<Step>(1);
-  const [method, setMethod] =
-    React.useState<ExtensionMethod>("Tenor Tambahan");
+  const [method, setMethod] = React.useState<ExtensionMethod | "">("");
   const [additionalTenor, setAdditionalTenor] = React.useState("");
   const [newTenor, setNewTenor] = React.useState("");
   const [newDueMonth, setNewDueMonth] = React.useState("");
@@ -145,7 +139,7 @@ export default function LoanExtensionWizard({
     if (!open) return;
 
     setStep(1);
-    setMethod("Tenor Tambahan");
+    setMethod("");
     setAdditionalTenor("");
     setNewTenor("");
     setNewDueMonth("");
@@ -159,20 +153,20 @@ export default function LoanExtensionWizard({
       ? Number.parseInt(additionalTenor, 10) > 0
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
-        : Number.parseInt(newDueMonth, 10) >= 1 &&
-          Number.parseInt(newDueMonth, 10) <= 12 &&
-          Number.parseInt(newDueYear, 10) >= 2027;
+        : method === "Jatuh Tempo Akhir Baru"
+          ? Number.parseInt(newDueMonth, 10) >= 1 &&
+            Number.parseInt(newDueMonth, 10) <= 12 &&
+            Number.parseInt(newDueYear, 10) >= 2027
+          : false;
 
   const isValid =
     hasMethodValue &&
     effectiveDate.trim().length > 0 &&
     reason.trim().length > 0;
 
-  const tenorAfterExtension = getTenorAfterExtension(
-    method,
-    additionalTenor,
-    newTenor,
-  );
+  const tenorAfterExtension = method
+    ? getTenorAfterExtension(method, additionalTenor, newTenor)
+    : 12;
 
   const newDueDate =
     method === "Jatuh Tempo Akhir Baru"
@@ -264,7 +258,7 @@ export default function LoanExtensionWizard({
                       }
                     >
                       <SelectTrigger className={inputClassName}>
-                        <SelectValue />
+                        <SelectValue placeholder="Pilih Metode Perpanjangan" />
                       </SelectTrigger>
                       <SelectContent className="rounded-[5px] border-slate-200">
                         <SelectItem value="Tenor Tambahan">
@@ -461,6 +455,7 @@ export default function LoanExtensionWizard({
                       {accountNo}
                     </span>
                   </div>
+
                   <div className="flex justify-between gap-4">
                     <span className="text-slate-600">Metode Perpanjangan</span>
                     <span className="font-extrabold text-[#2563EB]">
