@@ -57,22 +57,37 @@
   --tw-ring-offset-width: 0px !important;
 }
 
-/* Opsi dropdown Metode Perpanjangan menggunakan biru saat diarahkan. */
-[data-radix-popper-content-wrapper]
-  :has([data-loan-extension-wizard="true"])
+/*
+  Opsi Select dirender Radix di luar elemen wizard (portal), sehingga selector
+  ditautkan melalui body selama modal perpanjangan sedang terbuka.
+*/
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-select-content]
   [role="option"][data-highlighted],
-[data-radix-popper-content-wrapper]
-  :has([data-loan-extension-wizard="true"])
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-select-content]
+  [role="option"]:hover,
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-popper-content-wrapper]
+  [role="option"][data-highlighted],
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-popper-content-wrapper]
   [role="option"]:hover {
   background-color: #2563eb !important;
   color: #ffffff !important;
 }
 
-[data-radix-popper-content-wrapper]
-  :has([data-loan-extension-wizard="true"])
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-select-content]
   [role="option"][data-highlighted] *,
-[data-radix-popper-content-wrapper]
-  :has([data-loan-extension-wizard="true"])
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-select-content]
+  [role="option"]:hover *,
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-popper-content-wrapper]
+  [role="option"][data-highlighted] *,
+body:has([data-loan-extension-wizard="true"])
+  [data-radix-popper-content-wrapper]
   [role="option"]:hover * {
   color: #ffffff !important;
 }
