@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2;
 type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
@@ -41,14 +41,17 @@ const OLD_DUE_DATE = "07-04-2027";
 const SCHEDULE_PAGE_SIZE = 15;
 
 const accountDetails = [
-  ["Nomor Rekening Pinjaman", "SMG260004"],
-  ["Nama Anggota / Debitur", "Bapak Bagus"],
+  ["No. Rek. Pinjaman", "SMG260004"],
+  ["Nama Anggota", "Bapak Bagus"],
   ["Produk Pinjaman", "Pinjaman Billing"],
   ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
-  ["Baki Debet Pokok", "10.553.571,00"],
+  ["Baki Debet", "10.553.571,00"],
+  ["Nominal Angsuran", "1.120.000,00"],
+  ["Suku Bunga", "12,00% per tahun"],
+  ["Sisa Tenor", "12 Bulan"],
   ["Tunggakan Pokok", "0,00"],
   ["Tunggakan Bunga", "125.000,00"],
-  ["Denda dan Biaya Lainnya", "0,00"],
+  ["Denda", "0,00"],
   ["Total Kewajiban", "10.678.571,00"],
 ] as const;
 
@@ -132,7 +135,7 @@ function FormRow({
 }
 
 function StepIndicator({ step }: { step: Step }) {
-  const steps = ["Informasi & Perpanjangan", "Simulasi", "Simpan Perubahan"];
+  const steps = ["Informasi & Perpanjangan", "Simulasi"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
@@ -157,7 +160,7 @@ function StepIndicator({ step }: { step: Step }) {
               </span>
             </div>
 
-            {number < 3 ? (
+            {number < 2 ? (
               <div
                 className={cn(
                   "mb-5 h-[2px] min-w-10 flex-1",
@@ -520,9 +523,7 @@ export default function LoanExtensionWizard({
       return;
     }
 
-    if (step === 2) {
-      setSaveConfirmOpen(true);
-    }
+    setSaveConfirmOpen(true);
   }
 
   function confirmSave() {
@@ -583,7 +584,7 @@ export default function LoanExtensionWizard({
                         key={label}
                         label={label}
                         value={
-                          label === "Nomor Rekening Pinjaman" ? accountNo : value
+                          label === "No. Rek. Pinjaman" ? accountNo : value
                         }
                       />
                     ))}
