@@ -91,3 +91,16 @@ body:has([data-loan-extension-wizard="true"])
   [role="option"]:hover * {
   color: #ffffff !important;
 }
+
+/* Tombol Lanjutkan abu-abu dan tidak interaktif sebelum form perpanjangan lengkap. */
+[data-loan-extension-wizard="true"] footer > button:last-child:disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  background-color: #cbd5e1 !important;
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+[data-loan-extension-wizard="true"] footer > button:last-child:disabled svg {
+  color: #64748b !important;
+}
