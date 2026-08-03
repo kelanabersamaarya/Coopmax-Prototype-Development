@@ -416,7 +416,6 @@ export default function LoanInterestChangeWizard({
     return {
       rate,
       changeStartInstallment,
-      changeStartDate: firstAffectedInstallment?.dueDate ?? "-",
       beforeInstallment: formatIdr(currentInstallment),
       afterInstallment: formatIdr(
         currentInstallment -
@@ -626,7 +625,7 @@ export default function LoanInterestChangeWizard({
                             {simulation.afterInstallment}
                           </td>
                         </tr>
-                        <tr>
+                        <tr className="border-b border-slate-100">
                           <td className="px-4 py-3">
                             Total Nominal Pembayaran Bunga
                           </td>
@@ -637,16 +636,16 @@ export default function LoanInterestChangeWizard({
                             {simulation.afterTotalInterest}
                           </td>
                         </tr>
+                        <tr className="bg-slate-50/60">
+                          <td className="px-4 py-3">Alasan Perubahan</td>
+                          <td className="px-4 py-3 text-slate-400">-</td>
+                          <td className="px-4 py-3 font-semibold text-slate-900">
+                            {reason}
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
-                </div>
-
-                <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                    Alasan Perubahan
-                  </div>
-                  <p className="px-4 py-4 text-[14px] text-black">{reason}</p>
                 </div>
 
                 <BillingSimulationTable
