@@ -611,6 +611,15 @@ export default function LoanExtensionWizard({
                   newDueDate={simulation.dueDate}
                 />
 
+                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                    Alasan Perpanjangan
+                  </div>
+                  <div className="px-4 py-4 text-[14px] font-normal leading-relaxed text-slate-900">
+                    {reason}
+                  </div>
+                </section>
+
                 <LoanExtensionPaymentSchedule rows={simulation.scheduleRows} />
               </div>
             ) : null}
