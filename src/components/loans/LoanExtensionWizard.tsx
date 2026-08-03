@@ -16,9 +16,9 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
-import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
 import { addLoanExtensionHistory } from "@/lib/loanExtensionHistoryStore";
 
 type Step = 1 | 2 | 3;
@@ -535,7 +535,7 @@ export default function LoanExtensionWizard({
                       onClick={() => setHistoryOpen(true)}
                       className="inline-flex h-9 shrink-0 items-center gap-2 rounded-[5px] bg-white px-3 text-[12px] font-semibold text-[#168294] transition hover:bg-slate-50"
                     >
-                      <Clock3 className="h-4 w-4 />
+                      <Clock3 className="h-4 w-4" />
                       Lihat Riwayat Perubahan
                     </button>
                   </div>
