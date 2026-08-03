@@ -1,17 +1,17 @@
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child {
-  width: 214px !important;
-  min-width: 214px !important;
-  height: 43px !important;
+  width: 177px !important;
+  min-width: 177px !important;
+  height: 41px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 12px !important;
+  gap: 8px !important;
   border: 0 !important;
   border-radius: 5px !important;
-  background-color: #2fb300 !important;
-  padding: 0 14px !important;
+  background-color: #28b800 !important;
+  padding: 0 12px !important;
   color: #ffffff !important;
   font-size: 12px !important;
   font-weight: 700 !important;
@@ -22,7 +22,7 @@
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   footer
   > button:last-child:hover:not(:disabled) {
-  background-color: #279800 !important;
+  background-color: #239f00 !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -36,10 +36,10 @@
   > button:last-child
   svg {
   display: block !important;
-  width: 20px !important;
-  height: 20px !important;
+  width: 19px !important;
+  height: 19px !important;
   color: #ffffff !important;
-  stroke-width: 4 !important;
+  stroke-width: 3.5 !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
