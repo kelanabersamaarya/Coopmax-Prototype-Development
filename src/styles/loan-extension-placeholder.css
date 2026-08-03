@@ -194,3 +194,47 @@ body:has([data-loan-extension-wizard="true"])
   font-size: 14px !important;
   font-weight: 700 !important;
 }
+
+/* Jadwal Pembayaran Baru: nomor angsuran ditempatkan di sisi kiri Jatuh Tempo. */
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th:first-child {
+  width: 190px !important;
+  min-width: 190px !important;
+  display: grid !important;
+  grid-template-columns: 74px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  text-align: left !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] thead th:first-child::before {
+  content: "Angsuran\A Ke";
+  white-space: pre;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody {
+  counter-reset: extension-installment-row calc((var(--extension-page, 1) - 1) * 6);
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody tr {
+  counter-increment: extension-installment-row;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child {
+  width: 190px !important;
+  min-width: 190px !important;
+  display: grid !important;
+  grid-template-columns: 74px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: left !important;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child::before {
+  content: counter(extension-installment-row);
+  color: #1e293b;
+  font-weight: 500;
+  text-align: left;
+}
+
+[data-loan-extension-wizard="true"] table.min-w-\[860px\] tbody td:first-child {
+  white-space: nowrap !important;
+}
