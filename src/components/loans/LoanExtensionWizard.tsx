@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 
-type Step = 1 | 2;
+type Step = 1 | 2 | 3;
 type ExtensionMethod =
   | "Tenor Tambahan"
   | "Tenor Baru"
@@ -49,15 +49,13 @@ const accountDetails = [
   ["Suku Bunga", "12,00% per tahun"],
   ["Sisa Tenor", "12 Bulan"],
   ["Tunggakan Pokok", "0,00"],
-  ["Tunggakan Bunga", "125.000,00"],
+  ["Tunggakan Bunga", "0,00"],
   ["Denda", "0,00"],
   ["Total Kewajiban", "10.678.571,00"],
 ] as const;
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value))
-    .toLocaleString("id-ID")
-    .replace(/,/g, ".");
+  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
 }
 
 function parseDmy(value: string) {
@@ -82,12 +80,9 @@ function formatDmy(date: Date) {
 function addMonths(date: Date, months: number) {
   const result = new Date(date);
   const originalDay = result.getDate();
-
   result.setMonth(result.getMonth() + months);
 
-  if (result.getDate() !== originalDay) {
-    result.setDate(0);
-  }
+  if (result.getDate() !== originalDay) result.setDate(0);
 
   return result;
 }
@@ -134,7 +129,7 @@ function FormRow({
 }
 
 function StepIndicator({ step }: { step: Step }) {
-  const steps = ["Informasi & Perpanjangan", "Simulasi"];
+  const steps = ["Informasi & Perpanjangan", "Simulasi", "Simpan Perubahan"];
 
   return (
     <div className="flex items-center justify-center gap-3 overflow-x-auto px-6 py-5">
@@ -159,7 +154,7 @@ function StepIndicator({ step }: { step: Step }) {
               </span>
             </div>
 
-            {number < 2 ? (
+            {number < steps.length ? (
               <div
                 className={cn(
                   "mb-5 h-[2px] min-w-10 flex-1",
@@ -179,13 +174,6 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
   const pageCount = Math.max(1, Math.ceil(rows.length / SCHEDULE_PAGE_SIZE));
   const start = (page - 1) * SCHEDULE_PAGE_SIZE;
   const pagedRows = rows.slice(start, start + SCHEDULE_PAGE_SIZE);
-
-  React.useEffect(() => {
-    if (page > pageCount) setPage(pageCount);
-  }, [page, pageCount]);
-
-  const showingStart = rows.length === 0 ? 0 : start + 1;
-  const showingEnd = Math.min(rows.length, start + SCHEDULE_PAGE_SIZE);
 
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
@@ -213,7 +201,7 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
                 key={row.dueDate}
                 className={cn(
                   "border-b border-slate-100 text-[13px] text-slate-900 last:border-b-0",
-                  index % 2 === 1 ? "bg-slate-50/60" : "bg-white",
+                  index % 2 ? "bg-slate-50/60" : "bg-white",
                 )}
               >
                 <td className="px-3 py-3 text-center tabular-nums">{start + index + 1}</td>
@@ -232,7 +220,8 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
 
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
-          Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} jadwal pembayaran
+          Menampilkan {rows.length === 0 ? 0 : start + 1} sampai{" "}
+          {Math.min(rows.length, start + SCHEDULE_PAGE_SIZE)} dari {rows.length} jadwal pembayaran
         </div>
 
         <div className="flex items-center gap-2">
@@ -242,7 +231,7 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
             onClick={() => setPage((current) => Math.max(1, current - 1))}
             className="inline-flex h-9 items-center gap-1 rounded-[5px] bg-slate-100 px-3 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4 />
             Sebelumnya
           </button>
           <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#2563EB] px-3 text-[12px] font-extrabold text-white">
@@ -255,7 +244,7 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
             className="inline-flex h-9 items-center gap-1 rounded-[5px] bg-slate-100 px-3 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Selanjutnya
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4 />
           </button>
         </div>
       </div>
@@ -274,40 +263,19 @@ function SaveConfirmationDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
-      <DialogContent
-        className={cn(
-          "h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
-          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
-      >
-        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center sm:px-10">
+      <DialogContent className="h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
+        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
           <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[58px] font-light leading-none text-[#f2b98f]">
-              !
-            </span>
+            <span className="text-[58px] font-light leading-none text-[#f2b98f]">!</span>
           </div>
-
           <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
             Yakin untuk melakukan perubahan?
           </h2>
-
           <div className="mt-[34px] flex items-center justify-center gap-[9px]">
-            <button
-              type="button"
-              onClick={onConfirm}
-              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
-            >
+            <button type="button" onClick={onConfirm} className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]">
               Yes
             </button>
-
-            <button
-              type="button"
-              onClick={onCancel}
-              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
-            >
+            <button type="button" onClick={onCancel} className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]">
               Cancel
             </button>
           </div>
@@ -317,42 +285,18 @@ function SaveConfirmationDialog({
   );
 }
 
-function SuccessDialog({
-  open,
-  onOk,
-}: {
-  open: boolean;
-  onOk: () => void;
-}) {
+function SuccessDialog({ open, onOk }: { open: boolean; onOk: () => void }) {
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
-      <DialogContent
-        className={cn(
-          "h-[330px] w-[calc(100vw-2rem)] max-w-[580px] overflow-hidden rounded-[5px]",
-          "border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
-      >
+      <DialogContent className="h-[330px] w-[calc(100vw-2rem)] max-w-[580px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
         <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
           <div className="flex h-[102px] w-[102px] items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
             <Check className="h-[58px] w-[58px] text-[#33aa00]" strokeWidth={3} />
           </div>
-
           <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
             Berhasil Melakukan Perpanjangan Pinjaman
           </h2>
-
-          <button
-            type="button"
-            onClick={onOk}
-            className={cn(
-              "mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed]",
-              "text-[16px] font-semibold text-white",
-              "ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]",
-            )}
-          >
+          <button type="button" onClick={onOk} className="mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]">
             OK
           </button>
         </div>
@@ -383,7 +327,6 @@ export default function LoanExtensionWizard({
 
   React.useEffect(() => {
     if (!open) return;
-
     setStep(1);
     setMethod("");
     setAdditionalTenor("");
@@ -441,15 +384,8 @@ export default function LoanExtensionWizard({
       parsedDueMonth <= 12 &&
       parsedDueYear >= oldDueDate.getFullYear()
     ) {
-      dueDate = new Date(
-        parsedDueYear,
-        parsedDueMonth - 1,
-        oldDueDate.getDate(),
-      );
-
-      if (dueDate.getMonth() !== parsedDueMonth - 1) {
-        dueDate.setDate(0);
-      }
+      dueDate = new Date(parsedDueYear, parsedDueMonth - 1, oldDueDate.getDate());
+      if (dueDate.getMonth() !== parsedDueMonth - 1) dueDate.setDate(0);
 
       const monthDifference =
         (dueDate.getFullYear() - oldDueDate.getFullYear()) * 12 +
@@ -466,6 +402,7 @@ export default function LoanExtensionWizard({
         : tenor < OLD_TENOR
           ? Math.max(0.7, 1 - (OLD_TENOR - tenor) * 0.025)
           : 1;
+
     const monthlyNewInterest = MONTHLY_INTEREST * interestFactor;
 
     const scheduleRows: ScheduleRow[] = Array.from({ length: tenor }, (_, index) => {
@@ -517,8 +454,8 @@ export default function LoanExtensionWizard({
       return;
     }
 
-    if (step === 1) {
-      setStep(2);
+    if (step < 3) {
+      setStep((current) => (current + 1) as Step);
       return;
     }
 
@@ -530,11 +467,6 @@ export default function LoanExtensionWizard({
     setSuccessOpen(true);
   }
 
-  function closeAfterSuccess() {
-    setSuccessOpen(false);
-    onOpenChange(false);
-  }
-
   return (
     <>
       <SaveConfirmationDialog
@@ -542,20 +474,24 @@ export default function LoanExtensionWizard({
         onCancel={() => setSaveConfirmOpen(false)}
         onConfirm={confirmSave}
       />
-
-      <SuccessDialog open={successOpen} onOk={closeAfterSuccess} />
+      <SuccessDialog
+        open={successOpen}
+        onOk={() => {
+          setSuccessOpen(false);
+          onOpenChange(false);
+        }}
+      />
 
       <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
         <DialogContent
           data-loan-extension-wizard="true"
           data-loan-extension-step={step}
-          className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+          className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
             <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
               Perpanjangan Pinjaman
             </h2>
-
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -576,7 +512,6 @@ export default function LoanExtensionWizard({
                   <div className="text-[14px] font-extrabold tracking-wide text-white">
                     INFORMASI REKENING PINJAMAN
                   </div>
-
                   <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
                     {accountDetails.map(([label, value]) => (
                       <AccountField
@@ -585,7 +520,6 @@ export default function LoanExtensionWizard({
                         value={label === "No. Rek. Pinjaman" ? accountNo : value}
                       />
                     ))}
-
                     <AccountField
                       label="Status Pinjaman"
                       value={
@@ -601,7 +535,6 @@ export default function LoanExtensionWizard({
                   <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                     Data Perpanjangan Pinjaman
                   </div>
-
                   <div className="grid gap-5 p-5">
                     <FormRow label="Metode Perpanjangan">
                       <Select
@@ -618,9 +551,7 @@ export default function LoanExtensionWizard({
                           <SelectValue placeholder="Pilih Metode Perpanjangan" />
                         </SelectTrigger>
                         <SelectContent className="rounded-[5px] border-slate-200">
-                          <SelectItem value="Tenor Tambahan">
-                            Tenor Tambahan
-                          </SelectItem>
+                          <SelectItem value="Tenor Tambahan">Tenor Tambahan</SelectItem>
                           <SelectItem value="Tenor Baru">Tenor Baru</SelectItem>
                           <SelectItem value="Jatuh Tempo Akhir Baru">
                             Jatuh Tempo Akhir Baru
@@ -634,9 +565,7 @@ export default function LoanExtensionWizard({
                         <Input
                           value={additionalTenor}
                           onChange={(event) =>
-                            setAdditionalTenor(
-                              event.target.value.replace(/[^\d]/g, ""),
-                            )
+                            setAdditionalTenor(event.target.value.replace(/[^\d]/g, ""))
                           }
                           inputMode="numeric"
                           placeholder="Masukkan tenor tambahan"
@@ -650,9 +579,7 @@ export default function LoanExtensionWizard({
                         <Input
                           value={newTenor}
                           onChange={(event) =>
-                            setNewTenor(
-                              event.target.value.replace(/[^\d]/g, ""),
-                            )
+                            setNewTenor(event.target.value.replace(/[^\d]/g, ""))
                           }
                           inputMode="numeric"
                           placeholder="Masukkan tenor baru"
@@ -667,9 +594,7 @@ export default function LoanExtensionWizard({
                           <Input
                             value={dueMonth}
                             onChange={(event) =>
-                              setDueMonth(
-                                event.target.value.replace(/[^\d]/g, "").slice(0, 2),
-                              )
+                              setDueMonth(event.target.value.replace(/[^\d]/g, "").slice(0, 2))
                             }
                             inputMode="numeric"
                             placeholder="Bulan (01-12)"
@@ -678,9 +603,7 @@ export default function LoanExtensionWizard({
                           <Input
                             value={dueYear}
                             onChange={(event) =>
-                              setDueYear(
-                                event.target.value.replace(/[^\d]/g, "").slice(0, 4),
-                              )
+                              setDueYear(event.target.value.replace(/[^\d]/g, "").slice(0, 4))
                             }
                             inputMode="numeric"
                             placeholder="Tahun"
@@ -718,7 +641,6 @@ export default function LoanExtensionWizard({
                   <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                     Ringkasan Perpanjangan Pinjaman
                   </div>
-
                   <div className="safe-x-scroll">
                     <table className="w-full min-w-[650px] border-collapse">
                       <thead className="bg-white">
@@ -735,18 +657,10 @@ export default function LoanExtensionWizard({
                           ["Angsuran", formatIdr(simulation.oldInstallment), formatIdr(simulation.newInstallment)],
                           ["Total Bunga Masa Depan", formatIdr(simulation.oldInterest), formatIdr(simulation.newInterest)],
                         ].map(([label, before, after], index) => (
-                          <tr
-                            key={label}
-                            className={cn(
-                              "border-b border-slate-100 text-[12px] text-black last:border-b-0",
-                              index % 2 ? "bg-slate-50/60" : "bg-white",
-                            )}
-                          >
+                          <tr key={label} className={cn("border-b border-slate-100 text-[12px] text-black last:border-b-0", index % 2 ? "bg-slate-50/60" : "bg-white")}>
                             <td className="px-4 py-3">{label}</td>
                             <td className="px-4 py-3 tabular-nums">{before}</td>
-                            <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">
-                              {after}
-                            </td>
+                            <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">{after}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -758,9 +672,7 @@ export default function LoanExtensionWizard({
                   <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                     Alasan Perpanjangan
                   </div>
-                  <p className="px-4 py-4 text-[14px] leading-relaxed text-black">
-                    {reason}
-                  </p>
+                  <p className="px-4 py-4 text-[14px] leading-relaxed text-black">{reason}</p>
                 </section>
 
                 {method ? (
@@ -775,6 +687,41 @@ export default function LoanExtensionWizard({
                 <PaymentScheduleTable rows={simulation.scheduleRows} />
               </div>
             ) : null}
+
+            {step === 3 ? (
+              <div className="grid gap-5">
+                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                    Simpan Perubahan Perpanjangan
+                  </div>
+                  <div className="grid gap-4 p-5 text-[14px]">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Rekening Pinjaman</span>
+                      <span className="font-extrabold text-slate-900">{accountNo}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Metode Perpanjangan</span>
+                      <span className="font-extrabold text-[#2563EB]">{method}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Tenor Baru</span>
+                      <span className="font-extrabold text-[#2563EB]">{simulation.tenor} Bulan</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Jatuh Tempo Baru</span>
+                      <span className="font-extrabold text-[#2563EB]">{simulation.dueDate}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-600">Tanggal Efektif</span>
+                      <span className="font-extrabold text-slate-900">{effectiveDate}</span>
+                    </div>
+                    <div className="border-t border-slate-200 pt-4 text-slate-600">
+                      Alasan: <span className="font-semibold text-slate-900">{reason}</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            ) : null}
           </main>
 
           <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
@@ -787,11 +734,7 @@ export default function LoanExtensionWizard({
               }
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
-              {step === 1 ? (
-                <X className="h-4 w-4" strokeWidth={3} />
-              ) : (
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-              )}
+              {step === 1 ? <X className="h-4 w-4" strokeWidth={3} /> : <ChevronLeft className="h-4 w-4" strokeWidth={3} />}
               {step === 1 ? "Batal" : "Kembali"}
             </button>
 
@@ -811,19 +754,15 @@ export default function LoanExtensionWizard({
               onClick={continueWizard}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-                step === 2
+                step === 3
                   ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
                   : step === 1 && !isValid
                     ? "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500"
                     : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
               )}
             >
-              {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 2 ? (
-                <Check className="h-5 w-5" strokeWidth={3.5} />
-              ) : (
-                <ChevronRight className="h-4 w-4" strokeWidth={3} />
-              )}
+              {step === 3 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 3 ? <Check className="h-5 w-5" strokeWidth={3.5} /> : <ChevronRight className="h-4 w-4" strokeWidth={3} />}
             </button>
           </footer>
         </DialogContent>
