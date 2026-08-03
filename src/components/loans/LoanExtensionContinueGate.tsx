@@ -48,9 +48,10 @@ function syncWizardButtons() {
     );
   });
 
-  const cancelButton = footer.querySelector<HTMLButtonElement>(
+  const duplicateCancelButton = footer.querySelector<HTMLButtonElement>(
     `.${CANCEL_BUTTON_CLASS}`,
   );
+  duplicateCancelButton?.remove();
 
   const primaryLabel = primaryButton?.textContent?.trim() ?? "";
   const isSimulationStep =
@@ -58,8 +59,6 @@ function syncWizardButtons() {
     (primaryLabel === "Lanjutkan" || primaryLabel === "Simpan Perubahan");
 
   if (!isSimulationStep) {
-    cancelButton?.remove();
-
     if (primaryButton) {
       primaryButton.removeAttribute(SIMULATION_SAVE_ATTRIBUTE);
 
@@ -71,7 +70,7 @@ function syncWizardButtons() {
     return;
   }
 
-  if (!primaryButton || !backButton) return;
+  if (!primaryButton) return;
 
   primaryButton.disabled = false;
   primaryButton.setAttribute(SIMULATION_SAVE_ATTRIBUTE, "true");
@@ -79,20 +78,6 @@ function syncWizardButtons() {
   if (primaryLabel !== "Simpan Perubahan") {
     primaryButton.textContent = "Simpan Perubahan";
   }
-
-  if (cancelButton) return;
-
-  const nextCancelButton = document.createElement("button");
-  nextCancelButton.type = "button";
-  nextCancelButton.className = CANCEL_BUTTON_CLASS;
-  nextCancelButton.textContent = "Batal";
-  nextCancelButton.setAttribute("aria-label", "Batal perpanjangan pinjaman");
-
-  nextCancelButton.addEventListener("click", () => {
-    wizard.querySelector<HTMLButtonElement>('button[aria-label="Tutup"]')?.click();
-  });
-
-  backButton.insertAdjacentElement("afterend", nextCancelButton);
 }
 
 export default function LoanExtensionContinueGate() {
@@ -139,28 +124,6 @@ export default function LoanExtensionContinueGate() {
 
         [data-loan-extension-wizard="true"] footer > button.bg-\\[\\#77839A\\] {
           order: 0 !important;
-        }
-
-        [data-loan-extension-wizard="true"] .loan-extension-wizard-step-two-cancel {
-          order: 1 !important;
-          display: inline-flex !important;
-          height: 40px !important;
-          min-width: 90px !important;
-          align-items: center !important;
-          justify-content: center !important;
-          margin: 0 !important;
-          border: 0 !important;
-          border-radius: 5px !important;
-          background: transparent !important;
-          color: #dc3545 !important;
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          transition: color 150ms ease !important;
-        }
-
-        [data-loan-extension-wizard="true"] .loan-extension-wizard-step-two-cancel:hover {
-          background: transparent !important;
-          color: #b71c2b !important;
         }
 
         [data-loan-extension-wizard="true"]
