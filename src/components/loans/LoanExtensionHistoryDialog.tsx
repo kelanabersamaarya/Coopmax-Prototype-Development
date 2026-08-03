@@ -16,6 +16,7 @@ type HistoryRow = {
   effectiveDate: string;
   previousTenor: string;
   newTenor: string;
+  changedBy: string;
   changedAt: string;
 };
 
@@ -27,13 +28,17 @@ const initialHistoryByAccount: Record<string, HistoryRow[]> = {
       effectiveDate: "07-04-2026",
       previousTenor: "12 Bulan",
       newTenor: "18 Bulan",
+      changedBy: "Arya Dharma",
       changedAt: "07-04-2026 10:35:20",
     },
   ],
 };
 
 function toHistoryRow(entry: LoanExtensionHistoryEntry): HistoryRow {
-  return entry;
+  return {
+    ...entry,
+    changedBy: "Arya Dharma",
+  };
 }
 
 export default function LoanExtensionHistoryDialog({
@@ -77,8 +82,8 @@ export default function LoanExtensionHistoryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[900px]",
-          "max-w-[900px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
+          "w-[calc(100vw-1rem)] sm:w-[980px]",
+          "max-w-[980px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -102,13 +107,14 @@ export default function LoanExtensionHistoryDialog({
         <main className="max-h-[60vh] overflow-auto px-5 py-5 sm:px-6">
           <div className="overflow-hidden rounded-[8px] border border-slate-200">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[760px] border-collapse">
+              <table className="w-full min-w-[900px] border-collapse">
                 <thead className="bg-[#F9FAFF]">
                   <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
                     <th className="px-4 py-3">Metode Perpanjangan</th>
                     <th className="px-4 py-3">Tanggal Efektif</th>
                     <th className="px-4 py-3">Tenor Sebelum</th>
                     <th className="px-4 py-3">Tenor Sesudah</th>
+                    <th className="px-4 py-3">Diubah Oleh</th>
                     <th className="px-4 py-3">Tanggal & Waktu Perubahan</th>
                   </tr>
                 </thead>
@@ -116,7 +122,7 @@ export default function LoanExtensionHistoryDialog({
                   {rows.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={5}
+                        colSpan={6}
                         className="px-4 py-10 text-center text-[13px] text-slate-600"
                       >
                         Belum ada riwayat perpanjangan pinjaman.
@@ -135,6 +141,9 @@ export default function LoanExtensionHistoryDialog({
                         <td className="px-4 py-3">{row.previousTenor}</td>
                         <td className="px-4 py-3 font-semibold text-[#2563EB]">
                           {row.newTenor}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          {row.changedBy}
                         </td>
                         <td className="px-4 py-3 tabular-nums whitespace-nowrap">
                           {row.changedAt}
