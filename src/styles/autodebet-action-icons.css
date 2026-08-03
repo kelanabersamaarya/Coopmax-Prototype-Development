@@ -60,3 +60,33 @@ button[title="Hapus jadwal"]:hover {
 .safe-x-scroll > table.w-full.min-w-\[850px\].border-collapse.text-black td:nth-child(7) {
   white-space: nowrap !important;
 }
+
+/* Jadwal autodebet pinjaman selalu berjalan pada akhir bulan. */
+.safe-x-scroll
+  > table.w-full.min-w-\[850px\].border-collapse.text-black
+  tbody
+  td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
+  > div
+  > span {
+  font-size: 0 !important;
+}
+
+.safe-x-scroll
+  > table.w-full.min-w-\[850px\].border-collapse.text-black
+  tbody
+  td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
+  > div
+  > span::before {
+  content: "Akhir Bulan";
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #000000;
+}
+
+.safe-x-scroll
+  > table.w-full.min-w-\[850px\].border-collapse.text-black
+  tbody
+  td:nth-child(5):has(button[aria-label="Informasi tanggal autodebet pinjaman"])
+  button {
+  font-size: 12px !important;
+}
