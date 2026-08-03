@@ -10,6 +10,9 @@ import {
   ReceiptText,
   SquarePen,
   XSquare,
+  ExternalLink,
+  AlertTriangle,
+  ShieldCheck,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -128,20 +131,8 @@ export default function SavingsAccountDetail({
     toast.success("Jadwal autodebet tersimpan");
   }
 
-  function openEdit(index: number) {
-    setViewingIndex(null);
-    setEditingIndex(index);
-    setScheduleOpen(true);
-  }
-
-  function requestDelete(index: number) {
-    setViewingIndex(null);
-    setDeletingIndex(index);
-  }
-
   const viewedSchedule =
     viewingIndex === null ? null : schedules[viewingIndex] ?? null;
-
   const hasLoanSchedule = schedules.some(
     (schedule) => schedule.product === "Produk Pinjaman",
   );
@@ -158,13 +149,11 @@ export default function SavingsAccountDetail({
           schedule={editingIndex === null ? null : schedules[editingIndex]}
           onProcess={saveSchedule}
         />
-
         <AutodebetDeleteConfirmDialog
           open={deletingIndex !== null}
           onCancel={() => setDeletingIndex(null)}
           onConfirm={() => {
             if (deletingIndex === null) return;
-
             updateSchedules(
               schedules.filter((_, index) => index !== deletingIndex),
             );
@@ -173,13 +162,19 @@ export default function SavingsAccountDetail({
             toast.success("Jadwal autodebet dihapus");
           }}
         />
-
         <AutodebetScheduleDetail
           schedule={viewedSchedule}
           sourceAccount={account}
           onBack={() => setViewingIndex(null)}
-          onEdit={() => openEdit(viewingIndex ?? 0)}
-          onDelete={() => requestDelete(viewingIndex ?? 0)}
+          onEdit={() => {
+            setViewingIndex(null);
+            setEditingIndex(viewingIndex);
+            setScheduleOpen(true);
+          }}
+          onDelete={() => {
+            setViewingIndex(null);
+            setDeletingIndex(viewingIndex);
+          }}
         />
       </>
     );
@@ -196,13 +191,11 @@ export default function SavingsAccountDetail({
         schedule={editingIndex === null ? null : schedules[editingIndex]}
         onProcess={saveSchedule}
       />
-
       <AutodebetDeleteConfirmDialog
         open={deletingIndex !== null}
         onCancel={() => setDeletingIndex(null)}
         onConfirm={() => {
           if (deletingIndex === null) return;
-
           updateSchedules(schedules.filter((_, index) => index !== deletingIndex));
           setDeletingIndex(null);
           toast.success("Jadwal autodebet dihapus");
@@ -218,32 +211,12 @@ export default function SavingsAccountDetail({
         </div>
 
         <div className="mt-8 flex flex-wrap justify-end gap-2">
-          <ActionButton
-            icon={History}
-            label="Riwayat Transaksi"
-            onClick={() => toast("Riwayat Transaksi (prototype)")}
-          />
-          <ActionButton
-            icon={ReceiptText}
-            label="Dokumen"
-            onClick={() => toast("Dokumen (prototype)")}
-          />
-          <ActionButton
-            icon={Printer}
-            label="Cetak"
-            onClick={() => toast("Cetak (prototype)")}
-          />
+          <ActionButton icon={History} label="Riwayat Transaksi" onClick={() => toast("Riwayat Transaksi (prototype)")} />
+          <ActionButton icon={ReceiptText} label="Dokumen" onClick={() => toast("Dokumen (prototype)")} />
+          <ActionButton icon={Printer} label="Cetak" onClick={() => toast("Cetak (prototype)")} />
           <ActionButton icon={List} label="Kembali ke Daftar" onClick={onBack} />
-          <ActionButton
-            icon={SquarePen}
-            label="Ubah"
-            onClick={() => toast("Ubah Rekening (prototype)")}
-          />
-          <ActionButton
-            icon={XSquare}
-            label="Tutup Rekening"
-            onClick={() => toast("Tutup Rekening (prototype)")}
-          />
+          <ActionButton icon={SquarePen} label="Ubah" onClick={() => toast("Ubah Rekening (prototype)")} />
+          <ActionButton icon={XSquare} label="Tutup Rekening" onClick={() => toast("Tutup Rekening (prototype)")} />
         </div>
 
         <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
@@ -270,9 +243,7 @@ export default function SavingsAccountDetail({
               ))}
               <div>
                 <div className="text-[11px] text-white/80">Status</div>
-                <div className="mt-1">
-                  <ActiveBadge>{account.status}</ActiveBadge>
-                </div>
+                <div className="mt-1"><ActiveBadge>{account.status}</ActiveBadge></div>
               </div>
             </div>
           </div>
@@ -282,54 +253,60 @@ export default function SavingsAccountDetail({
           <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
             Informasi Nasabah
           </div>
-          <div className="mt-4 grid gap-6 lg:grid-cols-2">
-            <div>
-              <InfoRow
-                label="ID"
-                value={<span className="text-blue-600">{account.customerId} ↗</span>}
-              />
-              <InfoRow label="Nama" value={account.customerName} />
-              <InfoRow label="Alamat" value="Jl. Sri Rama No. 49" />
-              <InfoRow
-                label="Status Verifikasi KTP"
-                value={
-                  <span className="inline-flex items-center gap-2 rounded-[5px] bg-rose-100 px-3 py-2 text-[12px] font-semibold text-red-600">
-                    <CircleX className="h-4 w-4" />
-                    BELUM TERVERIFIKASI
-                  </span>
-                }
-              />
-            </div>
-            <div>
-              <InfoRow label="Jenis Identitas" value="KTP" />
-              <InfoRow label="No. Identitas" value="6203617005258715" />
-              <InfoRow label="No. Telp/Handphone" value="023 5822 6972" />
-              <InfoRow
-                label="Status"
-                value={<SuccessBadge>Aktif</SuccessBadge>}
-              />
+
+          <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div>
+                <InfoRow
+                  label="ID"
+                  value={
+                    <span className="inline-flex items-center gap-2 text-blue-600">
+                      N2400033
+                      <ExternalLink className="h-4 w-4" />
+                    </span>
+                  }
+                />
+                <InfoRow label="NIP" value="-" />
+                <InfoRow label="Nama" value="Rika Wastuti" />
+                <InfoRow label="Tanggal Lahir" value="1990-01-02" />
+                <InfoRow label="Kategori Nasabah" value="Anggota" />
+                <InfoRow label="Jenis Kelamin" value="Perempuan" />
+                <InfoRow label="Alamat" value="Jl. Sri Rama No. 49" />
+                <InfoRow label="Hubungan dengan Koperasi" value="Calon Anggota" />
+                <InfoRow label="Tanggal Daftar" value="2024-12-06" />
+                <InfoRow label="Tag" value="-" />
+                <InfoRow label="Unit" value="-" />
+                <InfoRow
+                  label="Status Verifikasi KTP"
+                  value={
+                    <span className="inline-flex items-center gap-2 rounded-[5px] bg-rose-100 px-3 py-2 text-[12px] font-semibold text-red-600">
+                      <CircleX className="h-4 w-4" />
+                      BELUM TERVERIFIKASI
+                    </span>
+                  }
+                />
+                <InfoRow
+                  label="Status"
+                  value={<span className="inline-flex rounded-md bg-slate-500 px-2.5 py-1 text-xs font-extrabold text-white">Tidak Aktif</span>}
+                />
+              </div>
+
+              <div>
+                <InfoRow label="Agama" value="Hindu" />
+                <InfoRow label="Profesi" value="SWASTA" />
+                <InfoRow label="Jenis Identitas" value="KTP" />
+                <InfoRow label="No. Identitas" value="6203617005258715" />
+                <InfoRow label="No. Telp/Handphone" value="023 5822 6972" />
+                <InfoRow label="Alamat Email" value="putu@gmail.com" />
+              </div>
             </div>
           </div>
 
           <div className="my-6 h-px bg-slate-200" />
 
-          <div className="flex items-center justify-between gap-3">
-            <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
-              Jadwal Autodebet
-            </div>
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setEditingIndex(null);
-                setScheduleOpen(true);
-              }}
-              className="h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:text-violet-600"
-            >
-              <Plus className="mr-1 h-4 w-4" />
-              Tambah
-            </Button>
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
+            Jadwal Autodebet
           </div>
-
           <div className="mt-4 safe-x-scroll">
             <table className="w-full min-w-[850px] border-collapse text-[12px] text-black">
               <thead>
@@ -338,9 +315,7 @@ export default function SavingsAccountDetail({
                   <th className="px-3 py-3">Produk Tujuan</th>
                   <th className="px-3 py-3">No. Rekening Tujuan</th>
                   <th className="px-3 py-3">Pemilik Rekening Tujuan</th>
-                  {hasLoanSchedule ? (
-                    <th className="px-3 py-3 text-right">Nominal Angsuran</th>
-                  ) : null}
+                  {hasLoanSchedule ? <th className="px-3 py-3 text-right">Nominal Angsuran</th> : null}
                   <th className="px-3 py-3">Setiap Tanggal</th>
                   <th className="px-3 py-3">Tanggal Transaksi Selanjutnya</th>
                   <th className="px-3 py-3">Keterangan</th>
@@ -351,88 +326,93 @@ export default function SavingsAccountDetail({
               <tbody>
                 {schedules.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={hasLoanSchedule ? 10 : 9}
-                      className="px-4 py-8 text-center"
-                    >
+                    <td colSpan={hasLoanSchedule ? 10 : 9} className="px-4 py-8 text-center">
                       No data available in table
                     </td>
                   </tr>
-                ) : (
-                  schedules.map((schedule, index) => {
-                    const [targetAccount, owner = "-"] =
-                      schedule.accountNo.split(" - ");
-                    const isLoanSchedule =
-                      schedule.product === "Produk Pinjaman";
+                ) : schedules.map((schedule, index) => {
+                  const [targetAccount, owner = "-"] = schedule.accountNo.split(" - ");
+                  const isLoanSchedule = schedule.product === "Produk Pinjaman";
 
-                    return (
-                      <tr
-                        key={`${schedule.accountNo}-${schedule.date}-${index}`}
-                        className="border-b border-slate-200 last:border-b-0"
-                      >
-                        <td className="px-3 py-3">{index + 1}</td>
-                        <td className="px-3 py-3 font-semibold">
-                          {schedule.product}
-                        </td>
-                        <td className="px-3 py-3">{targetAccount}</td>
-                        <td className="px-3 py-3">{owner}</td>
-                        {hasLoanSchedule ? (
-                          <td className="px-3 py-3 text-right tabular-nums">
-                            {isLoanSchedule ? "1.120.000,00" : "-"}
-                          </td>
-                        ) : null}
-                        <td className="px-3 py-3">
-                          {schedule.date.replace("Setiap tanggal ", "")}
-                        </td>
-                        <td className="px-3 py-3">31-08-2026</td>
-                        <td className="px-3 py-3">
-                          {schedule.description || "-"}
-                        </td>
-                        <td className="px-3 py-3">
-                          <span
-                            className={cn(
-                              "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white",
-                              schedule.status ? "bg-[#3BB001]" : "bg-[#DC3545]",
-                            )}
-                          >
-                            {schedule.status ? "Aktif" : "Nonaktif"}
-                          </span>
-                        </td>
-                        <td className="px-3 py-3">
-                          <div className="flex items-center gap-1">
-                            <button
-                              type="button"
-                              onClick={() => setViewingIndex(index)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-slate-500 hover:bg-slate-100"
-                              title="Lihat jadwal"
-                            >
-                              <Eye className="h-4 w-4" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => openEdit(index)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-blue-600 hover:bg-slate-100"
-                              title="Ubah jadwal"
-                            >
-                              <SquarePen className="h-4 w-4" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => requestDelete(index)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-rose-600 hover:bg-slate-100"
-                              title="Hapus jadwal"
-                            >
-                              <CircleX className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
+                  return (
+                    <tr key={`${schedule.accountNo}-${schedule.date}-${index}`} className="border-b border-slate-200 last:border-b-0">
+                      <td className="px-3 py-3">{index + 1}</td>
+                      <td className="px-3 py-3 font-semibold">{schedule.product}</td>
+                      <td className="px-3 py-3">{targetAccount}</td>
+                      <td className="px-3 py-3">{owner}</td>
+                      {hasLoanSchedule ? <td className="px-3 py-3 text-right tabular-nums">{isLoanSchedule ? "1.120.000,00" : "-"}</td> : null}
+                      <td className="px-3 py-3">{schedule.date.replace("Setiap tanggal ", "")}</td>
+                      <td className="px-3 py-3">31-08-2026</td>
+                      <td className="px-3 py-3">{schedule.description || "-"}</td>
+                      <td className="px-3 py-3">
+                        <span className={cn("inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold text-white", schedule.status ? "bg-[#3BB001]" : "bg-[#DC3545]")}>
+                          {schedule.status ? "Aktif" : "Nonaktif"}
+                        </span>
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center gap-1">
+                          <button type="button" onClick={() => setViewingIndex(index)} className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-slate-500 hover:bg-slate-100" title="Lihat jadwal"><Eye className="h-4 w-4" /></button>
+                          <button type="button" onClick={() => { setEditingIndex(index); setScheduleOpen(true); }} className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-blue-600 hover:bg-slate-100" title="Ubah jadwal"><SquarePen className="h-4 w-4" /></button>
+                          <button type="button" onClick={() => setDeletingIndex(index)} className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] text-rose-600 hover:bg-slate-100" title="Hapus jadwal"><CircleX className="h-4 w-4" /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
+
+          <div className="mt-5">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setEditingIndex(null);
+                setScheduleOpen(true);
+              }}
+              className="h-8 rounded-[5px] px-2 text-[12px] font-semibold text-slate-600 hover:text-violet-600"
+            >
+              <Plus className="mr-1 h-4 w-4" />
+              Tambah Jadwal Autodebet
+            </Button>
+          </div>
+
+          <div className="my-6 h-px bg-slate-200" />
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">Informasi Kredit</div>
+          <div className="mt-4 grid gap-6 lg:grid-cols-2">
+            <div>
+              <InfoRow label="Tanggal Realisasi" value="16-03-2026" />
+              <InfoRow label="Besar Pinjaman / Plafon" value="10.000.000" />
+              <InfoRow label="Biaya Administrasi" value="100.000" />
+              <InfoRow label="Biaya Materai" value="200.000" />
+              <InfoRow label="Jumlah Potongan" value="322.000" />
+              <InfoRow label="Penerimaan Bersih" value="9.678.000" />
+            </div>
+            <div>
+              <InfoRow label="Satuan Grace Period" value="Bulan" />
+              <InfoRow label="Durasi Grace Period" value="6" />
+              <InfoRow label="Status Grace Period" value={<ActiveBadge>Aktif</ActiveBadge>} />
+              <InfoRow label="Skema Tagihan" value="Tagihan Sesuai Jadwal Angsuran" />
+              <InfoRow label="Status Tabel Angsuran" value={<SuccessBadge>✓ Berhasil Tersinkron</SuccessBadge>} />
+            </div>
+          </div>
+
+          <div className="my-6 h-px bg-slate-200" />
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">Data Anggota Keluarga</div>
+          <div className="mt-4 flex items-start gap-3 rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200">
+            <AlertTriangle className="h-5 w-5 shrink-0 text-amber-800" />
+            <div className="text-sm text-amber-900">
+              Data nasabah belum terverifikasi. Silakan lakukan verifikasi nasabah untuk mendapatkan data anggota keluarga.
+            </div>
+          </div>
+
+          <div className="my-6 h-px bg-slate-200" />
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">Informasi Agunan</div>
+          <div className="mt-4 text-sm text-slate-700">Tidak ada agunan</div>
+
+          <div className="my-6 h-px bg-slate-200" />
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">Informasi File</div>
+          <div className="mt-4 text-sm text-slate-700">Tidak ada file yang diupload</div>
         </Card>
       </div>
     </div>
