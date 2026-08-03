@@ -35,7 +35,7 @@ function syncWizardButtons() {
 
   const buttons = Array.from(footer.querySelectorAll<HTMLButtonElement>("button"));
   const backButton = buttons.find(
-    (button) => button.textContent?.trim().toLowerCase() === "kembali",
+    (button) => button.textContent?.trim() === "Kembali",
   );
 
   const primaryButton = buttons.find((button) => {
@@ -191,7 +191,7 @@ export default function LoanExtensionContinueGate() {
 
         [data-loan-extension-wizard="true"]
           footer
-          > button[data-extension-simulation-save="true"]::after {
+          > button[data-extension-simulation-save="true"]::before {
           content: "";
           display: inline-block;
           width: 20px;
@@ -201,6 +201,12 @@ export default function LoanExtensionContinueGate() {
           background-position: center;
           background-repeat: no-repeat;
           background-size: contain;
+        }
+
+        [data-loan-extension-wizard="true"]
+          footer
+          > button[data-extension-simulation-save="true"]::after {
+          content: none !important;
         }
       `}
     </style>
