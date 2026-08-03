@@ -261,6 +261,104 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
   );
 }
 
+function SaveConfirmationDialog({
+  open,
+  onCancel,
+  onConfirm,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
+      <DialogContent
+        className={cn(
+          "h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
+          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center sm:px-10">
+          <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
+            <span className="text-[58px] font-light leading-none text-[#f2b98f]">
+              !
+            </span>
+          </div>
+
+          <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
+            Yakin untuk melakukan perubahan?
+          </h2>
+
+          <div className="mt-[34px] flex items-center justify-center gap-[9px]">
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
+            >
+              Yes
+            </button>
+
+            <button
+              type="button"
+              onClick={onCancel}
+              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function SuccessDialog({
+  open,
+  onOk,
+}: {
+  open: boolean;
+  onOk: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
+      <DialogContent
+        className={cn(
+          "h-[330px] w-[calc(100vw-2rem)] max-w-[580px] overflow-hidden rounded-[5px]",
+          "border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
+          <div className="flex h-[102px] w-[102px] items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
+            <Check className="h-[58px] w-[58px] text-[#33aa00]" strokeWidth={3} />
+          </div>
+
+          <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
+            Berhasil Melakukan Perpanjangan Pinjaman
+          </h2>
+
+          <button
+            type="button"
+            onClick={onOk}
+            className={cn(
+              "mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed]",
+              "text-[16px] font-semibold text-white",
+              "ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]",
+            )}
+          >
+            OK
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function LoanExtensionWizard({
   open,
   onOpenChange,
@@ -278,6 +376,8 @@ export default function LoanExtensionWizard({
   const [dueYear, setDueYear] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
+  const [saveConfirmOpen, setSaveConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -290,6 +390,8 @@ export default function LoanExtensionWizard({
     setDueYear("");
     setEffectiveDate("");
     setReason("");
+    setSaveConfirmOpen(false);
+    setSuccessOpen(false);
   }, [open]);
 
   const oldDueDate = React.useMemo(
@@ -413,319 +515,312 @@ export default function LoanExtensionWizard({
       return;
     }
 
-    if (step < 3) {
-      setStep((current) => (current + 1) as Step);
+    if (step === 1) {
+      setStep(2);
       return;
     }
 
-    toast.success("Perpanjangan pinjaman tersimpan", {
-      description: `${accountNo} diperpanjang dengan metode ${method}.`,
-    });
+    if (step === 2) {
+      setSaveConfirmOpen(true);
+    }
+  }
+
+  function confirmSave() {
+    setSaveConfirmOpen(false);
+    setSuccessOpen(true);
+  }
+
+  function closeAfterSuccess() {
+    setSuccessOpen(false);
     onOpenChange(false);
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        data-loan-extension-wizard="true"
-        className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
-      >
-        <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
-          <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
-            Perpanjangan Pinjaman
-          </h2>
+    <>
+      <SaveConfirmationDialog
+        open={saveConfirmOpen}
+        onCancel={() => setSaveConfirmOpen(false)}
+        onConfirm={confirmSave}
+      />
 
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
-            aria-label="Tutup"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </header>
+      <SuccessDialog open={successOpen} onOk={closeAfterSuccess} />
 
-        <StepIndicator step={step} />
-        <Separator className="bg-slate-200" />
+      <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
+        <DialogContent
+          data-loan-extension-wizard="true"
+          data-loan-extension-step={step}
+          className="w-[calc(100vw-1rem)] max-w-[1040px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+        >
+          <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+            <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
+              Perpanjangan Pinjaman
+            </h2>
 
-        <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
-          {step === 1 ? (
-            <div className="grid gap-6">
-              <section className="loan-extension-account-info rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
-                <div className="text-[14px] font-extrabold tracking-wide text-white">
-                  INFORMASI REKENING PINJAMAN
-                </div>
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+              aria-label="Tutup"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </header>
 
-                <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
-                  {accountDetails.map(([label, value]) => (
-                    <AccountField
-                      key={label}
-                      label={label}
-                      value={
-                        label === "Nomor Rekening Pinjaman" ? accountNo : value
-                      }
-                    />
-                  ))}
-                </div>
-              </section>
+          <StepIndicator step={step} />
+          <Separator className="bg-slate-200" />
 
-              <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                  Data Perpanjangan Pinjaman
-                </div>
-
-                <div className="grid gap-5 p-5">
-                  <FormRow label="Metode Perpanjangan">
-                    <Select
-                      value={method}
-                      onValueChange={(value) => {
-                        setMethod(value as ExtensionMethod);
-                        setAdditionalTenor("");
-                        setNewTenor("");
-                        setDueMonth("");
-                        setDueYear("");
-                      }}
-                    >
-                      <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
-                        <SelectValue placeholder="Pilih Metode Perpanjangan" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-[5px] border-slate-200">
-                        <SelectItem value="Tenor Tambahan">
-                          Tenor Tambahan
-                        </SelectItem>
-                        <SelectItem value="Tenor Baru">Tenor Baru</SelectItem>
-                        <SelectItem value="Jatuh Tempo Akhir Baru">
-                          Jatuh Tempo Akhir Baru
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormRow>
-
-                  {method === "Tenor Tambahan" ? (
-                    <FormRow label="Tenor Tambahan (Bulan)">
-                      <Input
-                        value={additionalTenor}
-                        onChange={(event) =>
-                          setAdditionalTenor(
-                            event.target.value.replace(/[^\d]/g, ""),
-                          )
-                        }
-                        inputMode="numeric"
-                        placeholder="Masukkan tenor tambahan"
-                        className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      />
-                    </FormRow>
-                  ) : null}
-
-                  {method === "Tenor Baru" ? (
-                    <FormRow label="Tenor Baru (Bulan)">
-                      <Input
-                        value={newTenor}
-                        onChange={(event) =>
-                          setNewTenor(
-                            event.target.value.replace(/[^\d]/g, ""),
-                          )
-                        }
-                        inputMode="numeric"
-                        placeholder="Masukkan tenor baru"
-                        className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      />
-                    </FormRow>
-                  ) : null}
-
-                  {method === "Jatuh Tempo Akhir Baru" ? (
-                    <FormRow label="Jatuh Tempo Akhir Baru">
-                      <div className="grid grid-cols-2 gap-3">
-                        <Input
-                          value={dueMonth}
-                          onChange={(event) =>
-                            setDueMonth(
-                              event.target.value.replace(/[^\d]/g, "").slice(0, 2),
-                            )
-                          }
-                          inputMode="numeric"
-                          placeholder="Bulan (01-12)"
-                          className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                        />
-                        <Input
-                          value={dueYear}
-                          onChange={(event) =>
-                            setDueYear(
-                              event.target.value.replace(/[^\d]/g, "").slice(0, 4),
-                            )
-                          }
-                          inputMode="numeric"
-                          placeholder="Tahun"
-                          className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                        />
-                      </div>
-                    </FormRow>
-                  ) : null}
-
-                  <FormRow label="Tanggal Efektif">
-                    <DatePickerDmyField
-                      value={effectiveDate}
-                      onChange={setEffectiveDate}
-                      inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      placeholder="DD-MM-YYYY"
-                    />
-                  </FormRow>
-
-                  <FormRow label="Alasan Perpanjangan" top>
-                    <Textarea
-                      value={reason}
-                      onChange={(event) => setReason(event.target.value)}
-                      className="min-h-[112px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                      placeholder="Masukkan alasan perpanjangan pinjaman"
-                    />
-                  </FormRow>
-                </div>
-              </section>
-            </div>
-          ) : null}
-
-          {step === 2 ? (
-            <div className="grid gap-6">
-              <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                  Ringkasan Perpanjangan Pinjaman
-                </div>
-
-                <div className="safe-x-scroll">
-                  <table className="w-full min-w-[650px] border-collapse">
-                    <thead className="bg-white">
-                      <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-black">
-                        <th className="w-[40%] px-4 py-3">Informasi</th>
-                        <th className="w-[30%] px-4 py-3">Sebelum Perpanjangan</th>
-                        <th className="w-[30%] px-4 py-3">Sesudah Perpanjangan</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[
-                        ["Metode Perpanjangan", "-", method],
-                        ["Tenor", `${OLD_TENOR} Bulan`, `${simulation.tenor} Bulan`],
-                        ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE, simulation.dueDate],
-                        ["Angsuran", formatIdr(simulation.oldInstallment), formatIdr(simulation.newInstallment)],
-                        ["Total Bunga Masa Depan", formatIdr(simulation.oldInterest), formatIdr(simulation.newInterest)],
-                      ].map(([label, before, after], index) => (
-                        <tr
-                          key={label}
-                          className={cn(
-                            "border-b border-slate-100 text-[12px] text-black last:border-b-0",
-                            index % 2 ? "bg-slate-50/60" : "bg-white",
-                          )}
-                        >
-                          <td className="px-4 py-3">{label}</td>
-                          <td className="px-4 py-3 tabular-nums">{before}</td>
-                          <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">
-                            {after}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-
-              <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                  Alasan Perpanjangan
-                </div>
-                <p className="px-4 py-4 text-[14px] leading-relaxed text-black">
-                  {reason}
-                </p>
-              </section>
-
-              {method ? (
-                <LoanExtensionMethodSummarySection
-                  method={method}
-                  additionalTenor={additionalTenor}
-                  newTenor={simulation.tenor}
-                  newDueDate={simulation.dueDate}
-                />
-              ) : null}
-
-              <PaymentScheduleTable rows={simulation.scheduleRows} />
-            </div>
-          ) : null}
-
-          {step === 3 ? (
-            <section className="rounded-[12px] border border-slate-200 bg-[#F9FAFF] p-5">
-              <h3 className="text-[14px] font-bold uppercase tracking-wide text-black">
-                Simpan Perpanjangan Pinjaman
-              </h3>
-
-              <div className="mt-5 grid gap-4 text-[14px]">
-                <div className="flex justify-between gap-4">
-                  <span className="text-slate-600">Rekening Pinjaman</span>
-                  <span className="font-extrabold text-slate-900">{accountNo}</span>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <span className="text-slate-600">Metode Perpanjangan</span>
-                  <span className="font-extrabold text-[#2563EB]">{method}</span>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <span className="text-slate-600">Tenor Baru</span>
-                  <span className="font-extrabold text-[#2563EB]">
-                    {simulation.tenor} Bulan
-                  </span>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <span className="text-slate-600">Tanggal Efektif</span>
-                  <span className="font-extrabold text-slate-900">{effectiveDate}</span>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <span className="text-slate-600">Jatuh Tempo Akhir Baru</span>
-                  <span className="font-extrabold text-[#2563EB]">{simulation.dueDate}</span>
-                </div>
-                <div className="border-t border-slate-200 pt-4 text-slate-600">
-                  Alasan: <span className="font-semibold text-slate-900">{reason}</span>
-                </div>
-              </div>
-            </section>
-          ) : null}
-        </main>
-
-        <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
-          <button
-            type="button"
-            onClick={() =>
-              step === 1
-                ? onOpenChange(false)
-                : setStep((current) => (current - 1) as Step)
-            }
-            className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
-          >
+          <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
             {step === 1 ? (
-              <X className="h-4 w-4" strokeWidth={3} />
-            ) : (
-              <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-            )}
-            {step === 1 ? "Batal" : "Kembali"}
-          </button>
+              <div className="grid gap-6">
+                <section className="loan-extension-account-info rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
+                  <div className="text-[14px] font-extrabold tracking-wide text-white">
+                    INFORMASI REKENING PINJAMAN
+                  </div>
 
-          <button
-            type="button"
-            disabled={step === 1 && !isValid}
-            onClick={continueWizard}
-            className={cn(
-              "ml-auto inline-flex h-10 min-w-[150px] items-center justify-center gap-2 rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
-              step === 3
-                ? "bg-[#2fb300] hover:bg-[#279800]"
-                : step === 1 && !isValid
-                  ? "cursor-not-allowed bg-slate-300 text-slate-500"
-                  : "bg-[#2563EB] hover:bg-[#1D4ED8]",
-            )}
-          >
-            {step === 3 ? "Simpan Perpanjangan" : "Lanjutkan"}
-            {step === 3 ? (
-              <Check className="h-4 w-4" strokeWidth={3} />
-            ) : (
-              <ChevronRight className="h-4 w-4" strokeWidth={3} />
-            )}
-          </button>
-        </footer>
-      </DialogContent>
-    </Dialog>
+                  <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
+                    {accountDetails.map(([label, value]) => (
+                      <AccountField
+                        key={label}
+                        label={label}
+                        value={
+                          label === "Nomor Rekening Pinjaman" ? accountNo : value
+                        }
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="bg-[#F9FAFF] px-5 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                    Data Perpanjangan Pinjaman
+                  </div>
+
+                  <div className="grid gap-5 p-5">
+                    <FormRow label="Metode Perpanjangan">
+                      <Select
+                        value={method}
+                        onValueChange={(value) => {
+                          setMethod(value as ExtensionMethod);
+                          setAdditionalTenor("");
+                          setNewTenor("");
+                          setDueMonth("");
+                          setDueYear("");
+                        }}
+                      >
+                        <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
+                          <SelectValue placeholder="Pilih Metode Perpanjangan" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-[5px] border-slate-200">
+                          <SelectItem value="Tenor Tambahan">
+                            Tenor Tambahan
+                          </SelectItem>
+                          <SelectItem value="Tenor Baru">Tenor Baru</SelectItem>
+                          <SelectItem value="Jatuh Tempo Akhir Baru">
+                            Jatuh Tempo Akhir Baru
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormRow>
+
+                    {method === "Tenor Tambahan" ? (
+                      <FormRow label="Tenor Tambahan (Bulan)">
+                        <Input
+                          value={additionalTenor}
+                          onChange={(event) =>
+                            setAdditionalTenor(
+                              event.target.value.replace(/[^\d]/g, ""),
+                            )
+                          }
+                          inputMode="numeric"
+                          placeholder="Masukkan tenor tambahan"
+                          className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                        />
+                      </FormRow>
+                    ) : null}
+
+                    {method === "Tenor Baru" ? (
+                      <FormRow label="Tenor Baru (Bulan)">
+                        <Input
+                          value={newTenor}
+                          onChange={(event) =>
+                            setNewTenor(
+                              event.target.value.replace(/[^\d]/g, ""),
+                            )
+                          }
+                          inputMode="numeric"
+                          placeholder="Masukkan tenor baru"
+                          className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                        />
+                      </FormRow>
+                    ) : null}
+
+                    {method === "Jatuh Tempo Akhir Baru" ? (
+                      <FormRow label="Jatuh Tempo Akhir Baru">
+                        <div className="grid grid-cols-2 gap-3">
+                          <Input
+                            value={dueMonth}
+                            onChange={(event) =>
+                              setDueMonth(
+                                event.target.value.replace(/[^\d]/g, "").slice(0, 2),
+                              )
+                            }
+                            inputMode="numeric"
+                            placeholder="Bulan (01-12)"
+                            className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                          />
+                          <Input
+                            value={dueYear}
+                            onChange={(event) =>
+                              setDueYear(
+                                event.target.value.replace(/[^\d]/g, "").slice(0, 4),
+                              )
+                            }
+                            inputMode="numeric"
+                            placeholder="Tahun"
+                            className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                          />
+                        </div>
+                      </FormRow>
+                    ) : null}
+
+                    <FormRow label="Tanggal Efektif">
+                      <DatePickerDmyField
+                        value={effectiveDate}
+                        onChange={setEffectiveDate}
+                        inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                        placeholder="DD-MM-YYYY"
+                      />
+                    </FormRow>
+
+                    <FormRow label="Alasan Perpanjangan" top>
+                      <Textarea
+                        value={reason}
+                        onChange={(event) => setReason(event.target.value)}
+                        className="min-h-[112px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                        placeholder="Masukkan alasan perpanjangan pinjaman"
+                      />
+                    </FormRow>
+                  </div>
+                </section>
+              </div>
+            ) : null}
+
+            {step === 2 ? (
+              <div className="grid gap-6">
+                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                    Ringkasan Perpanjangan Pinjaman
+                  </div>
+
+                  <div className="safe-x-scroll">
+                    <table className="w-full min-w-[650px] border-collapse">
+                      <thead className="bg-white">
+                        <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-black">
+                          <th className="w-[40%] px-4 py-3">Informasi</th>
+                          <th className="w-[30%] px-4 py-3">Sebelum Perpanjangan</th>
+                          <th className="w-[30%] px-4 py-3">Sesudah Perpanjangan</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          ["Tenor", `${OLD_TENOR} Bulan`, `${simulation.tenor} Bulan`],
+                          ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE, simulation.dueDate],
+                          ["Angsuran", formatIdr(simulation.oldInstallment), formatIdr(simulation.newInstallment)],
+                          ["Total Bunga Masa Depan", formatIdr(simulation.oldInterest), formatIdr(simulation.newInterest)],
+                        ].map(([label, before, after], index) => (
+                          <tr
+                            key={label}
+                            className={cn(
+                              "border-b border-slate-100 text-[12px] text-black last:border-b-0",
+                              index % 2 ? "bg-slate-50/60" : "bg-white",
+                            )}
+                          >
+                            <td className="px-4 py-3">{label}</td>
+                            <td className="px-4 py-3 tabular-nums">{before}</td>
+                            <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">
+                              {after}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
+                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
+                    Alasan Perpanjangan
+                  </div>
+                  <p className="px-4 py-4 text-[14px] leading-relaxed text-black">
+                    {reason}
+                  </p>
+                </section>
+
+                {method ? (
+                  <LoanExtensionMethodSummarySection
+                    method={method}
+                    additionalTenor={additionalTenor}
+                    newTenor={simulation.tenor}
+                    newDueDate={simulation.dueDate}
+                  />
+                ) : null}
+
+                <PaymentScheduleTable rows={simulation.scheduleRows} />
+              </div>
+            ) : null}
+          </main>
+
+          <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
+            <button
+              type="button"
+              onClick={() =>
+                step === 1
+                  ? onOpenChange(false)
+                  : setStep((current) => (current - 1) as Step)
+              }
+              className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
+            >
+              {step === 1 ? (
+                <X className="h-4 w-4" strokeWidth={3} />
+              ) : (
+                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
+              )}
+              {step === 1 ? "Batal" : "Kembali"}
+            </button>
+
+            {step === 2 ? (
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-10 min-w-[90px] items-center justify-center rounded-[5px] bg-transparent px-5 text-[12px] font-semibold text-[#DC3545] transition hover:text-[#B71C2B]"
+              >
+                Batal
+              </button>
+            ) : null}
+
+            <button
+              type="button"
+              disabled={step === 1 && !isValid}
+              onClick={continueWizard}
+              className={cn(
+                "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
+                step === 2
+                  ? "min-w-[172px] gap-[9px] bg-[#2fb300] hover:bg-[#279800]"
+                  : step === 1 && !isValid
+                    ? "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500"
+                    : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
+              )}
+            >
+              {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
+              {step === 2 ? (
+                <Check className="h-5 w-5" strokeWidth={3.5} />
+              ) : (
+                <ChevronRight className="h-4 w-4" strokeWidth={3} />
+              )}
+            </button>
+          </footer>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
