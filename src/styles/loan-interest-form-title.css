@@ -1,0 +1,20 @@
+[data-loan-interest-wizard="true"]
+  main
+  > div.grid.gap-7
+  > div.overflow-hidden.rounded-\[12px\].border.border-slate-200.bg-white
+  > div.bg-\[\#F9FAFF\] {
+  font-size: 0 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  main
+  > div.grid.gap-7
+  > div.overflow-hidden.rounded-\[12px\].border.border-slate-200.bg-white
+  > div.bg-\[\#F9FAFF\]::before {
+  content: "Data Perubahan Suku Bunga";
+  color: #000000;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
