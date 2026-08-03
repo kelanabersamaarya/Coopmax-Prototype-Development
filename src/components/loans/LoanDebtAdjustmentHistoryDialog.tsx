@@ -101,7 +101,10 @@ export default function LoanDebtAdjustmentHistoryDialog({
     window.addEventListener("storage", syncHistory);
 
     return () => {
-      window.removeEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, syncHistory);
+      window.removeEventListener(
+        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
+        syncHistory,
+      );
       window.removeEventListener("storage", syncHistory);
     };
   }, [accountNo, open]);
@@ -148,35 +151,39 @@ export default function LoanDebtAdjustmentHistoryDialog({
                 <thead className="bg-[#F9FAFF]">
                   <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
                     <th className="w-[82px] px-3 py-3 text-left">Angsuran Ke</th>
-                    <th className="w-[150px] px-3 py-3 text-right">
+                    <th className="w-[150px] px-3 py-3 text-left">
                       Tagihan Bunga
                       <br />
                       Sebelum Penyesuaian
                     </th>
-                    <th className="w-[125px] px-3 py-3">Jenis Penyesuaian</th>
-                    <th className="w-[130px] px-3 py-3 text-right">
+                    <th className="w-[125px] px-3 py-3 text-left">
+                      Jenis Penyesuaian
+                    </th>
+                    <th className="w-[130px] px-3 py-3 text-left">
                       Nominal Penyesuaian
                     </th>
-                    <th className="w-[180px] px-3 py-3">
+                    <th className="w-[180px] px-3 py-3 text-left">
                       Alasan Penyesuaian
                     </th>
-                    <th className="w-[155px] px-3 py-3 text-right">
+                    <th className="w-[155px] px-3 py-3 text-left">
                       Tagihan Bunga
                       <br />
                       Sesudah Penyesuaian
                     </th>
-                    <th className="w-[155px] px-3 py-3 text-right">
+                    <th className="w-[155px] px-3 py-3 text-left">
                       Total Tagihan
                       <br />
                       Sebelum Penyesuaian
                     </th>
-                    <th className="w-[135px] px-3 py-3 text-right">
+                    <th className="w-[135px] px-3 py-3 text-left">
                       Total Tagihan
                       <br />
                       Setelah Penyesuaian
                     </th>
-                    <th className="w-[130px] px-3 py-3">Diubah Oleh</th>
-                    <th className="w-[175px] px-3 py-3">
+                    <th className="w-[130px] px-3 py-3 text-left">
+                      Diubah Oleh
+                    </th>
+                    <th className="w-[175px] px-3 py-3 text-left">
                       Tanggal & Waktu Penyesuaian
                     </th>
                   </tr>
@@ -195,7 +202,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
                   ) : (
                     rows.map((row) => (
                       <tr key={row.id} className="bg-white">
-                        <Cell align="left">{row.installmentNo}</Cell>
+                        <Cell>{row.installmentNo}</Cell>
                         <Cell align="right">{row.interestBefore}</Cell>
                         <Cell>{row.adjustmentType}</Cell>
                         <Cell align="right">{row.adjustmentAmount}</Cell>
