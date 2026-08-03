@@ -41,6 +41,7 @@ type SimulationRow = {
 const OLD_TENOR = 12;
 const OLD_DUE_DATE = "07-04-2027";
 const REMAINING_PRINCIPAL = 10_553_571;
+const MONTHLY_PRINCIPAL = 833_333;
 const OLD_MONTHLY_INTEREST = 120_000;
 
 const accountDetails: AccountDetail[] = [
