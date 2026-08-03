@@ -10,6 +10,8 @@ const methods = [
 
 type ExtensionMethod = (typeof methods)[number];
 
+const selectedMethodByWizard = new WeakMap<HTMLElement, ExtensionMethod>();
+
 function getMethodField() {
   const wizard = document.querySelector<HTMLElement>(
     '[data-loan-extension-wizard="true"]',
@@ -21,18 +23,22 @@ function getMethodField() {
     (element.textContent ?? "").trim().startsWith("Metode Perpanjangan"),
   );
 
-  if (!label) return null;
-
-  const field = label.parentElement;
-  if (!field) return null;
-
-  const trigger = field.querySelector<HTMLElement>(
+  const field = label?.parentElement;
+  const trigger = field?.querySelector<HTMLElement>(
     'button[role="combobox"], [data-slot="select-trigger"]',
   );
 
-  if (!trigger) return null;
+  if (!wizard || !field || !trigger) return null;
 
-  return { field, trigger };
+  return { wizard, field, trigger };
+}
+
+function getSelectedMethodFromTrigger(trigger: HTMLElement) {
+  const value = (trigger.textContent ?? "").trim();
+
+  return methods.includes(value as ExtensionMethod)
+    ? (value as ExtensionMethod)
+    : null;
 }
 
 function selectMethod(trigger: HTMLElement, method: ExtensionMethod) {
@@ -47,31 +53,34 @@ function selectMethod(trigger: HTMLElement, method: ExtensionMethod) {
   }, 50);
 }
 
-export default function LoanExtensionMethodRadioGroup() {
-  const [selectedMethod, setSelectedMethod] =
-    React.useState<ExtensionMethod | "">("");
+function syncRadioSelection(
+  radios: HTMLDivElement,
+  method: ExtensionMethod | null,
+) {
+  radios.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach(
+    (radio) => {
+      radio.checked = radio.value === method;
+    },
+  );
+}
 
+export default function LoanExtensionMethodRadioGroup() {
   React.useEffect(() => {
     let intervalId = 0;
-    let mutationObserver: MutationObserver | null = null;
+    let observer: MutationObserver | null = null;
     let mountedRadios: HTMLDivElement | null = null;
     let hiddenTrigger: HTMLElement | null = null;
-
-    const syncRadioValue = () => {
-      if (!hiddenTrigger) return;
-
-      const value = (hiddenTrigger.textContent ?? "").trim();
-      if (!methods.includes(value as ExtensionMethod)) return;
-
-      setSelectedMethod(value as ExtensionMethod);
-    };
 
     const mountRadioButtons = () => {
       const result = getMethodField();
 
       if (!result) return;
 
-      const { field, trigger } = result;
+      const { wizard, field, trigger } = result;
+      const selectedFromState = getSelectedMethodFromTrigger(trigger);
+      const rememberedMethod = selectedMethodByWizard.get(wizard);
+      const activeMethod = selectedFromState ?? rememberedMethod ?? null;
+
       const existingRadios = field.querySelector<HTMLDivElement>(
         '[data-loan-extension-method-radios="true"]',
       );
@@ -80,7 +89,7 @@ export default function LoanExtensionMethodRadioGroup() {
         mountedRadios = existingRadios;
         hiddenTrigger = trigger;
         trigger.style.display = "none";
-        syncRadioValue();
+        syncRadioSelection(existingRadios, activeMethod);
         return;
       }
 
@@ -98,13 +107,15 @@ export default function LoanExtensionMethodRadioGroup() {
         radio.type = "radio";
         radio.name = "loan-extension-method";
         radio.value = method;
+        radio.checked = method === activeMethod;
         radio.className =
           "h-4 w-4 border-slate-300 accent-[#2563EB] text-[#2563EB]";
 
         radio.addEventListener("change", () => {
           if (!radio.checked) return;
 
-          setSelectedMethod(method);
+          selectedMethodByWizard.set(wizard, method);
+          syncRadioSelection(radios, method);
           selectMethod(trigger, method);
         });
 
@@ -121,11 +132,21 @@ export default function LoanExtensionMethodRadioGroup() {
       hiddenTrigger = trigger;
       trigger.style.display = "none";
 
-      syncRadioValue();
+      observer?.disconnect();
+      observer = new MutationObserver(() => {
+        const selectedMethod =
+          getSelectedMethodFromTrigger(trigger) ??
+          selectedMethodByWizard.get(wizard) ??
+          null;
 
-      mutationObserver?.disconnect();
-      mutationObserver = new MutationObserver(syncRadioValue);
-      mutationObserver.observe(trigger, {
+        if (selectedMethod) {
+          selectedMethodByWizard.set(wizard, selectedMethod);
+        }
+
+        syncRadioSelection(radios, selectedMethod);
+      });
+
+      observer.observe(trigger, {
         childList: true,
         characterData: true,
         subtree: true,
@@ -133,11 +154,11 @@ export default function LoanExtensionMethodRadioGroup() {
     };
 
     mountRadioButtons();
-    intervalId = window.setInterval(mountRadioButtons, 300);
+    intervalId = window.setInterval(mountRadioButtons, 250);
 
     return () => {
       window.clearInterval(intervalId);
-      mutationObserver?.disconnect();
+      observer?.disconnect();
       mountedRadios?.remove();
 
       if (hiddenTrigger) {
@@ -145,16 +166,6 @@ export default function LoanExtensionMethodRadioGroup() {
       }
     };
   }, []);
-
-  React.useEffect(() => {
-    const radios = document.querySelectorAll<HTMLInputElement>(
-      '[data-loan-extension-method-radios="true"] input[type="radio"]',
-    );
-
-    radios.forEach((radio) => {
-      radio.checked = radio.value === selectedMethod;
-    });
-  }, [selectedMethod]);
 
   return null;
 }
