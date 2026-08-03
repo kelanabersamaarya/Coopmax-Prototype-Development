@@ -30,18 +30,18 @@ type AccountDetail = {
 };
 
 type SimulationRow = {
-  installmentNo: number;
   dueDate: string;
-  principal: number;
-  interest: number;
-  installment: number;
-  remainingPrincipal: number;
+  totalUnpaid: number;
+  principalBill: number;
+  interestBill: number;
+  remainingPrincipalBill: number;
+  remainingInterestBill: number;
+  penaltyBill: number;
 };
 
 const OLD_TENOR = 12;
 const OLD_DUE_DATE = "07-04-2027";
 const REMAINING_PRINCIPAL = 10_553_571;
-const MONTHLY_PRINCIPAL = 833_333;
 const OLD_MONTHLY_INTEREST = 120_000;
 
 const accountDetails: AccountDetail[] = [
@@ -63,7 +63,9 @@ const accountDetails: AccountDetail[] = [
 ];
 
 function formatIdr(value: number) {
-  return Math.max(0, Math.round(value)).toLocaleString("id-ID").replace(/,/g, ".");
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
 }
 
 function parseDmy(value: string) {
@@ -312,39 +314,75 @@ function NewPaymentScheduleTable({ rows }: { rows: SimulationRow[] }) {
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[860px] border-collapse">
+        <table className="w-full min-w-[1160px] border-collapse text-[13px]">
           <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[120px] px-4 py-3">Angsuran Ke</th>
-              <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-              <th className="w-[160px] px-4 py-3 text-right">Angsuran Pokok</th>
-              <th className="w-[160px] px-4 py-3 text-right">Angsuran Bunga</th>
-              <th className="w-[180px] px-4 py-3 text-right">Total Angsuran</th>
-              <th className="w-[180px] px-4 py-3 text-right">Sisa Pokok</th>
+            <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
+              <th className="w-[130px] px-4 py-3">
+                Jatuh
+                <br />
+                Tempo
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+              <th className="w-[145px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[145px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[145px] px-4 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
             </tr>
           </thead>
           <tbody>
             {pagedRows.map((row, index) => (
               <tr
-                key={`${row.installmentNo}-${row.dueDate}`}
+                key={row.dueDate}
                 className={cn(
-                  "border-b border-slate-100 text-[12px] text-black last:border-b-0",
+                  "border-b border-slate-100 text-[13px] text-slate-900 last:border-b-0",
                   index % 2 === 1 ? "bg-slate-50/60" : "bg-white",
                 )}
               >
-                <td className="px-4 py-3 tabular-nums">{row.installmentNo}</td>
-                <td className="px-4 py-3 tabular-nums">{row.dueDate}</td>
-                <td className="px-4 py-3 text-right tabular-nums">
-                  {formatIdr(row.principal)}
+                <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
+                  {row.dueDate}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums text-[#2563EB]">
-                  {formatIdr(row.interest)}
+                <td className="px-4 py-3 text-right font-medium tabular-nums whitespace-nowrap">
+                  {formatIdr(row.totalUnpaid)}
                 </td>
-                <td className="px-4 py-3 text-right font-semibold tabular-nums text-[#2563EB]">
-                  {formatIdr(row.installment)}
+                <td className="px-4 py-3 text-right font-medium tabular-nums whitespace-nowrap">
+                  {formatIdr(row.principalBill)}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums">
-                  {formatIdr(row.remainingPrincipal)}
+                <td className="px-4 py-3 text-right font-medium tabular-nums whitespace-nowrap text-[#2563EB]">
+                  {formatIdr(row.interestBill)}
+                </td>
+                <td className="px-4 py-3 text-right font-medium tabular-nums whitespace-nowrap">
+                  {formatIdr(row.remainingPrincipalBill)}
+                </td>
+                <td className="px-4 py-3 text-right font-medium tabular-nums whitespace-nowrap">
+                  {formatIdr(row.remainingInterestBill)}
+                </td>
+                <td className="px-4 py-3 text-right font-medium tabular-nums whitespace-nowrap">
+                  {formatIdr(row.penaltyBill)}
                 </td>
               </tr>
             ))}
@@ -496,22 +534,27 @@ export default function LoanExtensionWizard({
     const scheduleRows: SimulationRow[] = Array.from(
       { length: resolvedNewTenor },
       (_, index) => {
-        const principal = Math.min(
+        const principalBill = Math.min(
           newMonthlyPrincipal,
           Math.max(0, REMAINING_PRINCIPAL - newMonthlyPrincipal * index),
         );
-        const remainingPrincipal = Math.max(
+        const remainingPrincipalBill = Math.max(
           0,
           REMAINING_PRINCIPAL - newMonthlyPrincipal * (index + 1),
         );
+        const penaltyBill = index < 3 ? 75_000 : 0;
+        const totalUnpaid = principalBill + newMonthlyInterest + penaltyBill;
+        const remainingInterestBill =
+          (remainingPrincipalBill * 12) / 100 / 12;
 
         return {
-          installmentNo: index + 1,
           dueDate: formatDmy(addMonths(new Date(2026, 7, 7), index)),
-          principal,
-          interest: newMonthlyInterest,
-          installment: principal + newMonthlyInterest,
-          remainingPrincipal,
+          totalUnpaid,
+          principalBill,
+          interestBill: newMonthlyInterest,
+          remainingPrincipalBill,
+          remainingInterestBill,
+          penaltyBill,
         };
       },
     );
@@ -728,8 +771,6 @@ export default function LoanExtensionWizard({
                 newFutureInterest={simulation.newFutureInterest}
               />
 
-              <NewPaymentScheduleTable rows={simulation.scheduleRows} />
-
               <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                 <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
                   Alasan Perpanjangan
@@ -738,6 +779,8 @@ export default function LoanExtensionWizard({
                   {reason}
                 </p>
               </div>
+
+              <NewPaymentScheduleTable rows={simulation.scheduleRows} />
             </div>
           ) : null}
 
