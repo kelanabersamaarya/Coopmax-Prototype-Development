@@ -129,9 +129,9 @@ function AccountSummary({
           account.accountNo === "SMG260004" ? "12.000.000,00" : account.balance,
         ],
         ["Sisa Pinjaman", account.balance],
-        ["Tagihan Pokok", "833.333,00"],
-        ["Tagihan Bunga", "83.333,00"],
-        ["Tagihan Denda", "75.000,00"],
+        ["Total Pokok", "833.333,00"],
+        ["Total Bunga", "83.333,00"],
+        ["Total Denda", "75.000,00"],
         ["Total Tagihan", "991.666,00"],
       ]
     : [
