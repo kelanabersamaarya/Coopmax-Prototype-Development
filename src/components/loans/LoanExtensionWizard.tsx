@@ -17,7 +17,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
-import LoanExtensionMethodSummarySection from "@/components/loans/LoanExtensionMethodSummarySection";
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
 import { addLoanExtensionHistory } from "@/lib/loanExtensionHistoryStore";
 
@@ -115,7 +114,12 @@ function FieldRow({
         top ? "sm:items-start" : "sm:items-center",
       )}
     >
-      <label className={cn("text-[14px] font-normal text-[#002060]", top && "pt-2")}>
+      <label
+        className={cn(
+          "text-[14px] font-normal text-[#002060]",
+          top && "pt-2",
+        )}
+      >
         {label} <span className="text-rose-600">*</span>
       </label>
       {children}
@@ -401,6 +405,38 @@ export default function LoanExtensionWizard({
     setSuccessOpen(true);
   }
 
+  const extensionMethodValue =
+    method === "Tenor Tambahan"
+      ? `${additionalTenor} Bulan`
+      : method === "Tenor Baru"
+        ? `${simulation.tenor} Bulan`
+        : simulation.dueDate;
+
+  const summaryRows = [
+    ["Metode Perpanjangan", method || "-"],
+    [
+      method === "Jatuh Tempo Akhir Baru"
+        ? "Jatuh Tempo Akhir Baru"
+        : method === "Tenor Tambahan"
+          ? "Tenor Tambahan"
+          : "Tenor Baru",
+      extensionMethodValue,
+    ],
+    ["Tanggal Efektif", effectiveDate],
+    ["Tenor", `${OLD_TENOR} Bulan`, `${simulation.tenor} Bulan`],
+    ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE, simulation.dueDate],
+    [
+      "Angsuran",
+      formatIdr(simulation.oldInstallment),
+      formatIdr(simulation.newInstallment),
+    ],
+    [
+      "Total Bunga Masa Depan",
+      formatIdr(simulation.oldInterest),
+      formatIdr(simulation.newInterest),
+    ],
+  ];
+
   return (
     <>
       <LoanExtensionHistoryDialog
@@ -600,20 +636,7 @@ export default function LoanExtensionWizard({
                         </tr>
                       </thead>
                       <tbody>
-                        {[
-                          ["Tenor", `${OLD_TENOR} Bulan`, `${simulation.tenor} Bulan`],
-                          ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE, simulation.dueDate],
-                          [
-                            "Angsuran",
-                            formatIdr(simulation.oldInstallment),
-                            formatIdr(simulation.newInstallment),
-                          ],
-                          [
-                            "Total Bunga Masa Depan",
-                            formatIdr(simulation.oldInterest),
-                            formatIdr(simulation.newInterest),
-                          ],
-                        ].map(([label, before, after], index) => (
+                        {summaryRows.map(([label, before, after], index) => (
                           <tr
                             key={label}
                             className={cn(
@@ -621,31 +644,34 @@ export default function LoanExtensionWizard({
                               index % 2 ? "bg-slate-50/60" : "bg-white",
                             )}
                           >
-                            <td className="px-4 py-3">{label}</td>
-                            <td className="px-4 py-3 tabular-nums">{before}</td>
-                            <td className="px-4 py-3 font-semibold tabular-nums text-[#2563EB]">
-                              {after}
+                            <td className="px-4 py-3 font-medium">{label}</td>
+                            <td className="px-4 py-3 tabular-nums">
+                              {after ? before : "-"}
+                            </td>
+                            <td
+                              className={cn(
+                                "px-4 py-3",
+                                after
+                                  ? "font-semibold tabular-nums text-[#2563EB]"
+                                  : "font-semibold text-[#2563EB]",
+                              )}
+                            >
+                              {after ?? before}
                             </td>
                           </tr>
                         ))}
+
+                        <tr className="border-b border-slate-100 bg-white">
+                          <td className="px-4 py-3 font-medium">
+                            Alasan Perpanjangan
+                          </td>
+                          <td className="px-4 py-3 text-slate-400">-</td>
+                          <td className="px-4 py-3 font-semibold text-slate-900">
+                            {reason}
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
-                  </div>
-                </section>
-
-                <LoanExtensionMethodSummarySection
-                  method={method || "Tenor Baru"}
-                  additionalTenor={additionalTenor}
-                  newTenor={simulation.tenor}
-                  newDueDate={simulation.dueDate}
-                />
-
-                <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
-                  <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-                    Alasan Perpanjangan
-                  </div>
-                  <div className="px-4 py-4 text-[14px] font-normal leading-relaxed text-slate-900">
-                    {reason}
                   </div>
                 </section>
 
