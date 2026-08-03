@@ -44,7 +44,6 @@ const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
   ["Nama Anggota", "Bapak Bagus"],
   ["Produk Pinjaman", "Pinjaman Billing"],
-  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
   ["Baki Debet", "10.553.571,00"],
   ["Nominal Angsuran", "1.120.000,00"],
   ["Suku Bunga", "12,00% per tahun"],
@@ -98,7 +97,7 @@ function AccountField({
   value,
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
 }) {
   return (
     <div className="loan-extension-account-field min-w-0">
@@ -583,11 +582,18 @@ export default function LoanExtensionWizard({
                       <AccountField
                         key={label}
                         label={label}
-                        value={
-                          label === "No. Rek. Pinjaman" ? accountNo : value
-                        }
+                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
                       />
                     ))}
+
+                    <AccountField
+                      label="Status Pinjaman"
+                      value={
+                        <span className="inline-flex rounded-[5px] bg-[#31b900] px-2.5 py-1 text-[13px] font-semibold leading-none text-white">
+                          Aktif / Sudah Dicairkan
+                        </span>
+                      }
+                    />
                   </div>
                 </section>
 
