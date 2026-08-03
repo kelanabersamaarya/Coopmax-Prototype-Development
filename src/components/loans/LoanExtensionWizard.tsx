@@ -257,40 +257,45 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[1160px] border-collapse text-[13px]">
+        <table className="w-full min-w-[1080px] border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[130px] px-4 py-3">
+              <th className="w-[72px] px-3 py-3">
+                Angsuran
+                <br />
+                Ke
+              </th>
+              <th className="w-[96px] px-3 py-3">
                 Jatuh
                 <br />
                 Tempo
               </th>
-              <th className="w-[165px] px-4 py-3 text-right">
+              <th className="w-[120px] px-3 py-3 text-right">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[145px] px-4 py-3 text-right">
+              <th className="w-[145px] px-3 py-3 text-right">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[145px] px-4 py-3 text-right">
+              <th className="w-[145px] px-3 py-3 text-right">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[165px] px-4 py-3 text-right">
+              <th className="w-[165px] px-3 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[165px] px-4 py-3 text-right">
+              <th className="w-[165px] px-3 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[145px] px-4 py-3 text-right">
+              <th className="w-[145px] px-3 py-3 text-right">
                 Tagihan
                 <br />
                 Denda
@@ -306,25 +311,28 @@ function PaymentScheduleTable({ rows }: { rows: ScheduleRow[] }) {
                   index % 2 === 1 ? "bg-slate-50/60" : "bg-white",
                 )}
               >
-                <td className="px-4 py-3 font-semibold tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 text-center font-medium tabular-nums whitespace-nowrap">
+                  {start + index + 1}
+                </td>
+                <td className="px-3 py-3 font-semibold tabular-nums whitespace-nowrap">
                   {row.dueDate}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                   {formatIdr(row.totalUnpaid)}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                   {formatIdr(row.principalBill)}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap text-[#2563EB]">
+                <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap text-[#2563EB]">
                   {formatIdr(row.interestBill)}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                   {formatIdr(row.remainingPrincipal)}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                   {formatIdr(row.remainingInterest)}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                   {formatIdr(row.penaltyBill)}
                 </td>
               </tr>
