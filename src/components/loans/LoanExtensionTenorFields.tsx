@@ -57,7 +57,10 @@ function syncTenorFields() {
   }
 
   const additionalTenorLabel = Array.from(wizard.querySelectorAll("label")).find(
-    (label) => label.textContent?.trim() === "Tenor Tambahan (Bulan)",
+    (label) =>
+      (label.textContent ?? "")
+        .trim()
+        .startsWith("Tenor Tambahan (Bulan)"),
   );
 
   const additionalTenorField = additionalTenorLabel?.parentElement;
@@ -88,7 +91,6 @@ function syncTenorFields() {
       TOTAL_FIELD_ID,
       "Total Tenor Saat Ini",
       `${CURRENT_TENOR} Bulan`,
-      "Total tenor setelah perpanjangan.",
     );
 
     additionalTenorField.insertAdjacentElement("afterend", created.wrapper);
@@ -105,9 +107,7 @@ function syncTenorFields() {
 
 export default function LoanExtensionTenorFields() {
   React.useEffect(() => {
-    const observer = new MutationObserver(() => {
-      syncTenorFields();
-    });
+    const observer = new MutationObserver(syncTenorFields);
 
     observer.observe(document.body, {
       childList: true,
