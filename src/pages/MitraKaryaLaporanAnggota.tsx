@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, UsersRound, X } from "lucide-react";
+import { FileSpreadsheet, Printer, Search, UsersRound, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 type Member = {
   id: string;
@@ -110,6 +111,56 @@ function parseAmount(value: string) {
   return digits ? Number(digits) : 0;
 }
 
+function ReportInfoPanel({
+  onExport,
+  onPrint,
+}: {
+  onExport: () => void;
+  onPrint: () => void;
+}) {
+  return (
+    <aside className="rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm">
+      <div className="flex items-start gap-3">
+        <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0ea5c6] text-white">
+          i
+        </span>
+
+        <div className="min-w-0">
+          <h2 className="text-[16px] font-extrabold leading-snug text-[#0895bd]">
+            Informasi Laporan Anggota
+          </h2>
+
+          <p className="mt-2 text-[14px] font-normal leading-relaxed text-[#0097c2]">
+            Gunakan filter di sebelah kiri untuk menampilkan data anggota sesuai
+            kebutuhan. Hasil laporan dapat diekspor atau dicetak setelah pencarian
+            dilakukan.
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={onExport}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-violet-600 px-4 text-[13px] font-semibold text-white transition hover:bg-violet-700"
+            >
+              <FileSpreadsheet className="h-4 w-4" />
+              Export Excel
+            </button>
+
+            <button
+              type="button"
+              onClick={onPrint}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] border border-[#0ea5c6] bg-white px-4 text-[13px] font-semibold text-[#078caf] transition hover:bg-cyan-50"
+            >
+              <Printer className="h-4 w-4" />
+              Cetak
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export default function MitraKaryaLaporanAnggota() {
   const [nameOrNo, setNameOrNo] = React.useState("");
   const [registeredStart, setRegisteredStart] = React.useState("");
@@ -183,6 +234,23 @@ export default function MitraKaryaLaporanAnggota() {
     tag,
   ]);
 
+  function handleExport() {
+    toast.success("Export Excel (prototype)", {
+      description: `${filtered.length} data anggota siap diekspor.`,
+    });
+  }
+
+  function handlePrint() {
+    if (!isSearched) {
+      toast("Lakukan pencarian terlebih dahulu", {
+        description: "Hasil laporan akan tersedia setelah tombol Cari ditekan.",
+      });
+      return;
+    }
+
+    window.print();
+  }
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -190,178 +258,182 @@ export default function MitraKaryaLaporanAnggota() {
           Laporan Anggota
         </h1>
 
-        <div className="mt-6 max-w-[565px]">
-          <div className="grid gap-[10px]">
-            <FieldRow label="Nama/No Anggota">
-              <Input
-                value={nameOrNo}
-                onChange={(event) => setNameOrNo(event.target.value)}
-                placeholder="Masukkan nama/no anggota.."
-                className={fieldClassName}
-              />
-            </FieldRow>
-
-            <FieldRow label="Tanggal Daftar">
-              <div className="grid grid-cols-2 gap-4">
+        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,565px)_minmax(320px,1fr)]">
+          <div className="max-w-[565px]">
+            <div className="grid gap-[10px]">
+              <FieldRow label="Nama/No Anggota">
                 <Input
-                  value={registeredStart}
-                  onChange={(event) => setRegisteredStart(event.target.value)}
-                  placeholder="Masukkan tanggal awal"
+                  value={nameOrNo}
+                  onChange={(event) => setNameOrNo(event.target.value)}
+                  placeholder="Masukkan nama/no anggota.."
                   className={fieldClassName}
                 />
+              </FieldRow>
+
+              <FieldRow label="Tanggal Daftar">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    value={registeredStart}
+                    onChange={(event) => setRegisteredStart(event.target.value)}
+                    placeholder="Masukkan tanggal awal"
+                    className={fieldClassName}
+                  />
+                  <div className="relative">
+                    <Input
+                      value={registeredEnd}
+                      onChange={(event) => setRegisteredEnd(event.target.value)}
+                      placeholder="Masukkan tanggal akhir"
+                      className={cn(fieldClassName, "pr-10")}
+                    />
+                    <ClearButton
+                      onClick={() => setRegisteredEnd("")}
+                      label="Hapus tanggal akhir"
+                    />
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Kategori">
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger
+                    className={cn(
+                      fieldClassName,
+                      category === "Semua"
+                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
+                        : "text-slate-900",
+                    )}
+                  >
+                    <SelectValue placeholder="Pilih Kategori" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-[5px] border-slate-200">
+                    <SelectItem value="Semua">Pilih Kategori</SelectItem>
+                    <SelectItem value="Anggota">Anggota</SelectItem>
+                    <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Status">
+                <Select value={status} onValueChange={setStatus}>
+                  <SelectTrigger
+                    className={cn(
+                      fieldClassName,
+                      status === "Semua"
+                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
+                        : "text-slate-900",
+                    )}
+                  >
+                    <SelectValue placeholder="Pilih Status Anggota" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-[5px] border-slate-200">
+                    <SelectItem value="Semua">Pilih Status Anggota</SelectItem>
+                    <SelectItem value="Aktif">Aktif</SelectItem>
+                    <SelectItem value="Nonaktif">Nonaktif</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Produk">
+                <Input
+                  value={product}
+                  onChange={(event) => setProduct(event.target.value)}
+                  placeholder="Pilih produk yang dimiliki"
+                  className={fieldClassName}
+                />
+              </FieldRow>
+
+              <FieldRow label="Wilayah">
+                <Input
+                  value={region}
+                  onChange={(event) => setRegion(event.target.value)}
+                  placeholder="Pilih wilayah"
+                  className={fieldClassName}
+                />
+              </FieldRow>
+
+              <FieldRow label="Tag">
+                <Input
+                  value={tag}
+                  onChange={(event) => setTag(event.target.value)}
+                  placeholder="Pilih tag (satu atau lebih)"
+                  className={fieldClassName}
+                />
+              </FieldRow>
+
+              <FieldRow label="Tanggal Saldo">
                 <div className="relative">
                   <Input
-                    value={registeredEnd}
-                    onChange={(event) => setRegisteredEnd(event.target.value)}
-                    placeholder="Masukkan tanggal akhir"
+                    value={balanceDate}
+                    onChange={(event) => setBalanceDate(event.target.value)}
+                    placeholder="Masukkan tanggal saldo"
                     className={cn(fieldClassName, "pr-10")}
                   />
                   <ClearButton
-                    onClick={() => setRegisteredEnd("")}
-                    label="Hapus tanggal akhir"
+                    onClick={() => setBalanceDate("")}
+                    label="Hapus tanggal saldo"
                   />
                 </div>
-              </div>
-            </FieldRow>
+              </FieldRow>
 
-            <FieldRow label="Kategori">
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger
-                  className={cn(
-                    fieldClassName,
-                    category === "Semua"
-                      ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                      : "text-slate-900",
-                  )}
-                >
-                  <SelectValue placeholder="Pilih Kategori" />
-                </SelectTrigger>
-                <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Semua">Pilih Kategori</SelectItem>
-                  <SelectItem value="Anggota">Anggota</SelectItem>
-                  <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
-                </SelectContent>
-              </Select>
-            </FieldRow>
+              <FieldRow label="Saldo Simpanan">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    value={balanceMin}
+                    onChange={(event) => setBalanceMin(event.target.value)}
+                    placeholder="Saldo Minimal"
+                    className={fieldClassName}
+                    inputMode="decimal"
+                  />
+                  <Input
+                    value={balanceMax}
+                    onChange={(event) => setBalanceMax(event.target.value)}
+                    placeholder="Saldo Maksimal"
+                    className={fieldClassName}
+                    inputMode="decimal"
+                  />
+                </div>
+              </FieldRow>
 
-            <FieldRow label="Status">
-              <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger
-                  className={cn(
-                    fieldClassName,
-                    status === "Semua"
-                      ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                      : "text-slate-900",
-                  )}
-                >
-                  <SelectValue placeholder="Pilih Status Anggota" />
-                </SelectTrigger>
-                <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Semua">Pilih Status Anggota</SelectItem>
-                  <SelectItem value="Aktif">Aktif</SelectItem>
-                  <SelectItem value="Nonaktif">Nonaktif</SelectItem>
-                </SelectContent>
-              </Select>
-            </FieldRow>
+              <FieldRow label="Jenis Laporan">
+                <Select value={reportType} onValueChange={setReportType}>
+                  <SelectTrigger
+                    className={cn(
+                      fieldClassName,
+                      reportType === "Berdasarkan Simpanan Anggota"
+                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
+                        : "text-slate-900",
+                    )}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-[5px] border-slate-200">
+                    <SelectItem value="Berdasarkan Simpanan Anggota">
+                      Berdasarkan Simpanan Anggota
+                    </SelectItem>
+                    <SelectItem value="Berdasarkan Data Anggota">
+                      Berdasarkan Data Anggota
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
 
-            <FieldRow label="Produk">
-              <Input
-                value={product}
-                onChange={(event) => setProduct(event.target.value)}
-                placeholder="Pilih produk yang dimiliki"
-                className={fieldClassName}
-              />
-            </FieldRow>
-
-            <FieldRow label="Wilayah">
-              <Input
-                value={region}
-                onChange={(event) => setRegion(event.target.value)}
-                placeholder="Pilih wilayah"
-                className={fieldClassName}
-              />
-            </FieldRow>
-
-            <FieldRow label="Tag">
-              <Input
-                value={tag}
-                onChange={(event) => setTag(event.target.value)}
-                placeholder="Pilih tag (satu atau lebih)"
-                className={fieldClassName}
-              />
-            </FieldRow>
-
-            <FieldRow label="Tanggal Saldo">
-              <div className="relative">
-                <Input
-                  value={balanceDate}
-                  onChange={(event) => setBalanceDate(event.target.value)}
-                  placeholder="Masukkan tanggal saldo"
-                  className={cn(fieldClassName, "pr-10")}
-                />
-                <ClearButton
-                  onClick={() => setBalanceDate("")}
-                  label="Hapus tanggal saldo"
-                />
-              </div>
-            </FieldRow>
-
-            <FieldRow label="Saldo Simpanan">
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  value={balanceMin}
-                  onChange={(event) => setBalanceMin(event.target.value)}
-                  placeholder="Saldo Minimal"
-                  className={fieldClassName}
-                  inputMode="decimal"
-                />
-                <Input
-                  value={balanceMax}
-                  onChange={(event) => setBalanceMax(event.target.value)}
-                  placeholder="Saldo Maksimal"
-                  className={fieldClassName}
-                  inputMode="decimal"
-                />
-              </div>
-            </FieldRow>
-
-            <FieldRow label="Jenis Laporan">
-              <Select value={reportType} onValueChange={setReportType}>
-                <SelectTrigger
-                  className={cn(
-                    fieldClassName,
-                    reportType === "Berdasarkan Simpanan Anggota"
-                      ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                      : "text-slate-900",
-                  )}
-                >
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Berdasarkan Simpanan Anggota">
-                    Berdasarkan Simpanan Anggota
-                  </SelectItem>
-                  <SelectItem value="Berdasarkan Data Anggota">
-                    Berdasarkan Data Anggota
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </FieldRow>
-
-            <div className="grid sm:grid-cols-[165px_minmax(0,400px)]">
-              <div />
-              <div className="mt-2 flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => setIsSearched(true)}
-                  className="inline-flex h-[31px] items-center justify-center gap-1.5 rounded-[5px] bg-[#3BB001] px-4 text-[14px] font-semibold text-white transition hover:bg-[#349d01]"
-                >
-                  <Search className="h-4 w-4" strokeWidth={3} />
-                  Cari
-                </button>
+              <div className="grid sm:grid-cols-[165px_minmax(0,400px)]">
+                <div />
+                <div className="mt-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsSearched(true)}
+                    className="inline-flex h-[31px] items-center justify-center gap-1.5 rounded-[5px] bg-[#3BB001] px-4 text-[14px] font-semibold text-white transition hover:bg-[#349d01]"
+                  >
+                    <Search className="h-4 w-4" strokeWidth={3} />
+                    Cari
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
+          <ReportInfoPanel onExport={handleExport} onPrint={handlePrint} />
         </div>
 
         {isSearched ? (
