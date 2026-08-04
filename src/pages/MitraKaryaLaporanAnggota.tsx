@@ -5,7 +5,6 @@ import {
   Info,
   Printer,
   Search,
-  UsersRound,
   X,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -23,48 +22,68 @@ import { toast } from "sonner";
 type Member = {
   id: string;
   name: string;
+  phone: string;
   category: "Anggota" | "Calon Anggota";
   status: "Aktif" | "Nonaktif";
   product: string;
   region: string;
   tag: string;
   joined: string;
-  balance: number;
+  address: string;
+  simpananPokok: number;
+  simpananWajib: number;
+  simpananKhusus: number;
+  simpananPenyertaan: number;
 };
 
 const members: Member[] = [
   {
     id: "MKM-001",
     name: "I Made Suryana",
+    phone: "081234567890",
     category: "Anggota",
     status: "Aktif",
     product: "Simpanan Anggota",
     region: "Denpasar",
     tag: "Prioritas",
     joined: "10-01-2024",
-    balance: 2500000,
+    address: "Jl. Raya Denpasar No. 24",
+    simpananPokok: 100000,
+    simpananWajib: 2500000,
+    simpananKhusus: 150000,
+    simpananPenyertaan: 0,
   },
   {
     id: "MKM-002",
     name: "Ni Luh Kartika",
+    phone: "081987654321",
     category: "Anggota",
     status: "Aktif",
     product: "Simpanan Berjangka",
     region: "Gianyar",
     tag: "Reguler",
     joined: "18-03-2024",
-    balance: 4500000,
+    address: "Jl. Udayana No. 11, Gianyar",
+    simpananPokok: 100000,
+    simpananWajib: 1500000,
+    simpananKhusus: 400000,
+    simpananPenyertaan: 2500000,
   },
   {
     id: "MKM-003",
     name: "Komang Suardika",
+    phone: "082145678912",
     category: "Calon Anggota",
     status: "Nonaktif",
     product: "Simpanan Anggota",
     region: "Badung",
     tag: "Baru",
     joined: "04-06-2024",
-    balance: 750000,
+    address: "Jl. Dewi Sri No. 8, Badung",
+    simpananPokok: 100000,
+    simpananWajib: 500000,
+    simpananKhusus: 150000,
+    simpananPenyertaan: 0,
   },
 ];
 
@@ -122,6 +141,19 @@ function toDateValue(value: string) {
 function parseAmount(value: string) {
   const digits = value.replace(/[^\d]/g, "");
   return digits ? Number(digits) : 0;
+}
+
+function formatAmount(value: number) {
+  return `${value.toLocaleString("id-ID")},00`;
+}
+
+function getTotalSavings(member: Member) {
+  return (
+    member.simpananPokok +
+    member.simpananWajib +
+    member.simpananKhusus +
+    member.simpananPenyertaan
+  );
 }
 
 function ReportInfoPanel() {
@@ -191,6 +223,7 @@ export default function MitraKaryaLaporanAnggota() {
 
     return members.filter((member) => {
       const joinedDate = toDateValue(member.joined);
+      const totalSavings = getTotalSavings(member);
 
       return (
         (!searchValue ||
@@ -203,8 +236,8 @@ export default function MitraKaryaLaporanAnggota() {
         (!tagValue || member.tag.toLowerCase().includes(tagValue)) &&
         (!startDate || !joinedDate || joinedDate >= startDate) &&
         (!endDate || !joinedDate || joinedDate <= endDate) &&
-        (minimumBalance === null || member.balance >= minimumBalance) &&
-        (maximumBalance === null || member.balance <= maximumBalance)
+        (minimumBalance === null || totalSavings >= minimumBalance) &&
+        (maximumBalance === null || totalSavings <= maximumBalance)
       );
     });
   }, [
@@ -452,41 +485,68 @@ export default function MitraKaryaLaporanAnggota() {
 
         {isSearched ? (
           <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
-            <div className="flex items-center gap-3 text-sm font-semibold text-slate-700">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-100 text-violet-700">
-                <UsersRound className="h-5 w-5" />
-              </span>
-              Total anggota: {filtered.length}
-            </div>
-
-            <div className="mt-5 safe-x-scroll overflow-hidden rounded-xl border border-slate-200">
-              <table className="w-full min-w-[760px] border-collapse text-sm">
+            <div className="safe-x-scroll overflow-hidden rounded-xl border border-slate-200">
+              <table className="w-full min-w-[1780px] border-collapse text-sm">
                 <thead className="bg-slate-50 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
                   <tr>
-                    <th className="px-4 py-3">No.</th>
-                    <th className="px-4 py-3">ID Anggota</th>
-                    <th className="px-4 py-3">Nama Anggota</th>
-                    <th className="px-4 py-3">Produk</th>
-                    <th className="px-4 py-3">Wilayah</th>
-                    <th className="px-4 py-3">Saldo Simpanan</th>
-                    <th className="px-4 py-3">Status</th>
+                    <th className="w-[56px] px-3 py-3">No.</th>
+                    <th className="w-[130px] px-3 py-3">No. Anggota</th>
+                    <th className="w-[180px] px-3 py-3">Nama</th>
+                    <th className="w-[130px] px-3 py-3">Tanggal Daftar</th>
+                    <th className="w-[240px] px-3 py-3">Alamat</th>
+                    <th className="w-[150px] px-3 py-3">No. Handphone</th>
+                    <th className="w-[130px] px-3 py-3">Kategori</th>
+                    <th className="w-[150px] px-3 py-3 text-right">
+                      Simpanan Pokok
+                    </th>
+                    <th className="w-[150px] px-3 py-3 text-right">
+                      Simpanan Wajib
+                    </th>
+                    <th className="w-[150px] px-3 py-3 text-right">
+                      Simpanan Khusus
+                    </th>
+                    <th className="w-[170px] px-3 py-3 text-right">
+                      Simpanan Penyertaan
+                    </th>
+                    <th className="w-[150px] px-3 py-3 text-right">
+                      Total Simpanan
+                    </th>
+                    <th className="w-[110px] px-3 py-3">Status</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {filtered.map((member, index) => (
                     <tr key={member.id} className="border-t border-slate-100">
-                      <td className="px-4 py-3 tabular-nums">{index + 1}</td>
-                      <td className="px-4 py-3 font-semibold text-violet-700">
+                      <td className="px-3 py-3 tabular-nums">{index + 1}</td>
+                      <td className="px-3 py-3 font-semibold text-violet-700">
                         {member.id}
                       </td>
-                      <td className="px-4 py-3 font-medium">{member.name}</td>
-                      <td className="px-4 py-3">{member.product}</td>
-                      <td className="px-4 py-3">{member.region}</td>
-                      <td className="px-4 py-3 text-right tabular-nums">
-                        {member.balance.toLocaleString("id-ID")},00
+                      <td className="px-3 py-3 font-medium">{member.name}</td>
+                      <td className="px-3 py-3 tabular-nums whitespace-nowrap">
+                        {member.joined}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-3">{member.address}</td>
+                      <td className="px-3 py-3 tabular-nums whitespace-nowrap">
+                        {member.phone}
+                      </td>
+                      <td className="px-3 py-3">{member.category}</td>
+                      <td className="px-3 py-3 text-right tabular-nums">
+                        {formatAmount(member.simpananPokok)}
+                      </td>
+                      <td className="px-3 py-3 text-right tabular-nums">
+                        {formatAmount(member.simpananWajib)}
+                      </td>
+                      <td className="px-3 py-3 text-right tabular-nums">
+                        {formatAmount(member.simpananKhusus)}
+                      </td>
+                      <td className="px-3 py-3 text-right tabular-nums">
+                        {formatAmount(member.simpananPenyertaan)}
+                      </td>
+                      <td className="px-3 py-3 text-right font-bold tabular-nums">
+                        {formatAmount(getTotalSavings(member))}
+                      </td>
+                      <td className="px-3 py-3">
                         <span
                           className={cn(
                             "inline-flex rounded-full px-3 py-1 text-xs font-bold text-white",
@@ -504,7 +564,7 @@ export default function MitraKaryaLaporanAnggota() {
                   {filtered.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={7}
+                        colSpan={13}
                         className="px-4 py-10 text-center text-slate-500"
                       >
                         Anggota tidak ditemukan.
