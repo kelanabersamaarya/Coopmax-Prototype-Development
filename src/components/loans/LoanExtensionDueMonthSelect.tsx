@@ -49,6 +49,14 @@ function mountMonthSelect() {
   const inputContainer = monthInput.parentElement;
   if (!inputContainer) return;
 
+  const yearInput = Array.from(
+    inputContainer.querySelectorAll<HTMLInputElement>("input"),
+  ).find((input) => input !== monthInput);
+
+  if (yearInput) {
+    yearInput.classList.add("col-start-2", "row-start-1");
+  }
+
   const existingSelect = inputContainer.querySelector<HTMLSelectElement>(
     `#${MONTH_SELECT_ID}`,
   );
@@ -59,7 +67,7 @@ function mountMonthSelect() {
   }
 
   const selectWrapper = document.createElement("div");
-  selectWrapper.className = "relative h-[31px] w-full";
+  selectWrapper.className = "relative col-start-1 row-start-1 h-[31px] w-full";
 
   const select = document.createElement("select");
   select.id = MONTH_SELECT_ID;
