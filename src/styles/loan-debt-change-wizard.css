@@ -146,193 +146,51 @@
   background-size: contain;
 }
 
-/* Tabel simulasi: perkecil kolom Angsuran Ke dan Jatuh Tempo. */
+/* Tabel simulasi langkah kedua: Angsuran Ke dan Jatuh Tempo dibuat lebih ringkas. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
+  table.min-w-\[1880px\]
   th:nth-child(1),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
+  table.min-w-\[1880px\]
   td:nth-child(1),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
+  table.min-w-\[1880px\]
   th:nth-child(2),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
+  table.min-w-\[1880px\]
   td:nth-child(2) {
   width: 85px !important;
   min-width: 85px !important;
   max-width: 85px !important;
 }
 
-/* Tabel simulasi: perkecil kolom Tagihan Pokok. */
+/* Tabel simulasi langkah kedua: Tagihan Pokok diperkecil dari 132px menjadi 95px. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
+  table.min-w-\[1880px\]
   th:nth-child(3),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
+  table.min-w-\[1880px\]
   td:nth-child(3) {
   width: 95px !important;
   min-width: 95px !important;
   max-width: 95px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 }
 
-/* Tabel simulasi: kolom Jenis Penyesuaian dibuat sangat ringkas. */
+/* Kolom hasil sesudah penyesuaian tetap diberi penekanan biru. */
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  th:nth-child(9),
+  table.min-w-\[1880px\]
+  tbody
+  td:nth-child(9),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  td:nth-child(9) {
-  width: 95px !important;
-  min-width: 95px !important;
-  max-width: 95px !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
-}
-
-/* Tabel simulasi: perkecil kolom Nominal Penyesuaian. */
+  table.min-w-\[1880px\]
+  tbody
+  td:nth-child(10),
 [data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  th:nth-child(10),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  td:nth-child(10) {
-  width: 110px !important;
-  min-width: 110px !important;
-  max-width: 110px !important;
-}
-
-/* Tabel simulasi: perkecil kolom tagihan dan total setelah penyesuaian. */
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  th:nth-child(11),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  td:nth-child(11),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  th:nth-child(12),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  td:nth-child(12),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  th:nth-child(13),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  td:nth-child(13) {
-  width: 135px !important;
-  min-width: 135px !important;
-  max-width: 135px !important;
-}
-
-/* Penyesuaian label tiga kolom akhir pada tabel simulasi langkah kedua. */
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(11),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(12),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(13) {
-  font-size: 0 !important;
-}
-
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(11)::after,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(12)::after,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(13)::after {
-  color: #000000 !important;
-  font-size: 11px !important;
+  table.min-w-\[1880px\]
+  tbody
+  td:nth-child(11) {
+  color: #2563eb !important;
   font-weight: 700 !important;
-  line-height: 1.2 !important;
-  text-transform: uppercase !important;
-  white-space: pre !important;
-}
-
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(11)::after {
-  content: "Tagihan Bunga\A Setelah Penyesuaian";
-}
-
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(12)::after {
-  content: "Total Tagihan\A Sebelum Penyesuaian";
-}
-
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  thead
-  th:nth-child(13)::after {
-  content: "Total Tagihan\A Setelah Penyesuaian";
-}
-
-/* Langkah simulasi tidak lagi menampilkan kotak atau panel penanda perubahan. */
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  tbody
-  tr[data-debt-change="true"]
-  td,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  tbody
-  tr[data-debt-change="true"]
-  td:first-child,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  tbody
-  tr[data-debt-change="true"]
-  td:last-child {
-  position: static !important;
-  border-top: 0 !important;
-  border-right: 0 !important;
-  border-bottom: 1px solid rgb(241 245 249) !important;
-  border-left: 0 !important;
-  background-color: transparent !important;
-  padding-top: 12px !important;
-}
-
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  tbody
-  tr[data-debt-change-start="true"]
-  td:first-child::before,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  tbody
-  tr[data-debt-change-start="true"]
-  td:first-child::after,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[2015px\]
-  tbody
-  tr[data-debt-change-end="true"]
-  td:first-child::after {
-  content: none !important;
-  display: none !important;
-}
-
-@media (max-width: 900px) {
-  .loan-debt-billing-preview {
-    overflow-x: auto;
-  }
-
-  .loan-debt-billing-preview > div {
-    min-width: 898px;
-  }
 }
