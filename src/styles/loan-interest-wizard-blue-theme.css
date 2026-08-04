@@ -36,9 +36,9 @@
 
 /*
   Wizard:
-  Area indikator langkah menjadi satu panel utuh yang menempel langsung
-  ke garis pembatas header dan konten, sama pada modal Ubah Suku Bunga
-  maupun Perpanjangan Pinjaman.
+  Indikator langkah hanya memakai satu garis pembatas di atas.
+  Garis bawah bawaan dihilangkan agar tidak muncul garis ganda,
+  lalu konten diberi jarak yang konsisten dari indikator.
 */
 [data-loan-interest-wizard="true"] > header,
 [data-loan-extension-wizard="true"] > header {
@@ -50,11 +50,17 @@
   box-sizing: border-box;
   margin: 0 !important;
   border-top: 1px solid rgb(226 232 240) !important;
-  border-bottom: 1px solid rgb(226 232 240) !important;
+  border-bottom: 0 !important;
 }
 
-/* Separator lama setelah panel step tidak diperlukan karena panel sudah punya garis bawah. */
+/* Separator setelah step dihilangkan karena garis atas panel sudah dipakai. */
 [data-loan-interest-wizard="true"] > header + div + [data-slot="separator"],
 [data-loan-extension-wizard="true"] > header + div + [data-slot="separator"] {
   display: none !important;
+}
+
+/* Beri ruang alami antara indikator wizard dan informasi rekening. */
+[data-loan-interest-wizard="true"] > main,
+[data-loan-extension-wizard="true"] > main {
+  padding-top: 1.5rem !important;
 }
