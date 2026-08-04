@@ -19,7 +19,6 @@ const nyomanTenorTooltip =
 const komangTenorTooltip = "April 2027 -> April 2028";
 
 type LoanChangeDisplay = {
-  label: string;
   value: string;
   tooltip: string;
 };
@@ -35,7 +34,6 @@ function getSelectedCustomerName() {
 function getLoanChangeDisplay(customerName: string): LoanChangeDisplay {
   if (customerName.includes("Komang Dewa")) {
     return {
-      label: "Jatuh Tempo Pinjaman",
       value: "April 2027 → April 2028",
       tooltip: komangTenorTooltip,
     };
@@ -43,14 +41,12 @@ function getLoanChangeDisplay(customerName: string): LoanChangeDisplay {
 
   if (customerName.includes("Nyoman Ariana")) {
     return {
-      label: "Tenor Pinjaman",
       value: "12 → 14 bulan",
       tooltip: nyomanTenorTooltip,
     };
   }
 
   return {
-    label: "Tenor Pinjaman",
     value: "12 → 18 bulan",
     tooltip: defaultTenorTooltip,
   };
@@ -124,7 +120,7 @@ function LoanChangeInfo({
 
                 <div className="min-w-0">
                   <div className="text-[11px] font-semibold text-slate-500">
-                    {loanChange.label}
+                    Penyesuaian Jangka Waktu
                   </div>
                   <div className="text-[12px] font-extrabold text-slate-900">
                     {loanChange.value}
@@ -137,7 +133,7 @@ function LoanChangeInfo({
                   <button
                     type="button"
                     className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition hover:bg-blue-200"
-                    aria-label="Informasi perubahan pinjaman"
+                    aria-label="Informasi penyesuaian jangka waktu pinjaman"
                   >
                     <Info className="h-4 w-4" strokeWidth={2.7} />
                   </button>
@@ -180,7 +176,6 @@ export default function SectionHighlightWide({
   React.useEffect(() => {
     if (tenorTooltip) {
       setLoanChange({
-        label: "Tenor Pinjaman",
         value: "12 → 18 bulan",
         tooltip: tenorTooltip,
       });
