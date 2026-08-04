@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react";
+import { createPortal } from "react-dom";
 
 const markerClass = "billing-interest-adjustment-marker";
 const markedCellClass = "has-billing-interest-adjustment";
@@ -19,46 +19,29 @@ const staticAdjustmentInfo = {
   adjustedBy: "Arya Dharma",
 };
 
-function findInterestCells() {
-  const grids = Array.from(document.querySelectorAll<HTMLElement>("div")).filter(
-    (element) => {
-      const className =
-        typeof element.className === "string" ? element.className : "";
+function findFirstInterestCell() {
+  const grids = Array.from(document.querySelectorAll<HTMLElement>("div"));
 
-      return (
-        className.includes("grid") &&
-        className.includes("items-center") &&
-        Array.from(element.children).some((child) =>
-          /^\d{2}-\d{2}-\d{4}$/.test(child.textContent?.trim() ?? ""),
-        )
-      );
-    },
-  );
+  for (const grid of grids) {
+    const className =
+      typeof grid.className === "string" ? grid.className : "";
 
-  return grids
-    .map((grid) => {
-      const cells = Array.from(grid.children) as HTMLElement[];
-      const dueDateCell = cells.find((cell) =>
-        /^\d{2}-\d{2}-\d{4}$/.test(cell.textContent?.trim() ?? ""),
-      );
-      const dateIndex = dueDateCell ? cells.indexOf(dueDateCell) : -1;
+    if (!className.includes("grid") || !className.includes("items-center")) {
+      continue;
+    }
 
-      return {
-        interestCell: dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null,
-      };
-    })
-    .filter(
-      (item): item is { interestCell: HTMLElement } =>
-        Boolean(item.interestCell),
+    const cells = Array.from(grid.children) as HTMLElement[];
+    const dateIndex = cells.findIndex((cell) =>
+      /^\d{2}-\d{2}-\d{4}$/.test(cell.textContent?.trim() ?? ""),
     );
-}
 
-function clearMarkers() {
-  document.querySelectorAll(`.${markerClass}`).forEach((marker) => marker.remove());
+    if (dateIndex < 0) continue;
 
-  document
-    .querySelectorAll(`.${markedCellClass}`)
-    .forEach((cell) => cell.classList.remove(markedCellClass));
+    const interestCell = cells[dateIndex + 3];
+    if (interestCell) return interestCell;
+  }
+
+  return null;
 }
 
 function TooltipRow({
@@ -87,7 +70,8 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
     Math.max(padding, state.rect.left + state.rect.width / 2 - width / 2),
     window.innerWidth - width - padding,
   );
-  const top = state.rect.top > 250 ? state.rect.top - 215 : state.rect.bottom + 8;
+  const top =
+    state.rect.top > 250 ? state.rect.top - 215 : state.rect.bottom + 8;
 
   return createPortal(
     <aside
@@ -135,17 +119,13 @@ export default function InterestAdjustmentBillingMarkers() {
   const [tooltip, setTooltip] = React.useState<TooltipState | null>(null);
 
   React.useEffect(() => {
-    let timeoutId = 0;
-    let observer: MutationObserver | null = null;
+    const timeoutId = window.setTimeout(() => {
+      const interestCell = findFirstInterestCell();
 
-    const syncMarker = () => {
-      const firstInterestCell = findInterestCells()[0];
+      if (!interestCell || interestCell.querySelector(`.${markerClass}`)) {
+        return;
+      }
 
-      if (!firstInterestCell) return;
-
-      clearMarkers();
-
-      const { interestCell } = firstInterestCell;
       interestCell.classList.add(markedCellClass);
 
       const marker = document.createElement("button");
@@ -154,39 +134,27 @@ export default function InterestAdjustmentBillingMarkers() {
       marker.setAttribute("aria-label", "Lihat informasi penyesuaian bunga");
       marker.innerHTML = '<span aria-hidden="true">i</span>';
 
-      const openTooltip = () => {
-        setTooltip({
-          rect: marker.getBoundingClientRect(),
-        });
+      const showTooltip = () => {
+        setTooltip({ rect: marker.getBoundingClientRect() });
       };
 
-      marker.addEventListener("mouseenter", openTooltip);
-      marker.addEventListener("focus", openTooltip);
-      marker.addEventListener("click", openTooltip);
+      marker.addEventListener("mouseenter", showTooltip);
+      marker.addEventListener("focus", showTooltip);
+      marker.addEventListener("click", showTooltip);
 
       interestCell.appendChild(marker);
-
-      observer?.disconnect();
-      observer = null;
-    };
-
-    const scheduleSync = () => {
-      window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(syncMarker, 100);
-    };
-
-    observer = new MutationObserver(scheduleSync);
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
-
-    scheduleSync();
+    }, 250);
 
     return () => {
       window.clearTimeout(timeoutId);
-      observer?.disconnect();
-      clearMarkers();
+
+      document.querySelectorAll(`.${markerClass}`).forEach((marker) => {
+        marker.remove();
+      });
+
+      document
+        .querySelectorAll(`.${markedCellClass}`)
+        .forEach((cell) => cell.classList.remove(markedCellClass));
     };
   }, []);
 
