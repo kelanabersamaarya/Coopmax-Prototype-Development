@@ -226,7 +226,14 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FieldRow label="Kategori">
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className={fieldClassName}>
+                <SelectTrigger
+                  className={cn(
+                    fieldClassName,
+                    category === "Semua"
+                      ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
+                      : "text-slate-900",
+                  )}
+                >
                   <SelectValue placeholder="Pilih Kategori" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
@@ -239,7 +246,14 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FieldRow label="Status">
               <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger className={fieldClassName}>
+                <SelectTrigger
+                  className={cn(
+                    fieldClassName,
+                    status === "Semua"
+                      ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
+                      : "text-slate-900",
+                  )}
+                >
                   <SelectValue placeholder="Pilih Status Anggota" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
@@ -313,7 +327,14 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FieldRow label="Jenis Laporan">
               <Select value={reportType} onValueChange={setReportType}>
-                <SelectTrigger className={fieldClassName}>
+                <SelectTrigger
+                  className={cn(
+                    fieldClassName,
+                    reportType === "Berdasarkan Simpanan Anggota"
+                      ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
+                      : "text-slate-900",
+                  )}
+                >
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
