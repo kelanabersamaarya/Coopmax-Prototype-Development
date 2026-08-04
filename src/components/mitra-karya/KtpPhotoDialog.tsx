@@ -95,7 +95,6 @@ function UploadKtpDialog({
           <h2 className="text-[22px] font-extrabold tracking-tight text-black">
             Upload Foto KTP Nasabah
           </h2>
-
           <button
             type="button"
             onClick={() => onOpenChange(false)}
@@ -139,20 +138,20 @@ function UploadKtpDialog({
             <section>
               <h3 className="text-[18px] font-bold text-slate-800">Foto KTP</h3>
 
-              <div className="mt-5 flex h-[225px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-6 text-center">
+              <div className="mt-5 flex h-[192px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
                 {uploadedImageUrl ? (
                   <img
                     src={uploadedImageUrl}
                     alt="Preview KTP yang diunggah"
-                    className="max-h-[150px] max-w-full rounded-[6px] object-contain shadow-sm"
+                    className="max-h-[120px] max-w-full rounded-[6px] object-contain shadow-sm"
                   />
                 ) : (
                   <>
-                    <IdCard className="h-9 w-9 text-black" strokeWidth={2.4} />
-                    <div className="mt-3 text-[16px] font-bold text-black">
+                    <IdCard className="h-8 w-8 text-black" strokeWidth={2.4} />
+                    <div className="mt-2 text-[16px] font-bold text-black">
                       Foto KTP
                     </div>
-                    <p className="mt-2 text-[13px] text-slate-700">
+                    <p className="mt-1 text-[13px] text-slate-700">
                       Unggah foto KTP Nasabah. Pastikan terlihat jelas untuk
                       validasi identitas.
                     </p>
@@ -173,7 +172,7 @@ function UploadKtpDialog({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="mt-4 inline-flex h-9 items-center gap-2 rounded-[4px] bg-[#3366FF] px-4 text-[13px] font-semibold text-white transition hover:bg-[#2855d9]"
+                  className="mt-3 inline-flex h-9 items-center gap-2 rounded-[4px] bg-[#3366FF] px-4 text-[13px] font-semibold text-white transition hover:bg-[#2855d9]"
                 >
                   <Upload className="h-4 w-4" />
                   {uploadedImageUrl ? "Ganti Foto KTP" : "Unggah KTP"}
@@ -214,7 +213,6 @@ function UploadKtpDialog({
             <X className="h-5 w-5" strokeWidth={3} />
             Batalkan
           </button>
-
           <button
             type="button"
             onClick={onSave}
