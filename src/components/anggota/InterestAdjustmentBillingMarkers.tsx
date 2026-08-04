@@ -33,6 +33,8 @@ function findInterestCell() {
   );
 
   for (const rowGrid of rowGrids) {
+    if (rowGrid.offsetParent === null) continue;
+
     const cells = Array.from(rowGrid.children) as HTMLElement[];
     const dueDateIndex = cells.findIndex((cell) =>
       datePattern.test(cell.textContent?.trim() ?? ""),
@@ -41,7 +43,7 @@ function findInterestCell() {
     if (dueDateIndex < 0) continue;
 
     const interestCell = cells[dueDateIndex + 3];
-    if (interestCell) return interestCell;
+    if (interestCell?.offsetParent !== null) return interestCell;
   }
 
   return null;
@@ -143,36 +145,44 @@ export default function InterestAdjustmentBillingMarkers() {
   const [tooltip, setTooltip] = React.useState<TooltipState | null>(null);
 
   React.useEffect(() => {
-    let attempts = 0;
-    const maximumAttempts = 20;
+    let marker: HTMLButtonElement | null = null;
 
-    const addMarker = () => {
+    const removeMarker = () => {
+      marker?.remove();
+      marker = null;
+
+      document
+        .querySelectorAll(`.${markedCellClass}`)
+        .forEach((cell) => cell.classList.remove(markedCellClass));
+    };
+
+    const attachMarker = () => {
       const interestCell = findInterestCell();
-      attempts += 1;
 
       if (!interestCell) {
-        return attempts < maximumAttempts;
+        removeMarker();
+        return;
       }
 
-      if (interestCell.querySelector(`.${markerClass}`)) {
-        return false;
-      }
+      if (marker?.parentElement === interestCell) return;
+
+      removeMarker();
 
       interestCell.classList.add(markedCellClass);
 
-      const marker = document.createElement("button");
+      marker = document.createElement("button");
       marker.type = "button";
       marker.className = markerClass;
       marker.setAttribute("aria-label", "Lihat informasi penyesuaian bunga");
+      marker.setAttribute("title", "Informasi penyesuaian bunga");
       marker.innerHTML = '<span aria-hidden="true">i</span>';
 
       const showTooltip = () => {
+        if (!marker) return;
         setTooltip({ rect: marker.getBoundingClientRect() });
       };
 
-      const hideTooltip = () => {
-        setTooltip(null);
-      };
+      const hideTooltip = () => setTooltip(null);
 
       marker.addEventListener("mouseenter", showTooltip);
       marker.addEventListener("mouseleave", hideTooltip);
@@ -181,37 +191,22 @@ export default function InterestAdjustmentBillingMarkers() {
       marker.addEventListener("click", showTooltip);
 
       interestCell.appendChild(marker);
-      return false;
     };
 
-    if (!addMarker()) {
-      return () => {
-        document.querySelectorAll(`.${markerClass}`).forEach((marker) => {
-          marker.remove();
-        });
+    const observer = new MutationObserver(() => {
+      window.requestAnimationFrame(attachMarker);
+    });
 
-        document
-          .querySelectorAll(`.${markedCellClass}`)
-          .forEach((cell) => cell.classList.remove(markedCellClass));
-      };
-    }
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
-    const retryId = window.setInterval(() => {
-      if (!addMarker()) {
-        window.clearInterval(retryId);
-      }
-    }, 250);
+    attachMarker();
 
     return () => {
-      window.clearInterval(retryId);
-
-      document.querySelectorAll(`.${markerClass}`).forEach((marker) => {
-        marker.remove();
-      });
-
-      document
-        .querySelectorAll(`.${markedCellClass}`)
-        .forEach((cell) => cell.classList.remove(markedCellClass));
+      observer.disconnect();
+      removeMarker();
     };
   }, []);
 
@@ -220,22 +215,10 @@ export default function InterestAdjustmentBillingMarkers() {
 
     const closeTooltip = () => setTooltip(null);
 
-    const closeOnOutsideClick = (event: PointerEvent) => {
-      const target = event.target as HTMLElement | null;
-
-      if (target?.closest(`.${markerClass}`)) {
-        return;
-      }
-
-      closeTooltip();
-    };
-
-    document.addEventListener("pointerdown", closeOnOutsideClick);
     window.addEventListener("resize", closeTooltip);
     window.addEventListener("scroll", closeTooltip, true);
 
     return () => {
-      document.removeEventListener("pointerdown", closeOnOutsideClick);
       window.removeEventListener("resize", closeTooltip);
       window.removeEventListener("scroll", closeTooltip, true);
     };
@@ -261,7 +244,7 @@ export default function InterestAdjustmentBillingMarkers() {
             border: 0;
             background: transparent;
             padding: 0;
-            cursor: help;
+            cursor: pointer;
           }
 
           .${markerClass} > span {
