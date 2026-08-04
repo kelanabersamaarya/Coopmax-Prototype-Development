@@ -24,11 +24,13 @@ export default function KtpPhotoDialog({
   open,
   onOpenChange,
   memberName,
+  hasKtpPhoto,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   memberName: string;
   memberId: string;
+  hasKtpPhoto: boolean;
 }) {
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [sourceIndex, setSourceIndex] = React.useState(0);
@@ -71,7 +73,9 @@ export default function KtpPhotoDialog({
     event.target.value = "";
   }
 
-  const imageUrl = uploadedImageUrl ?? (imageUnavailable ? null : ktpImageSources[sourceIndex]);
+  const showImage = hasKtpPhoto || uploadedImageUrl !== null;
+  const imageUrl =
+    uploadedImageUrl ?? (imageUnavailable ? null : ktpImageSources[sourceIndex]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -108,7 +112,7 @@ export default function KtpPhotoDialog({
             onChange={handleUpload}
           />
 
-          {imageUrl ? (
+          {showImage && imageUrl ? (
             <div className="flex min-h-[300px] items-center justify-center rounded-[5px] border border-slate-300 bg-slate-50 p-3">
               <img
                 src={imageUrl}

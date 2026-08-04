@@ -163,11 +163,6 @@ export default function MitraKaryaLaporanAnggota() {
   }
 
   function viewKtp(member: Member) {
-    if (!member.ktpAvailable) {
-      toast("File KTP tidak tersedia", { description: member.name });
-      return;
-    }
-
     setSelectedKtpMember(member);
   }
 
@@ -182,6 +177,7 @@ export default function MitraKaryaLaporanAnggota() {
         }}
         memberName={selectedKtpMember?.name ?? ""}
         memberId={selectedKtpMember?.id ?? ""}
+        hasKtpPhoto={selectedKtpMember?.ktpAvailable ?? false}
       />
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
