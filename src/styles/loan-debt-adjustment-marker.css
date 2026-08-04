@@ -1,13 +1,13 @@
 /*
   Ubah Nominal Bunga Pinjaman:
-  Tooltip pada hasil penyesuaian menampilkan nilai detail secara terpisah,
-  sehingga setiap informasi setelah label dapat diberi penekanan tebal.
+  Penanda dan tooltip hanya tampil pada baris yang benar-benar mengalami
+  penyesuaian bunga. Nilai setelah label di dalam tooltip tampil tebal.
 */
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell {
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\] {
   position: relative !important;
   overflow: visible !important;
   padding-right: 34px !important;
@@ -17,7 +17,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell::before {
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]::before {
   content: "i";
   position: absolute;
   right: 8px;
@@ -41,7 +41,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]
   .loan-debt-adjustment-tooltip {
   position: absolute;
   right: 0;
@@ -67,16 +67,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell
-  .loan-debt-adjustment-tooltip
-  + * {
-  display: none;
-}
-
-[data-loan-debt-wizard="true"]
-  table.min-w-\[1880px\]
-  tbody
-  td.loan-debt-adjustment-cell
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]
   .loan-debt-adjustment-tooltip
   div {
   margin-top: 8px;
@@ -88,7 +79,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]
   .loan-debt-adjustment-tooltip
   div:first-child {
   margin-top: 0;
@@ -97,7 +88,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]
   .loan-debt-adjustment-tooltip
   strong {
   color: #0f172a;
@@ -107,7 +98,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell:hover
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]:hover
   .loan-debt-adjustment-tooltip {
   opacity: 1;
   transform: translateY(0);
