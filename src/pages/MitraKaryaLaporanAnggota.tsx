@@ -205,6 +205,26 @@ function getTotalSavings(member: Member) {
   );
 }
 
+function getReportTotals(rows: Member[]) {
+  return rows.reduce(
+    (totals, member) => ({
+      simpananPokok: totals.simpananPokok + member.simpananPokok,
+      simpananWajib: totals.simpananWajib + member.simpananWajib,
+      simpananKhusus: totals.simpananKhusus + member.simpananKhusus,
+      simpananPenyertaan:
+        totals.simpananPenyertaan + member.simpananPenyertaan,
+      totalSimpanan: totals.totalSimpanan + getTotalSavings(member),
+    }),
+    {
+      simpananPokok: 0,
+      simpananWajib: 0,
+      simpananKhusus: 0,
+      simpananPenyertaan: 0,
+      totalSimpanan: 0,
+    },
+  );
+}
+
 function ReportInfoPanel() {
   return (
     <aside className="w-full rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm">
@@ -259,6 +279,8 @@ export default function MitraKaryaLaporanAnggota() {
     "Berdasarkan Simpanan Anggota",
   );
   const [isSearched, setIsSearched] = React.useState(false);
+  const [tablePage, setTablePage] = React.useState(1);
+  const tablePageSize = 10;
 
   const filtered = React.useMemo(() => {
     const searchValue = nameOrNo.trim().toLowerCase();
@@ -301,6 +323,36 @@ export default function MitraKaryaLaporanAnggota() {
     status,
     tag,
   ]);
+
+  React.useEffect(() => {
+    setTablePage(1);
+  }, [filtered.length]);
+
+  const tablePageCount = Math.max(
+    1,
+    Math.ceil(filtered.length / tablePageSize),
+  );
+
+  React.useEffect(() => {
+    if (tablePage > tablePageCount) {
+      setTablePage(tablePageCount);
+    }
+  }, [tablePage, tablePageCount]);
+
+  const pagedMembers = React.useMemo(() => {
+    const start = (tablePage - 1) * tablePageSize;
+    return filtered.slice(start, start + tablePageSize);
+  }, [filtered, tablePage]);
+
+  const pageTotals = React.useMemo(
+    () => getReportTotals(pagedMembers),
+    [pagedMembers],
+  );
+  const totalTotals = React.useMemo(() => getReportTotals(filtered), [filtered]);
+
+  const showingStart =
+    filtered.length === 0 ? 0 : (tablePage - 1) * tablePageSize + 1;
+  const showingEnd = Math.min(filtered.length, tablePage * tablePageSize);
 
   function handleExport() {
     toast.success("Export Excel (prototype)", {
@@ -534,7 +586,7 @@ export default function MitraKaryaLaporanAnggota() {
 
         {isSearched ? (
           <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
-            <div className="mitra-karya-member-report safe-x-scroll">
+            <div className="mitra-karya-member-report">
               <table className="w-full min-w-[1220px] border-collapse">
                 <thead>
                   <tr>
@@ -555,9 +607,9 @@ export default function MitraKaryaLaporanAnggota() {
                 </thead>
 
                 <tbody>
-                  {filtered.map((member, index) => (
+                  {pagedMembers.map((member, index) => (
                     <tr key={member.id}>
-                      <td>{index + 1}</td>
+                      <td>{(tablePage - 1) * tablePageSize + index + 1}</td>
                       <td>{member.id}</td>
                       <td>{member.name}</td>
                       <td>{member.joined}</td>
@@ -570,12 +622,35 @@ export default function MitraKaryaLaporanAnggota() {
                       <td>{formatAmount(member.simpananPenyertaan)}</td>
                       <td>{formatAmount(getTotalSavings(member))}</td>
                       <td>
-                        <span>{member.category}</span>
+                        <span>{member.status}</span>
                       </td>
                     </tr>
                   ))}
 
-                  {filtered.length === 0 ? (
+                  {pagedMembers.length > 0 ? (
+                    <>
+                      <tr className="mitra-karya-total-row">
+                        <td colSpan={7}>Total per Halaman</td>
+                        <td>{formatAmount(pageTotals.simpananPokok)}</td>
+                        <td>{formatAmount(pageTotals.simpananWajib)}</td>
+                        <td>{formatAmount(pageTotals.simpananKhusus)}</td>
+                        <td>{formatAmount(pageTotals.simpananPenyertaan)}</td>
+                        <td>{formatAmount(pageTotals.totalSimpanan)}</td>
+                        <td />
+                      </tr>
+                      <tr className="mitra-karya-total-row">
+                        <td colSpan={7}>Total</td>
+                        <td>{formatAmount(totalTotals.simpananPokok)}</td>
+                        <td>{formatAmount(totalTotals.simpananWajib)}</td>
+                        <td>{formatAmount(totalTotals.simpananKhusus)}</td>
+                        <td>{formatAmount(totalTotals.simpananPenyertaan)}</td>
+                        <td>{formatAmount(totalTotals.totalSimpanan)}</td>
+                        <td />
+                      </tr>
+                    </>
+                  ) : null}
+
+                  {pagedMembers.length === 0 ? (
                     <tr>
                       <td
                         colSpan={13}
@@ -587,6 +662,43 @@ export default function MitraKaryaLaporanAnggota() {
                   ) : null}
                 </tbody>
               </table>
+            </div>
+
+            <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="text-[13px] text-slate-600">
+                Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+                {filtered.length} entri
+              </div>
+
+              <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+                <button
+                  type="button"
+                  disabled={tablePage <= 1}
+                  onClick={() =>
+                    setTablePage((current) => Math.max(1, current - 1))
+                  }
+                  className="h-10 px-4 text-[14px] font-medium text-slate-500 transition hover:bg-slate-200 disabled:text-slate-400"
+                >
+                  Sebelumnya
+                </button>
+
+                <div className="grid h-10 w-10 place-items-center bg-violet-600 text-[14px] font-semibold text-white">
+                  {tablePage}
+                </div>
+
+                <button
+                  type="button"
+                  disabled={tablePage >= tablePageCount}
+                  onClick={() =>
+                    setTablePage((current) =>
+                      Math.min(tablePageCount, current + 1),
+                    )
+                  }
+                  className="h-10 px-4 text-[14px] font-medium text-slate-500 transition hover:bg-slate-200 disabled:text-slate-400"
+                >
+                  Selanjutnya
+                </button>
+              </div>
             </div>
           </Card>
         ) : null}
