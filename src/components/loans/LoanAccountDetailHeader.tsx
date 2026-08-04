@@ -176,7 +176,7 @@ export default function LoanAccountDetailHeader({
           />
           <ActionPill
             icon={Banknote}
-            label="Ubah Hutang Bunga"
+            label="Ubah Bunga"
             onClick={() => setDebtWizardOpen(true)}
           />
           <ActionPill
