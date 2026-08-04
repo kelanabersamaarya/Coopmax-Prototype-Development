@@ -37,9 +37,7 @@ const terms = [
   },
 ] as const;
 
-type InsufficientBalanceRule =
-  | "unpaid"
-  | "partial-payment";
+type InsufficientBalanceRule = "unpaid" | "partial-payment";
 
 function isConsolidationLoanProductPath(pathname: string, search: string) {
   const isMainLoanProduct =
@@ -230,15 +228,15 @@ export default function LoanProductAutodebetScheduleSection() {
               onValueChange={(value) =>
                 setInsufficientBalanceRule(value as InsufficientBalanceRule)
               }
-              className="grid gap-3"
+              className="grid gap-x-6 gap-y-3 sm:grid-cols-2"
             >
-              <label className="flex cursor-pointer items-start gap-3 text-sm font-normal text-slate-900">
-                <RadioGroupItem value="unpaid" className="mt-0.5" />
+              <label className="flex cursor-pointer items-center gap-3 text-sm font-normal text-slate-900">
+                <RadioGroupItem value="unpaid" />
                 <span>Tagihan Tidak Dibayarkan (Transaksi Dinyatakan Gagal)</span>
               </label>
 
-              <label className="flex cursor-pointer items-start gap-3 text-sm font-normal text-slate-900">
-                <RadioGroupItem value="partial-payment" className="mt-0.5" />
+              <label className="flex cursor-pointer items-center gap-3 text-sm font-normal text-slate-900">
+                <RadioGroupItem value="partial-payment" />
                 <span>Tagihan Dibayarkan Sebagian</span>
               </label>
             </RadioGroup>
