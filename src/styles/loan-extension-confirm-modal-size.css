@@ -1,50 +1,51 @@
 [data-radix-dialog-content].h-\[365px\] {
-  width: min(672px, calc(100vw - 2rem)) !important;
-  max-width: 672px !important;
-  height: fit-content !important;
-  min-height: 0 !important;
+  width: min(580px, calc(100vw - 1.5rem)) !important;
+  max-width: 580px !important;
+  height: 300px !important;
+  min-height: 300px !important;
   padding: 0 !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] > div {
-  height: auto !important;
-  min-height: 0 !important;
-  padding: 28px 32px 0 !important;
+  height: 300px !important;
+  min-height: 300px !important;
+  padding: 24px 32px 18px !important;
+  justify-content: flex-start !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] > div > div:first-child {
-  height: 88px !important;
-  width: 88px !important;
-  border-width: 4px !important;
+  height: 74px !important;
+  width: 74px !important;
+  border-width: 3px !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] > div > div:first-child > span {
-  font-size: 50px !important;
+  font-size: 42px !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] h2 {
-  margin-top: 22px !important;
-  font-size: 26px !important;
+  margin-top: 16px !important;
+  font-size: 23px !important;
   line-height: 1.2 !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] h2 + div {
   position: static !important;
   width: auto !important;
-  margin: 22px 0 0 !important;
+  margin: 18px 0 0 !important;
   padding: 0 !important;
   transform: none !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] h2 + div button {
-  height: 48px !important;
-  font-size: 15px !important;
+  height: 42px !important;
+  font-size: 14px !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] h2 + div button:first-child {
-  width: 108px !important;
+  width: 100px !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] h2 + div button:last-child {
-  width: 128px !important;
+  width: 118px !important;
 }
