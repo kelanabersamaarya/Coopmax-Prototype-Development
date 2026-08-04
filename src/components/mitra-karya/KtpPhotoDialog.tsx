@@ -15,7 +15,6 @@ export default function KtpPhotoDialog({
   open,
   onOpenChange,
   memberName,
-  memberId,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -43,14 +42,9 @@ export default function KtpPhotoDialog({
         )}
       >
         <header className="flex items-center justify-between border-b border-slate-300 px-5 py-4">
-          <div>
-            <h2 className="text-[18px] font-bold tracking-tight text-black">
-              Foto KTP Anggota
-            </h2>
-            <p className="mt-1 text-[12px] text-slate-500">
-              {memberName} • {memberId}
-            </p>
-          </div>
+          <h2 className="text-[18px] font-bold tracking-tight text-black">
+            Foto KTP Anggota
+          </h2>
 
           <button
             type="button"
