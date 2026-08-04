@@ -29,21 +29,26 @@ function adjustmentTitle(entry: LoanInterestAdjustmentHistoryEntry) {
     `Metode Penyesuaian: ${entry.adjustmentType}`,
     `Nominal Bunga Sebelum Penyesuaian: ${entry.interestBefore}`,
     `Nominal Penyesuaian: ${entry.adjustmentAmount}`,
-    `Nominal Bunga Setelah Penyesuaian: ${entry.interestAfter}`,
     `Alasan Penyesuaian: ${entry.reason}`,
     "Disesuaikan Oleh: Arya Dharma",
   ].join("\n");
 }
 
+function tooltipRow(label: string, value: string) {
+  return `<div class="billing-interest-adjustment-tooltip-row">
+    <span>${label}</span>
+    <b>${value}</b>
+  </div>`;
+}
+
 function createTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
   return `
     <strong>Penyesuaian Nominal Bunga</strong>
-    <span><b>Metode Penyesuaian:</b> ${entry.adjustmentType}</span>
-    <span><b>Nominal Bunga Sebelum Penyesuaian:</b> ${entry.interestBefore}</span>
-    <span><b>Nominal Penyesuaian:</b> ${entry.adjustmentAmount}</span>
-    <span><b>Nominal Bunga Setelah Penyesuaian:</b> ${entry.interestAfter}</span>
-    <span><b>Alasan Penyesuaian:</b> ${entry.reason}</span>
-    <span><b>Disesuaikan Oleh:</b> Arya Dharma</span>
+    ${tooltipRow("Metode Penyesuaian", entry.adjustmentType)}
+    ${tooltipRow("Nominal Bunga Sebelum", entry.interestBefore)}
+    ${tooltipRow("Nominal Penyesuaian", entry.adjustmentAmount)}
+    ${tooltipRow("Alasan Penyesuaian", entry.reason || "-")}
+    ${tooltipRow("Disesuaikan Oleh", "Arya Dharma")}
   `;
 }
 
@@ -292,7 +297,7 @@ export default function InterestAdjustmentBillingMarkers({
         .${PORTAL_TOOLTIP_CLASS} {
           position: fixed;
           z-index: 9999;
-          width: min(360px, calc(100vw - 24px));
+          width: min(340px, calc(100vw - 24px));
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
@@ -300,7 +305,7 @@ export default function InterestAdjustmentBillingMarkers({
           color: #1e293b;
           font-size: 11px;
           font-weight: 400;
-          line-height: 1.45;
+          line-height: 1.4;
           text-align: left;
           opacity: 0;
           pointer-events: none;
@@ -314,21 +319,27 @@ export default function InterestAdjustmentBillingMarkers({
 
         .${PORTAL_TOOLTIP_CLASS} strong {
           display: block;
-          margin-bottom: 8px;
+          margin-bottom: 9px;
           color: #1d4ed8;
           font-size: 12px;
           font-weight: 800;
         }
 
-        .${PORTAL_TOOLTIP_CLASS} span {
-          display: block;
-          margin-top: 5px;
-          overflow-wrap: anywhere;
+        .billing-interest-adjustment-tooltip-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          gap: 8px;
+          margin-top: 6px;
         }
 
-        .${PORTAL_TOOLTIP_CLASS} b {
+        .billing-interest-adjustment-tooltip-row span {
+          color: #64748b;
+        }
+
+        .billing-interest-adjustment-tooltip-row b {
           color: #0f172a;
           font-weight: 700;
+          overflow-wrap: anywhere;
         }
       `}
     </style>
