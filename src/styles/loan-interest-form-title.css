@@ -20,16 +20,18 @@
 }
 
 /* Header utama modal Ubah Suku Bunga. */
-[data-loan-interest-wizard="true"]
-  > header
-  > h2 {
+[data-loan-interest-wizard="true"] > header > h2 {
+  display: flex !important;
+  min-height: 36px !important;
+  align-items: center !important;
+  margin: 0 !important;
   font-size: 0 !important;
+  line-height: 1 !important;
 }
 
-[data-loan-interest-wizard="true"]
-  > header
-  > h2::after {
+[data-loan-interest-wizard="true"] > header > h2::after {
   content: "Ubah Suku Bunga";
+  display: block !important;
   color: #0f172a;
   font-size: 18px;
   font-weight: 800;
