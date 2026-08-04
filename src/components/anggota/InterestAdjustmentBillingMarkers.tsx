@@ -141,8 +141,14 @@ export default function InterestAdjustmentBillingMarkers() {
         setTooltip({ rect: marker.getBoundingClientRect() });
       };
 
+      const hideTooltip = () => {
+        setTooltip(null);
+      };
+
       marker.addEventListener("mouseenter", showTooltip);
+      marker.addEventListener("mouseleave", hideTooltip);
       marker.addEventListener("focus", showTooltip);
+      marker.addEventListener("blur", hideTooltip);
       marker.addEventListener("click", showTooltip);
 
       interestCell.appendChild(marker);
