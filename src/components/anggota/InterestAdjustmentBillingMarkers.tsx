@@ -2,42 +2,26 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import {
-  getLoanInterestAdjustmentHistory,
-  LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-  type LoanInterestAdjustmentHistoryEntry,
-} from "@/lib/loanInterestAdjustmentHistoryStore";
 
 const markerClass = "billing-interest-adjustment-marker";
 const markedCellClass = "has-billing-interest-adjustment";
 
-const dueDatesByInstallment = [
-  "25-01-2026",
-  "25-01-2026",
-  "25-02-2026",
-  "25-03-2026",
-  "25-04-2026",
-  "25-05-2026",
-  "25-06-2026",
-  "25-07-2026",
-  "25-08-2026",
-  "25-09-2026",
-];
-
 type TooltipState = {
-  entry: LoanInterestAdjustmentHistoryEntry;
+  dueDate: string;
   rect: DOMRect;
 };
 
-function getMethodLabel(type: string) {
-  if (type === "Penambahan Bunga") return "Penambahan Bunga";
-  if (type === "Pengurangan Bunga") return "Pengurangan Bunga";
-  if (type === "Pembebasan Seluruh Bunga") return "Pembebasan Seluruh Bunga";
-  return type || "Penyesuaian Bunga";
-}
+const staticAdjustmentInfo = {
+  method: "Pengurangan Bunga",
+  interestBefore: "83.333,00",
+  adjustmentAmount: "25.000,00",
+  interestAfter: "58.333,00",
+  reason: "Penyesuaian bunga sesuai kebijakan koperasi.",
+  adjustedBy: "Arya Dharma",
+};
 
-function findInterestCell(dueDate: string) {
-  const billingGrid = Array.from(document.querySelectorAll<HTMLElement>("div")).find(
+function findInterestCells() {
+  const grids = Array.from(document.querySelectorAll<HTMLElement>("div")).filter(
     (element) => {
       const className =
         typeof element.className === "string" ? element.className : "";
@@ -45,32 +29,34 @@ function findInterestCell(dueDate: string) {
       return (
         className.includes("grid") &&
         className.includes("items-center") &&
-        Array.from(element.children).some(
-          (child) => child.textContent?.trim() === dueDate,
+        Array.from(element.children).some((child) =>
+          /^\d{2}-\d{2}-\d{4}$/.test(child.textContent?.trim() ?? ""),
         )
       );
     },
   );
 
-  if (billingGrid) {
-    const cells = Array.from(billingGrid.children) as HTMLElement[];
-    const dateIndex = cells.findIndex(
-      (cell) => cell.textContent?.trim() === dueDate,
+  return grids
+    .map((grid) => {
+      const cells = Array.from(grid.children) as HTMLElement[];
+      const dueDateCell = cells.find((cell) =>
+        /^\d{2}-\d{2}-\d{4}$/.test(cell.textContent?.trim() ?? ""),
+      );
+      const dateIndex = dueDateCell ? cells.indexOf(dueDateCell) : -1;
+
+      return {
+        dueDate: dueDateCell?.textContent?.trim() ?? "",
+        interestCell: dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null,
+      };
+    })
+    .filter(
+      (
+        item,
+      ): item is {
+        dueDate: string;
+        interestCell: HTMLElement;
+      } => Boolean(item.dueDate && item.interestCell),
     );
-
-    return dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null;
-  }
-
-  const dateCell = Array.from(
-    document.querySelectorAll<HTMLTableCellElement>("td"),
-  ).find((cell) => cell.textContent?.trim() === dueDate);
-
-  if (!dateCell) return null;
-
-  const cells = Array.from(dateCell.closest("tr")?.children ?? []) as HTMLElement[];
-  const dateIndex = cells.indexOf(dateCell);
-
-  return dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null;
 }
 
 function clearMarkers() {
@@ -79,26 +65,6 @@ function clearMarkers() {
   document
     .querySelectorAll(`.${markedCellClass}`)
     .forEach((cell) => cell.classList.remove(markedCellClass));
-}
-
-function isMarkerNode(node: Node) {
-  if (!(node instanceof HTMLElement)) return true;
-
-  return (
-    node.classList.contains(markerClass) ||
-    Boolean(node.closest(`.${markerClass}`))
-  );
-}
-
-function onlyMarkerMutations(mutations: MutationRecord[]) {
-  return mutations.every((mutation) => {
-    const nodes = [
-      ...Array.from(mutation.addedNodes),
-      ...Array.from(mutation.removedNodes),
-    ];
-
-    return nodes.length > 0 && nodes.every(isMarkerNode);
-  });
 }
 
 function TooltipRow({
@@ -114,7 +80,7 @@ function TooltipRow({
         {label}
       </div>
       <div className="text-[12px] font-extrabold leading-tight text-slate-900">
-        {value || "0,00"}
+        {value}
       </div>
     </div>
   );
@@ -124,16 +90,10 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
   const width = 320;
   const padding = 12;
   const left = Math.min(
-    Math.max(
-      padding,
-      state.rect.left + state.rect.width / 2 - width / 2,
-    ),
+    Math.max(padding, state.rect.left + state.rect.width / 2 - width / 2),
     window.innerWidth - width - padding,
   );
-  const top =
-    state.rect.top > 250
-      ? state.rect.top - 230
-      : state.rect.bottom + 8;
+  const top = state.rect.top > 250 ? state.rect.top - 245 : state.rect.bottom + 8;
 
   return createPortal(
     <aside
@@ -147,72 +107,69 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
 
       <div className="grid gap-3">
         <TooltipRow
-          label="Metode Penyesuaian"
-          value={getMethodLabel(state.entry.adjustmentType)}
+          label="Jatuh Tempo"
+          value={state.dueDate}
         />
         <TooltipRow
-          label="Nominal Sebelum Penyesuaian"
-          value={state.entry.interestBefore}
+          label="Metode Penyesuaian"
+          value={staticAdjustmentInfo.method}
+        />
+        <TooltipRow
+          label="Nominal Bunga Sebelum Penyesuaian"
+          value={staticAdjustmentInfo.interestBefore}
         />
         <TooltipRow
           label="Nominal Penyesuaian"
-          value={state.entry.adjustmentAmount}
+          value={staticAdjustmentInfo.adjustmentAmount}
         />
         <TooltipRow
-          label="Nominal Setelah Penyesuaian"
-          value={state.entry.interestAfter}
+          label="Nominal Bunga Setelah Penyesuaian"
+          value={staticAdjustmentInfo.interestAfter}
         />
-        <TooltipRow label="Disesuaikan oleh" value="Arya Dharma" />
+        <TooltipRow
+          label="Alasan Penyesuaian"
+          value={staticAdjustmentInfo.reason}
+        />
+        <TooltipRow
+          label="Disesuaikan Oleh"
+          value={staticAdjustmentInfo.adjustedBy}
+        />
       </div>
     </aside>,
     document.body,
   );
 }
 
-export default function InterestAdjustmentBillingMarkers({
-  accountNo = "SMG260004",
-}: {
-  accountNo?: string;
-}) {
+export default function InterestAdjustmentBillingMarkers() {
   const [tooltip, setTooltip] = React.useState<TooltipState | null>(null);
 
   React.useEffect(() => {
     let timeoutId = 0;
 
-    const clearTooltip = () => setTooltip(null);
-
     const syncMarkers = () => {
       clearMarkers();
-      clearTooltip();
+      setTooltip(null);
 
-      getLoanInterestAdjustmentHistory(accountNo).forEach((entry) => {
-        const dueDate = dueDatesByInstallment[entry.installmentNo - 1];
-        if (!dueDate) return;
-
-        const interestCell = findInterestCell(dueDate);
-        if (!interestCell || interestCell.querySelector(`.${markerClass}`)) {
-          return;
-        }
-
+      findInterestCells().forEach(({ dueDate, interestCell }) => {
         interestCell.classList.add(markedCellClass);
 
         const marker = document.createElement("button");
         marker.type = "button";
         marker.className = markerClass;
-        marker.setAttribute("aria-label", "Lihat detail penyesuaian bunga");
+        marker.setAttribute("aria-label", "Lihat informasi penyesuaian bunga");
         marker.innerHTML = '<span aria-hidden="true">i</span>';
 
         const openTooltip = () => {
           setTooltip({
-            entry,
+            dueDate,
             rect: marker.getBoundingClientRect(),
           });
         };
 
         marker.addEventListener("mouseenter", openTooltip);
-        marker.addEventListener("mouseleave", clearTooltip);
+        marker.addEventListener("mouseleave", () => setTooltip(null));
         marker.addEventListener("focus", openTooltip);
-        marker.addEventListener("blur", clearTooltip);
+        marker.addEventListener("blur", () => setTooltip(null));
         marker.addEventListener("click", openTooltip);
 
         interestCell.appendChild(marker);
@@ -221,13 +178,10 @@ export default function InterestAdjustmentBillingMarkers({
 
     const scheduleSync = () => {
       window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(syncMarkers, 80);
+      timeoutId = window.setTimeout(syncMarkers, 100);
     };
 
-    const observer = new MutationObserver((mutations) => {
-      if (onlyMarkerMutations(mutations)) return;
-      scheduleSync();
-    });
+    const observer = new MutationObserver(scheduleSync);
 
     syncMarkers();
 
@@ -236,27 +190,17 @@ export default function InterestAdjustmentBillingMarkers({
       subtree: true,
     });
 
-    window.addEventListener(
-      LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-      scheduleSync,
-    );
-    window.addEventListener("storage", scheduleSync);
-    window.addEventListener("scroll", clearTooltip, true);
-    window.addEventListener("resize", clearTooltip);
+    window.addEventListener("resize", () => setTooltip(null));
+    window.addEventListener("scroll", () => setTooltip(null), true);
 
     return () => {
       window.clearTimeout(timeoutId);
       observer.disconnect();
       clearMarkers();
-      window.removeEventListener(
-        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-        scheduleSync,
-      );
-      window.removeEventListener("storage", scheduleSync);
-      window.removeEventListener("scroll", clearTooltip, true);
-      window.removeEventListener("resize", clearTooltip);
+      window.removeEventListener("resize", () => setTooltip(null));
+      window.removeEventListener("scroll", () => setTooltip(null), true);
     };
-  }, [accountNo]);
+  }, []);
 
   return (
     <>
