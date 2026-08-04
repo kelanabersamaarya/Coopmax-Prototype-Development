@@ -60,7 +60,7 @@ const members: Member[] = [
 ];
 
 const fieldClassName =
-  "h-[31px] rounded-[5px] border-slate-300 bg-white text-[14px] font-normal text-slate-900 shadow-none placeholder:text-[#7987b6] focus-visible:ring-0 focus-visible:ring-offset-0";
+  "h-[31px] rounded-[5px] border-slate-300 bg-white text-[14px] font-normal text-slate-900 shadow-none placeholder:!text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0";
 
 function FieldRow({
   label,
@@ -70,7 +70,7 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-[180px_minmax(0,440px)] sm:items-center">
+    <div className="grid gap-2 sm:grid-cols-[165px_minmax(0,400px)] sm:items-center">
       <label className="text-[14px] font-normal text-[#002060]">{label}</label>
       <div className="min-w-0">{children}</div>
     </div>
@@ -190,7 +190,7 @@ export default function MitraKaryaLaporanAnggota() {
           Laporan Anggota
         </h1>
 
-        <div className="mt-6 max-w-[660px]">
+        <div className="mt-6 max-w-[565px]">
           <div className="grid gap-[10px]">
             <FieldRow label="Nama/No Anggota">
               <Input
@@ -327,7 +327,7 @@ export default function MitraKaryaLaporanAnggota() {
               </Select>
             </FieldRow>
 
-            <div className="grid sm:grid-cols-[180px_minmax(0,440px)]">
+            <div className="grid sm:grid-cols-[165px_minmax(0,400px)]">
               <div />
               <div className="mt-2 flex justify-end">
                 <button
