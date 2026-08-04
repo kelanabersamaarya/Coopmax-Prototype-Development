@@ -324,6 +324,65 @@ export default function SavingsAccountDetail({
 
           <div className="my-6 h-px bg-slate-200" />
 
+          <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
+            Informasi Kredit
+          </div>
+
+          <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div>
+                <InfoRow label="Tanggal Realisasi" value="16-03-2026" />
+                <InfoRow label="Besar Pinjaman / Plafon" value="10.000.000" />
+                <InfoRow label="Biaya Administrasi" value="100.000" />
+                <InfoRow label="Biaya Materai" value="200.000" />
+                <InfoRow label="Jumlah Potongan" value="322.000" />
+                <InfoRow label="Penerimaan Bersih" value="9.678.000" />
+                <InfoRow
+                  label="Terbilang"
+                  value={
+                    <span className="block leading-snug">
+                      Sembilan Juta Enam Ratus
+                      <br />
+                      Tujuh Puluh Delapan Ribu
+                    </span>
+                  }
+                />
+                <InfoRow label="Dicairkan ke Rekening Tabungan" value="8503046" />
+              </div>
+
+              <div>
+                <InfoRow label="Satuan Grace Period" value="Bulan" />
+                <InfoRow label="Durasi Grace Period" value="6" />
+                <InfoRow
+                  label="Status Grace Period"
+                  value={<ActiveBadge>Aktif</ActiveBadge>}
+                />
+                <InfoRow
+                  label="Skema Tagihan"
+                  value={
+                    <span className="font-semibold">
+                      Tagihan Sesuai Jadwal Angsuran
+                    </span>
+                  }
+                />
+                <InfoRow
+                  label="Tagihan Angsuran Menggunakan Tabel Angsuran"
+                  value={<ActiveBadge>Aktif</ActiveBadge>}
+                />
+                <InfoRow
+                  label="Status Tabel Angsuran"
+                  value={
+                    <SuccessBadge>
+                      <span className="mr-1">✓</span> Berhasil Tersinkron
+                    </SuccessBadge>
+                  }
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="my-6 h-px bg-slate-200" />
+
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-800">
               Jadwal Autodebet
@@ -399,7 +458,7 @@ export default function SavingsAccountDetail({
                         <td className="px-3 py-3">
                           {schedule.date.replace("Setiap tanggal ", "")}
                         </td>
-                        <td className="px-3 py-3">31-08-2026</td>
+                        <td className="px-3 py-3">25-08-2026</td>
                         <td className="px-3 py-3">
                           {schedule.description || "-"}
                         </td>
