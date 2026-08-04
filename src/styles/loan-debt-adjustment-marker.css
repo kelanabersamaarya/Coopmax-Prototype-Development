@@ -59,12 +59,12 @@
   tbody
   tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10)::after {
-  content: "Informasi Penyesuaian\A\A Nominal bunga pada angsuran ini telah disesuaikan.\A\A Nilai tagihan bunga dan sisa bunga sudah diperbarui sesuai penyesuaian yang disimpan.";
+  content: "Informasi Penyesuaian\A\A Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason);
   position: absolute;
   right: 0;
   bottom: calc(100% + 9px);
   z-index: 100;
-  width: 260px;
+  width: 280px;
   border: 1px solid #e2e8f0;
   border-radius: 3px;
   background-color: #ffffff;

@@ -209,6 +209,14 @@ function UnifiedBillingSimulationTable({
                   )
                 : parseIdr(remainingInterest);
 
+              const adjustmentData = isAdjustedRow
+                ? {
+                    "data-adjustment-type": adjustedBill.adjustment.type,
+                    "data-adjustment-reason":
+                      adjustedBill.adjustment.reason || "Tidak ada alasan.",
+                  }
+                : {};
+
               return (
                 <tr
                   key={`${dueDate}-${installmentNo}`}
@@ -242,6 +250,7 @@ function UnifiedBillingSimulationTable({
                     {remainingInterest}
                   </td>
                   <td
+                    {...adjustmentData}
                     className={cn(
                       "px-3 py-3 text-right tabular-nums",
                       isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
@@ -250,6 +259,7 @@ function UnifiedBillingSimulationTable({
                     {formatIdr(interestAfter)}
                   </td>
                   <td
+                    {...adjustmentData}
                     className={cn(
                       "px-3 py-3 text-right tabular-nums",
                       isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
