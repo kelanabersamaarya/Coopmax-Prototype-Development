@@ -71,7 +71,7 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-[165px_minmax(0,400px)] sm:items-center">
+    <div className="grid gap-2 sm:grid-cols-[165px_minmax(0,1fr)] sm:items-center">
       <label className="text-[14px] font-normal text-[#002060]">{label}</label>
       <div className="min-w-0">{children}</div>
     </div>
@@ -113,7 +113,7 @@ function parseAmount(value: string) {
 
 function ReportInfoPanel() {
   return (
-    <aside className="rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm">
+    <aside className="w-full max-w-[360px] rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm xl:justify-self-end">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0ea5c6] text-white">
           i
@@ -261,8 +261,8 @@ export default function MitraKaryaLaporanAnggota() {
           </div>
         </div>
 
-        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,565px)_minmax(320px,1fr)]">
-          <div className="max-w-[565px]">
+        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,720px)_minmax(280px,360px)]">
+          <div className="w-full max-w-[720px]">
             <div className="grid gap-[10px]">
               <FieldRow label="Nama/No Anggota">
                 <Input
@@ -420,7 +420,7 @@ export default function MitraKaryaLaporanAnggota() {
                 </Select>
               </FieldRow>
 
-              <div className="grid sm:grid-cols-[165px_minmax(0,400px)]">
+              <div className="grid sm:grid-cols-[165px_minmax(0,1fr)]">
                 <div />
                 <div className="mt-2 flex justify-end">
                   <button
