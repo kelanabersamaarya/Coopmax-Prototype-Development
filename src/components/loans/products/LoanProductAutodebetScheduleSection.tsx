@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import FieldTooltip from "@/components/loans/FieldTooltip";
 
 function isConsolidationLoanProductPath(pathname: string, search: string) {
   const isMainLoanProduct =
@@ -107,7 +108,10 @@ export default function LoanProductAutodebetScheduleSection() {
       <Separator className="my-6 bg-slate-200/70" />
 
       <div className="text-base font-semibold text-slate-900">
-        Proses Autodebet
+        <span className="inline-flex items-center">
+          Proses Autodebet
+          <FieldTooltip content="Aktifkan untuk memproses pembayaran angsuran secara otomatis dari rekening sumber dana yang telah ditentukan." />
+        </span>
       </div>
 
       <div className="mt-4 grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
