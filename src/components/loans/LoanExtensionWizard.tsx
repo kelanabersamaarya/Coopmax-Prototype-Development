@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
+import { addLoanExtensionHistory } from "@/lib/loanExtensionHistoryStore";
 
 type Step = 1 | 2;
 type ExtensionMethod =
@@ -173,6 +174,97 @@ function StepIndicator({ step }: { step: Step }) {
   );
 }
 
+function ConfirmDialog({
+  open,
+  onCancel,
+  onConfirm,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
+      <DialogContent
+        className={cn(
+          "h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
+          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
+          <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
+            <span className="text-[58px] font-light leading-none text-[#f2b98f]">!</span>
+          </div>
+
+          <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
+            Yakin untuk melakukan perubahan?
+          </h2>
+
+          <div className="mt-[34px] flex items-center justify-center gap-[9px]">
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function SuccessDialog({
+  open,
+  onOk,
+}: {
+  open: boolean;
+  onOk: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
+      <DialogContent
+        className={cn(
+          "h-[330px] w-[calc(100vw-2rem)] max-w-[580px] overflow-hidden",
+          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
+      >
+        <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
+          <div className="flex h-[102px] w-[102px] items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
+            <Check className="h-[58px] w-[58px] text-[#33aa00]" strokeWidth={3} />
+          </div>
+
+          <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
+            Berhasil Melakukan Perpanjangan Pinjaman
+          </h2>
+
+          <button
+            type="button"
+            onClick={onOk}
+            className="mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]"
+          >
+            OK
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function LoanExtensionWizard({
   open,
   onOpenChange,
@@ -191,6 +283,8 @@ export default function LoanExtensionWizard({
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [historyOpen, setHistoryOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
@@ -204,6 +298,8 @@ export default function LoanExtensionWizard({
     setEffectiveDate("");
     setReason("");
     setHistoryOpen(false);
+    setConfirmOpen(false);
+    setSuccessOpen(false);
   }, [open]);
 
   const dueMonthIndex = months.indexOf(dueMonth);
@@ -246,11 +342,7 @@ export default function LoanExtensionWizard({
       dueMonthIndex >= 0 &&
       Number.isFinite(dueYearNumber)
     ) {
-      dueDate = new Date(
-        dueYearNumber,
-        dueMonthIndex,
-        CURRENT_DUE_DATE.getDate(),
-      );
+      dueDate = new Date(dueYearNumber, dueMonthIndex, CURRENT_DUE_DATE.getDate());
 
       if (dueDate.getMonth() !== dueMonthIndex) dueDate.setDate(0);
 
@@ -301,9 +393,16 @@ export default function LoanExtensionWizard({
     setDueYear("");
   }
 
-  function continueWizard() {
-    if (!isValid) return;
-    setStep(2);
+  function saveExtension() {
+    addLoanExtensionHistory(accountNo, {
+      method,
+      effectiveDate,
+      previousTenor: `${CURRENT_TENOR} Bulan`,
+      newTenor: `${simulation.tenor} Bulan`,
+    });
+
+    setConfirmOpen(false);
+    setSuccessOpen(true);
   }
 
   return (
@@ -312,6 +411,20 @@ export default function LoanExtensionWizard({
         open={historyOpen}
         onOpenChange={setHistoryOpen}
         accountNo={accountNo}
+      />
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={saveExtension}
+      />
+
+      <SuccessDialog
+        open={successOpen}
+        onOk={() => {
+          setSuccessOpen(false);
+          onOpenChange(false);
+        }}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -382,7 +495,6 @@ export default function LoanExtensionWizard({
                             <input
                               type="radio"
                               name="loan-extension-method"
-                              value={option}
                               checked={method === option}
                               onChange={() => selectMethod(option)}
                               className="h-4 w-4 accent-[#2563EB]"
@@ -399,7 +511,6 @@ export default function LoanExtensionWizard({
                           <Input
                             value={String(CURRENT_TENOR)}
                             readOnly
-                            aria-readonly="true"
                             className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                           />
                         </ReadOnlyRow>
@@ -408,9 +519,7 @@ export default function LoanExtensionWizard({
                           <Input
                             value={additionalTenor}
                             onChange={(event) =>
-                              setAdditionalTenor(
-                                event.target.value.replace(/[^\d]/g, ""),
-                              )
+                              setAdditionalTenor(event.target.value.replace(/[^\d]/g, ""))
                             }
                             inputMode="numeric"
                             placeholder="Masukkan tenor tambahan"
@@ -422,7 +531,6 @@ export default function LoanExtensionWizard({
                           <Input
                             value={String(totalTenorValue)}
                             readOnly
-                            aria-readonly="true"
                             className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                           />
                         </ReadOnlyRow>
@@ -434,9 +542,7 @@ export default function LoanExtensionWizard({
                         <Input
                           value={newTenor}
                           onChange={(event) =>
-                            setNewTenor(
-                              event.target.value.replace(/[^\d]/g, ""),
-                            )
+                            setNewTenor(event.target.value.replace(/[^\d]/g, ""))
                           }
                           inputMode="numeric"
                           placeholder="Masukkan tenor baru"
@@ -452,13 +558,11 @@ export default function LoanExtensionWizard({
                             <Input
                               value="April"
                               readOnly
-                              aria-readonly="true"
                               className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                             />
                             <Input
                               value="2027"
                               readOnly
-                              aria-readonly="true"
                               className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                             />
                           </div>
@@ -473,12 +577,9 @@ export default function LoanExtensionWizard({
                             >
                               <option value="">Pilih Bulan</option>
                               {months.map((month) => (
-                                <option key={month} value={month}>
-                                  {month}
-                                </option>
+                                <option key={month} value={month}>{month}</option>
                               ))}
                             </select>
-
                             <select
                               value={dueYear}
                               onChange={(event) => setDueYear(event.target.value)}
@@ -486,9 +587,7 @@ export default function LoanExtensionWizard({
                             >
                               <option value="">Pilih Tahun</option>
                               {years.map((year) => (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
+                                <option key={year} value={year}>{year}</option>
                               ))}
                             </select>
                           </div>
@@ -548,10 +647,8 @@ export default function LoanExtensionWizard({
                             )}
                           >
                             <td className="px-4 py-3 font-medium">{label}</td>
-                            <td className="px-4 py-3 text-black">{before}</td>
-                            <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                              {after}
-                            </td>
+                            <td className="px-4 py-3">{before}</td>
+                            <td className="px-4 py-3 font-semibold text-[#2563EB]">{after}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -576,11 +673,7 @@ export default function LoanExtensionWizard({
               }}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
-              {step === 1 ? (
-                <X className="h-4 w-4" strokeWidth={3} />
-              ) : (
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-              )}
+              {step === 1 ? <X className="h-4 w-4" strokeWidth={3} /> : <ChevronLeft className="h-4 w-4" strokeWidth={3} />}
               {step === 1 ? "Batal" : "Kembali"}
             </button>
 
@@ -597,7 +690,13 @@ export default function LoanExtensionWizard({
             <button
               type="button"
               disabled={step === 1 && !isValid}
-              onClick={step === 1 ? continueWizard : undefined}
+              onClick={() => {
+                if (step === 1) {
+                  setStep(2);
+                  return;
+                }
+                setConfirmOpen(true);
+              }}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
                 step === 2
@@ -608,11 +707,7 @@ export default function LoanExtensionWizard({
               )}
             >
               {step === 2 ? "Simpan Perubahan" : "Lanjutkan"}
-              {step === 2 ? (
-                <Check className="h-5 w-5" strokeWidth={3.5} />
-              ) : (
-                <ChevronRight className="h-4 w-4" strokeWidth={3} />
-              )}
+              {step === 2 ? <Check className="h-5 w-5" strokeWidth={3.5} /> : <ChevronRight className="h-4 w-4" strokeWidth={3} />}
             </button>
           </footer>
         </DialogContent>

@@ -9,7 +9,6 @@ import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentI
 import LoanInterestChangeSuccessGate from "@/components/loans/LoanInterestChangeSuccessGate";
 import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizardCancelButton";
 import LoanExtensionSaveConfirmGate from "@/components/loans/LoanExtensionSaveConfirmGate";
-import LoanExtensionStepTwoSaveGate from "@/components/loans/LoanExtensionStepTwoSaveGate";
 import LoanExtensionTenorTotalSync from "@/components/loans/LoanExtensionTenorTotalSync";
 import LoanExtensionStepTwoSummarySync from "@/components/loans/LoanExtensionStepTwoSummarySync";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
@@ -49,7 +48,6 @@ export default function MobileAwareToaster() {
       <LoanInterestWizardCancelButton />
       <LoanInterestAdjustmentHoverStyle />
       <LoanExtensionSaveConfirmGate />
-      <LoanExtensionStepTwoSaveGate />
       <LoanExtensionTenorTotalSync />
       <LoanExtensionStepTwoSummarySync />
       <LoanDebtChangeSaveGate />
