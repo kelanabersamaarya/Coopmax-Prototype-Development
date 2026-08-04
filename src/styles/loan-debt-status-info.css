@@ -30,3 +30,61 @@
   letter-spacing: 0 !important;
   white-space: nowrap !important;
 }
+
+/* Sesuaikan label informasi rekening pinjaman. */
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(2)
+  > div:first-child,
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(5)
+  > div:first-child,
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(8)
+  > div:first-child {
+  font-size: 0 !important;
+}
+
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(2)
+  > div:first-child::after {
+  content: "Nama Anggota";
+  font-size: 11px;
+}
+
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(5)
+  > div:first-child::after {
+  content: "Baki Debet";
+  font-size: 11px;
+}
+
+[data-loan-debt-wizard="true"]
+  main
+  > div.grid.gap-6
+  > div.rounded-\[8px\].bg-\[\#17a2b8\]
+  > div.mt-7.grid
+  > div:nth-child(8)
+  > div:first-child::after {
+  content: "Denda";
+  font-size: 11px;
+}
