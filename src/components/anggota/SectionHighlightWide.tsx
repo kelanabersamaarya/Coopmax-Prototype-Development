@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { CalendarRange, Info, TrendingDown } from "lucide-react";
+import { CalendarRange, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function LoanChangeInfo() {
@@ -48,8 +48,8 @@ function LoanChangeInfo() {
 
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             <div className="flex items-center gap-2 rounded-[8px] bg-white px-3 py-2 ring-1 ring-blue-100">
-              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                <TrendingDown className="h-4 w-4" />
+              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[15px] font-extrabold text-blue-700">
+                %
               </span>
               <div className="min-w-0">
                 <div className="text-[11px] font-semibold text-slate-500">
