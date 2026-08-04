@@ -1,26 +1,18 @@
 [data-loan-extension-confirm-dialog="true"] {
-  width: min(580px, calc(100vw - 1.5rem)) !important;
-  max-width: 580px !important;
-  height: 300px !important;
-  min-height: 300px !important;
+  width: min(480px, calc(100vw - 2rem)) !important;
+  max-width: 480px !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 [data-loan-extension-confirm-dialog="true"] > div {
   box-sizing: border-box !important;
-  height: 300px !important;
-  min-height: 300px !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 /* Hanya selector khusus ini yang mengatur modal konfirmasi perpanjangan.
    Hindari selector generik agar tidak berbenturan dengan modal lain. */
 [data-loan-extension-confirm-dialog="true"] h2 {
   margin: 16px 0 0 !important;
-}
-
-@media (max-width: 639px) {
-  [data-loan-extension-confirm-dialog="true"],
-  [data-loan-extension-confirm-dialog="true"] > div {
-    height: auto !important;
-    min-height: 0 !important;
-  }
 }
