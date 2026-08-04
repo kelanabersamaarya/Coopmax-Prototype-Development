@@ -5,6 +5,9 @@ import { createPortal } from "react-dom";
 
 const markerClass = "billing-interest-adjustment-marker";
 const markedCellClass = "has-billing-interest-adjustment";
+const tooltipWidth = 320;
+const tooltipEstimatedHeight = 216;
+const tooltipOffset = 10;
 
 type TooltipState = {
   rect: DOMRect;
@@ -60,13 +63,15 @@ function TooltipRow({
 }
 
 function AdjustmentTooltip({ state }: { state: TooltipState }) {
-  const width = 320;
   const margin = 12;
   const left = Math.min(
-    Math.max(margin, state.rect.left + state.rect.width / 2 - width / 2),
-    window.innerWidth - width - margin,
+    Math.max(margin, state.rect.left + state.rect.width / 2 - tooltipWidth / 2),
+    window.innerWidth - tooltipWidth - margin,
   );
-  const top = state.rect.top > 250 ? state.rect.top - 215 : state.rect.bottom + 8;
+  const hasSpaceAbove = state.rect.top >= tooltipEstimatedHeight + margin;
+  const top = hasSpaceAbove
+    ? state.rect.top - tooltipEstimatedHeight - tooltipOffset
+    : state.rect.bottom + tooltipOffset;
 
   return createPortal(
     <aside
