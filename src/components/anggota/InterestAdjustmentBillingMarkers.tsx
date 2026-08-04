@@ -10,7 +10,7 @@ type TooltipState = {
   rect: DOMRect;
 };
 
-const staticAdjustmentInfo = {
+const adjustmentInfo = {
   method: "Pengurangan Bunga",
   interestBefore: "83.333,00",
   adjustmentAmount: "25.000,00",
@@ -19,25 +19,21 @@ const staticAdjustmentInfo = {
   adjustedBy: "Arya Dharma",
 };
 
-function findFirstInterestCell() {
-  const grids = Array.from(document.querySelectorAll<HTMLElement>("div"));
+function findInterestCell() {
+  const datePattern = /^\d{2}-\d{2}-\d{4}$/;
+  const rowGrids = Array.from(
+    document.querySelectorAll<HTMLElement>("div.grid.items-center"),
+  );
 
-  for (const grid of grids) {
-    const className =
-      typeof grid.className === "string" ? grid.className : "";
-
-    if (!className.includes("grid") || !className.includes("items-center")) {
-      continue;
-    }
-
-    const cells = Array.from(grid.children) as HTMLElement[];
-    const dateIndex = cells.findIndex((cell) =>
-      /^\d{2}-\d{2}-\d{4}$/.test(cell.textContent?.trim() ?? ""),
+  for (const rowGrid of rowGrids) {
+    const cells = Array.from(rowGrid.children) as HTMLElement[];
+    const dueDateIndex = cells.findIndex((cell) =>
+      datePattern.test(cell.textContent?.trim() ?? ""),
     );
 
-    if (dateIndex < 0) continue;
+    if (dueDateIndex < 0) continue;
 
-    const interestCell = cells[dateIndex + 3];
+    const interestCell = cells[dueDateIndex + 3];
     if (interestCell) return interestCell;
   }
 
@@ -65,13 +61,12 @@ function TooltipRow({
 
 function AdjustmentTooltip({ state }: { state: TooltipState }) {
   const width = 320;
-  const padding = 12;
+  const margin = 12;
   const left = Math.min(
-    Math.max(padding, state.rect.left + state.rect.width / 2 - width / 2),
-    window.innerWidth - width - padding,
+    Math.max(margin, state.rect.left + state.rect.width / 2 - width / 2),
+    window.innerWidth - width - margin,
   );
-  const top =
-    state.rect.top > 250 ? state.rect.top - 215 : state.rect.bottom + 8;
+  const top = state.rect.top > 250 ? state.rect.top - 215 : state.rect.bottom + 8;
 
   return createPortal(
     <aside
@@ -87,27 +82,27 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
       <div className="grid gap-3">
         <TooltipRow
           label="Metode Penyesuaian"
-          value={staticAdjustmentInfo.method}
+          value={adjustmentInfo.method}
         />
         <TooltipRow
           label="Nominal Bunga Sebelum Penyesuaian"
-          value={staticAdjustmentInfo.interestBefore}
+          value={adjustmentInfo.interestBefore}
         />
         <TooltipRow
           label="Nominal Penyesuaian"
-          value={staticAdjustmentInfo.adjustmentAmount}
+          value={adjustmentInfo.adjustmentAmount}
         />
         <TooltipRow
           label="Nominal Bunga Setelah Penyesuaian"
-          value={staticAdjustmentInfo.interestAfter}
+          value={adjustmentInfo.interestAfter}
         />
         <TooltipRow
           label="Alasan Penyesuaian"
-          value={staticAdjustmentInfo.reason}
+          value={adjustmentInfo.reason}
         />
         <TooltipRow
           label="Disesuaikan Oleh"
-          value={staticAdjustmentInfo.adjustedBy}
+          value={adjustmentInfo.adjustedBy}
         />
       </div>
     </aside>,
@@ -119,11 +114,19 @@ export default function InterestAdjustmentBillingMarkers() {
   const [tooltip, setTooltip] = React.useState<TooltipState | null>(null);
 
   React.useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      const interestCell = findFirstInterestCell();
+    let attempts = 0;
+    const maximumAttempts = 20;
 
-      if (!interestCell || interestCell.querySelector(`.${markerClass}`)) {
-        return;
+    const addMarker = () => {
+      const interestCell = findInterestCell();
+      attempts += 1;
+
+      if (!interestCell) {
+        return attempts < maximumAttempts;
+      }
+
+      if (interestCell.querySelector(`.${markerClass}`)) {
+        return false;
       }
 
       interestCell.classList.add(markedCellClass);
@@ -143,10 +146,29 @@ export default function InterestAdjustmentBillingMarkers() {
       marker.addEventListener("click", showTooltip);
 
       interestCell.appendChild(marker);
+      return false;
+    };
+
+    if (!addMarker()) {
+      return () => {
+        document.querySelectorAll(`.${markerClass}`).forEach((marker) => {
+          marker.remove();
+        });
+
+        document
+          .querySelectorAll(`.${markedCellClass}`)
+          .forEach((cell) => cell.classList.remove(markedCellClass));
+      };
+    }
+
+    const retryId = window.setInterval(() => {
+      if (!addMarker()) {
+        window.clearInterval(retryId);
+      }
     }, 250);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      window.clearInterval(retryId);
 
       document.querySelectorAll(`.${markerClass}`).forEach((marker) => {
         marker.remove();
@@ -163,7 +185,7 @@ export default function InterestAdjustmentBillingMarkers() {
 
     const closeTooltip = () => setTooltip(null);
 
-    const closeTooltipOnOutsideClick = (event: PointerEvent) => {
+    const closeOnOutsideClick = (event: PointerEvent) => {
       const target = event.target as HTMLElement | null;
 
       if (
@@ -176,12 +198,12 @@ export default function InterestAdjustmentBillingMarkers() {
       closeTooltip();
     };
 
-    document.addEventListener("pointerdown", closeTooltipOnOutsideClick);
+    document.addEventListener("pointerdown", closeOnOutsideClick);
     window.addEventListener("resize", closeTooltip);
     window.addEventListener("scroll", closeTooltip, true);
 
     return () => {
-      document.removeEventListener("pointerdown", closeTooltipOnOutsideClick);
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
       window.removeEventListener("resize", closeTooltip);
       window.removeEventListener("scroll", closeTooltip, true);
     };
