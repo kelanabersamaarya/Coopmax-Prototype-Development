@@ -504,20 +504,11 @@ export default function MitraKaryaLaporanAnggota() {
                     setKtpAvailability(value as KtpAvailabilityFilter)
                   }
                 >
-                  <SelectTrigger
-                    className={cn(
-                      fieldClassName,
-                      ktpAvailability === "Semua"
-                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                        : "text-slate-900",
-                    )}
-                  >
-                    <SelectValue placeholder="Pilih Ketersediaan File KTP" />
+                  <SelectTrigger className={fieldClassName}>
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-[5px] border-slate-200">
-                    <SelectItem value="Semua">
-                      Pilih Ketersediaan File KTP
-                    </SelectItem>
+                    <SelectItem value="Semua">Semua</SelectItem>
                     <SelectItem value="Tersedia">Tersedia</SelectItem>
                     <SelectItem value="Tidak Tersedia">
                       Tidak Tersedia
