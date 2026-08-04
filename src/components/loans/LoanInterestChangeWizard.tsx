@@ -121,7 +121,7 @@ function ConfirmDialog({
             </div>
           </div>
           <h3 className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
-            Yakin Melakukan Perubahan Bunga?
+            Yakin Melakukan Perubahan Suku Bunga?
           </h3>
           <div className="mt-8 flex items-center justify-center gap-2">
             <button
