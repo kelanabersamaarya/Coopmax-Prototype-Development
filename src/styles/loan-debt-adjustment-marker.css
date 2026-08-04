@@ -17,6 +17,7 @@
   position: relative !important;
   overflow: visible !important;
   padding-right: 34px !important;
+  font-weight: 700 !important;
 }
 
 [data-loan-debt-wizard="true"]
@@ -59,7 +60,7 @@
   tbody
   tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10)::after {
-  content: "Informasi Penyesuaian\A\A Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Nominal Penyesuaian: " attr(data-adjustment-amount) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason) "\A\A Disesuaikan Oleh: " attr(data-adjusted-by);
+  content: "Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Nominal Penyesuaian: " attr(data-adjustment-amount) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason) "\A\A Disesuaikan Oleh: " attr(data-adjusted-by);
   position: absolute;
   right: 0;
   top: calc(100% + 9px);
