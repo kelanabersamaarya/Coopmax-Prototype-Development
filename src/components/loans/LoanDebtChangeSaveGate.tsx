@@ -68,13 +68,16 @@ function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
 
   if (!adjustedRow) return null;
 
-  const cells = Array.from(adjustedRow.querySelectorAll<HTMLTableCellElement>("td");
+  const cells = Array.from(
+    adjustedRow.querySelectorAll<HTMLTableCellElement>("td"),
+  );
   const installmentNo = Number(cells[0]?.textContent?.trim() ?? "0");
   const draft = getLoanDebtAdjustmentDraft();
 
   if (!installmentNo || !draft) return null;
 
-  const interestBefore = draft.previousInterest || cells[6]?.textContent?.trim() || "0,00";
+  const interestBefore =
+    draft.previousInterest || cells[6]?.textContent?.trim() || "0,00";
   const interestAfter = formatIdr(
     getAdjustedInterest(interestBefore, draft.type, draft.amount),
   );
