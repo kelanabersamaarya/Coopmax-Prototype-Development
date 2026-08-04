@@ -52,9 +52,9 @@ function AdjustmentTooltip({
 }: {
   adjustment: SavedBillingInterestAdjustment["adjustment"];
 }) {
-  const amount =
+  const adjustmentAmount =
     adjustment.type === "Pembebasan Seluruh Bunga"
-      ? "0,00"
+      ? adjustment.previousInterest ?? "0,00"
       : adjustment.amount || "0,00";
 
   return (
@@ -63,7 +63,7 @@ function AdjustmentTooltip({
         Metode Penyesuaian: <strong>{adjustment.type}</strong>
       </div>
       <div>
-        Nominal Penyesuaian: <strong>{amount}</strong>
+        Nominal Penyesuaian: <strong>{adjustmentAmount}</strong>
       </div>
       <div>
         Alasan Penyesuaian: <strong>{adjustment.reason || "-"}</strong>
