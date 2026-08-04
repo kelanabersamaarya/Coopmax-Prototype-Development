@@ -42,8 +42,8 @@ function LoanChangeInfo() {
             Informasi Perubahan Pinjaman
           </div>
           <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
-            Terdapat penyesuaian pada pinjaman, tabel tagihan dibawah ini telah
-            disesuaikan dengan perubahan yang dilakukan.
+            Terdapat penyesuaian pada rekening pinjaman, tabel tagihan dibawah
+            ini telah disesuaikan dengan perubahan yang dilakuan.
           </p>
 
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
