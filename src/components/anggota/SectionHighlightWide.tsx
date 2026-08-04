@@ -41,10 +41,6 @@ function LoanChangeInfo() {
           <div className="text-[13px] font-extrabold text-slate-900">
             Informasi Perubahan Pinjaman
           </div>
-          <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
-            Terdapat perubahan pada suku bunga dan tenor pinjaman. Rincian
-            tagihan di bawah telah disesuaikan dengan perubahan tersebut.
-          </p>
 
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             <div className="flex items-center gap-2 rounded-[8px] bg-white px-3 py-2 ring-1 ring-blue-100">
