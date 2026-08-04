@@ -44,7 +44,7 @@
   pointer-events: none;
 }
 
-/* Sesuaikan label Tenor Saat Ini menjadi Tenor Saat Ini (Bulan). */
+/* Sesuaikan label Tenor Tambahan menjadi Tenor Tambahan (Bulan). */
 [data-loan-extension-wizard="true"]
   main
   > div.grid.gap-6
@@ -153,7 +153,11 @@
   > div.grid.gap-6
   > section
   > div.grid.gap-5
-  > div:has(input[placeholder="Masukkan tenor tambahan"]:not(:has(input:placeholder-shown))
+  > div:has(
+    input[placeholder="Masukkan tenor tambahan"]:not(
+      :has(input:placeholder-shown)
+    )
+  )
   + div
   > div:last-child::after {
   content: "";
