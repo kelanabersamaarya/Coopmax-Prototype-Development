@@ -100,8 +100,8 @@ function LoanChangeInfo() {
                   collisionPadding={12}
                   className="z-[9999] w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl"
                 >
-                  Terdapat penambahan tenor pinjaman dari tenor awal sebesar
-                  12 bulan menjadi 18 bulan
+                  Terdapat penambahan tenor sebesar 6 bulan, sehingga dari tenor
+                  awal 12 bulan menjadi 18 bulan
                 </TooltipContent>
               </Tooltip>
             </div>
