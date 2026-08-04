@@ -146,36 +146,162 @@
   background-size: contain;
 }
 
-/* Tabel simulasi langkah kedua: Angsuran Ke dan Jatuh Tempo dibuat lebih ringkas. */
+/*
+  Tabel simulasi langkah kedua:
+  lebar minimum dipadatkan dan table-layout fixed menjaga proporsi setiap kolom.
+*/
+[data-loan-debt-wizard="true"] table.min-w-\[1880px\] {
+  width: 1360px !important;
+  min-width: 1360px !important;
+  table-layout: fixed !important;
+}
+
+/* Kolom Angsuran Ke dan Jatuh Tempo. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   th:nth-child(1),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
-  td:nth-child(1),
+  td:nth-child(1) {
+  width: 78px !important;
+  min-width: 78px !important;
+  max-width: 78px !important;
+}
+
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   th:nth-child(2),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   td:nth-child(2) {
-  width: 85px !important;
-  min-width: 85px !important;
-  max-width: 85px !important;
+  width: 94px !important;
+  min-width: 94px !important;
+  max-width: 94px !important;
 }
 
-/* Tabel simulasi langkah kedua: Tagihan Pokok diperkecil dari 132px menjadi 95px. */
+/* Kolom nominal dipadatkan, dengan header dua baris tetap dipertahankan. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   th:nth-child(3),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   td:nth-child(3) {
-  width: 95px !important;
-  min-width: 95px !important;
-  max-width: 95px !important;
+  width: 90px !important;
+  min-width: 90px !important;
+  max-width: 90px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(4),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(4) {
+  width: 105px !important;
+  min-width: 105px !important;
+  max-width: 105px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(5),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(5) {
+  width: 90px !important;
+  min-width: 90px !important;
+  max-width: 90px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(6),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(6) {
+  width: 135px !important;
+  min-width: 135px !important;
+  max-width: 135px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(7),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(7) {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(8),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(8) {
+  width: 145px !important;
+  min-width: 145px !important;
+  max-width: 145px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(9),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(9) {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(10),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(10) {
+  width: 145px !important;
+  min-width: 145px !important;
+  max-width: 145px !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  th:nth-child(11),
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  td:nth-child(11) {
+  width: 135px !important;
+  min-width: 135px !important;
+  max-width: 135px !important;
+}
+
+/* Jaga label header tetap dua baris dan tidak melebar ke kolom lain. */
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  thead
+  th:nth-child(n + 3) {
   padding-left: 8px !important;
   padding-right: 8px !important;
+  line-height: 1.2 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: normal !important;
+}
+
+/* Sel isi yang lebih sempit tetap rapi dan sejajar di kanan. */
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  tbody
+  td:nth-child(n + 3) {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
 }
 
 /* Kolom hasil sesudah penyesuaian tetap diberi penekanan biru. */
