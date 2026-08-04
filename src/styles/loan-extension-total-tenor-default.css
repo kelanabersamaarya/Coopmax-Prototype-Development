@@ -52,6 +52,36 @@
   pointer-events: none;
 }
 
+/* Helper di bawah input Tenor Baru, sebelum field berikutnya. */
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor baru"])
+  + div {
+  position: relative;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor baru"])
+  + div::before {
+  content: "Pastikan tenor yang anda masukkan melebihi tenor saat ini";
+  position: absolute;
+  left: calc(210px + 0.5rem);
+  right: 0;
+  top: -18px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
 @media (max-width: 639px) {
   [data-loan-extension-wizard="true"]
     main
@@ -70,5 +100,15 @@
     > div:has(input[placeholder="Masukkan tenor baru"])::after {
     left: 0;
     top: 25px;
+  }
+
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > section
+    > div.grid.gap-5
+    > div:has(input[placeholder="Masukkan tenor baru"])
+    + div::before {
+    left: 0;
   }
 }
