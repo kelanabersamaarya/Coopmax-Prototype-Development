@@ -59,7 +59,7 @@
   tbody
   tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10)::after {
-  content: "Informasi Penyesuaian\A\A Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason);
+  content: "Informasi Penyesuaian\A\A Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Nominal Penyesuaian: " attr(data-adjustment-amount) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason) "\A\A Disesuaikan Oleh: " attr(data-adjusted-by);
   position: absolute;
   right: 0;
   bottom: calc(100% + 9px);
