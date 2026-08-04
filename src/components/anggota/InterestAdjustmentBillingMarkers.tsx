@@ -97,6 +97,7 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
 
   return createPortal(
     <aside
+      data-interest-adjustment-tooltip="true"
       className="fixed z-[9999] w-[320px] rounded-[10px] border border-slate-200 bg-white p-4 text-left shadow-xl"
       style={{ left, top }}
       role="tooltip"
@@ -106,10 +107,7 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
       </div>
 
       <div className="grid gap-3">
-        <TooltipRow
-          label="Jatuh Tempo"
-          value={state.dueDate}
-        />
+        <TooltipRow label="Jatuh Tempo" value={state.dueDate} />
         <TooltipRow
           label="Metode Penyesuaian"
           value={staticAdjustmentInfo.method}
@@ -145,12 +143,16 @@ export default function InterestAdjustmentBillingMarkers() {
 
   React.useEffect(() => {
     let timeoutId = 0;
+    let observer: MutationObserver | null = null;
 
     const syncMarkers = () => {
-      clearMarkers();
-      setTooltip(null);
+      const interestCells = findInterestCells();
 
-      findInterestCells().forEach(({ dueDate, interestCell }) => {
+      if (interestCells.length === 0) return;
+
+      clearMarkers();
+
+      interestCells.forEach(({ dueDate, interestCell }) => {
         interestCell.classList.add(markedCellClass);
 
         const marker = document.createElement("button");
@@ -167,13 +169,14 @@ export default function InterestAdjustmentBillingMarkers() {
         };
 
         marker.addEventListener("mouseenter", openTooltip);
-        marker.addEventListener("mouseleave", () => setTooltip(null));
         marker.addEventListener("focus", openTooltip);
-        marker.addEventListener("blur", () => setTooltip(null));
         marker.addEventListener("click", openTooltip);
 
         interestCell.appendChild(marker);
       });
+
+      observer?.disconnect();
+      observer = null;
     };
 
     const scheduleSync = () => {
@@ -181,26 +184,49 @@ export default function InterestAdjustmentBillingMarkers() {
       timeoutId = window.setTimeout(syncMarkers, 100);
     };
 
-    const observer = new MutationObserver(scheduleSync);
-
-    syncMarkers();
-
+    observer = new MutationObserver(scheduleSync);
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    window.addEventListener("resize", () => setTooltip(null));
-    window.addEventListener("scroll", () => setTooltip(null), true);
+    scheduleSync();
 
     return () => {
       window.clearTimeout(timeoutId);
-      observer.disconnect();
+      observer?.disconnect();
       clearMarkers();
-      window.removeEventListener("resize", () => setTooltip(null));
-      window.removeEventListener("scroll", () => setTooltip(null), true);
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!tooltip) return;
+
+    const closeTooltipOnOutsideClick = (event: PointerEvent) => {
+      const target = event.target as HTMLElement | null;
+
+      if (
+        target?.closest(`.${markerClass}`) ||
+        target?.closest('[data-interest-adjustment-tooltip="true"]')
+      ) {
+        return;
+      }
+
+      setTooltip(null);
+    };
+
+    const closeTooltipOnResize = () => setTooltip(null);
+
+    document.addEventListener("pointerdown", closeTooltipOnOutsideClick);
+    window.addEventListener("resize", closeTooltipOnResize);
+    window.addEventListener("scroll", closeTooltipOnResize, true);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeTooltipOnOutsideClick);
+      window.removeEventListener("resize", closeTooltipOnResize);
+      window.removeEventListener("scroll", closeTooltipOnResize, true);
+    };
+  }, [tooltip]);
 
   return (
     <>
