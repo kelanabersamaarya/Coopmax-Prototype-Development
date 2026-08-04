@@ -1,6 +1,15 @@
+import * as React from "react";
 import { X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+
+const ktpImageSources = [
+  "/image%204.png",
+  "/image%204.jpg",
+  "/image%204.jpeg",
+  "/image%204.webp",
+  "/image%204",
+];
 
 export default function KtpPhotoDialog({
   open,
@@ -13,6 +22,16 @@ export default function KtpPhotoDialog({
   memberName: string;
   memberId: string;
 }) {
+  const [sourceIndex, setSourceIndex] = React.useState(0);
+  const [imageUnavailable, setImageUnavailable] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!open) return;
+
+    setSourceIndex(0);
+    setImageUnavailable(false);
+  }, [open]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -24,9 +43,14 @@ export default function KtpPhotoDialog({
         )}
       >
         <header className="flex items-center justify-between border-b border-slate-300 px-6 py-5">
-          <h2 className="text-[20px] font-bold tracking-tight text-black">
-            Foto KTP Anggota
-          </h2>
+          <div>
+            <h2 className="text-[20px] font-bold tracking-tight text-black">
+              Foto KTP Anggota
+            </h2>
+            <p className="mt-1 text-[13px] text-slate-500">
+              {memberName} • {memberId}
+            </p>
+          </div>
 
           <button
             type="button"
@@ -39,56 +63,29 @@ export default function KtpPhotoDialog({
           </button>
         </header>
 
-        <main className="px-6 py-7">
-          <div className="rounded-[5px] border border-slate-300 p-4">
-            <div className="relative overflow-hidden rounded-[26px] border border-[#9dc8db] bg-[#b9e2f0] px-7 py-6 sm:px-9">
-              <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:repeating-radial-gradient(ellipse_at_center,transparent_0,transparent_11px,#ffffff_12px,transparent_13px)]" />
-              <div className="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-white/50" />
-
-              <div className="relative z-10">
-                <div className="text-center text-[23px] font-extrabold leading-tight tracking-wide text-slate-950 sm:text-[28px]">
-                  PROVINSI DKI JAKARTA
-                  <br />
-                  JAKARTA BARAT
-                </div>
-
-                <div className="mt-8 grid gap-6 md:grid-cols-[minmax(0,1fr)_190px]">
-                  <div className="grid content-start gap-1.5 text-[13px] font-bold text-slate-800 sm:text-[16px]">
-                    <div>NIK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 3171234567890123</div>
-                    <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {memberName.toUpperCase()}</div>
-                    <div>Tempat/Tgl Lahir&nbsp;&nbsp;: JAKARTA, 18-02-1986</div>
-                    <div>Jenis Kelamin&nbsp;&nbsp;&nbsp;&nbsp;: PEREMPUAN&nbsp;&nbsp;&nbsp; Gol. Darah : B</div>
-                    <div>Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: JL. PASTI CEPAT A7/66</div>
-                    <div className="pl-12">RT/RW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 007/008</div>
-                    <div className="pl-12">Kel/Desa&nbsp;&nbsp;&nbsp;&nbsp;: PEGADUNGAN</div>
-                    <div className="pl-12">Kecamatan&nbsp;&nbsp;&nbsp;: KALIDERES</div>
-                    <div>Agama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ISLAM</div>
-                    <div>Status Perkawinan : KAWIN</div>
-                    <div>Pekerjaan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: PEGAWAI SWASTA</div>
-                    <div>Kewarganegaraan&nbsp;: WNI</div>
-                    <div>Berlaku Hingga&nbsp;&nbsp;&nbsp;: SEUMUR HIDUP</div>
-                  </div>
-
-                  <div className="flex flex-col items-center">
-                    <div className="flex h-[214px] w-[168px] items-center justify-center bg-[#bf4b43] p-3">
-                      <div className="flex h-full w-full items-center justify-center bg-[#243447] text-center text-[42px] font-bold text-white/80">
-                        {memberName.charAt(0).toUpperCase()}
-                      </div>
-                    </div>
-                    <div className="mt-3 text-center text-[14px] font-extrabold text-slate-900">
-                      JAKARTA BARAT
-                      <br />
-                      02-12-2012
-                    </div>
-                    <div className="mt-2 text-[22px] italic text-slate-700">4~b</div>
-                  </div>
-                </div>
-
-                <div className="mt-5 text-[10px] font-semibold text-slate-600">
-                  ID Anggota: {memberId}
-                </div>
+        <main className="bg-slate-50 px-6 py-7">
+          <div className="flex min-h-[280px] items-center justify-center rounded-[5px] border border-slate-300 bg-white p-4">
+            {imageUnavailable ? (
+              <div className="text-center text-[14px] font-semibold text-slate-500">
+                Gambar KTP tidak dapat ditemukan.
               </div>
-            </div>
+            ) : (
+              <img
+                src={ktpImageSources[sourceIndex]}
+                alt={`KTP ${memberName}`}
+                className="max-h-[65vh] w-auto max-w-full rounded-[4px] object-contain shadow-sm"
+                onError={() => {
+                  const nextIndex = sourceIndex + 1;
+
+                  if (nextIndex < ktpImageSources.length) {
+                    setSourceIndex(nextIndex);
+                    return;
+                  }
+
+                  setImageUnavailable(true);
+                }}
+              />
+            )}
           </div>
         </main>
 
