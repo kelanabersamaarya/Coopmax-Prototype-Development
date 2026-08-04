@@ -8,12 +8,8 @@ import LoanDebtChangeSaveGate from "@/components/loans/LoanDebtChangeSaveGate";
 import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentInputFix";
 import LoanInterestChangeSuccessGate from "@/components/loans/LoanInterestChangeSuccessGate";
 import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizardCancelButton";
-import LoanExtensionContinueGate from "@/components/loans/LoanExtensionContinueGate";
 import LoanExtensionSaveConfirmGate from "@/components/loans/LoanExtensionSaveConfirmGate";
 import LoanExtensionStepTwoSaveGate from "@/components/loans/LoanExtensionStepTwoSaveGate";
-import LoanExtensionTenorFields from "@/components/loans/LoanExtensionTenorFields";
-import LoanExtensionDueMonthSelect from "@/components/loans/LoanExtensionDueMonthSelect";
-import LoanExtensionCurrentDueDateFields from "@/components/loans/LoanExtensionCurrentDueDateFields";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
@@ -28,7 +24,9 @@ export default function MobileAwareToaster() {
   const isSakEpCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
   const shouldHideToaster =
-    (isMobilePrototype && !isNewMBankingArea) || isObsArea || isSakEpCabangArea;
+    (isMobilePrototype && !isNewMBankingArea) ||
+    isObsArea ||
+    isSakEpCabangArea;
 
   React.useEffect(() => {
     if (!shouldHideToaster) return;
@@ -48,12 +46,8 @@ export default function MobileAwareToaster() {
       <LoanInterestChangeSuccessGate />
       <LoanInterestWizardCancelButton />
       <LoanInterestAdjustmentHoverStyle />
-      <LoanExtensionContinueGate />
       <LoanExtensionSaveConfirmGate />
       <LoanExtensionStepTwoSaveGate />
-      <LoanExtensionTenorFields />
-      <LoanExtensionDueMonthSelect />
-      <LoanExtensionCurrentDueDateFields />
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />

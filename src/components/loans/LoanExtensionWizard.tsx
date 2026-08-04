@@ -5,20 +5,13 @@ import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanExtensionHistoryDialog from "@/components/loans/LoanExtensionHistoryDialog";
 import LoanExtensionPaymentSchedule from "@/components/loans/LoanExtensionPaymentSchedule";
-import { addLoanExtensionHistory } from "@/lib/loanExtensionHistoryStore";
 
 type Step = 1 | 2;
 type ExtensionMethod =
@@ -26,13 +19,29 @@ type ExtensionMethod =
   | "Tenor Baru"
   | "Jatuh Tempo Akhir Baru";
 
-const OLD_TENOR = 12;
+const CURRENT_TENOR = 12;
+const CURRENT_DUE_MONTH = "April";
+const CURRENT_DUE_YEAR = "2027";
 const REMAINING_PRINCIPAL = 10_553_571;
 const MONTHLY_INTEREST = 120_000;
-const OLD_DUE_DATE = "07-04-2027";
-const extensionYears = Array.from({ length: 16 }, (_, index) =>
-  String(2026 + index),
-);
+const CURRENT_DUE_DATE = new Date(2027, 3, 7);
+
+const months = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
+
+const years = Array.from({ length: 16 }, (_, index) => String(2026 + index));
 
 const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
@@ -55,29 +64,16 @@ function formatIdr(value: number) {
     .replace(/,/g, ".");
 }
 
-function parseDmy(value: string) {
-  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
-  if (!match) return null;
-
-  const date = new Date(
-    Number(match[3]),
-    Number(match[2]) - 1,
-    Number(match[1]),
-  );
-
-  return date.getDate() === Number(match[1]) ? date : null;
-}
-
 function formatDmy(date: Date) {
   return `${String(date.getDate()).padStart(2, "0")}-${String(
     date.getMonth() + 1,
   ).padStart(2, "0")}-${date.getFullYear()}`;
 }
 
-function addMonths(date: Date, months: number) {
+function addMonths(date: Date, amount: number) {
   const result = new Date(date);
   const originalDay = result.getDate();
-  result.setMonth(result.getMonth() + months);
+  result.setMonth(result.getMonth() + amount);
 
   if (result.getDate() !== originalDay) result.setDate(0);
 
@@ -86,11 +82,11 @@ function addMonths(date: Date, months: number) {
 
 function AccountField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="loan-extension-account-field min-w-0">
+    <div className="min-w-0">
       <div className="text-[12px] font-semibold text-white/85">{label}</div>
       <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
         {label === "Status Pinjaman" ? (
-          <span className="inline-flex rounded-[4px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-slate-900">
+          <span className="inline-flex rounded-[4px] bg-[#3BB001] px-2 py-1 text-[11px] font-extrabold leading-none text-white">
             {value}
           </span>
         ) : (
@@ -125,6 +121,21 @@ function FieldRow({
       >
         {label} <span className="text-rose-600">*</span>
       </label>
+      {children}
+    </div>
+  );
+}
+
+function ReadOnlyFieldRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-[210px_minmax(0,1fr)] sm:items-center">
+      <div className="text-[14px] font-normal text-[#002060]">{label}</div>
       {children}
     </div>
   );
@@ -171,77 +182,6 @@ function StepIndicator({ step }: { step: Step }) {
   );
 }
 
-function ConfirmDialog({
-  open,
-  onCancel,
-  onConfirm,
-}: {
-  open: boolean;
-  onCancel: () => void;
-  onConfirm: () => void;
-}) {
-  return (
-    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
-      <DialogContent className="h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
-        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
-          <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[58px] font-light leading-none text-[#f2b98f]">
-              !
-            </span>
-          </div>
-
-          <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
-            Yakin untuk melakukan perubahan?
-          </h2>
-
-          <div className="mt-[34px] flex items-center justify-center gap-[9px]">
-            <button
-              type="button"
-              onClick={onConfirm}
-              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              onClick={onCancel}
-              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function SuccessDialog({ open, onOk }: { open: boolean; onOk: () => void }) {
-  return (
-    <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onOk() : null)}>
-      <DialogContent className="h-[330px] w-[calc(100vw-2rem)] max-w-[580px] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button[aria-label=Close]]:hidden">
-        <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
-          <div className="flex h-[102px] w-[102px] items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
-            <Check className="h-[58px] w-[58px] text-[#33aa00]" strokeWidth={3} />
-          </div>
-
-          <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
-            Berhasil Melakukan Perpanjangan Pinjaman
-          </h2>
-
-          <button
-            type="button"
-            onClick={onOk}
-            className="mt-8 h-[68px] w-[214px] rounded-[10px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/30 transition hover:bg-[#266ed0]"
-          >
-            OK
-          </button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 export default function LoanExtensionWizard({
   open,
   onOpenChange,
@@ -259,8 +199,6 @@ export default function LoanExtensionWizard({
   const [dueYear, setDueYear] = React.useState("");
   const [effectiveDate, setEffectiveDate] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const [successOpen, setSuccessOpen] = React.useState(false);
   const [historyOpen, setHistoryOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -274,17 +212,10 @@ export default function LoanExtensionWizard({
     setDueYear("");
     setEffectiveDate("");
     setReason("");
-    setConfirmOpen(false);
-    setSuccessOpen(false);
     setHistoryOpen(false);
   }, [open]);
 
-  const oldDueDate = React.useMemo(
-    () => parseDmy(OLD_DUE_DATE) ?? new Date(2027, 3, 7),
-    [],
-  );
-
-  const parsedDueMonth = Number.parseInt(dueMonth, 10);
+  const parsedDueMonth = months.indexOf(dueMonth);
   const parsedDueYear = Number.parseInt(dueYear, 10);
 
   const hasMethodValue =
@@ -293,9 +224,7 @@ export default function LoanExtensionWizard({
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
         : method === "Jatuh Tempo Akhir Baru"
-          ? parsedDueMonth >= 1 &&
-            parsedDueMonth <= 12 &&
-            parsedDueYear >= 2026
+          ? parsedDueMonth >= 0 && Number.isFinite(parsedDueYear)
           : false;
 
   const isValid =
@@ -304,54 +233,44 @@ export default function LoanExtensionWizard({
     reason.trim().length > 0;
 
   const simulation = React.useMemo(() => {
-    let tenor = OLD_TENOR;
-    let dueDate = oldDueDate;
+    let tenor = CURRENT_TENOR;
+    let dueDate = CURRENT_DUE_DATE;
 
     if (method === "Tenor Tambahan") {
-      const addedMonths = Number.parseInt(additionalTenor, 10) || 0;
-      tenor = OLD_TENOR + addedMonths;
-      dueDate = addMonths(oldDueDate, addedMonths);
+      const additionalMonths = Number.parseInt(additionalTenor, 10) || 0;
+      tenor = CURRENT_TENOR + additionalMonths;
+      dueDate = addMonths(CURRENT_DUE_DATE, additionalMonths);
     }
 
     if (method === "Tenor Baru") {
-      tenor = Math.max(1, Number.parseInt(newTenor, 10) || OLD_TENOR);
-      dueDate = addMonths(oldDueDate, Math.max(0, tenor - OLD_TENOR));
+      tenor = Math.max(1, Number.parseInt(newTenor, 10) || CURRENT_TENOR);
+      dueDate = addMonths(CURRENT_DUE_DATE, tenor - CURRENT_TENOR);
     }
 
     if (
       method === "Jatuh Tempo Akhir Baru" &&
-      parsedDueMonth >= 1 &&
-      parsedDueMonth <= 12 &&
-      parsedDueYear >= 2026
+      parsedDueMonth >= 0 &&
+      Number.isFinite(parsedDueYear)
     ) {
-      dueDate = new Date(parsedDueYear, parsedDueMonth - 1, oldDueDate.getDate());
-      if (dueDate.getMonth() !== parsedDueMonth - 1) dueDate.setDate(0);
+      dueDate = new Date(parsedDueYear, parsedDueMonth, CURRENT_DUE_DATE.getDate());
+
+      if (dueDate.getMonth() !== parsedDueMonth) dueDate.setDate(0);
 
       const monthDifference =
-        (dueDate.getFullYear() - oldDueDate.getFullYear()) * 12 +
+        (dueDate.getFullYear() - CURRENT_DUE_DATE.getFullYear()) * 12 +
         dueDate.getMonth() -
-        oldDueDate.getMonth();
+        CURRENT_DUE_DATE.getMonth();
 
-      tenor = Math.max(1, OLD_TENOR + monthDifference);
+      tenor = Math.max(1, CURRENT_TENOR + monthDifference);
     }
 
     const monthlyPrincipal = REMAINING_PRINCIPAL / tenor;
-    const interestFactor =
-      tenor > OLD_TENOR
-        ? 1 + (tenor - OLD_TENOR) * 0.025
-        : tenor < OLD_TENOR
-          ? Math.max(0.7, 1 - (OLD_TENOR - tenor) * 0.025)
-          : 1;
-    const monthlyInterest = MONTHLY_INTEREST * interestFactor;
+    const monthlyInterest = MONTHLY_INTEREST * (CURRENT_TENOR / tenor);
 
     const scheduleRows = Array.from({ length: tenor }, (_, index) => {
       const principal = Math.min(
         monthlyPrincipal,
         Math.max(0, REMAINING_PRINCIPAL - monthlyPrincipal * index),
-      );
-      const remainingPrincipal = Math.max(
-        0,
-        REMAINING_PRINCIPAL - monthlyPrincipal * (index + 1),
       );
       const penalty = index < 3 ? 75_000 : 0;
 
@@ -360,8 +279,11 @@ export default function LoanExtensionWizard({
         total: principal + monthlyInterest + penalty,
         principal,
         interest: monthlyInterest,
-        remainingPrincipal,
-        remainingInterest: remainingPrincipal * 0.01,
+        remainingPrincipal: Math.max(
+          0,
+          REMAINING_PRINCIPAL - monthlyPrincipal * (index + 1),
+        ),
+        remainingInterest: 0,
         penalty,
       };
     });
@@ -369,20 +291,20 @@ export default function LoanExtensionWizard({
     return {
       tenor,
       dueDate: formatDmy(dueDate),
-      oldInstallment: REMAINING_PRINCIPAL / OLD_TENOR + MONTHLY_INTEREST,
+      oldInstallment: REMAINING_PRINCIPAL / CURRENT_TENOR + MONTHLY_INTEREST,
       newInstallment: monthlyPrincipal + monthlyInterest,
-      oldInterest: MONTHLY_INTEREST * OLD_TENOR,
+      oldInterest: MONTHLY_INTEREST * CURRENT_TENOR,
       newInterest: monthlyInterest * tenor,
       scheduleRows,
     };
-  }, [
-    additionalTenor,
-    method,
-    newTenor,
-    oldDueDate,
-    parsedDueMonth,
-    parsedDueYear,
-  ]);
+  }, [additionalTenor, method, newTenor, parsedDueMonth, parsedDueYear]);
+
+  const methodValue =
+    method === "Tenor Tambahan"
+      ? `${additionalTenor} Bulan`
+      : method === "Tenor Baru"
+        ? `${simulation.tenor} Bulan`
+        : simulation.dueDate;
 
   function continueWizard() {
     if (!isValid) {
@@ -396,50 +318,6 @@ export default function LoanExtensionWizard({
     setStep(2);
   }
 
-  function saveExtension() {
-    addLoanExtensionHistory(accountNo, {
-      method,
-      effectiveDate,
-      previousTenor: `${OLD_TENOR} Bulan`,
-      newTenor: `${simulation.tenor} Bulan`,
-    });
-
-    setConfirmOpen(false);
-    setSuccessOpen(true);
-  }
-
-  const extensionMethodValue =
-    method === "Tenor Tambahan"
-      ? `${additionalTenor} Bulan`
-      : method === "Tenor Baru"
-        ? `${simulation.tenor} Bulan`
-        : simulation.dueDate;
-
-  const summaryRows = [
-    ["Metode Perpanjangan", method || "-"],
-    [
-      method === "Jatuh Tempo Akhir Baru"
-        ? "Jatuh Tempo Akhir Baru"
-        : method === "Tenor Tambahan"
-          ? "Tenor Tambahan"
-          : "Tenor Baru",
-      extensionMethodValue,
-    ],
-    ["Tanggal Efektif", effectiveDate],
-    ["Tenor", `${OLD_TENOR} Bulan`, `${simulation.tenor} Bulan`],
-    ["Tanggal Jatuh Tempo Akhir", OLD_DUE_DATE, simulation.dueDate],
-    [
-      "Angsuran",
-      formatIdr(simulation.oldInstallment),
-      formatIdr(simulation.newInstallment),
-    ],
-    [
-      "Total Bunga Masa Depan",
-      formatIdr(simulation.oldInterest),
-      formatIdr(simulation.newInterest),
-    ],
-  ];
-
   return (
     <>
       <LoanExtensionHistoryDialog
@@ -448,21 +326,7 @@ export default function LoanExtensionWizard({
         accountNo={accountNo}
       />
 
-      <ConfirmDialog
-        open={confirmOpen}
-        onCancel={() => setConfirmOpen(false)}
-        onConfirm={saveExtension}
-      />
-
-      <SuccessDialog
-        open={successOpen}
-        onOk={() => {
-          setSuccessOpen(false);
-          onOpenChange(false);
-        }}
-      />
-
-      <Dialog open={open && !successOpen} onOpenChange={onOpenChange}>
+      <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           data-loan-extension-wizard="true"
           data-loan-extension-step={step}
@@ -522,7 +386,7 @@ export default function LoanExtensionWizard({
 
                   <div className="grid gap-5 p-5">
                     <FieldRow label="Metode Perpanjangan">
-                      <Select
+                      <RadioGroup
                         value={method}
                         onValueChange={(value) => {
                           setMethod(value as ExtensionMethod);
@@ -531,32 +395,63 @@ export default function LoanExtensionWizard({
                           setDueMonth("");
                           setDueYear("");
                         }}
+                        className="flex flex-wrap items-center gap-x-6 gap-y-3"
                       >
-                        <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
-                          <SelectValue placeholder="Pilih Metode Perpanjangan" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-[5px] border-slate-200">
-                          <SelectItem value="Tenor Tambahan">Tenor Tambahan</SelectItem>
-                          <SelectItem value="Tenor Baru">Tenor Baru</SelectItem>
-                          <SelectItem value="Jatuh Tempo Akhir Baru">
-                            Jatuh Tempo Akhir Baru
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
+                        {(
+                          [
+                            "Tenor Tambahan",
+                            "Tenor Baru",
+                            "Jatuh Tempo Akhir Baru",
+                          ] as ExtensionMethod[]
+                        ).map((option) => (
+                          <label
+                            key={option}
+                            className="inline-flex cursor-pointer items-center gap-2 text-[14px] font-normal text-slate-900"
+                          >
+                            <RadioGroupItem value={option} />
+                            {option}
+                          </label>
+                        ))}
+                      </RadioGroup>
                     </FieldRow>
 
                     {method === "Tenor Tambahan" ? (
-                      <FieldRow label="Tenor Tambahan (Bulan)">
-                        <Input
-                          value={additionalTenor}
-                          onChange={(event) =>
-                            setAdditionalTenor(event.target.value.replace(/[^\d]/g, ""))
-                          }
-                          inputMode="numeric"
-                          placeholder="Masukkan tenor tambahan"
-                          className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                        />
-                      </FieldRow>
+                      <>
+                        <ReadOnlyFieldRow label="Tenor Saat Ini">
+                          <Input
+                            value={`${CURRENT_TENOR} Bulan`}
+                            readOnly
+                            aria-readonly="true"
+                            className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
+                          />
+                        </ReadOnlyFieldRow>
+
+                        <FieldRow label="Tenor Tambahan (Bulan)">
+                          <Input
+                            value={additionalTenor}
+                            onChange={(event) =>
+                              setAdditionalTenor(
+                                event.target.value.replace(/[^\d]/g, ""),
+                              )
+                            }
+                            inputMode="numeric"
+                            placeholder="Masukkan tenor tambahan"
+                            className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
+                          />
+                        </FieldRow>
+
+                        <ReadOnlyFieldRow label="Total Tenor Baru">
+                          <Input
+                            value={`${
+                              CURRENT_TENOR +
+                              (Number.parseInt(additionalTenor, 10) || 0)
+                            } Bulan`}
+                            readOnly
+                            aria-readonly="true"
+                            className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
+                          />
+                        </ReadOnlyFieldRow>
+                      </>
                     ) : null}
 
                     {method === "Tenor Baru" ? (
@@ -564,7 +459,9 @@ export default function LoanExtensionWizard({
                         <Input
                           value={newTenor}
                           onChange={(event) =>
-                            setNewTenor(event.target.value.replace(/[^\d]/g, ""))
+                            setNewTenor(
+                              event.target.value.replace(/[^\d]/g, ""),
+                            )
                           }
                           inputMode="numeric"
                           placeholder="Masukkan tenor baru"
@@ -574,34 +471,54 @@ export default function LoanExtensionWizard({
                     ) : null}
 
                     {method === "Jatuh Tempo Akhir Baru" ? (
-                      <FieldRow label="Jatuh Tempo Akhir Baru">
-                        <div className="grid grid-cols-2 gap-3">
-                          <Input
-                            value={dueMonth}
-                            onChange={(event) =>
-                              setDueMonth(
-                                event.target.value.replace(/[^\d]/g, "").slice(0, 2),
-                              )
-                            }
-                            inputMode="numeric"
-                            placeholder="Bulan (01-12)"
-                            className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                          />
+                      <>
+                        <ReadOnlyFieldRow label="Jatuh Tempo Saat Ini">
+                          <div className="grid grid-cols-2 gap-3">
+                            <Input
+                              value={CURRENT_DUE_MONTH}
+                              readOnly
+                              aria-readonly="true"
+                              className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
+                            />
+                            <Input
+                              value={CURRENT_DUE_YEAR}
+                              readOnly
+                              aria-readonly="true"
+                              className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
+                            />
+                          </div>
+                        </ReadOnlyFieldRow>
 
-                          <Select value={dueYear} onValueChange={setDueYear}>
-                            <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
-                              <SelectValue placeholder="Pilih Tahun" />
-                            </SelectTrigger>
-                            <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
-                              {extensionYears.map((year) => (
-                                <SelectItem key={year} value={year}>
-                                  {year}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </FieldRow>
+                        <FieldRow label="Jatuh Tempo Akhir Baru">
+                          <div className="grid grid-cols-2 gap-3">
+                            <Select value={dueMonth} onValueChange={setDueMonth}>
+                              <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
+                                <SelectValue placeholder="Pilih Bulan" />
+                              </SelectTrigger>
+                              <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
+                                {months.map((month) => (
+                                  <SelectItem key={month} value={month}>
+                                    {month}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+
+                            <Select value={dueYear} onValueChange={setDueYear}>
+                              <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
+                                <SelectValue placeholder="Pilih Tahun" />
+                              </SelectTrigger>
+                              <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
+                                {years.map((year) => (
+                                  <SelectItem key={year} value={year}>
+                                    {year}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </FieldRow>
+                      </>
                     ) : null}
 
                     <FieldRow label="Tanggal Efektif">
@@ -641,39 +558,51 @@ export default function LoanExtensionWizard({
                         </tr>
                       </thead>
                       <tbody>
-                        {summaryRows.map(([label, before, after], index) => (
-                          <tr
-                            key={label}
-                            className={cn(
-                              "border-b border-slate-100 text-[12px] text-black last:border-b-0",
-                              index % 2 ? "bg-slate-50/60" : "bg-white",
-                            )}
-                          >
-                            <td className="px-4 py-3 font-medium">{label}</td>
-                            <td className="px-4 py-3 tabular-nums">
-                              {after ? before : "-"}
-                            </td>
-                            <td
-                              className={cn(
-                                "px-4 py-3",
-                                after
-                                  ? "font-semibold tabular-nums text-[#2563EB]"
-                                  : "font-semibold text-[#2563EB]",
-                              )}
-                            >
-                              {after ?? before}
-                            </td>
-                          </tr>
-                        ))}
-
-                        <tr className="border-b border-slate-100 bg-white">
-                          <td className="px-4 py-3 text-[12px] font-medium">
-                            Alasan Perpanjangan
+                        <tr className="border-b border-slate-100 bg-white text-[12px] text-black">
+                          <td className="px-4 py-3 font-medium">
+                            Metode Perpanjangan
                           </td>
-                          <td className="px-4 py-3 text-[12px] text-slate-400">
-                            -
+                          <td className="px-4 py-3 text-slate-400">-</td>
+                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                            {method}
                           </td>
-                          <td className="px-4 py-3 text-[12px] font-semibold text-slate-900">
+                        </tr>
+                        <tr className="border-b border-slate-100 bg-slate-50/60 text-[12px] text-black">
+                          <td className="px-4 py-3 font-medium">
+                            Detail Perpanjangan
+                          </td>
+                          <td className="px-4 py-3 text-slate-400">-</td>
+                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                            {methodValue}
+                          </td>
+                        </tr>
+                        <tr className="border-b border-slate-100 bg-white text-[12px] text-black">
+                          <td className="px-4 py-3 font-medium">Tanggal Efektif</td>
+                          <td className="px-4 py-3 text-slate-400">-</td>
+                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                            {effectiveDate}
+                          </td>
+                        </tr>
+                        <tr className="border-b border-slate-100 bg-slate-50/60 text-[12px] text-black">
+                          <td className="px-4 py-3 font-medium">Tenor</td>
+                          <td className="px-4 py-3">{CURRENT_TENOR} Bulan</td>
+                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                            {simulation.tenor} Bulan
+                          </td>
+                        </tr>
+                        <tr className="border-b border-slate-100 bg-white text-[12px] text-black">
+                          <td className="px-4 py-3 font-medium">
+                            Tanggal Jatuh Tempo Akhir
+                          </td>
+                          <td className="px-4 py-3">07-04-2027</td>
+                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                            {simulation.dueDate}
+                          </td>
+                        </tr>
+                        <tr className="border-b border-slate-100 bg-slate-50/60 text-[12px] text-black">
+                          <td className="px-4 py-3 font-medium">Alasan Perpanjangan</td>
+                          <td className="px-4 py-3 text-slate-400">-</td>
+                          <td className="px-4 py-3 font-semibold text-slate-900">
                             {reason}
                           </td>
                         </tr>
@@ -721,11 +650,11 @@ export default function LoanExtensionWizard({
             <button
               type="button"
               disabled={step === 1 && !isValid}
-              onClick={step === 1 ? continueWizard : () => setConfirmOpen(true)}
+              onClick={step === 1 ? continueWizard : undefined}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
                 step === 2
-                  ? "min-w-[214px] gap-[8px] bg-[#2fb300] hover:bg-[#279800]"
+                  ? "min-w-[177px] gap-[8px] bg-[#28b800] hover:bg-[#239f00]"
                   : !isValid
                     ? "min-w-[145px] cursor-not-allowed gap-2 bg-slate-300 text-slate-500"
                     : "min-w-[145px] gap-2 bg-[#2563EB] hover:bg-[#1D4ED8]",
