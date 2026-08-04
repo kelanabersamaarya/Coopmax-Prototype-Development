@@ -18,6 +18,12 @@ const nyomanTenorTooltip =
 
 const komangTenorTooltip = "April 2027 -> April 2028";
 
+type LoanChangeDisplay = {
+  label: string;
+  value: string;
+  tooltip: string;
+};
+
 function getSelectedCustomerName() {
   const customerLabel = Array.from(document.querySelectorAll("span")).find(
     (element) => element.textContent?.trim() === "Nama Nasabah",
@@ -26,10 +32,34 @@ function getSelectedCustomerName() {
   return customerLabel?.parentElement?.textContent?.trim() ?? "";
 }
 
+function getLoanChangeDisplay(customerName: string): LoanChangeDisplay {
+  if (customerName.includes("Komang Dewa")) {
+    return {
+      label: "Jatuh Tempo Pinjaman",
+      value: "April 2027 → April 2028",
+      tooltip: komangTenorTooltip,
+    };
+  }
+
+  if (customerName.includes("Nyoman Ariana")) {
+    return {
+      label: "Tenor Pinjaman",
+      value: "12 → 14 bulan",
+      tooltip: nyomanTenorTooltip,
+    };
+  }
+
+  return {
+    label: "Tenor Pinjaman",
+    value: "12 → 18 bulan",
+    tooltip: defaultTenorTooltip,
+  };
+}
+
 function LoanChangeInfo({
-  tenorTooltip,
+  loanChange,
 }: {
-  tenorTooltip: string;
+  loanChange: LoanChangeDisplay;
 }) {
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
 
@@ -94,10 +124,10 @@ function LoanChangeInfo({
 
                 <div className="min-w-0">
                   <div className="text-[11px] font-semibold text-slate-500">
-                    Tenor Pinjaman
+                    {loanChange.label}
                   </div>
                   <div className="text-[12px] font-extrabold text-slate-900">
-                    12 → 18 bulan
+                    {loanChange.value}
                   </div>
                 </div>
               </div>
@@ -107,7 +137,7 @@ function LoanChangeInfo({
                   <button
                     type="button"
                     className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition hover:bg-blue-200"
-                    aria-label="Informasi perubahan tenor pinjaman"
+                    aria-label="Informasi perubahan pinjaman"
                   >
                     <Info className="h-4 w-4" strokeWidth={2.7} />
                   </button>
@@ -121,7 +151,7 @@ function LoanChangeInfo({
                   collisionPadding={12}
                   className="z-[9999] w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl"
                 >
-                  {tenorTooltip}
+                  {loanChange.tooltip}
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -143,28 +173,21 @@ export default function SectionHighlightWide({
   tenorTooltip?: string;
 }) {
   const showLoanChangeInfo = title === "Tagihan dan Pembayaran Angsuran";
-  const [activeTenorTooltip, setActiveTenorTooltip] =
-    React.useState(defaultTenorTooltip);
+  const [loanChange, setLoanChange] = React.useState<LoanChangeDisplay>(
+    getLoanChangeDisplay(""),
+  );
 
   React.useEffect(() => {
     if (tenorTooltip) {
-      setActiveTenorTooltip(tenorTooltip);
+      setLoanChange({
+        label: "Tenor Pinjaman",
+        value: "12 → 18 bulan",
+        tooltip: tenorTooltip,
+      });
       return;
     }
 
-    const selectedCustomerName = getSelectedCustomerName();
-
-    if (selectedCustomerName.includes("Komang Dewa")) {
-      setActiveTenorTooltip(komangTenorTooltip);
-      return;
-    }
-
-    if (selectedCustomerName.includes("Nyoman Ariana")) {
-      setActiveTenorTooltip(nyomanTenorTooltip);
-      return;
-    }
-
-    setActiveTenorTooltip(defaultTenorTooltip);
+    setLoanChange(getLoanChangeDisplay(getSelectedCustomerName()));
   }, [tenorTooltip]);
 
   return (
@@ -174,9 +197,7 @@ export default function SectionHighlightWide({
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
-      {showLoanChangeInfo ? (
-        <LoanChangeInfo tenorTooltip={activeTenorTooltip} />
-      ) : null}
+      {showLoanChangeInfo ? <LoanChangeInfo loanChange={loanChange} /> : null}
     </div>
   );
 }
