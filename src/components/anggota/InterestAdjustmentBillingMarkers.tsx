@@ -25,12 +25,12 @@ const dueDatesByInstallment = [
 
 function adjustmentTitle(entry: LoanInterestAdjustmentHistoryEntry) {
   return [
-    `Penyesuaian bunga angsuran ke-${entry.installmentNo}`,
-    `Jenis: ${entry.adjustmentType}`,
-    `Nominal: ${entry.adjustmentAmount}`,
-    `Bunga sebelum: ${entry.interestBefore}`,
-    `Bunga sesudah: ${entry.interestAfter}`,
-    `Alasan: ${entry.reason}`,
+    `Metode Penyesuaian: ${entry.adjustmentType}`,
+    `Nominal Bunga Sebelum Penyesuaian: ${entry.interestBefore}`,
+    `Nominal Penyesuaian: ${entry.adjustmentAmount}`,
+    `Nominal Bunga Setelah Penyesuaian: ${entry.interestAfter}`,
+    `Alasan Penyesuaian: ${entry.reason}`,
+    "Disesuaikan Oleh: Arya Dharma",
   ].join("\n");
 }
 
@@ -104,12 +104,12 @@ function addMarker(
   tooltip.className = `${ADJUSTMENT_MARKER_CLASS}-tooltip`;
   tooltip.innerHTML = `
     <strong>Penyesuaian Nominal Bunga</strong>
-    <span>Angsuran ke-${entry.installmentNo}</span>
-    <span>Jenis: ${entry.adjustmentType}</span>
-    <span>Nominal: ${entry.adjustmentAmount}</span>
-    <span>Bunga sebelum: ${entry.interestBefore}</span>
-    <span>Bunga sesudah: ${entry.interestAfter}</span>
-    <span>Alasan: ${entry.reason}</span>
+    <span><b>Metode Penyesuaian:</b> ${entry.adjustmentType}</span>
+    <span><b>Nominal Bunga Sebelum Penyesuaian:</b> ${entry.interestBefore}</span>
+    <span><b>Nominal Penyesuaian:</b> ${entry.adjustmentAmount}</span>
+    <span><b>Nominal Bunga Setelah Penyesuaian:</b> ${entry.interestAfter}</span>
+    <span><b>Alasan Penyesuaian:</b> ${entry.reason}</span>
+    <span><b>Disesuaikan Oleh:</b> Arya Dharma</span>
   `;
 
   marker.append(icon, tooltip);
@@ -236,13 +236,13 @@ export default function InterestAdjustmentBillingMarkers({
           bottom: calc(100% + 9px);
           left: 50%;
           display: grid;
-          width: 250px;
-          gap: 4px;
+          width: 290px;
+          gap: 6px;
           transform: translateX(-50%) translateY(4px);
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
-          padding: 10px 12px;
+          padding: 12px;
           color: #1e293b;
           font-size: 11px;
           font-weight: 400;
@@ -255,10 +255,15 @@ export default function InterestAdjustmentBillingMarkers({
         }
 
         .billing-interest-adjustment-marker-tooltip strong {
-          margin-bottom: 2px;
+          margin-bottom: 3px;
           color: #1d4ed8;
           font-size: 12px;
           font-weight: 800;
+        }
+
+        .billing-interest-adjustment-marker-tooltip b {
+          color: #0f172a;
+          font-weight: 700;
         }
 
         .billing-interest-adjustment-marker:hover
