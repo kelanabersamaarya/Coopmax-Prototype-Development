@@ -1,18 +1,30 @@
 [data-loan-extension-confirm-dialog="true"] {
-  width: min(480px, calc(100vw - 2rem)) !important;
-  max-width: 480px !important;
-  height: auto !important;
-  min-height: 0 !important;
+  width: min(536px, calc(100vw - 2rem)) !important;
+  max-width: 536px !important;
+  height: 295px !important;
+  min-height: 295px !important;
 }
 
 [data-loan-extension-confirm-dialog="true"] > div {
   box-sizing: border-box !important;
-  height: auto !important;
-  min-height: 0 !important;
+  height: 295px !important;
+  min-height: 295px !important;
 }
 
-/* Hanya selector khusus ini yang mengatur modal konfirmasi perpanjangan.
-   Hindari selector generik agar tidak berbenturan dengan modal lain. */
+/* Menyesuaikan copy dan ukuran heading konfirmasi sesuai desain. */
 [data-loan-extension-confirm-dialog="true"] h2 {
   margin: 16px 0 0 !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] h2::after {
+  content: "Yakin Melakukan Perpanjangan Pinjaman";
+  display: block;
+  color: #3b4863;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
 }
