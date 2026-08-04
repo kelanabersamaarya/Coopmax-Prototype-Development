@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
@@ -449,7 +449,6 @@ export default function LoanExtensionWizard({
           </header>
 
           <StepIndicator step={step} />
-          <Separator className="bg-slate-200" />
 
           <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
             {step === 1 ? (
