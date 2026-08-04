@@ -7,9 +7,9 @@ import {
   type LoanInterestAdjustmentHistoryEntry,
 } from "@/lib/loanInterestAdjustmentHistoryStore";
 
-const ADJUSTMENT_MARKER_CLASS = "billing-interest-adjustment-marker";
-const MARKED_CELL_CLASS = "has-billing-interest-adjustment";
-const PORTAL_TOOLTIP_CLASS = "billing-interest-adjustment-portal-tooltip";
+const markerClass = "billing-interest-adjustment-marker";
+const markedCellClass = "has-billing-interest-adjustment";
+const tooltipClass = "billing-interest-adjustment-portal-tooltip";
 
 const dueDatesByInstallment = [
   "25-01-2026",
@@ -24,16 +24,6 @@ const dueDatesByInstallment = [
   "25-09-2026",
 ];
 
-function adjustmentTitle(entry: LoanInterestAdjustmentHistoryEntry) {
-  return [
-    `Metode Penyesuaian: ${entry.adjustmentType}`,
-    `Nominal Bunga Sebelum Penyesuaian: ${entry.interestBefore}`,
-    `Nominal Penyesuaian: ${entry.adjustmentAmount}`,
-    `Alasan Penyesuaian: ${entry.reason}`,
-    "Disesuaikan Oleh: Arya Dharma",
-  ].join("\n");
-}
-
 function tooltipRow(label: string, value: string) {
   return `<div class="billing-interest-adjustment-tooltip-row">
     <span>${label}</span>
@@ -41,30 +31,42 @@ function tooltipRow(label: string, value: string) {
   </div>`;
 }
 
-function createTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
+function getTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
   return `
     <strong>Penyesuaian Nominal Bunga</strong>
     ${tooltipRow("Metode Penyesuaian", entry.adjustmentType)}
     ${tooltipRow("Nominal Bunga Sebelum", entry.interestBefore)}
     ${tooltipRow("Nominal Penyesuaian", entry.adjustmentAmount)}
+    ${tooltipRow("Nominal Bunga Setelah", entry.interestAfter)}
     ${tooltipRow("Alasan Penyesuaian", entry.reason || "-")}
     ${tooltipRow("Disesuaikan Oleh", "Arya Dharma")}
   `;
 }
 
-function removePortalTooltip() {
-  document.querySelector(`.${PORTAL_TOOLTIP_CLASS}`)?.remove();
+function getAriaLabel(entry: LoanInterestAdjustmentHistoryEntry) {
+  return [
+    `Metode Penyesuaian: ${entry.adjustmentType}`,
+    `Nominal Bunga Sebelum: ${entry.interestBefore}`,
+    `Nominal Penyesuaian: ${entry.adjustmentAmount}`,
+    `Nominal Bunga Setelah: ${entry.interestAfter}`,
+    `Alasan Penyesuaian: ${entry.reason || "-"}`,
+    "Disesuaikan Oleh: Arya Dharma",
+  ].join("\n");
 }
 
-function showPortalTooltip(
+function removeTooltip() {
+  document.querySelector(`.${tooltipClass}`)?.remove();
+}
+
+function showTooltip(
   icon: HTMLElement,
   entry: LoanInterestAdjustmentHistoryEntry,
 ) {
-  removePortalTooltip();
+  removeTooltip();
 
   const tooltip = document.createElement("div");
-  tooltip.className = PORTAL_TOOLTIP_CLASS;
-  tooltip.innerHTML = createTooltipContent(entry);
+  tooltip.className = tooltipClass;
+  tooltip.innerHTML = getTooltipContent(entry);
   document.body.appendChild(tooltip);
 
   const iconRect = icon.getBoundingClientRect();
@@ -77,100 +79,55 @@ function showPortalTooltip(
     window.innerWidth - tooltipRect.width - pagePadding,
   );
   const hasSpaceAbove = iconRect.top > tooltipRect.height + pagePadding + 10;
-  const top = hasSpaceAbove
-    ? iconRect.top - tooltipRect.height - 10
-    : iconRect.bottom + 10;
 
   tooltip.style.left = `${left}px`;
-  tooltip.style.top = `${top}px`;
+  tooltip.style.top = `${hasSpaceAbove ? iconRect.top - tooltipRect.height - 10 : iconRect.bottom + 10}px`;
   tooltip.dataset.visible = "true";
 }
 
-function findBillingGrid(dueDate: string) {
-  const candidates = Array.from(document.querySelectorAll<HTMLElement>("div"));
+function findInterestCell(dueDate: string) {
+  const grids = Array.from(document.querySelectorAll<HTMLElement>("div"));
 
-  return candidates.find((element) => {
+  const billingGrid = grids.find((element) => {
     const className =
       typeof element.className === "string" ? element.className : "";
 
-    if (!className.includes("grid") || !className.includes("items-center")) {
-      return false;
-    }
-
-    const cells = Array.from(element.children) as HTMLElement[];
-
     return (
-      cells.length >= 6 &&
-      cells.some((cell) => cell.textContent?.trim() === dueDate)
+      className.includes("grid") &&
+      className.includes("items-center") &&
+      Array.from(element.children).some(
+        (cell) => cell.textContent?.trim() === dueDate,
+      )
     );
   });
-}
-
-function findInterestCell(dueDate: string) {
-  const billingGrid = findBillingGrid(dueDate);
 
   if (billingGrid) {
     const cells = Array.from(billingGrid.children) as HTMLElement[];
-    const dateCellIndex = cells.findIndex(
+    const dateIndex = cells.findIndex(
       (cell) => cell.textContent?.trim() === dueDate,
     );
 
-    if (dateCellIndex >= 0) {
-      return cells[dateCellIndex + 3] ?? null;
-    }
+    return dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null;
   }
 
-  const tableDateCell = Array.from(
+  const dateCell = Array.from(
     document.querySelectorAll<HTMLTableCellElement>("td"),
   ).find((cell) => cell.textContent?.trim() === dueDate);
 
-  if (!tableDateCell) return null;
+  if (!dateCell) return null;
 
-  const row = tableDateCell.closest("tr");
-  if (!row) return null;
+  const cells = Array.from(dateCell.closest("tr")?.children ?? []) as HTMLElement[];
+  const dateIndex = cells.indexOf(dateCell);
 
-  const cells = Array.from(row.children) as HTMLElement[];
-  const dateCellIndex = cells.indexOf(tableDateCell);
-
-  return dateCellIndex >= 0 ? cells[dateCellIndex + 3] ?? null : null;
-}
-
-function addMarker(
-  interestCell: HTMLElement,
-  entry: LoanInterestAdjustmentHistoryEntry,
-) {
-  if (interestCell.querySelector(`.${ADJUSTMENT_MARKER_CLASS}`)) return;
-
-  interestCell.classList.add(MARKED_CELL_CLASS);
-
-  const marker = document.createElement("span");
-  marker.className = ADJUSTMENT_MARKER_CLASS;
-  marker.setAttribute("role", "img");
-  marker.setAttribute("aria-label", adjustmentTitle(entry));
-
-  const icon = document.createElement("span");
-  icon.className = `${ADJUSTMENT_MARKER_CLASS}-icon`;
-  icon.textContent = "i";
-
-  marker.addEventListener("mouseenter", () => showPortalTooltip(icon, entry));
-  marker.addEventListener("mouseleave", removePortalTooltip);
-  marker.addEventListener("focus", () => showPortalTooltip(icon, entry));
-  marker.addEventListener("blur", removePortalTooltip);
-
-  marker.appendChild(icon);
-  interestCell.appendChild(marker);
+  return dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null;
 }
 
 function clearMarkers() {
-  removePortalTooltip();
-
-  document.querySelectorAll(`.${ADJUSTMENT_MARKER_CLASS}`).forEach((marker) => {
-    marker.remove();
-  });
-
-  document.querySelectorAll(`.${MARKED_CELL_CLASS}`).forEach((cell) => {
-    cell.classList.remove(MARKED_CELL_CLASS);
-  });
+  removeTooltip();
+  document.querySelectorAll(`.${markerClass}`).forEach((marker) => marker.remove());
+  document
+    .querySelectorAll(`.${markedCellClass}`)
+    .forEach((cell) => cell.classList.remove(markedCellClass));
 }
 
 function syncMarkers(accountNo: string) {
@@ -181,36 +138,40 @@ function syncMarkers(accountNo: string) {
     if (!dueDate) return;
 
     const interestCell = findInterestCell(dueDate);
+    if (!interestCell || interestCell.querySelector(`.${markerClass}`)) return;
 
-    if (interestCell) {
-      addMarker(interestCell, entry);
-    }
+    interestCell.classList.add(markedCellClass);
+
+    const marker = document.createElement("span");
+    marker.className = markerClass;
+    marker.setAttribute("role", "img");
+    marker.setAttribute("aria-label", getAriaLabel(entry));
+
+    const icon = document.createElement("span");
+    icon.className = `${markerClass}-icon`;
+    icon.textContent = "i";
+
+    marker.addEventListener("mouseenter", () => showTooltip(icon, entry));
+    marker.addEventListener("mouseleave", removeTooltip);
+    marker.addEventListener("focus", () => showTooltip(icon, entry));
+    marker.addEventListener("blur", removeTooltip);
+
+    marker.appendChild(icon);
+    interestCell.appendChild(marker);
   });
 }
 
-function isTooltipNode(node: Node) {
-  return (
-    node instanceof HTMLElement &&
-    (node.classList.contains(PORTAL_TOOLTIP_CLASS) ||
-      node.closest(`.${PORTAL_TOOLTIP_CLASS}`) !== null)
-  );
-}
-
-function isMarkerOnlyMutation(mutations: MutationRecord[]) {
+function isOwnMutation(mutations: MutationRecord[]) {
   return mutations.every((mutation) => {
-    const nodes = [
-      ...Array.from(mutation.addedNodes),
-      ...Array.from(mutation.removedNodes),
-    ];
+    const nodes = [...mutation.addedNodes, ...mutation.removedNodes];
 
     return (
       nodes.length > 0 &&
       nodes.every(
         (node) =>
-          isTooltipNode(node) ||
-          (node instanceof HTMLElement &&
-            (node.classList.contains(ADJUSTMENT_MARKER_CLASS) ||
-              node.closest(`.${ADJUSTMENT_MARKER_CLASS}`) !== null)),
+          node instanceof HTMLElement &&
+          (node.matches(`.${markerClass}, .${tooltipClass}`) ||
+            node.closest(`.${markerClass}, .${tooltipClass}`)),
       )
     );
   });
@@ -222,35 +183,30 @@ export default function InterestAdjustmentBillingMarkers({
   accountNo?: string;
 }) {
   React.useEffect(() => {
-    let syncTimer = 0;
+    let timeoutId = 0;
 
     const scheduleSync = () => {
-      window.clearTimeout(syncTimer);
-      syncTimer = window.setTimeout(() => syncMarkers(accountNo), 80);
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => syncMarkers(accountNo), 80);
     };
 
     const observer = new MutationObserver((mutations) => {
-      if (isMarkerOnlyMutation(mutations)) return;
-      scheduleSync();
+      if (!isOwnMutation(mutations)) scheduleSync();
     });
 
     syncMarkers(accountNo);
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+    observer.observe(document.body, { childList: true, subtree: true });
 
     window.addEventListener(
       LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
       scheduleSync,
     );
     window.addEventListener("storage", scheduleSync);
-    window.addEventListener("scroll", removePortalTooltip, true);
-    window.addEventListener("resize", removePortalTooltip);
+    window.addEventListener("scroll", removeTooltip, true);
+    window.addEventListener("resize", removeTooltip);
 
     return () => {
-      window.clearTimeout(syncTimer);
+      window.clearTimeout(timeoutId);
       observer.disconnect();
       clearMarkers();
       window.removeEventListener(
@@ -258,19 +214,19 @@ export default function InterestAdjustmentBillingMarkers({
         scheduleSync,
       );
       window.removeEventListener("storage", scheduleSync);
-      window.removeEventListener("scroll", removePortalTooltip, true);
-      window.removeEventListener("resize", removePortalTooltip);
+      window.removeEventListener("scroll", removeTooltip, true);
+      window.removeEventListener("resize", removeTooltip);
     };
   }, [accountNo]);
 
   return (
     <style>
       {`
-        .has-billing-interest-adjustment {
+        .${markedCellClass} {
           position: relative !important;
         }
 
-        .billing-interest-adjustment-marker {
+        .${markerClass} {
           position: absolute;
           right: -12px;
           top: 50%;
@@ -280,7 +236,7 @@ export default function InterestAdjustmentBillingMarkers({
           cursor: help;
         }
 
-        .billing-interest-adjustment-marker-icon {
+        .${markerClass}-icon {
           display: inline-grid;
           height: 18px;
           width: 18px;
@@ -294,7 +250,7 @@ export default function InterestAdjustmentBillingMarkers({
           box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
         }
 
-        .${PORTAL_TOOLTIP_CLASS} {
+        .${tooltipClass} {
           position: fixed;
           z-index: 9999;
           width: min(340px, calc(100vw - 24px));
@@ -313,11 +269,11 @@ export default function InterestAdjustmentBillingMarkers({
           transition: opacity 120ms ease;
         }
 
-        .${PORTAL_TOOLTIP_CLASS}[data-visible="true"] {
+        .${tooltipClass}[data-visible="true"] {
           opacity: 1;
         }
 
-        .${PORTAL_TOOLTIP_CLASS} strong {
+        .${tooltipClass} strong {
           display: block;
           margin-bottom: 9px;
           color: #1d4ed8;
