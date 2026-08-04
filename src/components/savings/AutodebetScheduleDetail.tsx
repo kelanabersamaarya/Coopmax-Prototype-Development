@@ -4,11 +4,6 @@ import {
   List,
   SquarePen,
 } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { AutodebetSchedule } from "@/components/savings/AutodebetScheduleDialog";
 
@@ -85,9 +80,7 @@ function ScheduleInfoCard({
           <div className="text-[11px] text-white/80">
             Tanggal Dilakukan Transaksi
           </div>
-          <div className="mt-1 text-[13px] font-bold">
-            Setiap tanggal {transactionDate}
-          </div>
+          <div className="mt-1 text-[13px] font-bold">{transactionDate}</div>
         </div>
 
         <div className="min-w-0">
