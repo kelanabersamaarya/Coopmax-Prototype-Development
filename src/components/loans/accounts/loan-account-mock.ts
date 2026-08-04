@@ -5,7 +5,7 @@ export const loanAccountRowsSeed: LoanAccountRow[] = [
     id: "RP-260001",
     noRekening: "SMG260004",
     tanggalDaftar: "07-04-2026",
-    produkPinjaman: "Pinjaman Bulanan 9",
+    produkPinjaman: "Pinjaman Billing",
     idNasabah: "N2600006",
     namaNasabah: "Bapak Bagus",
     nominal: "12.000.000,00",
