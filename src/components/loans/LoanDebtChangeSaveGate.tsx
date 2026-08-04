@@ -65,11 +65,7 @@ function DebtChangeConfirmDialog({
             <button
               type="button"
               onClick={onConfirm}
-              className={cn(
-                "h-[53px] w-[114px] rounded-[5px] bg-[#3380e8]",
-                "text-[16px] font-semibold text-white transition hover:bg-[#266ed0]",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#3380e8]/25",
-              )}
+              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
             >
               Yes
             </button>
@@ -77,11 +73,7 @@ function DebtChangeConfirmDialog({
             <button
               type="button"
               onClick={onCancel}
-              className={cn(
-                "h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6]",
-                "text-[16px] font-semibold text-white transition hover:bg-[#969696]",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#a6a6a6]/25",
-              )}
+              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
             >
               Cancel
             </button>
@@ -152,17 +144,22 @@ export default function LoanDebtChangeSaveGate() {
       const wizard = button.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
       const buttonLabel = (button.textContent ?? "").trim().toLowerCase();
 
-      const isSecondStepSaveButton =
-        wizard?.dataset.loanDebtStep === "2" &&
-        buttonLabel.includes("simpan perubahan");
+      if (
+        !wizard ||
+        wizard.dataset.loanDebtStep !== "2" ||
+        !buttonLabel.includes("simpan perubahan")
+      ) {
+        return;
+      }
 
-      if (!wizard || !isSecondStepSaveButton) return;
+      const adjustment = parseSaveData(wizard);
+      if (!adjustment) return;
 
       event.preventDefault();
       event.stopImmediatePropagation();
 
       activeWizardRef.current = wizard;
-      pendingAdjustmentRef.current = parseSaveData(wizard);
+      pendingAdjustmentRef.current = adjustment;
       setConfirmOpen(true);
     }
 
@@ -184,19 +181,18 @@ export default function LoanDebtChangeSaveGate() {
 
   function confirmSave() {
     const adjustment = pendingAdjustmentRef.current;
+    if (!adjustment) return;
 
-    if (adjustment) {
-      addLoanInterestAdjustmentHistory(adjustment.accountNo, {
-        installmentNo: adjustment.installmentNo,
-        interestBefore: adjustment.interestBefore,
-        adjustmentType: adjustment.adjustmentType,
-        adjustmentAmount: adjustment.adjustmentAmount,
-        reason: adjustment.reason,
-        interestAfter: adjustment.interestAfter,
-        totalBefore: adjustment.totalBefore,
-        totalAfter: adjustment.totalAfter,
-      });
-    }
+    addLoanInterestAdjustmentHistory(adjustment.accountNo, {
+      installmentNo: adjustment.installmentNo,
+      interestBefore: adjustment.interestBefore,
+      adjustmentType: adjustment.adjustmentType,
+      adjustmentAmount: adjustment.adjustmentAmount,
+      reason: adjustment.reason,
+      interestAfter: adjustment.interestAfter,
+      totalBefore: adjustment.totalBefore,
+      totalAfter: adjustment.totalAfter,
+    });
 
     setConfirmOpen(false);
     setSuccessOpen(true);

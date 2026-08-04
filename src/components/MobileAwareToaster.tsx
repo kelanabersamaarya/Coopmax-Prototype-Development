@@ -15,6 +15,7 @@ import LoanProductTermsSection from "@/components/loans/products/LoanProductTerm
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
 import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
+import InterestAdjustmentBillingMarkers from "@/components/anggota/InterestAdjustmentBillingMarkers";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -24,6 +25,7 @@ export default function MobileAwareToaster() {
     location.pathname.startsWith("/obs-samudra-harta") ||
     location.pathname.startsWith("/obs-web");
   const isSakEpCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+  const isMemberTransaction = location.pathname === "/anggota/transaksi";
 
   const shouldHideToaster =
     (isMobilePrototype && !isNewMBankingArea) ||
@@ -55,6 +57,7 @@ export default function MobileAwareToaster() {
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
       <AutodebetScheduleStatusSync />
+      {isMemberTransaction ? <InterestAdjustmentBillingMarkers /> : null}
       {shouldHideToaster ? null : (
         <Sonner
           position="top-right"
