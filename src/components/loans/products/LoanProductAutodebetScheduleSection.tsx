@@ -10,6 +10,7 @@ import {
   isLoanProductAutodebetEnabled,
   setLoanProductAutodebetEnabled,
 } from "@/lib/loanProductAutodebetStore";
+import { syncLoanProductAutodebetSchedules } from "@/lib/autodebetSchedulesStore";
 
 const SCHEDULE_SECTIONS_PORTAL_CLASS =
   "loan-product-schedule-sections-portal";
@@ -179,6 +180,7 @@ export default function LoanProductAutodebetScheduleSection() {
   function updateAutodebetEnabled(enabled: boolean) {
     setAutodebetEnabled(enabled);
     setLoanProductAutodebetEnabled(productName, enabled);
+    syncLoanProductAutodebetSchedules(productName, enabled);
   }
 
   if (!target || !installmentTableEnabled) return null;

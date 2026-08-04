@@ -14,6 +14,7 @@ import LoanExtensionStepTwoSummarySync from "@/components/loans/LoanExtensionSte
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
+import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -53,6 +54,7 @@ export default function MobileAwareToaster() {
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
+      <AutodebetScheduleStatusSync />
       {shouldHideToaster ? null : (
         <Sonner
           position="top-right"
