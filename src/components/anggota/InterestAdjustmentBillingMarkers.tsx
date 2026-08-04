@@ -277,7 +277,7 @@ export default function InterestAdjustmentBillingMarkers({
         .${tooltipClass} {
           position: fixed;
           z-index: 9999;
-          width: min(360px, calc(100vw - 24px));
+          width: min(320px, calc(100vw - 24px));
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
@@ -299,28 +299,35 @@ export default function InterestAdjustmentBillingMarkers({
 
         .${tooltipClass} strong {
           display: block;
-          margin-bottom: 10px;
+          margin-bottom: 12px;
           color: #1d4ed8;
           font-size: 13px;
           font-weight: 800;
         }
 
         .billing-interest-adjustment-tooltip-row {
-          display: grid;
-          grid-template-columns: minmax(135px, 1fr) minmax(0, 1.15fr);
-          gap: 12px;
-          margin-top: 9px;
-          align-items: start;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          margin-top: 11px;
+          min-width: 0;
         }
 
         .billing-interest-adjustment-tooltip-row span {
           color: #64748b;
+          font-size: 11px;
+          font-weight: 600;
+          line-height: 1.3;
         }
 
         .billing-interest-adjustment-tooltip-row b {
+          display: block;
           color: #0f172a;
+          font-size: 12px;
           font-weight: 800;
+          line-height: 1.4;
           overflow-wrap: anywhere;
+          word-break: break-word;
         }
       `}
     </style>
