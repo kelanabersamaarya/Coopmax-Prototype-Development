@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, UsersRound } from "lucide-react";
+import { Search, UsersRound, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -70,10 +70,30 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-[180px_minmax(0,390px)] sm:items-center">
+    <div className="grid gap-2 sm:grid-cols-[180px_minmax(0,440px)] sm:items-center">
       <label className="text-[14px] font-normal text-[#002060]">{label}</label>
       <div className="min-w-0">{children}</div>
     </div>
+  );
+}
+
+function ClearButton({
+  onClick,
+  label,
+}: {
+  onClick: () => void;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="absolute right-0 top-0 inline-flex h-[31px] w-9 items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
+      aria-label={label}
+      title="Clear"
+    >
+      <X className="h-4 w-4" strokeWidth={3} />
+    </button>
   );
 }
 
@@ -170,7 +190,7 @@ export default function MitraKaryaLaporanAnggota() {
           Laporan Anggota
         </h1>
 
-        <div className="mt-6 max-w-[600px]">
+        <div className="mt-6 max-w-[660px]">
           <div className="grid gap-[10px]">
             <FieldRow label="Nama/No Anggota">
               <Input
@@ -189,12 +209,18 @@ export default function MitraKaryaLaporanAnggota() {
                   placeholder="Masukkan tanggal awal"
                   className={fieldClassName}
                 />
-                <Input
-                  value={registeredEnd}
-                  onChange={(event) => setRegisteredEnd(event.target.value)}
-                  placeholder="Masukkan tanggal akhir"
-                  className={fieldClassName}
-                />
+                <div className="relative">
+                  <Input
+                    value={registeredEnd}
+                    onChange={(event) => setRegisteredEnd(event.target.value)}
+                    placeholder="Masukkan tanggal akhir"
+                    className={cn(fieldClassName, "pr-10")}
+                  />
+                  <ClearButton
+                    onClick={() => setRegisteredEnd("")}
+                    label="Hapus tanggal akhir"
+                  />
+                </div>
               </div>
             </FieldRow>
 
@@ -252,12 +278,18 @@ export default function MitraKaryaLaporanAnggota() {
             </FieldRow>
 
             <FieldRow label="Tanggal Saldo">
-              <Input
-                value={balanceDate}
-                onChange={(event) => setBalanceDate(event.target.value)}
-                placeholder="Masukkan tanggal saldo"
-                className={fieldClassName}
-              />
+              <div className="relative">
+                <Input
+                  value={balanceDate}
+                  onChange={(event) => setBalanceDate(event.target.value)}
+                  placeholder="Masukkan tanggal saldo"
+                  className={cn(fieldClassName, "pr-10")}
+                />
+                <ClearButton
+                  onClick={() => setBalanceDate("")}
+                  label="Hapus tanggal saldo"
+                />
+              </div>
             </FieldRow>
 
             <FieldRow label="Saldo Simpanan">
@@ -295,7 +327,7 @@ export default function MitraKaryaLaporanAnggota() {
               </Select>
             </FieldRow>
 
-            <div className="grid sm:grid-cols-[180px_minmax(0,390px)]">
+            <div className="grid sm:grid-cols-[180px_minmax(0,440px)]">
               <div />
               <div className="mt-2 flex justify-end">
                 <button
@@ -362,7 +394,10 @@ export default function MitraKaryaLaporanAnggota() {
                   ))}
                   {filtered.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-4 py-10 text-center text-slate-500">
+                      <td
+                        colSpan={7}
+                        className="px-4 py-10 text-center text-slate-500"
+                      >
                         Anggota tidak ditemukan.
                       </td>
                     </tr>
