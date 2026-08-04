@@ -7,8 +7,29 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 
-const AUTODEBET_PORTAL_CLASS = "loan-product-autodebet-schedule-portal";
-const TERMS_PORTAL_CLASS = "loan-product-terms-section-portal";
+const SCHEDULE_SECTIONS_PORTAL_CLASS =
+  "loan-product-schedule-sections-portal";
+
+const terms = [
+  {
+    id: "interest",
+    label: "Penyesuaian Suku Bunga Pinjaman",
+    tooltip:
+      "Aktifkan agar suku bunga pinjaman dapat diubah sesuai kebijakan setelah rekening dibuat.",
+  },
+  {
+    id: "arrears",
+    label: "Penyesuaian Nominal Bunga Pinjaman",
+    tooltip:
+      "Aktifkan agar nilai tunggakan bunga pinjaman dapat diubah sesuai kebijakan setelah rekening dibuat.",
+  },
+  {
+    id: "tenor",
+    label: "Penyesuaian Jangka Waktu Pinjaman",
+    tooltip:
+      "Aktifkan agar jangka waktu atau tenor pinjaman dapat diubah sesuai kebijakan setelah rekening pinjaman dibuat.",
+  },
+] as const;
 
 function isConsolidationLoanProductPath(pathname: string, search: string) {
   const isMainLoanProduct =
@@ -70,6 +91,11 @@ export default function LoanProductAutodebetScheduleSection() {
   const [installmentTableEnabled, setInstallmentTableEnabled] =
     React.useState(false);
   const [autodebetEnabled, setAutodebetEnabled] = React.useState(false);
+  const [enabledTerms, setEnabledTerms] = React.useState<Record<string, boolean>>({
+    interest: false,
+    arrears: false,
+    tenor: false,
+  });
 
   React.useEffect(() => {
     if (!isConsolidationLoanProductPath(location.pathname, location.search)) {
@@ -82,7 +108,7 @@ export default function LoanProductAutodebetScheduleSection() {
     let attempts = 0;
     let observer: MutationObserver | null = null;
     const portalTarget = document.createElement("div");
-    portalTarget.className = AUTODEBET_PORTAL_CLASS;
+    portalTarget.className = SCHEDULE_SECTIONS_PORTAL_CLASS;
 
     const syncPositionAndVisibility = () => {
       const formCard = findLoanProductFormCard();
@@ -98,16 +124,11 @@ export default function LoanProductAutodebetScheduleSection() {
         return;
       }
 
-      const termsTarget = formCard.querySelector<HTMLElement>(
-        `.${TERMS_PORTAL_CLASS}`,
-      );
-      const placementAnchor = termsTarget ?? actionButtons;
-
       if (
         portalTarget.parentElement !== formCard ||
-        portalTarget.nextSibling !== placementAnchor
+        portalTarget.nextSibling !== actionButtons
       ) {
-        formCard.insertBefore(portalTarget, placementAnchor);
+        formCard.insertBefore(portalTarget, actionButtons);
       }
 
       setTarget(portalTarget);
@@ -136,7 +157,7 @@ export default function LoanProductAutodebetScheduleSection() {
   if (!target || !installmentTableEnabled) return null;
 
   return createPortal(
-    <section className="loan-product-autodebet-schedule-section">
+    <section className="loan-product-schedule-extra-sections">
       <Separator className="my-6 bg-slate-200/70" />
 
       <div className="text-base font-semibold text-slate-900">
@@ -159,6 +180,37 @@ export default function LoanProductAutodebetScheduleSection() {
           checked={autodebetEnabled}
           onCheckedChange={setAutodebetEnabled}
         />
+      </div>
+
+      <Separator className="my-6 bg-slate-200/70" />
+
+      <div className="text-base font-semibold text-slate-900">
+        Ketentuan Produk Pinjaman
+      </div>
+
+      <div className="mt-4 grid gap-5">
+        {terms.map((term) => (
+          <div
+            key={term.id}
+            className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center"
+          >
+            <div className="inline-flex items-center text-sm font-normal text-slate-900">
+              {term.label}
+              <FieldTooltip content={term.tooltip} />
+            </div>
+
+            <Switch
+              checked={enabledTerms[term.id]}
+              onCheckedChange={(checked) =>
+                setEnabledTerms((current) => ({
+                  ...current,
+                  [term.id]: checked,
+                }))
+              }
+              aria-label={term.label}
+            />
+          </div>
+        ))}
       </div>
     </section>,
     target,
