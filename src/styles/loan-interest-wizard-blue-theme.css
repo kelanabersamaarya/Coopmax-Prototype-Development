@@ -64,19 +64,20 @@
 
 /*
   Modal Perpanjangan Pinjaman:
-  Step wizard hanya diapit dua garis:
-  - garis atas dari border bawah header
-  - garis bawah dari Separator setelah step
+  mempertahankan dua garis pembatas seperti Ubah Nominal Bunga Pinjaman.
+  Padding vertikal wadah step dihilangkan agar tidak ada ruang kosong
+  antara area step dengan garis atas dan garis bawah.
 */
 [data-loan-extension-wizard="true"] > div > header {
   border-bottom: 1px solid rgb(226 232 240) !important;
 }
 
 [data-loan-extension-wizard="true"] > div > header + div {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   margin: 0 !important;
-  border-top: 0 !important;
-  border-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border: 0 !important;
   background-color: #ffffff !important;
 }
 

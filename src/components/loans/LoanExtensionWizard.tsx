@@ -30,8 +30,18 @@ const methods: ExtensionMethod[] = [
 ];
 
 const months = [
-  "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-  "Juli", "Agustus", "September", "Oktober", "November", "Desember",
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
 ];
 
 const years = Array.from({ length: 16 }, (_, index) => String(2026 + index));
@@ -65,12 +75,6 @@ function addMonths(date: Date, amount: number) {
   if (result.getDate() !== day) result.setDate(0);
 
   return result;
-}
-
-function formatIdr(value: number) {
-  return Math.max(0, Math.round(value))
-    .toLocaleString("id-ID")
-    .replace(/,/g, ".");
 }
 
 function AccountField({ label, value }: { label: string; value: string }) {
@@ -159,6 +163,7 @@ function StepIndicator({ step }: { step: Step }) {
                 {label}
               </span>
             </div>
+
             {number < steps.length ? (
               <div
                 className={cn(
@@ -449,6 +454,7 @@ export default function LoanExtensionWizard({
           </header>
 
           <StepIndicator step={step} />
+          <Separator className="bg-slate-200" />
 
           <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
             {step === 1 ? (
