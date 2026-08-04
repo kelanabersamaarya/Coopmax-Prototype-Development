@@ -37,8 +37,7 @@ function adjustmentTitle(entry: LoanInterestAdjustmentHistoryEntry) {
 function findDateElements(dueDate: string) {
   return Array.from(document.querySelectorAll<HTMLElement>("td, div")).filter(
     (element) => {
-      if (element.children.length > 0) return false;
-      if (!element.closest("table")) return false;
+      if (element.children.length > 0 || !element.closest("table")) return false;
       return element.textContent?.trim() === dueDate;
     },
   );
@@ -86,14 +85,30 @@ function syncMarkers(accountNo: string) {
     cell.classList.remove(MARKED_CELL_CLASS);
   });
 
-  const adjustments = getLoanInterestAdjustmentHistory(accountNo);
-
-  adjustments.forEach((entry) => {
+  getLoanInterestAdjustmentHistory(accountNo).forEach((entry) => {
     const dueDate = dueDatesByInstallment[entry.installmentNo - 1];
     if (!dueDate) return;
 
     const target = findDateElements(dueDate)[0];
     if (target) addMarker(target, entry);
+  });
+}
+
+function isMarkerOnlyMutation(mutations: MutationRecord[]) {
+  return mutations.every((mutation) => {
+    const changedNodes = [
+      ...Array.from(mutation.addedNodes),
+      ...Array.from(mutation.removedNodes),
+    ];
+
+    return (
+      changedNodes.length > 0 &&
+      changedNodes.every(
+        (node) =>
+          node instanceof HTMLElement &&
+          node.classList.contains(ADJUSTMENT_MARKER_CLASS),
+      )
+    );
   });
 }
 
@@ -103,22 +118,36 @@ export default function InterestAdjustmentBillingMarkers({
   accountNo?: string;
 }) {
   React.useEffect(() => {
-    const update = () => syncMarkers(accountNo);
-    const observer = new MutationObserver(update);
+    let syncTimer = 0;
 
-    update();
+    const scheduleSync = () => {
+      window.clearTimeout(syncTimer);
+      syncTimer = window.setTimeout(() => syncMarkers(accountNo), 50);
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      if (isMarkerOnlyMutation(mutations)) return;
+      scheduleSync();
+    });
+
+    syncMarkers(accountNo);
+
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, update);
-    window.addEventListener("storage", update);
+    window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, scheduleSync);
+    window.addEventListener("storage", scheduleSync);
 
     return () => {
+      window.clearTimeout(syncTimer);
       observer.disconnect();
-      window.removeEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, update);
-      window.removeEventListener("storage", update);
+      window.removeEventListener(
+        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
+        scheduleSync,
+      );
+      window.removeEventListener("storage", scheduleSync);
     };
   }, [accountNo]);
 
