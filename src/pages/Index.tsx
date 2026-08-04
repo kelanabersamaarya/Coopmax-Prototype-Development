@@ -13,6 +13,7 @@ import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
 import SidebarSakSimpananBerjangkaMenu from "@/components/SidebarSakSimpananBerjangkaMenu";
 import SidebarSakAkuntingMenu from "@/components/SidebarSakAkuntingMenu";
 import SidebarDjoinpayMenu from "@/components/SidebarDjoinpayMenu";
+import SidebarMitraKaryaMenu from "@/components/SidebarMitraKaryaMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -25,13 +26,11 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
   {
     items: [
       { to: "/dashboard", label: "Dashboard Pengembangan", icon: Home },
-      // Anggota akan dirender sebagai menu collapsible khusus (lihat SidebarAnggotaMenu)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
     ],
   },
 ];
 
-// Routes yang benar-benar ada saat ini
 const implementedRoutes = new Set([
   "/dashboard",
   "/simpanan/rekening",
@@ -47,8 +46,9 @@ const implementedRoutes = new Set([
   "/mobile/e-kolektor",
   "/mobile/m-banking",
   "/mobile/new-mbanking",
-  "/mobile/status-pembayaran-payment-link",
   "/payment-link",
+  "/mitra-karya/dashboard",
+  "/mitra-karya/laporan/anggota",
 ]);
 
 function resolveNavTo(to: string) {
@@ -58,7 +58,6 @@ function resolveNavTo(to: string) {
 
 function SidebarNavItem({ item }: { item: NavItem }) {
   const Icon = item.icon;
-
   const resolvedTo = resolveNavTo(item.to);
   const isReal = implementedRoutes.has(resolvedTo);
 
@@ -69,7 +68,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
     return (
       <button
         type="button"
-        className={cn(common, "bg-white hover:bg-slate-50 text-slate-900")}
+        className={cn(common, "bg-white text-slate-900 hover:bg-slate-50")}
         onClick={() => {
           window.location.href = "/";
         }}
@@ -93,7 +92,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
           common,
           isActive
             ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
-            : "bg-white hover:bg-slate-50 text-slate-900",
+            : "bg-white text-slate-900 hover:bg-slate-50",
         )
       }
     >
@@ -115,6 +114,7 @@ export default function Index() {
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+  const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
 
   const isPinjamanArea =
     location.pathname.startsWith("/payment-link") ||
@@ -158,70 +158,59 @@ export default function Index() {
           {!isDashboard ? (
             <aside className="hidden min-w-0 space-y-4 px-0 md:block">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
-                {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
                   <div className="space-y-1">
-                    {nav.map((g, idx) => (
-                      <div key={g.group ?? idx} className="px-0">
-                        {g.group ? (
-                          <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                            {g.group}
-                          </div>
-                        ) : null}
-
-                        <div className="space-y-1 px-2">
-                          {/* Dashboard */}
-                          <SidebarNavItem item={g.items[0]!} />
-
-                          {isNewMBankingArea ? (
-                            <SidebarMobileMenu />
-                          ) : isSakCabangArea ? (
-                            <>
-                              <SidebarSakSimpananMenu />
-                              <SidebarPinjamanMenu />
-                              <SidebarSakSimpananBerjangkaMenu />
-                              <SidebarSakAkuntingMenu />
-                            </>
-                          ) : (
-                            <>
-                              {/* Djoinpay (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarDjoinpayMenu /> : null}
-
-                              {/* Simpanan (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarSimpananMenu /> : null}
-
-                              {/* Anggota (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarAnggotaMenu /> : null}
-
-                              {/* Pinjaman (collapsible) */}
-                              <SidebarPinjamanMenu />
-
-                              {/* Mobile (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarMobileMenu /> : null}
-
-                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing/Mobile area */}
-                              {!isPinjamanArea && !isMobileArea ? (
-                                <SidebarObsMenu />
-                              ) : null}
-
-                              {/* Laporan (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarLaporanMenu /> : null}
-
-                              {/* Pengaturan Umum - hide in OBS area */}
-                              {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
-
-                              {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
-                              {g.items
-                                .slice(1)
-                                .filter((it) => it.to !== "/pinjaman")
-                                .map((it) => (
-                                  <SidebarNavItem key={it.to} item={it} />
-                                ))}
-                            </>
-                          )}
-                        </div>
+                    {isMitraKaryaArea ? (
+                      <div className="px-2">
+                        <SidebarMitraKaryaMenu />
                       </div>
-                    ))}
+                    ) : (
+                      nav.map((g, idx) => (
+                        <div key={g.group ?? idx} className="px-0">
+                          {g.group ? (
+                            <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                              {g.group}
+                            </div>
+                          ) : null}
+
+                          <div className="space-y-1 px-2">
+                            <SidebarNavItem item={g.items[0]!} />
+
+                            {isNewMBankingArea ? (
+                              <SidebarMobileMenu />
+                            ) : isSakCabangArea ? (
+                              <>
+                                <SidebarSakSimpananMenu />
+                                <SidebarPinjamanMenu />
+                                <SidebarSakSimpananBerjangkaMenu />
+                                <SidebarSakAkuntingMenu />
+                              </>
+                            ) : (
+                              <>
+                                {!isObsArea ? <SidebarDjoinpayMenu /> : null}
+                                {!isObsArea ? <SidebarSimpananMenu /> : null}
+                                {!isObsArea ? <SidebarAnggotaMenu /> : null}
+                                <SidebarPinjamanMenu />
+                                {!isObsArea ? <SidebarMobileMenu /> : null}
+                                {!isPinjamanArea && !isMobileArea ? (
+                                  <SidebarObsMenu />
+                                ) : null}
+                                {!isObsArea ? <SidebarLaporanMenu /> : null}
+                                {!isObsArea ? (
+                                  <SidebarPengaturanUmumMenu />
+                                ) : null}
+                                {g.items
+                                  .slice(1)
+                                  .filter((it) => it.to !== "/pinjaman")
+                                  .map((it) => (
+                                    <SidebarNavItem key={it.to} item={it} />
+                                  ))}
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    )}
 
                     <Separator className="my-2 bg-slate-100" />
                   </div>
@@ -230,7 +219,6 @@ export default function Index() {
             </aside>
           ) : null}
 
-          {/* Konten: min-w-0 penting agar tidak "dorong" grid melebar saat zoom */}
           <main
             className={cn(
               "min-w-0 overflow-x-hidden",

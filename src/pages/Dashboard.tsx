@@ -8,6 +8,7 @@ import {
   Building2,
   Smartphone,
   Link2,
+  Handshake,
 } from "lucide-react";
 
 function DevMenuCard({
@@ -77,7 +78,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [logoOk, setLogoOk] = React.useState(true);
 
-  // Pastikan nama ini sama persis dengan file di /public
   const logoSrc = "/publiccoopmax-logo.png.png";
 
   return (
@@ -155,6 +155,14 @@ export default function Dashboard() {
             icon={Link2}
             accent="violet"
             onClick={() => navigate("/payment-link/loan-products")}
+          />
+
+          <DevMenuCard
+            title="Kebutuhan Koperasi Mitra Karya"
+            subtitle="Dashboard dan laporan anggota untuk kebutuhan Koperasi Mitra Karya."
+            icon={Handshake}
+            accent="emerald"
+            onClick={() => navigate("/mitra-karya/dashboard")}
           />
         </div>
       </div>

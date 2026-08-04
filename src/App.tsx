@@ -9,6 +9,8 @@ import TermSavingsProductsListPage from "./components/savings/term-products/Term
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
+import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
 import RekeningSimpanan from "./pages/RekeningSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
@@ -61,6 +63,11 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
 
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
+            <Route
+              path="mitra-karya/laporan/anggota"
+              element={<MitraKaryaLaporanAnggota />}
+            />
             <Route path="simpanan/rekening" element={<RekeningSimpanan />} />
 
             <Route path="payment-link" element={<PaymentLink />} />
