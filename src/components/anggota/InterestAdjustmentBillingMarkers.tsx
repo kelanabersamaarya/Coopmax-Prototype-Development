@@ -34,47 +34,53 @@ function adjustmentTitle(entry: LoanInterestAdjustmentHistoryEntry) {
   ].join("\n");
 }
 
-function findDateElements(dueDate: string) {
-  return Array.from(document.querySelectorAll<HTMLElement>("td, div")).filter(
-    (element) => {
-      if (element.children.length > 0 || !element.closest("table")) return false;
-      return element.textContent?.trim() === dueDate;
-    },
-  );
+function findBillingGrid(dueDate: string) {
+  const candidates = Array.from(document.querySelectorAll<HTMLElement>("div"));
+
+  return candidates.find((element) => {
+    const className =
+      typeof element.className === "string" ? element.className : "";
+
+    if (!className.includes("grid") || !className.includes("items-center")) {
+      return false;
+    }
+
+    const cells = Array.from(element.children) as HTMLElement[];
+
+    return (
+      cells.length >= 6 &&
+      cells.some((cell) => cell.textContent?.trim() === dueDate)
+    );
+  });
 }
 
-function findInterestCell(dateElement: HTMLElement) {
-  const tableRow = dateElement.closest("tr");
+function findInterestCell(dueDate: string) {
+  const billingGrid = findBillingGrid(dueDate);
 
-  if (tableRow) {
-    const cells = Array.from(tableRow.children) as HTMLElement[];
-    const dateCellIndex = cells.indexOf(dateElement.closest("td") as HTMLElement);
+  if (billingGrid) {
+    const cells = Array.from(billingGrid.children) as HTMLElement[];
+    const dateCellIndex = cells.findIndex(
+      (cell) => cell.textContent?.trim() === dueDate,
+    );
 
     if (dateCellIndex >= 0) {
       return cells[dateCellIndex + 3] ?? null;
     }
   }
 
-  let current: HTMLElement | null = dateElement.parentElement;
+  const tableDateCell = Array.from(
+    document.querySelectorAll<HTMLTableCellElement>("td"),
+  ).find((cell) => cell.textContent?.trim() === dueDate);
 
-  while (current && current.closest("table")) {
-    const className = typeof current.className === "string" ? current.className : "";
-    const isBillingGrid =
-      className.includes("grid") && className.includes("items-center");
+  if (!tableDateCell) return null;
 
-    if (isBillingGrid) {
-      const cells = Array.from(current.children) as HTMLElement[];
-      const dateCellIndex = cells.indexOf(dateElement);
+  const row = tableDateCell.closest("tr");
+  if (!row) return null;
 
-      if (dateCellIndex >= 0) {
-        return cells[dateCellIndex + 3] ?? null;
-      }
-    }
+  const cells = Array.from(row.children) as HTMLElement[];
+  const dateCellIndex = cells.indexOf(tableDateCell);
 
-    current = current.parentElement;
-  }
-
-  return null;
+  return dateCellIndex >= 0 ? cells[dateCellIndex + 3] ?? null : null;
 }
 
 function addMarker(
@@ -110,7 +116,7 @@ function addMarker(
   interestCell.appendChild(marker);
 }
 
-function syncMarkers(accountNo: string) {
+function clearMarkers() {
   document.querySelectorAll(`.${ADJUSTMENT_MARKER_CLASS}`).forEach((marker) => {
     marker.remove();
   });
@@ -118,31 +124,37 @@ function syncMarkers(accountNo: string) {
   document.querySelectorAll(`.${MARKED_CELL_CLASS}`).forEach((cell) => {
     cell.classList.remove(MARKED_CELL_CLASS);
   });
+}
+
+function syncMarkers(accountNo: string) {
+  clearMarkers();
 
   getLoanInterestAdjustmentHistory(accountNo).forEach((entry) => {
     const dueDate = dueDatesByInstallment[entry.installmentNo - 1];
     if (!dueDate) return;
 
-    const dateElement = findDateElements(dueDate)[0];
-    const interestCell = dateElement ? findInterestCell(dateElement) : null;
+    const interestCell = findInterestCell(dueDate);
 
-    if (interestCell) addMarker(interestCell, entry);
+    if (interestCell) {
+      addMarker(interestCell, entry);
+    }
   });
 }
 
 function isMarkerOnlyMutation(mutations: MutationRecord[]) {
   return mutations.every((mutation) => {
-    const changedNodes = [
+    const nodes = [
       ...Array.from(mutation.addedNodes),
       ...Array.from(mutation.removedNodes),
     ];
 
     return (
-      changedNodes.length > 0 &&
-      changedNodes.every(
+      nodes.length > 0 &&
+      nodes.every(
         (node) =>
           node instanceof HTMLElement &&
-          node.classList.contains(ADJUSTMENT_MARKER_CLASS),
+          (node.classList.contains(ADJUSTMENT_MARKER_CLASS) ||
+            node.closest(`.${ADJUSTMENT_MARKER_CLASS}`)),
       )
     );
   });
@@ -158,7 +170,7 @@ export default function InterestAdjustmentBillingMarkers({
 
     const scheduleSync = () => {
       window.clearTimeout(syncTimer);
-      syncTimer = window.setTimeout(() => syncMarkers(accountNo), 50);
+      syncTimer = window.setTimeout(() => syncMarkers(accountNo), 80);
     };
 
     const observer = new MutationObserver((mutations) => {
@@ -179,6 +191,7 @@ export default function InterestAdjustmentBillingMarkers({
     return () => {
       window.clearTimeout(syncTimer);
       observer.disconnect();
+      clearMarkers();
       window.removeEventListener(
         LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
         scheduleSync,
