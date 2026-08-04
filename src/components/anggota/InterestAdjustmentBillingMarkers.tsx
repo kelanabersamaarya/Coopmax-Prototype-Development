@@ -6,11 +6,15 @@ import { createPortal } from "react-dom";
 const markerClass = "billing-interest-adjustment-marker";
 const markedCellClass = "has-billing-interest-adjustment";
 const tooltipWidth = 320;
-const tooltipEstimatedHeight = 216;
 const tooltipOffset = 10;
 
 type TooltipState = {
   rect: DOMRect;
+};
+
+type TooltipPosition = {
+  left: number;
+  top: number;
 };
 
 const adjustmentInfo = {
@@ -63,21 +67,41 @@ function TooltipRow({
 }
 
 function AdjustmentTooltip({ state }: { state: TooltipState }) {
-  const margin = 12;
-  const left = Math.min(
-    Math.max(margin, state.rect.left + state.rect.width / 2 - tooltipWidth / 2),
-    window.innerWidth - tooltipWidth - margin,
-  );
-  const hasSpaceAbove = state.rect.top >= tooltipEstimatedHeight + margin;
-  const top = hasSpaceAbove
-    ? state.rect.top - tooltipEstimatedHeight - tooltipOffset
-    : state.rect.bottom + tooltipOffset;
+  const tooltipRef = React.useRef<HTMLElement | null>(null);
+  const [position, setPosition] = React.useState<TooltipPosition | null>(null);
+
+  React.useLayoutEffect(() => {
+    const tooltip = tooltipRef.current;
+    if (!tooltip) return;
+
+    const margin = 12;
+    const tooltipHeight = tooltip.offsetHeight;
+    const left = Math.min(
+      Math.max(
+        margin,
+        state.rect.left + state.rect.width / 2 - tooltipWidth / 2,
+      ),
+      window.innerWidth - tooltipWidth - margin,
+    );
+
+    const hasSpaceAbove = state.rect.top >= tooltipHeight + tooltipOffset + margin;
+    const top = hasSpaceAbove
+      ? state.rect.top - tooltipHeight - tooltipOffset
+      : state.rect.bottom + tooltipOffset;
+
+    setPosition({ left, top });
+  }, [state.rect]);
 
   return createPortal(
     <aside
+      ref={tooltipRef}
       data-interest-adjustment-tooltip="true"
       className="pointer-events-none fixed z-[9999] w-[320px] rounded-[10px] border border-slate-200 bg-white p-4 text-left shadow-xl"
-      style={{ left, top }}
+      style={
+        position
+          ? { left: position.left, top: position.top }
+          : { left: -9999, top: -9999, visibility: "hidden" }
+      }
       role="tooltip"
     >
       <div className="mb-3 text-[13px] font-extrabold text-black">
