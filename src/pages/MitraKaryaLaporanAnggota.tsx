@@ -170,7 +170,7 @@ export default function MitraKaryaLaporanAnggota() {
           Laporan Anggota
         </h1>
 
-        <Card className="mt-6 max-w-[860px] rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+        <div className="mt-6 max-w-[860px]">
           <div className="grid gap-[10px]">
             <FieldRow label="Nama/No Anggota">
               <Input
@@ -329,7 +329,7 @@ export default function MitraKaryaLaporanAnggota() {
               </div>
             </div>
           </div>
-        </Card>
+        </div>
 
         {isSearched ? (
           <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
