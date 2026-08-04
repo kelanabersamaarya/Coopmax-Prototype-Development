@@ -49,7 +49,7 @@
   z-index: 100;
   width: 280px;
   border: 1px solid #e2e8f0;
-  border-radius: 3px;
+  border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
   padding: 10px 12px;
@@ -102,4 +102,15 @@
   .loan-debt-adjustment-tooltip {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Tooltip hanya muncul pada kolom Nominal Bunga Setelah Penyesuaian.
+   Kolom sisa bunga menyimpan marker visual tanpa salinan detail tooltip,
+   sehingga informasi tidak lagi bertumpuk. */
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  tbody
+  td:nth-child(10)
+  .loan-debt-adjustment-tooltip {
+  display: none !important;
 }
