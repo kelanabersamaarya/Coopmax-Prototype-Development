@@ -9,7 +9,7 @@
   > div:has(input[placeholder="Masukkan tenor baru"]) {
   position: relative;
   padding-top: 46px;
-  padding-bottom: 10px;
+  padding-bottom: 18px;
 }
 
 [data-loan-extension-wizard="true"]
@@ -53,19 +53,19 @@
   pointer-events: none;
 }
 
-/* Helper menjadi bagian dari blok Tenor Baru, bukan field berikutnya. */
+/* Helper berada di bawah input Tenor Baru. */
 [data-loan-extension-wizard="true"]
   main
   > div.grid.gap-6
   > section
   > div.grid.gap-5
   > div:has(input[placeholder="Masukkan tenor baru"])
-  > div:last-child::after {
+  > label::after {
   content: "Pastikan tenor yang anda masukkan melebihi tenor saat ini";
   position: absolute;
   left: calc(210px + 0.5rem);
   right: 0;
-  top: 80px;
+  top: 85px;
   color: #64748b;
   font-size: 12px;
   font-weight: 400;
@@ -81,7 +81,7 @@
     > div.grid.gap-5
     > div:has(input[placeholder="Masukkan tenor baru"]) {
     padding-top: 71px;
-    padding-bottom: 0;
+    padding-bottom: 18px;
   }
 
   [data-loan-extension-wizard="true"]
@@ -100,14 +100,8 @@
     > section
     > div.grid.gap-5
     > div:has(input[placeholder="Masukkan tenor baru"])
-    > div:last-child::after {
-    position: static;
-    display: block;
-    margin-top: 8px;
-    color: #64748b;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1.2;
-    pointer-events: none;
+    > label::after {
+    left: 0;
+    top: 110px;
   }
 }
