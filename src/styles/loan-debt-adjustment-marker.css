@@ -1,46 +1,48 @@
 /*
   Ubah Nominal Bunga Pinjaman:
-  Baris yang memiliki nilai biru pada hasil penyesuaian akan mendapatkan
-  indikator informasi pada Tagihan Bunga dan Sisa Tagihan Bunga sesudah penyesuaian.
+  Penanda dan tooltip tampil pada nilai biru hasil penyesuaian, yaitu
+  Tagihan Bunga Sesudah Penyesuaian serta Sisa Tagihan Bunga Sesudah Penyesuaian.
 */
+
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(9),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(10) {
   position: relative !important;
-  padding-right: 30px !important;
+  overflow: visible !important;
+  padding-right: 32px !important;
 }
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(9)::before,
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(10)::before {
   content: "i";
   position: absolute;
   right: 8px;
   top: 50%;
-  z-index: 2;
+  z-index: 20;
   display: grid;
-  height: 16px;
-  width: 16px;
+  height: 17px;
+  width: 17px;
   transform: translateY(-50%);
   place-items: center;
   border-radius: 999px;
   background-color: #2563eb;
   color: #ffffff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   line-height: 1;
   cursor: help;
@@ -49,43 +51,43 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(9)::after,
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(10)::after {
-  content: "Informasi Penyesuaian\A Nominal bunga pada angsuran ini telah disesuaikan.\A Nilai tagihan bunga dan sisa bunga sudah diperbarui.";
+  content: "Informasi Penyesuaian\A\A Nominal bunga pada angsuran ini telah disesuaikan.\A\A Nilai tagihan bunga dan sisa bunga sudah diperbarui sesuai penyesuaian yang disimpan.";
   position: absolute;
   right: 0;
-  bottom: calc(100% + 7px);
-  z-index: 40;
-  width: 240px;
+  bottom: calc(100% + 9px);
+  z-index: 100;
+  width: 260px;
   border-radius: 8px;
   background-color: #1e293b;
-  padding: 9px 10px;
+  padding: 10px 12px;
   color: #ffffff;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.45;
   text-align: left;
   white-space: pre-line;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(3px);
+  transform: translateY(4px);
   transition: opacity 150ms ease, transform 150ms ease;
 }
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(9):hover::after,
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td.text-\[\#2563EB\])
+  tr:has(td[class*="text-\\[\\#2563EB\\]"])
   td:nth-child(10):hover::after {
   opacity: 1;
   transform: translateY(0);
