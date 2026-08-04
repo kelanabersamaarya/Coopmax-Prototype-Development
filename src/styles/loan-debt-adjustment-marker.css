@@ -7,27 +7,27 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(9),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10) {
   position: relative !important;
   overflow: visible !important;
-  padding-right: 32px !important;
+  padding-right: 34px !important;
 }
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(9)::before,
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10)::before {
   content: "i";
   position: absolute;
@@ -35,8 +35,8 @@
   top: 50%;
   z-index: 20;
   display: grid;
-  height: 17px;
-  width: 17px;
+  height: 18px;
+  width: 18px;
   transform: translateY(-50%);
   place-items: center;
   border-radius: 999px;
@@ -46,17 +46,18 @@
   font-weight: 800;
   line-height: 1;
   cursor: help;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.16);
 }
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(9)::after,
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10)::after {
   content: "Informasi Penyesuaian\A\A Nominal bunga pada angsuran ini telah disesuaikan.\A\A Nilai tagihan bunga dan sisa bunga sudah diperbarui sesuai penyesuaian yang disimpan.";
   position: absolute;
@@ -82,12 +83,12 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(9):hover::after,
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class*="text-\\[\\#2563EB\\]"])
+  tr:has(td[class~="text-[#2563EB]"])
   td:nth-child(10):hover::after {
   opacity: 1;
   transform: translateY(0);
