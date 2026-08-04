@@ -114,7 +114,11 @@
 }
 
 .mitra-karya-member-report td:nth-child(14) {
+  text-align: left;
   white-space: nowrap;
+}
+
+.mitra-karya-member-report td:nth-child(15) {
   text-align: center;
 }
 
