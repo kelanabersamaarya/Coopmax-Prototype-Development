@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import KtpPhotoDialog from "@/components/mitra-karya/KtpPhotoDialog";
 import "../styles/mitra-karya-member-report.css";
 
 type Member = {
@@ -109,6 +110,7 @@ export default function MitraKaryaLaporanAnggota() {
   const [reportType, setReportType] = React.useState("Berdasarkan Simpanan Anggota");
   const [isSearched, setIsSearched] = React.useState(false);
   const [tablePage, setTablePage] = React.useState(1);
+  const [selectedKtpMember, setSelectedKtpMember] = React.useState<Member | null>(null);
   const tablePageSize = 10;
 
   const filtered = React.useMemo(() => {
@@ -160,10 +162,28 @@ export default function MitraKaryaLaporanAnggota() {
     window.print();
   }
 
+  function viewKtp(member: Member) {
+    if (!member.ktpAvailable) {
+      toast("File KTP tidak tersedia", { description: member.name });
+      return;
+    }
+
+    setSelectedKtpMember(member);
+  }
+
   const topActionClassName = cn("inline-flex h-10 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4", "text-[13px] font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50");
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <KtpPhotoDialog
+        open={selectedKtpMember !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedKtpMember(null);
+        }}
+        memberName={selectedKtpMember?.name ?? ""}
+        memberId={selectedKtpMember?.id ?? ""}
+      />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">Laporan Anggota</h1>
@@ -201,7 +221,7 @@ export default function MitraKaryaLaporanAnggota() {
                 </tr></thead>
                 <tbody>
                   {pagedMembers.map((member, index) => <tr key={member.id}>
-                    <td>{(tablePage - 1) * tablePageSize + index + 1}</td><td>{member.id}</td><td>{member.name}</td><td>{member.joined}</td><td>{member.address}</td><td>{member.phone}</td><td>{member.category}</td><td>{formatAmount(member.simpananPokok)}</td><td>{formatAmount(member.simpananWajib)}</td><td>{formatAmount(member.simpananKhusus)}</td><td>{formatAmount(member.simpananPenyertaan)}</td><td>{formatAmount(getTotalSavings(member))}</td><td><span>{member.status}</span></td><td><KtpStatus available={member.ktpAvailable} /></td><td className="text-center"><button type="button" onClick={() => toast(member.ktpAvailable ? "File KTP tersedia (prototype)" : "File KTP tidak tersedia", { description: member.name })} className="inline-flex h-7 w-7 items-center justify-center rounded-[4px] text-[#2563EB] transition hover:bg-blue-50" aria-label={`Lihat file KTP ${member.name}`} title="Lihat File KTP"><Eye className="h-4 w-4" strokeWidth={2.6} /></button></td>
+                    <td>{(tablePage - 1) * tablePageSize + index + 1}</td><td>{member.id}</td><td>{member.name}</td><td>{member.joined}</td><td>{member.address}</td><td>{member.phone}</td><td>{member.category}</td><td>{formatAmount(member.simpananPokok)}</td><td>{formatAmount(member.simpananWajib)}</td><td>{formatAmount(member.simpananKhusus)}</td><td>{formatAmount(member.simpananPenyertaan)}</td><td>{formatAmount(getTotalSavings(member))}</td><td><span>{member.status}</span></td><td><KtpStatus available={member.ktpAvailable} /></td><td className="text-center"><button type="button" onClick={() => viewKtp(member)} className="inline-flex h-7 w-7 items-center justify-center rounded-[4px] text-[#2563EB] transition hover:bg-blue-50" aria-label={`Lihat file KTP ${member.name}`} title="Lihat File KTP"><Eye className="h-4 w-4" strokeWidth={2.6} /></button></td>
                   </tr>)}
 
                   {pagedMembers.length > 0 ? <><tr className="mitra-karya-total-row"><td colSpan={7}>Total per Halaman</td><td>{formatAmount(pageTotals.simpananPokok)}</td><td>{formatAmount(pageTotals.simpananWajib)}</td><td>{formatAmount(pageTotals.simpananKhusus)}</td><td>{formatAmount(pageTotals.simpananPenyertaan)}</td><td>{formatAmount(pageTotals.totalSimpanan)}</td><td colSpan={3} /></tr><tr className="mitra-karya-total-row"><td colSpan={7}>Total</td><td>{formatAmount(totalTotals.simpananPokok)}</td><td>{formatAmount(totalTotals.simpananWajib)}</td><td>{formatAmount(totalTotals.simpananKhusus)}</td><td>{formatAmount(totalTotals.simpananPenyertaan)}</td><td>{formatAmount(totalTotals.totalSimpanan)}</td><td colSpan={3} /></tr></> : null}
