@@ -17,6 +17,14 @@ const ktpImageSources = [
   "/image%204",
 ];
 
+const invalidKtpImageSources = [
+  "/imagektpblur.png",
+  "/imagektpblur.jpg",
+  "/imagektpblur.jpeg",
+  "/imagektpblur.webp",
+  "/imagektpblur",
+];
+
 const emptyIllustrationSources = [
   "/empty box ilustration 1.png",
   "/empty box ilustration 1.jpg",
@@ -28,38 +36,50 @@ const emptyIllustrationSources = [
 
 function KtpExample({ type }: { type: "valid" | "invalid" }) {
   const valid = type === "valid";
+  const sources = valid ? ktpImageSources : invalidKtpImageSources;
+  const [sourceIndex, setSourceIndex] = React.useState(0);
+  const [imageUnavailable, setImageUnavailable] = React.useState(false);
+
+  React.useEffect(() => {
+    setSourceIndex(0);
+    setImageUnavailable(false);
+  }, [type]);
 
   return (
     <div
       className={cn(
-        "h-full rounded-[10px] border-2 border-dashed p-3",
+        "h-full overflow-hidden rounded-[10px] border-2 border-dashed bg-slate-50 p-3",
         valid ? "border-[#20b342]" : "border-rose-400",
       )}
     >
-      <div className="relative h-full overflow-hidden rounded-[12px] bg-[#b8d8e8] p-3 shadow-sm">
-        <div className="absolute inset-y-0 right-0 w-[31%] bg-[#c55a4a]" />
-        <div className="relative z-10 w-[65%]">
-          <div className="text-[8px] font-extrabold text-slate-700">
-            PROVINSI DKI JAKARTA
-          </div>
-          <div className="mt-1 h-1.5 rounded bg-slate-600/50" />
-          <div className="mt-2 space-y-1">
-            {[70, 90, 62, 82, 76, 58].map((width, index) => (
-              <div
-                key={index}
-                className="h-1 rounded bg-slate-700/45"
-                style={{ width: `${width}%` }}
-              />
-            ))}
-          </div>
+      {imageUnavailable ? (
+        <div className="grid h-full place-items-center rounded-[8px] bg-slate-100 text-center text-[12px] font-semibold text-slate-500">
+          Gambar KTP tidak tersedia
         </div>
-        <div className="absolute bottom-3 right-3 z-10 grid h-[67px] w-[48px] place-items-center rounded bg-slate-100 text-[22px] font-bold text-slate-700">
-          👤
-        </div>
-        {!valid ? (
-          <div className="absolute inset-0 z-20 bg-white/40 backdrop-blur-[3px]" />
-        ) : null}
-      </div>
+      ) : (
+        <img
+          src={sources[sourceIndex]}
+          alt={
+            valid
+              ? "Contoh foto KTP yang benar"
+              : "Contoh foto KTP yang salah"
+          }
+          className={cn(
+            "h-full w-full rounded-[8px] object-cover",
+            !valid && "blur-[2px]",
+          )}
+          onError={() => {
+            const nextIndex = sourceIndex + 1;
+
+            if (nextIndex < sources.length) {
+              setSourceIndex(nextIndex);
+              return;
+            }
+
+            setImageUnavailable(true);
+          }}
+        />
+      )}
     </div>
   );
 }
