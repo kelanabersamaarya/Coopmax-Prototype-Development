@@ -32,11 +32,11 @@ function KtpExample({ type }: { type: "valid" | "invalid" }) {
   return (
     <div
       className={cn(
-        "rounded-[10px] border-2 border-dashed p-3",
+        "h-full rounded-[10px] border-2 border-dashed p-3",
         valid ? "border-[#20b342]" : "border-rose-400",
       )}
     >
-      <div className="relative overflow-hidden rounded-[12px] bg-[#b8d8e8] p-3 shadow-sm">
+      <div className="relative h-full overflow-hidden rounded-[12px] bg-[#b8d8e8] p-3 shadow-sm">
         <div className="absolute inset-y-0 right-0 w-[31%] bg-[#c55a4a]" />
         <div className="relative z-10 w-[65%]">
           <div className="text-[8px] font-extrabold text-slate-700">
@@ -83,8 +83,8 @@ function UploadKtpDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[900px]",
-          "max-w-[900px] max-h-[92vh] overflow-hidden",
+          "w-[calc(100vw-1rem)] sm:w-[1000px]",
+          "max-w-[1000px] max-h-[92vh] overflow-hidden",
           "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
@@ -95,6 +95,7 @@ function UploadKtpDialog({
           <h2 className="text-[22px] font-extrabold tracking-tight text-black">
             Upload Foto KTP Nasabah
           </h2>
+
           <button
             type="button"
             onClick={() => onOpenChange(false)}
@@ -106,27 +107,29 @@ function UploadKtpDialog({
         </header>
 
         <main className="max-h-[calc(92vh-160px)] overflow-auto px-6 py-8">
-          <div className="grid gap-8 lg:grid-cols-2">
+          <div className="grid gap-8 lg:grid-cols-[1.08fr_1fr]">
             <section>
               <h3 className="text-[18px] font-bold text-slate-800">
                 Contoh Foto KTP
               </h3>
-              <div className="mt-5 grid gap-6 sm:grid-cols-2">
-                <div>
+
+              <div className="mt-5 grid h-[225px] gap-6 sm:grid-cols-2">
+                <div className="flex min-h-0 flex-col">
                   <div className="flex items-center gap-2 text-[14px] font-semibold text-slate-700">
                     <CheckCircle2 className="h-5 w-5 text-[#20b342]" />
                     Contoh foto KTP yang benar
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-3 min-h-0 flex-1">
                     <KtpExample type="valid" />
                   </div>
                 </div>
-                <div>
+
+                <div className="flex min-h-0 flex-col">
                   <div className="flex items-center gap-2 text-[14px] font-semibold text-slate-700">
                     <X className="h-5 w-5 rounded-full bg-rose-500 p-0.5 text-white" />
                     Contoh foto KTP yang salah
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-3 min-h-0 flex-1">
                     <KtpExample type="invalid" />
                   </div>
                 </div>
@@ -135,12 +138,13 @@ function UploadKtpDialog({
 
             <section>
               <h3 className="text-[18px] font-bold text-slate-800">Foto KTP</h3>
-              <div className="mt-5 flex min-h-[225px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-6 text-center">
+
+              <div className="mt-5 flex h-[225px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-6 text-center">
                 {uploadedImageUrl ? (
                   <img
                     src={uploadedImageUrl}
                     alt="Preview KTP yang diunggah"
-                    className="max-h-[190px] max-w-full rounded-[6px] object-contain shadow-sm"
+                    className="max-h-[150px] max-w-full rounded-[6px] object-contain shadow-sm"
                   />
                 ) : (
                   <>
@@ -210,6 +214,7 @@ function UploadKtpDialog({
             <X className="h-5 w-5" strokeWidth={3} />
             Batalkan
           </button>
+
           <button
             type="button"
             onClick={onSave}
@@ -274,6 +279,7 @@ export default function KtpPhotoDialog({
     }
 
     if (uploadedImageUrl) URL.revokeObjectURL(uploadedImageUrl);
+
     setUploadedImageUrl(URL.createObjectURL(file));
     event.target.value = "";
   }
@@ -306,6 +312,7 @@ export default function KtpPhotoDialog({
             <h2 className="text-[18px] font-bold tracking-tight text-black">
               Foto KTP Anggota
             </h2>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
