@@ -24,31 +24,51 @@ const dueDatesByInstallment = [
   "25-09-2026",
 ];
 
+function getAdjustmentMethodLabel(
+  type: LoanInterestAdjustmentHistoryEntry["adjustmentType"],
+) {
+  if (type === "Penambahan Bunga") return "Penambahan Bunga Pinjaman";
+  if (type === "Pengurangan Bunga") return "Pengurangan Bunga Pinjaman";
+  if (type === "Pembebasan Seluruh Bunga") {
+    return "Pembebasan Bunga Pinjaman";
+  }
+
+  return type || "Penyesuaian Bunga Pinjaman";
+}
+
 function tooltipRow(label: string, value: string) {
-  return `<div class="billing-interest-adjustment-tooltip-row">
-    <span>${label}</span>
-    <b>${value}</b>
-  </div>`;
+  return `
+    <div class="billing-interest-adjustment-tooltip-row">
+      <span>${label}</span>
+      <b>${value}</b>
+    </div>
+  `;
 }
 
 function getTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
   return `
     <strong>Penyesuaian Nominal Bunga</strong>
-    ${tooltipRow("Metode Penyesuaian", entry.adjustmentType)}
-    ${tooltipRow("Nominal Penyesuaian", entry.adjustmentAmount)}
+    ${tooltipRow(
+      "Metode Penyesuaian",
+      getAdjustmentMethodLabel(entry.adjustmentType),
+    )}
+    ${tooltipRow("Nominal Penyesuaian", entry.adjustmentAmount || "0,00")}
     ${tooltipRow("Alasan Penyesuaian", entry.reason || "-")}
     ${tooltipRow("Disesuaikan Oleh", "Arya Dharma")}
-    ${tooltipRow("Nominal Bunga Setelah Penyesuaian", entry.interestAfter)}
+    ${tooltipRow(
+      "Nominal Bunga Setelah Penyesuaian",
+      entry.interestAfter || "0,00",
+    )}
   `;
 }
 
 function getAriaLabel(entry: LoanInterestAdjustmentHistoryEntry) {
   return [
-    `Metode Penyesuaian: ${entry.adjustmentType}`,
-    `Nominal Penyesuaian: ${entry.adjustmentAmount}`,
+    `Metode Penyesuaian: ${getAdjustmentMethodLabel(entry.adjustmentType)}`,
+    `Nominal Penyesuaian: ${entry.adjustmentAmount || "0,00"}`,
     `Alasan Penyesuaian: ${entry.reason || "-"}`,
     "Disesuaikan Oleh: Arya Dharma",
-    `Nominal Bunga Setelah Penyesuaian: ${entry.interestAfter}`,
+    `Nominal Bunga Setelah Penyesuaian: ${entry.interestAfter || "0,00"}`,
   ].join("\n");
 }
 
@@ -79,7 +99,9 @@ function showTooltip(
   const hasSpaceAbove = iconRect.top > tooltipRect.height + pagePadding + 10;
 
   tooltip.style.left = `${left}px`;
-  tooltip.style.top = `${hasSpaceAbove ? iconRect.top - tooltipRect.height - 10 : iconRect.bottom + 10}px`;
+  tooltip.style.top = `${
+    hasSpaceAbove ? iconRect.top - tooltipRect.height - 10 : iconRect.bottom + 10
+  }px`;
   tooltip.dataset.visible = "true";
 }
 
@@ -140,9 +162,9 @@ function syncMarkers(accountNo: string) {
 
     interestCell.classList.add(markedCellClass);
 
-    const marker = document.createElement("span");
+    const marker = document.createElement("button");
+    marker.type = "button";
     marker.className = markerClass;
-    marker.setAttribute("role", "img");
     marker.setAttribute("aria-label", getAriaLabel(entry));
 
     const icon = document.createElement("span");
@@ -153,6 +175,7 @@ function syncMarkers(accountNo: string) {
     marker.addEventListener("mouseleave", removeTooltip);
     marker.addEventListener("focus", () => showTooltip(icon, entry));
     marker.addEventListener("blur", removeTooltip);
+    marker.addEventListener("click", () => showTooltip(icon, entry));
 
     marker.appendChild(icon);
     interestCell.appendChild(marker);
@@ -232,6 +255,9 @@ export default function InterestAdjustmentBillingMarkers({
           display: inline-flex;
           transform: translateY(-50%);
           cursor: help;
+          border: 0;
+          background: transparent;
+          padding: 0;
         }
 
         .${markerClass}-icon {
@@ -251,13 +277,13 @@ export default function InterestAdjustmentBillingMarkers({
         .${tooltipClass} {
           position: fixed;
           z-index: 9999;
-          width: min(340px, calc(100vw - 24px));
+          width: min(360px, calc(100vw - 24px));
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
-          padding: 12px;
+          padding: 14px;
           color: #1e293b;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 400;
           line-height: 1.4;
           text-align: left;
@@ -273,17 +299,18 @@ export default function InterestAdjustmentBillingMarkers({
 
         .${tooltipClass} strong {
           display: block;
-          margin-bottom: 9px;
+          margin-bottom: 10px;
           color: #1d4ed8;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 800;
         }
 
         .billing-interest-adjustment-tooltip-row {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-          gap: 8px;
-          margin-top: 6px;
+          grid-template-columns: minmax(135px, 1fr) minmax(0, 1.15fr);
+          gap: 12px;
+          margin-top: 9px;
+          align-items: start;
         }
 
         .billing-interest-adjustment-tooltip-row span {
@@ -292,7 +319,7 @@ export default function InterestAdjustmentBillingMarkers({
 
         .billing-interest-adjustment-tooltip-row b {
           color: #0f172a;
-          font-weight: 700;
+          font-weight: 800;
           overflow-wrap: anywhere;
         }
       `}
