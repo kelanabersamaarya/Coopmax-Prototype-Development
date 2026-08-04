@@ -18,8 +18,6 @@ type ExtensionMethod =
   | "Jatuh Tempo Akhir Baru";
 
 const CURRENT_TENOR = 12;
-const CURRENT_DUE_MONTH = "April";
-const CURRENT_DUE_YEAR = "2027";
 const CURRENT_DUE_DATE = new Date(2027, 3, 7);
 const REMAINING_PRINCIPAL = 10_553_571;
 const MONTHLY_INTEREST = 120_000;
@@ -31,18 +29,8 @@ const methods: ExtensionMethod[] = [
 ];
 
 const months = [
-  "Januari",
-  "Februari",
-  "Maret",
-  "April",
-  "Mei",
-  "Juni",
-  "Juli",
-  "Agustus",
-  "September",
-  "Oktober",
-  "November",
-  "Desember",
+  "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+  "Juli", "Agustus", "September", "Oktober", "November", "Desember",
 ];
 
 const years = Array.from({ length: 16 }, (_, index) => String(2026 + index));
@@ -462,13 +450,13 @@ export default function LoanExtensionWizard({
                         <ReadOnlyRow label="Jatuh Tempo Saat Ini">
                           <div className="grid grid-cols-2 gap-3">
                             <Input
-                              value={CURRENT_DUE_MONTH}
+                              value="April"
                               readOnly
                               aria-readonly="true"
                               className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                             />
                             <Input
-                              value={CURRENT_DUE_YEAR}
+                              value="2027"
                               readOnly
                               aria-readonly="true"
                               className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
@@ -560,7 +548,7 @@ export default function LoanExtensionWizard({
                             )}
                           >
                             <td className="px-4 py-3 font-medium">{label}</td>
-                            <td className="px-4 py-3 text-slate-400">{before}</td>
+                            <td className="px-4 py-3 text-black">{before}</td>
                             <td className="px-4 py-3 font-semibold text-[#2563EB]">
                               {after}
                             </td>
