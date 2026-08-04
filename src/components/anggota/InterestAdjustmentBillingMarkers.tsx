@@ -65,7 +65,8 @@ function showPortalTooltip(
   const iconRect = icon.getBoundingClientRect();
   const tooltipRect = tooltip.getBoundingClientRect();
   const pagePadding = 12;
-  const preferredLeft = iconRect.left + iconRect.width / 2 - tooltipRect.width / 2;
+  const preferredLeft =
+    iconRect.left + iconRect.width / 2 - tooltipRect.width / 2;
   const left = Math.min(
     Math.max(pagePadding, preferredLeft),
     window.innerWidth - tooltipRect.width - pagePadding,
@@ -235,7 +236,10 @@ export default function InterestAdjustmentBillingMarkers({
       subtree: true,
     });
 
-    window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, scheduleSync);
+    window.addEventListener(
+      LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
+      scheduleSync,
+    );
     window.addEventListener("storage", scheduleSync);
     window.addEventListener("scroll", removePortalTooltip, true);
     window.addEventListener("resize", removePortalTooltip);
@@ -288,9 +292,7 @@ export default function InterestAdjustmentBillingMarkers({
         .${PORTAL_TOOLTIP_CLASS} {
           position: fixed;
           z-index: 9999;
-          display: grid;
-          width: min(320px, calc(100vw - 24px));
-          gap: 7px;
+          width: min(360px, calc(100vw - 24px));
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
@@ -298,7 +300,7 @@ export default function InterestAdjustmentBillingMarkers({
           color: #1e293b;
           font-size: 11px;
           font-weight: 400;
-          line-height: 1.4;
+          line-height: 1.45;
           text-align: left;
           opacity: 0;
           pointer-events: none;
@@ -311,10 +313,17 @@ export default function InterestAdjustmentBillingMarkers({
         }
 
         .${PORTAL_TOOLTIP_CLASS} strong {
-          margin-bottom: 3px;
+          display: block;
+          margin-bottom: 8px;
           color: #1d4ed8;
           font-size: 12px;
           font-weight: 800;
+        }
+
+        .${PORTAL_TOOLTIP_CLASS} span {
+          display: block;
+          margin-top: 5px;
+          overflow-wrap: anywhere;
         }
 
         .${PORTAL_TOOLTIP_CLASS} b {
