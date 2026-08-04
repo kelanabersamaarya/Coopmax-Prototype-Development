@@ -220,7 +220,7 @@ export default function LoanProductAutodebetScheduleSection() {
         {autodebetEnabled ? (
           <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
             <div className="pt-1 text-sm font-normal text-slate-900">
-              Ketentuan jika saldo rekening tidak mencukupi
+              Ketentuan Jika Saldo Rekening Tidak Mencukupi
             </div>
 
             <RadioGroup
