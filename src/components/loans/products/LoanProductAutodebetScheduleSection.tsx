@@ -232,12 +232,18 @@ export default function LoanProductAutodebetScheduleSection() {
             >
               <label className="flex cursor-pointer items-center gap-3 text-sm font-normal text-slate-900">
                 <RadioGroupItem value="unpaid" />
-                <span>Tagihan Tidak Dibayarkan (Transaksi Dinyatakan Gagal)</span>
+                <span className="inline-flex items-center">
+                  Tagihan Tidak Dibayarkan (Transaksi Dinyatakan Gagal)
+                  <FieldTooltip content="Apabila saldo rekening tidak mencukupi, transaksi autodebet tidak diproses dan tagihan tetap tercatat sebagai belum dibayar." />
+                </span>
               </label>
 
               <label className="flex cursor-pointer items-center gap-3 text-sm font-normal text-slate-900">
                 <RadioGroupItem value="partial-payment" />
-                <span>Tagihan Dibayarkan Sebagian</span>
+                <span className="inline-flex items-center">
+                  Tagihan Dibayarkan Sebagian
+                  <FieldTooltip content="Apabila saldo rekening tidak mencukupi, autodebet tetap diproses sesuai nominal saldo yang tersedia dan sisa tagihan akan tetap tercatat." />
+                </span>
               </label>
             </RadioGroup>
           </div>
