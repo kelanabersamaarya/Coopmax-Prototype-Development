@@ -83,6 +83,7 @@ function StepIndicator({ step }: { step: number }) {
                 {label}
               </span>
             </div>
+
             {number < steps.length ? (
               <div
                 className={cn(
@@ -112,6 +113,7 @@ function UnifiedBillingSimulationTable({
   const previousInterest = parseIdr(
     adjustedBill.adjustment.previousInterest ?? "0",
   );
+
   const adjustedInterest =
     adjustedBill.adjustment.type === "Pembebasan Seluruh Bunga"
       ? 0
@@ -119,56 +121,67 @@ function UnifiedBillingSimulationTable({
         ? previousInterest + parseIdr(adjustedBill.adjustment.amount)
         : Math.max(0, previousInterest - parseIdr(adjustedBill.adjustment.amount));
 
-  const adjustmentAmount = Math.abs(adjustedInterest - previousInterest);
-  const adjustmentType = adjustedBill.adjustment.type;
-
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-        Simulasi Perubahan Hutang Bunga
+        Simulasi Perubahan Nominal Bunga
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[2015px] border-collapse">
+        <table className="w-full min-w-[1880px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[85px] px-3 py-3">Angsuran Ke</th>
-              <th className="w-[85px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[115px] px-3 py-3 text-right">
-                Total Tagihan<br />Belum Dibayar
+              <th className="w-[86px] px-3 py-3">Angsuran Ke</th>
+              <th className="w-[112px] px-3 py-3">Jatuh Tempo</th>
+              <th className="w-[132px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
               </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan<br />Pokok
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan Bunga<br />Sebelum Penyesuaian
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan<br />Pokok
-              </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Sisa Tagihan<br />Bunga
+              <th className="w-[146px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
               </th>
               <th className="w-[120px] px-3 py-3 text-right">
-                Tagihan<br />Denda
+                Tagihan
+                <br />
+                Denda
               </th>
-              <th className="w-[95px] px-3 py-3">Jenis Penyesuaian</th>
-              <th className="w-[110px] px-3 py-3 text-right">
-                Nominal<br />Penyesuaian
+              <th className="w-[160px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Sebelum Penyesuaian
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Tagihan Bunga<br />Setelah Penyesuaian
+              <th className="w-[160px] px-3 py-3 text-right">
+                Tagihan Bunga
+                <br />
+                Sebelum Penyesuaian
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Total Tagihan<br />Sebelum Penyesuaian
+              <th className="w-[175px] px-3 py-3 text-right">
+                Sisa Tagihan Bunga
+                <br />
+                Sebelum Penyesuaian
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">
-                Total Tagihan<br />Setelah Penyesuaian
+              <th className="w-[160px] px-3 py-3 text-right">
+                Tagihan Bunga
+                <br />
+                Sesudah Penyesuaian
+              </th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Sisa Tagihan Bunga
+                <br />
+                Sesudah Penyesuaian
+              </th>
+              <th className="w-[160px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Sesudah Penyesuaian
               </th>
             </tr>
           </thead>
 
-          <tbody className="text-[12px] text-black">
+          <tbody>
             {pagedRows.map((row, index) => {
               const [
                 dueDate,
@@ -179,42 +192,78 @@ function UnifiedBillingSimulationTable({
                 remainingInterest,
                 penalty,
               ] = row;
+
               const installmentNo = start + index + 1;
               const isAdjustedRow = installmentNo === adjustedBill.installmentNo;
-              const previousTotal = parseIdr(totalBill) + previousInterest;
-              const adjustedTotal = parseIdr(totalBill) + adjustedInterest;
+              const totalBefore = parseIdr(totalBill);
+              const totalAfter = isAdjustedRow
+                ? totalBefore - previousInterest + adjustedInterest
+                : totalBefore;
+              const interestAfter = isAdjustedRow
+                ? adjustedInterest
+                : parseIdr(interestBill);
+              const remainingInterestAfter = isAdjustedRow
+                ? Math.max(
+                    0,
+                    parseIdr(remainingInterest) - previousInterest + adjustedInterest,
+                  )
+                : parseIdr(remainingInterest);
 
               return (
                 <tr
-                  key={dueDate}
-                  data-debt-change={isAdjustedRow ? "true" : undefined}
-                  data-debt-change-start={isAdjustedRow ? "true" : undefined}
-                  data-debt-change-end={isAdjustedRow ? "true" : undefined}
+                  key={`${dueDate}-${installmentNo}`}
                   className={cn(
-                    "border-b border-slate-100",
+                    "border-b border-slate-100 text-[12px] font-normal text-black",
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-3 py-3 text-left tabular-nums">{installmentNo}</td>
-                  <td className="px-3 py-3 tabular-nums">{dueDate}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">{totalBill}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">{principalBill}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">{interestBill}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">{remainingPrincipal}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">{remainingInterest}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">{penalty}</td>
-                  <td className="px-3 py-3">{isAdjustedRow ? adjustmentType : "-"}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {isAdjustedRow ? formatIdr(adjustmentAmount) : "0,00"}
+                  <td className="px-3 py-3 text-left tabular-nums">
+                    {installmentNo}
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums text-[#2563EB]">
-                    {isAdjustedRow ? formatIdr(adjustedInterest) : "0,00"}
+                  <td className="px-3 py-3 tabular-nums whitespace-nowrap">
+                    {dueDate}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
-                    {isAdjustedRow ? formatIdr(previousTotal) : totalBill}
+                    {principalBill}
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums text-[#2563EB]">
-                    {isAdjustedRow ? formatIdr(adjustedTotal) : totalBill}
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {remainingPrincipal}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {penalty}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {formatIdr(totalBefore)}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {interestBill}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {remainingInterest}
+                  </td>
+                  <td
+                    className={cn(
+                      "px-3 py-3 text-right tabular-nums",
+                      isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
+                    )}
+                  >
+                    {formatIdr(interestAfter)}
+                  </td>
+                  <td
+                    className={cn(
+                      "px-3 py-3 text-right tabular-nums",
+                      isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
+                    )}
+                  >
+                    {formatIdr(remainingInterestAfter)}
+                  </td>
+                  <td
+                    className={cn(
+                      "px-3 py-3 text-right tabular-nums",
+                      isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
+                    )}
+                  >
+                    {formatIdr(totalAfter)}
                   </td>
                 </tr>
               );
@@ -226,7 +275,8 @@ function UnifiedBillingSimulationTable({
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
           Menampilkan {start + 1} sampai{" "}
-          {Math.min(billingRows.length, start + pageSize)} dari {billingRows.length} entri
+          {Math.min(billingRows.length, start + pageSize)} dari{" "}
+          {billingRows.length} entri
         </div>
 
         <div className="flex items-center gap-2">
@@ -251,7 +301,9 @@ function UnifiedBillingSimulationTable({
           <button
             type="button"
             disabled={page >= pageCount}
-            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
+            onClick={() =>
+              setPage((current) => Math.min(pageCount, current + 1))
+            }
             className={cn(
               "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
               "bg-slate-100 text-slate-600 hover:bg-slate-200",
@@ -292,10 +344,6 @@ export default function LoanDebtChangeWizard({
   function nextStep() {
     if (step === 1) {
       if (!savedAdjustment) {
-        toast("Penyesuaian bunga belum disimpan", {
-          description:
-            "Simpan penyesuaian pada salah satu Tagihan Bunga sebelum melanjutkan.",
-        });
         return;
       }
 
@@ -303,9 +351,6 @@ export default function LoanDebtChangeWizard({
       return;
     }
 
-    toast.success("Perubahan hutang tersimpan", {
-      description: `Rekening ${accountNo} berhasil diperbarui.`,
-    });
     onOpenChange(false);
   }
 
@@ -363,7 +408,11 @@ export default function LoanDebtChangeWizard({
                       <AccountField
                         key={field[0]}
                         label={field[0]}
-                        value={field[0] === "No. Rek. Pinjaman" ? accountNo : field[1]}
+                        value={
+                          field[0] === "No. Rek. Pinjaman"
+                            ? accountNo
+                            : field[1]
+                        }
                       />
                     ))}
                   </div>
@@ -376,8 +425,9 @@ export default function LoanDebtChangeWizard({
 
                 {savedAdjustment ? (
                   <div className="rounded-[8px] bg-emerald-50 px-4 py-3 text-[13px] font-semibold text-emerald-800 ring-1 ring-emerald-200">
-                    Penyesuaian bunga pada angsuran ke-{savedAdjustment.installmentNo} (
-                    {savedAdjustment.dueDate}) sudah disimpan.
+                    Penyesuaian bunga pada angsuran ke-
+                    {savedAdjustment.installmentNo} ({savedAdjustment.dueDate})
+                    sudah disimpan.
                   </div>
                 ) : (
                   <div className="rounded-[8px] bg-amber-50 px-4 py-3 text-[13px] font-semibold text-amber-800 ring-1 ring-amber-200">
@@ -396,9 +446,14 @@ export default function LoanDebtChangeWizard({
           <footer className="flex items-center gap-[10px] border-t border-slate-200 px-6 py-4">
             <button
               type="button"
-              onClick={() =>
-                step === 1 ? onOpenChange(false) : setStep(1)
-              }
+              onClick={() => {
+                if (step === 1) {
+                  onOpenChange(false);
+                  return;
+                }
+
+                setStep(1);
+              }}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
             >
               {step === 1 ? (
