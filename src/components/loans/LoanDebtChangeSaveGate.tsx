@@ -57,7 +57,7 @@ function DebtChangeConfirmDialog({
             </span>
           </div>
 
-          <h2 className="mt-[32px] max-w-[490px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
+          <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
             Yakin Melakukan Perubahan Bunga?
           </h2>
 
@@ -149,12 +149,12 @@ export default function LoanDebtChangeSaveGate() {
 
       if (!button || button.disabled) return;
 
-      const wizard = button?.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
+      const wizard = button.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
       const buttonLabel = (button.textContent ?? "").trim().toLowerCase();
 
       const isSecondStepSaveButton =
         wizard?.dataset.loanDebtStep === "2" &&
-        buttonLabel.includes("lanjutkan");
+        buttonLabel.includes("simpan perubahan");
 
       if (!wizard || !isSecondStepSaveButton) return;
 
