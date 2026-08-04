@@ -10,7 +10,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-function LoanChangeInfo() {
+const defaultTenorTooltip =
+  "Terdapat penambahan tenor sebesar 6 bulan, sehingga dari tenor awal 12 bulan menjadi 18 bulan";
+
+const nyomanTenorTooltip =
+  "Terdapat pembaruan tenor pinjaman dari 12 bulan menjadi 14 bulan";
+
+function LoanChangeInfo({
+  tenorTooltip,
+}: {
+  tenorTooltip: string;
+}) {
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
 
   React.useEffect(() => {
@@ -100,8 +110,7 @@ function LoanChangeInfo() {
                   collisionPadding={12}
                   className="z-[9999] w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl"
                 >
-                  Terdapat penambahan tenor sebesar 6 bulan, sehingga dari tenor
-                  awal 12 bulan menjadi 18 bulan
+                  {tenorTooltip}
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -116,11 +125,28 @@ function LoanChangeInfo() {
 export default function SectionHighlightWide({
   title,
   className,
+  tenorTooltip,
 }: {
   title: string;
   className?: string;
+  tenorTooltip?: string;
 }) {
   const showLoanChangeInfo = title === "Tagihan dan Pembayaran Angsuran";
+  const [activeTenorTooltip, setActiveTenorTooltip] =
+    React.useState(defaultTenorTooltip);
+
+  React.useEffect(() => {
+    if (tenorTooltip) {
+      setActiveTenorTooltip(tenorTooltip);
+      return;
+    }
+
+    const isNyomanAriana = document.body.textContent?.includes("Nyoman Ariana");
+
+    setActiveTenorTooltip(
+      isNyomanAriana ? nyomanTenorTooltip : defaultTenorTooltip,
+    );
+  }, [tenorTooltip]);
 
   return (
     <div className={cn("w-full", className)}>
@@ -129,7 +155,9 @@ export default function SectionHighlightWide({
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
-      {showLoanChangeInfo ? <LoanChangeInfo /> : null}
+      {showLoanChangeInfo ? (
+        <LoanChangeInfo tenorTooltip={activeTenorTooltip} />
+      ) : null}
     </div>
   );
 }
