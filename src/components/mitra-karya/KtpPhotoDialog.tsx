@@ -135,10 +135,10 @@ function UploadKtpDialog({
               </div>
             </section>
 
-            <section>
+            <section className="pt-[40px]">
               <h3 className="text-[18px] font-bold text-slate-800">Foto KTP</h3>
 
-              <div className="mt-5 flex h-[192px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
+              <div className="mt-3 flex h-[192px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
                 {uploadedImageUrl ? (
                   <img
                     src={uploadedImageUrl}
