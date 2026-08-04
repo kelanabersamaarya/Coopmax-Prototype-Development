@@ -16,6 +16,14 @@ const defaultTenorTooltip =
 const nyomanTenorTooltip =
   "Terdapat pembaruan tenor pinjaman dari 12 bulan menjadi 14 bulan";
 
+function getSelectedCustomerName() {
+  const customerLabel = Array.from(document.querySelectorAll("span")).find(
+    (element) => element.textContent?.trim() === "Nama Nasabah",
+  );
+
+  return customerLabel?.parentElement?.textContent?.trim() ?? "";
+}
+
 function LoanChangeInfo({
   tenorTooltip,
 }: {
@@ -102,6 +110,7 @@ function LoanChangeInfo({
                     <Info className="h-4 w-4" strokeWidth={2.7} />
                   </button>
                 </TooltipTrigger>
+
                 <TooltipContent
                   portalled
                   side="top"
@@ -141,7 +150,8 @@ export default function SectionHighlightWide({
       return;
     }
 
-    const isNyomanAriana = document.body.textContent?.includes("Nyoman Ariana");
+    const selectedCustomerName = getSelectedCustomerName();
+    const isNyomanAriana = selectedCustomerName.includes("Nyoman Ariana");
 
     setActiveTenorTooltip(
       isNyomanAriana ? nyomanTenorTooltip : defaultTenorTooltip,
