@@ -71,7 +71,7 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
   return createPortal(
     <aside
       data-interest-adjustment-tooltip="true"
-      className="fixed z-[9999] w-[320px] rounded-[10px] border border-slate-200 bg-white p-4 text-left shadow-xl"
+      className="pointer-events-none fixed z-[9999] w-[320px] rounded-[10px] border border-slate-200 bg-white p-4 text-left shadow-xl"
       style={{ left, top }}
       role="tooltip"
     >
@@ -194,10 +194,7 @@ export default function InterestAdjustmentBillingMarkers() {
     const closeOnOutsideClick = (event: PointerEvent) => {
       const target = event.target as HTMLElement | null;
 
-      if (
-        target?.closest(`.${markerClass}`) ||
-        target?.closest('[data-interest-adjustment-tooltip="true"]')
-      ) {
+      if (target?.closest(`.${markerClass}`)) {
         return;
       }
 
