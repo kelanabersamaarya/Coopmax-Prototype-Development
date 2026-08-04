@@ -7,6 +7,9 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 
+const AUTODEBET_PORTAL_CLASS = "loan-product-autodebet-schedule-portal";
+const TERMS_PORTAL_CLASS = "loan-product-terms-section-portal";
+
 function isConsolidationLoanProductPath(pathname: string, search: string) {
   const isMainLoanProduct =
     pathname.startsWith("/loan-products") &&
@@ -70,33 +73,53 @@ export default function LoanProductAutodebetScheduleSection() {
 
     let retryId = 0;
     let attempts = 0;
-    let portalTarget: HTMLElement | null = null;
+    let observer: MutationObserver | null = null;
+    const portalTarget = document.createElement("div");
+    portalTarget.className = AUTODEBET_PORTAL_CLASS;
 
-    const placeSection = () => {
+    const ensurePosition = () => {
       const formCard = findLoanProductFormCard();
       const actionButtons = formCard ? findActionButtons(formCard) : null;
 
       if (!formCard || !actionButtons) {
         attempts += 1;
 
-        if (attempts < 20) {
-          retryId = window.setTimeout(placeSection, 100);
+        if (attempts < 30) {
+          retryId = window.setTimeout(ensurePosition, 100);
         }
 
         return;
       }
 
-      portalTarget = document.createElement("div");
-      portalTarget.className = "loan-product-autodebet-schedule-portal";
-      formCard.insertBefore(portalTarget, actionButtons);
+      const termsTarget = formCard.querySelector<HTMLElement>(
+        `.${TERMS_PORTAL_CLASS}`,
+      );
+      const placementAnchor = termsTarget ?? actionButtons;
+
+      if (
+        portalTarget.parentElement !== formCard ||
+        portalTarget.nextSibling !== placementAnchor
+      ) {
+        formCard.insertBefore(portalTarget, placementAnchor);
+      }
+
       setTarget(portalTarget);
+
+      if (!observer) {
+        observer = new MutationObserver(ensurePosition);
+        observer.observe(formCard, {
+          childList: true,
+          subtree: false,
+        });
+      }
     };
 
-    placeSection();
+    ensurePosition();
 
     return () => {
       window.clearTimeout(retryId);
-      portalTarget?.remove();
+      observer?.disconnect();
+      portalTarget.remove();
       setTarget(null);
     };
   }, [location.pathname, location.search]);

@@ -7,6 +7,9 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 
+const AUTODEBET_PORTAL_CLASS = "loan-product-autodebet-schedule-portal";
+const TERMS_PORTAL_CLASS = "loan-product-terms-section-portal";
+
 const terms = [
   {
     id: "interest",
@@ -70,33 +73,55 @@ export default function LoanProductTermsSection() {
 
     let retryId = 0;
     let attempts = 0;
-    let portalTarget: HTMLElement | null = null;
+    let observer: MutationObserver | null = null;
+    const portalTarget = document.createElement("div");
+    portalTarget.className = TERMS_PORTAL_CLASS;
 
-    const placeSection = () => {
+    const ensurePosition = () => {
       const card = findFormCard();
-      const actions = card ? findActionButtons(card) : null;
+      const actionButtons = card ? findActionButtons(card) : null;
 
-      if (!card || !actions) {
+      if (!card || !actionButtons) {
         attempts += 1;
 
-        if (attempts < 20) {
-          retryId = window.setTimeout(placeSection, 100);
+        if (attempts < 30) {
+          retryId = window.setTimeout(ensurePosition, 100);
         }
 
         return;
       }
 
-      portalTarget = document.createElement("div");
-      portalTarget.className = "loan-product-terms-section-portal";
-      card.insertBefore(portalTarget, actions);
+      const autodebetTarget = card.querySelector<HTMLElement>(
+        `.${AUTODEBET_PORTAL_CLASS}`,
+      );
+      const placementAnchor = autodebetTarget
+        ? autodebetTarget.nextSibling
+        : actionButtons;
+
+      if (
+        portalTarget.parentElement !== card ||
+        portalTarget.previousSibling !== autodebetTarget
+      ) {
+        card.insertBefore(portalTarget, placementAnchor);
+      }
+
       setTarget(portalTarget);
+
+      if (!observer) {
+        observer = new MutationObserver(ensurePosition);
+        observer.observe(card, {
+          childList: true,
+          subtree: false,
+        });
+      }
     };
 
-    placeSection();
+    ensurePosition();
 
     return () => {
       window.clearTimeout(retryId);
-      portalTarget?.remove();
+      observer?.disconnect();
+      portalTarget.remove();
       setTarget(null);
     };
   }, [location.pathname]);
