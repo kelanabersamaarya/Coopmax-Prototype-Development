@@ -164,16 +164,16 @@
   max-width: 85px !important;
 }
 
-/* Tabel simulasi: perkecil kolom Total Tagihan Belum Dibayar. */
+/* Tabel simulasi: perkecil kolom Tagihan Pokok. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   th:nth-child(3),
 [data-loan-debt-wizard="true"]
   table.min-w-\[2015px\]
   td:nth-child(3) {
-  width: 115px !important;
-  min-width: 115px !important;
-  max-width: 115px !important;
+  width: 95px !important;
+  min-width: 95px !important;
+  max-width: 95px !important;
 }
 
 /* Tabel simulasi: kolom Jenis Penyesuaian dibuat sangat ringkas. */
