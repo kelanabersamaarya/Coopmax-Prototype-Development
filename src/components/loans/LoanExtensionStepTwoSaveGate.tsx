@@ -16,27 +16,30 @@ type ExtensionSaveData = {
   newTenor: string;
 };
 
-function findTextAfterLabel(text: string, label: string) {
-  const index = text.indexOf(label);
-  if (index < 0) return "";
+function readSummaryValue(wizard: HTMLElement, label: string) {
+  const summaryRows = Array.from(wizard.querySelectorAll("table tbody tr"));
 
-  const remaining = text.slice(index + label.length);
-  const nextLabelIndex = remaining.search(
-    /(?:Tenor Baru|Jatuh Tempo Akhir Baru|Tanggal Efektif|Alasan:|Simpan Perubahan)/,
-  );
+  for (const row of summaryRows) {
+    const cells = Array.from(row.querySelectorAll("td"));
+    const rowLabel = cells[0]?.textContent?.trim();
 
-  return (nextLabelIndex >= 0 ? remaining.slice(0, nextLabelIndex) : remaining)
-    .trim()
-    .replace(/\s+/g, " ");
+    if (rowLabel !== label) continue;
+
+    return cells[2]?.textContent?.trim() ?? "";
+  }
+
+  return "";
 }
 
 function getSaveData(wizard: HTMLElement): ExtensionSaveData | null {
-  const text = (wizard.textContent ?? "").replace(/\s+/g, " ").trim();
   const accountNo =
-    text.match(/No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.]+)/i)?.[1] ?? "";
-  const method = findTextAfterLabel(text, "Metode Perpanjangan");
-  const effectiveDate = findTextAfterLabel(text, "Tanggal Efektif");
-  const newTenor = findTextAfterLabel(text, "Tenor Baru");
+    (wizard.textContent ?? "").match(
+      /No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.]+)/i,
+    )?.[1] ?? "";
+
+  const method = readSummaryValue(wizard, "Metode Perpanjangan");
+  const effectiveDate = readSummaryValue(wizard, "Tanggal Efektif");
+  const newTenor = readSummaryValue(wizard, "Tenor");
 
   if (!accountNo || !method || !effectiveDate || !newTenor) return null;
 
