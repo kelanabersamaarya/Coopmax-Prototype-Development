@@ -383,7 +383,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             </div>
           </div>
 
-          <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
+          <SectionHighlightWide
+            title="Tagihan dan Pembayaran Angsuran"
+            customerName={nasabah.nama}
+          />
 
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">

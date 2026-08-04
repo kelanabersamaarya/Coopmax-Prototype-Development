@@ -24,15 +24,7 @@ type LoanChangeDisplay = {
   tooltip: string;
 };
 
-function getSelectedCustomerName() {
-  const customerLabel = Array.from(document.querySelectorAll("span")).find(
-    (element) => element.textContent?.trim() === "Nama Nasabah",
-  );
-
-  return customerLabel?.parentElement?.textContent?.trim() ?? "";
-}
-
-function getLoanChangeDisplay(customerName: string): LoanChangeDisplay {
+function getLoanChangeDisplay(customerName = ""): LoanChangeDisplay {
   if (customerName.includes("Komang Dewa")) {
     return {
       value: "April 2027 → April 2028",
@@ -61,22 +53,35 @@ function LoanChangeInfo({
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
 
   React.useEffect(() => {
-    const heading = Array.from(document.querySelectorAll<HTMLElement>("div")).find(
-      (element) => element.textContent?.trim() === "INFORMASI TAGIHAN DAN DENDA",
-    );
+    let retryId = 0;
 
-    const divider = heading?.nextElementSibling;
+    const findTarget = () => {
+      const heading = Array.from(document.querySelectorAll<HTMLElement>("div")).find(
+        (element) => element.textContent?.trim() === "INFORMASI TAGIHAN DAN DENDA",
+      );
 
-    if (!heading || !divider?.parentElement) return;
+      const divider = heading?.nextElementSibling;
 
-    const portalTarget = document.createElement("div");
-    portalTarget.className = "loan-change-info-target";
+      if (!heading || !divider?.parentElement) return;
 
-    divider.insertAdjacentElement("afterend", portalTarget);
-    setTarget(portalTarget);
+      const portalTarget = document.createElement("div");
+      portalTarget.className = "loan-change-info-target";
+
+      divider.insertAdjacentElement("afterend", portalTarget);
+      setTarget(portalTarget);
+
+      window.clearInterval(retryId);
+    };
+
+    findTarget();
+    retryId = window.setInterval(findTarget, 100);
 
     return () => {
-      portalTarget.remove();
+      window.clearInterval(retryId);
+      setTarget((current) => {
+        current?.remove();
+        return null;
+      });
     };
   }, []);
 
@@ -95,7 +100,7 @@ function LoanChangeInfo({
           </div>
           <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
             Terdapat penyesuaian pada rekening pinjaman, tabel tagihan dibawah
-            ini telah disesuaikan dengan perubahan yang dilakuan.
+            ini telah disesuaikan dengan perubahan yang dilakukan.
           </p>
 
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -164,27 +169,25 @@ export default function SectionHighlightWide({
   title,
   className,
   tenorTooltip,
+  customerName,
 }: {
   title: string;
   className?: string;
   tenorTooltip?: string;
+  customerName?: string;
 }) {
   const showLoanChangeInfo = title === "Tagihan dan Pembayaran Angsuran";
-  const [loanChange, setLoanChange] = React.useState<LoanChangeDisplay>(
-    getLoanChangeDisplay(""),
-  );
 
-  React.useEffect(() => {
+  const loanChange = React.useMemo(() => {
     if (tenorTooltip) {
-      setLoanChange({
+      return {
         value: "12 → 18 bulan",
         tooltip: tenorTooltip,
-      });
-      return;
+      };
     }
 
-    setLoanChange(getLoanChangeDisplay(getSelectedCustomerName()));
-  }, [tenorTooltip]);
+    return getLoanChangeDisplay(customerName);
+  }, [customerName, tenorTooltip]);
 
   return (
     <div className={cn("w-full", className)}>
