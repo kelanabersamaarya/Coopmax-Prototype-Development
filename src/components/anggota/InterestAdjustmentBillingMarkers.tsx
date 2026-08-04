@@ -36,18 +36,27 @@ function getAdjustmentMethodLabel(
   return type || "Penyesuaian Bunga Pinjaman";
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&")
+    .replace(/</g, "<")
+    .replace(/>/g, ">");
+}
+
 function tooltipRow(label: string, value: string) {
   return `
-    <div class="billing-interest-adjustment-tooltip-row">
-      <span>${label}</span>
-      <b>${value}</b>
-    </div>
+    <section class="billing-interest-adjustment-tooltip-row">
+      <span class="billing-interest-adjustment-tooltip-label">${escapeHtml(label)}</span>
+      <b class="billing-interest-adjustment-tooltip-value">${escapeHtml(value)}</b>
+    </section>
   `;
 }
 
 function getTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
   return `
-    <strong>Penyesuaian Nominal Bunga</strong>
+    <header class="billing-interest-adjustment-tooltip-title">
+      Penyesuaian Nominal Bunga
+    </header>
     ${tooltipRow(
       "Metode Penyesuaian",
       getAdjustmentMethodLabel(entry.adjustmentType),
@@ -82,7 +91,7 @@ function showTooltip(
 ) {
   removeTooltip();
 
-  const tooltip = document.createElement("div");
+  const tooltip = document.createElement("aside");
   tooltip.className = tooltipClass;
   tooltip.innerHTML = getTooltipContent(entry);
   document.body.appendChild(tooltip);
@@ -278,14 +287,12 @@ export default function InterestAdjustmentBillingMarkers({
           position: fixed;
           z-index: 9999;
           width: min(320px, calc(100vw - 24px));
+          box-sizing: border-box;
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
           padding: 14px;
           color: #1e293b;
-          font-size: 12px;
-          font-weight: 400;
-          line-height: 1.4;
           text-align: left;
           opacity: 0;
           pointer-events: none;
@@ -297,37 +304,48 @@ export default function InterestAdjustmentBillingMarkers({
           opacity: 1;
         }
 
-        .${tooltipClass} strong {
-          display: block;
-          margin-bottom: 12px;
-          color: #1d4ed8;
-          font-size: 13px;
-          font-weight: 800;
+        .${tooltipClass} .billing-interest-adjustment-tooltip-title {
+          display: block !important;
+          margin: 0 0 12px !important;
+          padding: 0 !important;
+          color: #1d4ed8 !important;
+          font-size: 13px !important;
+          font-weight: 800 !important;
+          line-height: 1.35 !important;
         }
 
-        .billing-interest-adjustment-tooltip-row {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-          margin-top: 11px;
-          min-width: 0;
+        .${tooltipClass} .billing-interest-adjustment-tooltip-row {
+          display: block !important;
+          width: 100% !important;
+          margin: 11px 0 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
         }
 
-        .billing-interest-adjustment-tooltip-row span {
-          color: #64748b;
-          font-size: 11px;
-          font-weight: 600;
-          line-height: 1.3;
+        .${tooltipClass} .billing-interest-adjustment-tooltip-label,
+        .${tooltipClass} .billing-interest-adjustment-tooltip-value {
+          display: block !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          white-space: normal !important;
+          overflow-wrap: anywhere !important;
+          word-break: break-word !important;
         }
 
-        .billing-interest-adjustment-tooltip-row b {
-          display: block;
-          color: #0f172a;
-          font-size: 12px;
-          font-weight: 800;
-          line-height: 1.4;
-          overflow-wrap: anywhere;
-          word-break: break-word;
+        .${tooltipClass} .billing-interest-adjustment-tooltip-label {
+          color: #64748b !important;
+          font-size: 11px !important;
+          font-weight: 600 !important;
+          line-height: 1.35 !important;
+        }
+
+        .${tooltipClass} .billing-interest-adjustment-tooltip-value {
+          margin-top: 3px !important;
+          color: #0f172a !important;
+          font-size: 12px !important;
+          font-weight: 800 !important;
+          line-height: 1.45 !important;
         }
       `}
     </style>
