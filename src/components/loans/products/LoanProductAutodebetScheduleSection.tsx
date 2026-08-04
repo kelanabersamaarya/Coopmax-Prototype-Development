@@ -6,6 +6,10 @@ import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
+import {
+  isLoanProductAutodebetEnabled,
+  setLoanProductAutodebetEnabled,
+} from "@/lib/loanProductAutodebetStore";
 
 const SCHEDULE_SECTIONS_PORTAL_CLASS =
   "loan-product-schedule-sections-portal";
@@ -85,11 +89,20 @@ function hasInstallmentTableEnabled(card: HTMLElement) {
   return Boolean(card.querySelector('[id^="mode-"]'));
 }
 
+function getProductName(card: HTMLElement) {
+  const productInput = card.querySelector<HTMLInputElement>(
+    'input[placeholder="Masukkan Produk Pinjaman"]',
+  );
+
+  return productInput?.value.trim() || "";
+}
+
 export default function LoanProductAutodebetScheduleSection() {
   const location = useLocation();
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
   const [installmentTableEnabled, setInstallmentTableEnabled] =
     React.useState(false);
+  const [productName, setProductName] = React.useState("");
   const [autodebetEnabled, setAutodebetEnabled] = React.useState(false);
   const [enabledTerms, setEnabledTerms] = React.useState<Record<string, boolean>>({
     interest: false,
@@ -131,8 +144,17 @@ export default function LoanProductAutodebetScheduleSection() {
         formCard.insertBefore(portalTarget, actionButtons);
       }
 
+      const nextProductName = getProductName(formCard);
+
       setTarget(portalTarget);
       setInstallmentTableEnabled(hasInstallmentTableEnabled(formCard));
+
+      if (nextProductName !== productName) {
+        setProductName(nextProductName);
+        setAutodebetEnabled(
+          isLoanProductAutodebetEnabled(nextProductName, false),
+        );
+      }
 
       if (!observer) {
         observer = new MutationObserver(syncPositionAndVisibility);
@@ -152,7 +174,12 @@ export default function LoanProductAutodebetScheduleSection() {
       setTarget(null);
       setInstallmentTableEnabled(false);
     };
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, productName]);
+
+  function updateAutodebetEnabled(enabled: boolean) {
+    setAutodebetEnabled(enabled);
+    setLoanProductAutodebetEnabled(productName, enabled);
+  }
 
   if (!target || !installmentTableEnabled) return null;
 
@@ -178,7 +205,7 @@ export default function LoanProductAutodebetScheduleSection() {
         <Switch
           id="loan-product-autodebet-enabled"
           checked={autodebetEnabled}
-          onCheckedChange={setAutodebetEnabled}
+          onCheckedChange={updateAutodebetEnabled}
         />
       </div>
 

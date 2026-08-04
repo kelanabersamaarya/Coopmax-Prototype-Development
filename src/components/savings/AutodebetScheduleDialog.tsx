@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { isLoanProductAutodebetEnabled } from "@/lib/loanProductAutodebetStore";
 
 export type AutodebetSchedule = {
   product: string;
@@ -192,12 +193,22 @@ export default function AutodebetScheduleDialog({
   const isSavingsProduct = product === "Produk Simpanan";
   const isLoanProduct = product === "Produk Pinjaman";
 
+  const availableAccounts = React.useMemo(() => {
+    const options = accountOptions[product] ?? [];
+
+    if (!isLoanProduct) return options;
+
+    return options.filter((account) =>
+      isLoanProductAutodebetEnabled(account.productType),
+    );
+  }, [isLoanProduct, product, open]);
+
   const selectedAccount = React.useMemo(
     () =>
-      (accountOptions[product] ?? []).find(
+      availableAccounts.find(
         (account) => accountValue(account) === selectedAccountValue,
       ) ?? null,
-    [product, selectedAccountValue],
+    [availableAccounts, selectedAccountValue],
   );
 
   React.useEffect(() => {
@@ -211,6 +222,18 @@ export default function AutodebetScheduleDialog({
     setStatus(schedule?.status ?? true);
     setError("");
   }, [open, schedule]);
+
+  React.useEffect(() => {
+    if (!selectedAccountValue) return;
+
+    const isAvailable = availableAccounts.some(
+      (account) => accountValue(account) === selectedAccountValue,
+    );
+
+    if (!isAvailable) {
+      setSelectedAccountValue("");
+    }
+  }, [availableAccounts, selectedAccountValue]);
 
   function save() {
     const missing: string[] = [];
@@ -307,19 +330,27 @@ export default function AutodebetScheduleDialog({
                     setSelectedAccountValue(value);
                     setError("");
                   }}
-                  disabled={!product}
+                  disabled={!product || availableAccounts.length === 0}
                 >
                   <SelectTrigger
                     className={cn(
                       inputClassName,
-                      !product ? "bg-slate-100 text-slate-400" : "",
+                      !product || availableAccounts.length === 0
+                        ? "bg-slate-100 text-slate-400"
+                        : "",
                     )}
                   >
-                    <SelectValue placeholder="Pilih Rekening" />
+                    <SelectValue
+                      placeholder={
+                        isLoanProduct && availableAccounts.length === 0
+                          ? "Tidak ada produk pinjaman autodebet aktif"
+                          : "Pilih Rekening"
+                      }
+                    />
                   </SelectTrigger>
 
                   <SelectContent className="rounded-[5px] border-slate-200">
-                    {(accountOptions[product] ?? []).map((account) => (
+                    {availableAccounts.map((account) => (
                       <SelectItem
                         key={account.accountNo}
                         value={accountValue(account)}
