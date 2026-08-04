@@ -62,7 +62,7 @@
   content: "Informasi Penyesuaian\A\A Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Nominal Penyesuaian: " attr(data-adjustment-amount) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason) "\A\A Disesuaikan Oleh: " attr(data-adjusted-by);
   position: absolute;
   right: 0;
-  bottom: calc(100% + 9px);
+  top: calc(100% + 9px);
   z-index: 100;
   width: 280px;
   border: 1px solid #e2e8f0;
@@ -78,7 +78,7 @@
   white-space: pre-line;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(4px);
+  transform: translateY(-4px);
   transition: opacity 150ms ease, transform 150ms ease;
 }
 
