@@ -6,11 +6,18 @@ const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const CURRENT_TENOR = 12;
 
 function findFieldInput(wizard: HTMLElement, labelText: string) {
-  const label = Array.from(wizard.querySelectorAll("label")).find((element) =>
-    (element.textContent ?? "").trim().startsWith(labelText),
-  );
+  const fieldLabel = Array.from(
+    wizard.querySelectorAll<HTMLElement>("label, div"),
+  ).find((element) => {
+    const text = (element.textContent ?? "").trim();
 
-  return label?.parentElement?.querySelector<HTMLInputElement>("input") ?? null;
+    if (!text.startsWith(labelText)) return false;
+
+    const parent = element.parentElement;
+    return Boolean(parent?.querySelector<HTMLInputElement>("input"));
+  });
+
+  return fieldLabel?.parentElement?.querySelector<HTMLInputElement>("input") ?? null;
 }
 
 function syncTotalTenor() {
@@ -26,6 +33,7 @@ function syncTotalTenor() {
   if (!additionalTenorInput || !totalTenorInput) return;
 
   const additionalTenor = Number.parseInt(additionalTenorInput.value, 10) || 0;
+
   totalTenorInput.value =
     additionalTenor > 0 ? `${CURRENT_TENOR + additionalTenor} Bulan` : "0";
 }
@@ -33,29 +41,20 @@ function syncTotalTenor() {
 export default function LoanExtensionTenorTotalSync() {
   React.useEffect(() => {
     const observer = new MutationObserver(syncTotalTenor);
+    const intervalId = window.setInterval(syncTotalTenor, 150);
 
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    const handleInput = (event: Event) => {
-      const target = event.target as HTMLInputElement | null;
-
-      if (
-        target?.placeholder === "Masukkan tenor tambahan" ||
-        target?.value !== undefined
-      ) {
-        window.setTimeout(syncTotalTenor, 0);
-      }
-    };
-
-    document.addEventListener("input", handleInput, true);
+    document.addEventListener("input", syncTotalTenor, true);
     syncTotalTenor();
 
     return () => {
       observer.disconnect();
-      document.removeEventListener("input", handleInput, true);
+      window.clearInterval(intervalId);
+      document.removeEventListener("input", syncTotalTenor, true);
     };
   }, []);
 
