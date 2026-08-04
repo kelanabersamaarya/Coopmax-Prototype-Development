@@ -4,21 +4,12 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-const autodebetDates = Array.from({ length: 31 }, (_, index) =>
-  String(index + 1),
-);
+import { Switch } from "@/components/ui/switch";
 
 function isConsolidationLoanProductPath(pathname: string, search: string) {
   const isMainLoanProduct =
-    pathname.startsWith("/loan-products") && !pathname.startsWith("/loan-products/cabang");
+    pathname.startsWith("/loan-products") &&
+    !pathname.startsWith("/loan-products/cabang");
 
   const isSakLoanProduct =
     pathname.startsWith("/sak-ep-cabang/loan-products") &&
@@ -68,7 +59,7 @@ function findActionButtons(card: HTMLElement) {
 export default function LoanProductAutodebetScheduleSection() {
   const location = useLocation();
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
-  const [autodebetDate, setAutodebetDate] = React.useState("");
+  const [autodebetEnabled, setAutodebetEnabled] = React.useState(false);
 
   React.useEffect(() => {
     if (!isConsolidationLoanProductPath(location.pathname, location.search)) {
@@ -116,33 +107,22 @@ export default function LoanProductAutodebetScheduleSection() {
       <Separator className="my-6 bg-slate-200/70" />
 
       <div className="text-base font-semibold text-slate-900">
-        Jadwal Autodebet
+        Proses Autodebet
       </div>
 
       <div className="mt-4 grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
         <label
-          htmlFor="loan-product-autodebet-date"
+          htmlFor="loan-product-autodebet-enabled"
           className="text-sm font-normal text-slate-900"
         >
-          Tanggal Autodebet
+          Proses Autodebet
         </label>
 
-        <Select value={autodebetDate} onValueChange={setAutodebetDate}>
-          <SelectTrigger
-            id="loan-product-autodebet-date"
-            className="h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] text-slate-900"
-          >
-            <SelectValue placeholder="Pilih Tanggal Autodebet" />
-          </SelectTrigger>
-
-          <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
-            {autodebetDates.map((date) => (
-              <SelectItem key={date} value={date}>
-                {date}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Switch
+          id="loan-product-autodebet-enabled"
+          checked={autodebetEnabled}
+          onCheckedChange={setAutodebetEnabled}
+        />
       </div>
     </section>,
     target,
