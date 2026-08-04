@@ -13,6 +13,7 @@ import LoanExtensionSaveConfirmGate from "@/components/loans/LoanExtensionSaveCo
 import LoanExtensionStepTwoSaveGate from "@/components/loans/LoanExtensionStepTwoSaveGate";
 import LoanExtensionTenorFields from "@/components/loans/LoanExtensionTenorFields";
 import LoanExtensionDueMonthSelect from "@/components/loans/LoanExtensionDueMonthSelect";
+import LoanExtensionCurrentDueDateFields from "@/components/loans/LoanExtensionCurrentDueDateFields";
 import LoanProductTermsSection from "@/components/loans/products/LoanProductTermsSection";
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
@@ -52,6 +53,7 @@ export default function MobileAwareToaster() {
       <LoanExtensionStepTwoSaveGate />
       <LoanExtensionTenorFields />
       <LoanExtensionDueMonthSelect />
+      <LoanExtensionCurrentDueDateFields />
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
