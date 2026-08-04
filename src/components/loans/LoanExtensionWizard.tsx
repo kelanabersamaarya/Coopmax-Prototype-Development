@@ -305,13 +305,6 @@ export default function LoanExtensionWizard({
     };
   }, [additionalTenorValue, dueMonthIndex, dueYearNumber, method, newTenor]);
 
-  const detailValue =
-    method === "Tenor Tambahan"
-      ? `${additionalTenor} Bulan`
-      : method === "Tenor Baru"
-        ? `${simulation.tenor} Bulan`
-        : simulation.dueDate;
-
   function selectMethod(nextMethod: ExtensionMethod) {
     setMethod(nextMethod);
     setAdditionalTenor("");
@@ -554,7 +547,6 @@ export default function LoanExtensionWizard({
                       <tbody>
                         {[
                           ["Metode Perpanjangan", "-", method],
-                          ["Detail Perpanjangan", "-", detailValue],
                           ["Tanggal Efektif", "-", effectiveDate],
                           ["Tenor", `${CURRENT_TENOR} Bulan`, `${simulation.tenor} Bulan`],
                           ["Tanggal Jatuh Tempo Akhir", "07-04-2027", simulation.dueDate],
