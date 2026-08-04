@@ -18,3 +18,21 @@
   letter-spacing: 0.025em;
   text-transform: uppercase;
 }
+
+/* Header utama modal Ubah Suku Bunga. */
+[data-loan-interest-wizard="true"]
+  > header
+  > h2 {
+  font-size: 0 !important;
+}
+
+[data-loan-interest-wizard="true"]
+  > header
+  > h2::after {
+  content: "Ubah Suku Bunga";
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
