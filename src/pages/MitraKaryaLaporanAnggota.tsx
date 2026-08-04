@@ -111,13 +111,7 @@ function parseAmount(value: string) {
   return digits ? Number(digits) : 0;
 }
 
-function ReportInfoPanel({
-  onExport,
-  onPrint,
-}: {
-  onExport: () => void;
-  onPrint: () => void;
-}) {
+function ReportInfoPanel() {
   return (
     <aside className="rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm">
       <div className="flex items-start gap-3">
@@ -135,26 +129,6 @@ function ReportInfoPanel({
             kebutuhan. Hasil laporan dapat diekspor atau dicetak setelah pencarian
             dilakukan.
           </p>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={onExport}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-violet-600 px-4 text-[13px] font-semibold text-white transition hover:bg-violet-700"
-            >
-              <FileSpreadsheet className="h-4 w-4" />
-              Export Excel
-            </button>
-
-            <button
-              type="button"
-              onClick={onPrint}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] border border-[#0ea5c6] bg-white px-4 text-[13px] font-semibold text-[#078caf] transition hover:bg-cyan-50"
-            >
-              <Printer className="h-4 w-4" />
-              Cetak
-            </button>
-          </div>
         </div>
       </div>
     </aside>
@@ -251,12 +225,41 @@ export default function MitraKaryaLaporanAnggota() {
     window.print();
   }
 
+  const topActionClassName = cn(
+    "inline-flex h-10 items-center justify-center gap-2 rounded-full",
+    "border border-slate-200 bg-white px-4",
+    "text-[13px] font-semibold text-slate-900",
+    "shadow-sm transition hover:bg-slate-50",
+  );
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-          Laporan Anggota
-        </h1>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+            Laporan Anggota
+          </h1>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={handleExport}
+              className={topActionClassName}
+            >
+              <FileSpreadsheet className="h-4 w-4 text-slate-600" />
+              Export Excel
+            </button>
+
+            <button
+              type="button"
+              onClick={handlePrint}
+              className={topActionClassName}
+            >
+              <Printer className="h-4 w-4 text-slate-600" />
+              Cetak
+            </button>
+          </div>
+        </div>
 
         <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,565px)_minmax(320px,1fr)]">
           <div className="max-w-[565px]">
@@ -433,7 +436,7 @@ export default function MitraKaryaLaporanAnggota() {
             </div>
           </div>
 
-          <ReportInfoPanel onExport={handleExport} onPrint={handlePrint} />
+          <ReportInfoPanel />
         </div>
 
         {isSearched ? (
