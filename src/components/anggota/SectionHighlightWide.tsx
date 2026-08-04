@@ -92,7 +92,14 @@ function LoanChangeInfo() {
                     <Info className="h-4 w-4" strokeWidth={2.7} />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent className="z-[9999] max-w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl">
+                <TooltipContent
+                  portalled
+                  side="top"
+                  align="end"
+                  sideOffset={8}
+                  collisionPadding={12}
+                  className="z-[9999] w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl"
+                >
                   Terdapat penambahan tenor pinjaman dari tenor awal sebesar
                   12 bulan menjadi 18 bulan
                 </TooltipContent>
