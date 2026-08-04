@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
-import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -22,9 +20,15 @@ type ExtensionMethod =
 const CURRENT_TENOR = 12;
 const CURRENT_DUE_MONTH = "April";
 const CURRENT_DUE_YEAR = "2027";
+const CURRENT_DUE_DATE = new Date(2027, 3, 7);
 const REMAINING_PRINCIPAL = 10_553_571;
 const MONTHLY_INTEREST = 120_000;
-const CURRENT_DUE_DATE = new Date(2027, 3, 7);
+
+const methods: ExtensionMethod[] = [
+  "Tenor Tambahan",
+  "Tenor Baru",
+  "Jatuh Tempo Akhir Baru",
+];
 
 const months = [
   "Januari",
@@ -58,12 +62,6 @@ const accountDetails = [
   ["Total Kewajiban", "10.678.571,00"],
 ] as const;
 
-function formatIdr(value: number) {
-  return Math.max(0, Math.round(value))
-    .toLocaleString("id-ID")
-    .replace(/,/g, ".");
-}
-
 function formatDmy(date: Date) {
   return `${String(date.getDate()).padStart(2, "0")}-${String(
     date.getMonth() + 1,
@@ -72,20 +70,28 @@ function formatDmy(date: Date) {
 
 function addMonths(date: Date, amount: number) {
   const result = new Date(date);
-  const originalDay = result.getDate();
+  const day = result.getDate();
   result.setMonth(result.getMonth() + amount);
 
-  if (result.getDate() !== originalDay) result.setDate(0);
+  if (result.getDate() !== day) result.setDate(0);
 
   return result;
 }
 
+function formatIdr(value: number) {
+  return Math.max(0, Math.round(value))
+    .toLocaleString("id-ID")
+    .replace(/,/g, ".");
+}
+
 function AccountField({ label, value }: { label: string; value: string }) {
+  const isStatus = label === "Status Pinjaman";
+
   return (
-    <div className="min-w-0">
+    <div className="loan-extension-account-field min-w-0">
       <div className="text-[12px] font-semibold text-white/85">{label}</div>
       <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
-        {label === "Status Pinjaman" ? (
+        {isStatus ? (
           <span className="inline-flex rounded-[4px] bg-[#3BB001] px-2 py-1 text-[11px] font-extrabold leading-none text-white">
             {value}
           </span>
@@ -101,10 +107,12 @@ function FieldRow({
   label,
   children,
   top = false,
+  required = true,
 }: {
   label: string;
   children: React.ReactNode;
   top?: boolean;
+  required?: boolean;
 }) {
   return (
     <div
@@ -113,20 +121,16 @@ function FieldRow({
         top ? "sm:items-start" : "sm:items-center",
       )}
     >
-      <label
-        className={cn(
-          "text-[14px] font-normal text-[#002060]",
-          top && "pt-2",
-        )}
-      >
-        {label} <span className="text-rose-600">*</span>
+      <label className={cn("text-[14px] font-normal text-[#002060]", top && "pt-2")}>
+        {label}
+        {required ? <span className="text-rose-600"> *</span> : null}
       </label>
       {children}
     </div>
   );
 }
 
-function ReadOnlyFieldRow({
+function ReadOnlyRow({
   label,
   children,
 }: {
@@ -166,7 +170,6 @@ function StepIndicator({ step }: { step: Step }) {
                 {label}
               </span>
             </div>
-
             {number < steps.length ? (
               <div
                 className={cn(
@@ -215,31 +218,32 @@ export default function LoanExtensionWizard({
     setHistoryOpen(false);
   }, [open]);
 
-  const parsedDueMonth = months.indexOf(dueMonth);
-  const parsedDueYear = Number.parseInt(dueYear, 10);
+  const dueMonthIndex = months.indexOf(dueMonth);
+  const dueYearNumber = Number.parseInt(dueYear, 10);
 
-  const hasMethodValue =
+  const hasExtensionValue =
     method === "Tenor Tambahan"
       ? Number.parseInt(additionalTenor, 10) > 0
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
         : method === "Jatuh Tempo Akhir Baru"
-          ? parsedDueMonth >= 0 && Number.isFinite(parsedDueYear)
+          ? dueMonthIndex >= 0 && Number.isFinite(dueYearNumber)
           : false;
 
   const isValid =
-    hasMethodValue &&
-    effectiveDate.trim().length > 0 &&
-    reason.trim().length > 0;
+    Boolean(method) &&
+    hasExtensionValue &&
+    Boolean(effectiveDate.trim()) &&
+    Boolean(reason.trim());
 
   const simulation = React.useMemo(() => {
     let tenor = CURRENT_TENOR;
     let dueDate = CURRENT_DUE_DATE;
 
     if (method === "Tenor Tambahan") {
-      const additionalMonths = Number.parseInt(additionalTenor, 10) || 0;
-      tenor = CURRENT_TENOR + additionalMonths;
-      dueDate = addMonths(CURRENT_DUE_DATE, additionalMonths);
+      const monthsToAdd = Number.parseInt(additionalTenor, 10) || 0;
+      tenor = CURRENT_TENOR + monthsToAdd;
+      dueDate = addMonths(CURRENT_DUE_DATE, monthsToAdd);
     }
 
     if (method === "Tenor Baru") {
@@ -249,12 +253,16 @@ export default function LoanExtensionWizard({
 
     if (
       method === "Jatuh Tempo Akhir Baru" &&
-      parsedDueMonth >= 0 &&
-      Number.isFinite(parsedDueYear)
+      dueMonthIndex >= 0 &&
+      Number.isFinite(dueYearNumber)
     ) {
-      dueDate = new Date(parsedDueYear, parsedDueMonth, CURRENT_DUE_DATE.getDate());
+      dueDate = new Date(
+        dueYearNumber,
+        dueMonthIndex,
+        CURRENT_DUE_DATE.getDate(),
+      );
 
-      if (dueDate.getMonth() !== parsedDueMonth) dueDate.setDate(0);
+      if (dueDate.getMonth() !== dueMonthIndex) dueDate.setDate(0);
 
       const monthDifference =
         (dueDate.getFullYear() - CURRENT_DUE_DATE.getFullYear()) * 12 +
@@ -267,7 +275,7 @@ export default function LoanExtensionWizard({
     const monthlyPrincipal = REMAINING_PRINCIPAL / tenor;
     const monthlyInterest = MONTHLY_INTEREST * (CURRENT_TENOR / tenor);
 
-    const scheduleRows = Array.from({ length: tenor }, (_, index) => {
+    const rows = Array.from({ length: tenor }, (_, index) => {
       const principal = Math.min(
         monthlyPrincipal,
         Math.max(0, REMAINING_PRINCIPAL - monthlyPrincipal * index),
@@ -291,30 +299,27 @@ export default function LoanExtensionWizard({
     return {
       tenor,
       dueDate: formatDmy(dueDate),
-      oldInstallment: REMAINING_PRINCIPAL / CURRENT_TENOR + MONTHLY_INTEREST,
-      newInstallment: monthlyPrincipal + monthlyInterest,
-      oldInterest: MONTHLY_INTEREST * CURRENT_TENOR,
-      newInterest: monthlyInterest * tenor,
-      scheduleRows,
+      rows,
     };
-  }, [additionalTenor, method, newTenor, parsedDueMonth, parsedDueYear]);
+  }, [additionalTenor, dueMonthIndex, dueYearNumber, method, newTenor]);
 
-  const methodValue =
+  const detailValue =
     method === "Tenor Tambahan"
       ? `${additionalTenor} Bulan`
       : method === "Tenor Baru"
         ? `${simulation.tenor} Bulan`
         : simulation.dueDate;
 
-  function continueWizard() {
-    if (!isValid) {
-      toast("Data perpanjangan belum lengkap", {
-        description:
-          "Lengkapi metode, nilai perpanjangan, tanggal efektif, dan alasan perpanjangan.",
-      });
-      return;
-    }
+  function selectMethod(nextMethod: ExtensionMethod) {
+    setMethod(nextMethod);
+    setAdditionalTenor("");
+    setNewTenor("");
+    setDueMonth("");
+    setDueYear("");
+  }
 
+  function continueWizard() {
+    if (!isValid) return;
     setStep(2);
   }
 
@@ -357,7 +362,6 @@ export default function LoanExtensionWizard({
                     <div className="text-[14px] font-extrabold tracking-wide text-white">
                       INFORMASI REKENING PINJAMAN
                     </div>
-
                     <button
                       type="button"
                       onClick={() => setHistoryOpen(true)}
@@ -386,45 +390,36 @@ export default function LoanExtensionWizard({
 
                   <div className="grid gap-5 p-5">
                     <FieldRow label="Metode Perpanjangan">
-                      <RadioGroup
-                        value={method}
-                        onValueChange={(value) => {
-                          setMethod(value as ExtensionMethod);
-                          setAdditionalTenor("");
-                          setNewTenor("");
-                          setDueMonth("");
-                          setDueYear("");
-                        }}
-                        className="flex flex-wrap items-center gap-x-6 gap-y-3"
-                      >
-                        {(
-                          [
-                            "Tenor Tambahan",
-                            "Tenor Baru",
-                            "Jatuh Tempo Akhir Baru",
-                          ] as ExtensionMethod[]
-                        ).map((option) => (
+                      <div className="flex min-h-[31px] flex-wrap items-center gap-x-6 gap-y-3">
+                        {methods.map((option) => (
                           <label
                             key={option}
                             className="inline-flex cursor-pointer items-center gap-2 text-[14px] font-normal text-slate-900"
                           >
-                            <RadioGroupItem value={option} />
+                            <input
+                              type="radio"
+                              name="loan-extension-method"
+                              value={option}
+                              checked={method === option}
+                              onChange={() => selectMethod(option)}
+                              className="h-4 w-4 accent-[#2563EB]"
+                            />
                             {option}
                           </label>
                         ))}
-                      </RadioGroup>
+                      </div>
                     </FieldRow>
 
                     {method === "Tenor Tambahan" ? (
                       <>
-                        <ReadOnlyFieldRow label="Tenor Saat Ini">
+                        <ReadOnlyRow label="Tenor Saat Ini">
                           <Input
                             value={`${CURRENT_TENOR} Bulan`}
                             readOnly
                             aria-readonly="true"
                             className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                           />
-                        </ReadOnlyFieldRow>
+                        </ReadOnlyRow>
 
                         <FieldRow label="Tenor Tambahan (Bulan)">
                           <Input
@@ -440,7 +435,7 @@ export default function LoanExtensionWizard({
                           />
                         </FieldRow>
 
-                        <ReadOnlyFieldRow label="Total Tenor Baru">
+                        <ReadOnlyRow label="Total Tenor Baru">
                           <Input
                             value={`${
                               CURRENT_TENOR +
@@ -450,7 +445,7 @@ export default function LoanExtensionWizard({
                             aria-readonly="true"
                             className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                           />
-                        </ReadOnlyFieldRow>
+                        </ReadOnlyRow>
                       </>
                     ) : null}
 
@@ -472,7 +467,7 @@ export default function LoanExtensionWizard({
 
                     {method === "Jatuh Tempo Akhir Baru" ? (
                       <>
-                        <ReadOnlyFieldRow label="Jatuh Tempo Saat Ini">
+                        <ReadOnlyRow label="Jatuh Tempo Saat Ini">
                           <div className="grid grid-cols-2 gap-3">
                             <Input
                               value={CURRENT_DUE_MONTH}
@@ -487,35 +482,35 @@ export default function LoanExtensionWizard({
                               className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
                             />
                           </div>
-                        </ReadOnlyFieldRow>
+                        </ReadOnlyRow>
 
                         <FieldRow label="Jatuh Tempo Akhir Baru">
                           <div className="grid grid-cols-2 gap-3">
-                            <Select value={dueMonth} onValueChange={setDueMonth}>
-                              <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
-                                <SelectValue placeholder="Pilih Bulan" />
-                              </SelectTrigger>
-                              <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
-                                {months.map((month) => (
-                                  <SelectItem key={month} value={month}>
-                                    {month}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            <select
+                              value={dueMonth}
+                              onChange={(event) => setDueMonth(event.target.value)}
+                              className="h-[31px] w-full rounded-[5px] border border-[#CBD5E1] bg-white px-3 text-[14px] text-slate-900 outline-none"
+                            >
+                              <option value="">Pilih Bulan</option>
+                              {months.map((month) => (
+                                <option key={month} value={month}>
+                                  {month}
+                                </option>
+                              ))}
+                            </select>
 
-                            <Select value={dueYear} onValueChange={setDueYear}>
-                              <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
-                                <SelectValue placeholder="Pilih Tahun" />
-                              </SelectTrigger>
-                              <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
-                                {years.map((year) => (
-                                  <SelectItem key={year} value={year}>
-                                    {year}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            <select
+                              value={dueYear}
+                              onChange={(event) => setDueYear(event.target.value)}
+                              className="h-[31px] w-full rounded-[5px] border border-[#CBD5E1] bg-white px-3 text-[14px] text-slate-900 outline-none"
+                            >
+                              <option value="">Pilih Tahun</option>
+                              {years.map((year) => (
+                                <option key={year} value={year}>
+                                  {year}
+                                </option>
+                              ))}
+                            </select>
                           </div>
                         </FieldRow>
                       </>
@@ -558,60 +553,34 @@ export default function LoanExtensionWizard({
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className="border-b border-slate-100 bg-white text-[12px] text-black">
-                          <td className="px-4 py-3 font-medium">
-                            Metode Perpanjangan
-                          </td>
-                          <td className="px-4 py-3 text-slate-400">-</td>
-                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                            {method}
-                          </td>
-                        </tr>
-                        <tr className="border-b border-slate-100 bg-slate-50/60 text-[12px] text-black">
-                          <td className="px-4 py-3 font-medium">
-                            Detail Perpanjangan
-                          </td>
-                          <td className="px-4 py-3 text-slate-400">-</td>
-                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                            {methodValue}
-                          </td>
-                        </tr>
-                        <tr className="border-b border-slate-100 bg-white text-[12px] text-black">
-                          <td className="px-4 py-3 font-medium">Tanggal Efektif</td>
-                          <td className="px-4 py-3 text-slate-400">-</td>
-                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                            {effectiveDate}
-                          </td>
-                        </tr>
-                        <tr className="border-b border-slate-100 bg-slate-50/60 text-[12px] text-black">
-                          <td className="px-4 py-3 font-medium">Tenor</td>
-                          <td className="px-4 py-3">{CURRENT_TENOR} Bulan</td>
-                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                            {simulation.tenor} Bulan
-                          </td>
-                        </tr>
-                        <tr className="border-b border-slate-100 bg-white text-[12px] text-black">
-                          <td className="px-4 py-3 font-medium">
-                            Tanggal Jatuh Tempo Akhir
-                          </td>
-                          <td className="px-4 py-3">07-04-2027</td>
-                          <td className="px-4 py-3 font-semibold text-[#2563EB]">
-                            {simulation.dueDate}
-                          </td>
-                        </tr>
-                        <tr className="border-b border-slate-100 bg-slate-50/60 text-[12px] text-black">
-                          <td className="px-4 py-3 font-medium">Alasan Perpanjangan</td>
-                          <td className="px-4 py-3 text-slate-400">-</td>
-                          <td className="px-4 py-3 font-semibold text-slate-900">
-                            {reason}
-                          </td>
-                        </tr>
+                        {[
+                          ["Metode Perpanjangan", "-", method],
+                          ["Detail Perpanjangan", "-", detailValue],
+                          ["Tanggal Efektif", "-", effectiveDate],
+                          ["Tenor", `${CURRENT_TENOR} Bulan`, `${simulation.tenor} Bulan`],
+                          ["Tanggal Jatuh Tempo Akhir", "07-04-2027", simulation.dueDate],
+                          ["Alasan Perpanjangan", "-", reason],
+                        ].map(([label, before, after], index) => (
+                          <tr
+                            key={label}
+                            className={cn(
+                              "border-b border-slate-100 text-[12px] text-black",
+                              index % 2 ? "bg-slate-50/60" : "bg-white",
+                            )}
+                          >
+                            <td className="px-4 py-3 font-medium">{label}</td>
+                            <td className="px-4 py-3 text-slate-400">{before}</td>
+                            <td className="px-4 py-3 font-semibold text-[#2563EB]">
+                              {after}
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
                 </section>
 
-                <LoanExtensionPaymentSchedule rows={simulation.scheduleRows} />
+                <LoanExtensionPaymentSchedule rows={simulation.rows} />
               </div>
             )}
           </main>
@@ -624,7 +593,6 @@ export default function LoanExtensionWizard({
                   onOpenChange(false);
                   return;
                 }
-
                 setStep(1);
               }}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
