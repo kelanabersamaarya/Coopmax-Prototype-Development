@@ -1,2 +1,74 @@
-/* Label dan nilai tenor perpanjangan pinjaman kini dikendalikan langsung
-   oleh komponen LoanExtensionWizard agar selalu sinkron dengan input pengguna. */
+/* Perpanjangan Pinjaman:
+   Field Tenor Saat Ini pada metode Tenor Baru ditampilkan sebagai informasi readonly.
+*/
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor baru"]) {
+  position: relative;
+  padding-top: 64px;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor baru"])::before {
+  content: "Tenor Saat Ini (Bulan)";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #002060;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor baru"])::after {
+  content: "12";
+  position: absolute;
+  left: calc(210px + 0.5rem);
+  right: 0;
+  top: 0;
+  display: flex;
+  height: 31px;
+  align-items: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background-color: rgb(226 232 240 / 0.8);
+  padding: 0 0.75rem;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 639px) {
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > section
+    > div.grid.gap-5
+    > div:has(input[placeholder="Masukkan tenor baru"]) {
+    padding-top: 74px;
+  }
+
+  [data-loan-extension-wizard="true"]
+    main
+    > div.grid.gap-6
+    > section
+    > div.grid.gap-5
+    > div:has(input[placeholder="Masukkan tenor baru"])::after {
+    left: 0;
+    top: 25px;
+  }
+}
