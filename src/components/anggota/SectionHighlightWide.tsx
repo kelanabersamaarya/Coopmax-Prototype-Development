@@ -16,6 +16,8 @@ const defaultTenorTooltip =
 const nyomanTenorTooltip =
   "Terdapat pembaruan tenor pinjaman dari 12 bulan menjadi 14 bulan";
 
+const komangTenorTooltip = "April 2027 -> April 2028";
+
 function getSelectedCustomerName() {
   const customerLabel = Array.from(document.querySelectorAll("span")).find(
     (element) => element.textContent?.trim() === "Nama Nasabah",
@@ -151,11 +153,18 @@ export default function SectionHighlightWide({
     }
 
     const selectedCustomerName = getSelectedCustomerName();
-    const isNyomanAriana = selectedCustomerName.includes("Nyoman Ariana");
 
-    setActiveTenorTooltip(
-      isNyomanAriana ? nyomanTenorTooltip : defaultTenorTooltip,
-    );
+    if (selectedCustomerName.includes("Komang Dewa")) {
+      setActiveTenorTooltip(komangTenorTooltip);
+      return;
+    }
+
+    if (selectedCustomerName.includes("Nyoman Ariana")) {
+      setActiveTenorTooltip(nyomanTenorTooltip);
+      return;
+    }
+
+    setActiveTenorTooltip(defaultTenorTooltip);
   }, [tenorTooltip]);
 
   return (
