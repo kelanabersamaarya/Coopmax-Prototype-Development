@@ -4,7 +4,13 @@ import * as React from "react";
 import { Check } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { addLoanInterestAdjustmentHistory } from "@/lib/loanInterestAdjustmentHistoryStore";
+import {
+  addLoanInterestAdjustmentHistory,
+} from "@/lib/loanInterestAdjustmentHistoryStore";
+import {
+  clearLoanDebtAdjustmentDraft,
+  getLoanDebtAdjustmentDraft,
+} from "@/lib/loanDebtAdjustmentDraftStore";
 
 type PendingAdjustment = {
   accountNo: string;
@@ -18,17 +24,35 @@ type PendingAdjustment = {
   totalAfter: string;
 };
 
+function parseIdr(value: string) {
+  const normalized = (value ?? "").trim().replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return Math.max(0, value)
+    .toLocaleString("id-ID", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+    .replace(/,/g, ".");
+}
+
+function getAdjustedInterest(
+  previousInterest: string,
+  adjustmentType: string,
+  adjustmentAmount: string,
+) {
+  const previous = parseIdr(previousInterest);
+  const adjustment = parseIdr(adjustmentAmount);
+
+  if (adjustmentType === "Pembebasan Seluruh Bunga") return 0;
+  if (adjustmentType === "Penambahan Bunga") return previous + adjustment;
+  return Math.max(0, previous - adjustment);
+}
+
 function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
-  const raw = wizard.dataset.loanDebtAdjustment;
-
-  if (raw) {
-    try {
-      return JSON.parse(raw) as PendingAdjustment;
-    } catch {
-      return null;
-    }
-  }
-
   const accountNo =
     (wizard.textContent ?? "").match(
       /No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.-]+)/i,
@@ -44,21 +68,31 @@ function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
 
   if (!adjustedRow) return null;
 
-  const cells = Array.from(adjustedRow.querySelectorAll<HTMLTableCellElement>("td"));
+  const cells = Array.from(adjustedRow.querySelectorAll<HTMLTableCellElement>("td");
   const installmentNo = Number(cells[0]?.textContent?.trim() ?? "0");
+  const draft = getLoanDebtAdjustmentDraft();
 
-  if (!installmentNo) return null;
+  if (!installmentNo || !draft) return null;
+
+  const interestBefore = draft.previousInterest || cells[6]?.textContent?.trim() || "0,00";
+  const interestAfter = formatIdr(
+    getAdjustedInterest(interestBefore, draft.type, draft.amount),
+  );
+  const totalBefore = cells[5]?.textContent?.trim() ?? "0,00";
+  const totalAfter = formatIdr(
+    parseIdr(totalBefore) - parseIdr(interestBefore) + parseIdr(interestAfter),
+  );
 
   return {
     accountNo,
     installmentNo,
-    interestBefore: cells[6]?.textContent?.trim() ?? "0,00",
-    adjustmentType: "Penyesuaian Bunga",
-    adjustmentAmount: "0,00",
-    reason: "Penyesuaian nominal bunga pinjaman.",
-    interestAfter: cells[8]?.textContent?.trim() ?? "0,00",
-    totalBefore: cells[5]?.textContent?.trim() ?? "0,00",
-    totalAfter: cells[10]?.textContent?.trim() ?? "0,00",
+    interestBefore,
+    adjustmentType: draft.type,
+    adjustmentAmount: draft.amount || "0,00",
+    reason: draft.reason,
+    interestAfter,
+    totalBefore,
+    totalAfter,
   };
 }
 
@@ -186,7 +220,6 @@ export default function LoanDebtChangeSaveGate() {
       }
 
       const adjustment = parseSaveData(wizard);
-
       if (!adjustment) return;
 
       event.preventDefault();
@@ -224,6 +257,7 @@ export default function LoanDebtChangeSaveGate() {
       totalAfter: adjustment.totalAfter,
     });
 
+    clearLoanDebtAdjustmentDraft();
     setConfirmOpen(false);
     setSuccessOpen(true);
   }

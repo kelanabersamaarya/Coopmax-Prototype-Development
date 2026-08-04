@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
+import { saveLoanDebtAdjustmentDraft } from "@/lib/loanDebtAdjustmentDraftStore";
 
 export type InterestAdjustmentType =
   | "Pengurangan Bunga"
@@ -213,7 +214,7 @@ export default function LoanInterestAdjustmentDialog({
       return false;
     }
 
-    if (adjustmentType !== "Pembebasan Seluruh Bunga" && !amount.trim()) {
+    if (!isFullInterestForgiveness && !amount.trim()) {
       toast("Nominal penyesuaian wajib diisi");
       return false;
     }
@@ -233,14 +234,17 @@ export default function LoanInterestAdjustmentDialog({
   function confirmSave() {
     if (!adjustmentType) return;
 
-    onSave?.({
+    const adjustment: InterestAdjustment = {
       type: adjustmentType,
-      amount,
-      effectiveDate: "",
-      interestPeriod: "",
-      reason,
+      amount: isFullInterestForgiveness ? currentInterest : amount,
+      effectiveDate: dueDate,
+      interestPeriod: dueDate,
+      reason: reason.trim(),
       previousInterest: currentInterest,
-    });
+    };
+
+    saveLoanDebtAdjustmentDraft(adjustment);
+    onSave?.(adjustment);
 
     setConfirmOpen(false);
     setSuccessOpen(true);
@@ -383,7 +387,7 @@ export default function LoanInterestAdjustmentDialog({
                     />
                   </div>
 
-                  {adjustmentType !== "Pembebasan Seluruh Bunga" ? (
+                  {!isFullInterestForgiveness ? (
                     <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
                       <label className="text-[14px] font-normal text-[#002060]">
                         {amountLabel}<span className="text-rose-600"> *</span>
