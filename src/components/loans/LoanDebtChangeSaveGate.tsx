@@ -58,7 +58,7 @@ function DebtChangeConfirmDialog({
           </div>
 
           <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
-            Yakin Melakukan Perubahan Bunga?
+            Yakin Melakukan Perubahan Nominal Bunga?
           </h2>
 
           <div className="mt-[34px] flex items-center justify-center gap-[9px]">
