@@ -43,13 +43,47 @@ function findDateElements(dueDate: string) {
   );
 }
 
+function findInterestCell(dateElement: HTMLElement) {
+  const tableRow = dateElement.closest("tr");
+
+  if (tableRow) {
+    const cells = Array.from(tableRow.children) as HTMLElement[];
+    const dateCellIndex = cells.indexOf(dateElement.closest("td") as HTMLElement);
+
+    if (dateCellIndex >= 0) {
+      return cells[dateCellIndex + 3] ?? null;
+    }
+  }
+
+  let current: HTMLElement | null = dateElement.parentElement;
+
+  while (current && current.closest("table")) {
+    const className = typeof current.className === "string" ? current.className : "";
+    const isBillingGrid =
+      className.includes("grid") && className.includes("items-center");
+
+    if (isBillingGrid) {
+      const cells = Array.from(current.children) as HTMLElement[];
+      const dateCellIndex = cells.indexOf(dateElement);
+
+      if (dateCellIndex >= 0) {
+        return cells[dateCellIndex + 3] ?? null;
+      }
+    }
+
+    current = current.parentElement;
+  }
+
+  return null;
+}
+
 function addMarker(
-  element: HTMLElement,
+  interestCell: HTMLElement,
   entry: LoanInterestAdjustmentHistoryEntry,
 ) {
-  if (element.querySelector(`.${ADJUSTMENT_MARKER_CLASS}`)) return;
+  if (interestCell.querySelector(`.${ADJUSTMENT_MARKER_CLASS}`)) return;
 
-  element.classList.add(MARKED_CELL_CLASS);
+  interestCell.classList.add(MARKED_CELL_CLASS);
 
   const marker = document.createElement("span");
   marker.className = ADJUSTMENT_MARKER_CLASS;
@@ -73,7 +107,7 @@ function addMarker(
   `;
 
   marker.append(icon, tooltip);
-  element.appendChild(marker);
+  interestCell.appendChild(marker);
 }
 
 function syncMarkers(accountNo: string) {
@@ -89,8 +123,10 @@ function syncMarkers(accountNo: string) {
     const dueDate = dueDatesByInstallment[entry.installmentNo - 1];
     if (!dueDate) return;
 
-    const target = findDateElements(dueDate)[0];
-    if (target) addMarker(target, entry);
+    const dateElement = findDateElements(dueDate)[0];
+    const interestCell = dateElement ? findInterestCell(dateElement) : null;
+
+    if (interestCell) addMarker(interestCell, entry);
   });
 }
 
