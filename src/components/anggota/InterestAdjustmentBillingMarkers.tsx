@@ -9,6 +9,7 @@ import {
 
 const ADJUSTMENT_MARKER_CLASS = "billing-interest-adjustment-marker";
 const MARKED_CELL_CLASS = "has-billing-interest-adjustment";
+const PORTAL_TOOLTIP_CLASS = "billing-interest-adjustment-portal-tooltip";
 
 const dueDatesByInstallment = [
   "25-01-2026",
@@ -32,6 +33,51 @@ function adjustmentTitle(entry: LoanInterestAdjustmentHistoryEntry) {
     `Alasan Penyesuaian: ${entry.reason}`,
     "Disesuaikan Oleh: Arya Dharma",
   ].join("\n");
+}
+
+function createTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
+  return `
+    <strong>Penyesuaian Nominal Bunga</strong>
+    <span><b>Metode Penyesuaian:</b> ${entry.adjustmentType}</span>
+    <span><b>Nominal Bunga Sebelum Penyesuaian:</b> ${entry.interestBefore}</span>
+    <span><b>Nominal Penyesuaian:</b> ${entry.adjustmentAmount}</span>
+    <span><b>Nominal Bunga Setelah Penyesuaian:</b> ${entry.interestAfter}</span>
+    <span><b>Alasan Penyesuaian:</b> ${entry.reason}</span>
+    <span><b>Disesuaikan Oleh:</b> Arya Dharma</span>
+  `;
+}
+
+function removePortalTooltip() {
+  document.querySelector(`.${PORTAL_TOOLTIP_CLASS}`)?.remove();
+}
+
+function showPortalTooltip(
+  icon: HTMLElement,
+  entry: LoanInterestAdjustmentHistoryEntry,
+) {
+  removePortalTooltip();
+
+  const tooltip = document.createElement("div");
+  tooltip.className = PORTAL_TOOLTIP_CLASS;
+  tooltip.innerHTML = createTooltipContent(entry);
+  document.body.appendChild(tooltip);
+
+  const iconRect = icon.getBoundingClientRect();
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const pagePadding = 12;
+  const preferredLeft = iconRect.left + iconRect.width / 2 - tooltipRect.width / 2;
+  const left = Math.min(
+    Math.max(pagePadding, preferredLeft),
+    window.innerWidth - tooltipRect.width - pagePadding,
+  );
+  const hasSpaceAbove = iconRect.top > tooltipRect.height + pagePadding + 10;
+  const top = hasSpaceAbove
+    ? iconRect.top - tooltipRect.height - 10
+    : iconRect.bottom + 10;
+
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+  tooltip.dataset.visible = "true";
 }
 
 function findBillingGrid(dueDate: string) {
@@ -100,23 +146,18 @@ function addMarker(
   icon.className = `${ADJUSTMENT_MARKER_CLASS}-icon`;
   icon.textContent = "i";
 
-  const tooltip = document.createElement("span");
-  tooltip.className = `${ADJUSTMENT_MARKER_CLASS}-tooltip`;
-  tooltip.innerHTML = `
-    <strong>Penyesuaian Nominal Bunga</strong>
-    <span><b>Metode Penyesuaian:</b> ${entry.adjustmentType}</span>
-    <span><b>Nominal Bunga Sebelum Penyesuaian:</b> ${entry.interestBefore}</span>
-    <span><b>Nominal Penyesuaian:</b> ${entry.adjustmentAmount}</span>
-    <span><b>Nominal Bunga Setelah Penyesuaian:</b> ${entry.interestAfter}</span>
-    <span><b>Alasan Penyesuaian:</b> ${entry.reason}</span>
-    <span><b>Disesuaikan Oleh:</b> Arya Dharma</span>
-  `;
+  marker.addEventListener("mouseenter", () => showPortalTooltip(icon, entry));
+  marker.addEventListener("mouseleave", removePortalTooltip);
+  marker.addEventListener("focus", () => showPortalTooltip(icon, entry));
+  marker.addEventListener("blur", removePortalTooltip);
 
-  marker.append(icon, tooltip);
+  marker.appendChild(icon);
   interestCell.appendChild(marker);
 }
 
 function clearMarkers() {
+  removePortalTooltip();
+
   document.querySelectorAll(`.${ADJUSTMENT_MARKER_CLASS}`).forEach((marker) => {
     marker.remove();
   });
@@ -187,6 +228,8 @@ export default function InterestAdjustmentBillingMarkers({
 
     window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, scheduleSync);
     window.addEventListener("storage", scheduleSync);
+    window.addEventListener("scroll", removePortalTooltip, true);
+    window.addEventListener("resize", removePortalTooltip);
 
     return () => {
       window.clearTimeout(syncTimer);
@@ -197,6 +240,8 @@ export default function InterestAdjustmentBillingMarkers({
         scheduleSync,
       );
       window.removeEventListener("storage", scheduleSync);
+      window.removeEventListener("scroll", removePortalTooltip, true);
+      window.removeEventListener("resize", removePortalTooltip);
     };
   }, [accountNo]);
 
@@ -214,6 +259,7 @@ export default function InterestAdjustmentBillingMarkers({
           z-index: 20;
           display: inline-flex;
           transform: translateY(-50%);
+          cursor: help;
         }
 
         .billing-interest-adjustment-marker-icon {
@@ -230,15 +276,12 @@ export default function InterestAdjustmentBillingMarkers({
           box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
         }
 
-        .billing-interest-adjustment-marker-tooltip {
-          position: absolute;
-          z-index: 100;
-          bottom: calc(100% + 9px);
-          left: 50%;
+        .${PORTAL_TOOLTIP_CLASS} {
+          position: fixed;
+          z-index: 9999;
           display: grid;
-          width: 290px;
-          gap: 6px;
-          transform: translateX(-50%) translateY(4px);
+          width: min(320px, calc(100vw - 24px));
+          gap: 7px;
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
@@ -246,30 +289,28 @@ export default function InterestAdjustmentBillingMarkers({
           color: #1e293b;
           font-size: 11px;
           font-weight: 400;
-          line-height: 1.35;
+          line-height: 1.4;
           text-align: left;
           opacity: 0;
           pointer-events: none;
           box-shadow: 0 10px 25px rgba(15, 23, 42, 0.16);
-          transition: opacity 150ms ease, transform 150ms ease;
+          transition: opacity 120ms ease;
         }
 
-        .billing-interest-adjustment-marker-tooltip strong {
+        .${PORTAL_TOOLTIP_CLASS}[data-visible="true"] {
+          opacity: 1;
+        }
+
+        .${PORTAL_TOOLTIP_CLASS} strong {
           margin-bottom: 3px;
           color: #1d4ed8;
           font-size: 12px;
           font-weight: 800;
         }
 
-        .billing-interest-adjustment-marker-tooltip b {
+        .${PORTAL_TOOLTIP_CLASS} b {
           color: #0f172a;
           font-weight: 700;
-        }
-
-        .billing-interest-adjustment-marker:hover
-          .billing-interest-adjustment-marker-tooltip {
-          transform: translateX(-50%) translateY(0);
-          opacity: 1;
         }
       `}
     </style>
