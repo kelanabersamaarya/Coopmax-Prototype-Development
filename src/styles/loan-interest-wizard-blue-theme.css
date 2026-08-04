@@ -33,3 +33,28 @@
 [data-loan-interest-wizard="true"] .text-\[\#5B3DF5\] * {
   color: var(--loan-interest-blue) !important;
 }
+
+/*
+  Wizard:
+  Area indikator langkah menjadi satu panel utuh yang menempel langsung
+  ke garis pembatas header dan konten, sama pada modal Ubah Suku Bunga
+  maupun Perpanjangan Pinjaman.
+*/
+[data-loan-interest-wizard="true"] > header,
+[data-loan-extension-wizard="true"] > header {
+  border-bottom: 0 !important;
+}
+
+[data-loan-interest-wizard="true"] > header + div,
+[data-loan-extension-wizard="true"] > header + div {
+  box-sizing: border-box;
+  margin: 0 !important;
+  border-top: 1px solid rgb(226 232 240) !important;
+  border-bottom: 1px solid rgb(226 232 240) !important;
+}
+
+/* Separator lama setelah panel step tidak diperlukan karena panel sudah punya garis bawah. */
+[data-loan-interest-wizard="true"] > header + div + [data-slot="separator"],
+[data-loan-extension-wizard="true"] > header + div + [data-slot="separator"] {
+  display: none !important;
+}
