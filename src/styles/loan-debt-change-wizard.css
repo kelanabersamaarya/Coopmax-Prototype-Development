@@ -162,21 +162,16 @@
   th:nth-child(1),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
-  td:nth-child(1) {
-  width: 78px !important;
-  min-width: 78px !important;
-  max-width: 78px !important;
-}
-
+  td:nth-child(1),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   th:nth-child(2),
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   td:nth-child(2) {
-  width: 94px !important;
-  min-width: 94px !important;
-  max-width: 94px !important;
+  width: 85px !important;
+  min-width: 85px !important;
+  max-width: 85px !important;
 }
 
 /* Kolom nominal dipadatkan, dengan header dua baris tetap dipertahankan. */
@@ -304,7 +299,11 @@
   white-space: nowrap !important;
 }
 
-/* Kolom hasil sesudah penyesuaian tetap diberi penekanan biru. */
+/*
+  Kolom sesudah penyesuaian normalnya tetap hitam.
+  Komponen menambahkan class text-[#2563EB] hanya pada angsuran yang
+  benar-benar mengalami penyesuaian, sehingga hanya baris itu yang biru.
+*/
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
@@ -317,6 +316,14 @@
   table.min-w-\[1880px\]
   tbody
   td:nth-child(11) {
+  color: #000000 !important;
+  font-weight: 400 !important;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  tbody
+  td.text-\[\#2563EB\] {
   color: #2563eb !important;
   font-weight: 700 !important;
 }
