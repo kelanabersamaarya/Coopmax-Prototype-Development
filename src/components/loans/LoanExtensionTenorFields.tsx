@@ -27,7 +27,7 @@ function createReadonlyField(
   input.readOnly = true;
   input.setAttribute("aria-readonly", "true");
   input.className =
-    "h-[31px] w-full cursor-not-allowed rounded-[5px] border border-[#CBD5E1] bg-slate-200/80 px-3 text-[14px] font-normal text-slate-700 shadow-none outline-none";
+    "h-[31px] w-full cursor-not-allowed rounded-[5px] border border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-slate-700 shadow-none outline-none";
 
   const content = document.createElement("div");
   content.appendChild(input);
@@ -44,33 +44,40 @@ function createReadonlyField(
   return { wrapper, input };
 }
 
-function removeTenorFields() {
-  document.getElementById(FIELD_ID)?.remove();
-  document.getElementById(TOTAL_FIELD_ID)?.remove();
+function getExtensionAdditionalTenorInput() {
+  const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
+
+  if (!wizard) return null;
+
+  const label = Array.from(wizard.querySelectorAll("label")).find((element) =>
+    (element.textContent ?? "").trim().startsWith("Tenor Tambahan (Bulan)"),
+  );
+
+  return label?.parentElement?.querySelector<HTMLInputElement>("input") ?? null;
 }
 
 function syncTenorFields() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
+
   if (!wizard) {
-    removeTenorFields();
+    document.getElementById(FIELD_ID)?.remove();
+    document.getElementById(TOTAL_FIELD_ID)?.remove();
     return;
   }
 
-  const additionalTenorLabel = Array.from(wizard.querySelectorAll("label")).find(
-    (label) =>
-      (label.textContent ?? "")
-        .trim()
-        .startsWith("Tenor Tambahan (Bulan)"),
-  );
+  const additionalTenorInput = getExtensionAdditionalTenorInput();
 
-  const additionalTenorField = additionalTenorLabel?.parentElement;
-  const additionalTenorInput =
-    additionalTenorField?.querySelector<HTMLInputElement>("input") ?? null;
-
-  if (!additionalTenorField || !additionalTenorInput) {
-    removeTenorFields();
+  if (!additionalTenorInput) {
+    document.getElementById(FIELD_ID)?.remove();
+    document.getElementById(TOTAL_FIELD_ID)?.remove();
     return;
   }
+
+  const additionalTenorField = additionalTenorInput.closest(
+    ".grid",
+  ) as HTMLElement | null;
+
+  if (!additionalTenorField) return;
 
   let currentField = document.getElementById(FIELD_ID);
   let totalField = document.getElementById(TOTAL_FIELD_ID);
@@ -81,7 +88,6 @@ function syncTenorFields() {
       "Tenor Saat Ini",
       `${CURRENT_TENOR} Bulan`,
     );
-
     additionalTenorField.insertAdjacentElement("beforebegin", created.wrapper);
     currentField = created.wrapper;
   }
@@ -92,7 +98,6 @@ function syncTenorFields() {
       "Total Tenor Baru",
       `${CURRENT_TENOR} Bulan`,
     );
-
     additionalTenorField.insertAdjacentElement("afterend", created.wrapper);
     totalField = created.wrapper;
   }
@@ -108,19 +113,20 @@ function syncTenorFields() {
 export default function LoanExtensionTenorFields() {
   React.useEffect(() => {
     const observer = new MutationObserver(syncTenorFields);
+    const intervalId = window.setInterval(syncTenorFields, 250);
 
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    document.addEventListener("input", syncTenorFields, true);
     syncTenorFields();
 
     return () => {
       observer.disconnect();
-      document.removeEventListener("input", syncTenorFields, true);
-      removeTenorFields();
+      window.clearInterval(intervalId);
+      document.getElementById(FIELD_ID)?.remove();
+      document.getElementById(TOTAL_FIELD_ID)?.remove();
     };
   }, []);
 
