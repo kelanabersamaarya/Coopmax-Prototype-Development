@@ -31,6 +31,11 @@ function setReactInputValue(input: HTMLInputElement, value: string) {
   input.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
+function updateTextColor(select: HTMLSelectElement) {
+  select.classList.toggle("text-[#7987b6]", !select.value);
+  select.classList.toggle("text-slate-900", !!select.value);
+}
+
 function getMonthInput() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
 
@@ -63,6 +68,7 @@ function mountMonthSelect() {
 
   if (existingSelect) {
     existingSelect.value = monthInput.value;
+    updateTextColor(existingSelect);
     return;
   }
 
@@ -73,7 +79,7 @@ function mountMonthSelect() {
   select.id = MONTH_SELECT_ID;
   select.value = monthInput.value;
   select.className =
-    "h-[31px] w-full appearance-none rounded-[5px] border border-[#CBD5E1] bg-white px-3 pr-10 text-[14px] font-normal text-slate-900 shadow-none outline-none";
+    "h-[31px] w-full appearance-none rounded-[5px] border border-[#CBD5E1] bg-white px-3 pr-10 text-[14px] font-normal shadow-none outline-none";
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
@@ -88,8 +94,11 @@ function mountMonthSelect() {
     select.appendChild(option);
   });
 
+  updateTextColor(select);
+
   select.addEventListener("change", () => {
     setReactInputValue(monthInput, select.value);
+    updateTextColor(select);
   });
 
   const icon = document.createElement("span");
