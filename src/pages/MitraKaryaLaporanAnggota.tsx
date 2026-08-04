@@ -25,51 +25,14 @@ type Member = {
 };
 
 const members: Member[] = [
-  {
-    id: "MKM-001",
-    name: "I Made Suryana",
-    category: "Anggota",
-    status: "Aktif",
-    product: "Simpanan Anggota",
-    region: "Denpasar",
-    tag: "Prioritas",
-    joined: "10-01-2024",
-    balance: 2500000,
-  },
-  {
-    id: "MKM-002",
-    name: "Ni Luh Kartika",
-    category: "Anggota",
-    status: "Aktif",
-    product: "Simpanan Berjangka",
-    region: "Gianyar",
-    tag: "Reguler",
-    joined: "18-03-2024",
-    balance: 4500000,
-  },
-  {
-    id: "MKM-003",
-    name: "Komang Suardika",
-    category: "Calon Anggota",
-    status: "Nonaktif",
-    product: "Simpanan Anggota",
-    region: "Badung",
-    tag: "Baru",
-    joined: "04-06-2024",
-    balance: 750000,
-  },
+  { id: "MKM-001", name: "I Made Suryana", category: "Anggota", status: "Aktif", product: "Simpanan Anggota", region: "Denpasar", tag: "Prioritas", joined: "10-01-2024", balance: 2500000 },
+  { id: "MKM-002", name: "Ni Luh Kartika", category: "Anggota", status: "Aktif", product: "Simpanan Berjangka", region: "Gianyar", tag: "Reguler", joined: "18-03-2024", balance: 4500000 },
+  { id: "MKM-003", name: "Komang Suardika", category: "Calon Anggota", status: "Nonaktif", product: "Simpanan Anggota", region: "Badung", tag: "Baru", joined: "04-06-2024", balance: 750000 },
 ];
 
-const fieldClassName =
-  "h-[31px] rounded-[5px] border-slate-300 bg-white text-[14px] font-normal text-slate-900 shadow-none placeholder:!text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0";
+const fieldClassName = "h-[31px] rounded-[5px] border-slate-300 bg-white text-[14px] font-normal text-slate-900 shadow-none placeholder:!text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0";
 
-function FieldRow({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
+function FieldRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid gap-2 sm:grid-cols-[165px_minmax(0,1fr)] sm:items-center">
       <label className="text-[14px] font-normal text-[#002060]">{label}</label>
@@ -78,21 +41,9 @@ function FieldRow({
   );
 }
 
-function ClearButton({
-  onClick,
-  label,
-}: {
-  onClick: () => void;
-  label: string;
-}) {
+function ClearButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="absolute right-0 top-0 inline-flex h-[31px] w-9 items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
-      aria-label={label}
-      title="Clear"
-    >
+    <button type="button" onClick={onClick} className="absolute right-0 top-0 inline-flex h-[31px] w-9 items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]" aria-label={label} title="Clear">
       <X className="h-4 w-4" strokeWidth={3} />
     </button>
   );
@@ -101,7 +52,6 @@ function ClearButton({
 function toDateValue(value: string) {
   const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value);
   if (!match) return null;
-
   const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
   return Number.isNaN(date.getTime()) ? null : date;
 }
@@ -113,21 +63,13 @@ function parseAmount(value: string) {
 
 function ReportInfoPanel() {
   return (
-    <aside className="w-full max-w-[360px] rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm xl:justify-self-end">
+    <aside className="w-full rounded-[5px] border border-[#14a6d8] bg-white px-5 py-4 text-[#0097c2] shadow-sm">
       <div className="flex items-start gap-3">
-        <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0ea5c6] text-white">
-          i
-        </span>
-
+        <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0ea5c6] text-white">i</span>
         <div className="min-w-0">
-          <h2 className="text-[16px] font-extrabold leading-snug text-[#0895bd]">
-            Informasi Laporan Anggota
-          </h2>
-
+          <h2 className="text-[16px] font-extrabold leading-snug text-[#0895bd]">Informasi Laporan Anggota</h2>
           <p className="mt-2 text-[14px] font-normal leading-relaxed text-[#0097c2]">
-            Gunakan filter di sebelah kiri untuk menampilkan data anggota sesuai
-            kebutuhan. Hasil laporan dapat diekspor atau dicetak setelah pencarian
-            dilakukan.
+            Gunakan filter di sebelah kiri untuk menampilkan data anggota sesuai kebutuhan. Hasil laporan dapat diekspor atau dicetak setelah pencarian dilakukan.
           </p>
         </div>
       </div>
@@ -147,9 +89,7 @@ export default function MitraKaryaLaporanAnggota() {
   const [balanceDate, setBalanceDate] = React.useState("");
   const [balanceMin, setBalanceMin] = React.useState("");
   const [balanceMax, setBalanceMax] = React.useState("");
-  const [reportType, setReportType] = React.useState(
-    "Berdasarkan Simpanan Anggota",
-  );
+  const [reportType, setReportType] = React.useState("Berdasarkan Simpanan Anggota");
   const [isSearched, setIsSearched] = React.useState(false);
 
   const filtered = React.useMemo(() => {
@@ -164,148 +104,73 @@ export default function MitraKaryaLaporanAnggota() {
 
     return members.filter((member) => {
       const joinedDate = toDateValue(member.joined);
-      const matchesSearch =
-        !searchValue ||
-        member.id.toLowerCase().includes(searchValue) ||
-        member.name.toLowerCase().includes(searchValue);
-      const matchesCategory = category === "Semua" || member.category === category;
-      const matchesStatus = status === "Semua" || member.status === status;
-      const matchesProduct =
-        !productValue || member.product.toLowerCase().includes(productValue);
-      const matchesRegion =
-        !regionValue || member.region.toLowerCase().includes(regionValue);
-      const matchesTag = !tagValue || member.tag.toLowerCase().includes(tagValue);
-      const matchesStart = !startDate || !joinedDate || joinedDate >= startDate;
-      const matchesEnd = !endDate || !joinedDate || joinedDate <= endDate;
-      const matchesMin =
-        minimumBalance === null || member.balance >= minimumBalance;
-      const matchesMax =
-        maximumBalance === null || member.balance <= maximumBalance;
-
       return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesStatus &&
-        matchesProduct &&
-        matchesRegion &&
-        matchesTag &&
-        matchesStart &&
-        matchesEnd &&
-        matchesMin &&
-        matchesMax
+        (!searchValue || member.id.toLowerCase().includes(searchValue) || member.name.toLowerCase().includes(searchValue)) &&
+        (category === "Semua" || member.category === category) &&
+        (status === "Semua" || member.status === status) &&
+        (!productValue || member.product.toLowerCase().includes(productValue)) &&
+        (!regionValue || member.region.toLowerCase().includes(regionValue)) &&
+        (!tagValue || member.tag.toLowerCase().includes(tagValue)) &&
+        (!startDate || !joinedDate || joinedDate >= startDate) &&
+        (!endDate || !joinedDate || joinedDate <= endDate) &&
+        (minimumBalance === null || member.balance >= minimumBalance) &&
+        (maximumBalance === null || member.balance <= maximumBalance)
       );
     });
-  }, [
-    balanceMax,
-    balanceMin,
-    category,
-    nameOrNo,
-    product,
-    region,
-    registeredEnd,
-    registeredStart,
-    status,
-    tag,
-  ]);
+  }, [balanceMax, balanceMin, category, nameOrNo, product, region, registeredEnd, registeredStart, status, tag]);
 
   function handleExport() {
-    toast.success("Export Excel (prototype)", {
-      description: `${filtered.length} data anggota siap diekspor.`,
-    });
+    toast.success("Export Excel (prototype)", { description: `${filtered.length} data anggota siap diekspor.` });
   }
 
   function handlePrint() {
     if (!isSearched) {
-      toast("Lakukan pencarian terlebih dahulu", {
-        description: "Hasil laporan akan tersedia setelah tombol Cari ditekan.",
-      });
+      toast("Lakukan pencarian terlebih dahulu", { description: "Hasil laporan akan tersedia setelah tombol Cari ditekan." });
       return;
     }
-
     window.print();
   }
 
   const topActionClassName = cn(
-    "inline-flex h-10 items-center justify-center gap-2 rounded-full",
-    "border border-slate-200 bg-white px-4",
-    "text-[13px] font-semibold text-slate-900",
-    "shadow-sm transition hover:bg-slate-50",
+    "inline-flex h-10 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4",
+    "text-[13px] font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50",
   );
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Laporan Anggota
-          </h1>
-
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">Laporan Anggota</h1>
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={handleExport}
-              className={topActionClassName}
-            >
-              <FileSpreadsheet className="h-4 w-4 text-slate-600" />
-              Export Excel
+            <button type="button" onClick={handleExport} className={topActionClassName}>
+              <FileSpreadsheet className="h-4 w-4 text-slate-600" /> Export Excel
             </button>
-
-            <button
-              type="button"
-              onClick={handlePrint}
-              className={topActionClassName}
-            >
-              <Printer className="h-4 w-4 text-slate-600" />
-              Cetak
+            <button type="button" onClick={handlePrint} className={topActionClassName}>
+              <Printer className="h-4 w-4 text-slate-600" /> Cetak
             </button>
           </div>
         </div>
 
-        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,720px)_minmax(280px,360px)]">
+        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,720px)_minmax(0,1fr)]">
           <div className="w-full max-w-[720px]">
             <div className="grid gap-[10px]">
               <FieldRow label="Nama/No Anggota">
-                <Input
-                  value={nameOrNo}
-                  onChange={(event) => setNameOrNo(event.target.value)}
-                  placeholder="Masukkan nama/no anggota.."
-                  className={fieldClassName}
-                />
+                <Input value={nameOrNo} onChange={(event) => setNameOrNo(event.target.value)} placeholder="Masukkan nama/no anggota.." className={fieldClassName} />
               </FieldRow>
 
               <FieldRow label="Tanggal Daftar">
                 <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    value={registeredStart}
-                    onChange={(event) => setRegisteredStart(event.target.value)}
-                    placeholder="Masukkan tanggal awal"
-                    className={fieldClassName}
-                  />
+                  <Input value={registeredStart} onChange={(event) => setRegisteredStart(event.target.value)} placeholder="Masukkan tanggal awal" className={fieldClassName} />
                   <div className="relative">
-                    <Input
-                      value={registeredEnd}
-                      onChange={(event) => setRegisteredEnd(event.target.value)}
-                      placeholder="Masukkan tanggal akhir"
-                      className={cn(fieldClassName, "pr-10")}
-                    />
-                    <ClearButton
-                      onClick={() => setRegisteredEnd("")}
-                      label="Hapus tanggal akhir"
-                    />
+                    <Input value={registeredEnd} onChange={(event) => setRegisteredEnd(event.target.value)} placeholder="Masukkan tanggal akhir" className={cn(fieldClassName, "pr-10")} />
+                    <ClearButton onClick={() => setRegisteredEnd("")} label="Hapus tanggal akhir" />
                   </div>
                 </div>
               </FieldRow>
 
               <FieldRow label="Kategori">
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger
-                    className={cn(
-                      fieldClassName,
-                      category === "Semua"
-                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                        : "text-slate-900",
-                    )}
-                  >
+                  <SelectTrigger className={cn(fieldClassName, category === "Semua" ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400" : "text-slate-900")}>
                     <SelectValue placeholder="Pilih Kategori" />
                   </SelectTrigger>
                   <SelectContent className="rounded-[5px] border-slate-200">
@@ -318,14 +183,7 @@ export default function MitraKaryaLaporanAnggota() {
 
               <FieldRow label="Status">
                 <Select value={status} onValueChange={setStatus}>
-                  <SelectTrigger
-                    className={cn(
-                      fieldClassName,
-                      status === "Semua"
-                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                        : "text-slate-900",
-                    )}
-                  >
+                  <SelectTrigger className={cn(fieldClassName, status === "Semua" ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400" : "text-slate-900")}>
                     <SelectValue placeholder="Pilih Status Anggota" />
                   </SelectTrigger>
                   <SelectContent className="rounded-[5px] border-slate-200">
@@ -337,85 +195,39 @@ export default function MitraKaryaLaporanAnggota() {
               </FieldRow>
 
               <FieldRow label="Produk">
-                <Input
-                  value={product}
-                  onChange={(event) => setProduct(event.target.value)}
-                  placeholder="Pilih produk yang dimiliki"
-                  className={fieldClassName}
-                />
+                <Input value={product} onChange={(event) => setProduct(event.target.value)} placeholder="Pilih produk yang dimiliki" className={fieldClassName} />
               </FieldRow>
 
               <FieldRow label="Wilayah">
-                <Input
-                  value={region}
-                  onChange={(event) => setRegion(event.target.value)}
-                  placeholder="Pilih wilayah"
-                  className={fieldClassName}
-                />
+                <Input value={region} onChange={(event) => setRegion(event.target.value)} placeholder="Pilih wilayah" className={fieldClassName} />
               </FieldRow>
 
               <FieldRow label="Tag">
-                <Input
-                  value={tag}
-                  onChange={(event) => setTag(event.target.value)}
-                  placeholder="Pilih tag (satu atau lebih)"
-                  className={fieldClassName}
-                />
+                <Input value={tag} onChange={(event) => setTag(event.target.value)} placeholder="Pilih tag (satu atau lebih)" className={fieldClassName} />
               </FieldRow>
 
               <FieldRow label="Tanggal Saldo">
                 <div className="relative">
-                  <Input
-                    value={balanceDate}
-                    onChange={(event) => setBalanceDate(event.target.value)}
-                    placeholder="Masukkan tanggal saldo"
-                    className={cn(fieldClassName, "pr-10")}
-                  />
-                  <ClearButton
-                    onClick={() => setBalanceDate("")}
-                    label="Hapus tanggal saldo"
-                  />
+                  <Input value={balanceDate} onChange={(event) => setBalanceDate(event.target.value)} placeholder="Masukkan tanggal saldo" className={cn(fieldClassName, "pr-10")} />
+                  <ClearButton onClick={() => setBalanceDate("")} label="Hapus tanggal saldo" />
                 </div>
               </FieldRow>
 
               <FieldRow label="Saldo Simpanan">
                 <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    value={balanceMin}
-                    onChange={(event) => setBalanceMin(event.target.value)}
-                    placeholder="Saldo Minimal"
-                    className={fieldClassName}
-                    inputMode="decimal"
-                  />
-                  <Input
-                    value={balanceMax}
-                    onChange={(event) => setBalanceMax(event.target.value)}
-                    placeholder="Saldo Maksimal"
-                    className={fieldClassName}
-                    inputMode="decimal"
-                  />
+                  <Input value={balanceMin} onChange={(event) => setBalanceMin(event.target.value)} placeholder="Saldo Minimal" className={fieldClassName} inputMode="decimal" />
+                  <Input value={balanceMax} onChange={(event) => setBalanceMax(event.target.value)} placeholder="Saldo Maksimal" className={fieldClassName} inputMode="decimal" />
                 </div>
               </FieldRow>
 
               <FieldRow label="Jenis Laporan">
                 <Select value={reportType} onValueChange={setReportType}>
-                  <SelectTrigger
-                    className={cn(
-                      fieldClassName,
-                      reportType === "Berdasarkan Simpanan Anggota"
-                        ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400"
-                        : "text-slate-900",
-                    )}
-                  >
+                  <SelectTrigger className={cn(fieldClassName, reportType === "Berdasarkan Simpanan Anggota" ? "text-slate-400 [&_[data-slot=select-value]]:text-slate-400" : "text-slate-900")}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-[5px] border-slate-200">
-                    <SelectItem value="Berdasarkan Simpanan Anggota">
-                      Berdasarkan Simpanan Anggota
-                    </SelectItem>
-                    <SelectItem value="Berdasarkan Data Anggota">
-                      Berdasarkan Data Anggota
-                    </SelectItem>
+                    <SelectItem value="Berdasarkan Simpanan Anggota">Berdasarkan Simpanan Anggota</SelectItem>
+                    <SelectItem value="Berdasarkan Data Anggota">Berdasarkan Data Anggota</SelectItem>
                   </SelectContent>
                 </Select>
               </FieldRow>
@@ -423,13 +235,8 @@ export default function MitraKaryaLaporanAnggota() {
               <div className="grid sm:grid-cols-[165px_minmax(0,1fr)]">
                 <div />
                 <div className="mt-2 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setIsSearched(true)}
-                    className="inline-flex h-[31px] items-center justify-center gap-1.5 rounded-[5px] bg-[#3BB001] px-4 text-[14px] font-semibold text-white transition hover:bg-[#349d01]"
-                  >
-                    <Search className="h-4 w-4" strokeWidth={3} />
-                    Cari
+                  <button type="button" onClick={() => setIsSearched(true)} className="inline-flex h-[31px] items-center justify-center gap-1.5 rounded-[5px] bg-[#3BB001] px-4 text-[14px] font-semibold text-white transition hover:bg-[#349d01]">
+                    <Search className="h-4 w-4" strokeWidth={3} /> Cari
                   </button>
                 </div>
               </div>
@@ -465,24 +272,13 @@ export default function MitraKaryaLaporanAnggota() {
                   {filtered.map((member, index) => (
                     <tr key={member.id} className="border-t border-slate-100">
                       <td className="px-4 py-3 tabular-nums">{index + 1}</td>
-                      <td className="px-4 py-3 font-semibold text-violet-700">
-                        {member.id}
-                      </td>
+                      <td className="px-4 py-3 font-semibold text-violet-700">{member.id}</td>
                       <td className="px-4 py-3 font-medium">{member.name}</td>
                       <td className="px-4 py-3">{member.product}</td>
                       <td className="px-4 py-3">{member.region}</td>
-                      <td className="px-4 py-3 text-right tabular-nums">
-                        {member.balance.toLocaleString("id-ID")},00
-                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums">{member.balance.toLocaleString("id-ID")},00</td>
                       <td className="px-4 py-3">
-                        <span
-                          className={cn(
-                            "inline-flex rounded-full px-3 py-1 text-xs font-bold text-white",
-                            member.status === "Aktif"
-                              ? "bg-emerald-600"
-                              : "bg-slate-500",
-                          )}
-                        >
+                        <span className={cn("inline-flex rounded-full px-3 py-1 text-xs font-bold text-white", member.status === "Aktif" ? "bg-emerald-600" : "bg-slate-500")}>
                           {member.status}
                         </span>
                       </td>
@@ -490,10 +286,7 @@ export default function MitraKaryaLaporanAnggota() {
                   ))}
                   {filtered.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={7}
-                        className="px-4 py-10 text-center text-slate-500"
-                      >
+                      <td colSpan={7} className="px-4 py-10 text-center text-slate-500">
                         Anggota tidak ditemukan.
                       </td>
                     </tr>
