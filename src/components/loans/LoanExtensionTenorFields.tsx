@@ -27,7 +27,7 @@ function createReadonlyField(
   input.readOnly = true;
   input.setAttribute("aria-readonly", "true");
   input.className =
-    "h-[31px] w-full cursor-not-allowed rounded-[5px] border border-[#CBD5E1] bg-white px-3 text-[14px] font-normal text-slate-700 shadow-none outline-none";
+    "h-[31px] w-full cursor-not-allowed rounded-[5px] border border-[#CBD5E1] bg-slate-200/80 px-3 text-[14px] font-normal text-slate-700 shadow-none outline-none";
 
   const content = document.createElement("div");
   content.appendChild(input);
