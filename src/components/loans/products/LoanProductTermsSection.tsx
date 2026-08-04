@@ -16,7 +16,7 @@ const terms = [
   },
   {
     id: "arrears",
-    label: "Penyesuaian Tunggakan Bunga",
+    label: "Penyesuaian Nominal Bunga Pinjaman",
     tooltip:
       "Aktifkan agar nilai tunggakan bunga pinjaman dapat diubah sesuai kebijakan setelah rekening dibuat",
   },
