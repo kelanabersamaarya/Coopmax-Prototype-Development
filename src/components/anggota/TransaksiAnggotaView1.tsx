@@ -12,6 +12,7 @@ import {
   BookOpenText,
   Printer,
   ScrollText,
+  Info,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
@@ -58,6 +59,11 @@ import {
   TX,
 } from "@/components/anggota/transaction-types";
 import { makePenaltyContextKey } from "@/lib/penaltyContext";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {
   nasabah: {
@@ -164,15 +170,27 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     setNominalPokok(formatIdr0(t.pokok));
     setNominalBunga(formatIdr0(t.bunga));
     setNominalDenda(formatIdr0(t.denda));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKhususMode, pagedRows, selected]);
+  }, [
+    isKhususMode,
+    pagedRows,
+    selected,
+    setNominalBunga,
+    setNominalDenda,
+    setNominalPokok,
+  ]);
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(isRegulerMode || isKhususMode || isPelunasanMode)) return 0;
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
-  }, [isKhususMode, isPelunasanMode, isRegulerMode, pagedRows.length, selected]);
+  }, [
+    isKhususMode,
+    isPelunasanMode,
+    isRegulerMode,
+    pagedRows.length,
+    selected,
+  ]);
 
   const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return 0;
@@ -233,7 +251,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       totalPokokText,
       sisaText,
     };
-  }, [isPenurunanBakiDebetMode, penurunanSisaPokokTotal, penurunanTotalPokok]);
+  }, [
+    isPenurunanBakiDebetMode,
+    penurunanSisaPokokTotal,
+    penurunanTotalPokok,
+  ]);
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
@@ -267,6 +289,29 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
                 { label: "Satuan Grace Period", value: "Bulan" },
                 { label: "Durasi Grace Period", value: "3" },
+                {
+                  label: "Tenor Pinjaman",
+                  value: (
+                    <span className="inline-flex items-center gap-2">
+                      18 Bulan
+                      <Tooltip delayDuration={150}>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white transition hover:bg-white/30"
+                            aria-label="Informasi perubahan tenor"
+                          >
+                            <Info className="h-3.5 w-3.5" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-[280px] rounded-xl border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl">
+                          Terdapat penambahan tenor pinjaman dari tenor awal
+                          sebesar 12 bulan menjadi 18 bulan
+                        </TooltipContent>
+                      </Tooltip>
+                    </span>
+                  ),
+                },
                 { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
               ]}
             />
