@@ -20,13 +20,46 @@ type PendingAdjustment = {
 
 function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
   const raw = wizard.dataset.loanDebtAdjustment;
-  if (!raw) return null;
 
-  try {
-    return JSON.parse(raw) as PendingAdjustment;
-  } catch {
-    return null;
+  if (raw) {
+    try {
+      return JSON.parse(raw) as PendingAdjustment;
+    } catch {
+      return null;
+    }
   }
+
+  const accountNo =
+    (wizard.textContent ?? "").match(
+      /No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.-]+)/i,
+    )?.[1] ?? "SMG260004";
+
+  const adjustedRow = Array.from(
+    wizard.querySelectorAll<HTMLTableRowElement>("table tbody tr"),
+  ).find((row) =>
+    row.querySelector(
+      'td.text-\\[\\#2563EB\\], td[class*="text-[#2563EB]"]',
+    ),
+  );
+
+  if (!adjustedRow) return null;
+
+  const cells = Array.from(adjustedRow.querySelectorAll<HTMLTableCellElement>("td"));
+  const installmentNo = Number(cells[0]?.textContent?.trim() ?? "0");
+
+  if (!installmentNo) return null;
+
+  return {
+    accountNo,
+    installmentNo,
+    interestBefore: cells[6]?.textContent?.trim() ?? "0,00",
+    adjustmentType: "Penyesuaian Bunga",
+    adjustmentAmount: "0,00",
+    reason: "Penyesuaian nominal bunga pinjaman.",
+    interestAfter: cells[8]?.textContent?.trim() ?? "0,00",
+    totalBefore: cells[5]?.textContent?.trim() ?? "0,00",
+    totalAfter: cells[10]?.textContent?.trim() ?? "0,00",
+  };
 }
 
 function DebtChangeConfirmDialog({
@@ -142,20 +175,22 @@ export default function LoanDebtChangeSaveGate() {
       if (!button || button.disabled) return;
 
       const wizard = button.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
-      const buttonLabel = (button.textContent ?? "").trim().toLowerCase();
+      const label = (button.textContent ?? "").trim().toLowerCase();
 
       if (
         !wizard ||
         wizard.dataset.loanDebtStep !== "2" ||
-        !buttonLabel.includes("simpan perubahan")
+        !label.includes("simpan perubahan")
       ) {
         return;
       }
 
       const adjustment = parseSaveData(wizard);
+
       if (!adjustment) return;
 
       event.preventDefault();
+      event.stopPropagation();
       event.stopImmediatePropagation();
 
       activeWizardRef.current = wizard;
@@ -168,13 +203,8 @@ export default function LoanDebtChangeSaveGate() {
     return () => document.removeEventListener("click", handleSaveClick, true);
   }, []);
 
-  function closeWizard() {
-    setSuccessOpen(false);
-
-    activeWizardRef.current
-      ?.querySelector<HTMLButtonElement>('button[aria-label="Tutup"]')
-      ?.click();
-
+  function cancelConfirmation() {
+    setConfirmOpen(false);
     activeWizardRef.current = null;
     pendingAdjustmentRef.current = null;
   }
@@ -198,15 +228,22 @@ export default function LoanDebtChangeSaveGate() {
     setSuccessOpen(true);
   }
 
+  function closeWizard() {
+    setSuccessOpen(false);
+
+    activeWizardRef.current
+      ?.querySelector<HTMLButtonElement>('button[aria-label="Tutup"]')
+      ?.click();
+
+    activeWizardRef.current = null;
+    pendingAdjustmentRef.current = null;
+  }
+
   return (
     <>
       <DebtChangeConfirmDialog
         open={confirmOpen}
-        onCancel={() => {
-          setConfirmOpen(false);
-          activeWizardRef.current = null;
-          pendingAdjustmentRef.current = null;
-        }}
+        onCancel={cancelConfirmation}
         onConfirm={confirmSave}
       />
 
