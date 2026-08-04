@@ -42,15 +42,16 @@ function getTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
   const row = (label: string, value: string) => `
     <div class="billing-interest-tooltip-row">
       <span>${escapeHtml(label)}</span>
-      <strong>${escapeHtml(value)}</strong>
+      <strong>${escapeHtml(value || "0,00")}</strong>
     </div>
   `;
 
   return `
-    <div class="billing-interest-tooltip-title">Penyesuaian Bunga</div>
-    ${row("Metode", getMethodLabel(entry.adjustmentType))}
-    ${row("Nominal", entry.adjustmentAmount || "0,00")}
-    ${row("Alasan", entry.reason || "-")}
+    <div class="billing-interest-tooltip-title">Info Penyesuaian Bunga</div>
+    ${row("Metode Penyesuaian", getMethodLabel(entry.adjustmentType))}
+    ${row("Nominal Sebelum Penyesuaian", entry.interestBefore)}
+    ${row("Nominal Penyesuaian", entry.adjustmentAmount)}
+    ${row("Nominal Setelah Penyesuaian", entry.interestAfter)}
     ${row("Disesuaikan oleh", "Arya Dharma")}
   `;
 }
@@ -271,7 +272,7 @@ export default function InterestAdjustmentBillingMarkers({
         .${tooltipClass} {
           position: fixed;
           z-index: 9999;
-          width: min(300px, calc(100vw - 24px));
+          width: min(320px, calc(100vw - 24px));
           border: 1px solid #dbe3ef;
           border-radius: 10px;
           background: #ffffff;
@@ -289,7 +290,7 @@ export default function InterestAdjustmentBillingMarkers({
 
         .${tooltipClass} .billing-interest-tooltip-title {
           margin-bottom: 12px;
-          color: #1d4ed8;
+          color: #000000;
           font-size: 13px;
           font-weight: 800;
         }
