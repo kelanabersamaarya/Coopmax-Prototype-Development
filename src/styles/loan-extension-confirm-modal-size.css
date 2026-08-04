@@ -1,14 +1,15 @@
 [data-radix-dialog-content].h-\[365px\] {
   width: min(672px, calc(100vw - 2rem)) !important;
   max-width: 672px !important;
-  height: auto !important;
+  height: fit-content !important;
   min-height: 0 !important;
+  padding: 0 !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] > div {
-  min-height: 0 !important;
   height: auto !important;
-  padding: 32px 32px 28px !important;
+  min-height: 0 !important;
+  padding: 28px 32px 0 !important;
 }
 
 [data-radix-dialog-content].h-\[365px\] > div > div:first-child {
@@ -30,7 +31,7 @@
 [data-radix-dialog-content].h-\[365px\] h2 + div {
   position: static !important;
   width: auto !important;
-  margin-top: 24px !important;
+  margin: 22px 0 0 !important;
   padding: 0 !important;
   transform: none !important;
 }
