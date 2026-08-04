@@ -66,35 +66,37 @@ function LoanChangeInfo() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 rounded-[8px] bg-white px-3 py-2 ring-1 ring-blue-100">
-              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                <CalendarRange className="h-4 w-4" />
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="text-[11px] font-semibold text-slate-500">
-                  Tenor Pinjaman
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[12px] font-extrabold text-slate-900">
+            <div className="flex items-center justify-between gap-2 rounded-[8px] bg-white px-3 py-2 ring-1 ring-blue-100">
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                  <CalendarRange className="h-4 w-4" />
+                </span>
+
+                <div className="min-w-0">
+                  <div className="text-[11px] font-semibold text-slate-500">
+                    Tenor Pinjaman
+                  </div>
+                  <div className="text-[12px] font-extrabold text-slate-900">
                     12 → 18 bulan
-                  </span>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        className="inline-flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-700"
-                        aria-label="Informasi perubahan tenor pinjaman"
-                      >
-                        <Info className="h-3 w-3" strokeWidth={3} />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="z-[9999] max-w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl">
-                      Terdapat penambahan tenor pinjaman dari tenor awal sebesar
-                      12 bulan menjadi 18 bulan
-                    </TooltipContent>
-                  </Tooltip>
+                  </div>
                 </div>
               </div>
+
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition hover:bg-blue-200"
+                    aria-label="Informasi perubahan tenor pinjaman"
+                  >
+                    <Info className="h-4 w-4" strokeWidth={2.7} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="z-[9999] max-w-[280px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl">
+                  Terdapat penambahan tenor pinjaman dari tenor awal sebesar
+                  12 bulan menjadi 18 bulan
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
         </div>
