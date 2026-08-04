@@ -1,24 +1,24 @@
 input::placeholder,
 textarea::placeholder {
-  color: #7987b6 !important;
+  color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  color: #7987b6 !important;
+  color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
 input::-moz-placeholder,
 textarea::-moz-placeholder {
-  color: #7987b6 !important;
+  color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
 input:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
-  color: #7987b6 !important;
+  color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
@@ -28,10 +28,10 @@ textarea:-ms-input-placeholder {
 button[role="combobox"][data-placeholder],
 button[role="combobox"]:has([data-placeholder]),
 [data-slot="select-trigger"]:has([data-placeholder]) {
-  color: #7987b6 !important;
+  color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
 [data-slot="select-value"][data-placeholder] * {
-  color: #7987b6 !important;
+  color: #94a3b8 !important;
 }
