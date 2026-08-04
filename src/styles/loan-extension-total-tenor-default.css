@@ -8,7 +8,7 @@
   > div.grid.gap-5
   > div:has(input[placeholder="Masukkan tenor baru"]) {
   position: relative;
-  padding-top: 64px;
+  padding-top: 31px;
 }
 
 [data-loan-extension-wizard="true"]
@@ -59,7 +59,7 @@
     > section
     > div.grid.gap-5
     > div:has(input[placeholder="Masukkan tenor baru"]) {
-    padding-top: 74px;
+    padding-top: 56px;
   }
 
   [data-loan-extension-wizard="true"]
