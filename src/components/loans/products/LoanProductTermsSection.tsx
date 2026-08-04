@@ -74,7 +74,7 @@ function findActionButtons(card: HTMLElement) {
 }
 
 function hasInstallmentTableEnabled(card: HTMLElement) {
-  return Boolean(card.querySelector('input[id^="mode-"]'));
+  return Boolean(card.querySelector('[id^="mode-"]'));
 }
 
 export default function LoanProductTermsSection() {
@@ -118,13 +118,12 @@ export default function LoanProductTermsSection() {
       const autodebetTarget = card.querySelector<HTMLElement>(
         `.${AUTODEBET_PORTAL_CLASS}`,
       );
-      const placementAnchor = actionButtons;
 
       if (
         portalTarget.parentElement !== card ||
         portalTarget.previousSibling !== autodebetTarget
       ) {
-        card.insertBefore(portalTarget, placementAnchor);
+        card.insertBefore(portalTarget, actionButtons);
       }
 
       setTarget(portalTarget);

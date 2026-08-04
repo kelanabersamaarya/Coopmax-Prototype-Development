@@ -61,7 +61,7 @@ function findActionButtons(card: HTMLElement) {
 }
 
 function hasInstallmentTableEnabled(card: HTMLElement) {
-  return Boolean(card.querySelector('input[id^="mode-"]'));
+  return Boolean(card.querySelector('[id^="mode-"]'));
 }
 
 export default function LoanProductAutodebetScheduleSection() {
