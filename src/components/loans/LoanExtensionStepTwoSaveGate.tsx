@@ -159,7 +159,10 @@ export default function LoanExtensionStepTwoSaveGate() {
       if (!wizard || wizard.dataset.loanExtensionStep !== "2") return;
 
       const label = (button.textContent ?? "").trim().toLowerCase();
-      if (!label.includes("lanjutkan")) return;
+      const isSaveButton =
+        label.includes("lanjutkan") || label.includes("simpan perubahan");
+
+      if (!isSaveButton) return;
 
       const data = getSaveData(wizard);
       if (!data) return;
