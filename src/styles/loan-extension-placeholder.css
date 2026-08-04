@@ -33,6 +33,19 @@
   opacity: 1 !important;
 }
 
+/* Dropdown native untuk Jatuh Tempo Akhir Baru. */
+[data-loan-extension-wizard="true"] select:has(option[value=""]:checked) {
+  color: #7987b6 !important;
+}
+
+[data-loan-extension-wizard="true"] select:has(option[value=""]:checked) option {
+  color: #0f172a;
+}
+
+[data-loan-extension-wizard="true"] select option[value=""] {
+  color: #7987b6;
+}
+
 /* Hanya gunakan tombol X kustom di header wizard, bukan tombol bawaan Dialog. */
 [data-loan-extension-wizard="true"] > button {
   display: none !important;
