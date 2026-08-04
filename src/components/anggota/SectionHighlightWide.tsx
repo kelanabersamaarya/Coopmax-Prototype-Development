@@ -47,43 +47,57 @@ function getLoanChangeDisplay(customerName = ""): LoanChangeDisplay {
 
 function LoanChangeInfo({
   loanChange,
+  anchor,
 }: {
   loanChange: LoanChangeDisplay;
+  anchor: HTMLDivElement | null;
 }) {
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
 
   React.useEffect(() => {
-    let retryId = 0;
+    if (!anchor) return;
+
+    let portalTarget: HTMLDivElement | null = null;
+    let observer: MutationObserver | null = null;
 
     const findTarget = () => {
-      const heading = Array.from(document.querySelectorAll<HTMLElement>("div")).find(
-        (element) => element.textContent?.trim() === "INFORMASI TAGIHAN DAN DENDA",
+      const tableSection = anchor.parentElement?.nextElementSibling;
+      const heading = Array.from(
+        tableSection?.querySelectorAll<HTMLElement>("div") ?? [],
+      ).find(
+        (element) =>
+          element.textContent?.trim() === "INFORMASI TAGIHAN DAN DENDA",
       );
 
       const divider = heading?.nextElementSibling;
 
-      if (!heading || !divider?.parentElement) return;
+      if (!divider?.parentElement) return false;
 
-      const portalTarget = document.createElement("div");
+      portalTarget = document.createElement("div");
       portalTarget.className = "loan-change-info-target";
-
       divider.insertAdjacentElement("afterend", portalTarget);
       setTarget(portalTarget);
 
-      window.clearInterval(retryId);
+      return true;
     };
 
-    findTarget();
-    retryId = window.setInterval(findTarget, 100);
+    if (!findTarget()) {
+      observer = new MutationObserver(() => {
+        if (!findTarget()) return;
+        observer?.disconnect();
+      });
+
+      observer.observe(anchor.parentElement ?? anchor, {
+        childList: true,
+        subtree: true,
+      });
+    }
 
     return () => {
-      window.clearInterval(retryId);
-      setTarget((current) => {
-        current?.remove();
-        return null;
-      });
+      observer?.disconnect();
+      portalTarget?.remove();
     };
-  }, []);
+  }, [anchor]);
 
   if (!target) return null;
 
@@ -176,6 +190,7 @@ export default function SectionHighlightWide({
   tenorTooltip?: string;
   customerName?: string;
 }) {
+  const anchorRef = React.useRef<HTMLDivElement | null>(null);
   const showLoanChangeInfo = title === "Tagihan dan Pembayaran Angsuran";
 
   const loanChange = React.useMemo(() => {
@@ -190,13 +205,15 @@ export default function SectionHighlightWide({
   }, [customerName, tenorTooltip]);
 
   return (
-    <div className={cn("w-full", className)}>
+    <div ref={anchorRef} className={cn("w-full", className)}>
       <div className="w-full text-center text-[14px] font-semibold tracking-tight text-slate-900">
         {title}
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
-      {showLoanChangeInfo ? <LoanChangeInfo loanChange={loanChange} /> : null}
+      {showLoanChangeInfo ? (
+        <LoanChangeInfo loanChange={loanChange} anchor={anchorRef.current} />
+      ) : null}
     </div>
   );
 }
