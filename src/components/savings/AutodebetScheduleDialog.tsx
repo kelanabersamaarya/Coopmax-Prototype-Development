@@ -385,8 +385,8 @@ export default function AutodebetScheduleDialog({
                       )}
                     />
                     <div className="mt-1 text-[12px] font-normal leading-relaxed text-[#6479A6]">
-                      Tanggal proses autodebet dilakukan sesuai dengan pengaturan
-                      produk pinjaman.
+                      Tanggal proses autodebet dilakukan sesuai dengan tanggal
+                      jatuh tempo tagihan.
                     </div>
                   </div>
                 </>
