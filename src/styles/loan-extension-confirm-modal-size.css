@@ -33,7 +33,7 @@
 }
 
 [data-loan-extension-confirm-dialog="true"] h2::after {
-  content: "Yakin Melakukan Perpanjangan Pinjaman";
+  content: "Yakin Melakukan Perpanjangan Pinjaman?";
   display: block;
   color: #3b4863;
   font-size: 24px;
