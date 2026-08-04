@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import {
   isLoanProductAutodebetEnabled,
@@ -35,6 +36,10 @@ const terms = [
       "Aktifkan agar jangka waktu atau tenor pinjaman dapat diubah sesuai kebijakan setelah rekening pinjaman dibuat.",
   },
 ] as const;
+
+type InsufficientBalanceRule =
+  | "unpaid"
+  | "partial-payment";
 
 function isConsolidationLoanProductPath(pathname: string, search: string) {
   const isMainLoanProduct =
@@ -105,6 +110,8 @@ export default function LoanProductAutodebetScheduleSection() {
     React.useState(false);
   const [productName, setProductName] = React.useState("");
   const [autodebetEnabled, setAutodebetEnabled] = React.useState(false);
+  const [insufficientBalanceRule, setInsufficientBalanceRule] =
+    React.useState<InsufficientBalanceRule>("unpaid");
   const [enabledTerms, setEnabledTerms] = React.useState<Record<string, boolean>>({
     interest: false,
     arrears: false,
@@ -196,19 +203,47 @@ export default function LoanProductAutodebetScheduleSection() {
         </span>
       </div>
 
-      <div className="mt-4 grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-        <label
-          htmlFor="loan-product-autodebet-enabled"
-          className="text-sm font-normal text-slate-900"
-        >
-          Proses Autodebet
-        </label>
+      <div className="mt-4 grid gap-5">
+        <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+          <label
+            htmlFor="loan-product-autodebet-enabled"
+            className="text-sm font-normal text-slate-900"
+          >
+            Proses Autodebet
+          </label>
 
-        <Switch
-          id="loan-product-autodebet-enabled"
-          checked={autodebetEnabled}
-          onCheckedChange={updateAutodebetEnabled}
-        />
+          <Switch
+            id="loan-product-autodebet-enabled"
+            checked={autodebetEnabled}
+            onCheckedChange={updateAutodebetEnabled}
+          />
+        </div>
+
+        {autodebetEnabled ? (
+          <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+            <div className="pt-1 text-sm font-normal text-slate-900">
+              Ketentuan jika saldo rekening tidak mencukupi
+            </div>
+
+            <RadioGroup
+              value={insufficientBalanceRule}
+              onValueChange={(value) =>
+                setInsufficientBalanceRule(value as InsufficientBalanceRule)
+              }
+              className="grid gap-3"
+            >
+              <label className="flex cursor-pointer items-start gap-3 text-sm font-normal text-slate-900">
+                <RadioGroupItem value="unpaid" className="mt-0.5" />
+                <span>Tagihan Tidak Dibayarkan (Transaksi Dinyatakan Gagal)</span>
+              </label>
+
+              <label className="flex cursor-pointer items-start gap-3 text-sm font-normal text-slate-900">
+                <RadioGroupItem value="partial-payment" className="mt-0.5" />
+                <span>Tagihan Dibayarkan Sebagian</span>
+              </label>
+            </RadioGroup>
+          </div>
+        ) : null}
       </div>
 
       <Separator className="my-6 bg-slate-200/70" />
