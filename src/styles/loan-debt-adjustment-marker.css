@@ -1,19 +1,13 @@
 /*
   Ubah Nominal Bunga Pinjaman:
-  Penanda dan tooltip tampil pada nilai biru hasil penyesuaian, yaitu
-  Tagihan Bunga Sesudah Penyesuaian serta Sisa Tagihan Bunga Sesudah Penyesuaian.
+  Tooltip pada hasil penyesuaian menampilkan nilai detail secara terpisah,
+  sehingga setiap informasi setelah label dapat diberi penekanan tebal.
 */
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(9),
-[data-loan-debt-wizard="true"]
-  table.min-w-\[1880px\]
-  tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(10) {
+  td.loan-debt-adjustment-cell {
   position: relative !important;
   overflow: visible !important;
   padding-right: 34px !important;
@@ -23,13 +17,7 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(9)::before,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[1880px\]
-  tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(10)::before {
+  td.loan-debt-adjustment-cell::before {
   content: "i";
   position: absolute;
   right: 8px;
@@ -53,14 +41,8 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(9)::after,
-[data-loan-debt-wizard="true"]
-  table.min-w-\[1880px\]
-  tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(10)::after {
-  content: "Metode Penyesuaian: " attr(data-adjustment-type) "\A\A Nominal Penyesuaian: " attr(data-adjustment-amount) "\A\A Alasan Penyesuaian: " attr(data-adjustment-reason) "\A\A Disesuaikan Oleh: " attr(data-adjusted-by);
+  td.loan-debt-adjustment-cell
+  .loan-debt-adjustment-tooltip {
   position: absolute;
   right: 0;
   top: calc(100% + 9px);
@@ -73,10 +55,9 @@
   padding: 10px 12px;
   color: #1e293b;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.45;
   text-align: left;
-  white-space: pre-line;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-4px);
@@ -86,13 +67,48 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(9):hover::after,
+  td.loan-debt-adjustment-cell
+  .loan-debt-adjustment-tooltip
+  + * {
+  display: none;
+}
+
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  tr:has(td[class~="text-[#2563EB]"])
-  td:nth-child(10):hover::after {
+  td.loan-debt-adjustment-cell
+  .loan-debt-adjustment-tooltip
+  div {
+  margin-top: 8px;
+  color: #1e293b;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  tbody
+  td.loan-debt-adjustment-cell
+  .loan-debt-adjustment-tooltip
+  div:first-child {
+  margin-top: 0;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  tbody
+  td.loan-debt-adjustment-cell
+  .loan-debt-adjustment-tooltip
+  strong {
+  color: #0f172a;
+  font-weight: 800;
+}
+
+[data-loan-debt-wizard="true"]
+  table.min-w-\[1880px\]
+  tbody
+  td.loan-debt-adjustment-cell:hover
+  .loan-debt-adjustment-tooltip {
   opacity: 1;
   transform: translateY(0);
 }

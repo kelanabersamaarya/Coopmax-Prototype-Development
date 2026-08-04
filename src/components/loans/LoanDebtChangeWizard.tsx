@@ -24,7 +24,7 @@ const accountDetails = [
 
 const billingRows = [
   ["25-01-2026", "916.667", "0,00", "83.333", "0,00", "26.389", "75.000"],
-  ["25-02-2026", "916.667", "0,00", "83.333", "0,00", "26.389", "75.000"],
+  ["25-02-2026", "916.667", "916.667", "83.333", "33.333", "33.333", "75.000"],
   ["25-03-2026", "916.667", "916.667", "83.333", "33.333", "33.333", "75.000"],
   ["25-04-2026", "916.667", "916.667", "83.333", "33.333", "33.333", "0,00"],
   ["25-05-2026", "916.667", "916.667", "83.333", "33.333", "33.333", "0,00"],
@@ -45,6 +45,34 @@ function formatIdr(value: number) {
   return Math.max(0, Math.round(value))
     .toLocaleString("id-ID")
     .replace(/,/g, ".");
+}
+
+function AdjustmentTooltip({
+  adjustment,
+}: {
+  adjustment: SavedBillingInterestAdjustment["adjustment"];
+}) {
+  const amount =
+    adjustment.type === "Pembebasan Seluruh Bunga"
+      ? "0,00"
+      : adjustment.amount || "0,00";
+
+  return (
+    <div className="loan-debt-adjustment-tooltip">
+      <div>
+        Metode Penyesuaian: <strong>{adjustment.type}</strong>
+      </div>
+      <div>
+        Nominal Penyesuaian: <strong>{amount}</strong>
+      </div>
+      <div>
+        Alasan Penyesuaian: <strong>{adjustment.reason || "-"}</strong>
+      </div>
+      <div>
+        Disesuaikan Oleh: <strong>Arya Dharma</strong>
+      </div>
+    </div>
+  );
 }
 
 function AccountField({ label, value }: { label: string; value: string }) {
@@ -209,19 +237,6 @@ function UnifiedBillingSimulationTable({
                   )
                 : parseIdr(remainingInterest);
 
-              const adjustmentData = isAdjustedRow
-                ? {
-                    "data-adjustment-type": adjustedBill.adjustment.type,
-                    "data-adjustment-amount":
-                      adjustedBill.adjustment.type === "Pembebasan Seluruh Bunga"
-                        ? "0,00"
-                        : adjustedBill.adjustment.amount || "0,00",
-                    "data-adjustment-reason":
-                      adjustedBill.adjustment.reason || "Tidak ada alasan.",
-                    "data-adjusted-by": "Arya Dharma",
-                  }
-                : {};
-
               return (
                 <tr
                   key={`${dueDate}-${installmentNo}`}
@@ -255,22 +270,26 @@ function UnifiedBillingSimulationTable({
                     {remainingInterest}
                   </td>
                   <td
-                    {...adjustmentData}
                     className={cn(
-                      "px-3 py-3 text-right tabular-nums",
+                      "loan-debt-adjustment-cell px-3 py-3 text-right tabular-nums",
                       isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
                     )}
                   >
                     {formatIdr(interestAfter)}
+                    {isAdjustedRow ? (
+                      <AdjustmentTooltip adjustment={adjustedBill.adjustment} />
+                    ) : null}
                   </td>
                   <td
-                    {...adjustmentData}
                     className={cn(
-                      "px-3 py-3 text-right tabular-nums",
+                      "loan-debt-adjustment-cell px-3 py-3 text-right tabular-nums",
                       isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
                     )}
                   >
                     {formatIdr(remainingInterestAfter)}
+                    {isAdjustedRow ? (
+                      <AdjustmentTooltip adjustment={adjustedBill.adjustment} />
+                    ) : null}
                   </td>
                   <td
                     className={cn(
