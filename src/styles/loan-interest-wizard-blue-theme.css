@@ -36,50 +36,60 @@
 
 /*
   Modal Ubah Suku Bunga:
-  header, wadah step, dan separator tetap memakai struktur standar.
+  garis atas berasal dari header dan garis bawah berasal dari separator.
 */
-[data-loan-interest-wizard="true"] > header {
+[data-loan-interest-wizard="true"] > div > header {
   border-bottom: 1px solid rgb(226 232 240) !important;
 }
 
-[data-loan-interest-wizard="true"] > header + div {
+[data-loan-interest-wizard="true"] > div > header + div {
   box-sizing: border-box;
   margin: 0 !important;
   border: 0 !important;
 }
 
-[data-loan-interest-wizard="true"] > header + div + [data-slot="separator"] {
+[data-loan-interest-wizard="true"]
+  > div
+  > header
+  + div
+  + [data-slot="separator"] {
   display: block !important;
   height: 1px !important;
   background-color: rgb(226 232 240) !important;
 }
 
-[data-loan-interest-wizard="true"] > main {
+[data-loan-interest-wizard="true"] > div > main {
   padding-top: 1.5rem !important;
 }
 
 /*
   Modal Perpanjangan Pinjaman:
-  garis menempel langsung pada container step, sehingga area step benar-benar
-  berada di antara garis atas dan garis bawah seperti yang diharapkan.
+  Step wizard hanya diapit dua garis:
+  - garis atas dari border bawah header
+  - garis bawah dari Separator setelah step
 */
-[data-loan-extension-wizard="true"] > header {
-  border-bottom: 0 !important;
+[data-loan-extension-wizard="true"] > div > header {
+  border-bottom: 1px solid rgb(226 232 240) !important;
 }
 
-[data-loan-extension-wizard="true"] > header + div {
-  position: relative !important;
-  box-sizing: border-box !important;
+[data-loan-extension-wizard="true"] > div > header + div {
+  box-sizing: border-box;
   margin: 0 !important;
-  border-top: 1px solid rgb(226 232 240) !important;
-  border-bottom: 1px solid rgb(226 232 240) !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
   background-color: #ffffff !important;
 }
 
-[data-loan-extension-wizard="true"] > header + div + [data-slot="separator"] {
-  display: none !important;
+[data-loan-extension-wizard="true"]
+  > div
+  > header
+  + div
+  + [data-slot="separator"] {
+  display: block !important;
+  height: 1px !important;
+  background-color: rgb(226 232 240) !important;
 }
 
-[data-loan-extension-wizard="true"] > main {
+[data-loan-extension-wizard="true"] > div > main {
   padding-top: 1.5rem !important;
 }
