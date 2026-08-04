@@ -116,7 +116,7 @@ function DebtChangeSuccessDialog({
           </div>
 
           <h2 className="mt-7 text-[21px] font-semibold leading-tight tracking-tight text-slate-900">
-            Berhasil Melakukan Perubahan Bunga
+            Berhasil Melakukan Perubahan Nominal Bunga
           </h2>
 
           <button
