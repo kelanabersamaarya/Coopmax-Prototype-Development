@@ -133,11 +133,11 @@ function ReportInfoPanel() {
         </span>
 
         <div className="min-w-0">
-          <h2 className="text-[16px] font-extrabold leading-snug text-[#0895bd]">
+          <h2 className="text-[13px] font-extrabold leading-snug text-[#0895bd]">
             Fitur Penyesuaian Laporan
           </h2>
 
-          <p className="mt-2 text-[14px] font-normal leading-relaxed text-[#0097c2]">
+          <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#0097c2]">
             Anda dapat melakukan kustomisasi tampilan laporan (pengaturan kolom
             dan urutan data) pada laporan ini dengan menggunakan fitur
             penyesuaian laporan. Silahkan klik menu Penyesuaian Laporan untuk
@@ -151,7 +151,7 @@ function ReportInfoPanel() {
                 description: "Menu penyesuaian laporan belum dihubungkan.",
               })
             }
-            className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-violet-600 px-5 text-[14px] font-semibold text-white ring-1 ring-violet-600/20 transition hover:bg-violet-700"
+            className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-violet-600 px-5 text-[13px] font-semibold text-white ring-1 ring-violet-600/20 transition hover:bg-violet-700"
           >
             Pilih Laporan
             <ChevronDown className="h-4 w-4" />
