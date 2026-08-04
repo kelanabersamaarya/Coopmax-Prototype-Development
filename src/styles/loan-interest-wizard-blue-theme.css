@@ -19,6 +19,14 @@
   background-color: var(--loan-interest-blue-hover) !important;
 }
 
+/* Tombol Lanjutkan selalu memakai ukuran yang sama, aktif maupun nonaktif. */
+[data-loan-interest-wizard="true"] footer > button.bg-\[\#5B3DF5\],
+[data-loan-interest-wizard="true"] footer > button.bg-slate-300 {
+  width: 150px !important;
+  min-width: 150px !important;
+  justify-content: center !important;
+}
+
 /* Tombol Lanjutkan pada langkah pertama dan kedua. */
 [data-loan-interest-wizard="true"] footer > button.bg-\[\#5B3DF5\] {
   background-color: var(--loan-interest-blue) !important;
