@@ -83,7 +83,15 @@ export default function KtpPhotoDialog({
           </div>
         </main>
 
-        <footer className="h-4 border-t border-slate-300" />
+        <footer className="flex justify-end border-t border-slate-300 px-5 py-3">
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            className="h-9 min-w-[88px] rounded-[5px] bg-[#2fb300] px-4 text-[12px] font-bold text-white transition hover:bg-[#279800]"
+          >
+            Selesai
+          </button>
+        </footer>
       </DialogContent>
     </Dialog>
   );
