@@ -35,62 +35,60 @@
 }
 
 /*
-  Modal Ubah Suku Bunga:
-  garis atas berasal dari header dan garis bawah berasal dari separator.
+  DialogContent adalah elemen modal itu sendiri, bukan pembungkus tambahan.
+  Area step adalah div langsung setelah header.
 */
-[data-loan-interest-wizard="true"] > div > header {
+[data-loan-interest-wizard="true"] > header {
   border-bottom: 1px solid rgb(226 232 240) !important;
 }
 
-[data-loan-interest-wizard="true"] > div > header + div {
-  box-sizing: border-box;
+[data-loan-interest-wizard="true"] > header + div {
+  box-sizing: border-box !important;
   margin: 0 !important;
   border: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-[data-loan-interest-wizard="true"]
-  > div
-  > header
-  + div
-  + [data-slot="separator"] {
+[data-loan-interest-wizard="true"] > header + div + [data-slot="separator"] {
   display: block !important;
   height: 1px !important;
   background-color: rgb(226 232 240) !important;
 }
 
-[data-loan-interest-wizard="true"] > div > main {
+[data-loan-interest-wizard="true"] > main {
   padding-top: 1.5rem !important;
 }
 
 /*
-  Modal Perpanjangan Pinjaman:
-  mempertahankan dua garis pembatas seperti Ubah Nominal Bunga Pinjaman.
-  Padding vertikal wadah step dihilangkan agar tidak ada ruang kosong
-  antara area step dengan garis atas dan garis bawah.
+  Perpanjangan Pinjaman:
+  - garis atas: border bawah header
+  - garis bawah: Separator setelah indikator step
+  - tidak ada gap vertikal antara indikator step dengan kedua garis
 */
-[data-loan-extension-wizard="true"] > div > header {
+[data-loan-extension-wizard="true"] > header {
   border-bottom: 1px solid rgb(226 232 240) !important;
 }
 
-[data-loan-extension-wizard="true"] > div > header + div {
+[data-loan-extension-wizard="true"] > header + div {
   box-sizing: border-box !important;
   margin: 0 !important;
+  border: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  border: 0 !important;
   background-color: #ffffff !important;
 }
 
 [data-loan-extension-wizard="true"]
-  > div
   > header
   + div
   + [data-slot="separator"] {
   display: block !important;
   height: 1px !important;
+  margin: 0 !important;
   background-color: rgb(226 232 240) !important;
 }
 
-[data-loan-extension-wizard="true"] > div > main {
+[data-loan-extension-wizard="true"] > main {
   padding-top: 1.5rem !important;
 }
