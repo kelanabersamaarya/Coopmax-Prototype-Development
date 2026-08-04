@@ -43,6 +43,14 @@ function ActiveBadge({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SuccessBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex rounded-[4px] bg-[#3BB001] px-2 py-1 text-[10px] font-bold text-white">
+      {children}
+    </span>
+  );
+}
+
 function InfoRow({
   label,
   value,
