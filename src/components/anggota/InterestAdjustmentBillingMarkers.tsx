@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import {
   getLoanInterestAdjustmentHistory,
   LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
@@ -9,7 +10,6 @@ import {
 
 const markerClass = "billing-interest-adjustment-marker";
 const markedCellClass = "has-billing-interest-adjustment";
-const tooltipClass = "billing-interest-adjustment-tooltip";
 
 const dueDatesByInstallment = [
   "25-01-2026",
@@ -24,72 +24,16 @@ const dueDatesByInstallment = [
   "25-09-2026",
 ];
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&")
-    .replace(/</g, "<")
-    .replace(/>/g, ">");
-}
+type TooltipState = {
+  entry: LoanInterestAdjustmentHistoryEntry;
+  rect: DOMRect;
+};
 
 function getMethodLabel(type: string) {
   if (type === "Penambahan Bunga") return "Penambahan Bunga";
   if (type === "Pengurangan Bunga") return "Pengurangan Bunga";
   if (type === "Pembebasan Seluruh Bunga") return "Pembebasan Seluruh Bunga";
   return type || "Penyesuaian Bunga";
-}
-
-function getTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
-  const row = (label: string, value: string) => `
-    <div class="billing-interest-tooltip-row">
-      <span>${escapeHtml(label)}</span>
-      <strong>${escapeHtml(value || "0,00")}</strong>
-    </div>
-  `;
-
-  return `
-    <div class="billing-interest-tooltip-title">Info Penyesuaian Bunga</div>
-    ${row("Metode Penyesuaian", getMethodLabel(entry.adjustmentType))}
-    ${row("Nominal Sebelum Penyesuaian", entry.interestBefore)}
-    ${row("Nominal Penyesuaian", entry.adjustmentAmount)}
-    ${row("Nominal Setelah Penyesuaian", entry.interestAfter)}
-    ${row("Disesuaikan oleh", "Arya Dharma")}
-  `;
-}
-
-function removeTooltip() {
-  document.querySelector(`.${tooltipClass}`)?.remove();
-}
-
-function showTooltip(
-  anchor: HTMLElement,
-  entry: LoanInterestAdjustmentHistoryEntry,
-) {
-  removeTooltip();
-
-  const tooltip = document.createElement("aside");
-  tooltip.className = tooltipClass;
-  tooltip.innerHTML = getTooltipContent(entry);
-  document.body.appendChild(tooltip);
-
-  const anchorRect = anchor.getBoundingClientRect();
-  const tooltipRect = tooltip.getBoundingClientRect();
-  const padding = 12;
-
-  const left = Math.min(
-    Math.max(
-      padding,
-      anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2,
-    ),
-    window.innerWidth - tooltipRect.width - padding,
-  );
-
-  const showAbove = anchorRect.top > tooltipRect.height + padding + 8;
-
-  tooltip.style.left = `${left}px`;
-  tooltip.style.top = `${
-    showAbove ? anchorRect.top - tooltipRect.height - 8 : anchorRect.bottom + 8
-  }px`;
-  tooltip.dataset.visible = "true";
 }
 
 function findInterestCell(dueDate: string) {
@@ -130,8 +74,6 @@ function findInterestCell(dueDate: string) {
 }
 
 function clearMarkers() {
-  removeTooltip();
-
   document.querySelectorAll(`.${markerClass}`).forEach((marker) => marker.remove());
 
   document
@@ -139,53 +81,92 @@ function clearMarkers() {
     .forEach((cell) => cell.classList.remove(markedCellClass));
 }
 
-function syncMarkers(accountNo: string) {
-  clearMarkers();
-
-  getLoanInterestAdjustmentHistory(accountNo).forEach((entry) => {
-    const dueDate = dueDatesByInstallment[entry.installmentNo - 1];
-    if (!dueDate) return;
-
-    const interestCell = findInterestCell(dueDate);
-    if (!interestCell || interestCell.querySelector(`.${markerClass}`)) return;
-
-    interestCell.classList.add(markedCellClass);
-
-    const marker = document.createElement("button");
-    marker.type = "button";
-    marker.className = markerClass;
-    marker.setAttribute("aria-label", "Lihat detail penyesuaian bunga");
-    marker.innerHTML = '<span aria-hidden="true">i</span>';
-
-    marker.addEventListener("mouseenter", () => showTooltip(marker, entry));
-    marker.addEventListener("mouseleave", removeTooltip);
-    marker.addEventListener("focus", () => showTooltip(marker, entry));
-    marker.addEventListener("blur", removeTooltip);
-    marker.addEventListener("click", () => showTooltip(marker, entry));
-
-    interestCell.appendChild(marker);
-  });
-}
-
-function isMarkerOrTooltipNode(node: Node) {
+function isMarkerNode(node: Node) {
   if (!(node instanceof HTMLElement)) return true;
 
   return (
     node.classList.contains(markerClass) ||
-    node.classList.contains(tooltipClass) ||
-    Boolean(node.closest(`.${markerClass}, .${tooltipClass}`))
+    Boolean(node.closest(`.${markerClass}`))
   );
 }
 
-function onlyMarkerOrTooltipMutations(mutations: MutationRecord[]) {
+function onlyMarkerMutations(mutations: MutationRecord[]) {
   return mutations.every((mutation) => {
     const nodes = [
       ...Array.from(mutation.addedNodes),
       ...Array.from(mutation.removedNodes),
     ];
 
-    return nodes.length > 0 && nodes.every(isMarkerOrTooltipNode);
+    return nodes.length > 0 && nodes.every(isMarkerNode);
   });
+}
+
+function TooltipRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="grid gap-1">
+      <div className="text-[11px] font-semibold leading-tight text-slate-500">
+        {label}
+      </div>
+      <div className="text-[12px] font-extrabold leading-tight text-slate-900">
+        {value || "0,00"}
+      </div>
+    </div>
+  );
+}
+
+function AdjustmentTooltip({ state }: { state: TooltipState }) {
+  const width = 320;
+  const padding = 12;
+  const left = Math.min(
+    Math.max(
+      padding,
+      state.rect.left + state.rect.width / 2 - width / 2,
+    ),
+    window.innerWidth - width - padding,
+  );
+  const top =
+    state.rect.top > 250
+      ? state.rect.top - 230
+      : state.rect.bottom + 8;
+
+  return createPortal(
+    <aside
+      className="fixed z-[9999] w-[320px] rounded-[10px] border border-slate-200 bg-white p-4 text-left shadow-xl"
+      style={{ left, top }}
+      role="tooltip"
+    >
+      <div className="mb-3 text-[13px] font-extrabold text-black">
+        Info Penyesuaian Bunga
+      </div>
+
+      <div className="grid gap-3">
+        <TooltipRow
+          label="Metode Penyesuaian"
+          value={getMethodLabel(state.entry.adjustmentType)}
+        />
+        <TooltipRow
+          label="Nominal Sebelum Penyesuaian"
+          value={state.entry.interestBefore}
+        />
+        <TooltipRow
+          label="Nominal Penyesuaian"
+          value={state.entry.adjustmentAmount}
+        />
+        <TooltipRow
+          label="Nominal Setelah Penyesuaian"
+          value={state.entry.interestAfter}
+        />
+        <TooltipRow label="Disesuaikan oleh" value="Arya Dharma" />
+      </div>
+    </aside>,
+    document.body,
+  );
 }
 
 export default function InterestAdjustmentBillingMarkers({
@@ -193,20 +174,62 @@ export default function InterestAdjustmentBillingMarkers({
 }: {
   accountNo?: string;
 }) {
+  const [tooltip, setTooltip] = React.useState<TooltipState | null>(null);
+
   React.useEffect(() => {
     let timeoutId = 0;
 
+    const clearTooltip = () => setTooltip(null);
+
+    const syncMarkers = () => {
+      clearMarkers();
+      clearTooltip();
+
+      getLoanInterestAdjustmentHistory(accountNo).forEach((entry) => {
+        const dueDate = dueDatesByInstallment[entry.installmentNo - 1];
+        if (!dueDate) return;
+
+        const interestCell = findInterestCell(dueDate);
+        if (!interestCell || interestCell.querySelector(`.${markerClass}`)) {
+          return;
+        }
+
+        interestCell.classList.add(markedCellClass);
+
+        const marker = document.createElement("button");
+        marker.type = "button";
+        marker.className = markerClass;
+        marker.setAttribute("aria-label", "Lihat detail penyesuaian bunga");
+        marker.innerHTML = '<span aria-hidden="true">i</span>';
+
+        const openTooltip = () => {
+          setTooltip({
+            entry,
+            rect: marker.getBoundingClientRect(),
+          });
+        };
+
+        marker.addEventListener("mouseenter", openTooltip);
+        marker.addEventListener("mouseleave", clearTooltip);
+        marker.addEventListener("focus", openTooltip);
+        marker.addEventListener("blur", clearTooltip);
+        marker.addEventListener("click", openTooltip);
+
+        interestCell.appendChild(marker);
+      });
+    };
+
     const scheduleSync = () => {
       window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(() => syncMarkers(accountNo), 80);
+      timeoutId = window.setTimeout(syncMarkers, 80);
     };
 
     const observer = new MutationObserver((mutations) => {
-      if (onlyMarkerOrTooltipMutations(mutations)) return;
+      if (onlyMarkerMutations(mutations)) return;
       scheduleSync();
     });
 
-    syncMarkers(accountNo);
+    syncMarkers();
 
     observer.observe(document.body, {
       childList: true,
@@ -218,8 +241,8 @@ export default function InterestAdjustmentBillingMarkers({
       scheduleSync,
     );
     window.addEventListener("storage", scheduleSync);
-    window.addEventListener("scroll", removeTooltip, true);
-    window.addEventListener("resize", removeTooltip);
+    window.addEventListener("scroll", clearTooltip, true);
+    window.addEventListener("resize", clearTooltip);
 
     return () => {
       window.clearTimeout(timeoutId);
@@ -230,92 +253,49 @@ export default function InterestAdjustmentBillingMarkers({
         scheduleSync,
       );
       window.removeEventListener("storage", scheduleSync);
-      window.removeEventListener("scroll", removeTooltip, true);
-      window.removeEventListener("resize", removeTooltip);
+      window.removeEventListener("scroll", clearTooltip, true);
+      window.removeEventListener("resize", clearTooltip);
     };
   }, [accountNo]);
 
   return (
-    <style>
-      {`
-        .${markedCellClass} {
-          position: relative !important;
-        }
+    <>
+      {tooltip ? <AdjustmentTooltip state={tooltip} /> : null}
 
-        .${markerClass} {
-          position: absolute;
-          top: 50%;
-          right: -12px;
-          z-index: 20;
-          display: inline-flex;
-          transform: translateY(-50%);
-          border: 0;
-          background: transparent;
-          padding: 0;
-          cursor: help;
-        }
+      <style>
+        {`
+          .${markedCellClass} {
+            position: relative !important;
+          }
 
-        .${markerClass} > span {
-          display: grid;
-          height: 18px;
-          width: 18px;
-          place-items: center;
-          border-radius: 999px;
-          background: #2563eb;
-          color: #ffffff;
-          font-size: 11px;
-          font-weight: 800;
-          line-height: 1;
-          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
-        }
+          .${markerClass} {
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            z-index: 20;
+            display: inline-flex;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            padding: 0;
+            cursor: help;
+          }
 
-        .${tooltipClass} {
-          position: fixed;
-          z-index: 9999;
-          width: min(320px, calc(100vw - 24px));
-          border: 1px solid #dbe3ef;
-          border-radius: 10px;
-          background: #ffffff;
-          padding: 14px;
-          color: #1e293b;
-          opacity: 0;
-          pointer-events: none;
-          box-shadow: 0 10px 25px rgba(15, 23, 42, 0.16);
-          transition: opacity 120ms ease;
-        }
-
-        .${tooltipClass}[data-visible="true"] {
-          opacity: 1;
-        }
-
-        .${tooltipClass} .billing-interest-tooltip-title {
-          margin-bottom: 12px;
-          color: #000000;
-          font-size: 13px;
-          font-weight: 800;
-        }
-
-        .${tooltipClass} .billing-interest-tooltip-row {
-          display: grid;
-          gap: 3px;
-          margin-top: 10px;
-        }
-
-        .${tooltipClass} .billing-interest-tooltip-row span {
-          color: #64748b;
-          font-size: 11px;
-          font-weight: 600;
-          line-height: 1.35;
-        }
-
-        .${tooltipClass} .billing-interest-tooltip-row strong {
-          color: #0f172a;
-          font-size: 12px;
-          font-weight: 800;
-          line-height: 1.4;
-          overflow-wrap: anywhere;
-        }
-      `}
-    </style>
+          .${markerClass} > span {
+            display: grid;
+            height: 18px;
+            width: 18px;
+            place-items: center;
+            border-radius: 999px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
+          }
+        `}
+      </style>
+    </>
   );
 }
