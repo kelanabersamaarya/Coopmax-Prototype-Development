@@ -40,13 +40,30 @@ function isLoanProductFormPath(pathname: string) {
 
 function findFormCard() {
   const headings = Array.from(document.querySelectorAll<HTMLElement>("div"));
-  const graceHeading = headings.find(
-    (element) => element.textContent?.trim() === "Konfigurasi Grace Period",
+  const scheduleHeading = headings.find(
+    (element) =>
+      element.textContent?.trim() === "Konfigurasi Tagihan Angsuran",
   );
 
-  if (!graceHeading) return null;
+  if (!scheduleHeading) return null;
 
-  return graceHeading.closest(".rounded-3xl, .rounded-\\[5px\\]");
+  let current = scheduleHeading.parentElement;
+
+  while (current && current !== document.body) {
+    const text = current.textContent ?? "";
+
+    if (
+      text.includes("Konfigurasi Tagihan Angsuran") &&
+      text.includes("Batalkan") &&
+      text.includes("Simpan")
+    ) {
+      return current;
+    }
+
+    current = current.parentElement;
+  }
+
+  return null;
 }
 
 function findActionButtons(card: HTMLElement) {
@@ -56,9 +73,15 @@ function findActionButtons(card: HTMLElement) {
   });
 }
 
+function hasInstallmentTableEnabled(card: HTMLElement) {
+  return Boolean(card.querySelector('input[id^="mode-"]'));
+}
+
 export default function LoanProductTermsSection() {
   const location = useLocation();
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
+  const [installmentTableEnabled, setInstallmentTableEnabled] =
+    React.useState(false);
   const [enabledTerms, setEnabledTerms] = React.useState<Record<string, boolean>>({
     interest: false,
     arrears: false,
@@ -68,6 +91,7 @@ export default function LoanProductTermsSection() {
   React.useEffect(() => {
     if (!isLoanProductFormPath(location.pathname)) {
       setTarget(null);
+      setInstallmentTableEnabled(false);
       return;
     }
 
@@ -77,7 +101,7 @@ export default function LoanProductTermsSection() {
     const portalTarget = document.createElement("div");
     portalTarget.className = TERMS_PORTAL_CLASS;
 
-    const ensurePosition = () => {
+    const syncPositionAndVisibility = () => {
       const card = findFormCard();
       const actionButtons = card ? findActionButtons(card) : null;
 
@@ -85,7 +109,7 @@ export default function LoanProductTermsSection() {
         attempts += 1;
 
         if (attempts < 30) {
-          retryId = window.setTimeout(ensurePosition, 100);
+          retryId = window.setTimeout(syncPositionAndVisibility, 100);
         }
 
         return;
@@ -94,9 +118,7 @@ export default function LoanProductTermsSection() {
       const autodebetTarget = card.querySelector<HTMLElement>(
         `.${AUTODEBET_PORTAL_CLASS}`,
       );
-      const placementAnchor = autodebetTarget
-        ? autodebetTarget.nextSibling
-        : actionButtons;
+      const placementAnchor = actionButtons;
 
       if (
         portalTarget.parentElement !== card ||
@@ -106,27 +128,29 @@ export default function LoanProductTermsSection() {
       }
 
       setTarget(portalTarget);
+      setInstallmentTableEnabled(hasInstallmentTableEnabled(card));
 
       if (!observer) {
-        observer = new MutationObserver(ensurePosition);
+        observer = new MutationObserver(syncPositionAndVisibility);
         observer.observe(card, {
           childList: true,
-          subtree: false,
+          subtree: true,
         });
       }
     };
 
-    ensurePosition();
+    syncPositionAndVisibility();
 
     return () => {
       window.clearTimeout(retryId);
       observer?.disconnect();
       portalTarget.remove();
       setTarget(null);
+      setInstallmentTableEnabled(false);
     };
   }, [location.pathname]);
 
-  if (!target) return null;
+  if (!target || !installmentTableEnabled) return null;
 
   return createPortal(
     <section className="loan-product-terms-section">

@@ -6,23 +6,3 @@
 .loan-product-payment-link-portal-target {
   display: none !important;
 }
-
-/*
-  Proses Autodebet dan Ketentuan Produk Pinjaman hanya relevan saat
-  "Tagihan Angsuran Menggunakan Tabel Angsuran" aktif.
-
-  Radio skema tagihan (id="mode-*") hanya dirender saat toggle aktif,
-  sehingga selector ini membuat kedua section muncul dan hilang otomatis
-  tanpa mengubah urutan section yang sudah dijaga oleh portal.
-*/
-.loan-product-autodebet-schedule-section,
-.loan-product-terms-section {
-  display: none !important;
-}
-
-.rounded-3xl:has(input[id^="mode-"]) .loan-product-autodebet-schedule-section,
-.rounded-3xl:has(input[id^="mode-"]) .loan-product-terms-section,
-.rounded-\[5px\]:has(input[id^="mode-"]) .loan-product-autodebet-schedule-section,
-.rounded-\[5px\]:has(input[id^="mode-"]) .loan-product-terms-section {
-  display: block !important;
-}

@@ -19,15 +19,15 @@ function isConsolidationLoanProductPath(pathname: string, search: string) {
     pathname.startsWith("/sak-ep-cabang/loan-products") &&
     !pathname.startsWith("/sak-ep-cabang/loan-products/cabang");
 
-  const isBranchForm = new URLSearchParams(search).get("from") === "cabang";
-
-  return (isMainLoanProduct || isSakLoanProduct) && !isBranchForm;
+  return (
+    (isMainLoanProduct || isSakLoanProduct) &&
+    new URLSearchParams(search).get("from") !== "cabang"
+  );
 }
 
 function findLoanProductFormCard() {
-  const elements = Array.from(document.querySelectorAll<HTMLElement>("div"));
-
-  const scheduleHeading = elements.find(
+  const headings = Array.from(document.querySelectorAll<HTMLElement>("div"));
+  const scheduleHeading = headings.find(
     (element) =>
       element.textContent?.trim() === "Konfigurasi Tagihan Angsuran",
   );
@@ -60,14 +60,21 @@ function findActionButtons(card: HTMLElement) {
   });
 }
 
+function hasInstallmentTableEnabled(card: HTMLElement) {
+  return Boolean(card.querySelector('input[id^="mode-"]'));
+}
+
 export default function LoanProductAutodebetScheduleSection() {
   const location = useLocation();
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
+  const [installmentTableEnabled, setInstallmentTableEnabled] =
+    React.useState(false);
   const [autodebetEnabled, setAutodebetEnabled] = React.useState(false);
 
   React.useEffect(() => {
     if (!isConsolidationLoanProductPath(location.pathname, location.search)) {
       setTarget(null);
+      setInstallmentTableEnabled(false);
       return;
     }
 
@@ -77,7 +84,7 @@ export default function LoanProductAutodebetScheduleSection() {
     const portalTarget = document.createElement("div");
     portalTarget.className = AUTODEBET_PORTAL_CLASS;
 
-    const ensurePosition = () => {
+    const syncPositionAndVisibility = () => {
       const formCard = findLoanProductFormCard();
       const actionButtons = formCard ? findActionButtons(formCard) : null;
 
@@ -85,7 +92,7 @@ export default function LoanProductAutodebetScheduleSection() {
         attempts += 1;
 
         if (attempts < 30) {
-          retryId = window.setTimeout(ensurePosition, 100);
+          retryId = window.setTimeout(syncPositionAndVisibility, 100);
         }
 
         return;
@@ -104,27 +111,29 @@ export default function LoanProductAutodebetScheduleSection() {
       }
 
       setTarget(portalTarget);
+      setInstallmentTableEnabled(hasInstallmentTableEnabled(formCard));
 
       if (!observer) {
-        observer = new MutationObserver(ensurePosition);
+        observer = new MutationObserver(syncPositionAndVisibility);
         observer.observe(formCard, {
           childList: true,
-          subtree: false,
+          subtree: true,
         });
       }
     };
 
-    ensurePosition();
+    syncPositionAndVisibility();
 
     return () => {
       window.clearTimeout(retryId);
       observer?.disconnect();
       portalTarget.remove();
       setTarget(null);
+      setInstallmentTableEnabled(false);
     };
   }, [location.pathname, location.search]);
 
-  if (!target) return null;
+  if (!target || !installmentTableEnabled) return null;
 
   return createPortal(
     <section className="loan-product-autodebet-schedule-section">
