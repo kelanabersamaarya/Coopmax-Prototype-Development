@@ -46,11 +46,11 @@ function getLoanChangeDisplay(customerName = ""): LoanChangeDisplay {
 }
 
 function LoanChangeInfo({
-  loanChange,
   anchor,
+  loanChange,
 }: {
-  loanChange: LoanChangeDisplay;
   anchor: HTMLDivElement | null;
+  loanChange: LoanChangeDisplay;
 }) {
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
 
@@ -60,18 +60,23 @@ function LoanChangeInfo({
     let portalTarget: HTMLDivElement | null = null;
     let observer: MutationObserver | null = null;
 
-    const findTarget = () => {
-      const tableSection = anchor.parentElement?.nextElementSibling;
+    const createTarget = () => {
+      if (portalTarget) return true;
+
+      const tableSection = anchor.nextElementSibling;
+      if (!(tableSection instanceof HTMLElement)) return false;
+
       const heading = Array.from(
-        tableSection?.querySelectorAll<HTMLElement>("div") ?? [],
+        tableSection.querySelectorAll<HTMLElement>("div"),
       ).find(
         (element) =>
           element.textContent?.trim() === "INFORMASI TAGIHAN DAN DENDA",
       );
 
       const divider = heading?.nextElementSibling;
-
-      if (!divider?.parentElement) return false;
+      if (!(divider instanceof HTMLElement) || !divider.parentElement) {
+        return false;
+      }
 
       portalTarget = document.createElement("div");
       portalTarget.className = "loan-change-info-target";
@@ -81,10 +86,9 @@ function LoanChangeInfo({
       return true;
     };
 
-    if (!findTarget()) {
+    if (!createTarget()) {
       observer = new MutationObserver(() => {
-        if (!findTarget()) return;
-        observer?.disconnect();
+        if (createTarget()) observer?.disconnect();
       });
 
       observer.observe(anchor.parentElement ?? anchor, {
@@ -96,6 +100,7 @@ function LoanChangeInfo({
     return () => {
       observer?.disconnect();
       portalTarget?.remove();
+      setTarget(null);
     };
   }, [anchor]);
 
@@ -190,7 +195,7 @@ export default function SectionHighlightWide({
   tenorTooltip?: string;
   customerName?: string;
 }) {
-  const anchorRef = React.useRef<HTMLDivElement | null>(null);
+  const [anchor, setAnchor] = React.useState<HTMLDivElement | null>(null);
   const showLoanChangeInfo = title === "Tagihan dan Pembayaran Angsuran";
 
   const loanChange = React.useMemo(() => {
@@ -205,14 +210,14 @@ export default function SectionHighlightWide({
   }, [customerName, tenorTooltip]);
 
   return (
-    <div ref={anchorRef} className={cn("w-full", className)}>
+    <div ref={setAnchor} className={cn("w-full", className)}>
       <div className="w-full text-center text-[14px] font-semibold tracking-tight text-slate-900">
         {title}
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
       {showLoanChangeInfo ? (
-        <LoanChangeInfo loanChange={loanChange} anchor={anchorRef.current} />
+        <LoanChangeInfo anchor={anchor} loanChange={loanChange} />
       ) : null}
     </div>
   );
