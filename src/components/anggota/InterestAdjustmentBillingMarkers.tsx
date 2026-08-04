@@ -182,6 +182,14 @@ function syncMarkers(accountNo: string) {
   });
 }
 
+function isTooltipNode(node: Node) {
+  return (
+    node instanceof HTMLElement &&
+    (node.classList.contains(PORTAL_TOOLTIP_CLASS) ||
+      node.closest(`.${PORTAL_TOOLTIP_CLASS}`) !== null)
+  );
+}
+
 function isMarkerOnlyMutation(mutations: MutationRecord[]) {
   return mutations.every((mutation) => {
     const nodes = [
@@ -193,9 +201,10 @@ function isMarkerOnlyMutation(mutations: MutationRecord[]) {
       nodes.length > 0 &&
       nodes.every(
         (node) =>
-          node instanceof HTMLElement &&
-          (node.classList.contains(ADJUSTMENT_MARKER_CLASS) ||
-            node.closest(`.${ADJUSTMENT_MARKER_CLASS}`)),
+          isTooltipNode(node) ||
+          (node instanceof HTMLElement &&
+            (node.classList.contains(ADJUSTMENT_MARKER_CLASS) ||
+              node.closest(`.${ADJUSTMENT_MARKER_CLASS}`) !== null)),
       )
     );
   });
