@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 import {
   ExternalLink,
-  Info,
   List,
   SquarePen,
 } from "lucide-react";
@@ -66,48 +65,14 @@ function SectionHeader({ children }: { children: ReactNode }) {
   );
 }
 
-function TransactionDateValue({
-  date,
-  isLoan,
-}: {
-  date: string;
-  isLoan: boolean;
-}) {
-  return (
-    <span className="inline-flex items-center gap-2">
-      {date}
-      {isLoan ? (
-        <Tooltip delayDuration={150}>
-          <TooltipTrigger asChild>
-            <button
-              type="button"
-              className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/30 transition hover:bg-white/30"
-              aria-label="Informasi tanggal autodebet"
-              title="Informasi"
-            >
-              <Info className="h-3.5 w-3.5" strokeWidth={2.8} />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent className="max-w-[300px] rounded-[8px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium leading-relaxed text-slate-700 shadow-xl">
-            Autodebet pinjaman dilakukan otomatis di akhir bulan, yaitu antara
-            tanggal 28, 29, 30, 31 sesuai tanggal terakhir pada bulan berjalan.
-          </TooltipContent>
-        </Tooltip>
-      ) : null}
-    </span>
-  );
-}
-
 function ScheduleInfoCard({
   transactionDate,
   nextTransactionDate,
   description,
-  isLoan,
 }: {
   transactionDate: string;
   nextTransactionDate: string;
   description: string;
-  isLoan: boolean;
 }) {
   return (
     <div className="mt-5 rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10">
@@ -121,7 +86,7 @@ function ScheduleInfoCard({
             Tanggal Dilakukan Transaksi
           </div>
           <div className="mt-1 text-[13px] font-bold">
-            <TransactionDateValue date={transactionDate} isLoan={isLoan} />
+            Setiap tanggal {transactionDate}
           </div>
         </div>
 
@@ -268,7 +233,7 @@ export default function AutodebetScheduleDetail({
   const [targetAccountNo, targetCustomerName = "-"] = schedule.accountNo.split(" - ");
   const isLoan = schedule.product === "Produk Pinjaman";
   const transactionDate = isLoan
-    ? schedule.date.replace("Tanggal tersedia:", "").trim()
+    ? "25"
     : schedule.date.replace("Setiap tanggal ", "").trim();
 
   const targetAccount = {
@@ -316,7 +281,6 @@ export default function AutodebetScheduleDetail({
               transactionDate={transactionDate}
               nextTransactionDate={NEXT_TRANSACTION_DATE}
               description={schedule.description}
-              isLoan={isLoan}
             />
           </section>
 
