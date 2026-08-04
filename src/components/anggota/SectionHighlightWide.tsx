@@ -16,7 +16,8 @@ const defaultTenorTooltip =
 const nyomanTenorTooltip =
   "Terdapat pembaruan tenor pinjaman dari 12 bulan menjadi 14 bulan";
 
-const komangTenorTooltip = "April 2027 -> April 2028";
+const komangTenorTooltip =
+  "Terdapat penyesuaian jatuh tempo akhir dari awalnya April 2027 menjadi April 2028";
 
 type LoanChangeDisplay = {
   value: string;
