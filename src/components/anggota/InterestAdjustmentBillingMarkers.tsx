@@ -35,22 +35,20 @@ function getTooltipContent(entry: LoanInterestAdjustmentHistoryEntry) {
   return `
     <strong>Penyesuaian Nominal Bunga</strong>
     ${tooltipRow("Metode Penyesuaian", entry.adjustmentType)}
-    ${tooltipRow("Nominal Bunga Sebelum", entry.interestBefore)}
     ${tooltipRow("Nominal Penyesuaian", entry.adjustmentAmount)}
-    ${tooltipRow("Nominal Bunga Setelah", entry.interestAfter)}
     ${tooltipRow("Alasan Penyesuaian", entry.reason || "-")}
     ${tooltipRow("Disesuaikan Oleh", "Arya Dharma")}
+    ${tooltipRow("Nominal Bunga Setelah Penyesuaian", entry.interestAfter)}
   `;
 }
 
 function getAriaLabel(entry: LoanInterestAdjustmentHistoryEntry) {
   return [
     `Metode Penyesuaian: ${entry.adjustmentType}`,
-    `Nominal Bunga Sebelum: ${entry.interestBefore}`,
     `Nominal Penyesuaian: ${entry.adjustmentAmount}`,
-    `Nominal Bunga Setelah: ${entry.interestAfter}`,
     `Alasan Penyesuaian: ${entry.reason || "-"}`,
     "Disesuaikan Oleh: Arya Dharma",
+    `Nominal Bunga Setelah Penyesuaian: ${entry.interestAfter}`,
   ].join("\n");
 }
 
