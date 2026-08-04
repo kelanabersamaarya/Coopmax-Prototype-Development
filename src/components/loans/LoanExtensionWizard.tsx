@@ -30,6 +30,9 @@ const OLD_TENOR = 12;
 const REMAINING_PRINCIPAL = 10_553_571;
 const MONTHLY_INTEREST = 120_000;
 const OLD_DUE_DATE = "07-04-2027";
+const extensionYears = Array.from({ length: 16 }, (_, index) =>
+  String(2026 + index),
+);
 
 const accountDetails = [
   ["No. Rek. Pinjaman", "SMG260004"],
@@ -292,7 +295,7 @@ export default function LoanExtensionWizard({
         : method === "Jatuh Tempo Akhir Baru"
           ? parsedDueMonth >= 1 &&
             parsedDueMonth <= 12 &&
-            parsedDueYear >= oldDueDate.getFullYear()
+            parsedDueYear >= 2026
           : false;
 
   const isValid =
@@ -319,7 +322,7 @@ export default function LoanExtensionWizard({
       method === "Jatuh Tempo Akhir Baru" &&
       parsedDueMonth >= 1 &&
       parsedDueMonth <= 12 &&
-      parsedDueYear >= oldDueDate.getFullYear()
+      parsedDueYear >= 2026
     ) {
       dueDate = new Date(parsedDueYear, parsedDueMonth - 1, oldDueDate.getDate());
       if (dueDate.getMonth() !== parsedDueMonth - 1) dueDate.setDate(0);
@@ -584,17 +587,19 @@ export default function LoanExtensionWizard({
                             placeholder="Bulan (01-12)"
                             className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                           />
-                          <Input
-                            value={dueYear}
-                            onChange={(event) =>
-                              setDueYear(
-                                event.target.value.replace(/[^\d]/g, "").slice(0, 4),
-                              )
-                            }
-                            inputMode="numeric"
-                            placeholder="Tahun"
-                            className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
-                          />
+
+                          <Select value={dueYear} onValueChange={setDueYear}>
+                            <SelectTrigger className="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0">
+                              <SelectValue placeholder="Pilih Tahun" />
+                            </SelectTrigger>
+                            <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
+                              {extensionYears.map((year) => (
+                                <SelectItem key={year} value={year}>
+                                  {year}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
                       </FieldRow>
                     ) : null}
