@@ -74,7 +74,7 @@
   position: absolute;
   left: calc(210px + 0.5rem);
   right: 0;
-  top: -18px;
+  top: -29px;
   color: #64748b;
   font-size: 12px;
   font-weight: 400;
@@ -110,5 +110,6 @@
     > div:has(input[placeholder="Masukkan tenor baru"])
     + div::before {
     left: 0;
+    top: -29px;
   }
 }
