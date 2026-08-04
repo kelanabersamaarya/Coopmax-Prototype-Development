@@ -205,12 +205,11 @@ export default function InterestAdjustmentBillingMarkers({
       {`
         .has-billing-interest-adjustment {
           position: relative !important;
-          padding-right: 42px !important;
         }
 
         .billing-interest-adjustment-marker {
           position: absolute;
-          right: 12px;
+          right: -12px;
           top: 50%;
           z-index: 20;
           display: inline-flex;
