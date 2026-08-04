@@ -116,9 +116,9 @@ function findInterestCell(dueDate: string) {
     return dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null;
   }
 
-  const dateCell = Array.from(document.querySelectorAll<HTMLTableCellElement>("td")).find(
-    (cell) => cell.textContent?.trim() === dueDate,
-  );
+  const dateCell = Array.from(
+    document.querySelectorAll<HTMLTableCellElement>("td"),
+  ).find((cell) => cell.textContent?.trim() === dueDate);
 
   if (!dateCell) return null;
 
@@ -154,7 +154,6 @@ function syncMarkers(accountNo: string) {
     marker.type = "button";
     marker.className = markerClass;
     marker.setAttribute("aria-label", "Lihat detail penyesuaian bunga");
-
     marker.innerHTML = '<span aria-hidden="true">i</span>';
 
     marker.addEventListener("mouseenter", () => showTooltip(marker, entry));
@@ -164,6 +163,27 @@ function syncMarkers(accountNo: string) {
     marker.addEventListener("click", () => showTooltip(marker, entry));
 
     interestCell.appendChild(marker);
+  });
+}
+
+function isMarkerOrTooltipNode(node: Node) {
+  if (!(node instanceof HTMLElement)) return true;
+
+  return (
+    node.classList.contains(markerClass) ||
+    node.classList.contains(tooltipClass) ||
+    Boolean(node.closest(`.${markerClass}, .${tooltipClass}`))
+  );
+}
+
+function onlyMarkerOrTooltipMutations(mutations: MutationRecord[]) {
+  return mutations.every((mutation) => {
+    const nodes = [
+      ...Array.from(mutation.addedNodes),
+      ...Array.from(mutation.removedNodes),
+    ];
+
+    return nodes.length > 0 && nodes.every(isMarkerOrTooltipNode);
   });
 }
 
@@ -180,7 +200,10 @@ export default function InterestAdjustmentBillingMarkers({
       timeoutId = window.setTimeout(() => syncMarkers(accountNo), 80);
     };
 
-    const observer = new MutationObserver(scheduleSync);
+    const observer = new MutationObserver((mutations) => {
+      if (onlyMarkerOrTooltipMutations(mutations)) return;
+      scheduleSync();
+    });
 
     syncMarkers(accountNo);
 
