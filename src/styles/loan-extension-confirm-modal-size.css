@@ -3,17 +3,30 @@
   max-width: 536px !important;
   height: 295px !important;
   min-height: 295px !important;
+  border-radius: 5px !important;
 }
 
 [data-loan-extension-confirm-dialog="true"] > div {
   box-sizing: border-box !important;
   height: 295px !important;
   min-height: 295px !important;
+  padding: 42px 24px 20px !important;
 }
 
-/* Menyesuaikan copy dan ukuran heading konfirmasi sesuai desain. */
+/* Ikon peringatan */
+[data-loan-extension-confirm-dialog="true"] > div > div:first-child {
+  width: 94px !important;
+  height: 94px !important;
+  border-width: 4px !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] > div > div:first-child > span {
+  font-size: 54px !important;
+}
+
+/* Judul konfirmasi */
 [data-loan-extension-confirm-dialog="true"] h2 {
-  margin: 16px 0 0 !important;
+  margin: 28px 0 0 !important;
   color: transparent !important;
   font-size: 0 !important;
   line-height: 1 !important;
@@ -27,4 +40,36 @@
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.03em;
+}
+
+/* Tombol aksi */
+[data-loan-extension-confirm-dialog="true"] h2 + div {
+  margin-top: 30px !important;
+  gap: 4px !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] h2 + div > button {
+  height: 52px !important;
+  border-radius: 5px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] h2 + div > button:first-child {
+  width: 112px !important;
+  background-color: #3380e8 !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] h2 + div > button:last-child {
+  width: 132px !important;
+  background-color: #a6a6a6 !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] h2 + div > button:first-child:hover {
+  background-color: #266ed0 !important;
+}
+
+[data-loan-extension-confirm-dialog="true"] h2 + div > button:last-child:hover {
+  background-color: #969696 !important;
 }
