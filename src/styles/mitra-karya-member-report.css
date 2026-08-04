@@ -1,0 +1,99 @@
+.mitra-karya-member-report {
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.mitra-karya-member-report .safe-x-scroll {
+  overflow-x: auto;
+}
+
+.mitra-karya-member-report table {
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.mitra-karya-member-report thead {
+  background: #ffffff;
+}
+
+.mitra-karya-member-report th {
+  border-bottom: 1px solid #cbd5e1;
+  padding: 10px 6px;
+  color: #002060;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.05;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  white-space: normal;
+}
+
+.mitra-karya-member-report th:nth-child(8),
+.mitra-karya-member-report th:nth-child(9),
+.mitra-karya-member-report th:nth-child(10),
+.mitra-karya-member-report th:nth-child(11),
+.mitra-karya-member-report th:nth-child(12) {
+  text-align: right;
+}
+
+.mitra-karya-member-report td {
+  border-bottom: 1px solid #cbd5e1;
+  padding: 7px 6px;
+  color: #002060;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.08;
+  vertical-align: middle;
+}
+
+.mitra-karya-member-report tbody tr {
+  background: #ffffff !important;
+}
+
+.mitra-karya-member-report tbody tr:hover {
+  background: #f8fafc !important;
+}
+
+.mitra-karya-member-report td:nth-child(1),
+.mitra-karya-member-report td:nth-child(2),
+.mitra-karya-member-report td:nth-child(4),
+.mitra-karya-member-report td:nth-child(6),
+.mitra-karya-member-report td:nth-child(7) {
+  white-space: nowrap;
+}
+
+.mitra-karya-member-report td:nth-child(3),
+.mitra-karya-member-report td:nth-child(5) {
+  max-width: 155px;
+  white-space: normal;
+}
+
+.mitra-karya-member-report td:nth-child(8),
+.mitra-karya-member-report td:nth-child(9),
+.mitra-karya-member-report td:nth-child(10),
+.mitra-karya-member-report td:nth-child(11),
+.mitra-karya-member-report td:nth-child(12) {
+  color: #002060;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.mitra-karya-member-report td:nth-child(12) {
+  font-weight: 400;
+}
+
+.mitra-karya-member-report td:nth-child(13) span {
+  border-radius: 3px;
+  background: #27ae00;
+  padding: 4px 7px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}

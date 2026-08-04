@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import "../styles/mitra-karya-member-report.css";
 
 type Member = {
   id: string;
@@ -38,51 +39,99 @@ type Member = {
 
 const members: Member[] = [
   {
-    id: "MKM-001",
-    name: "I Made Suryana",
-    phone: "081234567890",
+    id: "A2300001",
+    name: "Balian Uwais",
+    phone: "028 8478 394",
+    category: "Anggota",
+    status: "Aktif",
+    product: "Simpanan Anggota",
+    region: "Surabaya",
+    tag: "Prioritas",
+    joined: "14-03-2023",
+    address: "Surabaya",
+    simpananPokok: 0,
+    simpananWajib: 0,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+  },
+  {
+    id: "A2300002",
+    name: "Jatmiko Wacana",
+    phone: "028 4560 3652",
+    category: "Anggota",
+    status: "Aktif",
+    product: "Simpanan Anggota",
+    region: "Surabaya",
+    tag: "Reguler",
+    joined: "28-03-2023",
+    address: "Jl Raya Sibang",
+    simpananPokok: 0,
+    simpananWajib: 0,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+  },
+  {
+    id: "A2300003",
+    name: "Laksana Hidayanto",
+    phone: "0478 5431 649",
+    category: "Anggota",
+    status: "Aktif",
+    product: "Simpanan Berjangka",
+    region: "Denpasar",
+    tag: "Prioritas",
+    joined: "20-04-2023",
+    address: "Denpasar",
+    simpananPokok: 1500000,
+    simpananWajib: 50000,
+    simpananKhusus: 0,
+    simpananPenyertaan: 50000000,
+  },
+  {
+    id: "A2300004",
+    name: "Zulaikha Mulyani",
+    phone: "0837 6686 458",
+    category: "Anggota",
+    status: "Aktif",
+    product: "Simpanan Anggota",
+    region: "Gianyar",
+    tag: "Reguler",
+    joined: "21-04-2023",
+    address: "Jln Wijaya Kusuma, No 11A",
+    simpananPokok: 1500000,
+    simpananWajib: 50000,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+  },
+  {
+    id: "A2300005",
+    name: "Nasrullah Banafi Mustofa M.M",
+    phone: "(+62) 800 773 744",
     category: "Anggota",
     status: "Aktif",
     product: "Simpanan Anggota",
     region: "Denpasar",
-    tag: "Prioritas",
-    joined: "10-01-2024",
-    address: "Jl. Raya Denpasar No. 24",
-    simpananPokok: 100000,
-    simpananWajib: 2500000,
-    simpananKhusus: 150000,
+    tag: "Reguler",
+    joined: "21-04-2023",
+    address: "Jln Wijaya Kusuma, No 11A",
+    simpananPokok: 1500000,
+    simpananWajib: 50000,
+    simpananKhusus: 0,
     simpananPenyertaan: 0,
   },
   {
-    id: "MKM-002",
-    name: "Ni Luh Kartika",
-    phone: "081987654321",
+    id: "A2300006",
+    name: "Ana Haryanti",
+    phone: "(+62) 539 3053 739",
     category: "Anggota",
     status: "Aktif",
-    product: "Simpanan Berjangka",
-    region: "Gianyar",
-    tag: "Reguler",
-    joined: "18-03-2024",
-    address: "Jl. Udayana No. 11, Gianyar",
-    simpananPokok: 100000,
-    simpananWajib: 1500000,
-    simpananKhusus: 400000,
-    simpananPenyertaan: 2500000,
-  },
-  {
-    id: "MKM-003",
-    name: "Komang Suardika",
-    phone: "082145678912",
-    category: "Calon Anggota",
-    status: "Nonaktif",
     product: "Simpanan Anggota",
-    region: "Badung",
+    region: "Denpasar",
     tag: "Baru",
-    joined: "04-06-2024",
-    address: "Jl. Dewi Sri No. 8, Badung",
-    simpananPokok: 100000,
-    simpananWajib: 500000,
-    simpananKhusus: 150000,
+    joined: "21-04-2023",
+    address: "Jln Raya Dalung Permai, No 2",
+    simpananPokok: 1500000,
+    simpananWajib: 50000,
+    simpananKhusus: 0,
     simpananPenyertaan: 0,
   },
 ];
@@ -485,78 +534,43 @@ export default function MitraKaryaLaporanAnggota() {
 
         {isSearched ? (
           <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
-            <div className="safe-x-scroll overflow-hidden rounded-xl border border-slate-200">
-              <table className="w-full min-w-[1780px] border-collapse text-sm">
-                <thead className="bg-slate-50 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
+            <div className="mitra-karya-member-report safe-x-scroll">
+              <table className="w-full min-w-[1220px] border-collapse">
+                <thead>
                   <tr>
-                    <th className="w-[56px] px-3 py-3">No.</th>
-                    <th className="w-[130px] px-3 py-3">No. Anggota</th>
-                    <th className="w-[180px] px-3 py-3">Nama</th>
-                    <th className="w-[130px] px-3 py-3">Tanggal Daftar</th>
-                    <th className="w-[240px] px-3 py-3">Alamat</th>
-                    <th className="w-[150px] px-3 py-3">No. Handphone</th>
-                    <th className="w-[130px] px-3 py-3">Kategori</th>
-                    <th className="w-[150px] px-3 py-3 text-right">
-                      Simpanan Pokok
-                    </th>
-                    <th className="w-[150px] px-3 py-3 text-right">
-                      Simpanan Wajib
-                    </th>
-                    <th className="w-[150px] px-3 py-3 text-right">
-                      Simpanan Khusus
-                    </th>
-                    <th className="w-[170px] px-3 py-3 text-right">
-                      Simpanan Penyertaan
-                    </th>
-                    <th className="w-[150px] px-3 py-3 text-right">
-                      Total Simpanan
-                    </th>
-                    <th className="w-[110px] px-3 py-3">Status</th>
+                    <th className="w-[56px]">No.</th>
+                    <th className="w-[100px]">No. Anggota</th>
+                    <th className="w-[125px]">Nama</th>
+                    <th className="w-[105px]">Tanggal Daftar</th>
+                    <th className="w-[150px]">Alamat</th>
+                    <th className="w-[125px]">No. Handphone</th>
+                    <th className="w-[90px]">Kategori</th>
+                    <th className="w-[110px]">Simpanan Pokok</th>
+                    <th className="w-[110px]">Simpanan Wajib</th>
+                    <th className="w-[110px]">Simpanan Khusus</th>
+                    <th className="w-[125px]">Simpanan Penyertaan</th>
+                    <th className="w-[115px]">Total Simpanan</th>
+                    <th className="w-[85px]">Status</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {filtered.map((member, index) => (
-                    <tr key={member.id} className="border-t border-slate-100">
-                      <td className="px-3 py-3 tabular-nums">{index + 1}</td>
-                      <td className="px-3 py-3 font-semibold text-violet-700">
-                        {member.id}
-                      </td>
-                      <td className="px-3 py-3 font-medium">{member.name}</td>
-                      <td className="px-3 py-3 tabular-nums whitespace-nowrap">
-                        {member.joined}
-                      </td>
-                      <td className="px-3 py-3">{member.address}</td>
-                      <td className="px-3 py-3 tabular-nums whitespace-nowrap">
-                        {member.phone}
-                      </td>
-                      <td className="px-3 py-3">{member.category}</td>
-                      <td className="px-3 py-3 text-right tabular-nums">
-                        {formatAmount(member.simpananPokok)}
-                      </td>
-                      <td className="px-3 py-3 text-right tabular-nums">
-                        {formatAmount(member.simpananWajib)}
-                      </td>
-                      <td className="px-3 py-3 text-right tabular-nums">
-                        {formatAmount(member.simpananKhusus)}
-                      </td>
-                      <td className="px-3 py-3 text-right tabular-nums">
-                        {formatAmount(member.simpananPenyertaan)}
-                      </td>
-                      <td className="px-3 py-3 text-right font-bold tabular-nums">
-                        {formatAmount(getTotalSavings(member))}
-                      </td>
-                      <td className="px-3 py-3">
-                        <span
-                          className={cn(
-                            "inline-flex rounded-full px-3 py-1 text-xs font-bold text-white",
-                            member.status === "Aktif"
-                              ? "bg-emerald-600"
-                              : "bg-slate-500",
-                          )}
-                        >
-                          {member.status}
-                        </span>
+                    <tr key={member.id}>
+                      <td>{index + 1}</td>
+                      <td>{member.id}</td>
+                      <td>{member.name}</td>
+                      <td>{member.joined}</td>
+                      <td>{member.address}</td>
+                      <td>{member.phone}</td>
+                      <td>{member.category}</td>
+                      <td>{formatAmount(member.simpananPokok)}</td>
+                      <td>{formatAmount(member.simpananWajib)}</td>
+                      <td>{formatAmount(member.simpananKhusus)}</td>
+                      <td>{formatAmount(member.simpananPenyertaan)}</td>
+                      <td>{formatAmount(getTotalSavings(member))}</td>
+                      <td>
+                        <span>{member.category}</span>
                       </td>
                     </tr>
                   ))}
