@@ -1,51 +1,26 @@
-[data-radix-dialog-content].h-\[365px\] {
+[data-loan-extension-confirm-dialog="true"] {
   width: min(580px, calc(100vw - 1.5rem)) !important;
   max-width: 580px !important;
   height: 300px !important;
   min-height: 300px !important;
-  padding: 0 !important;
 }
 
-[data-radix-dialog-content].h-\[365px\] > div {
+[data-loan-extension-confirm-dialog="true"] > div {
+  box-sizing: border-box !important;
   height: 300px !important;
   min-height: 300px !important;
-  padding: 24px 32px 18px !important;
-  justify-content: flex-start !important;
 }
 
-[data-radix-dialog-content].h-\[365px\] > div > div:first-child {
-  height: 74px !important;
-  width: 74px !important;
-  border-width: 3px !important;
+/* Hanya selector khusus ini yang mengatur modal konfirmasi perpanjangan.
+   Hindari selector generik agar tidak berbenturan dengan modal lain. */
+[data-loan-extension-confirm-dialog="true"] h2 {
+  margin: 16px 0 0 !important;
 }
 
-[data-radix-dialog-content].h-\[365px\] > div > div:first-child > span {
-  font-size: 42px !important;
-}
-
-[data-radix-dialog-content].h-\[365px\] h2 {
-  margin-top: 16px !important;
-  font-size: 23px !important;
-  line-height: 1.2 !important;
-}
-
-[data-radix-dialog-content].h-\[365px\] h2 + div {
-  position: static !important;
-  width: auto !important;
-  margin: 18px 0 0 !important;
-  padding: 0 !important;
-  transform: none !important;
-}
-
-[data-radix-dialog-content].h-\[365px\] h2 + div button {
-  height: 42px !important;
-  font-size: 14px !important;
-}
-
-[data-radix-dialog-content].h-\[365px\] h2 + div button:first-child {
-  width: 100px !important;
-}
-
-[data-radix-dialog-content].h-\[365px\] h2 + div button:last-child {
-  width: 118px !important;
+@media (max-width: 639px) {
+  [data-loan-extension-confirm-dialog="true"],
+  [data-loan-extension-confirm-dialog="true"] > div {
+    height: auto !important;
+    min-height: 0 !important;
+  }
 }

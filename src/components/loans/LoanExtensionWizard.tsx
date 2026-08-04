@@ -186,35 +186,36 @@ function ConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
       <DialogContent
+        data-loan-extension-confirm-dialog="true"
         className={cn(
-          "h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
+          "h-[300px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
           "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
-        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
-          <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[58px] font-light leading-none text-[#f2b98f]">!</span>
+        <div className="flex h-full flex-col items-center px-8 pb-[18px] pt-[26px] text-center">
+          <div className="grid h-[74px] w-[74px] place-items-center rounded-full border-[3px] border-[#f7c8a6]">
+            <span className="text-[42px] font-light leading-none text-[#f2b98f]">!</span>
           </div>
 
-          <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
+          <h2 className="mt-[16px] text-[23px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
             Yakin untuk melakukan perubahan?
           </h2>
 
-          <div className="mt-[34px] flex items-center justify-center gap-[9px]">
+          <div className="mt-[18px] flex items-center justify-center gap-[9px]">
             <button
               type="button"
               onClick={onConfirm}
-              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
+              className="h-[42px] w-[100px] rounded-[5px] bg-[#3380e8] text-[14px] font-semibold text-white transition hover:bg-[#266ed0]"
             >
               Yes
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
+              className="h-[42px] w-[118px] rounded-[5px] bg-[#a6a6a6] text-[14px] font-semibold text-white transition hover:bg-[#969696]"
             >
               Cancel
             </button>
