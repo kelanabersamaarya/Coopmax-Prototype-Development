@@ -1,13 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react-dom";
+import { createPortal } from "react";
 
 const markerClass = "billing-interest-adjustment-marker";
 const markedCellClass = "has-billing-interest-adjustment";
 
 type TooltipState = {
-  dueDate: string;
   rect: DOMRect;
 };
 
@@ -45,17 +44,12 @@ function findInterestCells() {
       const dateIndex = dueDateCell ? cells.indexOf(dueDateCell) : -1;
 
       return {
-        dueDate: dueDateCell?.textContent?.trim() ?? "",
         interestCell: dateIndex >= 0 ? cells[dateIndex + 3] ?? null : null,
       };
     })
     .filter(
-      (
-        item,
-      ): item is {
-        dueDate: string;
-        interestCell: HTMLElement;
-      } => Boolean(item.dueDate && item.interestCell),
+      (item): item is { interestCell: HTMLElement } =>
+        Boolean(item.interestCell),
     );
 }
 
@@ -93,7 +87,7 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
     Math.max(padding, state.rect.left + state.rect.width / 2 - width / 2),
     window.innerWidth - width - padding,
   );
-  const top = state.rect.top > 250 ? state.rect.top - 245 : state.rect.bottom + 8;
+  const top = state.rect.top > 250 ? state.rect.top - 215 : state.rect.bottom + 8;
 
   return createPortal(
     <aside
@@ -107,7 +101,6 @@ function AdjustmentTooltip({ state }: { state: TooltipState }) {
       </div>
 
       <div className="grid gap-3">
-        <TooltipRow label="Jatuh Tempo" value={state.dueDate} />
         <TooltipRow
           label="Metode Penyesuaian"
           value={staticAdjustmentInfo.method}
@@ -145,35 +138,33 @@ export default function InterestAdjustmentBillingMarkers() {
     let timeoutId = 0;
     let observer: MutationObserver | null = null;
 
-    const syncMarkers = () => {
-      const interestCells = findInterestCells();
+    const syncMarker = () => {
+      const firstInterestCell = findInterestCells()[0];
 
-      if (interestCells.length === 0) return;
+      if (!firstInterestCell) return;
 
       clearMarkers();
 
-      interestCells.forEach(({ dueDate, interestCell }) => {
-        interestCell.classList.add(markedCellClass);
+      const { interestCell } = firstInterestCell;
+      interestCell.classList.add(markedCellClass);
 
-        const marker = document.createElement("button");
-        marker.type = "button";
-        marker.className = markerClass;
-        marker.setAttribute("aria-label", "Lihat informasi penyesuaian bunga");
-        marker.innerHTML = '<span aria-hidden="true">i</span>';
+      const marker = document.createElement("button");
+      marker.type = "button";
+      marker.className = markerClass;
+      marker.setAttribute("aria-label", "Lihat informasi penyesuaian bunga");
+      marker.innerHTML = '<span aria-hidden="true">i</span>';
 
-        const openTooltip = () => {
-          setTooltip({
-            dueDate,
-            rect: marker.getBoundingClientRect(),
-          });
-        };
+      const openTooltip = () => {
+        setTooltip({
+          rect: marker.getBoundingClientRect(),
+        });
+      };
 
-        marker.addEventListener("mouseenter", openTooltip);
-        marker.addEventListener("focus", openTooltip);
-        marker.addEventListener("click", openTooltip);
+      marker.addEventListener("mouseenter", openTooltip);
+      marker.addEventListener("focus", openTooltip);
+      marker.addEventListener("click", openTooltip);
 
-        interestCell.appendChild(marker);
-      });
+      interestCell.appendChild(marker);
 
       observer?.disconnect();
       observer = null;
@@ -181,7 +172,7 @@ export default function InterestAdjustmentBillingMarkers() {
 
     const scheduleSync = () => {
       window.clearTimeout(timeoutId);
-      timeoutId = window.setTimeout(syncMarkers, 100);
+      timeoutId = window.setTimeout(syncMarker, 100);
     };
 
     observer = new MutationObserver(scheduleSync);
@@ -202,6 +193,8 @@ export default function InterestAdjustmentBillingMarkers() {
   React.useEffect(() => {
     if (!tooltip) return;
 
+    const closeTooltip = () => setTooltip(null);
+
     const closeTooltipOnOutsideClick = (event: PointerEvent) => {
       const target = event.target as HTMLElement | null;
 
@@ -212,19 +205,17 @@ export default function InterestAdjustmentBillingMarkers() {
         return;
       }
 
-      setTooltip(null);
+      closeTooltip();
     };
 
-    const closeTooltipOnResize = () => setTooltip(null);
-
     document.addEventListener("pointerdown", closeTooltipOnOutsideClick);
-    window.addEventListener("resize", closeTooltipOnResize);
-    window.addEventListener("scroll", closeTooltipOnResize, true);
+    window.addEventListener("resize", closeTooltip);
+    window.addEventListener("scroll", closeTooltip, true);
 
     return () => {
       document.removeEventListener("pointerdown", closeTooltipOnOutsideClick);
-      window.removeEventListener("resize", closeTooltipOnResize);
-      window.removeEventListener("scroll", closeTooltipOnResize, true);
+      window.removeEventListener("resize", closeTooltip);
+      window.removeEventListener("scroll", closeTooltip, true);
     };
   }, [tooltip]);
 
