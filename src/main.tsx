@@ -64,6 +64,7 @@ import "./styles/loan-extension-account-info.css";
 import "./styles/loan-extension-payment-schedule.css";
 import "./styles/loan-extension-confirm-modal-size.css";
 import "./styles/loan-extension-save-button.css";
+import "./styles/loan-extension-total-tenor-default.css";
 import "./styles/loan-interest-form-title.css";
 import "./styles/loan-interest-status-badge.css";
 import "./styles/loan-debt-simulation-title.css";

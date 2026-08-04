@@ -1,0 +1,45 @@
+/* Perpanjangan Pinjaman:
+   Total Tenor Baru harus bernilai 0 saat Tenor Tambahan belum diisi.
+*/
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor tambahan"]:placeholder-shown)
+  + div
+  > div {
+  position: relative;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor tambahan"]:placeholder-shown)
+  + div
+  input {
+  color: transparent !important;
+  caret-color: transparent !important;
+}
+
+[data-loan-extension-wizard="true"]
+  main
+  > div.grid.gap-6
+  > section
+  > div.grid.gap-5
+  > div:has(input[placeholder="Masukkan tenor tambahan"]:placeholder-shown)
+  + div
+  > div::after {
+  content: "0";
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #334155;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  pointer-events: none;
+}
