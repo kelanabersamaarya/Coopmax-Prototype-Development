@@ -35,33 +35,51 @@
 }
 
 /*
-  Struktur wizard:
-  - Garis atas adalah border bawah header.
-  - Wadah step berada tepat di antara kedua garis.
-  - Garis bawah tetap memakai Separator bawaan sebelum informasi rekening.
+  Modal Ubah Suku Bunga:
+  header, wadah step, dan separator tetap memakai struktur standar.
 */
-[data-loan-interest-wizard="true"] > header,
-[data-loan-extension-wizard="true"] > header {
+[data-loan-interest-wizard="true"] > header {
   border-bottom: 1px solid rgb(226 232 240) !important;
 }
 
-[data-loan-interest-wizard="true"] > header + div,
-[data-loan-extension-wizard="true"] > header + div {
+[data-loan-interest-wizard="true"] > header + div {
   box-sizing: border-box;
   margin: 0 !important;
   border: 0 !important;
 }
 
-/* Separator setelah step menjadi garis bawah area wizard. */
-[data-loan-interest-wizard="true"] > header + div + [data-slot="separator"],
-[data-loan-extension-wizard="true"] > header + div + [data-slot="separator"] {
+[data-loan-interest-wizard="true"] > header + div + [data-slot="separator"] {
   display: block !important;
   height: 1px !important;
   background-color: rgb(226 232 240) !important;
 }
 
-/* Jarak konten informasi rekening dari garis bawah step. */
-[data-loan-interest-wizard="true"] > main,
+[data-loan-interest-wizard="true"] > main {
+  padding-top: 1.5rem !important;
+}
+
+/*
+  Modal Perpanjangan Pinjaman:
+  garis menempel langsung pada container step, sehingga area step benar-benar
+  berada di antara garis atas dan garis bawah seperti yang diharapkan.
+*/
+[data-loan-extension-wizard="true"] > header {
+  border-bottom: 0 !important;
+}
+
+[data-loan-extension-wizard="true"] > header + div {
+  position: relative !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  border-top: 1px solid rgb(226 232 240) !important;
+  border-bottom: 1px solid rgb(226 232 240) !important;
+  background-color: #ffffff !important;
+}
+
+[data-loan-extension-wizard="true"] > header + div + [data-slot="separator"] {
+  display: none !important;
+}
+
 [data-loan-extension-wizard="true"] > main {
   padding-top: 1.5rem !important;
 }
