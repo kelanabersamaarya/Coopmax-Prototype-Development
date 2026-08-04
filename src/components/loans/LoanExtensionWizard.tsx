@@ -220,10 +220,13 @@ export default function LoanExtensionWizard({
 
   const dueMonthIndex = months.indexOf(dueMonth);
   const dueYearNumber = Number.parseInt(dueYear, 10);
+  const additionalTenorValue = Number.parseInt(additionalTenor, 10) || 0;
+  const totalTenorValue =
+    additionalTenorValue > 0 ? CURRENT_TENOR + additionalTenorValue : 0;
 
   const hasExtensionValue =
     method === "Tenor Tambahan"
-      ? Number.parseInt(additionalTenor, 10) > 0
+      ? additionalTenorValue > 0
       : method === "Tenor Baru"
         ? Number.parseInt(newTenor, 10) > 0
         : method === "Jatuh Tempo Akhir Baru"
@@ -241,9 +244,8 @@ export default function LoanExtensionWizard({
     let dueDate = CURRENT_DUE_DATE;
 
     if (method === "Tenor Tambahan") {
-      const monthsToAdd = Number.parseInt(additionalTenor, 10) || 0;
-      tenor = CURRENT_TENOR + monthsToAdd;
-      dueDate = addMonths(CURRENT_DUE_DATE, monthsToAdd);
+      tenor = CURRENT_TENOR + additionalTenorValue;
+      dueDate = addMonths(CURRENT_DUE_DATE, additionalTenorValue);
     }
 
     if (method === "Tenor Baru") {
@@ -301,7 +303,7 @@ export default function LoanExtensionWizard({
       dueDate: formatDmy(dueDate),
       rows,
     };
-  }, [additionalTenor, dueMonthIndex, dueYearNumber, method, newTenor]);
+  }, [additionalTenorValue, dueMonthIndex, dueYearNumber, method, newTenor]);
 
   const detailValue =
     method === "Tenor Tambahan"
@@ -412,9 +414,9 @@ export default function LoanExtensionWizard({
 
                     {method === "Tenor Tambahan" ? (
                       <>
-                        <ReadOnlyRow label="Tenor Saat Ini">
+                        <ReadOnlyRow label="Tenor Saat Ini (Bulan)">
                           <Input
-                            value={`${CURRENT_TENOR} Bulan`}
+                            value={String(CURRENT_TENOR)}
                             readOnly
                             aria-readonly="true"
                             className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
@@ -435,12 +437,9 @@ export default function LoanExtensionWizard({
                           />
                         </FieldRow>
 
-                        <ReadOnlyRow label="Total Tenor Baru">
+                        <ReadOnlyRow label="Total Tenor Baru (Bulan)">
                           <Input
-                            value={`${
-                              CURRENT_TENOR +
-                              (Number.parseInt(additionalTenor, 10) || 0)
-                            } Bulan`}
+                            value={String(totalTenorValue)}
                             readOnly
                             aria-readonly="true"
                             className="h-[31px] cursor-not-allowed rounded-[5px] border-[#CBD5E1] bg-slate-200/80 text-[14px] text-slate-700 shadow-none"
