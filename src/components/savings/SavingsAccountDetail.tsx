@@ -21,6 +21,7 @@ import AutodebetScheduleDialog, {
 import AutodebetDeleteConfirmDialog from "@/components/savings/AutodebetDeleteConfirmDialog";
 import AutodebetScheduleDetail from "@/components/savings/AutodebetScheduleDetail";
 import {
+  AUTODEBET_SCHEDULES_CHANGED_EVENT,
   getAutodebetSchedules,
   saveAutodebetSchedules,
 } from "@/lib/autodebetSchedulesStore";
@@ -104,10 +105,23 @@ export default function SavingsAccountDetail({
   );
 
   useEffect(() => {
-    setSchedules(getAutodebetSchedules(account.accountNo));
+    function syncSchedules() {
+      setSchedules(getAutodebetSchedules(account.accountNo));
+    }
+
+    syncSchedules();
     setEditingIndex(null);
     setViewingIndex(null);
     setDeletingIndex(null);
+
+    window.addEventListener(AUTODEBET_SCHEDULES_CHANGED_EVENT, syncSchedules);
+
+    return () => {
+      window.removeEventListener(
+        AUTODEBET_SCHEDULES_CHANGED_EVENT,
+        syncSchedules,
+      );
+    };
   }, [account.accountNo]);
 
   function updateSchedules(next: AutodebetSchedule[]) {
