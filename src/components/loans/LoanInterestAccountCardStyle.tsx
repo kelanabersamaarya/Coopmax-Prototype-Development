@@ -24,7 +24,14 @@ const accountFields: AccountField[] = [
   { label: "Periode Waktu", value: "12 Bulan" },
   { label: "Produk Pinjaman", value: "Pinjaman Billing" },
 
-  { label: "Bunga Per Tahun (%)", value: "12,00%" },
+  {
+    label: "Bunga Per Tahun (%)",
+    value: (
+      <span className="inline-flex rounded-[5px] bg-[#3BB001] px-2.5 py-1 text-white">
+        12,00%
+      </span>
+    ),
+  },
   { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
   {
     label: "Jumlah Pinjaman Diajukan",
