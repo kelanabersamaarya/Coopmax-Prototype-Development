@@ -159,6 +159,15 @@ section:has(.mitra-karya-member-report) {
 }
 
 .mitra-karya-member-report td:nth-child(2),
+.mitra-karya-member-report td:nth-child(3),
+.mitra-karya-member-report td:nth-child(5),
+.mitra-karya-member-report td:nth-child(6),
+.mitra-karya-member-report td:nth-child(7),
+.mitra-karya-member-report td:nth-child(13) {
+  vertical-align: middle !important;
+}
+
+.mitra-karya-member-report td:nth-child(2),
 .mitra-karya-member-report td:nth-child(4),
 .mitra-karya-member-report td:nth-child(6),
 .mitra-karya-member-report td:nth-child(7) {
