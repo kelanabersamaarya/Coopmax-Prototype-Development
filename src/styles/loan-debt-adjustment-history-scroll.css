@@ -15,7 +15,7 @@
   min-height: 0 !important;
   max-height: none !important;
   overflow-x: hidden !important;
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
   overscroll-behavior: contain !important;
   scrollbar-width: auto !important;
   -webkit-overflow-scrolling: touch !important;
@@ -33,8 +33,8 @@
   > section.relative.z-10.max-w-\[1180px\]
   > main.min-h-0
   .w-full.overflow-hidden.rounded-\[8px\].border {
-  min-width: 0 !important;
   width: 100% !important;
+  min-width: 0 !important;
 }
 
 .fixed.inset-0.z-\[100000\]
@@ -48,22 +48,119 @@
   overflow-y: hidden !important;
   overscroll-behavior-x: contain !important;
   -webkit-overflow-scrolling: touch !important;
-  scrollbar-width: auto !important;
 }
 
 .fixed.inset-0.z-\[100000\]
   > section.relative.z-10.max-w-\[1180px\]
   > main.min-h-0
-  table.w-\[1120px\] {
+  table.w-\[1220px\],
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] {
   display: table !important;
-  width: 1120px !important;
-  min-width: 1120px !important;
+  width: 1220px !important;
+  min-width: 1220px !important;
   max-width: none !important;
   table-layout: fixed !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1220px\] th,
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1220px\] td,
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] th,
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] td {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  white-space: normal !important;
+  vertical-align: top !important;
+  line-height: 1.35 !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1220px\] td:nth-child(1),
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] td:nth-child(1) {
+  white-space: nowrap !important;
+  font-weight: 600 !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1220px\] td:nth-child(3),
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1220px\] td:nth-child(5),
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1220px\] td:nth-child(6),
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] td:nth-child(3),
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] td:nth-child(5),
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.min-w-\[1220px\] td:nth-child(6) {
+  white-space: nowrap !important;
+  text-align: right !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  .loan-debt-adjustment-tooltip {
+  width: 320px !important;
+  max-width: min(320px, calc(100vw - 32px)) !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  .loan-debt-adjustment-tooltip div {
+  display: block !important;
+  margin-top: 8px !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  .loan-debt-adjustment-tooltip div:first-child {
+  margin-top: 0 !important;
 }
 
 @media (max-width: 640px) {
-  .fixed.inset-0.z-\[100000px\] > section.relative.z-10.max-w-\[1180px\] {
+  .fixed.inset-0.z-\[100000\] > section.relative.z-10.max-w-\[1180px\] {
     height: 92vh !important;
     max-height: 92vh !important;
   }
