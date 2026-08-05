@@ -17,6 +17,7 @@ import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdj
 import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
 import InterestAdjustmentBillingMarkers from "@/components/anggota/InterestAdjustmentBillingMarkers";
 import MemberReportFilterPlaceholderStyle from "@/components/mitra-karya/MemberReportFilterPlaceholderStyle";
+import MitraKaryaKtpPreviewModal from "@/components/mitra-karya/MitraKaryaKtpPreviewModal";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -48,6 +49,7 @@ export default function MobileAwareToaster() {
   return (
     <>
       <MemberReportFilterPlaceholderStyle />
+      <MitraKaryaKtpPreviewModal />
       <LoanInterestPercentInputFix />
       <LoanInterestChangeSuccessGate />
       <LoanInterestWizardCancelButton />
