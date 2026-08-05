@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import {
   getLoanInterestAdjustmentHistory,
   LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
@@ -83,38 +84,29 @@ function mapStoredRow(entry: LoanInterestAdjustmentHistoryEntry): HistoryRow {
   };
 }
 
-const columns = [
-  { key: "installment", label: "Angsuran", width: "150px" },
-  { key: "type", label: "Jenis Penyesuaian", width: "190px" },
-  { key: "amount", label: "Nominal Penyesuaian", width: "150px" },
-  { key: "reason", label: "Alasan Penyesuaian", width: "260px" },
-  { key: "interestBefore", label: "Bunga Sebelum", width: "165px" },
-  { key: "interestAfter", label: "Bunga Sesudah", width: "165px" },
-  { key: "changedBy", label: "Diubah Oleh", width: "150px" },
-  { key: "changedAt", label: "Tanggal & Waktu", width: "180px" },
-] as const;
-
 function HistoryTable({ rows }: { rows: HistoryRow[] }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-      <div className="safe-x-scroll w-full">
-        <table className="w-[1410px] min-w-[1410px] table-fixed border-collapse text-left">
-          <colgroup>
-            {columns.map((column) => (
-              <col key={column.key} style={{ width: column.width }} />
-            ))}
-          </colgroup>
-
-          <thead className="bg-slate-50">
-            <tr className="border-b border-slate-200">
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-700"
-                >
-                  {column.label}
-                </th>
-              ))}
+    <div className="overflow-hidden rounded-[12px] border border-slate-200">
+      <div className="safe-x-scroll">
+        <table className="w-full min-w-[1180px] border-collapse">
+          <thead className="bg-[#F9FAFF]">
+            <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
+              <th className="w-[150px] px-4 py-3">Angsuran</th>
+              <th className="w-[190px] px-4 py-3">Jenis Penyesuaian</th>
+              <th className="w-[150px] px-4 py-3 text-right">
+                Nominal Penyesuaian
+              </th>
+              <th className="w-[260px] px-4 py-3">Alasan Penyesuaian</th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Bunga Sebelum
+              </th>
+              <th className="w-[165px] px-4 py-3 text-right">
+                Bunga Sesudah
+              </th>
+              <th className="w-[150px] px-4 py-3">Diubah Oleh</th>
+              <th className="w-[180px] px-4 py-3">
+                Tanggal & Waktu
+              </th>
             </tr>
           </thead>
 
@@ -122,8 +114,8 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
             {rows.length === 0 ? (
               <tr>
                 <td
-                  colSpan={columns.length}
-                  className="px-4 py-12 text-center text-[13px] text-slate-500"
+                  colSpan={8}
+                  className="px-4 py-10 text-center text-[13px] text-slate-600"
                 >
                   Belum ada riwayat perubahan nominal bunga.
                 </td>
@@ -132,7 +124,10 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
               rows.map((row, index) => (
                 <tr
                   key={`${row.id}-${index}`}
-                  className="border-b border-slate-100 text-[12px] text-slate-900 last:border-b-0 odd:bg-white even:bg-slate-50/50"
+                  className={cn(
+                    "border-b border-slate-100 text-[12px] text-black last:border-b-0",
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                  )}
                 >
                   <td className="whitespace-nowrap px-4 py-3 font-semibold">
                     {row.installment}
@@ -149,7 +144,7 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
                   <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums">
                     {row.interestBefore}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right font-bold tabular-nums text-blue-600">
+                  <td className="whitespace-nowrap px-4 py-3 text-right font-semibold tabular-nums text-[#2563EB]">
                     {row.interestAfter}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3">
@@ -177,13 +172,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
   onOpenChange: (open: boolean) => void;
   accountNo: string;
 }) {
-  const [mounted, setMounted] = React.useState(false);
   const [storedRows, setStoredRows] = React.useState<HistoryRow[]>([]);
-
-  React.useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
 
   React.useEffect(() => {
     if (!open) return;
@@ -207,64 +196,60 @@ export default function LoanDebtAdjustmentHistoryDialog({
     };
   }, [accountNo, open]);
 
-  if (!open || !mounted) return null;
+  const rows = React.useMemo(
+    () => [...storedRows, ...(seedRows[accountNo] ?? [])],
+    [accountNo, storedRows],
+  );
 
-  const rows = [...storedRows, ...(seedRows[accountNo] ?? [])];
-
-  return createPortal(
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/55 p-3 sm:p-5">
-      <button
-        type="button"
-        className="absolute inset-0 cursor-default"
-        aria-label="Tutup modal riwayat"
-        onClick={() => onOpenChange(false)}
-      />
-
-      <section
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="loan-debt-history-title"
-        className="relative z-10 flex max-h-[90vh] w-full max-w-[1180px] min-w-0 flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-1rem)] sm:w-[1180px]",
+          "max-w-[1180px]",
+          "max-h-[85vh]",
+          "overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+        )}
       >
-        <header className="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
+        <header className="flex shrink-0 items-center justify-between border-b border-slate-200 px-6 py-4">
           <div className="min-w-0">
-            <h2
-              id="loan-debt-history-title"
-              className="truncate text-[17px] font-extrabold tracking-tight text-slate-900 sm:text-[18px]"
-            >
+            <h2 className="truncate text-[18px] font-extrabold tracking-tight text-slate-900">
               Riwayat Perubahan Nominal Bunga Pinjaman
             </h2>
             <p className="mt-1 text-[12px] text-slate-500">
-              Daftar perubahan bunga yang telah disimpan.
+              Daftar perubahan nominal bunga yang telah disimpan.
             </p>
           </div>
 
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
-            aria-label="Tutup riwayat"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
+            aria-label="Tutup"
             title="Tutup"
           >
             <X className="h-5 w-5" />
           </button>
         </header>
 
-        <main className="min-h-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-5">
+        <main className="min-h-0 overflow-auto px-6 py-5">
           <HistoryTable rows={rows} />
         </main>
 
-        <footer className="flex shrink-0 justify-end border-t border-slate-200 px-5 py-4 sm:px-6">
+        <footer className="flex shrink-0 justify-end border-t border-slate-200 px-6 py-4">
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="inline-flex h-9 min-w-[88px] items-center justify-center rounded-[8px] bg-slate-600 px-4 text-[12px] font-bold text-white transition hover:bg-slate-700"
+            className="h-10 min-w-[96px] rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
           >
             Tutup
           </button>
         </footer>
-      </section>
-    </div>,
-    document.body,
+      </DialogContent>
+    </Dialog>
   );
 }
