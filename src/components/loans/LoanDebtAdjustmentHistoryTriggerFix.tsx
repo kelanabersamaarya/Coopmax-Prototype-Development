@@ -2,15 +2,18 @@
 
 import * as React from "react";
 
-const WIZARD_SELECTOR = '[data-loan-debt-wizard="true"]';
+const WIZARD_SELECTOR =
+  '[data-loan-debt-wizard="true"], [data-loan-interest-wizard="true"]';
 
 function isHistoryButton(button: HTMLButtonElement) {
   const text = (button.textContent ?? "").trim().toLowerCase();
   const hasClockIcon = Boolean(button.querySelector("svg.lucide-clock-3"));
+  const hasEyeIcon = Boolean(button.querySelector("svg.lucide-eye"));
 
   return (
-    text.includes("lihat riwayat perubahan") ||
-    (hasClockIcon && text.includes("riwayat"))
+    text.includes("riwayat perubahan") ||
+    (hasClockIcon && text.includes("riwayat")) ||
+    (hasEyeIcon && text.includes("riwayat"))
   );
 }
 
@@ -24,16 +27,20 @@ function enhanceHistoryButtons() {
   buttons.filter(isHistoryButton).forEach((button) => {
     button.dataset.loanDebtHistoryTrigger = "true";
     button.style.position = "relative";
-    button.style.zIndex = "1000";
+    button.style.zIndex = "10000";
     button.style.pointerEvents = "auto";
     button.style.touchAction = "manipulation";
     button.style.cursor = "pointer";
 
-    const parent = button.parentElement;
-    if (parent) {
+    let parent = button.parentElement;
+    let depth = 0;
+
+    while (parent && depth < 4) {
       parent.style.position = "relative";
-      parent.style.zIndex = "999";
+      parent.style.zIndex = String(9999 - depth);
       parent.style.pointerEvents = "auto";
+      parent = parent.parentElement;
+      depth += 1;
     }
   });
 }
@@ -55,6 +62,7 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
       attributes: true,
     });
 
+    document.addEventListener("pointerdown", scheduleEnhance, true);
     document.addEventListener("pointerup", scheduleEnhance, true);
     document.addEventListener("click", scheduleEnhance, true);
 
@@ -63,6 +71,7 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
+      document.removeEventListener("pointerdown", scheduleEnhance, true);
       document.removeEventListener("pointerup", scheduleEnhance, true);
       document.removeEventListener("click", scheduleEnhance, true);
     };
@@ -74,7 +83,7 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
         ${WIZARD_SELECTOR}
           button[data-loan-debt-history-trigger="true"] {
           position: relative !important;
-          z-index: 1000 !important;
+          z-index: 10000 !important;
           pointer-events: auto !important;
           touch-action: manipulation !important;
           cursor: pointer !important;
