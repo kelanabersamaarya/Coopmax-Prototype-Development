@@ -151,12 +151,9 @@ export default function MitraKaryaLaporanAnggotaV2() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex items-baseline gap-2">
-          <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Laporan Anggota V2
-          </h1>
-          <span className="text-sm font-semibold text-slate-500">Daftar</span>
-        </div>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+          Laporan Anggota
+        </h1>
 
         <Card className="mt-6 w-full max-w-[720px] rounded-[5px] border-0 bg-transparent p-0 shadow-none">
           <div className="grid gap-[15px]">
