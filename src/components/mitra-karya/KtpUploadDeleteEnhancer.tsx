@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { CheckSquare, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const DIALOG_SELECTOR =
   '[role="dialog"][class*="max-w-[1000px]"], [data-radix-dialog-content][class*="max-w-[1000px]"]';
@@ -138,7 +140,74 @@ function syncDeleteButton() {
   uploadBox.appendChild(deleteButton);
 }
 
+function KtpSaveConfirmModal({
+  open,
+  onCancel,
+  onConfirm,
+}: {
+  open: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/35 px-5">
+      <button
+        type="button"
+        className="absolute inset-0 cursor-default"
+        aria-label="Tutup konfirmasi"
+        onClick={onCancel}
+      />
+
+      <div className="relative z-10 w-full max-w-[460px] rounded-[5px] bg-white px-6 pb-6 pt-8 text-center shadow-2xl">
+        <div className="mx-auto grid h-20 w-20 place-items-center rounded-full border-4 border-[#f7c8a6]">
+          <span className="text-5xl font-light leading-none text-[#f2b98f]">
+            !
+          </span>
+        </div>
+
+        <h2 className="mt-6 text-[22px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+          Yakin menyimpan foto KTP anggota?
+        </h2>
+
+        <div className="mt-7 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={onConfirm}
+            className={cn(
+              "inline-flex h-11 min-w-[100px] items-center justify-center gap-2 rounded-[5px]",
+              "bg-[#2f80ed] px-5 text-[14px] font-semibold text-white",
+              "transition hover:bg-[#266ed0]",
+            )}
+          >
+            <CheckSquare className="h-4 w-4" strokeWidth={3} />
+            Yes
+          </button>
+
+          <button
+            type="button"
+            onClick={onCancel}
+            className={cn(
+              "inline-flex h-11 min-w-[110px] items-center justify-center gap-2 rounded-[5px]",
+              "bg-[#77839A] px-5 text-[14px] font-semibold text-white",
+              "transition hover:bg-[#6b768c]",
+            )}
+          >
+            <X className="h-4 w-4" strokeWidth={3} />
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function KtpUploadDeleteEnhancer() {
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const pendingSaveButtonRef = React.useRef<HTMLButtonElement | null>(null);
+  const bypassRef = React.useRef(false);
+
   React.useEffect(() => {
     let frameId = 0;
 
@@ -155,13 +224,78 @@ export default function KtpUploadDeleteEnhancer() {
       attributes: true,
     });
 
+    function handleSaveClick(event: MouseEvent) {
+      if (bypassRef.current) return;
+
+      const target = event.target as HTMLElement | null;
+      const button = target?.closest<HTMLButtonElement>("button");
+      if (!button || button.disabled) return;
+
+      const dialog = button.closest<HTMLElement>(DIALOG_SELECTOR);
+      if (!dialog) return;
+
+      const label = (button.textContent ?? "").trim().toLowerCase();
+      if (label !== "simpan") return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      pendingSaveButtonRef.current = button;
+      setConfirmOpen(true);
+    }
+
+    function confirmSave() {
+      const button = pendingSaveButtonRef.current;
+
+      setConfirmOpen(false);
+      pendingSaveButtonRef.current = null;
+
+      if (!button) return;
+
+      bypassRef.current = true;
+      window.requestAnimationFrame(() => {
+        button.click();
+
+        window.setTimeout(() => {
+          bypassRef.current = false;
+        }, 0);
+      });
+    }
+
+    document.addEventListener("click", handleSaveClick, true);
     scheduleSync();
 
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
+      document.removeEventListener("click", handleSaveClick, true);
     };
   }, []);
 
-  return null;
+  return (
+    <KtpSaveConfirmModal
+      open={confirmOpen}
+      onCancel={() => {
+        setConfirmOpen(false);
+        pendingSaveButtonRef.current = null;
+      }}
+      onConfirm={() => {
+        const button = pendingSaveButtonRef.current;
+        setConfirmOpen(false);
+        pendingSaveButtonRef.current = null;
+
+        if (!button) return;
+
+        bypassRef.current = true;
+        window.requestAnimationFrame(() => {
+          button.click();
+
+          window.setTimeout(() => {
+            bypassRef.current = false;
+          }, 0);
+        });
+      }}
+    />
+  );
 }
