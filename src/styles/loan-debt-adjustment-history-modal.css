@@ -1,51 +1,50 @@
-/* Perbaikan khusus modal Riwayat Perubahan Nominal Bunga Pinjaman. */
+/* Layout khusus modal Riwayat Perubahan Nominal Bunga Pinjaman. */
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) {
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) {
+  width: min(1180px, calc(100vw - 1rem)) !important;
   max-width: min(1180px, calc(100vw - 1rem)) !important;
   overflow: hidden !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  main.max-h-\[calc\(85vh-132px\)\] {
+/* Area isi modal tetap dapat digeser, bukan memaksa tabel mengecil. */
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) main,
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) main {
   min-width: 0 !important;
-  overflow-x: auto !important;
+  overflow-x: hidden !important;
   overflow-y: auto !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  main
-  > div.overflow-hidden {
-  min-width: 0 !important;
+/* Pembungkus scroll tabel. */
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) .safe-x-scroll,
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) .safe-x-scroll {
+  display: block !important;
   width: 100% !important;
-  overflow: visible !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  main
-  .safe-x-scroll {
-  width: 100% !important;
-  max-width: none !important;
+  max-width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\] {
+/* Jangan izinkan aturan global table { max-width: 100% } mengecilkan tabel. */
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\],
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] {
+  display: table !important;
   width: 1290px !important;
   min-width: 1290px !important;
   max-width: none !important;
   table-layout: fixed !important;
+  border-collapse: collapse !important;
   word-break: normal !important;
   overflow-wrap: normal !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th,
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td {
+/* Teks header tidak boleh terpecah menjadi satu karakter per baris. */
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th,
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td,
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th,
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td {
   min-width: 0 !important;
   max-width: none !important;
   word-break: normal !important;
@@ -54,115 +53,91 @@
   vertical-align: top !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th {
+/* Lebar kolom tabel. */
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(1),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(1),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(1),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(1) {
+  width: 82px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(2),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(2),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(2),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(2) {
+  width: 150px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(3),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(3),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(3),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(3) {
+  width: 145px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(4),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(4),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(4),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(4) {
+  width: 190px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(5),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(5),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(6),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(6),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(5),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(5),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(6),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(6) {
+  width: 165px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(7),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(7),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(8),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(8),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(7),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(7),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(8),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(8) {
+  width: 155px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(9),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(9),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(9),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(9) {
+  width: 125px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(10),
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(10),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(10),
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(10) {
+  width: 180px !important;
+}
+
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th,
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th {
+  padding: 12px !important;
   font-size: 11px !important;
   line-height: 1.2 !important;
   letter-spacing: 0.02em !important;
   text-align: left !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td {
+[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td,
+[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td {
+  padding: 12px !important;
   font-size: 12px !important;
   line-height: 1.35 !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(1),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(1) {
-  width: 82px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(2),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(2) {
-  width: 150px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(3),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(3) {
-  width: 145px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(4),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(4) {
-  width: 190px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(5),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(5),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(6),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(6) {
-  width: 165px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(7),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(7),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(8),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(8) {
-  width: 155px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(9),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(9) {
-  width: 125px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  th:nth-child(10),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\])
-  table.min-w-\[1290px\]
-  td:nth-child(10) {
-  width: 180px !important;
-}
-
 @media (max-width: 640px) {
-  [data-radix-dialog-content]:has(table.min-w-\[1290px\]) {
+  [data-radix-dialog-content]:has(table.min-w-\[1290px\]),
+  [data-slot="dialog-content"]:has(table.min-w-\[1290px\]) {
     width: calc(100vw - 1rem) !important;
     max-width: calc(100vw - 1rem) !important;
-  }
-
-  [data-radix-dialog-content]:has(table.min-w-\[1290px\])
-    main.max-h-\[calc\(85vh-132px\)\] {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
   }
 }
