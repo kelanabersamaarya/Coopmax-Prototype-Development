@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,9 +34,7 @@ function createTrashIcon() {
 function hideChangePhotoButton(uploadBox: HTMLElement) {
   Array.from(uploadBox.querySelectorAll<HTMLButtonElement>("button")).forEach(
     (button) => {
-      const label = (button.textContent ?? "").trim().toLowerCase();
-
-      if (label === "ganti foto ktp") {
+      if ((button.textContent ?? "").trim().toLowerCase() === "ganti foto ktp") {
         button.style.display = "none";
       }
     },
@@ -130,10 +129,7 @@ function syncDeleteButton() {
       fileInput.dispatchEvent(new Event("change", { bubbles: true }));
     }
 
-    if (previewImage) {
-      previewImage.remove();
-    }
-
+    previewImage?.remove();
     deleteButton.remove();
   });
 
@@ -149,10 +145,10 @@ function KtpSaveConfirmModal({
   onCancel: () => void;
   onConfirm: () => void;
 }) {
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/35 px-5">
+  return createPortal(
+    <div className="pointer-events-auto fixed inset-0 z-[99999] flex items-center justify-center bg-black/35 px-5">
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -171,12 +167,16 @@ function KtpSaveConfirmModal({
           Yakin menyimpan foto KTP anggota?
         </h2>
 
-        <div className="mt-7 flex items-center justify-center gap-2">
+        <div className="relative z-20 mt-7 flex items-center justify-center gap-2">
           <button
             type="button"
-            onClick={onConfirm}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onConfirm();
+            }}
             className={cn(
-              "inline-flex h-11 min-w-[100px] items-center justify-center rounded-[5px]",
+              "pointer-events-auto inline-flex h-11 min-w-[100px] items-center justify-center rounded-[5px]",
               "bg-[#2f80ed] px-5 text-[14px] font-semibold text-white",
               "transition hover:bg-[#266ed0]",
             )}
@@ -186,9 +186,13 @@ function KtpSaveConfirmModal({
 
           <button
             type="button"
-            onClick={onCancel}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onCancel();
+            }}
             className={cn(
-              "inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px]",
+              "pointer-events-auto inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px]",
               "bg-[#77839A] px-5 text-[14px] font-semibold text-white",
               "transition hover:bg-[#6b768c]",
             )}
@@ -197,7 +201,8 @@ function KtpSaveConfirmModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -208,11 +213,11 @@ function KtpSaveSuccessModal({
   open: boolean;
   onOk: () => void;
 }) {
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/35 px-5">
-      <div className="w-full max-w-[460px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
+  return createPortal(
+    <div className="pointer-events-auto fixed inset-0 z-[100000] flex items-center justify-center bg-black/35 px-5">
+      <div className="relative z-10 w-full max-w-[460px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
           <Check className="h-11 w-11 text-[#33aa00]" strokeWidth={3} />
         </div>
@@ -223,13 +228,18 @@ function KtpSaveSuccessModal({
 
         <button
           type="button"
-          onClick={onOk}
-          className="mt-7 inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]"
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onOk();
+          }}
+          className="relative z-20 mt-7 inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]"
         >
           OK
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -295,6 +305,7 @@ export default function KtpUploadDeleteEnhancer() {
     if (!button) return;
 
     bypassRef.current = true;
+
     window.requestAnimationFrame(() => {
       button.click();
 
@@ -308,11 +319,7 @@ export default function KtpUploadDeleteEnhancer() {
     <>
       <KtpSaveConfirmModal
         open={confirmOpen}
-        onCancel={() => {
-          setConfirmOpen(false);
-          // Modal upload tetap terbuka sehingga pengguna dapat memilih atau
-          // mengunggah ulang foto KTP.
-        }}
+        onCancel={() => setConfirmOpen(false)}
         onConfirm={() => {
           setConfirmOpen(false);
           setSuccessOpen(true);
