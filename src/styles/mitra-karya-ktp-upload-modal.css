@@ -1,12 +1,16 @@
 /* Modal unggah KTP pada KtpPhotoDialog. */
-[role="dialog"][class*="max-w-[1000px]"] h2,
-[data-radix-dialog-content][class*="max-w-[1000px]"] h2 {
+[role="dialog"][class*="max-w-[1000px"]]
+  h2,
+[data-radix-dialog-content][class*="max-w-[1000px"]]
+  h2 {
   font-size: 0 !important;
   line-height: 1.25 !important;
 }
 
-[role="dialog"][class*="max-w-[1000px]"] h2::after,
-[data-radix-dialog-content][class*="max-w-[1000px]"] h2::after {
+[role="dialog"][class*="max-w-[1000px"]]
+  h2::after,
+[data-radix-dialog-content][class*="max-w-[1000px"]]
+  h2::after {
   content: "Unggah Foto KTP Anggota";
   color: #000000;
   font-size: 16px !important;
@@ -15,11 +19,11 @@
 }
 
 /* Kotak upload sejajar dengan contoh foto KTP yang salah. */
-[role="dialog"][class*="max-w-[1000px]"]
+[role="dialog"][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2),
-[data-radix-dialog-content][class*="max-w-[1000px]"]
+[data-radix-dialog-content][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2) {
@@ -27,12 +31,12 @@
 }
 
 /* Tinggi kotak upload disamakan dengan kotak contoh foto KTP: 178px. */
-[role="dialog"][class*="max-w-[1000px]"]
+[role="dialog"][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
   > div.flex,
-[data-radix-dialog-content][class*="max-w-[1000px]"]
+[data-radix-dialog-content][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
@@ -43,13 +47,13 @@
 }
 
 /* Label Foto KTP di dalam kotak upload. */
-[role="dialog"][class*="max-w-[1000px]"]
+[role="dialog"][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
   > div.flex
   > div.text-\[15px\],
-[data-radix-dialog-content][class*="max-w-[1000px]"]
+[data-radix-dialog-content][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
@@ -61,13 +65,13 @@
 }
 
 /* Teks penjelas berada tepat di bawah teks Foto KTP. */
-[role="dialog"][class*="max-w-[1000px]"]
+[role="dialog"][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
   > div.flex
   > div.text-\[15px\]::after,
-[data-radix-dialog-content][class*="max-w-[1000px]"]
+[data-radix-dialog-content][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
@@ -84,12 +88,12 @@
 }
 
 /* Sembunyikan teks instruksi bawaan agar tidak tampil ganda. */
-[role="dialog"][class*="max-w-[1000px]"]
+[role="dialog"][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
   p,
-[data-radix-dialog-content][class*="max-w-[1000px]"]
+[data-radix-dialog-content][class*="max-w-[1000px"]]
   main
   > div.grid
   > section:nth-child(2)
@@ -97,42 +101,31 @@
   display: none !important;
 }
 
-/* Tombol Simpan memakai ikon centang berbentuk kotak putih, bukan lingkaran. */
-[role="dialog"][class*="max-w-[1000px]"] footer button:last-child svg,
-[data-radix-dialog-content][class*="max-w-[1000px]"] footer button:last-child svg {
+/* Tombol Simpan menggunakan kotak putih dengan tanda centang yang terlihat. */
+[role="dialog"][class*="max-w-[1000px"]]
+  footer
+  button:last-child
+  svg,
+[data-radix-dialog-content][class*="max-w-[1000px"]]
+  footer
+  button:last-child
+  svg {
   display: none !important;
 }
 
-[role="dialog"][class*="max-w-[1000px]"] footer button:last-child::before,
-[data-radix-dialog-content][class*="max-w-[1000px]"] footer button:last-child::before {
+[role="dialog"][class*="max-w-[1000px"]]
+  footer
+  button:last-child::before,
+[data-radix-dialog-content][class*="max-w-[1000px"]]
+  footer
+  button:last-child::before {
   content: "";
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   flex: 0 0 auto;
-  border: 3px solid #ffffff;
-  border-radius: 5px;
-  background: transparent;
-  box-sizing: border-box;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 100%,
-    0 100%,
-    0 0,
-    18% 18%,
-    18% 82%,
-    82% 82%,
-    82% 18%,
-    18% 18%,
-    38% 48%,
-    48% 58%,
-    70% 32%,
-    78% 40%,
-    48% 72%,
-    38% 62%,
-    20% 44%,
-    38% 26%,
-    38% 48%
-  );
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Crect x='3.5' y='3.5' width='25' height='25' rx='4' stroke='white' stroke-width='4'/%3E%3Cpath d='M9 16.5L14 21.5L24 10.5' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
