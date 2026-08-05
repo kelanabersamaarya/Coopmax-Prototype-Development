@@ -1,0 +1,39 @@
+/* Filter laporan Mitra Karya: placeholder dan nilai default dibuat abu-abu. */
+body:has(.mitra-karya-member-report) input::placeholder,
+body:has(.mitra-karya-member-report) textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+body:has(.mitra-karya-member-report)
+  [data-slot="select-value"][data-placeholder],
+body:has(.mitra-karya-member-report)
+  [data-slot="select-trigger"][data-placeholder],
+body:has(.mitra-karya-member-report)
+  button[role="combobox"][data-placeholder],
+body:has(.mitra-karya-member-report)
+  button[role="combobox"]:has([data-placeholder]),
+body:has(.mitra-karya-member-report)
+  [data-slot="select-trigger"]:has([data-placeholder]) {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+body:has(.mitra-karya-member-report)
+  [data-slot="select-value"][data-placeholder]
+  * {
+  color: #94a3b8 !important;
+}
+
+/* Nilai default "Semua" pada filter laporan ditampilkan seperti placeholder. */
+body:has(.mitra-karya-member-report)
+  [data-slot="select-trigger"]
+  [data-slot="select-value"] {
+  color: #94a3b8;
+}
+
+body:has(.mitra-karya-member-report)
+  [data-slot="select-trigger"]
+  [data-slot="select-value"][data-placeholder] {
+  color: #94a3b8 !important;
+}
