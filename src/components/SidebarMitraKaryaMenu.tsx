@@ -5,6 +5,17 @@ import { BarChart3, ChevronDown, FileBarChart2, Home } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
+const reportItems = [
+  {
+    label: "Laporan Anggota",
+    to: "/mitra-karya/laporan/anggota",
+  },
+  {
+    label: "Laporan Anggota V2",
+    to: "/mitra-karya/laporan/anggota-v2",
+  },
+];
+
 export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
@@ -57,21 +68,24 @@ export default function SidebarMitraKaryaMenu() {
           )}
         >
           <div className="min-h-0">
-            <div className="px-2.5 pb-2 pt-2">
-              <NavLink
-                to="/mitra-karya/laporan/anggota"
-                className={({ isActive }) =>
-                  cn(
-                    "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                    isActive
-                      ? "bg-violet-600 text-white"
-                      : "text-slate-800 hover:bg-slate-50",
-                  )
-                }
-              >
-                <FileBarChart2 className="h-4 w-4" />
-                Laporan Anggota
-              </NavLink>
+            <div className="space-y-1 px-2.5 pb-2 pt-2">
+              {reportItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                      isActive
+                        ? "bg-violet-600 text-white"
+                        : "text-slate-800 hover:bg-slate-50",
+                    )
+                  }
+                >
+                  <FileBarChart2 className="h-4 w-4" />
+                  {item.label}
+                </NavLink>
+              ))}
             </div>
           </div>
         </div>
