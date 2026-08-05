@@ -28,28 +28,35 @@ function createTrashIcon() {
   `;
 }
 
+function findUploadBox(uploadSection: HTMLElement) {
+  return Array.from(uploadSection.children).find(
+    (child): child is HTMLElement =>
+      child instanceof HTMLElement && child.classList.contains("flex"),
+  );
+}
+
 function syncDeleteButton() {
   const dialog = document.querySelector<HTMLElement>(DIALOG_SELECTOR);
   if (!dialog) return;
 
-  const uploadSection = dialog.querySelector<HTMLElement>(
-    "main > div.grid > section:nth-child(2)",
+  const sections = Array.from(
+    dialog.querySelectorAll<HTMLElement>("main > div.grid > section"),
   );
+  const uploadSection = sections[1];
   if (!uploadSection) return;
 
-  const uploadBox = uploadSection.querySelector<HTMLElement>(
-    "> div.flex",
-  );
+  const uploadBox = findUploadBox(uploadSection);
   if (!uploadBox) return;
 
   const previewImage = uploadBox.querySelector<HTMLImageElement>("img");
+  const fileInput = uploadBox.querySelector<HTMLInputElement>('input[type="file"]');
 
-  if (!previewImage || previewImage.dataset.ktpDeleted === "true") {
-    uploadBox.querySelector(`[${BUTTON_ATTRIBUTE}]`)?.remove();
-    return;
-  }
+  const hasUploadedFile = Boolean(fileInput?.files?.length);
+  const hasPreviewImage = Boolean(previewImage);
 
-  if (uploadBox.querySelector(`[${BUTTON_ATTRIBUTE}]`)) return;
+  uploadBox.querySelector(`[${BUTTON_ATTRIBUTE}]`)?.remove();
+
+  if (!hasUploadedFile && !hasPreviewImage) return;
 
   uploadBox.style.position = "relative";
 
@@ -64,9 +71,9 @@ function syncDeleteButton() {
     position: "absolute",
     top: "10px",
     right: "10px",
-    zIndex: "20",
-    width: "34px",
-    height: "34px",
+    zIndex: "30",
+    width: "36px",
+    height: "36px",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
@@ -75,7 +82,7 @@ function syncDeleteButton() {
     backgroundColor: "#DC3545",
     color: "#FFFFFF",
     cursor: "pointer",
-    boxShadow: "0 2px 6px rgba(15, 23, 42, 0.16)",
+    boxShadow: "0 2px 6px rgba(15, 23, 42, 0.2)",
   });
 
   deleteButton.addEventListener("mouseenter", () => {
@@ -90,17 +97,16 @@ function syncDeleteButton() {
     event.preventDefault();
     event.stopPropagation();
 
-    previewImage.dataset.ktpDeleted = "true";
-    previewImage.style.display = "none";
-    deleteButton.remove();
-
-    const fileInput = uploadBox.querySelector<HTMLInputElement>(
-      'input[type="file"]',
-    );
-
     if (fileInput) {
       fileInput.value = "";
+      fileInput.dispatchEvent(new Event("change", { bubbles: true }));
     }
+
+    if (previewImage) {
+      previewImage.remove();
+    }
+
+    deleteButton.remove();
   });
 
   uploadBox.appendChild(deleteButton);
@@ -108,9 +114,14 @@ function syncDeleteButton() {
 
 export default function KtpUploadDeleteEnhancer() {
   React.useEffect(() => {
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(syncDeleteButton);
-    });
+    let frameId = 0;
+
+    const scheduleSync = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(syncDeleteButton);
+    };
+
+    const observer = new MutationObserver(scheduleSync);
 
     observer.observe(document.body, {
       childList: true,
@@ -118,9 +129,12 @@ export default function KtpUploadDeleteEnhancer() {
       attributes: true,
     });
 
-    syncDeleteButton();
+    scheduleSync();
 
-    return () => observer.disconnect();
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
   }, []);
 
   return null;
