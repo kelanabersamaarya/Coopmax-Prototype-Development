@@ -20,6 +20,24 @@
   overflow-y: hidden !important;
   overscroll-behavior-x: contain !important;
   -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: auto !important;
+}
+
+.history-dialog-panel .history-table-scroll::-webkit-scrollbar {
+  display: block !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.history-dialog-panel .history-table-scroll::-webkit-scrollbar-track {
+  background: #e2e8f0 !important;
+  border-radius: 999px !important;
+}
+
+.history-dialog-panel .history-table-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 999px !important;
+  background: #64748b !important;
 }
 
 .history-dialog-panel table.history-table {
@@ -28,6 +46,7 @@
   min-width: 1390px !important;
   max-width: none !important;
   table-layout: fixed !important;
+  flex-shrink: 0 !important;
 }
 
 .history-dialog-panel table.history-table th,
@@ -36,6 +55,7 @@
   min-width: 0 !important;
   max-width: none !important;
   word-break: normal !important;
+  overflow-wrap: normal !important;
 }
 
 .history-dialog-panel table.history-table .history-col-installment {
@@ -66,7 +86,6 @@
   width: 180px !important;
 }
 
-/* Khusus wizard Ubah Nominal Bunga: tombol riwayat harus selalu bisa diklik. */
 [data-loan-debt-wizard="true"]
   button:has(> svg.lucide-clock-3) {
   position: relative !important;
@@ -76,14 +95,12 @@
   cursor: pointer !important;
 }
 
-/* Pastikan ikon dan teks tidak memblokir event tombol. */
 [data-loan-debt-wizard="true"]
   button:has(> svg.lucide-clock-3)
   > * {
   pointer-events: none !important;
 }
 
-/* Panel riwayat berada di atas seluruh wizard dan tidak ikut tertutup oleh stacking context. */
 .history-dialog-overlay {
   z-index: 100000 !important;
 }
@@ -104,6 +121,13 @@
   }
 
   .history-dialog-panel .history-table-scroll {
-    overflow-x: scroll !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    touch-action: pan-x !important;
+  }
+
+  .history-dialog-panel table.history-table {
+    width: 1390px !important;
+    min-width: 1390px !important;
   }
 }
