@@ -60,7 +60,7 @@ const accountFields: AccountField[] = [
   {
     label: "Status",
     value: (
-      <span className="inline-flex rounded-[5px] bg-lime-500 px-2.5 py-1 text-[11px] font-extrabold leading-none text-white">
+      <span className="inline-flex rounded-[5px] bg-[#3BB001] px-2.5 py-1 text-[11px] font-extrabold leading-none text-white">
         Aktif / Sudah Dicairkan
       </span>
     ),
