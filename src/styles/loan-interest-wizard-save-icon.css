@@ -1,20 +1,23 @@
+/* Modal Ubah Suku Bunga — tombol Simpan Perubahan pada langkah kedua */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
-  > button.bg-\[\#2fb300\] {
+  > button:last-child {
   flex-direction: row-reverse !important;
   gap: 9px !important;
+  background-color: #2fb300 !important;
+  color: #ffffff !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
-  > button.bg-\[\#2fb300\]
+  > button:last-child
   svg {
   display: none !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
-  > button.bg-\[\#2fb300\]::before {
+  > button:last-child::before {
   content: "";
   display: inline-block;
   height: 20px;
@@ -26,39 +29,72 @@
   background-size: contain;
 }
 
-/* Langkah pertama: tombol Lanjutkan biru dengan chevron di kanan. */
+/* Modal Ubah Suku Bunga — tombol Lanjutkan pada langkah pertama */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child {
+  > button:last-child,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-of-type {
+  min-width: 150px !important;
+  height: 40px !important;
+  justify-content: center !important;
+  flex-direction: row !important;
+  gap: 8px !important;
   background-color: #2563eb !important;
   color: #ffffff !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  min-width: 150px !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
+/* Hilangkan pseudo-element centang yang mungkin diwarisi aturan lain. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child::before,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-of-type::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Chevron kanan tetap terlihat pada tombol Lanjutkan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
+  svg,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-of-type
   svg {
   display: inline-block !important;
-  height: 16px !important;
+  visibility: visible !important;
   width: 16px !important;
+  height: 16px !important;
+  margin-left: 2px !important;
   color: #ffffff !important;
   stroke: #ffffff !important;
   fill: none !important;
-  margin-left: 2px !important;
+  opacity: 1 !important;
+}
+
+/* Jangan tampilkan ikon centang/pseudo pada langkah pertama. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child
+  svg.lucide-check,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-of-type
+  svg.lucide-check {
+  display: none !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child::before {
-  content: none !important;
-}
-
+  > button:last-child:hover,
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child::after {
-  content: none !important;
+  > button:last-of-type:hover {
+  background-color: #1d4ed8 !important;
 }
