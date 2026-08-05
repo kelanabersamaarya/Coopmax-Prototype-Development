@@ -107,6 +107,7 @@ function Toggle({
       >
         {checked ? "ON" : "OFF"}
       </span>
+
       <span
         className={cn(
           "h-[16px] w-[16px] rounded-full bg-white shadow-sm transition-transform",
@@ -301,11 +302,13 @@ export default function AutodebetScheduleDialog({
                 <br />
                 Anggota/Nasabah lain
               </Label>
+
               <div className="flex h-[31px] items-center">
                 <Toggle checked={interMember} onChange={setInterMember} />
               </div>
 
               <Label className={labelClassName}>Produk Tujuan</Label>
+
               <Select
                 value={product}
                 onValueChange={(value) => {
@@ -319,12 +322,17 @@ export default function AutodebetScheduleDialog({
                   <SelectValue placeholder="Pilih Produk" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Produk Simpanan">Produk Simpanan</SelectItem>
-                  <SelectItem value="Produk Pinjaman">Produk Pinjaman</SelectItem>
+                  <SelectItem value="Produk Simpanan">
+                    Produk Simpanan
+                  </SelectItem>
+                  <SelectItem value="Produk Pinjaman">
+                    Produk Pinjaman
+                  </SelectItem>
                 </SelectContent>
               </Select>
 
               <Label className={labelClassName}>No. Rekening Tujuan</Label>
+
               <div className="grid gap-4">
                 <Select
                   value={selectedAccountValue}
@@ -371,7 +379,7 @@ export default function AutodebetScheduleDialog({
                 ) : null}
               </div>
 
-              {!isLoanProduct || hasSelectedAccount ? (
+              {hasSelectedAccount ? (
                 <>
                   <Label className={labelClassName}>
                     Tanggal Proses Autodebet
@@ -388,7 +396,10 @@ export default function AutodebetScheduleDialog({
                       )}
                     />
                   ) : (
-                    <Select value={autodebetDay} onValueChange={setAutodebetDay}>
+                    <Select
+                      value={autodebetDay}
+                      onValueChange={setAutodebetDay}
+                    >
                       <SelectTrigger className={inputClassName}>
                         <SelectValue placeholder="Pilih Tanggal Proses Autodebet" />
                       </SelectTrigger>
@@ -407,6 +418,7 @@ export default function AutodebetScheduleDialog({
               <Label className={cn(labelClassName, "pt-1")}>
                 Keterangan
               </Label>
+
               <Textarea
                 value={description}
                 onChange={(event) => {
@@ -419,6 +431,7 @@ export default function AutodebetScheduleDialog({
               <Label className={cn(labelClassName, "pt-1")}>
                 Status Autodebet
               </Label>
+
               <div className="flex h-[31px] items-center">
                 <Toggle checked={status} onChange={setStatus} />
               </div>
