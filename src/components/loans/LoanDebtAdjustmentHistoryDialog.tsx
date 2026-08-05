@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import {
   getLoanInterestAdjustmentHistory,
@@ -91,7 +92,13 @@ function mapStoredRow(entry: LoanInterestAdjustmentHistoryEntry): HistoryRow {
 function HistoryTable({ rows }: { rows: HistoryRow[] }) {
   return (
     <div className="w-full overflow-hidden rounded-[8px] border border-slate-200 bg-white">
-      <div className="safe-x-scroll block w-full max-w-full overflow-x-auto overscroll-x-contain">
+      <div
+        className="block w-full overflow-x-auto overflow-y-hidden overscroll-x-contain"
+        style={{
+          WebkitOverflowScrolling: "touch",
+          touchAction: "pan-x",
+        }}
+      >
         <table className="w-[1120px] min-w-[1120px] table-fixed border-collapse text-[12px]">
           <colgroup>
             <col className="w-[82px]" />
@@ -111,10 +118,18 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
               <th className="px-3 py-4">Jenis<br />Penyesuaian</th>
               <th className="px-3 py-4">Nominal<br />Penyesuaian</th>
               <th className="px-3 py-4">Alasan<br />Penyesuaian</th>
-              <th className="px-3 py-4 text-right">Tagihan Bunga<br />Sebelum<br />Penyesuaian</th>
-              <th className="px-3 py-4 text-right">Total Tagihan<br />Sebelum<br />Penyesuaian</th>
-              <th className="px-3 py-4 text-right">Tagihan Bunga<br />Sesudah<br />Penyesuaian</th>
-              <th className="px-3 py-4 text-right">Total Tagihan<br />Sesudah<br />Penyesuaian</th>
+              <th className="px-3 py-4 text-right">
+                Tagihan Bunga<br />Sebelum<br />Penyesuaian
+              </th>
+              <th className="px-3 py-4 text-right">
+                Total Tagihan<br />Sebelum<br />Penyesuaian
+              </th>
+              <th className="px-3 py-4 text-right">
+                Tagihan Bunga<br />Sesudah<br />Penyesuaian
+              </th>
+              <th className="px-3 py-4 text-right">
+                Total Tagihan<br />Sesudah<br />Penyesuaian
+              </th>
               <th className="px-3 py-4">Diubah Oleh</th>
             </tr>
           </thead>
@@ -128,15 +143,22 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
               </tr>
             ) : (
               rows.map((row) => (
-                <tr key={row.id} className="border-b border-slate-200 text-slate-900 last:border-b-0">
+                <tr
+                  key={row.id}
+                  className="border-b border-slate-200 text-slate-900 last:border-b-0"
+                >
                   <td className="px-3 py-4 align-middle tabular-nums">{row.installmentNo}</td>
                   <td className="px-3 py-4 align-middle leading-snug">{row.adjustmentType}</td>
                   <td className="px-3 py-4 text-right align-middle tabular-nums">{row.adjustmentAmount}</td>
                   <td className="break-words px-3 py-4 align-middle leading-snug">{row.reason}</td>
                   <td className="px-3 py-4 text-right align-middle tabular-nums">{row.interestBefore}</td>
                   <td className="px-3 py-4 text-right align-middle tabular-nums">{row.totalBefore}</td>
-                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">{row.interestAfter}</td>
-                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">{row.totalAfter}</td>
+                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
+                    {row.interestAfter}
+                  </td>
+                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
+                    {row.totalAfter}
+                  </td>
                   <td className="whitespace-nowrap px-3 py-4 align-middle">{row.changedBy}</td>
                 </tr>
               ))
@@ -157,7 +179,13 @@ export default function LoanDebtAdjustmentHistoryDialog({
   onOpenChange: (open: boolean) => void;
   accountNo: string;
 }) {
+  const [mounted, setMounted] = React.useState(false);
   const [storedRows, setStoredRows] = React.useState<HistoryRow[]>([]);
+
+  React.useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   React.useEffect(() => {
     if (!open) return;
@@ -178,17 +206,13 @@ export default function LoanDebtAdjustmentHistoryDialog({
     };
   }, [accountNo, open]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   const rows = [...storedRows, ...(seedRows[accountNo] ?? [])];
 
-  function closeDialog() {
-    onOpenChange(false);
-  }
-
-  return (
+  const modal = (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/65 p-2 sm:p-3"
+      className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/65 p-2 sm:p-3"
       role="dialog"
       aria-modal="true"
       aria-label="Riwayat perubahan nominal bunga pinjaman"
@@ -196,8 +220,8 @@ export default function LoanDebtAdjustmentHistoryDialog({
       <button
         type="button"
         aria-label="Tutup overlay"
-        className="absolute inset-0 cursor-default"
-        onClick={closeDialog}
+        className="absolute inset-0 z-0 cursor-default"
+        onClick={() => onOpenChange(false)}
       />
 
       <section
@@ -211,8 +235,8 @@ export default function LoanDebtAdjustmentHistoryDialog({
 
           <button
             type="button"
-            onClick={closeDialog}
-            className="relative z-20 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
+            onClick={() => onOpenChange(false)}
+            className="relative z-20 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-slate-700 transition hover:bg-slate-100"
             aria-label="Tutup riwayat"
             title="Tutup"
           >
@@ -224,10 +248,10 @@ export default function LoanDebtAdjustmentHistoryDialog({
           <HistoryTable rows={rows} />
         </main>
 
-        <footer className="flex shrink-0 justify-end border-t border-slate-200 px-5 py-4 sm:px-6">
+        <footer className="flex shrink-0 justify-end border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
           <button
             type="button"
-            onClick={closeDialog}
+            onClick={() => onOpenChange(false)}
             className="relative z-20 inline-flex h-9 min-w-[88px] cursor-pointer items-center justify-center rounded-[5px] bg-[#7D8CA8] px-5 text-[12px] font-bold text-white transition hover:bg-[#6E7D98]"
           >
             Tutup
@@ -236,4 +260,6 @@ export default function LoanDebtAdjustmentHistoryDialog({
       </section>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }
