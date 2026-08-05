@@ -16,6 +16,7 @@ import {
   Pencil,
   Percent,
   Printer,
+  RotateCcw,
   Sparkles,
   TimerReset,
   X,
