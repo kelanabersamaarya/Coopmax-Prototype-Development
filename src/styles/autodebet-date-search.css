@@ -32,13 +32,3 @@ input[placeholder="Cari tanggal..."]:focus-visible {
   --tw-ring-offset-shadow: 0 0 #0000 !important;
   --tw-ring-offset-width: 0px !important;
 }
-
-/* Produk Pinjaman: tanggal autodebet ditentukan otomatis pada akhir bulan.
-   Hanya sembunyikan label dan input readonly tanggal, bukan seluruh form modal. */
-.autodebet-dialog-field
-  + label:has(+ input[readonly][aria-readonly="true"]),
-.autodebet-dialog-field
-  + label
-  + input[readonly][aria-readonly="true"] {
-  display: none !important;
-}

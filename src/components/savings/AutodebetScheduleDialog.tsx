@@ -240,7 +240,9 @@ export default function AutodebetScheduleDialog({
 
     if (!product) missing.push("Produk Tujuan");
     if (!selectedAccountValue) missing.push("No. Rekening Tujuan");
-    if (isSavingsProduct && !autodebetDay) missing.push("Tanggal Autodebet");
+    if (!isLoanProduct && !autodebetDay) {
+      missing.push("Tanggal Proses Autodebet");
+    }
     if (!description.trim()) missing.push("Keterangan");
 
     if (missing.length > 0) {
@@ -369,23 +371,31 @@ export default function AutodebetScheduleDialog({
                 ) : null}
               </div>
 
-              {isSavingsProduct ? (
-                <>
-                  <Label className={labelClassName}>Tanggal Autodebet</Label>
-                  <Select value={autodebetDay} onValueChange={setAutodebetDay}>
-                    <SelectTrigger className={inputClassName}>
-                      <SelectValue placeholder="Pilih Tanggal Autodebet" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
-                      {autodebetDays.map((day) => (
-                        <SelectItem key={day} value={day}>
-                          {day}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </>
-              ) : null}
+              <Label className={labelClassName}>Tanggal Proses Autodebet</Label>
+              {isLoanProduct ? (
+                <Input
+                  value={LOAN_AUTODEBET_DAY}
+                  readOnly
+                  aria-readonly="true"
+                  className={cn(
+                    inputClassName,
+                    "cursor-not-allowed bg-slate-200/80 text-slate-700",
+                  )}
+                />
+              ) : (
+                <Select value={autodebetDay} onValueChange={setAutodebetDay}>
+                  <SelectTrigger className={inputClassName}>
+                    <SelectValue placeholder="Pilih Tanggal Proses Autodebet" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
+                    {autodebetDays.map((day) => (
+                      <SelectItem key={day} value={day}>
+                        {day}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
 
               <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
               <Textarea
