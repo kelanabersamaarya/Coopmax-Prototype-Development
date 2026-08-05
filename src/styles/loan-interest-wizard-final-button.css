@@ -9,6 +9,25 @@
   opacity: 1 !important;
   filter: none !important;
   box-shadow: none !important;
+  transform: none !important;
+  scale: 1 !important;
+  transition: background-color 150ms ease, color 150ms ease !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child:hover,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child:active,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child:focus {
+  transform: none !important;
+  scale: 1 !important;
+  min-width: 150px !important;
+  width: 150px !important;
+  height: 40px !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
