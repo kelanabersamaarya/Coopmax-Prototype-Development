@@ -12,7 +12,7 @@ export default function MemberReportEntriesPicker({
   return (
     <label
       className={cn(
-        "inline-flex items-center gap-2 text-[18px] font-normal text-black",
+        "inline-flex items-center gap-2 text-[12px] font-normal text-black",
         className,
       )}
     >
@@ -22,7 +22,7 @@ export default function MemberReportEntriesPicker({
         <select
           value={entryCount}
           onChange={(event) => setEntryCount(event.target.value)}
-          className="h-[30px] min-w-[66px] appearance-none rounded-[4px] border border-slate-600 bg-white py-0 pl-2 pr-8 text-[18px] font-normal text-black outline-none"
+          className="h-[30px] min-w-[58px] appearance-none rounded-[4px] border border-slate-600 py-0 pl-2 pr-7 text-[12px] font-normal text-black outline-none"
           aria-label="Jumlah entri yang ditampilkan"
         >
           {[10, 20, 50, 100].map((count) => (
@@ -33,7 +33,7 @@ export default function MemberReportEntriesPicker({
         </select>
 
         <ChevronDown
-          className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-black"
+          className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-black"
           strokeWidth={2.5}
         />
       </span>
