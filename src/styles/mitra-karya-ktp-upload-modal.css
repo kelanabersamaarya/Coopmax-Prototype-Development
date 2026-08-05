@@ -1,0 +1,22 @@
+/* Modal unggah KTP: sesuaikan header dengan label anggota. */
+[data-radix-dialog-content].max-w-\[1000px\] h2 {
+  font-size: 0 !important;
+  line-height: 1.25 !important;
+}
+
+[data-radix-dialog-content].max-w-\[1000px\] h2::after {
+  content: "Unggah Foto KTP Anggota";
+  color: #000000;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* Kotak unggah cukup menampilkan ikon, judul, dan tombol. */
+[data-radix-dialog-content].max-w-\[1000px\]
+  main
+  > div.grid
+  > section:nth-child(2)
+  p {
+  display: none !important;
+}
