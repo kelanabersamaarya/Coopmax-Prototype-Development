@@ -7,16 +7,20 @@ body:has(input[placeholder="Masukkan nama/no anggota.."])
   opacity: 1 !important;
 }
 
-/* Nilai default filter yang belum dipilih. */
+/* Nilai default pada semua dropdown filter dibuat abu-abu. */
 body:has(input[placeholder="Masukkan nama/no anggota.."])
   .member-report-filter-default,
 body:has(input[placeholder="Masukkan nama/no anggota.."])
-  .member-report-filter-default [data-slot="select-value"] {
+  .member-report-filter-default [data-slot="select-value"],
+body:has(input[placeholder="Masukkan nama/no anggota.."])
+  .member-report-filter-default [data-placeholder],
+body:has(input[placeholder="Masukkan nama/no anggota.."])
+  .member-report-filter-default span {
   color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
-/* Nilai setelah filter benar-benar dipilih kembali ke warna normal. */
+/* Nilai yang sudah dipilih tetap menggunakan warna teks normal. */
 body:has(input[placeholder="Masukkan nama/no anggota.."])
   [data-slot="select-trigger"]:not(.member-report-filter-default)
   [data-slot="select-value"],

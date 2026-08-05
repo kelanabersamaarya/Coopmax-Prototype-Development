@@ -7,7 +7,13 @@ const REPORT_INPUT_SELECTOR =
 
 const DEFAULT_VALUES = new Set([
   "semua",
+  "pilih kategori",
+  "pilih status anggota",
+  "pilih produk yang dimiliki",
+  "pilih wilayah",
+  "pilih tag (satu atau lebih)",
   "berdasarkan simpanan anggota",
+  "semua",
 ]);
 
 function syncDefaultFilterStyles() {
@@ -26,6 +32,7 @@ function syncDefaultFilterStyles() {
       trigger;
 
     const value = valueElement.textContent?.trim().toLowerCase() ?? "";
+
     trigger.classList.toggle(
       "member-report-filter-default",
       DEFAULT_VALUES.has(value),
