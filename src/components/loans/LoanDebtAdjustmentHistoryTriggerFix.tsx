@@ -78,6 +78,12 @@ function getAccountNo(button: HTMLButtonElement) {
   );
 }
 
+const headerCellClass =
+  "border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800 align-middle whitespace-normal break-normal";
+
+const bodyCellClass =
+  "border-b border-slate-200 px-3 py-3 text-[12px] text-slate-900 align-top break-normal";
+
 function HistoryModal({
   rows,
   onClose,
@@ -134,26 +140,45 @@ function HistoryModal({
         </header>
 
         <main className="min-h-0 overflow-auto p-4 sm:p-6">
-          <div className="safe-x-scroll overflow-hidden rounded-[6px] border border-slate-300">
-            <table className="w-full min-w-[1180px] border-collapse text-[12px]">
-              <thead className="bg-slate-50">
-                <tr className="border-b border-slate-300 text-left font-extrabold uppercase tracking-wide text-slate-800">
-                  <th className="px-3 py-3">
+          <div className="w-full overflow-x-auto rounded-[6px] border border-slate-300">
+            <table
+              className="w-[1280px] min-w-[1280px] table-fixed border-collapse"
+              style={{
+                wordBreak: "normal",
+                overflowWrap: "normal",
+              }}
+            >
+              <colgroup>
+                <col style={{ width: "170px" }} />
+                <col style={{ width: "190px" }} />
+                <col style={{ width: "140px" }} />
+                <col style={{ width: "250px" }} />
+                <col style={{ width: "170px" }} />
+                <col style={{ width: "170px" }} />
+                <col style={{ width: "120px" }} />
+                <col style={{ width: "170px" }} />
+              </colgroup>
+
+              <thead>
+                <tr>
+                  <th className={headerCellClass}>
                     Angsuran yang Dilakukan Penyesuaian
                   </th>
-                  <th className="px-3 py-3">Jenis Penyesuaian</th>
-                  <th className="px-3 py-3 text-right">
+                  <th className={headerCellClass}>Jenis Penyesuaian</th>
+                  <th className={`${headerCellClass} text-right`}>
                     Nominal Penyesuaian
                   </th>
-                  <th className="px-3 py-3">Alasan Penyesuaian</th>
-                  <th className="px-3 py-3 text-right">
+                  <th className={headerCellClass}>Alasan Penyesuaian</th>
+                  <th className={`${headerCellClass} text-right`}>
                     Tagihan Bunga Sebelum Penyesuaian
                   </th>
-                  <th className="px-3 py-3 text-right">
+                  <th className={`${headerCellClass} text-right`}>
                     Tagihan Bunga Sesudah Penyesuaian
                   </th>
-                  <th className="px-3 py-3">Diubah Oleh</th>
-                  <th className="px-3 py-3">Tanggal & Waktu Perubahan</th>
+                  <th className={headerCellClass}>Diubah Oleh</th>
+                  <th className={headerCellClass}>
+                    Tanggal & Waktu Perubahan
+                  </th>
                 </tr>
               </thead>
 
@@ -162,7 +187,7 @@ function HistoryModal({
                   <tr>
                     <td
                       colSpan={8}
-                      className="px-4 py-12 text-center text-slate-500"
+                      className="px-4 py-12 text-center text-[12px] text-slate-500"
                     >
                       Belum ada riwayat perubahan nominal bunga.
                     </td>
@@ -171,28 +196,40 @@ function HistoryModal({
                   rows.map((row, index) => (
                     <tr
                       key={`${row.id}-${index}`}
-                      className="border-b border-slate-200 text-slate-900 last:border-0 odd:bg-white even:bg-slate-50/50"
+                      className="odd:bg-white even:bg-slate-50/50"
                     >
-                      <td className="px-3 py-3 whitespace-nowrap">
+                      <td className={`${bodyCellClass} whitespace-nowrap`}>
                         {row.installment}
                       </td>
-                      <td className="px-3 py-3">{row.type}</td>
-                      <td className="px-3 py-3 text-right tabular-nums">
+                      <td className={bodyCellClass}>{row.type}</td>
+                      <td
+                        className={`${bodyCellClass} whitespace-nowrap text-right tabular-nums`}
+                      >
                         {row.amount}
                       </td>
-                      <td className="max-w-[240px] px-3 py-3 whitespace-normal">
+                      <td
+                        className={`${bodyCellClass} whitespace-normal`}
+                        style={{
+                          overflowWrap: "anywhere",
+                          wordBreak: "normal",
+                        }}
+                      >
                         {row.reason}
                       </td>
-                      <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
+                      <td
+                        className={`${bodyCellClass} whitespace-nowrap text-right tabular-nums`}
+                      >
                         {row.interestBefore}
                       </td>
-                      <td className="px-3 py-3 text-right font-bold tabular-nums text-blue-600 whitespace-nowrap">
+                      <td
+                        className={`${bodyCellClass} whitespace-nowrap text-right font-bold tabular-nums text-blue-600`}
+                      >
                         {row.interestAfter}
                       </td>
-                      <td className="px-3 py-3 whitespace-nowrap">
+                      <td className={`${bodyCellClass} whitespace-nowrap`}>
                         {row.changedBy}
                       </td>
-                      <td className="px-3 py-3 whitespace-nowrap">
+                      <td className={`${bodyCellClass} whitespace-nowrap`}>
                         {row.changedAt}
                       </td>
                     </tr>
@@ -251,7 +288,10 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
     }
 
     document.addEventListener("click", handleClick, true);
-    return () => document.removeEventListener("click", handleClick, true);
+
+    return () => {
+      document.removeEventListener("click", handleClick, true);
+    };
   }, []);
 
   if (!open) return null;
