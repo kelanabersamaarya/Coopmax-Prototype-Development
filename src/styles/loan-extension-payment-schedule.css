@@ -1,8 +1,8 @@
 [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-panel {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
   overflow: hidden;
   border: 1px solid #bfdbfe;
@@ -37,6 +37,7 @@
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
+  margin-top: 0.125rem;
   border-radius: 9999px;
   background: #2563eb;
   color: #ffffff;
@@ -102,14 +103,4 @@
   color: #000000 !important;
   font-size: 14px !important;
   font-weight: 700 !important;
-}
-
-@media (max-width: 639px) {
-  [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-panel {
-    align-items: flex-start;
-  }
-
-  [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-icon {
-    margin-top: 0.125rem;
-  }
 }

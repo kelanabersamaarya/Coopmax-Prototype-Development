@@ -9,6 +9,7 @@ function createImpactPanel() {
   const panel = document.createElement("div");
   panel.className = PANEL_CLASS;
   panel.innerHTML = `
+    <span class="loan-extension-tenor-impact-icon" aria-hidden="true">i</span>
     <div class="loan-extension-tenor-impact-content">
       <div class="loan-extension-tenor-impact-title">
         Informasi Dampak Perubahan Tenor
@@ -17,13 +18,13 @@ function createImpactPanel() {
         Perpanjangan tenor dapat menambah total bunga yang harus dibayar apabila jangka waktu pembayaran menjadi lebih panjang.
       </div>
     </div>
-    <span class="loan-extension-tenor-impact-icon" aria-hidden="true">i</span>
   `;
   return panel;
 }
 
 function syncImpactPanel() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
+
   if (!wizard || wizard.dataset.loanExtensionStep !== "2") {
     document.querySelectorAll(`.${PANEL_CLASS}`).forEach((panel) => panel.remove());
     return;
