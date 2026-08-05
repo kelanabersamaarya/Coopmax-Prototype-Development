@@ -727,11 +727,16 @@ export default function MitraKaryaLaporanAnggota() {
               </span>
               <div className="min-w-0">
                 <h2 className="text-[14px] font-extrabold leading-snug">
-                  Fitur Penyesuaian Laporan
+                  Fitur <span className="text-violet-600">Penyesuaian Laporan</span>
                 </h2>
                 <p className="mt-2 max-w-[440px] text-[13px] font-normal leading-relaxed">
-                  Anda dapat melakukan kustomisasi tampilan laporan melalui fitur
-                  penyesuaian laporan.
+                  Anda dapat melakukan kustomisasi tampilan laporan (pengaturan
+                  kolom dan urutan data) pada laporan ini dengan menggunakan fitur
+                  penyesuaian laporan. Silahkan klik menu{" "}
+                  <span className="font-semibold text-violet-600">
+                    Penyesuaian Laporan
+                  </span>{" "}
+                  untuk dapat melakukan pengaturan.
                 </p>
                 <button
                   type="button"

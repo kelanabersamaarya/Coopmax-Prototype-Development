@@ -30,21 +30,3 @@ body:has(input[placeholder="Masukkan nama/no anggota.."])
   color: #334155 !important;
   opacity: 1 !important;
 }
-
-/* Teks lengkap pada kartu Fitur Penyesuaian Laporan. */
-body:has(input[placeholder="Masukkan nama/no anggota.."])
-  section[class*="border-[#0EA5E9]"]
-  p {
-  font-size: 0 !important;
-  line-height: 0 !important;
-}
-
-body:has(input[placeholder="Masukkan nama/no anggota.."])
-  section[class*="border-[#0EA5E9]"]
-  p::after {
-  content: "Anda dapat melakukan kustomisasi tampilan laporan (pengaturan kolom dan urutan data) pada laporan ini dengan menggunakan fitur penyesuaian laporan. Silahkan klik menu Penyesuaian Laporan untuk dapat melakukan pengaturan.";
-  display: block;
-  color: #0098cd;
-  font-size: 13px;
-  line-height: 1.625;
-}
