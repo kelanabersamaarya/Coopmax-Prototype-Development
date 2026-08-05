@@ -66,19 +66,31 @@
   width: 180px !important;
 }
 
-/* Tombol pembuka riwayat harus selalu berada di atas elemen layout wizard. */
-[data-loan-debt-wizard="true"] button:has(> svg.lucide-eye) {
+/* Khusus wizard Ubah Nominal Bunga: tombol riwayat harus selalu bisa diklik. */
+[data-loan-debt-wizard="true"]
+  button:has(> svg.lucide-clock-3) {
   position: relative !important;
-  z-index: 50 !important;
+  z-index: 100 !important;
+  isolation: isolate !important;
   pointer-events: auto !important;
   cursor: pointer !important;
 }
 
-/* Jangan biarkan kartu informasi atau pseudo-element menutup area tombol. */
+/* Pastikan ikon dan teks tidak memblokir event tombol. */
 [data-loan-debt-wizard="true"]
-  button:has(> svg.lucide-eye)
-  * {
+  button:has(> svg.lucide-clock-3)
+  > * {
   pointer-events: none !important;
+}
+
+/* Panel riwayat berada di atas seluruh wizard dan tidak ikut tertutup oleh stacking context. */
+.history-dialog-overlay {
+  z-index: 100000 !important;
+}
+
+.history-dialog-panel {
+  position: relative !important;
+  z-index: 100001 !important;
 }
 
 @media (max-width: 640px) {
@@ -86,7 +98,7 @@
     width: calc(100vw - 16px) !important;
   }
 
-  .history-dialog-panel .history-dialog-body {
+  .history-dialog-body {
     padding-left: 12px !important;
     padding-right: 12px !important;
   }
