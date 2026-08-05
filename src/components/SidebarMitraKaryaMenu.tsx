@@ -10,10 +10,6 @@ const reportItems = [
     label: "Laporan Anggota",
     to: "/mitra-karya/laporan/anggota",
   },
-  {
-    label: "Laporan Anggota V2",
-    to: "/mitra-karya/laporan/anggota-v2",
-  },
 ];
 
 export default function SidebarMitraKaryaMenu() {
