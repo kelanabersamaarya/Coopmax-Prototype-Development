@@ -66,6 +66,21 @@
   width: 180px !important;
 }
 
+/* Tombol pembuka riwayat harus selalu berada di atas elemen layout wizard. */
+[data-loan-debt-wizard="true"] button:has(> svg.lucide-eye) {
+  position: relative !important;
+  z-index: 50 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Jangan biarkan kartu informasi atau pseudo-element menutup area tombol. */
+[data-loan-debt-wizard="true"]
+  button:has(> svg.lucide-eye)
+  * {
+  pointer-events: none !important;
+}
+
 @media (max-width: 640px) {
   .history-dialog-panel {
     width: calc(100vw - 16px) !important;
