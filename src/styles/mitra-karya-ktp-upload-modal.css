@@ -14,50 +14,7 @@
   line-height: 1.25;
 }
 
-/* Teks penjelas di bawah judul Foto KTP. */
-[role="dialog"][class*="max-w-[1000px]"]
-  main
-  > div.grid
-  > section:nth-child(2)
-  > h3 {
-  margin-bottom: 0 !important;
-}
-
-[role="dialog"][class*="max-w-[1000px]"]
-  main
-  > div.grid
-  > section:nth-child(2)
-  > h3::after,
-[data-radix-dialog-content][class*="max-w-[1000px]"]
-  main
-  > div.grid
-  > section:nth-child(2)
-  > h3::after {
-  content: "Klik tombol dibawah ini untuk mengunggah foto ktp anggota";
-  display: block;
-  margin-top: 8px;
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.4;
-  text-transform: none;
-}
-
-/* Hilangkan teks instruksi lama di dalam kotak upload. */
-[role="dialog"][class*="max-w-[1000px]"]
-  main
-  > div.grid
-  > section:nth-child(2)
-  p,
-[data-radix-dialog-content][class*="max-w-[1000px]"]
-  main
-  > div.grid
-  > section:nth-child(2)
-  p {
-  display: none !important;
-}
-
-/* Kotak upload sejajar dengan contoh foto KTP yang salah. */
+/* Kotak upload tetap sejajar dengan contoh foto KTP yang salah. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
@@ -88,7 +45,7 @@
   gap: 8px !important;
 }
 
-/* Judul Foto KTP tetap terlihat jelas. */
+/* Label Foto KTP di dalam kotak upload. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
@@ -103,4 +60,42 @@
   > div.text-\[15px\] {
   display: block !important;
   font-size: 15px !important;
+  line-height: 1.25 !important;
+}
+
+/* Teks penjelas berada tepat di bawah teks Foto KTP dalam kotak upload. */
+[role="dialog"][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  > div.flex
+  > div.text-\[15px\]::after,
+[data-radix-dialog-content][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  > div.flex
+  > div.text-\[15px\]::after {
+  content: "Klik tombol dibawah ini untuk mengunggah foto ktp anggota";
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 12px !important;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: none;
+}
+
+/* Sembunyikan teks instruksi bawaan agar tidak tampil ganda. */
+[role="dialog"][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  p,
+[data-radix-dialog-content][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  p {
+  display: none !important;
 }
