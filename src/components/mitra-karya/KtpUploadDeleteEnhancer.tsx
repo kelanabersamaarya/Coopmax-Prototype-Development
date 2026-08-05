@@ -28,6 +28,18 @@ function createTrashIcon() {
   `;
 }
 
+function hideChangePhotoButton(uploadBox: HTMLElement) {
+  Array.from(uploadBox.querySelectorAll<HTMLButtonElement>("button")).forEach(
+    (button) => {
+      const label = (button.textContent ?? "").trim().toLowerCase();
+
+      if (label === "ganti foto ktp") {
+        button.style.display = "none";
+      }
+    },
+  );
+}
+
 function findUploadBox(uploadSection: HTMLElement) {
   return Array.from(uploadSection.children).find(
     (child): child is HTMLElement =>
@@ -47,6 +59,8 @@ function syncDeleteButton() {
 
   const uploadBox = findUploadBox(uploadSection);
   if (!uploadBox) return;
+
+  hideChangePhotoButton(uploadBox);
 
   const previewImage = uploadBox.querySelector<HTMLImageElement>("img");
   const fileInput = uploadBox.querySelector<HTMLInputElement>(
