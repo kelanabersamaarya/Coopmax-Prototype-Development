@@ -46,7 +46,6 @@ import "./styles/autodebet-date-search.css";
 import "./styles/loan-account-qr-style.css";
 import "./styles/loan-interest-history-table.css";
 import "./styles/loan-debt-adjustment-history-modal.css";
-import "./styles/loan-debt-adjustment-history-scroll.css";
 import "./styles/loan-interest-wizard-step-two.css";
 import "./styles/loan-interest-wizard-save-icon.css";
 import "./styles/loan-interest-change-marker.css";
@@ -75,5 +74,6 @@ import "./styles/mitra-karya-member-report-vertical-align.css";
 import "./styles/mitra-karya-member-report-filters.css";
 import "./styles/mitra-karya-ktp-upload-modal.css";
 import "./styles/loan-interest-wizard-final-button.css";
+import "./styles/loan-debt-adjustment-history-final.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

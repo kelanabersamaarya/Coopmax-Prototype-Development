@@ -86,9 +86,34 @@ function mapStoredRow(entry: LoanInterestAdjustmentHistoryEntry): HistoryRow {
 
 function HistoryTable({ rows }: { rows: HistoryRow[] }) {
   return (
-    <div className="history-table-frame">
-      <div className="history-table-scroll">
-        <table className="history-table">
+    <div
+      className="history-table-frame"
+      style={{
+        width: "100%",
+        maxWidth: "100%",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        className="history-table-scroll"
+        style={{
+          display: "block",
+          width: "100%",
+          maxWidth: "100%",
+          overflowX: "auto",
+          overflowY: "hidden",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        <table
+          className="history-table"
+          style={{
+            width: "1390px",
+            minWidth: "1390px",
+            maxWidth: "none",
+            tableLayout: "fixed",
+          }}
+        >
           <colgroup>
             <col className="history-col-installment" />
             <col className="history-col-type" />
@@ -188,10 +213,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
     window.addEventListener("storage", loadHistory);
 
     return () => {
-      window.removeEventListener(
-        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-        loadHistory,
-      );
+      window.removeEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, loadHistory);
       window.removeEventListener("storage", loadHistory);
     };
   }, [accountNo, open]);

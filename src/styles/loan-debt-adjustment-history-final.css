@@ -1,0 +1,82 @@
+.history-dialog-panel .history-dialog-body {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+.history-dialog-panel .history-table-frame {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.history-dialog-panel .history-table-scroll {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.history-dialog-panel table.history-table {
+  display: table !important;
+  width: 1390px !important;
+  min-width: 1390px !important;
+  max-width: none !important;
+  table-layout: fixed !important;
+}
+
+.history-dialog-panel table.history-table th,
+.history-dialog-panel table.history-table td {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  word-break: normal !important;
+}
+
+.history-dialog-panel table.history-table .history-col-installment {
+  width: 150px !important;
+}
+
+.history-dialog-panel table.history-table .history-col-type {
+  width: 190px !important;
+}
+
+.history-dialog-panel table.history-table .history-col-amount {
+  width: 150px !important;
+}
+
+.history-dialog-panel table.history-table .history-col-reason {
+  width: 260px !important;
+}
+
+.history-dialog-panel table.history-table .history-col-interest {
+  width: 165px !important;
+}
+
+.history-dialog-panel table.history-table .history-col-user {
+  width: 150px !important;
+}
+
+.history-dialog-panel table.history-table .history-col-date {
+  width: 180px !important;
+}
+
+@media (max-width: 640px) {
+  .history-dialog-panel {
+    width: calc(100vw - 16px) !important;
+  }
+
+  .history-dialog-panel .history-dialog-body {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .history-dialog-panel .history-table-scroll {
+    overflow-x: scroll !important;
+  }
+}
