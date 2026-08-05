@@ -4,6 +4,7 @@ import * as React from "react";
 
 const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const SUMMARY_ROW_ATTRIBUTE = "data-total-interest-summary-row";
+const SUMMARY_TITLE = "Ringkasan Perpanjangan Pinjaman";
 const CURRENT_TOTAL_INTEREST = 1_440_000;
 
 function parseAmount(value: string) {
@@ -20,21 +21,29 @@ function formatAmount(value: number) {
 }
 
 function findSummaryTable(wizard: HTMLElement) {
-  const heading = Array.from(
+  const titleElement = Array.from(
     wizard.querySelectorAll<HTMLElement>("div, h2, h3"),
-  ).find(
-    (element) =>
-      element.textContent?.trim() === "Ringkasan Perpanjangan Pinjaman",
-  );
+  ).find((element) => element.textContent?.trim() === SUMMARY_TITLE);
 
-  if (!heading) return null;
+  if (!titleElement) return null;
 
-  const section = heading.closest("section, div");
-  return section?.querySelector<HTMLTableElement>("table") ?? null;
+  let current: HTMLElement | null = titleElement.parentElement;
+
+  while (current && current !== wizard.parentElement) {
+    const table = current.querySelector<HTMLTableElement>("table");
+
+    if (table) return table;
+
+    current = current.parentElement;
+  }
+
+  return null;
 }
 
 function findScheduleTable(wizard: HTMLElement) {
-  return wizard.querySelector<HTMLTableElement>("table.min-w-\\[750px\\]");
+  return wizard.querySelector<HTMLTableElement>(
+    "table.min-w-\\[750px\\]",
+  );
 }
 
 function getSimulatedTotalInterest(wizard: HTMLElement) {
@@ -55,22 +64,7 @@ function getSimulatedTotalInterest(wizard: HTMLElement) {
   return total > 0 ? total : CURRENT_TOTAL_INTEREST;
 }
 
-function syncInterestSummary() {
-  const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
-  if (!wizard || wizard.dataset.loanExtensionStep !== "2") return;
-
-  const summaryTable = findSummaryTable(wizard);
-  if (!summaryTable) return;
-
-  const tbody = summaryTable.querySelector("tbody");
-  if (!tbody) return;
-
-  tbody
-    .querySelector<HTMLTableRowElement>(
-      `[${SUMMARY_ROW_ATTRIBUTE}="true"]`,
-    )
-    ?.remove();
-
+function createInterestSummaryRow(wizard: HTMLElement) {
   const row = document.createElement("tr");
   row.setAttribute(SUMMARY_ROW_ATTRIBUTE, "true");
   row.className = "border-b border-slate-100 bg-white text-[12px] text-black";
@@ -88,32 +82,60 @@ function syncInterestSummary() {
   afterCell.textContent = formatAmount(getSimulatedTotalInterest(wizard));
 
   row.append(labelCell, beforeCell, afterCell);
+  return row;
+}
 
-  const tenorRow = Array.from(tbody.querySelectorAll<HTMLTableRowElement>("tr")).find(
-    (candidate) => candidate.textContent?.trim().startsWith("Tenor"),
-  );
+function syncInterestSummary() {
+  const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
+  if (!wizard || wizard.dataset.loanExtensionStep !== "2") return;
+
+  const summaryTable = findSummaryTable(wizard);
+  const tbody = summaryTable?.querySelector("tbody");
+  if (!tbody) return;
+
+  tbody
+    .querySelector<HTMLTableRowElement>(
+      `[${SUMMARY_ROW_ATTRIBUTE}="true"]`,
+    )
+    ?.remove();
+
+  const interestRow = createInterestSummaryRow(wizard);
+  const tenorRow = Array.from(
+    tbody.querySelectorAll<HTMLTableRowElement>("tr"),
+  ).find((row) => {
+    const firstCell = row.querySelector("td");
+    return firstCell?.textContent?.trim() === "Tenor";
+  });
 
   if (tenorRow) {
-    tenorRow.insertAdjacentElement("afterend", row);
+    tenorRow.insertAdjacentElement("afterend", interestRow);
   } else {
-    tbody.appendChild(row);
+    tbody.appendChild(interestRow);
   }
 }
 
 export default function LoanExtensionInterestSummarySync() {
   React.useEffect(() => {
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(syncInterestSummary);
-    });
+    let frameId = 0;
+
+    const scheduleSync = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(syncInterestSummary);
+    };
+
+    const observer = new MutationObserver(scheduleSync);
 
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    syncInterestSummary();
+    scheduleSync();
 
-    return () => observer.disconnect();
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
   }, []);
 
   return null;
