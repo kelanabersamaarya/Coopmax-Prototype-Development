@@ -1,40 +1,23 @@
-/* Saat modal riwayat terbuka, nonaktifkan lapisan wizard utama di bawahnya. */
-body:has(
-    [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  )
-  [data-radix-dialog-overlay],
-body:has(
-    [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  )
-  [data-radix-dialog-content] {
-  pointer-events: none !important;
+[data-loan-debt-history-modal="true"] {
+  pointer-events: auto !important;
+  isolation: isolate;
 }
 
-/* Modal riwayat yang dirender melalui portal tetap menerima semua interaksi. */
-body:has(
-    [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  )
-  > [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"] {
-  pointer-events: auto !important;
-  z-index: 100000 !important;
+[data-loan-debt-history-modal="true"] * {
+  pointer-events: auto;
 }
 
-body:has(
-    [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  )
-  > [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  section {
-  pointer-events: auto !important;
+[data-loan-debt-history-modal="true"] main {
+  overscroll-behavior: contain;
 }
 
-body:has(
-    [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  )
-  > [role="dialog"][aria-label="Riwayat perubahan nominal bunga pinjaman"]
-  .safe-x-scroll {
-  pointer-events: auto !important;
-  touch-action: pan-x !important;
+[data-loan-debt-history-modal="true"] main > div {
   overflow-x: auto !important;
-  overscroll-behavior-x: contain !important;
-  -webkit-overflow-scrolling: touch !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+
+[data-loan-debt-history-modal="true"] button {
+  cursor: pointer;
 }
