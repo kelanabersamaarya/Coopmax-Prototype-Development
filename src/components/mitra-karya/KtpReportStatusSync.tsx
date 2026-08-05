@@ -12,6 +12,13 @@ function isButtonWithLabel(element: Element | null, label: string) {
   );
 }
 
+function isKtpDetailButton(element: Element | null) {
+  if (!(element instanceof HTMLButtonElement)) return false;
+
+  const ariaLabel = element.getAttribute("aria-label")?.trim().toLowerCase() ?? "";
+  return ariaLabel.startsWith("lihat ");
+}
+
 function updateKtpStatus(row: HTMLTableRowElement) {
   const cells = Array.from(row.querySelectorAll<HTMLTableCellElement>("td"));
   const ktpCell = cells.find((cell) => {
@@ -29,6 +36,22 @@ function updateKtpStatus(row: HTMLTableRowElement) {
     "inline-flex rounded-[3px] bg-[#27ae00] px-2 py-1 text-[9px] font-bold leading-none text-white";
 }
 
+function closeKtpPhotoDialog() {
+  const dialogs = Array.from(
+    document.querySelectorAll<HTMLElement>('[role="dialog"]'),
+  );
+
+  const photoDialog = dialogs.find((dialog) =>
+    (dialog.textContent ?? "").includes("Foto KTP Anggota"),
+  );
+
+  const closeButton = photoDialog?.querySelector<HTMLButtonElement>(
+    'button[aria-label="Tutup"]',
+  );
+
+  closeButton?.click();
+}
+
 export default function KtpReportStatusSync() {
   const selectedRowRef = React.useRef<HTMLTableRowElement | null>(null);
 
@@ -36,11 +59,13 @@ export default function KtpReportStatusSync() {
     function handleClick(event: MouseEvent) {
       const target = event.target as Element | null;
 
-      if (isButtonWithLabel(target?.closest("button"), "Lihat detail")) {
+      if (isKtpDetailButton(target?.closest("button"))) {
         const row = target?.closest("tr");
+
         if (row instanceof HTMLTableRowElement) {
           selectedRowRef.current = row;
         }
+
         return;
       }
 
@@ -68,7 +93,12 @@ export default function KtpReportStatusSync() {
 
       window.setTimeout(() => {
         const row = selectedRowRef.current;
-        if (row?.isConnected) updateKtpStatus(row);
+
+        if (row?.isConnected) {
+          updateKtpStatus(row);
+        }
+
+        closeKtpPhotoDialog();
         selectedRowRef.current = null;
       }, 100);
     }
