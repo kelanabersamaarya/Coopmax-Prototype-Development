@@ -360,32 +360,38 @@ export default function AutodebetScheduleDialog({
                   <Label className={labelClassName}>
                     Tanggal Proses Autodebet
                   </Label>
-                  {isLoanProduct ? (
-                    <Input
-                      value={LOAN_AUTODEBET_DAY}
-                      readOnly
-                      className={cn(
-                        inputClassName,
-                        "bg-slate-200/80 text-slate-700",
-                      )}
-                    />
-                  ) : (
-                    <Select
-                      value={autodebetDay}
-                      onValueChange={setAutodebetDay}
-                    >
-                      <SelectTrigger className={inputClassName}>
-                        <SelectValue placeholder="Pilih Tanggal Proses Autodebet" />
-                      </SelectTrigger>
-                      <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
-                        {autodebetDays.map((day) => (
-                          <SelectItem key={day} value={day}>
-                            {day}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
+                  <div className="grid gap-1.5">
+                    {isLoanProduct ? (
+                      <Input
+                        value={LOAN_AUTODEBET_DAY}
+                        readOnly
+                        className={cn(
+                          inputClassName,
+                          "bg-slate-200/80 text-slate-700",
+                        )}
+                      />
+                    ) : (
+                      <Select
+                        value={autodebetDay}
+                        onValueChange={setAutodebetDay}
+                      >
+                        <SelectTrigger className={inputClassName}>
+                          <SelectValue placeholder="Pilih Tanggal Proses Autodebet" />
+                        </SelectTrigger>
+                        <SelectContent className="max-h-[240px] rounded-[5px] border-slate-200">
+                          {autodebetDays.map((day) => (
+                            <SelectItem key={day} value={day}>
+                              {day}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+
+                    <div className="text-[12px] leading-relaxed text-slate-500">
+                      Autodebet diproses sesuai dengan tanggal billing
+                    </div>
+                  </div>
                 </>
               ) : null}
 
