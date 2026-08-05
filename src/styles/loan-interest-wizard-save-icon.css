@@ -1,13 +1,20 @@
-[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] svg {
-  display: none !important;
-}
-
-[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\] {
-  flex-direction: row !important;
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  footer
+  > button.bg-\[\#2fb300\] {
+  flex-direction: row-reverse !important;
   gap: 9px !important;
 }
 
-[data-loan-interest-wizard="true"] footer > button.bg-\[\#2fb300\]::before {
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  footer
+  > button.bg-\[\#2fb300\]
+  svg {
+  display: none !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  footer
+  > button.bg-\[\#2fb300\]::before {
   content: "";
   display: inline-block;
   height: 20px;
@@ -19,17 +26,25 @@
   background-size: contain;
 }
 
-/* Step pertama: samakan ukuran header setiap section menjadi 14px. */
-[data-loan-interest-wizard="true"]
-  main
-  > div.grid.gap-7
-  > div.rounded-\[8px\].bg-\[\#17a2b8\]
-  > div.flex
-  > div.text-\[16px\],
-[data-loan-interest-wizard="true"]
-  main
-  > div.grid.gap-7
-  > div.overflow-hidden.rounded-\[12px\]
-  > div.bg-\[\#F9FAFF\] {
-  font-size: 14px !important;
+/* Langkah pertama selalu menggunakan tombol biru dan ikon panah. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child
+  svg {
+  display: inline-block !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child::before {
+  content: none !important;
 }

@@ -177,56 +177,16 @@ function BillingSimulationTable({
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[90px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[145px] px-3 py-3 text-right">
-                Total Tagihan
-                <br />
-                Belum Dibayar
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Tagihan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[165px] px-3 py-3 text-right">
-                Tagihan Bunga
-                <br />
-                Sesudah Penyesuaian
-              </th>
-              <th className="w-[150px] px-3 py-3 text-right">
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Sisa Tagihan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Sisa Tagihan Bunga
-                <br />
-                Sesudah Penyesuaian
-              </th>
-              <th className="w-[125px] px-3 py-3 text-right">
-                Tagihan
-                <br />
-                Denda
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Total Angsuran
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Total Angsuran
-                <br />
-                Sesudah Penyesuaian
-              </th>
+              <th className="w-[145px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
+              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sesudah Penyesuaian</th>
+              <th className="w-[150px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
+              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sebelum Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sesudah Penyesuaian</th>
+              <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Denda</th>
+              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sebelum Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sesudah Penyesuaian</th>
             </tr>
           </thead>
 
@@ -256,34 +216,16 @@ function BillingSimulationTable({
                 >
                   <td className="px-3 py-2.5 tabular-nums">{item.number}</td>
                   <td className="px-3 py-2.5 tabular-nums">{item.dueDate}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeInstallment)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.principal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(item.afterInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.remainingPrincipal)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeRemainingInterest)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(item.afterRemainingInterest)}
-                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInstallment)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.principal)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInterest)}</td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#2563EB]">{formatIdr(item.afterInterest)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.remainingPrincipal)}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeRemainingInterest)}</td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#2563EB]">{formatIdr(item.afterRemainingInterest)}</td>
                   <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {formatIdr(item.beforeInstallment)}
-                  </td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#5B3DF5]">
-                    {formatIdr(item.afterInstallment)}
-                  </td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeInstallment)}</td>
+                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#2563EB]">{formatIdr(item.afterInstallment)}</td>
                 </tr>
               );
             })}
@@ -293,8 +235,7 @@ function BillingSimulationTable({
 
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-slate-600">
-          Menampilkan {showingStart} sampai {showingEnd} dari{" "}
-          {installments.length} periode tagihan
+          Menampilkan {showingStart} sampai {showingEnd} dari {installments.length} periode tagihan
         </div>
 
         <div className="flex items-center gap-2">
@@ -308,26 +249,22 @@ function BillingSimulationTable({
               page <= 1 ? "cursor-not-allowed opacity-60" : "",
             )}
           >
-            <ChevronLeft className="h-4 w-4" />
-            Sebelumnya
+            <ChevronLeft className="h-4 w-4" /> Sebelumnya
           </button>
-          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#5B3DF5] px-3 text-[12px] font-extrabold text-white">
+          <span className="inline-flex h-9 min-w-9 items-center justify-center rounded-[5px] bg-[#2563EB] px-3 text-[12px] font-extrabold text-white">
             {page}
           </span>
           <button
             type="button"
             disabled={page >= pageCount}
-            onClick={() =>
-              setPage((current) => Math.min(pageCount, current + 1))
-            }
+            onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
             className={cn(
               "inline-flex h-9 items-center gap-1 rounded-[5px] px-3 text-[12px] font-semibold transition",
               "bg-slate-100 text-slate-600 hover:bg-slate-200",
               page >= pageCount ? "cursor-not-allowed opacity-60" : "",
             )}
           >
-            Selanjutnya
-            <ChevronRight className="h-4 w-4" />
+            Selanjutnya <ChevronRight className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -387,8 +324,7 @@ export default function LoanInterestChangeWizard({
       const remainingAfter = Math.max(0, principalBefore - monthlyPrincipal);
       const beforeInterest = (principalBefore * currentRate) / 100 / 12;
       const afterInterest = (principalBefore * rate) / 100 / 12;
-      const beforeRemainingInterest =
-        (remainingAfter * currentRate) / 100 / 12;
+      const beforeRemainingInterest = (remainingAfter * currentRate) / 100 / 12;
       const afterRemainingInterest = (remainingAfter * rate) / 100 / 12;
 
       return {
@@ -411,11 +347,9 @@ export default function LoanInterestChangeWizard({
         (installment) => installment.dueDateValue >= effectiveDateValue,
       ) ?? installments[installments.length - 1];
 
-    const changeStartInstallment = firstAffectedInstallment?.number ?? 1;
-
     return {
       rate,
-      changeStartInstallment,
+      changeStartInstallment: firstAffectedInstallment?.number ?? 1,
       beforeInstallment: formatIdr(currentInstallment),
       afterInstallment: formatIdr(
         currentInstallment -
@@ -474,6 +408,7 @@ export default function LoanInterestChangeWizard({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           data-loan-interest-wizard="true"
+          data-loan-interest-step={step}
           className="w-[calc(100vw-2rem)] max-w-[1000px] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1000px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden [&_[data-radix-dialog-close]]:hidden"
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
@@ -501,7 +436,7 @@ export default function LoanInterestChangeWizard({
                       className={cn(
                         "grid h-10 w-10 place-items-center rounded-full text-[18px] font-extrabold",
                         number <= step
-                          ? "bg-[#5B3DF5] text-white"
+                          ? "bg-[#2563EB] text-white"
                           : "bg-slate-100 text-slate-500",
                       )}
                     >
@@ -515,7 +450,7 @@ export default function LoanInterestChangeWizard({
                     <div
                       className={cn(
                         "mb-5 h-[2px] min-w-10 flex-1",
-                        number < step ? "bg-[#5B3DF5]" : "bg-slate-200",
+                        number < step ? "bg-[#2563EB]" : "bg-slate-200",
                       )}
                     />
                   ) : null}
@@ -591,9 +526,7 @@ export default function LoanInterestChangeWizard({
                   </div>
                 </div>
               </div>
-            ) : null}
-
-            {step === 2 ? (
+            ) : (
               <div className="grid gap-5">
                 <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
                   <div className="loan-interest-summary-title px-4 py-3">
@@ -618,30 +551,18 @@ export default function LoanInterestChangeWizard({
                         </tr>
                         <tr className="border-b border-slate-100 bg-slate-50/60">
                           <td className="px-4 py-3">Angsuran</td>
-                          <td className="px-4 py-3">
-                            {simulation.beforeInstallment}
-                          </td>
-                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
-                            {simulation.afterInstallment}
-                          </td>
+                          <td className="px-4 py-3">{simulation.beforeInstallment}</td>
+                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">{simulation.afterInstallment}</td>
                         </tr>
                         <tr className="border-b border-slate-100">
-                          <td className="px-4 py-3">
-                            Total Nominal Pembayaran Bunga
-                          </td>
-                          <td className="px-4 py-3">
-                            {simulation.beforeTotalInterest}
-                          </td>
-                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">
-                            {simulation.afterTotalInterest}
-                          </td>
+                          <td className="px-4 py-3">Total Nominal Pembayaran Bunga</td>
+                          <td className="px-4 py-3">{simulation.beforeTotalInterest}</td>
+                          <td className="px-4 py-3 font-semibold text-[#5B3DF5]">{simulation.afterTotalInterest}</td>
                         </tr>
                         <tr className="bg-slate-50/60">
                           <td className="px-4 py-3">Alasan Perubahan</td>
                           <td className="px-4 py-3 text-slate-400">-</td>
-                          <td className="px-4 py-3 font-semibold text-slate-900">
-                            {reason}
-                          </td>
+                          <td className="px-4 py-3 font-semibold text-slate-900">{reason}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -653,7 +574,7 @@ export default function LoanInterestChangeWizard({
                   changeStartInstallment={simulation.changeStartInstallment}
                 />
               </div>
-            ) : null}
+            )}
           </main>
 
           <footer className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
@@ -662,11 +583,7 @@ export default function LoanInterestChangeWizard({
               onClick={() => (step === 1 ? onOpenChange(false) : setStep(1))}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[13px] font-semibold text-white hover:bg-[#6b768c]"
             >
-              {step === 1 ? (
-                <X className="h-4 w-4" strokeWidth={3} />
-              ) : (
-                <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-              )}
+              {step === 1 ? <X className="h-4 w-4" strokeWidth={3} /> : <ChevronLeft className="h-4 w-4" strokeWidth={3} />}
               {step === 1 ? "Batal" : "Kembali"}
             </button>
 
@@ -679,7 +596,7 @@ export default function LoanInterestChangeWizard({
                 step === 2
                   ? "bg-[#2fb300] hover:bg-[#279800]"
                   : hasSavedChangeDraft
-                    ? "bg-[#5B3DF5] hover:bg-[#4C32D9]"
+                    ? "bg-[#2563EB] hover:bg-[#1D4ED8]"
                     : "cursor-not-allowed bg-slate-300 text-slate-500",
               )}
             >
