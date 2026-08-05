@@ -17,7 +17,6 @@ import LoanProductTermsSection from "@/components/loans/products/LoanProductTerm
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
 import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
-import AutodebetLoanDateVisibilitySync from "@/components/savings/AutodebetLoanDateVisibilitySync";
 import InterestAdjustmentBillingMarkers from "@/components/anggota/InterestAdjustmentBillingMarkers";
 import MemberReportFilterPlaceholderStyle from "@/components/mitra-karya/MemberReportFilterPlaceholderStyle";
 import KtpReportStatusSync from "@/components/mitra-karya/KtpReportStatusSync";
@@ -72,7 +71,6 @@ export default function MobileAwareToaster() {
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
       <AutodebetScheduleStatusSync />
-      <AutodebetLoanDateVisibilitySync />
 
       {isMemberTransaction ? <InterestAdjustmentBillingMarkers /> : null}
 
