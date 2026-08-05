@@ -187,15 +187,8 @@ section:has(.mitra-karya-member-report) {
   font-weight: 700;
 }
 
-.mitra-karya-member-report .mitra-karya-total-row:first-of-type {
-  background-image: linear-gradient(#334155, #334155);
-  background-position: 12px top;
-  background-repeat: no-repeat;
-  background-size: calc(100% - 24px) 1px;
-}
-
-.mitra-karya-member-report .mitra-karya-total-row:first-of-type td {
-  border-bottom: 2px solid #000000 !important;
+.mitra-karya-member-report .mitra-karya-total-row + .mitra-karya-total-row td {
+  border-top: 2px solid #000000 !important;
 }
 
 .mitra-karya-member-report .mitra-karya-total-row td:nth-child(n + 8):nth-child(-n + 12) {
