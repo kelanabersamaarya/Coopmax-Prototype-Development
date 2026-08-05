@@ -29,10 +29,16 @@
   background-size: contain;
 }
 
-/* Step pertama: tombol Lanjutkan tetap biru. */
+/* Step pertama: tombol Lanjutkan selalu biru, termasuk saat form lengkap. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child {
+  > button:last-child,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child:hover,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child:hover:not(:disabled) {
   min-width: 150px !important;
   height: 40px !important;
   display: inline-flex !important;
@@ -42,16 +48,17 @@
   gap: 8px !important;
   border: 0 !important;
   border-radius: 5px !important;
+  background: #2563eb !important;
   background-color: #2563eb !important;
   color: #ffffff !important;
   box-shadow: none !important;
-  opacity: 1 !important;
 }
 
-/* Tetap nonaktif ketika form belum lengkap, tetapi warna tombol tetap biru. */
+/* Form belum lengkap: tetap disabled dan terlihat nonaktif. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child:disabled {
+  background: #2563eb !important;
   background-color: #2563eb !important;
   color: #ffffff !important;
   cursor: not-allowed !important;
@@ -59,7 +66,7 @@
   pointer-events: none !important;
 }
 
-/* Chevron kanan selalu terlihat pada tombol Lanjutkan. */
+/* Chevron tetap berada di sisi kanan teks Lanjutkan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
@@ -76,7 +83,7 @@
   opacity: 1 !important;
 }
 
-/* Pastikan ikon checklist tidak muncul di step pertama. */
+/* Checklist hanya untuk step kedua. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
@@ -92,10 +99,4 @@
   > button:last-child::after {
   content: none !important;
   display: none !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
-  footer
-  > button:last-child:hover:not(:disabled) {
-  background-color: #1d4ed8 !important;
 }
