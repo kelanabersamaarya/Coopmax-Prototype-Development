@@ -3,7 +3,6 @@
 import * as React from "react";
 import { X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
 import {
   getLoanInterestAdjustmentHistory,
   LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
@@ -13,93 +12,53 @@ import {
 type HistoryRow = {
   id: string;
   installmentNo: number;
-  interestBefore: string;
   adjustmentType: string;
   adjustmentAmount: string;
   reason: string;
+  interestBefore: string;
   interestAfter: string;
   totalBefore: string;
   totalAfter: string;
-  changedBy: string;
   adjustedAt: string;
 };
 
-const initialHistoryByAccount: Record<string, HistoryRow[]> = {
+const seedRows: Record<string, HistoryRow[]> = {
   SMG260004: [
     {
-      id: "initial-adjustment",
+      id: "seed-adjustment",
       installmentNo: 3,
-      interestBefore: "83.333,00",
       adjustmentType: "Pengurangan Bunga",
       adjustmentAmount: "25.000,00",
       reason: "Penyesuaian bunga sesuai kebijakan koperasi.",
+      interestBefore: "83.333,00",
       interestAfter: "58.333,00",
       totalBefore: "916.667,00",
       totalAfter: "891.667,00",
-      changedBy: "Arya Dharma",
       adjustedAt: "07-07-2026 10:35:20",
     },
   ],
 };
 
-function formatRate(rate: number) {
-  return `${rate.toFixed(2).replace(".", ",")}%`;
+function formatRate(value: number) {
+  return `${value.toFixed(2).replace(".", ",")}%`;
 }
 
-function toHistoryRow(entry: LoanInterestHistoryEntry): HistoryRow {
+function mapStoredRow(
+  entry: LoanInterestAdjustmentHistoryEntry,
+): HistoryRow {
   return {
     id: entry.id,
     installmentNo: 0,
-    interestBefore: formatRate(entry.previousRate),
     adjustmentType: "Perubahan Suku Bunga",
     adjustmentAmount: formatRate(entry.newRate),
     reason: entry.reason,
+    interestBefore: formatRate(entry.previousRate),
     interestAfter: formatRate(entry.newRate),
     totalBefore: "-",
     totalAfter: "-",
-    changedBy: "Arya Dharma",
     adjustedAt: entry.changedAt.replace(",", ""),
   };
 }
-
-function Cell({
-  children,
-  className,
-  align = "left",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  align?: "left" | "right" | "center";
-}) {
-  return (
-    <td
-      className={cn(
-        "border-b border-slate-200 px-3 py-3 text-[12px] font-normal text-black",
-        align === "right"
-          ? "whitespace-nowrap text-right tabular-nums"
-          : align === "center"
-            ? "text-center"
-            : "text-left",
-        className,
-      )}
-    >
-      {children}
-    </td>
-  );
-}
-
-const columnWidths = [
-  "82px",
-  "150px",
-  "145px",
-  "190px",
-  "165px",
-  "165px",
-  "155px",
-  "155px",
-  "125px",
-  "180px",
-];
 
 export default function LoanDebtAdjustmentHistoryDialog({
   open,
@@ -110,185 +69,132 @@ export default function LoanDebtAdjustmentHistoryDialog({
   onOpenChange: (open: boolean) => void;
   accountNo: string;
 }) {
-  const [savedRows, setSavedRows] = React.useState<
-    LoanInterestAdjustmentHistoryEntry[]
-  >([]);
+  const [storedRows, setStoredRows] = React.useState<HistoryRow[]>([]);
 
   React.useEffect(() => {
-    function syncHistory() {
-      setSavedRows(getLoanInterestAdjustmentHistory(accountNo));
-    }
+    if (!open) return;
 
-    if (open) syncHistory();
+    const loadRows = () => {
+      const entries = getLoanInterestAdjustmentHistory(accountNo);
+      setStoredRows(entries.map(mapStoredRow));
+    };
 
-    window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, syncHistory);
-    window.addEventListener("storage", syncHistory);
+    loadRows();
+    window.addEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, loadRows);
+    window.addEventListener("storage", loadRows);
 
     return () => {
       window.removeEventListener(
         LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-        syncHistory,
+        loadRows,
       );
-      window.removeEventListener("storage", syncHistory);
+      window.removeEventListener("storage", loadRows);
     };
   }, [accountNo, open]);
 
-  const rows = React.useMemo(
-    () => [
-      ...savedRows.map(toHistoryRow),
-      ...(initialHistoryByAccount[accountNo] ?? []),
-    ],
-    [accountNo, savedRows],
-  );
+  const rows = [...storedRows, ...(seedRows[accountNo] ?? [])];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        data-loan-debt-history-dialog="true"
-        className={cn(
-          "w-[calc(100vw-1rem)] max-w-[1180px]",
-          "overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-        )}
-      >
-        <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
-          <h2 className="min-w-0 text-[18px] font-extrabold tracking-tight text-slate-900">
-            Riwayat Perubahan Nominal Bunga Pinjaman
-          </h2>
+      <DialogContent className="w-[calc(100vw-1rem)] max-w-[1180px] overflow-hidden rounded-xl border-slate-200 bg-white p-0">
+        <div className="flex max-h-[80vh] flex-col">
+          <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-5 py-4">
+            <h2 className="text-base font-bold text-slate-900 sm:text-lg">
+              Riwayat Perubahan Nominal Bunga Pinjaman
+            </h2>
 
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="ml-3 grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100"
-            aria-label="Tutup"
-            title="Tutup"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </header>
-
-        <main className="max-h-[65vh] min-w-0 overflow-y-auto px-4 py-5 sm:px-6">
-          <div
-            className="w-full overflow-x-auto rounded-[8px] border border-slate-200"
-            style={{
-              WebkitOverflowScrolling: "touch",
-              overscrollBehaviorX: "contain",
-            }}
-          >
-            <table
-              className="border-collapse text-left"
-              style={{
-                width: "1512px",
-                minWidth: "1512px",
-                tableLayout: "fixed",
-              }}
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100"
+              aria-label="Tutup"
             >
-              <colgroup>
-                {columnWidths.map((width, index) => (
-                  <col key={index} style={{ width }} />
-                ))}
-              </colgroup>
+              <X className="h-5 w-5" />
+            </button>
+          </div>
 
-              <thead className="bg-[#F9FAFF]">
-                <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-                  <th className="px-3 py-3 align-top">Angsuran Ke</th>
-                  <th className="px-3 py-3 align-top">Jenis Penyesuaian</th>
-                  <th className="px-3 py-3 align-top">
-                    Nominal Penyesuaian
-                  </th>
-                  <th className="px-3 py-3 align-top">
-                    Alasan Penyesuaian
-                  </th>
-                  <th className="px-3 py-3 align-top">
-                    Tagihan Bunga
-                    <br />
-                    Sebelum Penyesuaian
-                  </th>
-                  <th className="px-3 py-3 align-top">
-                    Total Tagihan
-                    <br />
-                    Sebelum Penyesuaian
-                  </th>
-                  <th className="px-3 py-3 align-top">
-                    Tagihan Bunga
-                    <br />
-                    Sesudah Penyesuaian
-                  </th>
-                  <th className="px-3 py-3 align-top">
-                    Total Tagihan
-                    <br />
-                    Sesudah Penyesuaian
-                  </th>
-                  <th className="px-3 py-3 align-top">Diubah Oleh</th>
-                  <th className="px-3 py-3 align-top">
-                    Tanggal & Waktu Penyesuaian
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {rows.length === 0 ? (
+          <div className="min-h-0 overflow-auto px-4 py-4">
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="w-[1450px] border-collapse text-left text-xs">
+                <thead className="bg-slate-50 text-[11px] font-bold uppercase text-slate-800">
                   <tr>
-                    <td
-                      colSpan={10}
-                      className="px-4 py-10 text-center text-[13px] text-slate-600"
-                    >
-                      Belum ada riwayat perubahan nominal bunga.
-                    </td>
+                    <th className="w-20 px-3 py-3">Angsuran Ke</th>
+                    <th className="w-40 px-3 py-3">Jenis Penyesuaian</th>
+                    <th className="w-36 px-3 py-3">Nominal Penyesuaian</th>
+                    <th className="w-56 px-3 py-3">Alasan Penyesuaian</th>
+                    <th className="w-44 px-3 py-3">Bunga Sebelum</th>
+                    <th className="w-44 px-3 py-3">Total Sebelum</th>
+                    <th className="w-44 px-3 py-3">Bunga Sesudah</th>
+                    <th className="w-44 px-3 py-3">Total Sesudah</th>
+                    <th className="w-36 px-3 py-3">Diubah Oleh</th>
+                    <th className="w-48 px-3 py-3">Tanggal Perubahan</th>
                   </tr>
-                ) : (
-                  rows.map((row) => (
-                    <tr
-                      key={row.id}
-                      className="border-b border-slate-100 text-[12px] text-black last:border-b-0"
-                    >
-                      <Cell align="center">{row.installmentNo || "-"}</Cell>
-                      <Cell>{row.adjustmentType}</Cell>
-                      <Cell align="right">{row.adjustmentAmount}</Cell>
-                      <Cell className="whitespace-normal break-words">
-                        {row.reason}
-                      </Cell>
-                      <Cell align="right">{row.interestBefore}</Cell>
-                      <Cell align="right">{row.totalBefore}</Cell>
-                      <Cell
-                        align="right"
-                        className="font-semibold text-[#2563EB]"
+                </thead>
+
+                <tbody>
+                  {rows.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={10}
+                        className="px-4 py-10 text-center text-slate-500"
                       >
-                        {row.interestAfter}
-                      </Cell>
-                      <Cell
-                        align="right"
-                        className="font-semibold text-[#2563EB]"
-                      >
-                        {row.totalAfter}
-                      </Cell>
-                      <Cell>{row.changedBy}</Cell>
-                      <Cell className="whitespace-nowrap">
-                        {row.adjustedAt}
-                      </Cell>
+                        Belum ada riwayat perubahan nominal bunga.
+                      </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    rows.map((row) => (
+                      <tr
+                        key={row.id}
+                        className="border-t border-slate-200 text-slate-900"
+                      >
+                        <td className="px-3 py-3 text-center">
+                          {row.installmentNo || "-"}
+                        </td>
+                        <td className="px-3 py-3">{row.adjustmentType}</td>
+                        <td className="px-3 py-3 text-right tabular-nums">
+                          {row.adjustmentAmount}
+                        </td>
+                        <td className="whitespace-normal px-3 py-3">
+                          {row.reason}
+                        </td>
+                        <td className="px-3 py-3 text-right tabular-nums">
+                          {row.interestBefore}
+                        </td>
+                        <td className="px-3 py-3 text-right tabular-nums">
+                          {row.totalBefore}
+                        </td>
+                        <td className="px-3 py-3 text-right font-semibold text-blue-600 tabular-nums">
+                          {row.interestAfter}
+                        </td>
+                        <td className="px-3 py-3 text-right font-semibold text-blue-600 tabular-nums">
+                          {row.totalAfter}
+                        </td>
+                        <td className="px-3 py-3">{row.adjustedAt ? "Arya Dharma" : "-"}</td>
+                        <td className="whitespace-nowrap px-3 py-3 tabular-nums">
+                          {row.adjustedAt}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mt-2 text-[11px] text-slate-500">
+              Geser tabel ke samping untuk melihat kolom lainnya.
+            </div>
           </div>
 
-          <div className="mt-2 text-[11px] text-slate-500 sm:hidden">
-            Geser tabel ke kiri atau kanan untuk melihat kolom lainnya.
+          <div className="flex shrink-0 justify-end border-t border-slate-200 px-5 py-4">
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="h-9 rounded-md bg-slate-600 px-5 text-xs font-semibold text-white hover:bg-slate-700"
+            >
+              Tutup
+            </button>
           </div>
-        </main>
-
-        <footer className="flex justify-end border-t border-slate-200 px-5 py-4 sm:px-6">
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="h-10 min-w-[96px] rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
-          >
-            Tutup
-          </button>
-        </footer>
+        </div>
       </DialogContent>
     </Dialog>
   );
