@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const DIALOG_SELECTOR =
@@ -200,8 +201,41 @@ function KtpSaveConfirmModal({
   );
 }
 
+function KtpSaveSuccessModal({
+  open,
+  onOk,
+}: {
+  open: boolean;
+  onOk: () => void;
+}) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/35 px-5">
+      <div className="w-full max-w-[460px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
+          <Check className="h-11 w-11 text-[#33aa00]" strokeWidth={3} />
+        </div>
+
+        <h2 className="mt-6 text-[22px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+          Berhasil mengunggah foto KTP anggota
+        </h2>
+
+        <button
+          type="button"
+          onClick={onOk}
+          className="mt-7 inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function KtpUploadDeleteEnhancer() {
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
   const pendingSaveButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const bypassRef = React.useRef(false);
 
@@ -252,29 +286,40 @@ export default function KtpUploadDeleteEnhancer() {
     };
   }, []);
 
+  function finishSave() {
+    const button = pendingSaveButtonRef.current;
+
+    setSuccessOpen(false);
+    pendingSaveButtonRef.current = null;
+
+    if (!button) return;
+
+    bypassRef.current = true;
+    window.requestAnimationFrame(() => {
+      button.click();
+
+      window.setTimeout(() => {
+        bypassRef.current = false;
+      }, 0);
+    });
+  }
+
   return (
-    <KtpSaveConfirmModal
-      open={confirmOpen}
-      onCancel={() => {
-        setConfirmOpen(false);
-        pendingSaveButtonRef.current = null;
-      }}
-      onConfirm={() => {
-        const button = pendingSaveButtonRef.current;
-        setConfirmOpen(false);
-        pendingSaveButtonRef.current = null;
+    <>
+      <KtpSaveConfirmModal
+        open={confirmOpen}
+        onCancel={() => {
+          setConfirmOpen(false);
+          // Modal upload tetap terbuka sehingga pengguna dapat memilih atau
+          // mengunggah ulang foto KTP.
+        }}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setSuccessOpen(true);
+        }}
+      />
 
-        if (!button) return;
-
-        bypassRef.current = true;
-        window.requestAnimationFrame(() => {
-          button.click();
-
-          window.setTimeout(() => {
-            bypassRef.current = false;
-          }, 0);
-        });
-      }}
-    />
+      <KtpSaveSuccessModal open={successOpen} onOk={finishSave} />
+    </>
   );
 }
