@@ -15,6 +15,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { isLoanProductAutodebetEnabled } from "@/lib/loanProductAutodebetStore";
+import AutodebetLoanSummary from "@/components/savings/AutodebetLoanSummary";
 
 export type AutodebetSchedule = {
   product: string;
@@ -107,7 +108,6 @@ function Toggle({
       >
         {checked ? "ON" : "OFF"}
       </span>
-
       <span
         className={cn(
           "h-[16px] w-[16px] rounded-full bg-white shadow-sm transition-transform",
@@ -125,43 +125,50 @@ function AccountSummary({
   account: AccountOption;
   isLoan: boolean;
 }) {
-  const details = isLoan
-    ? [
-        ["Total Pokok", account.balance],
-        ["Total Bunga", "1.266.429,00"],
-        ["Total Denda", "75.000,00"],
-        [
-          "Total Pinjaman",
+  if (isLoan) {
+    return (
+      <AutodebetLoanSummary
+        totalPlafon={
           account.accountNo === "SMG260004"
             ? "12.000.000,00"
-            : account.balance,
-        ],
-        ["Sisa Pinjaman", account.balance],
-        ["Tagihan Pokok", "833.333,00"],
-        ["Tagihan Bunga", "83.333,00"],
-        ["Tagihan Denda", "75.000,00"],
-        ["Total Tagihan", "991.666,00"],
-      ]
-    : [
-        ["No. Rekening", account.accountNo],
-        ["Nama Nasabah", account.customerName],
-        ["Produk Simpanan", account.productType],
-        ["Saldo Simpanan", account.balance],
-        ["Bunga per Tahun", "3,00%"],
-      ];
+            : account.accountNo === "12260006"
+              ? "2.000.000,00"
+              : "10.000.000,00"
+        }
+        totalPokok={
+          account.accountNo === "SMG260004"
+            ? "10.553.571,00"
+            : account.balance
+        }
+        totalBunga={
+          account.accountNo === "SMG260004"
+            ? "1.266.429,00"
+            : "120.000,00"
+        }
+        totalAngsuran={
+          account.accountNo === "SMG260004"
+            ? "1.120.000,00"
+            : "953.333,00"
+        }
+      />
+    );
+  }
 
   return (
     <div className="rounded-[5px] border border-slate-300 bg-white p-4 shadow-sm">
       <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-        {isLoan ? "Informasi Pinjaman" : "Informasi Rekening"}
+        Informasi Rekening
       </div>
-
       <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-        {details.map(([label, value]) => (
+        {[
+          ["No. Rekening", account.accountNo],
+          ["Nama Nasabah", account.customerName],
+          ["Produk Simpanan", account.productType],
+          ["Saldo Simpanan", account.balance],
+          ["Bunga per Tahun", "3,00%"],
+        ].map(([label, value]) => (
           <div key={label}>
-            <div className="text-[11px] font-semibold text-slate-600">
-              {label}
-            </div>
+            <div className="text-[11px] font-semibold text-slate-600">{label}</div>
             <div className="mt-1 text-[14px] font-extrabold text-slate-900">
               {value}
             </div>
@@ -196,12 +203,11 @@ export default function AutodebetScheduleDialog({
 
   const availableAccounts = React.useMemo(() => {
     const options = accountOptions[product] ?? [];
-
-    if (!isLoanProduct) return options;
-
-    return options.filter((account) =>
-      isLoanProductAutodebetEnabled(account.productType),
-    );
+    return isLoanProduct
+      ? options.filter((account) =>
+          isLoanProductAutodebetEnabled(account.productType),
+        )
+      : options;
   }, [isLoanProduct, product]);
 
   const selectedAccount = React.useMemo(
@@ -214,7 +220,6 @@ export default function AutodebetScheduleDialog({
 
   React.useEffect(() => {
     if (!open) return;
-
     setInterMember(false);
     setProduct(schedule?.product ?? "");
     setSelectedAccountValue(schedule?.accountNo ?? "");
@@ -225,20 +230,18 @@ export default function AutodebetScheduleDialog({
   }, [open, schedule]);
 
   React.useEffect(() => {
-    if (!selectedAccountValue) return;
-
-    const isAvailable = availableAccounts.some(
-      (account) => accountValue(account) === selectedAccountValue,
-    );
-
-    if (!isAvailable) {
+    if (
+      selectedAccountValue &&
+      !availableAccounts.some(
+        (account) => accountValue(account) === selectedAccountValue,
+      )
+    ) {
       setSelectedAccountValue("");
     }
   }, [availableAccounts, selectedAccountValue]);
 
   function save() {
     const missing: string[] = [];
-
     if (!product) missing.push("Produk Tujuan");
     if (!selectedAccountValue) missing.push("No. Rekening Tujuan");
     if (!isLoanProduct && !autodebetDay) {
@@ -260,7 +263,6 @@ export default function AutodebetScheduleDialog({
       description: description.trim(),
       status,
     });
-
     onOpenChange(false);
   }
 
@@ -275,8 +277,6 @@ export default function AutodebetScheduleDialog({
           "w-[calc(100vw-1rem)] sm:w-[760px]",
           "max-w-[760px] overflow-hidden rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
         <div className="bg-white">
@@ -284,7 +284,6 @@ export default function AutodebetScheduleDialog({
             <h2 className="text-[18px] font-bold leading-tight text-[#1F2A3D]">
               Jadwal Autodebet
             </h2>
-
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -302,13 +301,11 @@ export default function AutodebetScheduleDialog({
                 <br />
                 Anggota/Nasabah lain
               </Label>
-
               <div className="flex h-[31px] items-center">
                 <Toggle checked={interMember} onChange={setInterMember} />
               </div>
 
               <Label className={labelClassName}>Produk Tujuan</Label>
-
               <Select
                 value={product}
                 onValueChange={(value) => {
@@ -322,17 +319,12 @@ export default function AutodebetScheduleDialog({
                   <SelectValue placeholder="Pilih Produk" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Produk Simpanan">
-                    Produk Simpanan
-                  </SelectItem>
-                  <SelectItem value="Produk Pinjaman">
-                    Produk Pinjaman
-                  </SelectItem>
+                  <SelectItem value="Produk Simpanan">Produk Simpanan</SelectItem>
+                  <SelectItem value="Produk Pinjaman">Produk Pinjaman</SelectItem>
                 </SelectContent>
               </Select>
 
               <Label className={labelClassName}>No. Rekening Tujuan</Label>
-
               <div className="grid gap-4">
                 <Select
                   value={selectedAccountValue}
@@ -342,14 +334,7 @@ export default function AutodebetScheduleDialog({
                   }}
                   disabled={!product || availableAccounts.length === 0}
                 >
-                  <SelectTrigger
-                    className={cn(
-                      inputClassName,
-                      !product || availableAccounts.length === 0
-                        ? "bg-slate-100 text-slate-400"
-                        : "",
-                    )}
-                  >
+                  <SelectTrigger className={inputClassName}>
                     <SelectValue
                       placeholder={
                         isLoanProduct && availableAccounts.length === 0
@@ -358,7 +343,6 @@ export default function AutodebetScheduleDialog({
                       }
                     />
                   </SelectTrigger>
-
                   <SelectContent className="rounded-[5px] border-slate-200">
                     {availableAccounts.map((account) => (
                       <SelectItem
@@ -372,10 +356,7 @@ export default function AutodebetScheduleDialog({
                 </Select>
 
                 {selectedAccount ? (
-                  <AccountSummary
-                    account={selectedAccount}
-                    isLoan={isLoanProduct}
-                  />
+                  <AccountSummary account={selectedAccount} isLoan={isLoanProduct} />
                 ) : null}
               </div>
 
@@ -384,22 +365,14 @@ export default function AutodebetScheduleDialog({
                   <Label className={labelClassName}>
                     Tanggal Proses Autodebet
                   </Label>
-
                   {isLoanProduct ? (
                     <Input
                       value={LOAN_AUTODEBET_DAY}
                       readOnly
-                      aria-readonly="true"
-                      className={cn(
-                        inputClassName,
-                        "cursor-not-allowed bg-slate-200/80 text-slate-700",
-                      )}
+                      className={cn(inputClassName, "bg-slate-200/80 text-slate-700")}
                     />
                   ) : (
-                    <Select
-                      value={autodebetDay}
-                      onValueChange={setAutodebetDay}
-                    >
+                    <Select value={autodebetDay} onValueChange={setAutodebetDay}>
                       <SelectTrigger className={inputClassName}>
                         <SelectValue placeholder="Pilih Tanggal Proses Autodebet" />
                       </SelectTrigger>
@@ -415,10 +388,7 @@ export default function AutodebetScheduleDialog({
                 </>
               ) : null}
 
-              <Label className={cn(labelClassName, "pt-1")}>
-                Keterangan
-              </Label>
-
+              <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
               <Textarea
                 value={description}
                 onChange={(event) => {
@@ -431,7 +401,6 @@ export default function AutodebetScheduleDialog({
               <Label className={cn(labelClassName, "pt-1")}>
                 Status Autodebet
               </Label>
-
               <div className="flex h-[31px] items-center">
                 <Toggle checked={status} onChange={setStatus} />
               </div>
@@ -453,7 +422,6 @@ export default function AutodebetScheduleDialog({
               <Check className="h-4 w-4" strokeWidth={3} />
               Proses
             </button>
-
             <button
               type="button"
               onClick={() => onOpenChange(false)}
