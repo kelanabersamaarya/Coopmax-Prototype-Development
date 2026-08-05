@@ -94,7 +94,7 @@ section:has(.mitra-karya-member-report) {
 .mitra-karya-member-report th:nth-child(11),
 .mitra-karya-member-report th:nth-child(12) {
   width: 125px;
-  text-align: right;
+  text-align: left;
 }
 
 .mitra-karya-member-report th:nth-child(13) {
@@ -107,7 +107,7 @@ section:has(.mitra-karya-member-report) {
 
 .mitra-karya-member-report th:nth-child(15) {
   width: 55px;
-  text-align: center;
+  text-align: left;
 }
 
 .mitra-karya-member-report tr {

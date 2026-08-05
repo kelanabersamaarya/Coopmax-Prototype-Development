@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ChevronDown,
+  ChevronUp,
   Eye,
   FileSpreadsheet,
   Info,
@@ -234,6 +235,22 @@ function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
   );
 }
 
+function SortableHeader({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <span className="min-w-0 leading-[1.2]">{children}</span>
+      <span className="inline-flex shrink-0 flex-col leading-none text-[#002060]">
+        <ChevronUp className="-mb-0.5 h-3.5 w-3.5" strokeWidth={2.8} />
+        <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.8} />
+      </span>
+    </div>
+  );
+}
+
 function ReportResults({ rows }: { rows: Member[] }) {
   const totals = React.useMemo(
     () =>
@@ -266,16 +283,34 @@ function ReportResults({ rows }: { rows: Member[] }) {
       <MemberReportEntriesPicker className="mb-4" />
 
       <div className="mitra-karya-member-report">
-        <table className="min-w-[1420px] w-full">
+        <table className="min-w-[1720px] w-full">
           <thead>
             <tr>
               <th>No.</th>
-              <th>No. Anggota</th>
-              <th>Nama</th>
-              <th>Tanggal Daftar</th>
-              <th>Alamat</th>
-              <th>No. Handphone</th>
-              <th>Kategori</th>
+              <th>
+                <SortableHeader>No. Anggota</SortableHeader>
+              </th>
+              <th>
+                <SortableHeader>Nama</SortableHeader>
+              </th>
+              <th>
+                <SortableHeader>
+                  <>
+                    Tanggal
+                    <br />
+                    Daftar
+                  </>
+                </SortableHeader>
+              </th>
+              <th>
+                <SortableHeader>Alamat</SortableHeader>
+              </th>
+              <th>
+                <SortableHeader>No. Handphone</SortableHeader>
+              </th>
+              <th>
+                <SortableHeader>Kategori</SortableHeader>
+              </th>
               <th>Simpanan Pokok</th>
               <th>Simpanan Wajib</th>
               <th>Simpanan Khusus</th>
@@ -285,8 +320,18 @@ function ReportResults({ rows }: { rows: Member[] }) {
                 Penyertaan
               </th>
               <th>Total Simpanan</th>
-              <th>Status</th>
-              <th>File KTP</th>
+              <th>
+                <SortableHeader>Status</SortableHeader>
+              </th>
+              <th>
+                <SortableHeader>
+                  <>
+                    File
+                    <br />
+                    KTP
+                  </>
+                </SortableHeader>
+              </th>
               <th>Aksi</th>
             </tr>
           </thead>
