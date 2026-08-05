@@ -49,7 +49,9 @@ function syncDeleteButton() {
   if (!uploadBox) return;
 
   const previewImage = uploadBox.querySelector<HTMLImageElement>("img");
-  const fileInput = uploadBox.querySelector<HTMLInputElement>('input[type="file"]');
+  const fileInput = uploadBox.querySelector<HTMLInputElement>(
+    'input[type="file"]',
+  );
 
   const hasUploadedFile = Boolean(fileInput?.files?.length);
   const hasPreviewImage = Boolean(previewImage);
@@ -65,23 +67,33 @@ function syncDeleteButton() {
   deleteButton.setAttribute(BUTTON_ATTRIBUTE, "true");
   deleteButton.setAttribute("aria-label", "Hapus foto KTP");
   deleteButton.setAttribute("title", "Hapus foto KTP");
-  deleteButton.innerHTML = createTrashIcon();
+  deleteButton.innerHTML = `
+    <span style="display:inline-flex;align-items:center;justify-content:center;">
+      ${createTrashIcon()}
+    </span>
+    <span>Hapus</span>
+  `;
 
   Object.assign(deleteButton.style, {
     position: "absolute",
     top: "10px",
     right: "10px",
     zIndex: "30",
-    width: "36px",
+    minWidth: "82px",
     height: "36px",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
+    gap: "6px",
+    padding: "0 10px",
     border: "0",
     borderRadius: "8px",
     backgroundColor: "#DC3545",
     color: "#FFFFFF",
     cursor: "pointer",
+    fontSize: "12px",
+    fontWeight: "700",
+    lineHeight: "1",
     boxShadow: "0 2px 6px rgba(15, 23, 42, 0.2)",
   });
 
