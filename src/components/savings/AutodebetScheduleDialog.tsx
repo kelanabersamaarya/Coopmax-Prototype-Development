@@ -369,29 +369,6 @@ export default function AutodebetScheduleDialog({
                 ) : null}
               </div>
 
-              {isLoanProduct && selectedAccount ? (
-                <>
-                  <Label className={cn(labelClassName, "pt-1")}>
-                    Tanggal Proses Autodebet
-                  </Label>
-                  <div>
-                    <Input
-                      value={LOAN_AUTODEBET_DAY}
-                      readOnly
-                      aria-readonly="true"
-                      className={cn(
-                        inputClassName,
-                        "cursor-not-allowed bg-slate-200/80 text-slate-700",
-                      )}
-                    />
-                    <div className="mt-1 text-[12px] font-normal leading-relaxed text-[#6479A6]">
-                      Tanggal proses autodebet dilakukan sesuai dengan tanggal
-                      jatuh tempo tagihan.
-                    </div>
-                  </div>
-                </>
-              ) : null}
-
               {isSavingsProduct ? (
                 <>
                   <Label className={labelClassName}>Tanggal Autodebet</Label>
