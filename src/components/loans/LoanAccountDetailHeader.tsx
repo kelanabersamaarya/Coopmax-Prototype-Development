@@ -29,6 +29,8 @@ import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHist
 
 const UNSUPPORTED_INTEREST_CHANGE_ACCOUNT = "klpk04.07260001";
 
+type AlertAction = "extension" | "debt" | "interest";
+
 type ActionPillProps = {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
@@ -61,11 +63,25 @@ function ActionPill({
   );
 }
 
-function UnsupportedInterestChangeDialog({
+function getUnsupportedMessage(action: AlertAction) {
+  if (action === "extension") {
+    return "Perpanjangan pinjaman tidak dapat dilakukan pada rekening pinjaman karena produk pinjaman yang digunakan tidak mendukung perpanjangan pinjaman";
+  }
+
+  if (action === "debt") {
+    return "Perubahan nominal bunga tidak dapat dilakukan pada rekening pinjaman karena produk pinjaman yang digunakan tidak mendukung perubahan nominal bunga";
+  }
+
+  return "Perubahan suku bunga tidak dapat dilakukan pada rekening pinjaman karena produk pinjaman yang digunakan tidak mendukung perubahan suku bunga";
+}
+
+function UnsupportedChangeDialog({
   open,
+  action,
   onOpenChange,
 }: {
   open: boolean;
+  action: AlertAction;
   onOpenChange: (open: boolean) => void;
 }) {
   return (
@@ -92,9 +108,7 @@ function UnsupportedInterestChangeDialog({
           </h2>
 
           <p className="mt-4 max-w-[440px] text-[17px] font-normal leading-relaxed text-[#3b4863]">
-            Perubahan suku bunga tidak dapat dilakukan pada rekening pinjaman
-            karena produk pinjaman yang digunakan tidak mendukung perubahan suku
-            bunga
+            {getUnsupportedMessage(action)}
           </p>
 
           <Button
@@ -120,7 +134,7 @@ export default function LoanAccountDetailHeader({
   onAction: (label: string) => void;
 }) {
   const navigate = useNavigate();
-  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertAction, setAlertAction] = React.useState<AlertAction | null>(null);
   const [pemutihanOpen, setPemutihanOpen] = React.useState(false);
   const [txHistoryOpen, setTxHistoryOpen] = React.useState(false);
   const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
@@ -131,9 +145,12 @@ export default function LoanAccountDetailHeader({
     accountNo.trim().toLowerCase() ===
     UNSUPPORTED_INTEREST_CHANGE_ACCOUNT.toLowerCase();
 
-  function handleUnsupportedOr(action: () => void) {
+  function handleUnsupportedOr(
+    actionType: AlertAction,
+    action: () => void,
+  ) {
     if (isUnsupportedAccount) {
-      setAlertOpen(true);
+      setAlertAction(actionType);
       return;
     }
 
@@ -142,9 +159,12 @@ export default function LoanAccountDetailHeader({
 
   return (
     <>
-      <UnsupportedInterestChangeDialog
-        open={alertOpen}
-        onOpenChange={setAlertOpen}
+      <UnsupportedChangeDialog
+        open={alertAction !== null}
+        action={alertAction ?? "interest"}
+        onOpenChange={(open) => {
+          if (!open) setAlertAction(null);
+        }}
       />
 
       {pemutihanOpen ? (
@@ -204,7 +224,9 @@ export default function LoanAccountDetailHeader({
             icon={Calendar}
             label="Perpanjangan Pinjaman"
             onClick={() =>
-              handleUnsupportedOr(() => setExtensionWizardOpen(true))
+              handleUnsupportedOr("extension", () =>
+                setExtensionWizardOpen(true),
+              )
             }
           />
 
@@ -256,7 +278,9 @@ export default function LoanAccountDetailHeader({
           <ActionPill
             icon={Banknote}
             label="Ubah Bunga"
-            onClick={() => handleUnsupportedOr(() => setDebtWizardOpen(true))}
+            onClick={() =>
+              handleUnsupportedOr("debt", () => setDebtWizardOpen(true))
+            }
           />
 
           <ActionPill
@@ -269,7 +293,9 @@ export default function LoanAccountDetailHeader({
             icon={Percent}
             label="Ubah Suku Bunga"
             onClick={() =>
-              handleUnsupportedOr(() => setInterestWizardOpen(true))
+              handleUnsupportedOr("interest", () =>
+                setInterestWizardOpen(true),
+              )
             }
           />
 
