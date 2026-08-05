@@ -17,15 +17,8 @@ export default function SidebarMitraKaryaMenu() {
   return (
     <div className="space-y-1">
       <NavLink
-        to="/mitra-karya/dashboard"
-        className={({ isActive }) =>
-          cn(
-            "flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-[13px] font-semibold transition",
-            isActive
-              ? "bg-violet-600 text-white"
-              : "text-slate-800 hover:bg-slate-50",
-          )
-        }
+        to="/dashboard"
+        className="flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-[13px] font-semibold text-slate-800 transition hover:bg-slate-50"
       >
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
           <Home className="h-4.5 w-4.5" />

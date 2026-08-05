@@ -159,10 +159,10 @@ export default function Dashboard() {
 
           <DevMenuCard
             title="Kebutuhan Koperasi Mitra Karya"
-            subtitle="Dashboard dan laporan anggota untuk kebutuhan Koperasi Mitra Karya."
+            subtitle="Langsung membuka laporan anggota untuk kebutuhan Koperasi Mitra Karya."
             icon={Handshake}
             accent="emerald"
-            onClick={() => navigate("/mitra-karya/dashboard")}
+            onClick={() => navigate("/mitra-karya/laporan/anggota")}
           />
         </div>
       </div>
