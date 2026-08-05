@@ -60,36 +60,3 @@
   font-size: 14px !important;
   font-weight: 700 !important;
 }
-
-/* Informasi dampak perpanjangan tenor di atas ringkasan. */
-[data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > section:has(
-    > div.bg-\[\#F9FAFF\].px-4.py-3.text-\[14px\].font-bold.uppercase
-  ) {
-  overflow: visible !important;
-  position: relative !important;
-  padding-top: 0.75rem !important;
-}
-
-[data-loan-extension-wizard="true"]
-  main
-  > div.grid.gap-6
-  > section:has(
-    > div.bg-\[\#F9FAFF\].px-4.py-3.text-\[14px\].font-bold.uppercase
-  )::before {
-  content: "Perpanjangan tenor dapat menambah total bunga yang harus dibayar apabila jangka waktu pembayaran menjadi lebih panjang.";
-  display: block !important;
-  margin: -0.75rem 0 1rem !important;
-  border: 1px solid #bfdbfe !important;
-  border-radius: 0.75rem !important;
-  background: #eff6ff !important;
-  padding: 0.7rem 0.85rem !important;
-  color: #1e3a8a !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  line-height: 1.45 !important;
-  text-transform: none !important;
-  letter-spacing: normal !important;
-}
