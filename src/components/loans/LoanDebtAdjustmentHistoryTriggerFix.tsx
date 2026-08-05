@@ -37,7 +37,6 @@ const seedRows: HistoryRow[] = [
     installment: "Angsuran ke-1",
     type: "Pengurangan Bunga",
     amount: "50.000",
-    reason: "OK",
     interestBefore: "83.333",
     interestAfter: "33.333",
     changedBy: "Arya Dharma",
@@ -78,11 +77,9 @@ function getAccountNo(button: HTMLButtonElement) {
   );
 }
 
-const headerCellClass =
-  "border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800 align-middle whitespace-normal break-normal";
-
-const bodyCellClass =
-  "border-b border-slate-200 px-3 py-3 text-[12px] text-slate-900 align-top break-normal";
+function stopScrollPropagation(event: React.WheelEvent | React.TouchEvent) {
+  event.stopPropagation();
+}
 
 function HistoryModal({
   rows,
@@ -92,16 +89,27 @@ function HistoryModal({
   onClose: () => void;
 }) {
   React.useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
     }
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [onClose]);
 
   return createPortal(
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/55 px-3 py-4">
+    <div
+      className="fixed inset-0 z-[100000] flex items-center justify-center overscroll-none bg-black/55 px-3 py-4"
+      onWheel={stopScrollPropagation}
+      onTouchMove={stopScrollPropagation}
+    >
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -113,7 +121,9 @@ function HistoryModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="loan-debt-history-title"
-        className="relative z-10 flex max-h-[88vh] w-full max-w-[1280px] flex-col overflow-hidden rounded-[8px] bg-white shadow-2xl"
+        onWheel={stopScrollPropagation}
+        onTouchMove={stopScrollPropagation}
+        className="relative z-10 flex max-h-[88vh] w-full max-w-[1280px] flex-col overflow-hidden overscroll-contain rounded-[8px] bg-white shadow-2xl"
       >
         <header className="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
           <div>
@@ -139,8 +149,12 @@ function HistoryModal({
           </button>
         </header>
 
-        <main className="min-h-0 overflow-auto p-4 sm:p-6">
-          <div className="w-full overflow-x-auto rounded-[6px] border border-slate-300">
+        <main
+          className="min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6"
+          onWheel={stopScrollPropagation}
+          onTouchMove={stopScrollPropagation}
+        >
+          <div className="w-full overflow-x-auto overscroll-contain rounded-[6px] border border-slate-300">
             <table
               className="w-[1280px] min-w-[1280px] table-fixed border-collapse"
               style={{
@@ -161,22 +175,28 @@ function HistoryModal({
 
               <thead>
                 <tr>
-                  <th className={headerCellClass}>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
                     Angsuran yang Dilakukan Penyesuaian
                   </th>
-                  <th className={headerCellClass}>Jenis Penyesuaian</th>
-                  <th className={`${headerCellClass} text-right`}>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
+                    Jenis Penyesuaian
+                  </th>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
                     Nominal Penyesuaian
                   </th>
-                  <th className={headerCellClass}>Alasan Penyesuaian</th>
-                  <th className={`${headerCellClass} text-right`}>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
+                    Alasan Penyesuaian
+                  </th>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
                     Tagihan Bunga Sebelum Penyesuaian
                   </th>
-                  <th className={`${headerCellClass} text-right`}>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
                     Tagihan Bunga Sesudah Penyesuaian
                   </th>
-                  <th className={headerCellClass}>Diubah Oleh</th>
-                  <th className={headerCellClass}>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
+                    Diubah Oleh
+                  </th>
+                  <th className="border-b border-slate-300 bg-slate-50 px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800">
                     Tanggal & Waktu Perubahan
                   </th>
                 </tr>
@@ -196,40 +216,28 @@ function HistoryModal({
                   rows.map((row, index) => (
                     <tr
                       key={`${row.id}-${index}`}
-                      className="odd:bg-white even:bg-slate-50/50"
+                      className="border-b border-slate-200 text-[12px] text-slate-900 odd:bg-white even:bg-slate-50/50"
                     >
-                      <td className={`${bodyCellClass} whitespace-nowrap`}>
+                      <td className="px-3 py-3 whitespace-nowrap">
                         {row.installment}
                       </td>
-                      <td className={bodyCellClass}>{row.type}</td>
-                      <td
-                        className={`${bodyCellClass} whitespace-nowrap text-right tabular-nums`}
-                      >
+                      <td className="px-3 py-3">{row.type}</td>
+                      <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                         {row.amount}
                       </td>
-                      <td
-                        className={`${bodyCellClass} whitespace-normal`}
-                        style={{
-                          overflowWrap: "anywhere",
-                          wordBreak: "normal",
-                        }}
-                      >
+                      <td className="max-w-[250px] px-3 py-3 whitespace-normal break-words">
                         {row.reason}
                       </td>
-                      <td
-                        className={`${bodyCellClass} whitespace-nowrap text-right tabular-nums`}
-                      >
+                      <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                         {row.interestBefore}
                       </td>
-                      <td
-                        className={`${bodyCellClass} whitespace-nowrap text-right font-bold tabular-nums text-blue-600`}
-                      >
+                      <td className="px-3 py-3 text-right font-bold tabular-nums whitespace-nowrap text-blue-600">
                         {row.interestAfter}
                       </td>
-                      <td className={`${bodyCellClass} whitespace-nowrap`}>
+                      <td className="px-3 py-3 whitespace-nowrap">
                         {row.changedBy}
                       </td>
-                      <td className={`${bodyCellClass} whitespace-nowrap`}>
+                      <td className="px-3 py-3 whitespace-nowrap">
                         {row.changedAt}
                       </td>
                     </tr>
