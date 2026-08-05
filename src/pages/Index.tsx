@@ -111,6 +111,9 @@ export default function Index() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
+  const isMitraKaryaDashboard =
+    location.pathname === "/mitra-karya/dashboard";
+  const hideSidebar = isDashboard || isMitraKaryaDashboard;
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
@@ -150,12 +153,12 @@ export default function Index() {
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
             isMobileArea ? "mt-0" : "mt-6",
-            isDashboard
+            hideSidebar
               ? "grid-cols-1"
               : "grid-cols-1 md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!isDashboard ? (
+          {!hideSidebar ? (
             <aside className="hidden min-w-0 space-y-4 px-0 md:block">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 <div className="px-0 py-1">
