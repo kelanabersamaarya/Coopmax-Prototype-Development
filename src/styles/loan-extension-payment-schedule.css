@@ -1,7 +1,33 @@
-/* Perpanjangan Pinjaman > Jadwal Pembayaran Baru
-   Header tabel tebal, seluruh isi tabel hitam dengan bobot normal.
+/* Perpanjangan Pinjaman > Ringkasan Perpanjangan Pinjaman
+   Tampilkan informasi dampak perubahan tenor di atas ringkasan.
 */
 
+[data-loan-extension-wizard="true"]
+  section:has(table.min-w-\[650px\])::before {
+  content: "Informasi Dampak Perubahan Tenor";
+  display: block;
+  margin: -1rem -1rem 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 5px 5px 0 0;
+  background: #eff6ff;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+[data-loan-extension-wizard="true"]
+  section:has(table.min-w-\[650px\])::after {
+  content: "Terdapat penambahan tenor pinjaman dari tenor awal sebesar 12 bulan menjadi 18 bulan.";
+  display: block;
+  margin: -0.5rem 1rem 1rem;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+/* Jadwal pembayaran tetap tanpa panel informasi tambahan di atasnya. */
 [data-loan-extension-wizard="true"] table.min-w-\[750px\] {
   font-variant-numeric: tabular-nums;
 }
