@@ -1,23 +1,24 @@
 /* Layout khusus modal Riwayat Perubahan Nominal Bunga Pinjaman. */
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) {
+/* Dialog tetap mengikuti viewport, tabel tidak dipaksa mengecil. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) {
   width: min(1180px, calc(100vw - 1rem)) !important;
   max-width: min(1180px, calc(100vw - 1rem)) !important;
   overflow: hidden !important;
 }
 
-/* Area isi modal tetap dapat digeser, bukan memaksa tabel mengecil. */
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) main,
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) main {
+/* Area isi modal tetap vertikal, sedangkan tabel menangani scroll horizontal. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) main,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) main {
   min-width: 0 !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
 }
 
-/* Pembungkus scroll tabel. */
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) .safe-x-scroll,
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) .safe-x-scroll {
+/* Wrapper tabel menjadi area scroll horizontal. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) .safe-x-scroll,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) .safe-x-scroll {
   display: block !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -27,24 +28,22 @@
   -webkit-overflow-scrolling: touch !important;
 }
 
-/* Jangan izinkan aturan global table { max-width: 100% } mengecilkan tabel. */
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\],
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] {
+/* Batalkan aturan global table { max-width: 100% }. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) .safe-x-scroll > table,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) .safe-x-scroll > table {
   display: table !important;
   width: 1290px !important;
   min-width: 1290px !important;
   max-width: none !important;
   table-layout: fixed !important;
   border-collapse: collapse !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
 }
 
-/* Teks header tidak boleh terpecah menjadi satu karakter per baris. */
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th,
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td,
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th,
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td {
+/* Jangan pecah teks menjadi satu karakter per baris. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th,
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td {
   min-width: 0 !important;
   max-width: none !important;
   word-break: normal !important;
@@ -53,90 +52,96 @@
   vertical-align: top !important;
 }
 
-/* Lebar kolom tabel. */
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(1),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(1),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(1),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(1) {
-  width: 82px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(2),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(2),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(2),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(2) {
-  width: 150px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(3),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(3),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(3),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(3) {
-  width: 145px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(4),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(4),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(4),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(4) {
-  width: 190px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(5),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(5),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(6),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(6),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(5),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(5),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(6),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(6) {
-  width: 165px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(7),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(7),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(8),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(8),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(7),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(7),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(8),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(8) {
-  width: 155px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(9),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(9),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(9),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(9) {
-  width: 125px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(10),
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(10),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th:nth-child(10),
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td:nth-child(10) {
-  width: 180px !important;
-}
-
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th,
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] th {
+/* Header tabel tetap ringkas dan terbaca. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th {
   padding: 12px !important;
+  color: #0f172a !important;
   font-size: 11px !important;
+  font-weight: 700 !important;
   line-height: 1.2 !important;
   letter-spacing: 0.02em !important;
   text-align: left !important;
 }
 
-[data-radix-dialog-content]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td,
-[data-slot="dialog-content"]:has(table.min-w-\[1290px\]) table.min-w-\[1290px\] td {
+/* Isi tabel. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td {
   padding: 12px !important;
+  color: #0f172a !important;
   font-size: 12px !important;
+  font-weight: 400 !important;
   line-height: 1.35 !important;
 }
 
+/* Lebar kolom. */
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(1),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(1),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(1),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(1) {
+  width: 82px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(2),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(2),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(2),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(2) {
+  width: 150px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(3),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(3),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(3),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(3) {
+  width: 145px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(4),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(4),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(4),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(4) {
+  width: 190px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(5),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(5),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(6),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(6),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(5),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(5),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(6),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(6) {
+  width: 165px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(7),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(7),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(8),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(8),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(7),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(7),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(8),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(8) {
+  width: 155px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(9),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(9),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(9),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(9) {
+  width: 125px !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table th:nth-child(10),
+[data-radix-dialog-content]:has(table[class*="min-w-"]) table td:nth-child(10),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table th:nth-child(10),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) table td:nth-child(10) {
+  width: 180px !important;
+}
+
 @media (max-width: 640px) {
-  [data-radix-dialog-content]:has(table.min-w-\[1290px\]),
-  [data-slot="dialog-content"]:has(table.min-w-\[1290px\]) {
+  [data-radix-dialog-content]:has(table[class*="min-w-"]),
+  [data-slot="dialog-content"]:has(table[class*="min-w-"]) {
     width: calc(100vw - 1rem) !important;
     max-width: calc(100vw - 1rem) !important;
   }
