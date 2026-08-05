@@ -1,6 +1,8 @@
 section:has(.mitra-karya-member-report) {
   overflow: hidden;
   border-radius: 10px !important;
+  padding: 16px;
+  background: #ffffff;
 }
 
 .mitra-karya-member-report {
@@ -196,4 +198,10 @@ section:has(.mitra-karya-member-report) {
   text-align: right;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  section:has(.mitra-karya-member-report) {
+    padding: 12px;
+  }
 }
