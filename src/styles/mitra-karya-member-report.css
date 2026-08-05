@@ -1,3 +1,8 @@
+section:has(.mitra-karya-member-report) {
+  overflow: hidden;
+  border-radius: 10px !important;
+}
+
 .mitra-karya-member-report {
   overflow-x: auto;
   overflow-y: hidden;
@@ -5,6 +10,7 @@
   border-radius: 10px;
   background: #ffffff;
   box-shadow: none;
+  isolation: isolate;
   scrollbar-color: #94a3b8 #e2e8f0;
   scrollbar-width: thin;
 }
