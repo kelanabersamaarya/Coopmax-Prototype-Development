@@ -9,12 +9,15 @@ function createImpactPanel() {
   const panel = document.createElement("div");
   panel.className = PANEL_CLASS;
   panel.innerHTML = `
-    <div class="loan-extension-tenor-impact-title">
-      Informasi Dampak Perubahan Tenor
+    <div class="loan-extension-tenor-impact-content">
+      <div class="loan-extension-tenor-impact-title">
+        Informasi Dampak Perubahan Tenor
+      </div>
+      <div class="loan-extension-tenor-impact-description">
+        Perpanjangan tenor dapat menambah total bunga yang harus dibayar apabila jangka waktu pembayaran menjadi lebih panjang.
+      </div>
     </div>
-    <div class="loan-extension-tenor-impact-description">
-      Terdapat penambahan tenor pinjaman dari tenor awal sebesar 12 bulan menjadi 18 bulan.
-    </div>
+    <span class="loan-extension-tenor-impact-icon" aria-hidden="true">i</span>
   `;
   return panel;
 }
