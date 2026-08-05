@@ -73,5 +73,6 @@ import "./styles/mitra-karya-member-report.css";
 import "./styles/mitra-karya-member-report-vertical-align.css";
 import "./styles/mitra-karya-member-report-filters.css";
 import "./styles/mitra-karya-ktp-upload-modal.css";
+import "./styles/loan-interest-wizard-final-button.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

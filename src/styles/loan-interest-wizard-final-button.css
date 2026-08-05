@@ -1,0 +1,49 @@
+/* Override terakhir tombol Lanjutkan pada wizard Ubah Suku Bunga. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child {
+  background: #2563eb !important;
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child:not(:disabled):hover {
+  background: #1d4ed8 !important;
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child:disabled {
+  background: #2563eb !important;
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child
+  svg {
+  display: inline-block !important;
+  visibility: visible !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child
+  svg.lucide-check {
+  display: none !important;
+}
