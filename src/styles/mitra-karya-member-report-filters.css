@@ -30,3 +30,18 @@ body:has(input[placeholder="Masukkan nama/no anggota.."])
   color: #334155 !important;
   opacity: 1 !important;
 }
+
+/* Hanya frasa pada paragraf penjelasan yang berwarna ungu. */
+body:has(input[placeholder="Masukkan nama/no anggota.."])
+  section[class*="border-[#0EA5E9]"]
+  h2
+  span {
+  color: inherit !important;
+}
+
+body:has(input[placeholder="Masukkan nama/no anggota.."])
+  section[class*="border-[#0EA5E9]"]
+  p
+  span {
+  color: #7c3aed !important;
+}
