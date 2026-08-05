@@ -2,47 +2,40 @@
 
 import * as React from "react";
 
-const WIZARD_SELECTOR =
-  '[data-loan-debt-wizard="true"], [data-loan-interest-wizard="true"]';
+const WIZARD_SELECTOR = '[data-loan-debt-wizard="true"]';
+const HISTORY_SELECTOR = `${WIZARD_SELECTOR}[data-loan-debt-step="1"] button:has(svg.lucide-clock-3)`;
 
-function isHistoryButton(button: HTMLButtonElement) {
-  const text = (button.textContent ?? "").trim().toLowerCase();
-  const hasClockIcon = Boolean(button.querySelector("svg.lucide-clock-3"));
-  const hasEyeIcon = Boolean(button.querySelector("svg.lucide-eye"));
+function enhanceHistoryButton() {
+  const button = document.querySelector<HTMLButtonElement>(HISTORY_SELECTOR);
 
-  return (
-    text.includes("riwayat perubahan") ||
-    (hasClockIcon && text.includes("riwayat")) ||
-    (hasEyeIcon && text.includes("riwayat"))
+  if (!button) return;
+
+  button.dataset.loanDebtHistoryTrigger = "true";
+  button.style.position = "relative";
+  button.style.zIndex = "100000";
+  button.style.pointerEvents = "auto";
+  button.style.touchAction = "manipulation";
+  button.style.cursor = "pointer";
+
+  let parent = button.parentElement;
+  let depth = 0;
+
+  while (parent && depth < 5) {
+    parent.style.position = "relative";
+    parent.style.zIndex = String(99999 - depth);
+    parent.style.pointerEvents = "auto";
+    parent = parent.parentElement;
+    depth += 1;
+  }
+
+  const dialogContent = button.closest<HTMLElement>(
+    '[data-radix-dialog-content], [data-slot="dialog-content"]',
   );
-}
 
-function enhanceHistoryButtons() {
-  const buttons = Array.from(
-    document.querySelectorAll<HTMLButtonElement>(
-      `${WIZARD_SELECTOR} button`,
-    ),
-  );
-
-  buttons.filter(isHistoryButton).forEach((button) => {
-    button.dataset.loanDebtHistoryTrigger = "true";
-    button.style.position = "relative";
-    button.style.zIndex = "10000";
-    button.style.pointerEvents = "auto";
-    button.style.touchAction = "manipulation";
-    button.style.cursor = "pointer";
-
-    let parent = button.parentElement;
-    let depth = 0;
-
-    while (parent && depth < 4) {
-      parent.style.position = "relative";
-      parent.style.zIndex = String(9999 - depth);
-      parent.style.pointerEvents = "auto";
-      parent = parent.parentElement;
-      depth += 1;
-    }
-  });
+  if (dialogContent) {
+    dialogContent.style.pointerEvents = "auto";
+    dialogContent.style.zIndex = "10000";
+  }
 }
 
 export default function LoanDebtAdjustmentHistoryTriggerFix() {
@@ -51,7 +44,7 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
 
     function scheduleEnhance() {
       window.cancelAnimationFrame(frameId);
-      frameId = window.requestAnimationFrame(enhanceHistoryButtons);
+      frameId = window.requestAnimationFrame(enhanceHistoryButton);
     }
 
     const observer = new MutationObserver(scheduleEnhance);
@@ -66,7 +59,7 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
     document.addEventListener("pointerup", scheduleEnhance, true);
     document.addEventListener("click", scheduleEnhance, true);
 
-    enhanceHistoryButtons();
+    enhanceHistoryButton();
 
     return () => {
       window.cancelAnimationFrame(frameId);
@@ -80,17 +73,20 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
   return (
     <style>
       {`
-        ${WIZARD_SELECTOR}
-          button[data-loan-debt-history-trigger="true"] {
+        ${WIZARD_SELECTOR}[data-loan-debt-step="1"] {
           position: relative !important;
           z-index: 10000 !important;
+        }
+
+        ${HISTORY_SELECTOR} {
+          position: relative !important;
+          z-index: 100000 !important;
           pointer-events: auto !important;
           touch-action: manipulation !important;
           cursor: pointer !important;
         }
 
-        ${WIZARD_SELECTOR}
-          button[data-loan-debt-history-trigger="true"] > * {
+        ${HISTORY_SELECTOR} > * {
           pointer-events: none !important;
         }
       `}
