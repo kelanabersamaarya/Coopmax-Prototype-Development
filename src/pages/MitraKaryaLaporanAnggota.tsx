@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ChevronDown,
+  Eye,
   FileSpreadsheet,
   Info,
   Printer,
@@ -32,7 +33,11 @@ type Member = {
   product: string;
   wilayah: string;
   tag: string;
-  balance: number;
+  simpananPokok: number;
+  simpananWajib: number;
+  simpananKhusus: number;
+  simpananPenyertaan: number;
+  status: "Aktif" | "Tidak Aktif";
 };
 
 const members: Member[] = [
@@ -47,7 +52,11 @@ const members: Member[] = [
     product: "Simpanan Kaya",
     wilayah: "Denpasar",
     tag: "Prioritas",
-    balance: 4_000_000,
+    simpananPokok: 0,
+    simpananWajib: 0,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+    status: "Aktif",
   },
   {
     id: "A2300002",
@@ -56,11 +65,15 @@ const members: Member[] = [
     category: "Anggota",
     ktpStatus: "Belum Tersedia",
     phone: "028 4560 3652",
-    address: "Jl. Raya Sibang",
+    address: "Jl Raya Sibang",
     product: "Simpanan Sukarela",
     wilayah: "Gianyar",
     tag: "Reguler",
-    balance: 2_750_000,
+    simpananPokok: 0,
+    simpananWajib: 0,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+    status: "Aktif",
   },
   {
     id: "A2300003",
@@ -73,7 +86,11 @@ const members: Member[] = [
     product: "Simpanan Mapan",
     wilayah: "Denpasar",
     tag: "Reguler",
-    balance: 20_000_000,
+    simpananPokok: 1_500_000,
+    simpananWajib: 50_000,
+    simpananKhusus: 0,
+    simpananPenyertaan: 50_000_000,
+    status: "Aktif",
   },
   {
     id: "A2300004",
@@ -82,11 +99,15 @@ const members: Member[] = [
     category: "Anggota",
     ktpStatus: "Belum Tersedia",
     phone: "0837 6686 458",
-    address: "Jln. Wijaya Kusuma No. 11A",
+    address: "Jln Wijaya Kusuma, No 11A",
     product: "Simpanan Kaya",
     wilayah: "Badung",
     tag: "Prioritas",
-    balance: 950_000,
+    simpananPokok: 1_500_000,
+    simpananWajib: 50_000,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+    status: "Aktif",
   },
   {
     id: "A2300005",
@@ -95,11 +116,32 @@ const members: Member[] = [
     category: "Anggota",
     ktpStatus: "Tersedia",
     phone: "(+62) 800 773 744",
-    address: "Denpasar",
+    address: "Jln Wijaya Kusuma, No 11A",
     product: "Simpanan Berjangka",
     wilayah: "Denpasar",
     tag: "Deposito",
-    balance: 10_000_000,
+    simpananPokok: 1_500_000,
+    simpananWajib: 50_000,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+    status: "Aktif",
+  },
+  {
+    id: "A2300006",
+    name: "Ana Haryanti",
+    registeredAt: "21-04-2023",
+    category: "Anggota",
+    ktpStatus: "Belum Tersedia",
+    phone: "(+62) 539 8053 739",
+    address: "Jln Raya Dalung Permai, No 2",
+    product: "Simpanan Sukarela",
+    wilayah: "Badung",
+    tag: "Reguler",
+    simpananPokok: 1_500_000,
+    simpananWajib: 50_000,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+    status: "Aktif",
   },
   {
     id: "C2600001",
@@ -112,9 +154,20 @@ const members: Member[] = [
     product: "Simpanan Sukarela",
     wilayah: "Gianyar",
     tag: "Baru",
-    balance: 100_000,
+    simpananPokok: 100_000,
+    simpananWajib: 0,
+    simpananKhusus: 0,
+    simpananPenyertaan: 0,
+    status: "Tidak Aktif",
   },
 ];
+
+function formatMoney(value: number) {
+  return value.toLocaleString("id-ID", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
 
 function FormRow({
   label,
@@ -154,11 +207,24 @@ function FilterSelect({
   );
 }
 
+function StatusBadge({ status }: { status: Member["status"] }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex rounded-[3px] px-2 py-1 text-[9px] font-bold leading-none text-white",
+        status === "Aktif" ? "bg-[#27ae00]" : "bg-[#dc3545]",
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
 function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
   return (
     <span
       className={cn(
-        "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold leading-none text-white",
+        "inline-flex rounded-[3px] px-2 py-1 text-[9px] font-bold leading-none text-white",
         status === "Tersedia" ? "bg-[#27ae00]" : "bg-[#dc3545]",
       )}
     >
@@ -167,63 +233,170 @@ function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
   );
 }
 
-function ReportResults({ members: rows }: { members: Member[] }) {
+function ReportResults({ rows }: { rows: Member[] }) {
+  const totals = React.useMemo(
+    () =>
+      rows.reduce(
+        (result, member) => {
+          result.simpananPokok += member.simpananPokok;
+          result.simpananWajib += member.simpananWajib;
+          result.simpananKhusus += member.simpananKhusus;
+          result.simpananPenyertaan += member.simpananPenyertaan;
+          return result;
+        },
+        {
+          simpananPokok: 0,
+          simpananWajib: 0,
+          simpananKhusus: 0,
+          simpananPenyertaan: 0,
+        },
+      ),
+    [rows],
+  );
+
+  const totalSimpanan =
+    totals.simpananPokok +
+    totals.simpananWajib +
+    totals.simpananKhusus +
+    totals.simpananPenyertaan;
+
   return (
-    <div className="mt-7 rounded-[5px] border border-slate-200/70 bg-white p-4 shadow-sm">
-      <div className="safe-x-scroll">
-        <table className="w-full min-w-[900px] border-collapse">
+    <section className="mt-7 overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-sm">
+      <div className="mitra-karya-member-report">
+        <table className="min-w-[1420px] w-full">
           <thead>
-            <tr className="border-b border-slate-300 text-left text-[11px] font-bold uppercase tracking-wide text-[#002060]">
-              <th className="px-3 py-3">No.</th>
-              <th className="px-3 py-3">No. Anggota</th>
-              <th className="px-3 py-3">Nama</th>
-              <th className="px-3 py-3">Tanggal Daftar</th>
-              <th className="px-3 py-3">Produk</th>
-              <th className="px-3 py-3 text-right">Saldo</th>
-              <th className="px-3 py-3">KTP</th>
+            <tr>
+              <th>No.</th>
+              <th>No. Anggota</th>
+              <th>Nama</th>
+              <th>Tanggal Daftar</th>
+              <th>Alamat</th>
+              <th>No. Handphone</th>
+              <th>Kategori</th>
+              <th>Simpanan Pokok</th>
+              <th>Simpanan Wajib</th>
+              <th>Simpanan Khusus</th>
+              <th>
+                Simpanan
+                <br />
+                Penyertaan
+              </th>
+              <th>Total Simpanan</th>
+              <th>Status</th>
+              <th>File KTP</th>
+              <th>Aksi</th>
             </tr>
           </thead>
+
           <tbody>
             {rows.length > 0 ? (
-              rows.map((member, index) => (
-                <tr
-                  key={member.id}
-                  className={cn(
-                    "border-b border-slate-200 text-[12px] text-[#002060]",
-                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                  )}
-                >
-                  <td className="px-3 py-2.5">{index + 1}</td>
-                  <td className="px-3 py-2.5 font-semibold">{member.id}</td>
-                  <td className="px-3 py-2.5">{member.name}</td>
-                  <td className="px-3 py-2.5">{member.registeredAt}</td>
-                  <td className="px-3 py-2.5">{member.product}</td>
-                  <td className="px-3 py-2.5 text-right tabular-nums">
-                    {new Intl.NumberFormat("id-ID").format(member.balance)},00
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <KtpBadge status={member.ktpStatus} />
-                  </td>
-                </tr>
-              ))
+              rows.map((member, index) => {
+                const total =
+                  member.simpananPokok +
+                  member.simpananWajib +
+                  member.simpananKhusus +
+                  member.simpananPenyertaan;
+
+                return (
+                  <tr key={member.id}>
+                    <td>{index + 1}</td>
+                    <td>{member.id}</td>
+                    <td>{member.name}</td>
+                    <td>{member.registeredAt}</td>
+                    <td>{member.address}</td>
+                    <td>{member.phone}</td>
+                    <td>{member.category}</td>
+                    <td>{formatMoney(member.simpananPokok)}</td>
+                    <td>{formatMoney(member.simpananWajib)}</td>
+                    <td>{formatMoney(member.simpananKhusus)}</td>
+                    <td>{formatMoney(member.simpananPenyertaan)}</td>
+                    <td>{formatMoney(total)}</td>
+                    <td>
+                      <StatusBadge status={member.status} />
+                    </td>
+                    <td>
+                      <KtpBadge status={member.ktpStatus} />
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          toast("Detail anggota (prototype)", {
+                            description: member.name,
+                          })
+                        }
+                        className="inline-flex h-6 w-6 items-center justify-center rounded-[4px] text-[#2563EB] transition hover:bg-blue-50"
+                        aria-label={`Lihat ${member.name}`}
+                        title="Lihat detail"
+                      >
+                        <Eye className="h-4 w-4" strokeWidth={2.5} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td
-                  colSpan={7}
+                  colSpan={15}
                   className="px-4 py-10 text-center text-[13px] text-slate-500"
                 >
                   Anggota tidak ditemukan.
                 </td>
               </tr>
             )}
+
+            {rows.length > 0 ? (
+              <>
+                <tr className="mitra-karya-total-row">
+                  <td colSpan={7}>Total per Halaman</td>
+                  <td>{formatMoney(totals.simpananPokok)}</td>
+                  <td>{formatMoney(totals.simpananWajib)}</td>
+                  <td>{formatMoney(totals.simpananKhusus)}</td>
+                  <td>{formatMoney(totals.simpananPenyertaan)}</td>
+                  <td>{formatMoney(totalSimpanan)}</td>
+                  <td colSpan={3} />
+                </tr>
+                <tr className="mitra-karya-total-row">
+                  <td colSpan={7}>Total</td>
+                  <td>{formatMoney(totals.simpananPokok)}</td>
+                  <td>{formatMoney(totals.simpananWajib)}</td>
+                  <td>{formatMoney(totals.simpananKhusus)}</td>
+                  <td>{formatMoney(totals.simpananPenyertaan)}</td>
+                  <td>{formatMoney(totalSimpanan)}</td>
+                  <td colSpan={3} />
+                </tr>
+              </>
+            ) : null}
           </tbody>
         </table>
       </div>
 
-      <div className="mt-4 text-[13px] text-slate-600">
-        Menampilkan {rows.length} dari {members.length} entri
+      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-[12px] text-[#002060]">
+          Menampilkan 1 sampai {rows.length} dari {rows.length} entri
+        </div>
+        <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+          <button
+            type="button"
+            disabled
+            className="h-9 px-4 text-[12px] font-medium text-slate-400"
+          >
+            Sebelumnya
+          </button>
+          <span className="grid h-9 w-9 place-items-center bg-violet-600 text-[12px] font-bold text-white">
+            1
+          </span>
+          <button
+            type="button"
+            disabled
+            className="h-9 px-4 text-[12px] font-medium text-slate-400"
+          >
+            Selanjutnya
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -251,19 +424,22 @@ export default function MitraKaryaLaporanAnggota() {
     const max = Number(maxBalance.replace(/[^\d]/g, "")) || Infinity;
 
     return members.filter((member) => {
-      const matchName = nameQuery
-        ? `${member.name} ${member.id}`.toLowerCase().includes(nameQuery)
-        : true;
+      const totalBalance =
+        member.simpananPokok +
+        member.simpananWajib +
+        member.simpananKhusus +
+        member.simpananPenyertaan;
 
       return (
-        matchName &&
+        (!nameQuery ||
+          `${member.name} ${member.id}`.toLowerCase().includes(nameQuery)) &&
         (category === "Semua" || member.category === category) &&
         (ktpStatus === "Semua" || member.ktpStatus === ktpStatus) &&
         (product === "Semua" || member.product === product) &&
         (wilayah === "Semua" || member.wilayah === wilayah) &&
         (tag === "Semua" || member.tag === tag) &&
-        member.balance >= min &&
-        member.balance <= max
+        totalBalance >= min &&
+        totalBalance <= max
       );
     });
   }, [category, ktpStatus, maxBalance, minBalance, name, product, tag, wilayah]);
@@ -312,35 +488,15 @@ export default function MitraKaryaLaporanAnggota() {
         <div className="mt-7 grid items-start gap-6 xl:grid-cols-[minmax(0,742px)_minmax(360px,1fr)]">
           <div className="grid gap-[11px]">
             <FormRow label="Nama/No Anggota">
-              <Input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Masukkan nama/no anggota.."
-                className={inputClassName}
-              />
+              <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Masukkan nama/no anggota.." className={inputClassName} />
             </FormRow>
 
             <FormRow label="Tanggal Daftar">
               <div className="grid grid-cols-2 gap-4">
-                <Input
-                  value={dateStart}
-                  onChange={(event) => setDateStart(event.target.value)}
-                  placeholder="Masukkan tanggal awal"
-                  className={inputClassName}
-                />
+                <Input value={dateStart} onChange={(event) => setDateStart(event.target.value)} placeholder="Masukkan tanggal awal" className={inputClassName} />
                 <div className="relative">
-                  <Input
-                    value={dateEnd}
-                    onChange={(event) => setDateEnd(event.target.value)}
-                    placeholder="Masukkan tanggal akhir"
-                    className={cn(inputClassName, "pr-11")}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setDateEnd("")}
-                    className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
-                    aria-label="Hapus tanggal akhir"
-                  >
+                  <Input value={dateEnd} onChange={(event) => setDateEnd(event.target.value)} placeholder="Masukkan tanggal akhir" className={cn(inputClassName, "pr-11")} />
+                  <button type="button" onClick={() => setDateEnd("")} className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]" aria-label="Hapus tanggal akhir">
                     <X className="h-4 w-4" strokeWidth={3} />
                   </button>
                 </div>
@@ -348,11 +504,7 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Kategori">
-              <FilterSelect
-                value={category}
-                onChange={(value) => setCategory(value as Category)}
-                placeholder="Pilih Kategori"
-              >
+              <FilterSelect value={category} onChange={(value) => setCategory(value as Category)} placeholder="Pilih Kategori">
                 <SelectItem value="Semua">Pilih Kategori</SelectItem>
                 <SelectItem value="Anggota">Anggota</SelectItem>
                 <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
@@ -360,11 +512,7 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Status">
-              <FilterSelect
-                value={status}
-                onChange={setStatus}
-                placeholder="Pilih Status Anggota"
-              >
+              <FilterSelect value={status} onChange={setStatus} placeholder="Pilih Status Anggota">
                 <SelectItem value="Semua">Pilih Status Anggota</SelectItem>
                 <SelectItem value="Aktif">Aktif</SelectItem>
                 <SelectItem value="Nonaktif">Nonaktif</SelectItem>
@@ -372,29 +520,17 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Produk">
-              <FilterSelect
-                value={product}
-                onChange={setProduct}
-                placeholder="Pilih produk yang dimiliki"
-              >
+              <FilterSelect value={product} onChange={setProduct} placeholder="Pilih produk yang dimiliki">
                 <SelectItem value="Semua">Pilih produk yang dimiliki</SelectItem>
                 <SelectItem value="Simpanan Kaya">Simpanan Kaya</SelectItem>
-                <SelectItem value="Simpanan Sukarela">
-                  Simpanan Sukarela
-                </SelectItem>
+                <SelectItem value="Simpanan Sukarela">Simpanan Sukarela</SelectItem>
                 <SelectItem value="Simpanan Mapan">Simpanan Mapan</SelectItem>
-                <SelectItem value="Simpanan Berjangka">
-                  Simpanan Berjangka
-                </SelectItem>
+                <SelectItem value="Simpanan Berjangka">Simpanan Berjangka</SelectItem>
               </FilterSelect>
             </FormRow>
 
             <FormRow label="Wilayah">
-              <FilterSelect
-                value={wilayah}
-                onChange={setWilayah}
-                placeholder="Pilih wilayah"
-              >
+              <FilterSelect value={wilayah} onChange={setWilayah} placeholder="Pilih wilayah">
                 <SelectItem value="Semua">Pilih wilayah</SelectItem>
                 <SelectItem value="Denpasar">Denpasar</SelectItem>
                 <SelectItem value="Gianyar">Gianyar</SelectItem>
@@ -403,11 +539,7 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Tag">
-              <FilterSelect
-                value={tag}
-                onChange={setTag}
-                placeholder="Pilih tag (satu atau lebih)"
-              >
+              <FilterSelect value={tag} onChange={setTag} placeholder="Pilih tag (satu atau lebih)">
                 <SelectItem value="Semua">Pilih tag (satu atau lebih)</SelectItem>
                 <SelectItem value="Prioritas">Prioritas</SelectItem>
                 <SelectItem value="Reguler">Reguler</SelectItem>
@@ -418,18 +550,8 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FormRow label="Tanggal Saldo">
               <div className="relative">
-                <Input
-                  value={balanceDate}
-                  onChange={(event) => setBalanceDate(event.target.value)}
-                  placeholder="Masukkan tanggal saldo"
-                  className={cn(inputClassName, "pr-11")}
-                />
-                <button
-                  type="button"
-                  onClick={() => setBalanceDate("")}
-                  className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
-                  aria-label="Hapus tanggal saldo"
-                >
+                <Input value={balanceDate} onChange={(event) => setBalanceDate(event.target.value)} placeholder="Masukkan tanggal saldo" className={cn(inputClassName, "pr-11")} />
+                <button type="button" onClick={() => setBalanceDate("")} className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]" aria-label="Hapus tanggal saldo">
                   <X className="h-4 w-4" strokeWidth={3} />
                 </button>
               </div>
@@ -437,44 +559,20 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FormRow label="Saldo Simpanan">
               <div className="grid grid-cols-2 gap-4">
-                <Input
-                  value={minBalance}
-                  onChange={(event) => setMinBalance(event.target.value)}
-                  placeholder="Saldo Minimal"
-                  inputMode="decimal"
-                  className={inputClassName}
-                />
-                <Input
-                  value={maxBalance}
-                  onChange={(event) => setMaxBalance(event.target.value)}
-                  placeholder="Saldo Maksimal"
-                  inputMode="decimal"
-                  className={inputClassName}
-                />
+                <Input value={minBalance} onChange={(event) => setMinBalance(event.target.value)} placeholder="Saldo Minimal" inputMode="decimal" className={inputClassName} />
+                <Input value={maxBalance} onChange={(event) => setMaxBalance(event.target.value)} placeholder="Saldo Maksimal" inputMode="decimal" className={inputClassName} />
               </div>
             </FormRow>
 
             <FormRow label="Jenis Laporan">
-              <FilterSelect
-                value={reportType}
-                onChange={setReportType}
-                placeholder="Berdasarkan Simpanan Anggota"
-              >
-                <SelectItem value="Berdasarkan Simpanan Anggota">
-                  Berdasarkan Simpanan Anggota
-                </SelectItem>
-                <SelectItem value="Berdasarkan Produk">
-                  Berdasarkan Produk
-                </SelectItem>
+              <FilterSelect value={reportType} onChange={setReportType} placeholder="Berdasarkan Simpanan Anggota">
+                <SelectItem value="Berdasarkan Simpanan Anggota">Berdasarkan Simpanan Anggota</SelectItem>
+                <SelectItem value="Berdasarkan Produk">Berdasarkan Produk</SelectItem>
               </FilterSelect>
             </FormRow>
 
             <FormRow label="File KTP Anggota">
-              <FilterSelect
-                value={ktpStatus}
-                onChange={(value) => setKtpStatus(value as KtpStatus)}
-                placeholder="Semua"
-              >
+              <FilterSelect value={ktpStatus} onChange={(value) => setKtpStatus(value as KtpStatus)} placeholder="Semua">
                 <SelectItem value="Semua">Semua</SelectItem>
                 <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
                 <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
@@ -526,7 +624,7 @@ export default function MitraKaryaLaporanAnggota() {
           </section>
         </div>
 
-        {searched ? <ReportResults members={filteredMembers} /> : null}
+        {searched ? <ReportResults rows={filteredMembers} /> : null}
       </div>
     </div>
   );
