@@ -351,7 +351,7 @@ function ReportResults({ rows }: { rows: Member[] }) {
 
             {rows.length > 0 ? (
               <>
-                <tr className="mitra-karya-total-row">
+                <tr className="mitra-karya-total-row mitra-karya-total-page-row">
                   <td colSpan={7}>Total per Halaman</td>
                   <td>{formatMoney(totals.simpananPokok)}</td>
                   <td>{formatMoney(totals.simpananWajib)}</td>
@@ -360,7 +360,7 @@ function ReportResults({ rows }: { rows: Member[] }) {
                   <td>{formatMoney(totalSimpanan)}</td>
                   <td colSpan={3} />
                 </tr>
-                <tr className="mitra-karya-total-row">
+                <tr className="mitra-karya-total-row mitra-karya-total-all-row">
                   <td colSpan={7}>Total</td>
                   <td>{formatMoney(totals.simpananPokok)}</td>
                   <td>{formatMoney(totals.simpananWajib)}</td>

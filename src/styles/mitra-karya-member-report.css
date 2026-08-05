@@ -187,11 +187,11 @@ section:has(.mitra-karya-member-report) {
   font-weight: 700;
 }
 
-.mitra-karya-member-report .mitra-karya-total-row:first-of-type td {
+.mitra-karya-member-report .mitra-karya-total-page-row td {
   border-top: 2px solid #000000 !important;
 }
 
-.mitra-karya-member-report .mitra-karya-total-row + .mitra-karya-total-row td {
+.mitra-karya-member-report .mitra-karya-total-all-row td {
   border-top: 2px solid #000000 !important;
 }
 
