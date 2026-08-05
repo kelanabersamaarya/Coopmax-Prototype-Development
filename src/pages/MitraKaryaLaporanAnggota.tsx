@@ -154,6 +154,79 @@ function FilterSelect({
   );
 }
 
+function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex rounded-[4px] px-2 py-1 text-[10px] font-bold leading-none text-white",
+        status === "Tersedia" ? "bg-[#27ae00]" : "bg-[#dc3545]",
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
+function ReportResults({ members: rows }: { members: Member[] }) {
+  return (
+    <div className="mt-7 rounded-[5px] border border-slate-200/70 bg-white p-4 shadow-sm">
+      <div className="safe-x-scroll">
+        <table className="w-full min-w-[900px] border-collapse">
+          <thead>
+            <tr className="border-b border-slate-300 text-left text-[11px] font-bold uppercase tracking-wide text-[#002060]">
+              <th className="px-3 py-3">No.</th>
+              <th className="px-3 py-3">No. Anggota</th>
+              <th className="px-3 py-3">Nama</th>
+              <th className="px-3 py-3">Tanggal Daftar</th>
+              <th className="px-3 py-3">Produk</th>
+              <th className="px-3 py-3 text-right">Saldo</th>
+              <th className="px-3 py-3">KTP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.length > 0 ? (
+              rows.map((member, index) => (
+                <tr
+                  key={member.id}
+                  className={cn(
+                    "border-b border-slate-200 text-[12px] text-[#002060]",
+                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                  )}
+                >
+                  <td className="px-3 py-2.5">{index + 1}</td>
+                  <td className="px-3 py-2.5 font-semibold">{member.id}</td>
+                  <td className="px-3 py-2.5">{member.name}</td>
+                  <td className="px-3 py-2.5">{member.registeredAt}</td>
+                  <td className="px-3 py-2.5">{member.product}</td>
+                  <td className="px-3 py-2.5 text-right tabular-nums">
+                    {new Intl.NumberFormat("id-ID").format(member.balance)},00
+                  </td>
+                  <td className="px-3 py-2.5">
+                    <KtpBadge status={member.ktpStatus} />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="px-4 py-10 text-center text-[13px] text-slate-500"
+                >
+                  Anggota tidak ditemukan.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mt-4 text-[13px] text-slate-600">
+        Menampilkan {rows.length} dari {members.length} entri
+      </div>
+    </div>
+  );
+}
+
 export default function MitraKaryaLaporanAnggota() {
   const [name, setName] = React.useState("");
   const [dateStart, setDateStart] = React.useState("");
@@ -181,23 +254,16 @@ export default function MitraKaryaLaporanAnggota() {
       const matchName = nameQuery
         ? `${member.name} ${member.id}`.toLowerCase().includes(nameQuery)
         : true;
-      const matchCategory =
-        category === "Semua" || member.category === category;
-      const matchKtp = ktpStatus === "Semua" || member.ktpStatus === ktpStatus;
-      const matchProduct = product === "Semua" || member.product === product;
-      const matchWilayah =
-        wilayah === "Semua" || member.wilayah === wilayah;
-      const matchTag = tag === "Semua" || member.tag === tag;
-      const matchBalance = member.balance >= min && member.balance <= max;
 
       return (
         matchName &&
-        matchCategory &&
-        matchKtp &&
-        matchProduct &&
-        matchWilayah &&
-        matchTag &&
-        matchBalance
+        (category === "Semua" || member.category === category) &&
+        (ktpStatus === "Semua" || member.ktpStatus === ktpStatus) &&
+        (product === "Semua" || member.product === product) &&
+        (wilayah === "Semua" || member.wilayah === wilayah) &&
+        (tag === "Semua" || member.tag === tag) &&
+        member.balance >= min &&
+        member.balance <= max
       );
     });
   }, [category, ktpStatus, maxBalance, minBalance, name, product, tag, wilayah]);
@@ -232,7 +298,6 @@ export default function MitraKaryaLaporanAnggota() {
               <FileSpreadsheet className="h-4 w-4" />
               Export Excel
             </button>
-
             <button
               type="button"
               onClick={() => toast("Cetak (prototype)")}
@@ -436,18 +501,14 @@ export default function MitraKaryaLaporanAnggota() {
               <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0EA5C6] text-white">
                 <Info className="h-4 w-4" />
               </span>
-
               <div className="min-w-0">
                 <h2 className="text-[14px] font-extrabold leading-snug">
                   Fitur Penyesuaian Laporan
                 </h2>
                 <p className="mt-2 max-w-[440px] text-[13px] font-normal leading-relaxed">
-                  Anda dapat melakukan kustomisasi tampilan laporan (pengaturan
-                  kolom dan urutan data) pada laporan ini dengan menggunakan fitur
-                  penyesuaian laporan. Silahkan klik menu Penyesuaian Laporan
-                  untuk dapat melakukan pengaturan.
+                  Anda dapat melakukan kustomisasi tampilan laporan melalui fitur
+                  penyesuaian laporan.
                 </p>
-
                 <button
                   type="button"
                   onClick={() =>
@@ -465,57 +526,7 @@ export default function MitraKaryaLaporanAnggota() {
           </section>
         </div>
 
-        {searched ? (
-          <Card className="mt-7 rounded-[5px] border-slate-200/70 bg-white p-4 shadow-sm">
-            <div className="safe-x-scroll">
-              <table className="w-full min-w-[900px] border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-300 text-left text-[11px] font-bold uppercase tracking-wide text-[#002060]">
-                    <th className="px-3 py-3">No.</th>
-                    <th className="px-3 py-3">No. Anggota</th>
-                    <th className="px-3 py-3">Nama</th>
-                    <th className="px-3 py-3">Tanggal Daftar</th>
-                    <th className="px-3 py-3">Produk</th>
-                    <th className="px-3 py-3 text-right">Saldo</th>
-                    <th className="px-3 py-3">KTP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredMembers.length ? (
-                    filteredMembers.map((member, index) => (
-                      <tr
-                        key={member.id}
-                        className={cn(
-                          "border-b border-slate-200 text-[12px] text-[#002060]",
-                          index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                        )}
-                      >
-                        <td className="px-3 py-2.5">{index + 1}</td>
-                        <td className="px-3 py-2.5 font-semibold">{member.id}</td>
-                        <td className="px-3 py-2.5">{member.name}</td>
-                        <td className="px-3 py-2.5">{member.registeredAt}</td>
-                        <td className="px-3 py-2.5">{member.product}</td>
-                        <td className="px-3 py-2.5 text-right tabular-nums">
-                          {member.balance.toLocaleString("id-ID")},00
-                        </td>
-                        <td className="px-3 py-2.5">{member.ktpStatus}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan={7}
-                        className="px-4 py-10 text-center text-[13px] text-slate-500"
-                      >
-                        Anggota tidak ditemukan.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        ) : null}
+        {searched ? <ReportResults members={filteredMembers} /> : null}
       </div>
     </div>
   );
