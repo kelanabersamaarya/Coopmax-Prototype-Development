@@ -74,13 +74,11 @@ function formatAmount(value: string | number) {
 }
 
 function mapStoredRow(entry: LoanInterestAdjustmentHistoryEntry): HistoryRow {
-  const amount = entry.adjustmentAmount || "0,00";
-
   return {
     id: entry.id,
     installmentNo: String(entry.installmentNo || "-"),
     adjustmentType: entry.adjustmentType,
-    adjustmentAmount: formatAmount(amount),
+    adjustmentAmount: formatAmount(entry.adjustmentAmount || "0,00"),
     reason: entry.reason || "-",
     interestBefore: formatAmount(entry.interestBefore),
     totalBefore: formatAmount(entry.totalBefore),
@@ -92,9 +90,9 @@ function mapStoredRow(entry: LoanInterestAdjustmentHistoryEntry): HistoryRow {
 
 function HistoryTable({ rows }: { rows: HistoryRow[] }) {
   return (
-    <div className="overflow-hidden rounded-[8px] border border-slate-200 bg-white">
-      <div className="safe-x-scroll max-w-full overflow-x-auto">
-        <table className="w-full min-w-[1120px] table-fixed border-collapse text-[12px]">
+    <div className="w-full overflow-hidden rounded-[8px] border border-slate-200 bg-white">
+      <div className="safe-x-scroll block w-full max-w-full overflow-x-auto overscroll-x-contain">
+        <table className="w-[1120px] min-w-[1120px] table-fixed border-collapse text-[12px]">
           <colgroup>
             <col className="w-[82px]" />
             <col className="w-[150px]" />
@@ -109,111 +107,37 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
 
           <thead className="bg-[#F8FAFC]">
             <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-900">
-              <th className="px-3 py-4 align-middle">
-                Angsuran
-                <br />
-                Ke
-              </th>
-              <th className="px-3 py-4 align-middle">
-                Jenis
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle">
-                Nominal
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle">
-                Alasan
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle text-right">
-                Tagihan Bunga
-                <br />
-                Sebelum
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle text-right">
-                Total Tagihan
-                <br />
-                Sebelum
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle text-right">
-                Tagihan Bunga
-                <br />
-                Sesudah
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle text-right">
-                Total Tagihan
-                <br />
-                Sesudah
-                <br />
-                Penyesuaian
-              </th>
-              <th className="px-3 py-4 align-middle">
-                Diubah Oleh
-              </th>
+              <th className="px-3 py-4">Angsuran<br />Ke</th>
+              <th className="px-3 py-4">Jenis<br />Penyesuaian</th>
+              <th className="px-3 py-4">Nominal<br />Penyesuaian</th>
+              <th className="px-3 py-4">Alasan<br />Penyesuaian</th>
+              <th className="px-3 py-4 text-right">Tagihan Bunga<br />Sebelum<br />Penyesuaian</th>
+              <th className="px-3 py-4 text-right">Total Tagihan<br />Sebelum<br />Penyesuaian</th>
+              <th className="px-3 py-4 text-right">Tagihan Bunga<br />Sesudah<br />Penyesuaian</th>
+              <th className="px-3 py-4 text-right">Total Tagihan<br />Sesudah<br />Penyesuaian</th>
+              <th className="px-3 py-4">Diubah Oleh</th>
             </tr>
           </thead>
 
           <tbody className="bg-white">
             {rows.length === 0 ? (
               <tr>
-                <td
-                  colSpan={9}
-                  className="px-4 py-12 text-center text-[13px] text-slate-500"
-                >
+                <td colSpan={9} className="px-4 py-12 text-center text-[13px] text-slate-500">
                   Belum ada riwayat perubahan nominal bunga.
                 </td>
               </tr>
             ) : (
-              rows.map((row, index) => (
-                <tr
-                  key={`${row.id}-${index}`}
-                  className="border-b border-slate-200 text-slate-900 last:border-b-0"
-                >
-                  <td className="px-3 py-4 align-middle tabular-nums">
-                    {row.installmentNo}
-                  </td>
-
-                  <td className="px-3 py-4 align-middle leading-snug">
-                    {row.adjustmentType}
-                  </td>
-
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">
-                    {row.adjustmentAmount}
-                  </td>
-
-                  <td className="whitespace-normal break-words px-3 py-4 align-middle leading-snug">
-                    {row.reason}
-                  </td>
-
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">
-                    {row.interestBefore}
-                  </td>
-
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">
-                    {row.totalBefore}
-                  </td>
-
-                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
-                    {row.interestAfter}
-                  </td>
-
-                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
-                    {row.totalAfter}
-                  </td>
-
-                  <td className="whitespace-nowrap px-3 py-4 align-middle">
-                    {row.changedBy}
-                  </td>
+              rows.map((row) => (
+                <tr key={row.id} className="border-b border-slate-200 text-slate-900 last:border-b-0">
+                  <td className="px-3 py-4 align-middle tabular-nums">{row.installmentNo}</td>
+                  <td className="px-3 py-4 align-middle leading-snug">{row.adjustmentType}</td>
+                  <td className="px-3 py-4 text-right align-middle tabular-nums">{row.adjustmentAmount}</td>
+                  <td className="break-words px-3 py-4 align-middle leading-snug">{row.reason}</td>
+                  <td className="px-3 py-4 text-right align-middle tabular-nums">{row.interestBefore}</td>
+                  <td className="px-3 py-4 text-right align-middle tabular-nums">{row.totalBefore}</td>
+                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">{row.interestAfter}</td>
+                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">{row.totalAfter}</td>
+                  <td className="whitespace-nowrap px-3 py-4 align-middle">{row.changedBy}</td>
                 </tr>
               ))
             )}
@@ -239,8 +163,9 @@ export default function LoanDebtAdjustmentHistoryDialog({
     if (!open) return;
 
     const loadHistory = () => {
-      const entries = getLoanInterestAdjustmentHistory(accountNo);
-      setStoredRows(entries.map(mapStoredRow));
+      setStoredRows(
+        getLoanInterestAdjustmentHistory(accountNo).map(mapStoredRow),
+      );
     };
 
     loadHistory();
@@ -248,10 +173,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
     window.addEventListener("storage", loadHistory);
 
     return () => {
-      window.removeEventListener(
-        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
-        loadHistory,
-      );
+      window.removeEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, loadHistory);
       window.removeEventListener("storage", loadHistory);
     };
   }, [accountNo, open]);
@@ -260,17 +182,28 @@ export default function LoanDebtAdjustmentHistoryDialog({
 
   const rows = [...storedRows, ...(seedRows[accountNo] ?? [])];
 
+  function closeDialog() {
+    onOpenChange(false);
+  }
+
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 p-2 sm:p-3"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/65 p-2 sm:p-3"
       role="dialog"
       aria-modal="true"
       aria-label="Riwayat perubahan nominal bunga pinjaman"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onOpenChange(false);
-      }}
     >
-      <section className="flex max-h-[96vh] w-full max-w-[1180px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl">
+      <button
+        type="button"
+        aria-label="Tutup overlay"
+        className="absolute inset-0 cursor-default"
+        onClick={closeDialog}
+      />
+
+      <section
+        className="relative z-10 flex max-h-[96vh] w-full max-w-[1180px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
         <header className="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
           <h2 className="min-w-0 text-[16px] font-extrabold tracking-tight text-[#172033] sm:text-[17px]">
             Riwayat Perubahan Nominal Bunga Pinjaman
@@ -278,8 +211,8 @@ export default function LoanDebtAdjustmentHistoryDialog({
 
           <button
             type="button"
-            onClick={() => onOpenChange(false)}
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
+            onClick={closeDialog}
+            className="relative z-20 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100"
             aria-label="Tutup riwayat"
             title="Tutup"
           >
@@ -294,8 +227,8 @@ export default function LoanDebtAdjustmentHistoryDialog({
         <footer className="flex shrink-0 justify-end border-t border-slate-200 px-5 py-4 sm:px-6">
           <button
             type="button"
-            onClick={() => onOpenChange(false)}
-            className="inline-flex h-9 min-w-[88px] items-center justify-center rounded-[5px] bg-[#7D8CA8] px-5 text-[12px] font-bold text-white transition hover:bg-[#6E7D98]"
+            onClick={closeDialog}
+            className="relative z-20 inline-flex h-9 min-w-[88px] cursor-pointer items-center justify-center rounded-[5px] bg-[#7D8CA8] px-5 text-[12px] font-bold text-white transition hover:bg-[#6E7D98]"
           >
             Tutup
           </button>
