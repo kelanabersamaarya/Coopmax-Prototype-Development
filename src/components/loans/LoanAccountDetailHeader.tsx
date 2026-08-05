@@ -16,7 +16,6 @@ import {
   Pencil,
   Percent,
   Printer,
-  RotateCcw,
   Sparkles,
   TimerReset,
   X,
@@ -281,12 +280,6 @@ export default function LoanAccountDetailHeader({
             onClick={() =>
               handleUnsupportedOr("debt", () => setDebtWizardOpen(true))
             }
-          />
-
-          <ActionPill
-            icon={Calendar}
-            label="Ubah Jatuh Tempo"
-            onClick={() => onAction("Ubah Jatuh Tempo")}
           />
 
           <ActionPill
