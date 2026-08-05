@@ -18,16 +18,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import MemberReportEntriesPicker from "@/components/mitra-karya/MemberReportEntriesPicker";
 
-type Category = "Semua" | "Anggota" | "Calon Anggota";
-type KtpStatus = "Semua" | "Tersedia" | "Belum Tersedia";
+type Category = "Anggota" | "Calon Anggota";
+type KtpStatus = "Tersedia" | "Belum Tersedia";
 
 type Member = {
   id: string;
   name: string;
   registeredAt: string;
-  category: Exclude<Category, "Semua">;
-  ktpStatus: Exclude<KtpStatus, "Semua">;
+  category: Category;
+  ktpStatus: KtpStatus;
   phone: string;
   address: string;
   product: string;
@@ -261,7 +262,9 @@ function ReportResults({ rows }: { rows: Member[] }) {
     totals.simpananPenyertaan;
 
   return (
-    <section className="mt-7 overflow-hidden rounded-[5px] border border-slate-200 bg-white shadow-sm">
+    <section className="mt-7 overflow-hidden rounded-[10px] border border-slate-200 bg-white p-4 shadow-sm">
+      <MemberReportEntriesPicker className="mb-4" />
+
       <div className="mitra-karya-member-report">
         <table className="min-w-[1420px] w-full">
           <thead>
@@ -488,15 +491,35 @@ export default function MitraKaryaLaporanAnggota() {
         <div className="mt-7 grid items-start gap-6 xl:grid-cols-[minmax(0,742px)_minmax(360px,1fr)]">
           <div className="grid gap-[11px]">
             <FormRow label="Nama/No Anggota">
-              <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Masukkan nama/no anggota.." className={inputClassName} />
+              <Input
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Masukkan nama/no anggota.."
+                className={inputClassName}
+              />
             </FormRow>
 
             <FormRow label="Tanggal Daftar">
               <div className="grid grid-cols-2 gap-4">
-                <Input value={dateStart} onChange={(event) => setDateStart(event.target.value)} placeholder="Masukkan tanggal awal" className={inputClassName} />
+                <Input
+                  value={dateStart}
+                  onChange={(event) => setDateStart(event.target.value)}
+                  placeholder="Masukkan tanggal awal"
+                  className={inputClassName}
+                />
                 <div className="relative">
-                  <Input value={dateEnd} onChange={(event) => setDateEnd(event.target.value)} placeholder="Masukkan tanggal akhir" className={cn(inputClassName, "pr-11")} />
-                  <button type="button" onClick={() => setDateEnd("")} className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]" aria-label="Hapus tanggal akhir">
+                  <Input
+                    value={dateEnd}
+                    onChange={(event) => setDateEnd(event.target.value)}
+                    placeholder="Masukkan tanggal akhir"
+                    className={cn(inputClassName, "pr-11")}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setDateEnd("")}
+                    className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
+                    aria-label="Hapus tanggal akhir"
+                  >
                     <X className="h-4 w-4" strokeWidth={3} />
                   </button>
                 </div>
@@ -504,7 +527,11 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Kategori">
-              <FilterSelect value={category} onChange={(value) => setCategory(value as Category)} placeholder="Pilih Kategori">
+              <FilterSelect
+                value={category}
+                onChange={(value) => setCategory(value as Category)}
+                placeholder="Pilih Kategori"
+              >
                 <SelectItem value="Semua">Pilih Kategori</SelectItem>
                 <SelectItem value="Anggota">Anggota</SelectItem>
                 <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
@@ -512,7 +539,11 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Status">
-              <FilterSelect value={status} onChange={setStatus} placeholder="Pilih Status Anggota">
+              <FilterSelect
+                value={status}
+                onChange={setStatus}
+                placeholder="Pilih Status Anggota"
+              >
                 <SelectItem value="Semua">Pilih Status Anggota</SelectItem>
                 <SelectItem value="Aktif">Aktif</SelectItem>
                 <SelectItem value="Nonaktif">Nonaktif</SelectItem>
@@ -520,17 +551,29 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Produk">
-              <FilterSelect value={product} onChange={setProduct} placeholder="Pilih produk yang dimiliki">
+              <FilterSelect
+                value={product}
+                onChange={setProduct}
+                placeholder="Pilih produk yang dimiliki"
+              >
                 <SelectItem value="Semua">Pilih produk yang dimiliki</SelectItem>
                 <SelectItem value="Simpanan Kaya">Simpanan Kaya</SelectItem>
-                <SelectItem value="Simpanan Sukarela">Simpanan Sukarela</SelectItem>
+                <SelectItem value="Simpanan Sukarela">
+                  Simpanan Sukarela
+                </SelectItem>
                 <SelectItem value="Simpanan Mapan">Simpanan Mapan</SelectItem>
-                <SelectItem value="Simpanan Berjangka">Simpanan Berjangka</SelectItem>
+                <SelectItem value="Simpanan Berjangka">
+                  Simpanan Berjangka
+                </SelectItem>
               </FilterSelect>
             </FormRow>
 
             <FormRow label="Wilayah">
-              <FilterSelect value={wilayah} onChange={setWilayah} placeholder="Pilih wilayah">
+              <FilterSelect
+                value={wilayah}
+                onChange={setWilayah}
+                placeholder="Pilih wilayah"
+              >
                 <SelectItem value="Semua">Pilih wilayah</SelectItem>
                 <SelectItem value="Denpasar">Denpasar</SelectItem>
                 <SelectItem value="Gianyar">Gianyar</SelectItem>
@@ -539,7 +582,11 @@ export default function MitraKaryaLaporanAnggota() {
             </FormRow>
 
             <FormRow label="Tag">
-              <FilterSelect value={tag} onChange={setTag} placeholder="Pilih tag (satu atau lebih)">
+              <FilterSelect
+                value={tag}
+                onChange={setTag}
+                placeholder="Pilih tag (satu atau lebih)"
+              >
                 <SelectItem value="Semua">Pilih tag (satu atau lebih)</SelectItem>
                 <SelectItem value="Prioritas">Prioritas</SelectItem>
                 <SelectItem value="Reguler">Reguler</SelectItem>
@@ -550,8 +597,18 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FormRow label="Tanggal Saldo">
               <div className="relative">
-                <Input value={balanceDate} onChange={(event) => setBalanceDate(event.target.value)} placeholder="Masukkan tanggal saldo" className={cn(inputClassName, "pr-11")} />
-                <button type="button" onClick={() => setBalanceDate("")} className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]" aria-label="Hapus tanggal saldo">
+                <Input
+                  value={balanceDate}
+                  onChange={(event) => setBalanceDate(event.target.value)}
+                  placeholder="Masukkan tanggal saldo"
+                  className={cn(inputClassName, "pr-11")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setBalanceDate("")}
+                  className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
+                  aria-label="Hapus tanggal saldo"
+                >
                   <X className="h-4 w-4" strokeWidth={3} />
                 </button>
               </div>
@@ -559,20 +616,44 @@ export default function MitraKaryaLaporanAnggota() {
 
             <FormRow label="Saldo Simpanan">
               <div className="grid grid-cols-2 gap-4">
-                <Input value={minBalance} onChange={(event) => setMinBalance(event.target.value)} placeholder="Saldo Minimal" inputMode="decimal" className={inputClassName} />
-                <Input value={maxBalance} onChange={(event) => setMaxBalance(event.target.value)} placeholder="Saldo Maksimal" inputMode="decimal" className={inputClassName} />
+                <Input
+                  value={minBalance}
+                  onChange={(event) => setMinBalance(event.target.value)}
+                  placeholder="Saldo Minimal"
+                  inputMode="decimal"
+                  className={inputClassName}
+                />
+                <Input
+                  value={maxBalance}
+                  onChange={(event) => setMaxBalance(event.target.value)}
+                  placeholder="Saldo Maksimal"
+                  inputMode="decimal"
+                  className={inputClassName}
+                />
               </div>
             </FormRow>
 
             <FormRow label="Jenis Laporan">
-              <FilterSelect value={reportType} onChange={setReportType} placeholder="Berdasarkan Simpanan Anggota">
-                <SelectItem value="Berdasarkan Simpanan Anggota">Berdasarkan Simpanan Anggota</SelectItem>
-                <SelectItem value="Berdasarkan Produk">Berdasarkan Produk</SelectItem>
+              <FilterSelect
+                value={reportType}
+                onChange={setReportType}
+                placeholder="Berdasarkan Simpanan Anggota"
+              >
+                <SelectItem value="Berdasarkan Simpanan Anggota">
+                  Berdasarkan Simpanan Anggota
+                </SelectItem>
+                <SelectItem value="Berdasarkan Produk">
+                  Berdasarkan Produk
+                </SelectItem>
               </FilterSelect>
             </FormRow>
 
             <FormRow label="File KTP Anggota">
-              <FilterSelect value={ktpStatus} onChange={(value) => setKtpStatus(value as KtpStatus)} placeholder="Semua">
+              <FilterSelect
+                value={ktpStatus}
+                onChange={(value) => setKtpStatus(value as KtpStatus)}
+                placeholder="Semua"
+              >
                 <SelectItem value="Semua">Semua</SelectItem>
                 <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
                 <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
