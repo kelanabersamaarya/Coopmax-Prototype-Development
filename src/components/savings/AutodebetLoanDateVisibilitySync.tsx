@@ -28,6 +28,11 @@ function syncDateField() {
 
   const productText = productField.textContent?.toLowerCase() ?? "";
   const isLoanProduct = productText.includes("produk pinjaman");
+  const hasSelectedProduct =
+    productText.length > 0 &&
+    !productText.includes("pilih produk") &&
+    !productText.includes("produk tujuan");
+
   const accountText = accountField.textContent?.trim().toLowerCase() ?? "";
   const hasSelectedLoanAccount =
     isLoanProduct &&
@@ -35,7 +40,10 @@ function syncDateField() {
     !accountText.includes("pilih rekening") &&
     !accountText.includes("tidak ada produk");
 
-  dateField.style.display = isLoanProduct && !hasSelectedLoanAccount ? "none" : "";
+  const shouldHideDate =
+    !hasSelectedProduct || (isLoanProduct && !hasSelectedLoanAccount);
+
+  dateField.style.display = shouldHideDate ? "none" : "";
 }
 
 export default function AutodebetLoanDateVisibilitySync() {
@@ -48,6 +56,7 @@ export default function AutodebetLoanDateVisibilitySync() {
     };
 
     const observer = new MutationObserver(scheduleSync);
+
     observer.observe(document.body, {
       childList: true,
       subtree: true,
