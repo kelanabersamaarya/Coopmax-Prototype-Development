@@ -1,0 +1,21 @@
+.mitra-karya-member-report th {
+  vertical-align: middle !important;
+}
+
+.mitra-karya-member-report th > div {
+  align-items: center !important;
+  min-height: 100%;
+}
+
+.mitra-karya-member-report th > div > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+.mitra-karya-member-report th > div > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}

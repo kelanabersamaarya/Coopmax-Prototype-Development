@@ -70,5 +70,6 @@ import "./styles/loan-interest-form-title.css";
 import "./styles/loan-interest-status-badge.css";
 import "./styles/loan-debt-simulation-title.css";
 import "./styles/mitra-karya-member-report.css";
+import "./styles/mitra-karya-member-report-vertical-align.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
