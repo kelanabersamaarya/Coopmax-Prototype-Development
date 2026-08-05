@@ -1,36 +1,70 @@
-[data-radix-dialog-content]:has(table[class*="min-w-"]),
-[data-slot="dialog-content"]:has(table[class*="min-w-"]) {
+/* Modal custom riwayat perubahan nominal bunga */
+.fixed.inset-0.z-\[100000\] > section.relative.z-10.max-w-\[1180px\] {
   display: flex !important;
   flex-direction: column !important;
+  height: min(760px, 96vh) !important;
   max-height: 96vh !important;
-}
-
-[data-radix-dialog-content]:has(table[class*="min-w-"]) main,
-[data-slot="dialog-content"]:has(table[class*="min-w-"]) main {
   min-height: 0 !important;
-  max-height: calc(96vh - 150px) !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0 {
+  flex: 1 1 auto !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: none !important;
   overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow-y: scroll !important;
   overscroll-behavior: contain !important;
+  scrollbar-width: auto !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
-[data-radix-dialog-content]:has(table[class*="min-w-"]) main > div,
-[data-slot="dialog-content"]:has(table[class*="min-w-"]) main > div {
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  > div {
   min-width: 0 !important;
+  width: 100% !important;
 }
 
-[data-radix-dialog-content]:has(table[class*="min-w-"]) main .safe-x-scroll,
-[data-slot="dialog-content"]:has(table[class*="min-w-"]) main .safe-x-scroll {
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  .w-full.overflow-hidden.rounded-\[8px\].border {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  .w-full.overflow-hidden.rounded-\[8px\].border
+  > div {
+  width: 100% !important;
   max-width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   overscroll-behavior-x: contain !important;
   -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: auto !important;
+}
+
+.fixed.inset-0.z-\[100000\]
+  > section.relative.z-10.max-w-\[1180px\]
+  > main.min-h-0
+  table.w-\[1120px\] {
+  display: table !important;
+  width: 1120px !important;
+  min-width: 1120px !important;
+  max-width: none !important;
+  table-layout: fixed !important;
 }
 
 @media (max-width: 640px) {
-  [data-radix-dialog-content]:has(table[class*="min-w-"]) main,
-  [data-slot="dialog-content"]:has(table[class*="min-w-"]) main {
-    max-height: calc(96vh - 140px) !important;
+  .fixed.inset-0.z-\[100000px\] > section.relative.z-10.max-w-\[1180px\] {
+    height: 92vh !important;
+    max-height: 92vh !important;
   }
 }
