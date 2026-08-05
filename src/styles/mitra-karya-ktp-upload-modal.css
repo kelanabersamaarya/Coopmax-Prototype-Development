@@ -14,7 +14,7 @@
   line-height: 1.25;
 }
 
-/* Hilangkan seluruh teks instruksi dari kotak Foto KTP. */
+/* Hilangkan teks instruksi di dalam kotak upload. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
@@ -28,7 +28,22 @@
   display: none !important;
 }
 
-/* Tetap rapikan area upload setelah teks instruksi dihapus. */
+/* Kotak upload sejajar dengan kotak contoh KTP yang salah. */
+[role="dialog"][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2) {
+  padding-top: 40px !important;
+}
+
+[data-radix-dialog-content][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2) {
+  padding-top: 40px !important;
+}
+
+/* Tinggi kotak upload disamakan dengan kotak contoh KTP. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
@@ -39,6 +54,8 @@
   > div.grid
   > section:nth-child(2)
   > div.flex {
+  height: 192px !important;
+  margin-top: 12px !important;
   gap: 8px !important;
 }
 
