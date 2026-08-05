@@ -60,6 +60,7 @@ section:has(.mitra-karya-member-report) {
 
 .mitra-karya-member-report th:nth-child(1) {
   width: 42px;
+  padding-left: 14px;
 }
 
 .mitra-karya-member-report th:nth-child(2) {
@@ -135,6 +136,10 @@ section:has(.mitra-karya-member-report) {
 
 .mitra-karya-member-report tbody tr:hover {
   background-color: #f8fafc !important;
+}
+
+.mitra-karya-member-report td:nth-child(1) {
+  padding-left: 14px;
 }
 
 .mitra-karya-member-report td:nth-child(1),
