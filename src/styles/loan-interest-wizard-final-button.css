@@ -1,14 +1,25 @@
-/* Override terakhir tombol Lanjutkan pada wizard Ubah Suku Bunga. */
+/* Override final tombol Lanjutkan pada wizard Ubah Suku Bunga. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   button:last-child {
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+
   background: #2563eb !important;
   background-color: #2563eb !important;
+  border: 0 !important;
   border-color: #2563eb !important;
+  border-radius: 5px !important;
+
   color: #ffffff !important;
   opacity: 1 !important;
   filter: none !important;
   box-shadow: none !important;
+
   transform: none !important;
   scale: 1 !important;
   transition: background-color 150ms ease, color 150ms ease !important;
@@ -22,12 +33,20 @@
   button:last-child:active,
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  button:last-child:focus {
+  button:last-child:focus,
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  button:last-child:focus-visible {
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+
   transform: none !important;
   scale: 1 !important;
-  min-width: 150px !important;
-  width: 150px !important;
-  height: 40px !important;
+  box-shadow: none !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
@@ -55,6 +74,8 @@
   svg {
   display: inline-block !important;
   visibility: visible !important;
+  width: 16px !important;
+  height: 16px !important;
   color: #ffffff !important;
   stroke: #ffffff !important;
   fill: none !important;
