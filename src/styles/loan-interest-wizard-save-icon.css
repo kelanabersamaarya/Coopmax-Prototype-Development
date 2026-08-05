@@ -29,43 +29,36 @@
   background-size: contain;
 }
 
-/* Modal Ubah Suku Bunga — tombol Lanjutkan pada langkah pertama */
+/* Hanya untuk wizard Ubah Suku Bunga — tombol Lanjutkan step pertama */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child,
-[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
-  footer
-  > button:last-of-type {
+  > button:last-child {
   min-width: 150px !important;
   height: 40px !important;
   justify-content: center !important;
   flex-direction: row !important;
   gap: 8px !important;
+  background: #2563eb !important;
   background-color: #2563eb !important;
   color: #ffffff !important;
   border: 0 !important;
   box-shadow: none !important;
+  opacity: 1 !important;
 }
 
-/* Hilangkan pseudo-element centang yang mungkin diwarisi aturan lain. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child::before,
-[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
-  footer
-  > button:last-of-type::before {
-  content: none !important;
-  display: none !important;
+  > button:last-child:disabled {
+  background: #2563eb !important;
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
 }
 
-/* Chevron kanan tetap terlihat pada tombol Lanjutkan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
-  svg,
-[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
-  footer
-  > button:last-of-type
   svg {
   display: inline-block !important;
   visibility: visible !important;
@@ -78,23 +71,30 @@
   opacity: 1 !important;
 }
 
-/* Jangan tampilkan ikon centang/pseudo pada langkah pertama. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
-  svg.lucide-check,
-[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
-  footer
-  > button:last-of-type
   svg.lucide-check {
   display: none !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child:hover,
+  > button:last-child::before {
+  content: none !important;
+  display: none !important;
+}
+
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-of-type:hover {
+  > button:last-child::after {
+  content: none !important;
+  display: none !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  footer
+  > button:last-child:hover:not(:disabled) {
+  background: #1d4ed8 !important;
   background-color: #1d4ed8 !important;
 }
