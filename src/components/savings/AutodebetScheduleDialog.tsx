@@ -118,6 +118,26 @@ function Toggle({
   );
 }
 
+function SavingsInfoRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_14px_minmax(0,1fr)] items-start gap-2 py-2">
+      <div className="text-[14px] font-normal leading-snug text-slate-600">
+        {label}
+      </div>
+      <div className="text-center text-[14px] text-slate-400">:</div>
+      <div className="min-w-0 text-right text-[14px] font-semibold leading-snug text-slate-900">
+        {value}
+      </div>
+    </div>
+  );
+}
+
 function AccountSummary({
   account,
   isLoan,
@@ -159,21 +179,13 @@ function AccountSummary({
       <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
         Informasi Rekening
       </div>
-      <div className="mt-4 grid gap-x-7 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          ["No. Rekening", account.accountNo],
-          ["Nama Nasabah", account.customerName],
-          ["Produk Simpanan", account.productType],
-          ["Saldo Simpanan", account.balance],
-          ["Bunga per Tahun", "3,00%"],
-        ].map(([label, value]) => (
-          <div key={label}>
-            <div className="text-[11px] font-semibold text-slate-600">{label}</div>
-            <div className="mt-1 text-[14px] font-extrabold text-slate-900">
-              {value}
-            </div>
-          </div>
-        ))}
+
+      <div className="mt-3 divide-y divide-slate-100">
+        <SavingsInfoRow label="No. Rekening" value={account.accountNo} />
+        <SavingsInfoRow label="Nama Nasabah" value={account.customerName} />
+        <SavingsInfoRow label="Produk Simpanan" value={account.productType} />
+        <SavingsInfoRow label="Saldo Simpanan" value={account.balance} />
+        <SavingsInfoRow label="Bunga per Tahun" value="3,00%" />
       </div>
     </div>
   );
