@@ -1,22 +1,60 @@
-/* Modal unggah KTP: sesuaikan header dengan label anggota. */
-[data-radix-dialog-content].max-w-\[1000px\] h2 {
+/* Modal unggah KTP pada KtpPhotoDialog. */
+[role="dialog"][class*="max-w-[1000px]"] h2,
+[data-radix-dialog-content][class*="max-w-[1000px]"] h2 {
   font-size: 0 !important;
   line-height: 1.25 !important;
 }
 
-[data-radix-dialog-content].max-w-\[1000px\] h2::after {
+[role="dialog"][class*="max-w-[1000px]"] h2::after,
+[data-radix-dialog-content][class*="max-w-[1000px]"] h2::after {
   content: "Unggah Foto KTP Anggota";
   color: #000000;
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: 800;
   line-height: 1.25;
 }
 
-/* Kotak unggah cukup menampilkan ikon, judul, dan tombol. */
-[data-radix-dialog-content].max-w-\[1000px\]
+/* Hilangkan seluruh teks instruksi dari kotak Foto KTP. */
+[role="dialog"][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  p,
+[data-radix-dialog-content][class*="max-w-[1000px]"]
   main
   > div.grid
   > section:nth-child(2)
   p {
   display: none !important;
+}
+
+/* Tetap rapikan area upload setelah teks instruksi dihapus. */
+[role="dialog"][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  > div.flex,
+[data-radix-dialog-content][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  > div.flex {
+  gap: 8px !important;
+}
+
+/* Judul Foto KTP tetap terlihat jelas. */
+[role="dialog"][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  > div.flex
+  > div.text-\[15px\],
+[data-radix-dialog-content][class*="max-w-[1000px]"]
+  main
+  > div.grid
+  > section:nth-child(2)
+  > div.flex
+  > div.text-\[15px\] {
+  display: block !important;
+  font-size: 15px !important;
 }
