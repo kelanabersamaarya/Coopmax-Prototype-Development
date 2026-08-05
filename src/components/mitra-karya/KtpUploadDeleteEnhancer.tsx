@@ -182,7 +182,7 @@ function KtpSaveConfirmModal({
         </div>
 
         <h2 className="mt-6 text-[22px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
-          Yakin menyimpan foto KTP anggota?
+          Yakin mengunggah foto KTP anggota?
         </h2>
 
         <div className="relative z-20 mt-7 flex items-center justify-center gap-2">
