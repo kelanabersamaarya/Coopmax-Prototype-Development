@@ -1,68 +1,163 @@
 "use client";
 
-export default function LoanInterestAccountCardStyle() {
+import * as React from "react";
+import { createPortal } from "react-dom";
+
+type AccountField = {
+  label: string;
+  value: React.ReactNode;
+};
+
+const accountFields: AccountField[] = [
+  { label: "Kode Pinjaman", value: "SMG260004" },
+  { label: "Sektor Pinjaman", value: "Umum" },
+  { label: "Tujuan Pinjaman", value: "Konsumtif" },
+  { label: "Kolektor", value: "Gina Farida M.M." },
+
+  { label: "Tanggal Dibuat", value: "07 Apr 2026" },
+  { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+  { label: "Tanggal Transaksi Terakhir", value: "14 Apr 2026" },
+  { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+
+  { label: "Tanggal Pinjaman Aktif", value: "07 Apr 2026" },
+  { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
+  { label: "Periode Waktu", value: "12 Bulan" },
+  { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
+
+  { label: "Bunga Per Tahun (%)", value: "12,00%" },
+  { label: "Jumlah Pinjaman Diajukan", value: "12.000.000,00" },
+  { label: "Jumlah Pinjaman Disetujui", value: "12.000.000,00" },
+  { label: "Sisa Pinjaman", value: "10.553.571,00" },
+
+  { label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
+  { label: "Angsuran Pokok", value: "1.000.000,00" },
+  { label: "Angsuran Bunga", value: "120.000,00" },
+  { label: "Hutang Pokok", value: "0,00" },
+
+  { label: "Hutang Bunga", value: "0,00" },
+  { label: "Jumlah Hutang Pokok", value: "0 Kali" },
+  { label: "Jumlah Hutang Bunga", value: "0 Kali" },
+  { label: "Total Bayar Bunga", value: "120.000,00" },
+
+  { label: "Total Harus Bayar", value: "1.120.000,00" },
+  { label: "Kolektibilitas", value: "-" },
+  {
+    label: "Status",
+    value: (
+      <span className="inline-flex rounded-[4px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-slate-900">
+        Aktif / Sudah Dicairkan
+      </span>
+    ),
+  },
+  {
+    label: "Skema Tagihan",
+    value: (
+      <span>
+        Tagihan Sesuai Jadwal
+        <br />
+        Angsuran
+      </span>
+    ),
+  },
+
+  { label: "Satuan Grace Period", value: "Bulan" },
+  { label: "Durasi Grace Period", value: "3" },
+];
+
+function AccountFields() {
   return (
-    <style>
-      {`
-        /* Card informasi rekening pada wizard Ubah Suku Bunga */
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] {
-          overflow: hidden !important;
-          border-radius: 8px !important;
-          background-color: #1aa0b5 !important;
-          padding: 0 !important;
-          box-shadow: none !important;
-        }
+    <div className="loan-interest-reference-fields grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+      {accountFields.map((field) => (
+        <div key={field.label} className="min-w-0">
+          <div className="text-[12px] font-semibold leading-tight text-white/85">
+            {field.label}
+          </div>
+          <div className="mt-1 text-[14px] font-extrabold leading-snug tracking-tight text-white">
+            {field.value}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
-        /* Judul dan tombol riwayat tetap menggunakan struktur wizard asli */
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div:first-child {
-          padding: 20px 24px 0 !important;
-        }
+export default function LoanInterestAccountCardStyle() {
+  const [target, setTarget] = React.useState<HTMLElement | null>(null);
 
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div:first-child > div:first-child {
-          min-height: 28px !important;
-        }
+  React.useEffect(() => {
+    const wizard = document.querySelector<HTMLElement>(
+      '[data-loan-interest-wizard="true"]',
+    );
 
-        /* Susunan field mengikuti InformasiRekeningHeader pada detail rekening */
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div.mt-7.grid {
-          display: grid !important;
-          grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important;
-          gap: 16px 40px !important;
-          margin-top: 20px !important;
-          padding: 0 24px 24px !important;
-        }
+    if (!wizard) return;
 
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div.mt-7.grid > div {
-          min-width: 0 !important;
-        }
+    const card = Array.from(
+      wizard.querySelectorAll<HTMLElement>("div"),
+    ).find((element) => {
+      const text = element.textContent ?? "";
+      return (
+        text.includes("INFORMASI REKENING PINJAMAN") &&
+        element.className.includes("bg-[#17a2b8]")
+      );
+    });
 
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div.mt-7.grid > div > div:first-child {
-          color: rgba(255, 255, 255, 0.85) !important;
-          font-size: 12px !important;
-          font-weight: 600 !important;
-          line-height: 1.25 !important;
-        }
+    const originalFields = card?.querySelector<HTMLElement>(
+      ".mt-7.grid",
+    );
 
-        [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div.mt-7.grid > div > div:last-child {
-          margin-top: 4px !important;
-          color: #ffffff !important;
-          font-size: 14px !important;
-          font-weight: 800 !important;
-          line-height: 1.35 !important;
-        }
+    if (!card || !originalFields) return;
 
-        @media (max-width: 639px) {
-          [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div:first-child {
-            padding: 16px 16px 0 !important;
+    card.classList.add("loan-interest-reference-card");
+    originalFields.classList.add("loan-interest-original-fields-hidden");
+    setTarget(card);
+
+    return () => {
+      card.classList.remove("loan-interest-reference-card");
+      originalFields.classList.remove("loan-interest-original-fields-hidden");
+      setTarget(null);
+    };
+  }, []);
+
+  return (
+    <>
+      <style>
+        {`
+          .loan-interest-reference-card {
+            overflow: hidden !important;
+            border-radius: 5px !important;
+            background-color: #1aa0b5 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
           }
 
-          [data-loan-interest-wizard="true"] main > div.grid > div[class*="bg-\\\\[\\\\#17a2b8\\\\]"] > div.mt-7.grid {
-            grid-template-columns: 1fr !important;
-            gap: 16px !important;
-            margin-top: 16px !important;
-            padding: 0 16px 16px !important;
+          .loan-interest-reference-card
+            > div:first-child {
+            padding: 20px 28px 0 !important;
           }
-        }
-      `}
-    </style>
+
+          .loan-interest-reference-card
+            .loan-interest-original-fields-hidden {
+            display: none !important;
+          }
+
+          .loan-interest-reference-fields {
+            padding: 20px 28px 24px !important;
+          }
+
+          @media (max-width: 639px) {
+            .loan-interest-reference-card
+              > div:first-child {
+              padding: 16px 16px 0 !important;
+            }
+
+            .loan-interest-reference-fields {
+              padding: 16px !important;
+            }
+          }
+        `}
+      </style>
+
+      {target ? createPortal(<AccountFields />, target) : null}
+    </>
   );
 }
