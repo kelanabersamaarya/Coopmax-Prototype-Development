@@ -14,8 +14,9 @@ type HistoryRow = {
   type: string;
   amount: string;
   reason: string;
-  before: string;
-  after: string;
+  interestBefore: string;
+  interestAfter: string;
+  changedBy: string;
   changedAt: string;
 };
 
@@ -26,8 +27,9 @@ const seedRows: HistoryRow[] = [
     type: "Pembebasan Seluruh Bunga",
     amount: "83.333",
     reason: "OK",
-    before: "83.333",
-    after: "0",
+    interestBefore: "83.333",
+    interestAfter: "0",
+    changedBy: "Arya Dharma",
     changedAt: "07-04-2026 10:35:20",
   },
   {
@@ -36,8 +38,9 @@ const seedRows: HistoryRow[] = [
     type: "Pengurangan Bunga",
     amount: "50.000",
     reason: "OK",
-    before: "83.333",
-    after: "33.333",
+    interestBefore: "83.333",
+    interestAfter: "33.333",
+    changedBy: "Arya Dharma",
     changedAt: "07-04-2026 10:32:11",
   },
 ];
@@ -59,8 +62,9 @@ function mapStoredRow(row: LoanInterestAdjustmentHistoryEntry): HistoryRow {
     type: row.adjustmentType,
     amount: formatAmount(row.adjustmentAmount),
     reason: row.reason || "-",
-    before: formatAmount(row.interestBefore),
-    after: formatAmount(row.interestAfter),
+    interestBefore: formatAmount(row.interestBefore),
+    interestAfter: formatAmount(row.interestAfter),
+    changedBy: "Arya Dharma",
     changedAt: row.adjustedAt.replace(",", ""),
   };
 }
@@ -103,7 +107,7 @@ function HistoryModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="loan-debt-history-title"
-        className="relative z-10 flex max-h-[88vh] w-full max-w-[1180px] flex-col overflow-hidden rounded-[8px] bg-white shadow-2xl"
+        className="relative z-10 flex max-h-[88vh] w-full max-w-[1280px] flex-col overflow-hidden rounded-[8px] bg-white shadow-2xl"
       >
         <header className="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 px-5 py-4 sm:px-6">
           <div>
@@ -130,17 +134,26 @@ function HistoryModal({
         </header>
 
         <main className="min-h-0 overflow-auto p-4 sm:p-6">
-          <div className="overflow-x-auto rounded-[6px] border border-slate-300">
-            <table className="w-full min-w-[920px] border-collapse text-[12px]">
+          <div className="safe-x-scroll overflow-hidden rounded-[6px] border border-slate-300">
+            <table className="w-full min-w-[1180px] border-collapse text-[12px]">
               <thead className="bg-slate-50">
                 <tr className="border-b border-slate-300 text-left font-extrabold uppercase tracking-wide text-slate-800">
-                  <th className="px-3 py-3">Angsuran</th>
+                  <th className="px-3 py-3">
+                    Angsuran yang Dilakukan Penyesuaian
+                  </th>
                   <th className="px-3 py-3">Jenis Penyesuaian</th>
-                  <th className="px-3 py-3 text-right">Nominal</th>
-                  <th className="px-3 py-3">Alasan</th>
-                  <th className="px-3 py-3 text-right">Sebelum</th>
-                  <th className="px-3 py-3 text-right">Sesudah</th>
-                  <th className="px-3 py-3">Tanggal & Waktu</th>
+                  <th className="px-3 py-3 text-right">
+                    Nominal Penyesuaian
+                  </th>
+                  <th className="px-3 py-3">Alasan Penyesuaian</th>
+                  <th className="px-3 py-3 text-right">
+                    Tagihan Bunga Sebelum Penyesuaian
+                  </th>
+                  <th className="px-3 py-3 text-right">
+                    Tagihan Bunga Sesudah Penyesuaian
+                  </th>
+                  <th className="px-3 py-3">Diubah Oleh</th>
+                  <th className="px-3 py-3">Tanggal & Waktu Perubahan</th>
                 </tr>
               </thead>
 
@@ -148,7 +161,7 @@ function HistoryModal({
                 {rows.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={8}
                       className="px-4 py-12 text-center text-slate-500"
                     >
                       Belum ada riwayat perubahan nominal bunga.
@@ -167,14 +180,17 @@ function HistoryModal({
                       <td className="px-3 py-3 text-right tabular-nums">
                         {row.amount}
                       </td>
-                      <td className="max-w-[260px] px-3 py-3 whitespace-normal">
+                      <td className="max-w-[240px] px-3 py-3 whitespace-normal">
                         {row.reason}
                       </td>
-                      <td className="px-3 py-3 text-right tabular-nums">
-                        {row.before}
+                      <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
+                        {row.interestBefore}
                       </td>
-                      <td className="px-3 py-3 text-right font-bold tabular-nums text-blue-600">
-                        {row.after}
+                      <td className="px-3 py-3 text-right font-bold tabular-nums text-blue-600 whitespace-nowrap">
+                        {row.interestAfter}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap">
+                        {row.changedBy}
                       </td>
                       <td className="px-3 py-3 whitespace-nowrap">
                         {row.changedAt}
@@ -203,7 +219,6 @@ function HistoryModal({
 }
 
 export default function LoanDebtAdjustmentHistoryTriggerFix() {
-  const [accountNo, setAccountNo] = React.useState("SMG260004");
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = React.useState<HistoryRow[]>(seedRows);
 
@@ -220,40 +235,26 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
         label.includes("lihat riwayat perubahan suku bunga");
 
       if (!isHistoryButton) return;
-
-      const wizard = button.closest('[data-loan-debt-wizard="true"]');
-      if (!wizard) return;
+      if (!button.closest('[data-loan-debt-wizard="true"]')) return;
 
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
 
-      const nextAccountNo = getAccountNo(button);
-      const storedRows = getLoanInterestAdjustmentHistory(nextAccountNo).map(
+      const accountNo = getAccountNo(button);
+      const storedRows = getLoanInterestAdjustmentHistory(accountNo).map(
         mapStoredRow,
       );
 
-      setAccountNo(nextAccountNo);
       setRows([...storedRows, ...seedRows]);
       setOpen(true);
     }
 
     document.addEventListener("click", handleClick, true);
-
-    return () => {
-      document.removeEventListener("click", handleClick, true);
-    };
+    return () => document.removeEventListener("click", handleClick, true);
   }, []);
 
   if (!open) return null;
 
-  return (
-    <HistoryModal
-      rows={rows}
-      onClose={() => {
-        setOpen(false);
-        setAccountNo("");
-      }}
-    />
-  );
+  return <HistoryModal rows={rows} onClose={() => setOpen(false)} />;
 }
