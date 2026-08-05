@@ -10,19 +10,12 @@ type SavingsAccountInfoListProps = {
   className?: string;
 };
 
-const InfoRow = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) => (
-  <div className="text-[14px] font-normal leading-[1.35] text-[#1f2937]">
-    <span>{label}</span>
-    <span className="mx-1">:</span>
-    <span>{value}</span>
-  </div>
-);
+const infoRows = [
+  { key: "accountNo", label: "No. Rekening" },
+  { key: "customerName", label: "Nama Nasabah" },
+  { key: "productType", label: "Tipe Produk" },
+  { key: "balance", label: "Saldo" },
+] as const;
 
 export default function SavingsAccountInfoList({
   accountNo,
@@ -31,12 +24,36 @@ export default function SavingsAccountInfoList({
   balance,
   className,
 }: SavingsAccountInfoListProps) {
+  const values = {
+    accountNo,
+    customerName,
+    productType,
+    balance,
+  };
+
   return (
-    <div className={cn("grid gap-[12px] bg-white", className)}>
-      <InfoRow label="No. Rekening" value={accountNo} />
-      <InfoRow label="Nama Nasabah" value={customerName} />
-      <InfoRow label="Tipe Produk" value={productType} />
-      <InfoRow label="Saldo" value={balance} />
+    <div
+      className={cn(
+        "w-full border-t border-slate-200 bg-white py-1",
+        className,
+      )}
+    >
+      {infoRows.map((row) => (
+        <div
+          key={row.key}
+          className="grid min-h-[38px] grid-cols-[minmax(150px,220px)_18px_minmax(0,1fr)] items-center gap-2 border-b border-slate-100 py-2 text-[14px]"
+        >
+          <span className="min-w-0 text-left font-normal leading-snug text-[#002060]">
+            {row.label}
+          </span>
+
+          <span className="text-center font-normal text-[#64748B]">:</span>
+
+          <span className="min-w-0 break-words text-left font-normal leading-snug text-slate-900">
+            {values[row.key]}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
