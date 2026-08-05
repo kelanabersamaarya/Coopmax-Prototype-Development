@@ -14,7 +14,7 @@
   line-height: 1.25;
 }
 
-/* Kotak upload tetap sejajar dengan contoh foto KTP yang salah. */
+/* Kotak upload sejajar dengan contoh foto KTP yang salah. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
@@ -29,7 +29,7 @@
   padding-top: 40px !important;
 }
 
-/* Tinggi kotak upload disamakan dengan kotak contoh KTP. */
+/* Tinggi kotak upload disamakan dengan kotak contoh foto KTP: 178px. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
@@ -40,7 +40,7 @@
   > div.grid
   > section:nth-child(2)
   > div.flex {
-  height: 192px !important;
+  height: 178px !important;
   margin-top: 12px !important;
   gap: 8px !important;
 }
@@ -63,7 +63,7 @@
   line-height: 1.25 !important;
 }
 
-/* Teks penjelas berada tepat di bawah teks Foto KTP dalam kotak upload. */
+/* Teks penjelas berada tepat di bawah teks Foto KTP. */
 [role="dialog"][class*="max-w-[1000px]"]
   main
   > div.grid
