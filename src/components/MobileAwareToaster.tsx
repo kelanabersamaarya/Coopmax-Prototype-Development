@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import LoanDebtChangeSaveGate from "@/components/loans/LoanDebtChangeSaveGate";
-import LoanDebtAdjustmentHistoryTriggerFix from "@/components/loans/LoanDebtAdjustmentHistoryTriggerFix";
 import LoanInterestPercentInputFix from "@/components/loans/LoanInterestPercentInputFix";
 import LoanInterestChangeSuccessGate from "@/components/loans/LoanInterestChangeSuccessGate";
 import LoanInterestWizardCancelButton from "@/components/loans/LoanInterestWizardCancelButton";
@@ -68,7 +67,6 @@ export default function MobileAwareToaster() {
       <LoanExtensionTenorTotalSync />
       <LoanExtensionStepTwoSummarySync />
       <LoanExtensionInterestSummarySync />
-      <LoanDebtAdjustmentHistoryTriggerFix />
       <LoanDebtChangeSaveGate />
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
