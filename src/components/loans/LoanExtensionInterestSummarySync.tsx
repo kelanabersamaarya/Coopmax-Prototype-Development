@@ -20,9 +20,17 @@ function formatAmount(value: number) {
 }
 
 function findSummaryTable(wizard: HTMLElement) {
-  return Array.from(wizard.querySelectorAll<HTMLTableElement>("table")).find(
-    (table) => table.textContent?.includes("Ringkasan Perpanjangan Pinjaman"),
+  const heading = Array.from(
+    wizard.querySelectorAll<HTMLElement>("div, h2, h3"),
+  ).find(
+    (element) =>
+      element.textContent?.trim() === "Ringkasan Perpanjangan Pinjaman",
   );
+
+  if (!heading) return null;
+
+  const section = heading.closest("section, div");
+  return section?.querySelector<HTMLTableElement>("table") ?? null;
 }
 
 function findScheduleTable(wizard: HTMLElement) {
@@ -34,7 +42,9 @@ function getSimulatedTotalInterest(wizard: HTMLElement) {
   if (!scheduleTable) return CURRENT_TOTAL_INTEREST;
 
   const interestCells = Array.from(
-    scheduleTable.querySelectorAll<HTMLTableCellElement>("tbody tr td:nth-child(4)"),
+    scheduleTable.querySelectorAll<HTMLTableCellElement>(
+      "tbody tr td:nth-child(4)",
+    ),
   );
 
   const total = interestCells.reduce(
@@ -55,10 +65,11 @@ function syncInterestSummary() {
   const tbody = summaryTable.querySelector("tbody");
   if (!tbody) return;
 
-  const existingRow = tbody.querySelector<HTMLTableRowElement>(
-    `[${SUMMARY_ROW_ATTRIBUTE}="true"]`,
-  );
-  existingRow?.remove();
+  tbody
+    .querySelector<HTMLTableRowElement>(
+      `[${SUMMARY_ROW_ATTRIBUTE}="true"]`,
+    )
+    ?.remove();
 
   const row = document.createElement("tr");
   row.setAttribute(SUMMARY_ROW_ATTRIBUTE, "true");
@@ -78,8 +89,8 @@ function syncInterestSummary() {
 
   row.append(labelCell, beforeCell, afterCell);
 
-  const tenorRow = Array.from(tbody.querySelectorAll("tr")).find((candidate) =>
-    candidate.textContent?.trim().startsWith("Tenor"),
+  const tenorRow = Array.from(tbody.querySelectorAll<HTMLTableRowElement>("tr")).find(
+    (candidate) => candidate.textContent?.trim().startsWith("Tenor"),
   );
 
   if (tenorRow) {
