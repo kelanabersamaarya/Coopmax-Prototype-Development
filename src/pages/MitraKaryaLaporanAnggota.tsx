@@ -5,6 +5,7 @@ import {
   Info,
   Printer,
   Search,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -146,7 +147,9 @@ function FilterSelect({
       <SelectTrigger className="h-[32px] rounded-[5px] border-slate-300 bg-white px-3 text-[14px] font-normal text-slate-700 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent className="rounded-[5px] border-slate-200">{children}</SelectContent>
+      <SelectContent className="rounded-[5px] border-slate-200">
+        {children}
+      </SelectContent>
     </Select>
   );
 }
@@ -242,193 +245,191 @@ export default function MitraKaryaLaporanAnggota() {
         </div>
 
         <div className="mt-7 grid items-start gap-6 xl:grid-cols-[minmax(0,742px)_minmax(360px,1fr)]">
-          <Card className="rounded-[5px] border-0 bg-transparent p-0 shadow-none">
-            <div className="grid gap-[11px]">
-              <FormRow label="Nama/No Anggota">
+          <div className="grid gap-[11px]">
+            <FormRow label="Nama/No Anggota">
+              <Input
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Masukkan nama/no anggota.."
+                className={inputClassName}
+              />
+            </FormRow>
+
+            <FormRow label="Tanggal Daftar">
+              <div className="grid grid-cols-2 gap-4">
                 <Input
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  placeholder="Masukkan nama/no anggota.."
+                  value={dateStart}
+                  onChange={(event) => setDateStart(event.target.value)}
+                  placeholder="Masukkan tanggal awal"
                   className={inputClassName}
                 />
-              </FormRow>
-
-              <FormRow label="Tanggal Daftar">
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    value={dateStart}
-                    onChange={(event) => setDateStart(event.target.value)}
-                    placeholder="Masukkan tanggal awal"
-                    className={inputClassName}
-                  />
-                  <div className="relative">
-                    <Input
-                      value={dateEnd}
-                      onChange={(event) => setDateEnd(event.target.value)}
-                      placeholder="Masukkan tanggal akhir"
-                      className={cn(inputClassName, "pr-11")}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setDateEnd("")}
-                      className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
-                      aria-label="Hapus tanggal akhir"
-                    >
-                      <X className="h-4 w-4" strokeWidth={3} />
-                    </button>
-                  </div>
-                </div>
-              </FormRow>
-
-              <FormRow label="Kategori">
-                <FilterSelect
-                  value={category}
-                  onChange={(value) => setCategory(value as Category)}
-                  placeholder="Pilih Kategori"
-                >
-                  <SelectItem value="Semua">Pilih Kategori</SelectItem>
-                  <SelectItem value="Anggota">Anggota</SelectItem>
-                  <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
-                </FilterSelect>
-              </FormRow>
-
-              <FormRow label="Status">
-                <FilterSelect
-                  value={status}
-                  onChange={setStatus}
-                  placeholder="Pilih Status Anggota"
-                >
-                  <SelectItem value="Semua">Pilih Status Anggota</SelectItem>
-                  <SelectItem value="Aktif">Aktif</SelectItem>
-                  <SelectItem value="Nonaktif">Nonaktif</SelectItem>
-                </FilterSelect>
-              </FormRow>
-
-              <FormRow label="Produk">
-                <FilterSelect
-                  value={product}
-                  onChange={setProduct}
-                  placeholder="Pilih produk yang dimiliki"
-                >
-                  <SelectItem value="Semua">Pilih produk yang dimiliki</SelectItem>
-                  <SelectItem value="Simpanan Kaya">Simpanan Kaya</SelectItem>
-                  <SelectItem value="Simpanan Sukarela">
-                    Simpanan Sukarela
-                  </SelectItem>
-                  <SelectItem value="Simpanan Mapan">Simpanan Mapan</SelectItem>
-                  <SelectItem value="Simpanan Berjangka">
-                    Simpanan Berjangka
-                  </SelectItem>
-                </FilterSelect>
-              </FormRow>
-
-              <FormRow label="Wilayah">
-                <FilterSelect
-                  value={wilayah}
-                  onChange={setWilayah}
-                  placeholder="Pilih wilayah"
-                >
-                  <SelectItem value="Semua">Pilih wilayah</SelectItem>
-                  <SelectItem value="Denpasar">Denpasar</SelectItem>
-                  <SelectItem value="Gianyar">Gianyar</SelectItem>
-                  <SelectItem value="Badung">Badung</SelectItem>
-                </FilterSelect>
-              </FormRow>
-
-              <FormRow label="Tag">
-                <FilterSelect
-                  value={tag}
-                  onChange={setTag}
-                  placeholder="Pilih tag (satu atau lebih)"
-                >
-                  <SelectItem value="Semua">Pilih tag (satu atau lebih)</SelectItem>
-                  <SelectItem value="Prioritas">Prioritas</SelectItem>
-                  <SelectItem value="Reguler">Reguler</SelectItem>
-                  <SelectItem value="Deposito">Deposito</SelectItem>
-                  <SelectItem value="Baru">Baru</SelectItem>
-                </FilterSelect>
-              </FormRow>
-
-              <FormRow label="Tanggal Saldo">
                 <div className="relative">
                   <Input
-                    value={balanceDate}
-                    onChange={(event) => setBalanceDate(event.target.value)}
-                    placeholder="Masukkan tanggal saldo"
+                    value={dateEnd}
+                    onChange={(event) => setDateEnd(event.target.value)}
+                    placeholder="Masukkan tanggal akhir"
                     className={cn(inputClassName, "pr-11")}
                   />
                   <button
                     type="button"
-                    onClick={() => setBalanceDate("")}
+                    onClick={() => setDateEnd("")}
                     className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
-                    aria-label="Hapus tanggal saldo"
+                    aria-label="Hapus tanggal akhir"
                   >
                     <X className="h-4 w-4" strokeWidth={3} />
                   </button>
                 </div>
-              </FormRow>
+              </div>
+            </FormRow>
 
-              <FormRow label="Saldo Simpanan">
-                <div className="grid grid-cols-2 gap-4">
-                  <Input
-                    value={minBalance}
-                    onChange={(event) => setMinBalance(event.target.value)}
-                    placeholder="Saldo Minimal"
-                    inputMode="decimal"
-                    className={inputClassName}
-                  />
-                  <Input
-                    value={maxBalance}
-                    onChange={(event) => setMaxBalance(event.target.value)}
-                    placeholder="Saldo Maksimal"
-                    inputMode="decimal"
-                    className={inputClassName}
-                  />
-                </div>
-              </FormRow>
+            <FormRow label="Kategori">
+              <FilterSelect
+                value={category}
+                onChange={(value) => setCategory(value as Category)}
+                placeholder="Pilih Kategori"
+              >
+                <SelectItem value="Semua">Pilih Kategori</SelectItem>
+                <SelectItem value="Anggota">Anggota</SelectItem>
+                <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
+              </FilterSelect>
+            </FormRow>
 
-              <FormRow label="Jenis Laporan">
-                <FilterSelect
-                  value={reportType}
-                  onChange={setReportType}
-                  placeholder="Berdasarkan Simpanan Anggota"
+            <FormRow label="Status">
+              <FilterSelect
+                value={status}
+                onChange={setStatus}
+                placeholder="Pilih Status Anggota"
+              >
+                <SelectItem value="Semua">Pilih Status Anggota</SelectItem>
+                <SelectItem value="Aktif">Aktif</SelectItem>
+                <SelectItem value="Nonaktif">Nonaktif</SelectItem>
+              </FilterSelect>
+            </FormRow>
+
+            <FormRow label="Produk">
+              <FilterSelect
+                value={product}
+                onChange={setProduct}
+                placeholder="Pilih produk yang dimiliki"
+              >
+                <SelectItem value="Semua">Pilih produk yang dimiliki</SelectItem>
+                <SelectItem value="Simpanan Kaya">Simpanan Kaya</SelectItem>
+                <SelectItem value="Simpanan Sukarela">
+                  Simpanan Sukarela
+                </SelectItem>
+                <SelectItem value="Simpanan Mapan">Simpanan Mapan</SelectItem>
+                <SelectItem value="Simpanan Berjangka">
+                  Simpanan Berjangka
+                </SelectItem>
+              </FilterSelect>
+            </FormRow>
+
+            <FormRow label="Wilayah">
+              <FilterSelect
+                value={wilayah}
+                onChange={setWilayah}
+                placeholder="Pilih wilayah"
+              >
+                <SelectItem value="Semua">Pilih wilayah</SelectItem>
+                <SelectItem value="Denpasar">Denpasar</SelectItem>
+                <SelectItem value="Gianyar">Gianyar</SelectItem>
+                <SelectItem value="Badung">Badung</SelectItem>
+              </FilterSelect>
+            </FormRow>
+
+            <FormRow label="Tag">
+              <FilterSelect
+                value={tag}
+                onChange={setTag}
+                placeholder="Pilih tag (satu atau lebih)"
+              >
+                <SelectItem value="Semua">Pilih tag (satu atau lebih)</SelectItem>
+                <SelectItem value="Prioritas">Prioritas</SelectItem>
+                <SelectItem value="Reguler">Reguler</SelectItem>
+                <SelectItem value="Deposito">Deposito</SelectItem>
+                <SelectItem value="Baru">Baru</SelectItem>
+              </FilterSelect>
+            </FormRow>
+
+            <FormRow label="Tanggal Saldo">
+              <div className="relative">
+                <Input
+                  value={balanceDate}
+                  onChange={(event) => setBalanceDate(event.target.value)}
+                  placeholder="Masukkan tanggal saldo"
+                  className={cn(inputClassName, "pr-11")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setBalanceDate("")}
+                  className="absolute right-0 top-0 inline-flex h-[32px] w-[38px] items-center justify-center rounded-r-[5px] bg-[#77839A] text-white transition hover:bg-[#6b768c]"
+                  aria-label="Hapus tanggal saldo"
                 >
-                  <SelectItem value="Berdasarkan Simpanan Anggota">
-                    Berdasarkan Simpanan Anggota
-                  </SelectItem>
-                  <SelectItem value="Berdasarkan Produk">
-                    Berdasarkan Produk
-                  </SelectItem>
-                </FilterSelect>
-              </FormRow>
+                  <X className="h-4 w-4" strokeWidth={3} />
+                </button>
+              </div>
+            </FormRow>
 
-              <FormRow label="File KTP Anggota">
-                <FilterSelect
-                  value={ktpStatus}
-                  onChange={(value) => setKtpStatus(value as KtpStatus)}
-                  placeholder="Semua"
+            <FormRow label="Saldo Simpanan">
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  value={minBalance}
+                  onChange={(event) => setMinBalance(event.target.value)}
+                  placeholder="Saldo Minimal"
+                  inputMode="decimal"
+                  className={inputClassName}
+                />
+                <Input
+                  value={maxBalance}
+                  onChange={(event) => setMaxBalance(event.target.value)}
+                  placeholder="Saldo Maksimal"
+                  inputMode="decimal"
+                  className={inputClassName}
+                />
+              </div>
+            </FormRow>
+
+            <FormRow label="Jenis Laporan">
+              <FilterSelect
+                value={reportType}
+                onChange={setReportType}
+                placeholder="Berdasarkan Simpanan Anggota"
+              >
+                <SelectItem value="Berdasarkan Simpanan Anggota">
+                  Berdasarkan Simpanan Anggota
+                </SelectItem>
+                <SelectItem value="Berdasarkan Produk">
+                  Berdasarkan Produk
+                </SelectItem>
+              </FilterSelect>
+            </FormRow>
+
+            <FormRow label="File KTP Anggota">
+              <FilterSelect
+                value={ktpStatus}
+                onChange={(value) => setKtpStatus(value as KtpStatus)}
+                placeholder="Semua"
+              >
+                <SelectItem value="Semua">Semua</SelectItem>
+                <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
+                <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
+              </FilterSelect>
+            </FormRow>
+
+            <div className="grid sm:grid-cols-[166px_minmax(0,1fr)]">
+              <div />
+              <div className="mt-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setSearched(true)}
+                  className="inline-flex h-[32px] items-center justify-center gap-1.5 rounded-[5px] bg-[#3BB001] px-4 text-[14px] font-semibold text-white transition hover:bg-[#349d01]"
                 >
-                  <SelectItem value="Semua">Semua</SelectItem>
-                  <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
-                  <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
-                </FilterSelect>
-              </FormRow>
-
-              <div className="grid sm:grid-cols-[166px_minmax(0,1fr)]">
-                <div />
-                <div className="mt-2 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setSearched(true)}
-                    className="inline-flex h-[32px] items-center justify-center gap-1.5 rounded-[5px] bg-[#3BB001] px-4 text-[14px] font-semibold text-white transition hover:bg-[#349d01]"
-                  >
-                    <Search className="h-4 w-4" strokeWidth={3} />
-                    Cari
-                  </button>
-                </div>
+                  <Search className="h-4 w-4" strokeWidth={3} />
+                  Cari
+                </button>
               </div>
             </div>
-          </Card>
+          </div>
 
           <section className="rounded-[5px] border border-[#0EA5E9] bg-white px-5 py-4 text-[#0098CD]">
             <div className="flex items-start gap-3">
