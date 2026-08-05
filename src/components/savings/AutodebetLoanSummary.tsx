@@ -30,31 +30,34 @@ export default function AutodebetLoanSummary({
   };
 
   return (
-    <div className="rounded-[5px] border border-slate-300 bg-white p-4 shadow-sm">
-      <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-        Informasi Pinjaman
+    <section className="overflow-hidden rounded-[8px] border border-slate-200 bg-white">
+      <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-3">
+        <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+          Informasi Pinjaman
+        </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="divide-y divide-slate-100 px-4">
         {items.map((item) => (
           <div
             key={item.key}
-            className={cn(
-              "rounded-[5px] border border-slate-200 bg-slate-50 px-3 py-3",
-              item.key === "totalAngsuran"
-                ? "border-blue-200 bg-blue-50"
-                : "",
-            )}
+            className="grid gap-2 py-3 sm:grid-cols-[minmax(180px,0.9fr)_minmax(0,1fr)] sm:items-center"
           >
-            <div className="text-[11px] font-semibold text-slate-600">
+            <div className="text-[13px] font-normal text-slate-600">
               {item.label}
             </div>
-            <div className="mt-1 text-[14px] font-extrabold tabular-nums text-slate-900">
+
+            <div
+              className={cn(
+                "text-[14px] font-semibold tabular-nums text-slate-900",
+                item.key === "totalAngsuran" ? "text-[#2563EB]" : "",
+              )}
+            >
               {values[item.key]}
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
