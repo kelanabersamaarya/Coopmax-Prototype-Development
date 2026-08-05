@@ -3,21 +3,67 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 
-type AccountField = {
-  label: string;
-  value: React.ReactNode;
-};
+type AccountField =
+  | {
+      kind: "field";
+      label: string;
+      value: React.ReactNode;
+    }
+  | {
+      kind: "section";
+      label: string;
+    };
 
 const accountFields: AccountField[] = [
-  { label: "No. Rek. Pinjaman", value: "SMG260004" },
-  { label: "Nama Anggota", value: "Bapak Bagus" },
-  { label: "Produk Pinjaman", value: "Pinjaman Bulanan" },
-  { label: "Suku Bunga Saat Ini", value: "12,00% per tahun" },
-  { label: "Baki Debet", value: "10.553.571,00" },
-  { label: "Sisa Tenor", value: "12 Bulan" },
-  { label: "Angsuran Berjalan", value: "1.120.000,00" },
-  { label: "Tanggal Jatuh Tempo Berikutnya", value: "07-08-2026" },
+  { kind: "field", label: "Kode Pinjaman", value: "SMG260004" },
+  { kind: "field", label: "Sektor Pinjaman", value: "Umum" },
+  { kind: "field", label: "Tujuan Pinjaman", value: "Konsumtif" },
+  { kind: "field", label: "Kolektor", value: "Gina Farida M.M." },
+
+  { kind: "field", label: "Tanggal Dibuat", value: "07 Apr 2026" },
+  { kind: "field", label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+  { kind: "field", label: "Tanggal Pinjaman Aktif", value: "07 Apr 2026" },
+  { kind: "field", label: "Tanggal Transaksi Terakhir", value: "14 Apr 2026" },
+
+  { kind: "field", label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+  { kind: "field", label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
+  { kind: "field", label: "Periode Waktu", value: "12 Bulan" },
+  { kind: "field", label: "Produk Pinjaman", value: "Pinjaman Billing" },
+
+  { kind: "field", label: "Bunga Per Tahun (%)", value: "12,00%" },
+  { kind: "field", label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
   {
+    kind: "field",
+    label: "Jumlah Pinjaman Diajukan",
+    value: "12.000.000,00",
+  },
+  {
+    kind: "field",
+    label: "Jumlah Pinjaman Disetujui",
+    value: "12.000.000,00",
+  },
+
+  { kind: "field", label: "Sisa Pinjaman", value: "10.553.571,00" },
+  { kind: "section", label: "Angsuran & Pembayaran" },
+  { kind: "field", label: "Angsuran Pokok", value: "1.000.000,00" },
+  { kind: "field", label: "Angsuran Bunga", value: "120.000,00" },
+
+  { kind: "field", label: "Jumlah Hutang Pokok", value: "0 Kali" },
+  { kind: "field", label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
+  { kind: "field", label: "Hutang Bunga", value: "0,00" },
+  { kind: "field", label: "Jumlah Hutang Bunga", value: "0 Kali" },
+
+  { kind: "field", label: "Hutang Pokok", value: "0,00" },
+  { kind: "field", label: "Total Harus Bayar", value: "1.120.000,00" },
+  { kind: "field", label: "Total Bayar Bunga", value: "120.000,00" },
+  {
+    kind: "field",
+    label: "Skema Tagihan",
+    value: "Tagihan Sesuai Jadwal Angsuran",
+  },
+
+  {
+    kind: "field",
     label: "Status",
     value: (
       <span className="inline-flex rounded-[5px] bg-lime-500 px-2.5 py-1 text-[11px] font-extrabold leading-none text-white">
@@ -25,21 +71,37 @@ const accountFields: AccountField[] = [
       </span>
     ),
   },
+  { kind: "field", label: "Kolektibilitas", value: "-" },
+  { kind: "field", label: "Satuan Grace Period", value: "Bulan" },
+  { kind: "field", label: "Durasi Grace Period", value: "3" },
 ];
 
 function AccountFields() {
   return (
     <div className="loan-interest-reference-fields grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-      {accountFields.map((field) => (
-        <div key={field.label} className="min-w-0">
-          <div className="text-[11px] font-semibold leading-tight text-white/85">
-            {field.label}
+      {accountFields.map((field, index) => {
+        if (field.kind === "section") {
+          return (
+            <div
+              key={`${field.label}-${index}`}
+              className="col-span-full border-b border-white/25 pb-1 text-[13px] font-extrabold uppercase tracking-wide text-white"
+            >
+              {field.label}
+            </div>
+          );
+        }
+
+        return (
+          <div key={field.label} className="min-w-0">
+            <div className="text-[11px] font-semibold leading-tight text-white/85">
+              {field.label}
+            </div>
+            <div className="mt-1 text-[14px] font-extrabold leading-snug tracking-tight text-white">
+              {field.value}
+            </div>
           </div>
-          <div className="mt-1 text-[14px] font-extrabold leading-snug tracking-tight text-white">
-            {field.value}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -111,12 +173,14 @@ export default function LoanInterestAccountCardStyle() {
       observer.disconnect();
 
       const card = findWizardCard();
+
       if (card) {
         card.classList.remove("loan-interest-reference-card");
 
         Array.from(card.querySelectorAll<HTMLElement>("div")).forEach(
           (element) => {
             const className = String(element.className ?? "");
+
             if (className.includes("mt-7") && className.includes("grid")) {
               element.style.display = "";
             }
