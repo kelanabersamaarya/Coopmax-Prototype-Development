@@ -17,9 +17,9 @@ import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdj
 import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
 import InterestAdjustmentBillingMarkers from "@/components/anggota/InterestAdjustmentBillingMarkers";
 import MemberReportFilterPlaceholderStyle from "@/components/mitra-karya/MemberReportFilterPlaceholderStyle";
+import KtpReportStatusSync from "@/components/mitra-karya/KtpReportStatusSync";
 import MitraKaryaKtpPreviewModal from "@/components/mitra-karya/MitraKaryaKtpPreviewModal";
 import KtpUploadDeleteEnhancer from "@/components/mitra-karya/KtpUploadDeleteEnhancer";
-import KtpReportStatusSync from "@/components/mitra-karya/KtpReportStatusSync";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -51,9 +51,11 @@ export default function MobileAwareToaster() {
   return (
     <>
       <MemberReportFilterPlaceholderStyle />
+
+      <KtpReportStatusSync />
       <MitraKaryaKtpPreviewModal />
       <KtpUploadDeleteEnhancer />
-      <KtpReportStatusSync />
+
       <LoanInterestPercentInputFix />
       <LoanInterestChangeSuccessGate />
       <LoanInterestWizardCancelButton />
@@ -65,7 +67,9 @@ export default function MobileAwareToaster() {
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
       <AutodebetScheduleStatusSync />
+
       {isMemberTransaction ? <InterestAdjustmentBillingMarkers /> : null}
+
       {shouldHideToaster ? null : (
         <Sonner
           position="top-right"
