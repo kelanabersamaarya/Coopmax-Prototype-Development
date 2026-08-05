@@ -1,4 +1,4 @@
-/* Filter laporan Mitra Karya: placeholder dan nilai default dibuat abu-abu. */
+/* Placeholder input pada filter laporan Mitra Karya. */
 body:has(input[placeholder="Masukkan nama/no anggota.."])
   input::placeholder,
 body:has(input[placeholder="Masukkan nama/no anggota.."])
@@ -7,31 +7,22 @@ body:has(input[placeholder="Masukkan nama/no anggota.."])
   opacity: 1 !important;
 }
 
-/* Field select filter sebelum pilihan pengguna dibuat abu-abu. */
+/* Nilai default filter yang belum dipilih. */
 body:has(input[placeholder="Masukkan nama/no anggota.."])
-  [data-slot="select-trigger"]
-  [data-slot="select-value"],
+  .member-report-filter-default,
 body:has(input[placeholder="Masukkan nama/no anggota.."])
-  button[role="combobox"]
-  [data-slot="select-value"] {
-  color: #94a3b8 !important;
-}
-
-/* Pastikan teks placeholder Radix juga tetap abu-abu. */
-body:has(input[placeholder="Masukkan nama/no anggota.."])
-  [data-slot="select-value"][data-placeholder],
-body:has(input[placeholder="Masukkan nama/no anggota.."])
-  [data-slot="select-trigger"][data-placeholder],
-body:has(input[placeholder="Masukkan nama/no anggota.."])
-  button[role="combobox"][data-placeholder],
-body:has(input[placeholder="Masukkan nama/no anggota.."])
-  button[role="combobox"]:has([data-placeholder]) {
+  .member-report-filter-default [data-slot="select-value"] {
   color: #94a3b8 !important;
   opacity: 1 !important;
 }
 
+/* Nilai setelah filter benar-benar dipilih kembali ke warna normal. */
 body:has(input[placeholder="Masukkan nama/no anggota.."])
-  [data-slot="select-value"][data-placeholder]
-  * {
-  color: #94a3b8 !important;
+  [data-slot="select-trigger"]:not(.member-report-filter-default)
+  [data-slot="select-value"],
+body:has(input[placeholder="Masukkan nama/no anggota.."])
+  button[role="combobox"]:not(.member-report-filter-default)
+  [data-slot="select-value"] {
+  color: #334155 !important;
+  opacity: 1 !important;
 }
