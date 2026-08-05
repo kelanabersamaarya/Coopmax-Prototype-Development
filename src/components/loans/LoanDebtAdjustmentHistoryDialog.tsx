@@ -16,10 +16,9 @@ type HistoryRow = {
   adjustmentAmount: string;
   reason: string;
   interestBefore: string;
-  totalBefore: string;
   interestAfter: string;
-  totalAfter: string;
   changedBy: string;
+  changedAt: string;
 };
 
 const seedRows: Record<string, HistoryRow[]> = {
@@ -31,10 +30,9 @@ const seedRows: Record<string, HistoryRow[]> = {
       adjustmentAmount: "83.333",
       reason: "OK",
       interestBefore: "83.333",
-      totalBefore: "916.667",
       interestAfter: "0",
-      totalAfter: "833.334",
       changedBy: "Arya Dharma",
+      changedAt: "07-04-2026 10:35:20",
     },
     {
       id: "seed-reduction-1",
@@ -43,22 +41,20 @@ const seedRows: Record<string, HistoryRow[]> = {
       adjustmentAmount: "50.000",
       reason: "OK",
       interestBefore: "83.333",
-      totalBefore: "916.667",
       interestAfter: "33.333",
-      totalAfter: "866.667",
       changedBy: "Arya Dharma",
+      changedAt: "07-04-2026 10:32:11",
     },
     {
       id: "seed-forgiveness-1",
       installmentNo: "1",
       adjustmentType: "Pembebasan Seluruh Bunga",
       adjustmentAmount: "83.333",
-      reason: "kebijakan koperasi",
+      reason: "Kebijakan koperasi",
       interestBefore: "83.333",
-      totalBefore: "916.667",
       interestAfter: "0",
-      totalAfter: "833.334",
       changedBy: "Arya Dharma",
+      changedAt: "07-04-2026 10:28:45",
     },
   ],
 };
@@ -82,10 +78,9 @@ function mapStoredRow(entry: LoanInterestAdjustmentHistoryEntry): HistoryRow {
     adjustmentAmount: formatAmount(entry.adjustmentAmount || "0,00"),
     reason: entry.reason || "-",
     interestBefore: formatAmount(entry.interestBefore),
-    totalBefore: formatAmount(entry.totalBefore),
     interestAfter: formatAmount(entry.interestAfter),
-    totalAfter: formatAmount(entry.totalAfter),
     changedBy: "Arya Dharma",
+    changedAt: entry.adjustedAt.replace(",", ""),
   };
 }
 
@@ -99,45 +94,48 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
           touchAction: "pan-x",
         }}
       >
-        <table className="w-[1120px] min-w-[1120px] table-fixed border-collapse text-[12px]">
+        <table className="w-[1220px] min-w-[1220px] table-fixed border-collapse text-[12px]">
           <colgroup>
-            <col className="w-[82px]" />
             <col className="w-[150px]" />
-            <col className="w-[140px]" />
-            <col className="w-[220px]" />
+            <col className="w-[190px]" />
             <col className="w-[150px]" />
+            <col className="w-[260px]" />
+            <col className="w-[155px]" />
             <col className="w-[155px]" />
             <col className="w-[150px]" />
-            <col className="w-[155px]" />
-            <col className="w-[130px]" />
+            <col className="w-[180px]" />
           </colgroup>
 
           <thead className="bg-[#F8FAFC]">
             <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-900">
-              <th className="px-3 py-4">Angsuran<br />Ke</th>
-              <th className="px-3 py-4">Jenis<br />Penyesuaian</th>
-              <th className="px-3 py-4">Nominal<br />Penyesuaian</th>
-              <th className="px-3 py-4">Alasan<br />Penyesuaian</th>
+              <th className="px-3 py-4">
+                Angsuran yang Dilakukan Penyesuaian
+              </th>
+              <th className="px-3 py-4">Jenis Penyesuaian</th>
+              <th className="px-3 py-4">Nominal Penyesuaian</th>
+              <th className="px-3 py-4">Alasan Penyesuaian</th>
               <th className="px-3 py-4 text-right">
-                Tagihan Bunga<br />Sebelum<br />Penyesuaian
+                Tagihan Bunga<br />
+                Sebelum Penyesuaian
               </th>
               <th className="px-3 py-4 text-right">
-                Total Tagihan<br />Sebelum<br />Penyesuaian
-              </th>
-              <th className="px-3 py-4 text-right">
-                Tagihan Bunga<br />Sesudah<br />Penyesuaian
-              </th>
-              <th className="px-3 py-4 text-right">
-                Total Tagihan<br />Sesudah<br />Penyesuaian
+                Tagihan Bunga<br />
+                Sesudah Penyesuaian
               </th>
               <th className="px-3 py-4">Diubah Oleh</th>
+              <th className="px-3 py-4">
+                Tanggal & Waktu Perubahan
+              </th>
             </tr>
           </thead>
 
           <tbody className="bg-white">
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-4 py-12 text-center text-[13px] text-slate-500">
+                <td
+                  colSpan={8}
+                  className="px-4 py-12 text-center text-[13px] text-slate-500"
+                >
                   Belum ada riwayat perubahan nominal bunga.
                 </td>
               </tr>
@@ -147,19 +145,30 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
                   key={row.id}
                   className="border-b border-slate-200 text-slate-900 last:border-b-0"
                 >
-                  <td className="px-3 py-4 align-middle tabular-nums">{row.installmentNo}</td>
-                  <td className="px-3 py-4 align-middle leading-snug">{row.adjustmentType}</td>
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">{row.adjustmentAmount}</td>
-                  <td className="break-words px-3 py-4 align-middle leading-snug">{row.reason}</td>
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">{row.interestBefore}</td>
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">{row.totalBefore}</td>
+                  <td className="px-3 py-4 align-middle font-semibold tabular-nums">
+                    Angsuran ke-{row.installmentNo}
+                  </td>
+                  <td className="px-3 py-4 align-middle leading-snug">
+                    {row.adjustmentType}
+                  </td>
+                  <td className="px-3 py-4 text-right align-middle tabular-nums">
+                    {row.adjustmentAmount}
+                  </td>
+                  <td className="break-words px-3 py-4 align-middle leading-snug">
+                    {row.reason}
+                  </td>
+                  <td className="px-3 py-4 text-right align-middle tabular-nums">
+                    {row.interestBefore}
+                  </td>
                   <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
                     {row.interestAfter}
                   </td>
-                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
-                    {row.totalAfter}
+                  <td className="whitespace-nowrap px-3 py-4 align-middle">
+                    {row.changedBy}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 align-middle">{row.changedBy}</td>
+                  <td className="whitespace-nowrap px-3 py-4 align-middle tabular-nums">
+                    {row.changedAt}
+                  </td>
                 </tr>
               ))
             )}
@@ -201,7 +210,10 @@ export default function LoanDebtAdjustmentHistoryDialog({
     window.addEventListener("storage", loadHistory);
 
     return () => {
-      window.removeEventListener(LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT, loadHistory);
+      window.removeEventListener(
+        LOAN_INTEREST_ADJUSTMENT_HISTORY_EVENT,
+        loadHistory,
+      );
       window.removeEventListener("storage", loadHistory);
     };
   }, [accountNo, open]);
@@ -210,7 +222,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
 
   const rows = [...storedRows, ...(seedRows[accountNo] ?? [])];
 
-  const modal = (
+  return createPortal(
     <div
       className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/65 p-2 sm:p-3"
       role="dialog"
@@ -244,7 +256,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
           </button>
         </header>
 
-        <main className="min-h-0 overflow-y-auto px-5 py-8 sm:px-6 sm:py-9">
+        <main className="min-h-0 flex-1 overflow-y-auto px-5 py-8 sm:px-6 sm:py-9">
           <HistoryTable rows={rows} />
         </main>
 
@@ -258,8 +270,7 @@ export default function LoanDebtAdjustmentHistoryDialog({
           </button>
         </footer>
       </section>
-    </div>
+    </div>,
+    document.body,
   );
-
-  return createPortal(modal, document.body);
 }
