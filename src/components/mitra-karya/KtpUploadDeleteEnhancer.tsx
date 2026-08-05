@@ -136,6 +136,12 @@ function syncDeleteButton() {
   uploadBox.appendChild(deleteButton);
 }
 
+function stopModalEvent(event: React.SyntheticEvent) {
+  event.preventDefault();
+  event.stopPropagation();
+  event.nativeEvent.stopImmediatePropagation();
+}
+
 function KtpSaveConfirmModal({
   open,
   onCancel,
@@ -148,15 +154,27 @@ function KtpSaveConfirmModal({
   if (!open || typeof document === "undefined") return null;
 
   return createPortal(
-    <div className="pointer-events-auto fixed inset-0 z-[99999] flex items-center justify-center bg-black/35 px-5">
+    <div
+      className="pointer-events-auto fixed inset-0 z-[99999] flex items-center justify-center bg-black/35 px-5"
+      onPointerDown={(event) => event.stopPropagation()}
+      onClick={(event) => event.stopPropagation()}
+    >
       <button
         type="button"
         className="absolute inset-0 cursor-default"
         aria-label="Tutup konfirmasi"
-        onClick={onCancel}
+        onPointerDown={stopModalEvent}
+        onClick={(event) => {
+          stopModalEvent(event);
+          onCancel();
+        }}
       />
 
-      <div className="relative z-10 w-full max-w-[460px] rounded-[5px] bg-white px-6 pb-6 pt-8 text-center shadow-2xl">
+      <div
+        className="relative z-10 w-full max-w-[460px] rounded-[5px] bg-white px-6 pb-6 pt-8 text-center shadow-2xl"
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="mx-auto grid h-20 w-20 place-items-center rounded-full border-4 border-[#f7c8a6]">
           <span className="text-5xl font-light leading-none text-[#f2b98f]">
             !
@@ -170,9 +188,9 @@ function KtpSaveConfirmModal({
         <div className="relative z-20 mt-7 flex items-center justify-center gap-2">
           <button
             type="button"
+            onPointerDown={(event) => event.stopPropagation()}
             onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
+              stopModalEvent(event);
               onConfirm();
             }}
             className={cn(
@@ -186,9 +204,9 @@ function KtpSaveConfirmModal({
 
           <button
             type="button"
+            onPointerDown={(event) => event.stopPropagation()}
             onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
+              stopModalEvent(event);
               onCancel();
             }}
             className={cn(
@@ -216,7 +234,11 @@ function KtpSaveSuccessModal({
   if (!open || typeof document === "undefined") return null;
 
   return createPortal(
-    <div className="pointer-events-auto fixed inset-0 z-[100000] flex items-center justify-center bg-black/35 px-5">
+    <div
+      className="pointer-events-auto fixed inset-0 z-[100000] flex items-center justify-center bg-black/35 px-5"
+      onPointerDown={(event) => event.stopPropagation()}
+      onClick={(event) => event.stopPropagation()}
+    >
       <div className="relative z-10 w-full max-w-[460px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
           <Check className="h-11 w-11 text-[#33aa00]" strokeWidth={3} />
@@ -228,9 +250,9 @@ function KtpSaveSuccessModal({
 
         <button
           type="button"
+          onPointerDown={(event) => event.stopPropagation()}
           onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
+            stopModalEvent(event);
             onOk();
           }}
           className="relative z-20 mt-7 inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]"
@@ -319,7 +341,10 @@ export default function KtpUploadDeleteEnhancer() {
     <>
       <KtpSaveConfirmModal
         open={confirmOpen}
-        onCancel={() => setConfirmOpen(false)}
+        onCancel={() => {
+          setConfirmOpen(false);
+          pendingSaveButtonRef.current = null;
+        }}
         onConfirm={() => {
           setConfirmOpen(false);
           setSuccessOpen(true);
