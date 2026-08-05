@@ -94,36 +94,45 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
           touchAction: "pan-x",
         }}
       >
-        <table className="w-[1220px] min-w-[1220px] table-fixed border-collapse text-[12px]">
+        <table
+          className="border-collapse text-[12px]"
+          style={{
+            width: "1390px",
+            minWidth: "1390px",
+            tableLayout: "fixed",
+          }}
+        >
           <colgroup>
-            <col className="w-[150px]" />
-            <col className="w-[190px]" />
-            <col className="w-[150px]" />
-            <col className="w-[260px]" />
-            <col className="w-[155px]" />
-            <col className="w-[155px]" />
-            <col className="w-[150px]" />
-            <col className="w-[180px]" />
+            <col style={{ width: "150px" }} />
+            <col style={{ width: "190px" }} />
+            <col style={{ width: "150px" }} />
+            <col style={{ width: "260px" }} />
+            <col style={{ width: "155px" }} />
+            <col style={{ width: "155px" }} />
+            <col style={{ width: "150px" }} />
+            <col style={{ width: "180px" }} />
           </colgroup>
 
           <thead className="bg-[#F8FAFC]">
             <tr className="border-b border-slate-200 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-900">
-              <th className="px-3 py-4">
+              <th className="px-3 py-4 align-top">
                 Angsuran yang Dilakukan Penyesuaian
               </th>
-              <th className="px-3 py-4">Jenis Penyesuaian</th>
-              <th className="px-3 py-4">Nominal Penyesuaian</th>
-              <th className="px-3 py-4">Alasan Penyesuaian</th>
-              <th className="px-3 py-4 text-right">
-                Tagihan Bunga<br />
+              <th className="px-3 py-4 align-top">Jenis Penyesuaian</th>
+              <th className="px-3 py-4 align-top">Nominal Penyesuaian</th>
+              <th className="px-3 py-4 align-top">Alasan Penyesuaian</th>
+              <th className="px-3 py-4 text-right align-top">
+                Tagihan Bunga
+                <br />
                 Sebelum Penyesuaian
               </th>
-              <th className="px-3 py-4 text-right">
-                Tagihan Bunga<br />
+              <th className="px-3 py-4 text-right align-top">
+                Tagihan Bunga
+                <br />
                 Sesudah Penyesuaian
               </th>
-              <th className="px-3 py-4">Diubah Oleh</th>
-              <th className="px-3 py-4">
+              <th className="px-3 py-4 align-top">Diubah Oleh</th>
+              <th className="px-3 py-4 align-top">
                 Tanggal & Waktu Perubahan
               </th>
             </tr>
@@ -145,28 +154,28 @@ function HistoryTable({ rows }: { rows: HistoryRow[] }) {
                   key={row.id}
                   className="border-b border-slate-200 text-slate-900 last:border-b-0"
                 >
-                  <td className="px-3 py-4 align-middle font-semibold tabular-nums">
+                  <td className="whitespace-nowrap px-3 py-4 align-top font-semibold tabular-nums">
                     Angsuran ke-{row.installmentNo}
                   </td>
-                  <td className="px-3 py-4 align-middle leading-snug">
+                  <td className="whitespace-normal px-3 py-4 align-top leading-snug">
                     {row.adjustmentType}
                   </td>
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">
+                  <td className="whitespace-nowrap px-3 py-4 text-right align-top tabular-nums">
                     {row.adjustmentAmount}
                   </td>
-                  <td className="break-words px-3 py-4 align-middle leading-snug">
+                  <td className="whitespace-normal break-words px-3 py-4 align-top leading-snug">
                     {row.reason}
                   </td>
-                  <td className="px-3 py-4 text-right align-middle tabular-nums">
+                  <td className="whitespace-nowrap px-3 py-4 text-right align-top tabular-nums">
                     {row.interestBefore}
                   </td>
-                  <td className="px-3 py-4 text-right align-middle font-semibold tabular-nums text-[#2563EB]">
+                  <td className="whitespace-nowrap px-3 py-4 text-right align-top font-semibold tabular-nums text-[#2563EB]">
                     {row.interestAfter}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 align-middle">
+                  <td className="whitespace-nowrap px-3 py-4 align-top">
                     {row.changedBy}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 align-middle tabular-nums">
+                  <td className="whitespace-nowrap px-3 py-4 align-top tabular-nums">
                     {row.changedAt}
                   </td>
                 </tr>
