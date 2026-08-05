@@ -12,30 +12,10 @@ function enhanceHistoryButton() {
 
   button.dataset.loanDebtHistoryTrigger = "true";
   button.style.position = "relative";
-  button.style.zIndex = "100000";
+  button.style.zIndex = "2";
   button.style.pointerEvents = "auto";
   button.style.touchAction = "manipulation";
   button.style.cursor = "pointer";
-
-  let parent = button.parentElement;
-  let depth = 0;
-
-  while (parent && depth < 5) {
-    parent.style.position = "relative";
-    parent.style.zIndex = String(99999 - depth);
-    parent.style.pointerEvents = "auto";
-    parent = parent.parentElement;
-    depth += 1;
-  }
-
-  const dialogContent = button.closest<HTMLElement>(
-    '[data-radix-dialog-content], [data-slot="dialog-content"]',
-  );
-
-  if (dialogContent) {
-    dialogContent.style.pointerEvents = "auto";
-    dialogContent.style.zIndex = "10000";
-  }
 }
 
 export default function LoanDebtAdjustmentHistoryTriggerFix() {
@@ -52,35 +32,22 @@ export default function LoanDebtAdjustmentHistoryTriggerFix() {
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: true,
     });
 
-    document.addEventListener("pointerdown", scheduleEnhance, true);
-    document.addEventListener("pointerup", scheduleEnhance, true);
-    document.addEventListener("click", scheduleEnhance, true);
-
-    enhanceHistoryButton();
+    scheduleEnhance();
 
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
-      document.removeEventListener("pointerdown", scheduleEnhance, true);
-      document.removeEventListener("pointerup", scheduleEnhance, true);
-      document.removeEventListener("click", scheduleEnhance, true);
     };
   }, []);
 
   return (
     <style>
       {`
-        ${WIZARD_SELECTOR}[data-loan-debt-step="1"] {
-          position: relative !important;
-          z-index: 10000 !important;
-        }
-
         ${HISTORY_SELECTOR} {
           position: relative !important;
-          z-index: 100000 !important;
+          z-index: 2 !important;
           pointer-events: auto !important;
           touch-action: manipulation !important;
           cursor: pointer !important;
