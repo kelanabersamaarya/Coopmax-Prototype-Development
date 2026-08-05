@@ -46,6 +46,7 @@ import "./styles/autodebet-date-search.css";
 import "./styles/loan-account-qr-style.css";
 import "./styles/loan-interest-history-table.css";
 import "./styles/loan-debt-adjustment-history-modal.css";
+import "./styles/loan-debt-adjustment-history-scroll.css";
 import "./styles/loan-interest-wizard-step-two.css";
 import "./styles/loan-interest-wizard-save-icon.css";
 import "./styles/loan-interest-change-marker.css";

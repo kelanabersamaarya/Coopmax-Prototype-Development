@@ -1,0 +1,36 @@
+[data-radix-dialog-content]:has(table[class*="min-w-"]),
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: 96vh !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) main,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) main {
+  min-height: 0 !important;
+  max-height: calc(96vh - 150px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) main > div,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) main > div {
+  min-width: 0 !important;
+}
+
+[data-radix-dialog-content]:has(table[class*="min-w-"]) main .safe-x-scroll,
+[data-slot="dialog-content"]:has(table[class*="min-w-"]) main .safe-x-scroll {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+@media (max-width: 640px) {
+  [data-radix-dialog-content]:has(table[class*="min-w-"]) main,
+  [data-slot="dialog-content"]:has(table[class*="min-w-"]) main {
+    max-height: calc(96vh - 140px) !important;
+  }
+}
