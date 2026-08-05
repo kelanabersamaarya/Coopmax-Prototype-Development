@@ -31,17 +31,17 @@ export default function AutodebetLoanSummary({
 
   return (
     <section className="overflow-hidden rounded-[8px] border border-slate-200 bg-white">
-      <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-3">
+      <div className="border-b border-slate-200 bg-[#F9FAFF] px-4 py-2.5">
         <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
           Informasi Pinjaman
         </div>
       </div>
 
-      <div className="divide-y divide-slate-100 px-4">
+      <div className="px-4 py-1">
         {items.map((item) => (
           <div
             key={item.key}
-            className="grid gap-2 py-3 sm:grid-cols-[minmax(180px,0.9fr)_minmax(0,1fr)] sm:items-center"
+            className="grid gap-1 py-2 sm:grid-cols-[minmax(180px,0.9fr)_minmax(0,1fr)] sm:items-center"
           >
             <div className="text-[13px] font-normal text-slate-600">
               {item.label}
