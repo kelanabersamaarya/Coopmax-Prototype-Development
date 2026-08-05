@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { isLoanProductAutodebetEnabled } from "@/lib/loanProductAutodebetStore";
 import AutodebetLoanSummary from "@/components/savings/AutodebetLoanSummary";
+import SavingsAccountInfoList from "@/components/savings/SavingsAccountInfoList";
 
 export type AutodebetSchedule = {
   product: string;
@@ -37,10 +38,10 @@ const LOAN_AUTODEBET_DAY = "25";
 const accountOptions: Record<string, AccountOption[]> = {
   "Produk Simpanan": [
     {
-      accountNo: "SMG250001",
+      accountNo: "P002240005",
       customerName: "Rika Wastuti",
-      productType: "Simpanan Multiguna",
-      balance: "2.500.000,00",
+      productType: "Simpanan Wajib",
+      balance: "50.000,00",
     },
     {
       accountNo: "4260029",
@@ -118,26 +119,6 @@ function Toggle({
   );
 }
 
-function SavingsInfoRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="grid grid-cols-[minmax(0,1fr)_14px_minmax(0,1fr)] items-start gap-2 py-2">
-      <div className="text-[14px] font-normal leading-snug text-slate-600">
-        {label}
-      </div>
-      <div className="text-center text-[14px] text-slate-400">:</div>
-      <div className="min-w-0 text-right text-[14px] font-semibold leading-snug text-slate-900">
-        {value}
-      </div>
-    </div>
-  );
-}
-
 function AccountSummary({
   account,
   isLoan,
@@ -175,19 +156,12 @@ function AccountSummary({
   }
 
   return (
-    <div className="rounded-[5px] border border-slate-300 bg-white p-4 shadow-sm">
-      <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-        Informasi Rekening
-      </div>
-
-      <div className="mt-3 divide-y divide-slate-100">
-        <SavingsInfoRow label="No. Rekening" value={account.accountNo} />
-        <SavingsInfoRow label="Nama Nasabah" value={account.customerName} />
-        <SavingsInfoRow label="Produk Simpanan" value={account.productType} />
-        <SavingsInfoRow label="Saldo Simpanan" value={account.balance} />
-        <SavingsInfoRow label="Bunga per Tahun" value="3,00%" />
-      </div>
-    </div>
+    <SavingsAccountInfoList
+      accountNo={account.accountNo}
+      customerName={account.customerName}
+      productType={account.productType}
+      balance={account.balance}
+    />
   );
 }
 
@@ -254,6 +228,7 @@ export default function AutodebetScheduleDialog({
 
   function save() {
     const missing: string[] = [];
+
     if (!product) missing.push("Produk Tujuan");
     if (!selectedAccountValue) missing.push("No. Rekening Tujuan");
     if (!isLoanProduct && !autodebetDay) {
@@ -275,6 +250,7 @@ export default function AutodebetScheduleDialog({
       description: description.trim(),
       status,
     });
+
     onOpenChange(false);
   }
 
@@ -331,8 +307,12 @@ export default function AutodebetScheduleDialog({
                   <SelectValue placeholder="Pilih Produk" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[5px] border-slate-200">
-                  <SelectItem value="Produk Simpanan">Produk Simpanan</SelectItem>
-                  <SelectItem value="Produk Pinjaman">Produk Pinjaman</SelectItem>
+                  <SelectItem value="Produk Simpanan">
+                    Produk Simpanan
+                  </SelectItem>
+                  <SelectItem value="Produk Pinjaman">
+                    Produk Pinjaman
+                  </SelectItem>
                 </SelectContent>
               </Select>
 
@@ -368,7 +348,10 @@ export default function AutodebetScheduleDialog({
                 </Select>
 
                 {selectedAccount ? (
-                  <AccountSummary account={selectedAccount} isLoan={isLoanProduct} />
+                  <AccountSummary
+                    account={selectedAccount}
+                    isLoan={isLoanProduct}
+                  />
                 ) : null}
               </div>
 
@@ -381,10 +364,16 @@ export default function AutodebetScheduleDialog({
                     <Input
                       value={LOAN_AUTODEBET_DAY}
                       readOnly
-                      className={cn(inputClassName, "bg-slate-200/80 text-slate-700")}
+                      className={cn(
+                        inputClassName,
+                        "bg-slate-200/80 text-slate-700",
+                      )}
                     />
                   ) : (
-                    <Select value={autodebetDay} onValueChange={setAutodebetDay}>
+                    <Select
+                      value={autodebetDay}
+                      onValueChange={setAutodebetDay}
+                    >
                       <SelectTrigger className={inputClassName}>
                         <SelectValue placeholder="Pilih Tanggal Proses Autodebet" />
                       </SelectTrigger>
@@ -400,7 +389,9 @@ export default function AutodebetScheduleDialog({
                 </>
               ) : null}
 
-              <Label className={cn(labelClassName, "pt-1")}>Keterangan</Label>
+              <Label className={cn(labelClassName, "pt-1")}>
+                Keterangan
+              </Label>
               <Textarea
                 value={description}
                 onChange={(event) => {
