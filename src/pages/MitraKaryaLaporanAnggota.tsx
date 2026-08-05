@@ -188,19 +188,6 @@ export default function MitraKaryaLaporanAnggota() {
             <button
               type="button"
               onClick={() =>
-                toast.success("Export Excel (prototype)", {
-                  description: `${filteredMembers.length} data anggota siap diekspor.`,
-                })
-              }
-              className={exportButtonClassName}
-            >
-              <FileSpreadsheet className="h-4 w-4 text-slate-600" />
-              Export Excel
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
                 toast.success("Export Laporan Rekapitulasi KTP (prototype)", {
                   description: `${filteredMembers.length} data rekapitulasi KTP siap diekspor.`,
                 })
@@ -209,6 +196,19 @@ export default function MitraKaryaLaporanAnggota() {
             >
               <FileText className="h-4 w-4 text-slate-600" />
               Export Laporan Rekapitulasi KTP
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                toast.success("Export Excel (prototype)", {
+                  description: `${filteredMembers.length} data anggota siap diekspor.`,
+                })
+              }
+              className={exportButtonClassName}
+            >
+              <FileSpreadsheet className="h-4 w-4 text-slate-600" />
+              Export Excel
             </button>
 
             <button
