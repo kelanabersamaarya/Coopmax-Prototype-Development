@@ -75,5 +75,6 @@ import "./styles/mitra-karya-member-report-filters.css";
 import "./styles/mitra-karya-ktp-upload-modal.css";
 import "./styles/loan-interest-wizard-final-button.css";
 import "./styles/loan-debt-adjustment-history-final.css";
+import "./styles/loan-debt-adjustment-history-scroll-fix.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
