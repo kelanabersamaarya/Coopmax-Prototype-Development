@@ -19,6 +19,7 @@ import InterestAdjustmentBillingMarkers from "@/components/anggota/InterestAdjus
 import MemberReportFilterPlaceholderStyle from "@/components/mitra-karya/MemberReportFilterPlaceholderStyle";
 import MitraKaryaKtpPreviewModal from "@/components/mitra-karya/MitraKaryaKtpPreviewModal";
 import KtpUploadDeleteEnhancer from "@/components/mitra-karya/KtpUploadDeleteEnhancer";
+import KtpReportStatusSync from "@/components/mitra-karya/KtpReportStatusSync";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -52,6 +53,7 @@ export default function MobileAwareToaster() {
       <MemberReportFilterPlaceholderStyle />
       <MitraKaryaKtpPreviewModal />
       <KtpUploadDeleteEnhancer />
+      <KtpReportStatusSync />
       <LoanInterestPercentInputFix />
       <LoanInterestChangeSuccessGate />
       <LoanInterestWizardCancelButton />
