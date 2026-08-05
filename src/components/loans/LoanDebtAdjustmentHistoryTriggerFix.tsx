@@ -139,10 +139,16 @@ function HistoryModal({
           </button>
         </header>
 
-        <main className="min-h-0 overflow-auto p-4 sm:p-6">
-          <div className="w-full overflow-x-auto rounded-[6px] border border-slate-300">
+        <main className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
+          <div
+            className="block w-full max-w-full overflow-x-scroll overflow-y-hidden rounded-[6px] border border-slate-300"
+            style={{
+              overscrollBehaviorX: "contain",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
             <table
-              className="w-[1280px] min-w-[1280px] table-fixed border-collapse"
+              className="block w-[1280px] min-w-[1280px] table-fixed border-collapse text-[12px]"
               style={{
                 wordBreak: "normal",
                 overflowWrap: "normal",
@@ -159,7 +165,7 @@ function HistoryModal({
                 <col style={{ width: "170px" }} />
               </colgroup>
 
-              <thead>
+              <thead className="table-header-group">
                 <tr>
                   <th className={headerCellClass}>
                     Angsuran yang Dilakukan Penyesuaian
@@ -182,7 +188,7 @@ function HistoryModal({
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody className="table-row-group">
                 {rows.length === 0 ? (
                   <tr>
                     <td
