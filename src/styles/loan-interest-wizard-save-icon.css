@@ -1,4 +1,4 @@
-/* Modal Ubah Suku Bunga — tombol Simpan Perubahan pada langkah kedua */
+/* Step kedua: tombol Simpan Perubahan tetap hijau dengan ikon checklist. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
   > button:last-child {
@@ -29,41 +29,46 @@
   background-size: contain;
 }
 
-/* Hanya untuk wizard Ubah Suku Bunga — tombol Lanjutkan step pertama */
+/* Step pertama: tombol Lanjutkan tetap biru. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child {
   min-width: 150px !important;
   height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
   justify-content: center !important;
   flex-direction: row !important;
   gap: 8px !important;
-  background: #2563eb !important;
+  border: 0 !important;
+  border-radius: 5px !important;
   background-color: #2563eb !important;
   color: #ffffff !important;
-  border: 0 !important;
   box-shadow: none !important;
   opacity: 1 !important;
 }
 
+/* Tetap nonaktif ketika form belum lengkap, tetapi warna tombol tetap biru. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child:disabled {
-  background: #2563eb !important;
   background-color: #2563eb !important;
   color: #ffffff !important;
-  opacity: 1 !important;
   cursor: not-allowed !important;
+  opacity: 0.55 !important;
+  pointer-events: none !important;
 }
 
+/* Chevron kanan selalu terlihat pada tombol Lanjutkan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
-  svg {
+  > svg:not(.lucide-check) {
   display: inline-block !important;
   visibility: visible !important;
   width: 16px !important;
   height: 16px !important;
+  flex: 0 0 auto !important;
   margin-left: 2px !important;
   color: #ffffff !important;
   stroke: #ffffff !important;
@@ -71,20 +76,17 @@
   opacity: 1 !important;
 }
 
+/* Pastikan ikon checklist tidak muncul di step pertama. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child
-  svg.lucide-check {
+  > svg.lucide-check {
   display: none !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
-  > button:last-child::before {
-  content: none !important;
-  display: none !important;
-}
-
+  > button:last-child::before,
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child::after {
@@ -95,6 +97,5 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="1"]
   footer
   > button:last-child:hover:not(:disabled) {
-  background: #1d4ed8 !important;
   background-color: #1d4ed8 !important;
 }
