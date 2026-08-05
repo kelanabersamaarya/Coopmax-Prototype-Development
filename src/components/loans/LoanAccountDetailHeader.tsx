@@ -1,31 +1,31 @@
 "use client";
 
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import {
+  BadgePercent,
+  Banknote,
   Calendar,
   ChevronDown,
   Clock3,
+  Eraser,
+  List,
+  Pencil,
   Percent,
   Printer,
   RotateCcw,
   Sparkles,
   TimerReset,
-  Pencil,
-  List,
-  BadgePercent,
-  Eraser,
-  Banknote,
   X,
 } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
-import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
-import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
 import LoanDebtChangeWizard from "@/components/loans/LoanDebtChangeWizard";
 import LoanExtensionWizard from "@/components/loans/LoanExtensionWizard";
-import { useNavigate } from "react-router-dom";
+import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
+import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
+import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 
 const UNSUPPORTED_INTEREST_CHANGE_ACCOUNT = "klpk04.07260001";
 
@@ -49,10 +49,8 @@ function ActionPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold",
-        "bg-white text-slate-700 transition hover:bg-slate-50",
-        "border-0 ring-0 shadow-none",
-        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        "inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50",
+        "border-0 shadow-none ring-0 focus:outline-none focus-visible:ring-0",
         className,
       )}
     >
@@ -74,9 +72,8 @@ function UnsupportedInterestChangeDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.5rem)] max-w-[530px]",
-          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
-          "overflow-hidden",
+          "w-[calc(100vw-1.5rem)] max-w-[530px] overflow-hidden rounded-[5px]",
+          "border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -123,23 +120,31 @@ export default function LoanAccountDetailHeader({
   onAction: (label: string) => void;
 }) {
   const navigate = useNavigate();
+  const [alertOpen, setAlertOpen] = React.useState(false);
   const [pemutihanOpen, setPemutihanOpen] = React.useState(false);
   const [txHistoryOpen, setTxHistoryOpen] = React.useState(false);
   const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
   const [debtWizardOpen, setDebtWizardOpen] = React.useState(false);
   const [extensionWizardOpen, setExtensionWizardOpen] = React.useState(false);
-  const [unsupportedInterestChangeOpen, setUnsupportedInterestChangeOpen] =
-    React.useState(false);
 
-  const isUnsupportedInterestChangeAccount =
+  const isUnsupportedAccount =
     accountNo.trim().toLowerCase() ===
     UNSUPPORTED_INTEREST_CHANGE_ACCOUNT.toLowerCase();
+
+  function handleUnsupportedOr(action: () => void) {
+    if (isUnsupportedAccount) {
+      setAlertOpen(true);
+      return;
+    }
+
+    action();
+  }
 
   return (
     <>
       <UnsupportedInterestChangeDialog
-        open={unsupportedInterestChangeOpen}
-        onOpenChange={setUnsupportedInterestChangeOpen}
+        open={alertOpen}
+        onOpenChange={setAlertOpen}
       />
 
       {pemutihanOpen ? (
@@ -198,35 +203,43 @@ export default function LoanAccountDetailHeader({
           <ActionPill
             icon={Calendar}
             label="Perpanjangan Pinjaman"
-            onClick={() => setExtensionWizardOpen(true)}
+            onClick={() =>
+              handleUnsupportedOr(() => setExtensionWizardOpen(true))
+            }
           />
+
           <ActionPill
             icon={Printer}
             label="Cetak"
             withCaret
             onClick={() => onAction("Cetak")}
           />
+
           <ActionPill
             icon={Printer}
             label="Dokumen"
             withCaret
             onClick={() => onAction("Dokumen")}
           />
+
           <ActionPill
             icon={Clock3}
             label="Riwayat Angsuran"
             onClick={() => setTxHistoryOpen(true)}
           />
+
           <ActionPill
             icon={Eraser}
             label="Pemutihan Pinjaman"
             onClick={() => setPemutihanOpen(true)}
           />
+
           <ActionPill
             icon={Calendar}
             label="Riwayat Transaksi Autodebet"
             onClick={() => onAction("Riwayat Transaksi Autodebet")}
           />
+
           <ActionPill
             icon={Pencil}
             label="Ubah"
@@ -239,28 +252,27 @@ export default function LoanAccountDetailHeader({
               })
             }
           />
+
           <ActionPill
             icon={Banknote}
             label="Ubah Bunga"
-            onClick={() => setDebtWizardOpen(true)}
+            onClick={() => handleUnsupportedOr(() => setDebtWizardOpen(true))}
           />
+
           <ActionPill
             icon={Calendar}
             label="Ubah Jatuh Tempo"
             onClick={() => onAction("Ubah Jatuh Tempo")}
           />
+
           <ActionPill
             icon={Percent}
             label="Ubah Suku Bunga"
-            onClick={() => {
-              if (isUnsupportedInterestChangeAccount) {
-                setUnsupportedInterestChangeOpen(true);
-                return;
-              }
-
-              setInterestWizardOpen(true);
-            }}
+            onClick={() =>
+              handleUnsupportedOr(() => setInterestWizardOpen(true))
+            }
           />
+
           <ActionPill
             icon={Printer}
             label="Simulasi Tunggakan"
@@ -270,11 +282,7 @@ export default function LoanAccountDetailHeader({
           <Button
             variant="outline"
             onClick={onBack}
-            className={cn(
-              "h-10 rounded-full bg-white px-4 text-slate-800 hover:bg-slate-50",
-              "border-0 ring-0 shadow-none",
-              "focus-visible:ring-0 focus-visible:ring-offset-0",
-            )}
+            className="h-10 rounded-full border-0 bg-white px-4 text-slate-800 shadow-none ring-0 hover:bg-slate-50 focus-visible:ring-0"
           >
             <List className="mr-2 h-4 w-4" />
             Kembali ke Daftar
@@ -288,12 +296,7 @@ export default function LoanAccountDetailHeader({
 
           <Button
             onClick={() => onAction("Dapatkan Analisa 5C")}
-            className={cn(
-              "h-10 rounded-full px-4",
-              "bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]",
-              "border-0 ring-0 shadow-none",
-              "focus-visible:ring-0 focus-visible:ring-offset-0",
-            )}
+            className="h-10 rounded-full border-0 bg-[hsl(var(--app-accent))] px-4 text-white shadow-none ring-0 hover:bg-[hsl(var(--app-accent-2))] focus-visible:ring-0"
           >
             <Sparkles className="mr-2 h-4 w-4" />
             Dapatkan Analisa 5C
