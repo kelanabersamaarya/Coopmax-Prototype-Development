@@ -6,7 +6,6 @@ const WIZARD_SELECTOR =
   '[data-loan-debt-wizard="true"][data-loan-debt-step="1"]';
 const TABLE_SELECTOR = ".loan-debt-billing-preview table";
 const ADJUSTED_CELL_ATTRIBUTE = "data-adjusted-interest-cell";
-const ORIGINAL_VALUE_ATTRIBUTE = "data-original-interest-value";
 const CURRENT_HEADER = "Tagihan Bunga Saat Ini";
 const ADJUSTED_HEADER = "Tagihan Bunga Sesudah Penyesuaian";
 
@@ -27,14 +26,15 @@ function syncTable(table: HTMLTableElement) {
   const headerRow = table.tHead?.rows[0];
   if (!headerRow) return;
 
-  const interestHeader = headerRow.cells[4];
+  const headerCells = Array.from(headerRow.cells);
+  const interestHeader = headerCells[4];
   if (!interestHeader) return;
 
   interestHeader.textContent = CURRENT_HEADER;
   interestHeader.className =
     "w-[165px] px-4 py-3 text-right font-extrabold uppercase tracking-wide text-slate-700";
 
-  let adjustedHeader = headerRow.querySelector<HTMLTableCellElement>(
+  let adjustedHeader = headerRow.querySelector< HTMLTableCellElement>(
     `th[${ADJUSTED_CELL_ATTRIBUTE}]`,
   );
 
@@ -56,30 +56,19 @@ function syncTable(table: HTMLTableElement) {
       const currentInterestCell = row.cells[4];
       if (!currentInterestCell) return;
 
-      const displayedValue = plainCellText(currentInterestCell);
-      const originalValue =
-        currentInterestCell.getAttribute(ORIGINAL_VALUE_ATTRIBUTE) ??
-        displayedValue;
-
-      if (!currentInterestCell.hasAttribute(ORIGINAL_VALUE_ATTRIBUTE)) {
-        currentInterestCell.setAttribute(
-          ORIGINAL_VALUE_ATTRIBUTE,
-          originalValue,
-        );
-      }
-
-      let adjustedCell = row.querySelector<HTMLTableCellElement>(
+      const existingAdjustedCell = row.querySelector<HTMLTableCellElement>(
         `td[${ADJUSTED_CELL_ATTRIBUTE}]`,
       );
+      const currentValue = plainCellText(currentInterestCell);
 
-      if (!adjustedCell) {
-        adjustedCell = createCell(displayedValue);
-        currentInterestCell.insertAdjacentElement("afterend", adjustedCell);
+      if (!existingAdjustedCell) {
+        currentInterestCell.insertAdjacentElement(
+          "afterend",
+          createCell(currentValue),
+        );
       } else {
-        adjustedCell.textContent = displayedValue;
+        existingAdjustedCell.textContent = currentValue;
       }
-
-      currentInterestCell.textContent = originalValue;
     });
   });
 }
@@ -99,7 +88,6 @@ export default function LoanDebtBillingInterestColumns() {
     }
 
     const observer = new MutationObserver(sync);
-
     observer.observe(document.body, {
       childList: true,
       subtree: true,
