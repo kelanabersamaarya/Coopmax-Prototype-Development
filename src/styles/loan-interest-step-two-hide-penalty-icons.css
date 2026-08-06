@@ -1,0 +1,16 @@
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(10)::after {
+  content: none !important;
+  display: none !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(10) {
+  color: #0f172a !important;
+  font-size: 12px !important;
+  padding-right: 10px !important;
+}
