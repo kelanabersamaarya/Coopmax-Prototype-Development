@@ -12,6 +12,7 @@ type ScheduleRow = {
   remainingPrincipal: number;
   remainingInterest: number;
   penalty: number;
+  remainingPenalty: number;
 };
 
 function formatIdr(value: number) {
@@ -38,7 +39,7 @@ export default function LoanExtensionPaymentSchedule({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[750px] border-collapse">
+        <table className="w-full min-w-[900px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
               <th className="w-[110px] px-3 py-3">
@@ -76,6 +77,11 @@ export default function LoanExtensionPaymentSchedule({
                 <br />
                 Denda
               </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Denda
+              </th>
             </tr>
           </thead>
 
@@ -108,6 +114,9 @@ export default function LoanExtensionPaymentSchedule({
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
                   {formatIdr(row.penalty)}
+                </td>
+                <td className="px-3 py-3 text-right tabular-nums">
+                  {formatIdr(row.remainingPenalty)}
                 </td>
               </tr>
             ))}
