@@ -32,46 +32,17 @@ function getElements() {
   return { grid, section, fields };
 }
 
-function applyVisibility(
-  fields: HTMLElement[],
-  expanded: boolean,
-) {
+function applyVisibility(fields: HTMLElement[], expanded: boolean) {
   fields.forEach((field) => {
     const label = field.dataset.accountItemLabel?.trim() ?? "";
-    const visible = expanded || COMPACT_LABELS.has(label);
+    const labelText =
+      label || field.querySelector(":scope > div:first-child")?.textContent?.trim() || "";
 
     field.style.setProperty(
       "display",
-      visible ? "block" : "none",
+      expanded || COMPACT_LABELS.has(labelText) ? "block" : "none",
       "important",
     );
-  });
-}
-
-function styleButton(button: HTMLButtonElement) {
-  Object.assign(button.style, {
-    position: "absolute",
-    right: "16px",
-    bottom: "12px",
-    zIndex: "100",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "6px",
-    minWidth: "170px",
-    minHeight: "38px",
-    padding: "8px 10px",
-    border: "0",
-    borderRadius: "8px",
-    background: "transparent",
-    color: "#ffffff",
-    cursor: "pointer",
-    fontSize: "12px",
-    fontWeight: "700",
-    lineHeight: "1",
-    whiteSpace: "nowrap",
-    pointerEvents: "auto",
-    touchAction: "manipulation",
   });
 }
 
@@ -116,13 +87,12 @@ function sync() {
   if (!elements || elements.fields.length <= COMPACT_LABELS.size) return;
 
   const { grid, section, fields } = elements;
+
   section.style.position = "relative";
   section.style.zIndex = "1";
   section.style.paddingBottom = "64px";
 
-  let button = section.querySelector<HTMLButtonElement>(
-    `.${TOGGLE_CLASS}`,
-  );
+  let button = section.querySelector<HTMLButtonElement>(`.${TOGGLE_CLASS}`);
 
   if (!button) {
     button = document.createElement("button");
@@ -133,8 +103,7 @@ function sync() {
       event.preventDefault();
       event.stopPropagation();
 
-      const expanded =
-        grid.dataset.accountInfoExpanded === "true";
+      const expanded = grid.dataset.accountInfoExpanded === "true";
       const nextExpanded = !expanded;
 
       grid.dataset.accountInfoExpanded = String(nextExpanded);
@@ -145,7 +114,30 @@ function sync() {
     section.appendChild(button);
   }
 
-  styleButton(button);
+  Object.assign(button.style, {
+    position: "absolute",
+    right: "16px",
+    bottom: "12px",
+    zIndex: "100",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "6px",
+    minWidth: "170px",
+    minHeight: "38px",
+    padding: "8px 10px",
+    border: "0",
+    borderRadius: "8px",
+    background: "transparent",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontSize: "12px",
+    fontWeight: "700",
+    lineHeight: "1",
+    whiteSpace: "nowrap",
+    pointerEvents: "auto",
+    touchAction: "manipulation",
+  });
 
   const expanded = grid.dataset.accountInfoExpanded === "true";
   applyVisibility(fields, expanded);
@@ -154,25 +146,26 @@ function sync() {
 
 export default function LoanExtensionAccountInfoToggle() {
   React.useEffect(() => {
-    let frame = 0;
+    let frameId = 0;
 
     const scheduleSync = () => {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(sync);
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(sync);
     };
 
     const observer = new MutationObserver(scheduleSync);
+    const intervalId = window.setInterval(sync, 250);
+
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    const interval = window.setInterval(sync, 250);
     scheduleSync();
 
     return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearInterval(interval);
+      window.cancelAnimationFrame(frameId);
+      window.clearInterval(intervalId);
       observer.disconnect();
 
       document
