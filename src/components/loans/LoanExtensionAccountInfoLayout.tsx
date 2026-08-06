@@ -59,6 +59,9 @@ const compactLabels = [
   "Tanggal Jatuh Tempo",
   "Periode Waktu",
   "Sisa Tenor",
+  "Tanggal Pembayaran Setiap Bulan",
+  "Produk Pinjaman",
+  "Bunga Per Tahun (%)",
 ];
 
 function createField(item: AccountItem) {
@@ -157,11 +160,13 @@ function mountAccountInfo() {
   const accountNoField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Kode Pinjaman"] .loan-extension-account-value',
   );
+
   if (accountNoField) accountNoField.textContent = "SMG260004";
 
   const customerNameField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Nama Nasabah"] .loan-extension-account-value',
   );
+
   if (customerNameField) customerNameField.textContent = "Bapak Bagus";
 
   applyCompactVisibility(
