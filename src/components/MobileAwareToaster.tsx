@@ -20,6 +20,7 @@ import MemberReportFilterPlaceholderStyle from "@/components/mitra-karya/MemberR
 import KtpReportStatusSync from "@/components/mitra-karya/KtpReportStatusSync";
 import MitraKaryaKtpPreviewModal from "@/components/mitra-karya/MitraKaryaKtpPreviewModal";
 import KtpUploadDeleteEnhancer from "@/components/mitra-karya/KtpUploadDeleteEnhancer";
+import LoanDebtUnsupportedAlertText from "@/components/loans/LoanDebtUnsupportedAlertText";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -50,8 +51,9 @@ export default function MobileAwareToaster() {
 
   return (
     <>
-      <MemberReportFilterPlaceholderStyle />
+      <LoanDebtUnsupportedAlertText />
 
+      <MemberReportFilterPlaceholderStyle />
       <KtpReportStatusSync />
       <MitraKaryaKtpPreviewModal />
       <KtpUploadDeleteEnhancer />
