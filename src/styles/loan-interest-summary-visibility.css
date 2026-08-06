@@ -1,5 +1,4 @@
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary {
   display: table !important;
   visibility: visible !important;
@@ -9,36 +8,31 @@
   border-collapse: collapse !important;
 }
 
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   thead {
   display: table-header-group !important;
   visibility: visible !important;
 }
 
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   tbody {
   display: table-row-group !important;
   visibility: visible !important;
 }
 
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   tr {
   display: table-row !important;
   visibility: visible !important;
 }
 
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   th,
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   td {
   display: table-cell !important;
@@ -46,13 +40,11 @@
   color: #000000 !important;
 }
 
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   tbody
   td:nth-child(3),
-[data-loan-interest-wizard="true"]
-  [data-loan-interest-step="2"]
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   .loan-interest-summary
   tbody
   td:nth-child(3)
