@@ -24,6 +24,7 @@ import LoanDebtUnsupportedAlertText from "@/components/loans/LoanDebtUnsupported
 import LoanExtensionAccountInfoLayout from "@/components/loans/LoanExtensionAccountInfoLayout";
 import LoanExtensionAccountInfoToggle from "@/components/loans/LoanExtensionAccountInfoToggle";
 import LoanExtensionStepTwoSummarySync from "@/components/loans/LoanExtensionStepTwoSummarySync";
+import LoanDebtBillingInterestColumns from "@/components/loans/LoanDebtBillingInterestColumns";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -69,6 +70,7 @@ export default function MobileAwareToaster() {
       <LoanInterestSummaryReasonSection />
       <LoanDebtChangeSaveGate />
       <LoanDebtAdjustmentHistoryTriggerFix />
+      <LoanDebtBillingInterestColumns />
       <LoanProductTermsSection />
       <LoanProductAutodebetScheduleSection />
       <AutodebetScheduleStatusSync />
