@@ -22,14 +22,20 @@ div[class*="rounded-[8px]"][class*="bg-white"]:has(
   position: absolute !important;
   right: 20px !important;
   bottom: 16px !important;
+  z-index: 5 !important;
+  display: inline-flex !important;
   height: auto !important;
+  align-items: center !important;
+  gap: 4px !important;
   padding: 4px 0 !important;
   border-radius: 999px !important;
   background: transparent !important;
-  color: rgb(255 255 255 / 0.92) !important;
+  color: #ffffff !important;
   font-size: 11px !important;
   font-weight: 600 !important;
   line-height: 1.2 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
   box-shadow: none !important;
   ring: 0 !important;
 }
@@ -39,13 +45,7 @@ div[class*="rounded-[8px]"][class*="bg-white"]:has(
   )
   > div[class*="bg-[#1aa0b5]"]
   > div.flex.items-center.justify-between
-  > button[aria-label="Tampilkan lebih banyak"]:hover,
-div[class*="rounded-[8px]"][class*="bg-white"]:has(
-    > div[class*="bg-[#1aa0b5]"]
-  )
-  > div[class*="bg-[#1aa0b5]"]
-  > div.flex.items-center.justify-between
-  > button[aria-label="Tampilkan lebih sedikit"]:hover {
+  > button:hover {
   background: rgb(255 255 255 / 0.12) !important;
   color: #ffffff !important;
 }
@@ -57,7 +57,16 @@ div[class*="rounded-[8px]"][class*="bg-white"]:has(
   > div.flex.items-center.justify-between
   > button
   svg {
-  height: 14px !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   width: 14px !important;
-  margin-left: 3px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
 }
