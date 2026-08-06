@@ -24,8 +24,12 @@ function syncAccountFields(grid: HTMLElement) {
   );
 
   fields.forEach((field) => {
-    const labelElement = field.querySelector<HTMLElement>("> div:first-child");
-    const valueElement = field.querySelector<HTMLElement>("> div:last-child");
+    const labelElement = field.querySelector<HTMLElement>(
+      ":scope > div:first-child",
+    );
+    const valueElement = field.querySelector<HTMLElement>(
+      ":scope > div:last-child",
+    );
 
     if (!labelElement || !valueElement) return;
 
@@ -44,6 +48,7 @@ export default function LoanExtensionAccountInfoLayout() {
 
     const sync = () => {
       window.cancelAnimationFrame(frameId);
+
       frameId = window.requestAnimationFrame(() => {
         const grid = getWizardGrid();
         if (grid) syncAccountFields(grid);
