@@ -80,7 +80,25 @@
   display: none !important;
 }
 
-/* Tambahkan kembali jarak bawah kecil setelah baris Alasan Perpanjangan */
+/* Header section tepat 45px */
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  > div:first-child {
+  display: flex !important;
+  height: 45px !important;
+  min-height: 45px !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  padding: 0 16px !important;
+  background: #f9faff !important;
+  color: #000000 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  text-transform: uppercase !important;
+}
+
+/* Jarak bawah kecil setelah baris Alasan Perpanjangan */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
   table
