@@ -27,6 +27,7 @@ const accountItems: AccountItem[] = [
   { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
   { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
   { label: "Periode Waktu", value: "12 Bulan", highlight: true },
+  { label: "Sisa Tenor", value: "12 Bulan", highlight: true },
   { label: "Produk Pinjaman", value: "Pinjaman Billing" },
 
   { label: "Bunga Per Tahun (%)", value: "12,00%" },
