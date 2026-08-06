@@ -22,6 +22,7 @@ import MitraKaryaKtpPreviewModal from "@/components/mitra-karya/MitraKaryaKtpPre
 import KtpUploadDeleteEnhancer from "@/components/mitra-karya/KtpUploadDeleteEnhancer";
 import LoanDebtUnsupportedAlertText from "@/components/loans/LoanDebtUnsupportedAlertText";
 import LoanExtensionAccountInfoLayout from "@/components/loans/LoanExtensionAccountInfoLayout";
+import LoanExtensionAccountInfoToggle from "@/components/loans/LoanExtensionAccountInfoToggle";
 
 export default function MobileAwareToaster() {
   const location = useLocation();
@@ -71,6 +72,7 @@ export default function MobileAwareToaster() {
       <LoanProductAutodebetScheduleSection />
       <AutodebetScheduleStatusSync />
       <LoanExtensionAccountInfoLayout />
+      <LoanExtensionAccountInfoToggle />
 
       {isMemberTransaction ? <InterestAdjustmentBillingMarkers /> : null}
 
