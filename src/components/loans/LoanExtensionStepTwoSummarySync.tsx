@@ -321,6 +321,13 @@ export default function LoanExtensionStepTwoSummarySync() {
           line-height: 1.45;
         }
 
+        [data-loan-extension-wizard="true"]:not([data-loan-extension-step="2"])
+          .loan-extension-tenor-impact-panel,
+        [data-loan-extension-wizard="true"]:not([data-loan-extension-step="2"])
+          .loan-extension-method-reason-panel {
+          display: none !important;
+        }
+
         @media (max-width: 640px) {
           [data-loan-extension-wizard="true"] .${IMPACT_PANEL_CLASS} {
             padding: 12px;

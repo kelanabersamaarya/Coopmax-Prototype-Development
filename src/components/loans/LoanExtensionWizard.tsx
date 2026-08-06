@@ -675,6 +675,13 @@ export default function LoanExtensionWizard({
                   onOpenChange(false);
                   return;
                 }
+
+                document
+                  .querySelectorAll(
+                    ".loan-extension-tenor-impact-panel, .loan-extension-method-reason-panel",
+                  )
+                  .forEach((panel) => panel.remove());
+
                 setStep(1);
               }}
               className="inline-flex h-10 min-w-[105px] items-center justify-center gap-2 rounded-[5px] bg-[#77839A] px-5 text-[12px] font-semibold text-white transition hover:bg-[#6b768c]"
