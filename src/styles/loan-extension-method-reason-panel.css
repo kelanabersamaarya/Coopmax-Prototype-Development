@@ -44,17 +44,24 @@
   overflow-wrap: anywhere;
 }
 
-[data-loan-extension-wizard="true"] .loan-extension-method-reason-item:last-child {
-  grid-column: 1 / -1;
+/* Kedua informasi tetap berada dalam dua kolom sejajar. */
+[data-loan-extension-wizard="true"]
+  .loan-extension-method-reason-item:last-child {
+  grid-column: auto;
 }
 
 @media (max-width: 640px) {
   [data-loan-extension-wizard="true"] .loan-extension-method-reason-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 12px;
   }
 
-  [data-loan-extension-wizard="true"] .loan-extension-method-reason-item:last-child {
-    grid-column: auto;
+  [data-loan-extension-wizard="true"] .loan-extension-method-reason-label {
+    font-size: 11px;
+  }
+
+  [data-loan-extension-wizard="true"] .loan-extension-method-reason-value {
+    font-size: 12px;
   }
 }
