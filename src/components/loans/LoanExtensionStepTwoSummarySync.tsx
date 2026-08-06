@@ -5,6 +5,7 @@ import * as React from "react";
 const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const IMPACT_PANEL_CLASS = "loan-extension-tenor-impact-panel";
 const DETAIL_PANEL_CLASS = "loan-extension-method-reason-panel";
+const SUMMARY_TITLE = "Ringkasan Perpanjangan Pinjaman";
 
 function createImpactPanel() {
   const panel = document.createElement("section");
@@ -34,10 +35,7 @@ function createDetailPanel() {
         <div class="loan-extension-method-reason-label">
           METODE PERPANJANGAN
         </div>
-        <div
-          class="loan-extension-method-reason-value"
-          data-extension-method-value
-        >
+        <div class="loan-extension-method-reason-value" data-extension-method-value>
           -
         </div>
       </div>
@@ -46,10 +44,7 @@ function createDetailPanel() {
         <div class="loan-extension-method-reason-label">
           ALASAN PERPANJANGAN
         </div>
-        <div
-          class="loan-extension-method-reason-value"
-          data-extension-reason-value
-        >
+        <div class="loan-extension-method-reason-value" data-extension-reason-value>
           -
         </div>
       </div>
@@ -80,6 +75,102 @@ function getSummaryValue(wizard: HTMLElement, label: string) {
   return row?.querySelectorAll("td")[2]?.textContent?.trim() || "-";
 }
 
+function parseAmount(value: string) {
+  const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized.replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatAmount(value: number) {
+  return Math.max(0, Math.round(value)).toLocaleString("id-ID");
+}
+
+function getScheduleValues(wizard: HTMLElement) {
+  const scheduleTable = wizard.querySelector<HTMLTableElement>(
+    "table.min-w-\\[750px\\]",
+  );
+
+  if (!scheduleTable) {
+    return {
+      monthlyInstallment: "-",
+      totalInterest: "-",
+    };
+  }
+
+  const rows = Array.from(
+    scheduleTable.querySelectorAll<HTMLTableRowElement>("tbody tr"),
+  );
+
+  const firstRowCells = rows[0]?.querySelectorAll("td");
+  const monthlyInstallment = firstRowCells?.[1]?.textContent?.trim() || "-";
+
+  const totalInterest = rows.reduce((total, row) => {
+    const cells = row.querySelectorAll("td");
+    return total + parseAmount(cells[3]?.textContent ?? "");
+  }, 0);
+
+  return {
+    monthlyInstallment,
+    totalInterest: formatAmount(totalInterest),
+  };
+}
+
+function createSummaryRow(
+  label: string,
+  beforeValue: string,
+  afterValue: string,
+) {
+  const row = document.createElement("tr");
+  row.className = "border-b border-slate-100 bg-white text-[12px] text-black";
+
+  const labelCell = document.createElement("td");
+  labelCell.className = "px-4 py-3 font-medium";
+  labelCell.textContent = label;
+
+  const beforeCell = document.createElement("td");
+  beforeCell.className = "px-4 py-3";
+  beforeCell.textContent = beforeValue;
+
+  const afterCell = document.createElement("td");
+  afterCell.className = "px-4 py-3 font-semibold text-[#2563EB]";
+  afterCell.textContent = afterValue;
+
+  row.append(labelCell, beforeCell, afterCell);
+  return row;
+}
+
+function replaceSummaryRows(wizard: HTMLElement) {
+  const summarySection = findSummarySection(wizard);
+  const tbody = summarySection?.querySelector("table tbody");
+
+  if (!tbody) return;
+
+  const oldTenor = getSummaryValue(wizard, "Tenor");
+  const newTenor = oldTenor;
+  const oldDueDate = getSummaryValue(wizard, "Tanggal Jatuh Tempo Akhir");
+  const newDueDate = oldDueDate;
+  const scheduleValues = getScheduleValues(wizard);
+
+  tbody.replaceChildren(
+    createSummaryRow("Tenor", "12 Bulan", newTenor),
+    createSummaryRow(
+      "Tanggal Jatuh Tempo Akhir",
+      "07-04-2027",
+      newDueDate,
+    ),
+    createSummaryRow(
+      "Angsuran Bulanan",
+      "1.120.000,00",
+      scheduleValues.monthlyInstallment,
+    ),
+    createSummaryRow(
+      "Total Bunga Pinjaman",
+      "1.440.000,00",
+      scheduleValues.totalInterest,
+    ),
+  );
+}
+
 function syncSummaryDetails() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
   const existingImpact = wizard?.querySelector<HTMLElement>(
@@ -97,8 +188,6 @@ function syncSummaryDetails() {
 
   const summarySection = findSummarySection(wizard);
   if (!summarySection?.parentElement) return;
-
-  getSummaryRow(wizard, "Tanggal Efektif")?.remove();
 
   const method = getSummaryValue(wizard, "Metode Perpanjangan");
   const reason = getSummaryValue(wizard, "Alasan Perpanjangan");
@@ -119,6 +208,8 @@ function syncSummaryDetails() {
 
   parent.insertBefore(impactPanel, summarySection);
   parent.insertBefore(detailPanel, summarySection.nextSibling);
+
+  replaceSummaryRows(wizard);
 }
 
 export default function LoanExtensionStepTwoSummarySync() {
