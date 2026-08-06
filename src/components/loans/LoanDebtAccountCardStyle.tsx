@@ -11,7 +11,7 @@ type AccountField = {
 
 const accountFields: AccountField[] = [
   { label: "No. Rek. Pinjaman", value: "SMG260004" },
-  { label: "Nama Anggota", value: "Bapak Bagus" },
+  { label: "Nama Anggota / Debitur", value: "Bapak Bagus" },
   { label: "Produk Pinjaman", value: "Pinjaman Billing" },
   { label: "Status Pinjaman", value: "Aktif / Sudah Dicairkan" },
   { label: "Baki Debet Pokok", value: "10.553.571,00" },
@@ -23,10 +23,11 @@ const accountFields: AccountField[] = [
 
 const compactLabels = new Set([
   "No. Rek. Pinjaman",
-  "Nama Anggota",
+  "Nama Anggota / Debitur",
   "Produk Pinjaman",
   "Status Pinjaman",
   "Baki Debet Pokok",
+  "Tunggakan Bunga",
 ]);
 
 function AccountFields() {
@@ -35,6 +36,10 @@ function AccountFields() {
   const visibleFields = expanded
     ? accountFields
     : accountFields.filter((field) => compactLabels.has(field.label));
+
+  const toggleLabel = expanded
+    ? "Tampilkan Lebih Sedikit"
+    : "Tampilkan Lebih Banyak";
 
   return (
     <>
@@ -57,13 +62,9 @@ function AccountFields() {
           onClick={() => setExpanded((current) => !current)}
           className="inline-flex items-center gap-1 rounded-full px-1 text-[12px] font-semibold text-white transition hover:text-white/80"
           aria-expanded={expanded}
-          aria-label={
-            expanded
-              ? "Tampilkan lebih sedikit informasi rekening"
-              : "Tampilkan lebih banyak informasi rekening"
-          }
+          aria-label={toggleLabel.toLowerCase()}
         >
-          {expanded ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
+          {toggleLabel}
           <ChevronDown
             className={cn(
               "h-4 w-4 transition-transform",
