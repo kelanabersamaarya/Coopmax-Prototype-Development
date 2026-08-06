@@ -8,7 +8,7 @@ const TOGGLE_CLASS = "loan-extension-account-info-toggle";
 const COLLAPSED_COUNT = 12;
 
 function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
-  button.innerHTML = "";
+  button.replaceChildren();
 
   const label = document.createElement("span");
   label.textContent = expanded
@@ -46,11 +46,35 @@ function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
 function applyFieldVisibility(fields: HTMLElement[], expanded: boolean) {
   fields.forEach((field, index) => {
     const shouldShow = expanded || index < COLLAPSED_COUNT;
+
     field.style.setProperty(
       "display",
       shouldShow ? "block" : "none",
       "important",
     );
+  });
+}
+
+function styleToggleButton(button: HTMLButtonElement) {
+  Object.assign(button.style, {
+    position: "absolute",
+    right: "20px",
+    bottom: "16px",
+    zIndex: "30",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: "5px",
+    minHeight: "24px",
+    padding: "3px 0",
+    border: "0",
+    background: "transparent",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontSize: "11px",
+    fontWeight: "600",
+    lineHeight: "1",
+    pointerEvents: "auto",
   });
 }
 
@@ -69,6 +93,9 @@ function syncAccountInfoToggle() {
   const section = grid.closest("section");
   if (!section) return;
 
+  section.style.position = "relative";
+  section.style.paddingBottom = "58px";
+
   let button = section.querySelector<HTMLButtonElement>(`.${TOGGLE_CLASS}`);
 
   if (!button) {
@@ -76,22 +103,25 @@ function syncAccountInfoToggle() {
     button.type = "button";
     button.className = TOGGLE_CLASS;
     button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Tampilkan informasi rekening lainnya");
 
-    Object.assign(button.style, {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      gap: "5px",
-      marginLeft: "auto",
-      marginTop: "16px",
-      padding: "4px 0",
-      border: "0",
-      background: "transparent",
-      color: "#ffffff",
-      cursor: "pointer",
-      fontSize: "12px",
-      fontWeight: "600",
-      lineHeight: "1.2",
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      const nextExpanded = !expanded;
+
+      button.setAttribute("aria-expanded", String(nextExpanded));
+      button.setAttribute(
+        "aria-label",
+        nextExpanded
+          ? "Sembunyikan informasi rekening tambahan"
+          : "Tampilkan informasi rekening lainnya",
+      );
+
+      applyFieldVisibility(fields, nextExpanded);
+      setButtonContent(button, nextExpanded);
     });
 
     button.addEventListener("mouseenter", () => {
@@ -102,23 +132,10 @@ function syncAccountInfoToggle() {
       button.style.color = "#ffffff";
     });
 
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const expanded = button?.getAttribute("aria-expanded") === "true";
-      const nextExpanded = !expanded;
-
-      applyFieldVisibility(fields, nextExpanded);
-      button?.setAttribute("aria-expanded", String(nextExpanded));
-
-      if (button) {
-        setButtonContent(button, nextExpanded);
-      }
-    });
-
     section.appendChild(button);
   }
+
+  styleToggleButton(button);
 
   const expanded = button.getAttribute("aria-expanded") === "true";
   applyFieldVisibility(fields, expanded);
