@@ -1,22 +1,53 @@
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table) {
+  div:has(> table)
+  > table {
+  border: 0 !important;
+}
+
+/* Header tabel tetap berada di luar penanda perubahan bunga. */
+.w-full.px-0:has([data-anggota-transaction-page="2"])
+  div:has(> table)
+  > table
+  > thead {
   position: relative !important;
-  margin-top: 18px !important;
-  overflow: hidden !important;
-  border: 2px solid rgb(37 99 235 / 0.7) !important;
-  border-radius: 12px !important;
-  padding-top: 58px !important;
+  z-index: 1 !important;
   background: #ffffff !important;
 }
 
+/* Bingkai hanya mengelilingi baris billing pada tbody. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)::before {
+  div:has(> table)
+  > table
+  > tbody {
+  position: relative !important;
+  z-index: 0 !important;
+  box-shadow: inset 2px 0 0 rgb(37 99 235 / 0.7),
+    inset -2px 0 0 rgb(37 99 235 / 0.7),
+    inset 0 2px 0 rgb(37 99 235 / 0.7),
+    inset 0 -2px 0 rgb(37 99 235 / 0.7) !important;
+}
+
+/* Ruang untuk label di dalam area tagihan, bukan di header. */
+.w-full.px-0:has([data-anggota-transaction-page="2"])
+  div:has(> table)
+  > table
+  > tbody
+  > tr:first-child
+  > td {
+  padding-top: 58px !important;
+}
+
+/* Label perubahan suku bunga berada di dalam area tagihan. */
+.w-full.px-0:has([data-anggota-transaction-page="2"])
+  div:has(> table)
+  > table
+  > tbody::before {
   content: "Periode Perubahan Suku Bunga";
   position: absolute;
   left: 8px;
   right: 8px;
   top: 8px;
-  z-index: 10;
+  z-index: 2;
   display: flex;
   min-height: 36px;
   align-items: center;
@@ -29,15 +60,19 @@
   line-height: 1.35;
   text-align: left;
   box-sizing: border-box;
+  pointer-events: none;
 }
 
+/* Ikon informasi pada label perubahan suku bunga. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)::after {
+  div:has(> table)
+  > table
+  > tbody::after {
   content: "i";
   position: absolute;
   left: 20px;
   top: 17px;
-  z-index: 11;
+  z-index: 3;
   display: grid;
   height: 20px;
   width: 20px;
@@ -48,31 +83,42 @@
   font-size: 12px;
   font-weight: 800;
   line-height: 1;
-}
-
-.w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
-  > table {
-  border: 0 !important;
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {
   .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table) {
-    margin-top: 14px !important;
-    padding-top: 62px !important;
-    border-radius: 10px !important;
+    div:has(> table)
+    > table
+    > tbody {
+    box-shadow: inset 2px 0 0 rgb(37 99 235 / 0.7),
+      inset -2px 0 0 rgb(37 99 235 / 0.7),
+      inset 0 2px 0 rgb(37 99 235 / 0.7),
+      inset 0 -2px 0 rgb(37 99 235 / 0.7) !important;
   }
 
   .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table)::before {
+    div:has(> table)
+    > table
+    > tbody
+    > tr:first-child
+    > td {
+    padding-top: 62px !important;
+  }
+
+  .w-full.px-0:has([data-anggota-transaction-page="2"])
+    div:has(> table)
+    > table
+    > tbody::before {
     left: 6px;
     right: 6px;
     padding-left: 40px;
   }
 
   .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table)::after {
+    div:has(> table)
+    > table
+    > tbody::after {
     left: 16px;
   }
 }
