@@ -95,7 +95,7 @@ function syncSummaryDetails() {
   }
 
   const summarySection = findSummarySection(wizard);
-  if (!summarySection || !summarySection.parentElement) return;
+  if (!summarySection?.parentElement) return;
 
   const effectiveDateRow = getSummaryRow(wizard, "Tanggal Efektif");
   effectiveDateRow?.remove();
@@ -103,29 +103,26 @@ function syncSummaryDetails() {
   const method = getSummaryValue(wizard, "Metode Perpanjangan");
   const reason = getSummaryValue(wizard, "Alasan Perpanjangan");
 
-  const details =
-    existingDetails ??
-    summarySection.parentElement.insertBefore(
-      createDetailPanel(),
-      summarySection.nextSibling,
-    );
+  const parent = summarySection.parentElement;
+  const impactPanel = existingImpact ?? createImpactPanel();
+  const detailPanel = existingDetails ?? createDetailPanel();
 
-  const methodValue = details.querySelector<HTMLElement>(
+  const methodValue = detailPanel.querySelector<HTMLElement>(
     "[data-extension-method-value]",
   );
-  const reasonValue = details.querySelector<HTMLElement>(
+  const reasonValue = detailPanel.querySelector<HTMLElement>(
     "[data-extension-reason-value]",
   );
 
   if (methodValue) methodValue.textContent = method;
   if (reasonValue) reasonValue.textContent = reason;
 
-  if (!existingImpact) {
-    summarySection.parentElement.insertBefore(
-      createImpactPanel(),
-      details.nextSibling,
-    );
-  }
+  // Urutan akhir:
+  // 1. Informasi dampak perubahan tenor
+  // 2. Ringkasan perpanjangan pinjaman
+  // 3. Metode dan alasan perpanjangan
+  parent.insertBefore(impactPanel, summarySection);
+  parent.insertBefore(detailPanel, summarySection.nextSibling);
 }
 
 export default function LoanExtensionStepTwoSummarySync() {
@@ -150,6 +147,7 @@ export default function LoanExtensionStepTwoSummarySync() {
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
+
       document
         .querySelectorAll(`.${IMPACT_PANEL_CLASS}, .${DETAIL_PANEL_CLASS}`)
         .forEach((panel) => panel.remove());
