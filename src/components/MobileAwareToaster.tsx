@@ -12,6 +12,7 @@ import LoanProductTermsSection from "@/components/loans/products/LoanProductTerm
 import LoanProductAutodebetScheduleSection from "@/components/loans/products/LoanProductAutodebetScheduleSection";
 import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdjustmentHoverStyle";
 import LoanInterestAccountCardStyle from "@/components/loans/LoanInterestAccountCardStyle";
+import LoanDebtAccountCardStyle from "@/components/loans/LoanDebtAccountCardStyle";
 import LoanDebtAdjustmentHistoryTriggerFix from "@/components/loans/LoanDebtAdjustmentHistoryTriggerFix";
 import LoanInterestSummaryReasonSection from "@/components/loans/LoanInterestSummaryReasonSection";
 import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
@@ -67,6 +68,7 @@ export default function MobileAwareToaster() {
       <LoanInterestWizardCancelButton />
       <LoanInterestAdjustmentHoverStyle />
       <LoanInterestAccountCardStyle />
+      <LoanDebtAccountCardStyle />
       <LoanInterestSummaryReasonSection />
       <LoanDebtChangeSaveGate />
       <LoanDebtAdjustmentHistoryTriggerFix />
