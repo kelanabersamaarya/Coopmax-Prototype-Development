@@ -36,17 +36,32 @@
 
 [data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
-  .loan-extension-account-status {
+  .loan-extension-account-status,
+[data-loan-extension-wizard="true"]
+  .loan-extension-account-grid-reference
+  .loan-extension-account-period-highlight {
   display: inline-flex !important;
   align-items: center !important;
   border-radius: 5px !important;
-  background: #3bb001 !important;
   padding: 4px 9px !important;
   color: #ffffff !important;
   font-size: 11px !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
   white-space: nowrap !important;
+}
+
+[data-loan-extension-wizard="true"]
+  .loan-extension-account-grid-reference
+  .loan-extension-account-status {
+  background: #3bb001 !important;
+}
+
+[data-loan-extension-wizard="true"]
+  .loan-extension-account-grid-reference
+  .loan-extension-account-period-highlight {
+  background: #3bb001 !important;
+  box-shadow: 0 0 0 2px rgb(59 176 1 / 0.2) !important;
 }
 
 @media (min-width: 640px) {

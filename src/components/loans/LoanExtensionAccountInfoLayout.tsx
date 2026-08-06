@@ -10,6 +10,7 @@ type AccountItem = {
   label: string;
   value: string;
   status?: boolean;
+  highlight?: boolean;
 };
 
 const accountItems: AccountItem[] = [
@@ -25,7 +26,7 @@ const accountItems: AccountItem[] = [
 
   { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
   { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
-  { label: "Periode Waktu", value: "12 Bulan" },
+  { label: "Periode Waktu", value: "12 Bulan", highlight: true },
   { label: "Produk Pinjaman", value: "Pinjaman Billing" },
 
   { label: "Bunga Per Tahun (%)", value: "12,00%" },
@@ -71,9 +72,11 @@ function createField(item: AccountItem) {
   const value = document.createElement("div");
   value.className = "loan-extension-account-value";
 
-  if (item.status) {
+  if (item.status || item.highlight) {
     const badge = document.createElement("span");
-    badge.className = "loan-extension-account-status";
+    badge.className = item.highlight
+      ? "loan-extension-account-period-highlight"
+      : "loan-extension-account-status";
     badge.textContent = item.value;
     value.appendChild(badge);
   } else {
