@@ -22,6 +22,45 @@
   color: #000000 !important;
 }
 
+/* Header kolom Tagihan Bunga dan Sisa Tagihan Bunga. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9) * {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  line-height: 1.25 !important;
+}
+
 /* Isi tabel tetap 12px dan hitam secara default. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
@@ -37,6 +76,7 @@
   color: #000000 !important;
 }
 
+/* Semua baris isi tabel menggunakan latar putih. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
