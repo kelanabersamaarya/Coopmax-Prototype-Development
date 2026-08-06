@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-
 type ScheduleRow = {
   dueDate: string;
   total: number;
@@ -86,13 +84,10 @@ export default function LoanExtensionPaymentSchedule({
           </thead>
 
           <tbody>
-            {pagedRows.map((row, index) => (
+            {pagedRows.map((row) => (
               <tr
                 key={row.dueDate}
-                className={cn(
-                  "border-b border-slate-100 text-[13px] text-black last:border-b-0",
-                  index % 2 ? "bg-slate-50/60" : "bg-white",
-                )}
+                className="border-b border-slate-100 bg-white text-[13px] text-black last:border-b-0"
               >
                 <td className="px-3 py-3 font-semibold tabular-nums whitespace-nowrap">
                   {row.dueDate}
