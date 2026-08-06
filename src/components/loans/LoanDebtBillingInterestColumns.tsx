@@ -7,11 +7,14 @@ const WIZARD_SELECTOR =
 const TABLE_SELECTOR = ".loan-debt-billing-preview table";
 const ADJUSTED_CELL_ATTRIBUTE = "data-adjusted-interest-cell";
 const ORIGINAL_VALUE_ATTRIBUTE = "data-original-interest-value";
+const ORIGINAL_MARKUP_ATTRIBUTE = "data-original-interest-markup";
 const CURRENT_HEADER = "Tagihan Bunga Saat Ini";
 const ADJUSTED_HEADER = "Tagihan Bunga Sesudah Penyesuaian";
 
 function plainCellText(cell: HTMLTableCellElement) {
-  return (cell.textContent ?? "").replace(/\s+/g, " ").trim();
+  const clone = cell.cloneNode(true) as HTMLTableCellElement;
+  clone.querySelectorAll("button").forEach((button) => button.remove());
+  return (clone.textContent ?? "").replace(/\s+/g, " ").trim();
 }
 
 function createCell(value: string) {
@@ -21,6 +24,40 @@ function createCell(value: string) {
     "px-4 py-3 text-right font-normal tabular-nums whitespace-nowrap text-slate-900";
   cell.textContent = value;
   return cell;
+}
+
+function preserveOriginalCellMarkup(cell: HTMLTableCellElement) {
+  if (cell.hasAttribute(ORIGINAL_MARKUP_ATTRIBUTE)) return;
+
+  const clone = cell.cloneNode(true) as HTMLTableCellElement;
+  clone.querySelectorAll("button").forEach((button) => button.remove());
+
+  cell.setAttribute(ORIGINAL_MARKUP_ATTRIBUTE, clone.innerHTML);
+}
+
+function restoreOriginalCellValue(
+  cell: HTMLTableCellElement,
+  originalValue: string,
+) {
+  const actionButton = cell.querySelector("button");
+  const originalMarkup = cell.getAttribute(ORIGINAL_MARKUP_ATTRIBUTE);
+
+  cell.replaceChildren();
+
+  if (originalMarkup) {
+    const wrapper = document.createElement("span");
+    wrapper.innerHTML = originalMarkup;
+
+    while (wrapper.firstChild) {
+      cell.appendChild(wrapper.firstChild);
+    }
+  } else {
+    cell.textContent = originalValue;
+  }
+
+  if (actionButton) {
+    cell.appendChild(actionButton);
+  }
 }
 
 function syncTable(table: HTMLTableElement) {
@@ -56,6 +93,8 @@ function syncTable(table: HTMLTableElement) {
       const currentInterestCell = row.cells[4];
       if (!currentInterestCell) return;
 
+      preserveOriginalCellMarkup(currentInterestCell);
+
       const displayedValue = plainCellText(currentInterestCell);
       const originalValue =
         currentInterestCell.getAttribute(ORIGINAL_VALUE_ATTRIBUTE) ??
@@ -79,7 +118,7 @@ function syncTable(table: HTMLTableElement) {
         adjustedCell.textContent = displayedValue;
       }
 
-      currentInterestCell.textContent = originalValue;
+      restoreOriginalCellValue(currentInterestCell, originalValue);
     });
   });
 }
@@ -90,6 +129,7 @@ export default function LoanDebtBillingInterestColumns() {
 
     function sync() {
       window.cancelAnimationFrame(frameId);
+
       frameId = window.requestAnimationFrame(() => {
         const wizard = document.querySelector(WIZARD_SELECTOR);
         const table = wizard?.querySelector<HTMLTableElement>(TABLE_SELECTOR);
