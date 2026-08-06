@@ -77,16 +77,35 @@
   border-bottom-right-radius: 12px;
 }
 
-/* Hanya border bawah bingkai Grace Period yang dinonaktifkan. */
+/*
+  Grace Period:
+  Pada beberapa tampilan, bingkai biru dibuat oleh wrapper dengan
+  border-blue-600/70, sedangkan pada tampilan lain class-nya dirender
+  melalui kombinasi border-2 dan border-blue-*. Target dibuat berdasarkan
+  ciri bingkai tersebut agar tidak bergantung pada struktur tabel.
+*/
 .billing-v1-compact-rows
-  div.overflow-hidden[class*="border-blue-600"] {
+  div[class*="border-2"][class*="border-blue-"] {
+  border-bottom-width: 0 !important;
   border-bottom-color: transparent !important;
   border-bottom-style: solid !important;
 }
 
-/* Kompatibilitas untuk bingkai Grace Period yang memakai border biru opacity. */
+.billing-table-compact
+  div[class*="border-2"][class*="border-blue-"] {
+  border-bottom-width: 0 !important;
+  border-bottom-color: transparent !important;
+  border-bottom-style: solid !important;
+}
+
+/* Kompatibilitas untuk wrapper yang hanya memiliki class border biru. */
 .billing-v1-compact-rows
-  div.overflow-hidden[class*="border-2"][class*="border-blue-"] {
+  div[class*="border-blue-"] {
+  border-bottom-color: transparent !important;
+}
+
+.billing-table-compact
+  div[class*="border-blue-"] {
   border-bottom-color: transparent !important;
 }
 
