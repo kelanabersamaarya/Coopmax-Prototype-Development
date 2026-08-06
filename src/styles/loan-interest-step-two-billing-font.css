@@ -22,22 +22,6 @@
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(6)::after,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(9)::after {
-  display: block !important;
-  color: #000000 !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  line-height: 1.25 !important;
-  white-space: normal !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
   tbody,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
@@ -70,80 +54,62 @@
   background-color: #ffffff !important;
 }
 
+/* Nominal bunga pada periode perubahan ditampilkan berwarna biru. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  td.text-\[\#2563EB\],
+  tr[data-interest-change="true"]
+  td:nth-child(5),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  td.text-blue-600,
+  tr[data-interest-change="true"]
+  td:nth-child(5) *,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  td.text-emerald-700 {
-  color: #000000 !important;
-  font-weight: 400 !important;
-}
-
-/* Tabel billing simulasi Ubah Nominal Bunga. */
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead *,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead th {
-  font-size: 12px !important;
+  tr[data-interest-change="true"]
+  td:nth-child(6),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(6) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(8),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(8) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(9),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(9) * {
+  color: #2563eb !important;
   font-weight: 700 !important;
-  color: #000000 !important;
 }
 
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead
-  th:nth-child(6)::after,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead
-  th:nth-child(9)::after {
-  font-size: 12px !important;
+/* Nilai total angsuran sesudah penyesuaian tetap ikut berwarna biru. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(12),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(12) * {
+  color: #2563eb !important;
   font-weight: 700 !important;
-  color: #000000 !important;
-}
-
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody *,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody td {
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  color: #000000 !important;
-}
-
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody
-  tr,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody
-  tr:nth-child(even),
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody
-  tr:nth-child(odd),
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody
-  tr
-  td {
-  background-color: #ffffff !important;
 }
