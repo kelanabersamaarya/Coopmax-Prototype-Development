@@ -12,7 +12,6 @@ type AccountField = {
 const accountFields: AccountField[] = [
   { label: "Kode Pinjaman", value: "SMG260004" },
   { label: "Nama Nasabah", value: "Agus" },
-  { label: "Status", value: "Aktif / Sudah Disalurkan" },
   { label: "Sektor Pinjaman", value: "Umum" },
   { label: "Tujuan Pinjaman", value: "Konsumtif" },
   { label: "Kolektor", value: "Gina Farida M.M." },
@@ -39,6 +38,7 @@ const accountFields: AccountField[] = [
   { label: "Kolektibilitas", value: "-" },
   { label: "Satuan Grace Period", value: "Bulan" },
   { label: "Durasi Grace Period", value: "3" },
+  { label: "Status", value: "Aktif / Sudah Disalurkan" },
 ];
 
 function AccountFields() {
@@ -47,9 +47,9 @@ function AccountFields() {
   const compactLabels = new Set([
     "Kode Pinjaman",
     "Nama Nasabah",
-    "Status",
     "Sektor Pinjaman",
     "Tujuan Pinjaman",
+    "Status",
   ]);
 
   const visibleFields = expanded
