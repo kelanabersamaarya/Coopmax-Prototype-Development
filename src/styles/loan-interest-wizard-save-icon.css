@@ -5,9 +5,9 @@
   min-width: 210px !important;
   height: 40px !important;
   display: inline-flex !important;
+  flex-direction: row !important;
   align-items: center !important;
   justify-content: center !important;
-  flex-direction: row-reverse !important;
   gap: 9px !important;
   border: 0 !important;
   border-radius: 5px !important;
@@ -32,7 +32,7 @@
   background-color: #94a3b8 !important;
 }
 
-/* Sembunyikan ikon bawaan agar hanya ikon kotak yang disesuaikan yang tampil. */
+/* Hilangkan ikon bawaan agar hanya ikon kustom yang digunakan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
   > button:last-child
@@ -40,7 +40,7 @@
   display: none !important;
 }
 
-/* Kotak putih solid dengan tanda centang hijau di dalamnya. */
+/* Ikon outline transparan tanpa background putih, berada di kiri teks. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
   > button:last-child::before {
@@ -49,12 +49,13 @@
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
+  border: 2px solid #ffffff;
   border-radius: 3px;
-  background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12.5L9.2 16.5L19 6.5' stroke='%232fb300' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12.5L9.2 16.5L19 6.5' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 15px 15px;
+  background-size: 14px 14px;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
