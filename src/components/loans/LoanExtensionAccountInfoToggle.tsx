@@ -7,8 +7,8 @@ const GRID_SELECTOR = ".loan-extension-account-grid";
 const TOGGLE_CLASS = "loan-extension-account-info-toggle";
 
 const COMPACT_LABELS = new Set([
-  "Kode Pinjaman",
-  "Nama Nasabah",
+  "No. Rek. Pinjaman",
+  "Nama Anggota",
   "Sektor Pinjaman",
   "Tujuan Pinjaman",
   "Kolektor",
@@ -16,6 +16,7 @@ const COMPACT_LABELS = new Set([
   "Tanggal Jatuh Tempo",
   "Tanggal Pinjaman Aktif",
   "Tanggal Transaksi Terakhir",
+  "Sisa Tenor",
 ]);
 
 function getElements() {
@@ -34,13 +35,14 @@ function getElements() {
 
 function applyVisibility(fields: HTMLElement[], expanded: boolean) {
   fields.forEach((field) => {
-    const label = field.dataset.accountItemLabel?.trim() ?? "";
-    const labelText =
-      label || field.querySelector(":scope > div:first-child")?.textContent?.trim() || "";
+    const label =
+      field.dataset.accountItemLabel?.trim() ||
+      field.querySelector(":scope > div:first-child")?.textContent?.trim() ||
+      "";
 
     field.style.setProperty(
       "display",
-      expanded || COMPACT_LABELS.has(labelText) ? "block" : "none",
+      expanded || COMPACT_LABELS.has(label) ? "block" : "none",
       "important",
     );
   });
@@ -84,7 +86,7 @@ function updateButton(button: HTMLButtonElement, expanded: boolean) {
 
 function sync() {
   const elements = getElements();
-  if (!elements || elements.fields.length <= COMPACT_LABELS.size) return;
+  if (!elements || elements.fields.length === 0) return;
 
   const { grid, section, fields } = elements;
 
@@ -139,7 +141,10 @@ function sync() {
     touchAction: "manipulation",
   });
 
-  const expanded = grid.dataset.accountInfoExpanded === "true";
+  // Step pertama langsung menampilkan seluruh informasi seperti referensi.
+  const expanded = grid.dataset.accountInfoExpanded !== "false";
+  grid.dataset.accountInfoExpanded = String(expanded);
+
   applyVisibility(fields, expanded);
   updateButton(button, expanded);
 }
