@@ -65,6 +65,7 @@ const accountItems: AccountItem[] = [
 function createField(item: AccountItem) {
   const field = document.createElement("div");
   field.className = "loan-extension-account-field";
+  field.dataset.accountItemLabel = item.label;
 
   const label = document.createElement("div");
   label.className = "loan-extension-account-label";
@@ -88,6 +89,19 @@ function createField(item: AccountItem) {
   return field;
 }
 
+function ensureAccountInfoFields(grid: HTMLElement) {
+  const existingLabels = new Set(
+    Array.from(
+      grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
+    ).map((field) => field.dataset.accountItemLabel),
+  );
+
+  accountItems.forEach((item) => {
+    if (existingLabels.has(item.label)) return;
+    grid.appendChild(createField(item));
+  });
+}
+
 function mountAccountInfo() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
   const grid = wizard?.querySelector<HTMLElement>(GRID_SELECTOR);
@@ -96,25 +110,50 @@ function mountAccountInfo() {
 
   if (!grid.classList.contains(MARKER_CLASS)) {
     grid.replaceChildren(...accountItems.map(createField));
-    grid.classList.add(MARKER_CLASS, "loan-extension-account-grid-reference");
+    grid.classList.add(
+      MARKER_CLASS,
+      "loan-extension-account-grid-reference",
+    );
+  } else {
+    ensureAccountInfoFields(grid);
   }
 
   const accountNoField = grid.querySelector<HTMLElement>(
-    ".loan-extension-account-field:first-child .loan-extension-account-value",
+    '[data-account-item-label="Kode Pinjaman"] .loan-extension-account-value',
   );
 
-  if (accountNoField && accountNoField.textContent?.trim() !== "SMG260004") {
+  if (accountNoField) {
     accountNoField.textContent = "SMG260004";
+  }
+
+  const remainingTenorField = grid.querySelector<HTMLElement>(
+    '[data-account-item-label="Sisa Tenor"]',
+  );
+
+  if (remainingTenorField) {
+    remainingTenorField.style.display = "block";
+    remainingTenorField.style.visibility = "visible";
   }
 }
 
 export default function LoanExtensionAccountInfoLayout() {
   React.useEffect(() => {
     let frameId = 0;
+    let retryId = 0;
+    let attempts = 0;
 
     const sync = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(mountAccountInfo);
+    };
+
+    const retryMount = () => {
+      attempts += 1;
+      sync();
+
+      if (attempts < 30) {
+        retryId = window.setTimeout(retryMount, 120);
+      }
     };
 
     const observer = new MutationObserver(sync);
@@ -124,10 +163,11 @@ export default function LoanExtensionAccountInfoLayout() {
       subtree: true,
     });
 
-    sync();
+    retryMount();
 
     return () => {
       window.cancelAnimationFrame(frameId);
+      window.clearTimeout(retryId);
       observer.disconnect();
     };
   }, []);
