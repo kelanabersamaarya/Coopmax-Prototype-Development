@@ -80,14 +80,14 @@
   display: none !important;
 }
 
-/* Hilangkan celah setelah baris Alasan Perpanjangan */
+/* Tambahkan kembali jarak bawah kecil setelah baris Alasan Perpanjangan */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
   table
   tbody
   tr:last-child
   td {
-  padding-bottom: 0 !important;
+  padding-bottom: 12px !important;
   border-bottom: 0 !important;
 }
 
