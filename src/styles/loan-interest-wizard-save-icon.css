@@ -2,17 +2,18 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
   > button:last-child {
-  min-width: 210px !important;
+  width: 172px !important;
+  min-width: 172px !important;
   height: 40px !important;
   display: inline-flex !important;
   flex-direction: row !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 9px !important;
+  gap: 8px !important;
   border: 0 !important;
   border-radius: 5px !important;
   background-color: #2fb300 !important;
-  padding: 0 18px !important;
+  padding: 0 12px !important;
   color: #ffffff !important;
   font-size: 12px !important;
   font-weight: 700 !important;
@@ -32,7 +33,6 @@
   background-color: #94a3b8 !important;
 }
 
-/* Hilangkan ikon bawaan agar hanya ikon kustom yang digunakan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
   > button:last-child
@@ -40,7 +40,6 @@
   display: none !important;
 }
 
-/* Ikon outline transparan tanpa background putih, berada di kiri teks. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   footer
   > button:last-child::before {
@@ -68,7 +67,7 @@
   [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     footer
     > button:last-child {
-    min-width: 0 !important;
     width: 100% !important;
+    min-width: 0 !important;
   }
 }
