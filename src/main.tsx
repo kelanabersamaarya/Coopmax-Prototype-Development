@@ -9,5 +9,6 @@ import "./styles/loan-interest-step-two-billing-table.css";
 import "./styles/loan-interest-step-two-hide-penalty-icons.css";
 import "./styles/loan-interest-step-two-column-labels.css";
 import "./styles/loan-interest-step-two-billing-font.css";
+import "./styles/loan-interest-step-two-billing-edge-spacing.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
