@@ -18,6 +18,7 @@ import LoanInterestAdjustmentHoverStyle from "@/components/loans/LoanInterestAdj
 import LoanInterestAccountCardStyle from "@/components/loans/LoanInterestAccountCardStyle";
 import LoanDebtAdjustmentHistoryTriggerFix from "@/components/loans/LoanDebtAdjustmentHistoryTriggerFix";
 import LoanInterestSummaryReasonSection from "@/components/loans/LoanInterestSummaryReasonSection";
+import LoanInterestSimulationTableSync from "@/components/loans/LoanInterestSimulationTableSync";
 import AutodebetScheduleStatusSync from "@/components/savings/AutodebetScheduleStatusSync";
 import InterestAdjustmentBillingMarkers from "@/components/anggota/InterestAdjustmentBillingMarkers";
 import MemberReportFilterPlaceholderStyle from "@/components/mitra-karya/MemberReportFilterPlaceholderStyle";
@@ -66,6 +67,7 @@ export default function MobileAwareToaster() {
       <LoanInterestAdjustmentHoverStyle />
       <LoanInterestAccountCardStyle />
       <LoanInterestSummaryReasonSection />
+      <LoanInterestSimulationTableSync />
       <LoanExtensionSaveConfirmGate />
       <LoanExtensionTenorTotalSync />
       <LoanExtensionStepTwoSummarySync />
