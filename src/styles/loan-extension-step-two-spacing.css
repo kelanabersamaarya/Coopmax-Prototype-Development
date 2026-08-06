@@ -1,0 +1,69 @@
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"] {
+  --loan-extension-section-gap: 20px;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"] > main {
+  display: grid;
+  gap: var(--loan-extension-section-gap);
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"] > main > div.grid {
+  gap: var(--loan-extension-section-gap) !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  .loan-extension-tenor-impact-panel {
+  margin: 0 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  .loan-extension-method-reason-panel {
+  margin: 0 !important;
+<dyad-write path="src/styles/loan-extension-step-two-spacing.css" description="Making step-two section spacing consistent and removing zebra table backgrounds.">
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"] {
+  --loan-extension-section-gap: 20px;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"] > main {
+  display: grid;
+  gap: var(--loan-extension-section-gap);
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"] > main > div.grid {
+  gap: var(--loan-extension-section-gap) !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  .loan-extension-tenor-impact-panel {
+  margin: 0 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  .loan-extension-method-reason-panel {
+  margin: 0 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4))) {
+  margin: 0 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table
+  tbody
+  tr,
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table
+  tbody
+  tr:nth-child(even),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table
+  tbody
+  tr:nth-child(odd),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table
+  tbody
+  tr
+  td {
+  background-color: #ffffff !important;
+}
