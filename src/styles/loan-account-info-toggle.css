@@ -1,0 +1,63 @@
+/* Tombol detail informasi rekening ditempatkan di pojok kanan bawah panel teal. */
+div[class*="rounded-[8px]"][class*="bg-white"]:has(
+    > div[class*="bg-[#1aa0b5]"]
+  )
+  > div[class*="bg-[#1aa0b5]"] {
+  position: relative !important;
+  padding-bottom: 58px !important;
+}
+
+div[class*="rounded-[8px]"][class*="bg-white"]:has(
+    > div[class*="bg-[#1aa0b5]"]
+  )
+  > div[class*="bg-[#1aa0b5]"]
+  > div.flex.items-center.justify-between
+  > button[aria-label="Tampilkan lebih banyak"],
+div[class*="rounded-[8px]"][class*="bg-white"]:has(
+    > div[class*="bg-[#1aa0b5]"]
+  )
+  > div[class*="bg-[#1aa0b5]"]
+  > div.flex.items-center.justify-between
+  > button[aria-label="Tampilkan lebih sedikit"] {
+  position: absolute !important;
+  right: 20px !important;
+  bottom: 16px !important;
+  height: auto !important;
+  padding: 4px 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: rgb(255 255 255 / 0.92) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+}
+
+div[class*="rounded-[8px]"][class*="bg-white"]:has(
+    > div[class*="bg-[#1aa0b5]"]
+  )
+  > div[class*="bg-[#1aa0b5]"]
+  > div.flex.items-center.justify-between
+  > button[aria-label="Tampilkan lebih banyak"]:hover,
+div[class*="rounded-[8px]"][class*="bg-white"]:has(
+    > div[class*="bg-[#1aa0b5]"]
+  )
+  > div[class*="bg-[#1aa0b5]"]
+  > div.flex.items-center.justify-between
+  > button[aria-label="Tampilkan lebih sedikit"]:hover {
+  background: rgb(255 255 255 / 0.12) !important;
+  color: #ffffff !important;
+}
+
+div[class*="rounded-[8px]"][class*="bg-white"]:has(
+    > div[class*="bg-[#1aa0b5]"]
+  )
+  > div[class*="bg-[#1aa0b5]"]
+  > div.flex.items-center.justify-between
+  > button
+  svg {
+  height: 14px !important;
+  width: 14px !important;
+  margin-left: 3px !important;
+}
