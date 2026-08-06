@@ -21,13 +21,16 @@ export default function AnggotaTransactionPagination({
   const disabledNext = safePage >= safePageCount;
 
   return (
-    <div className="flex items-center gap-2">
+    <div
+      data-anggota-transaction-page={safePage}
+      className="flex items-center gap-2"
+    >
       <button
         type="button"
         className={cn(
           "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
           "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
-          disabledPrev ? "opacity-60 pointer-events-none" : "",
+          disabledPrev ? "pointer-events-none opacity-60" : "",
         )}
         onClick={() => onPage(Math.max(1, safePage - 1))}
         disabled={disabledPrev}
@@ -45,7 +48,7 @@ export default function AnggotaTransactionPagination({
         className={cn(
           "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
           "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
-          disabledNext ? "opacity-60 pointer-events-none" : "",
+          disabledNext ? "pointer-events-none opacity-60" : "",
         )}
         onClick={() => onPage(Math.min(safePageCount, safePage + 1))}
         disabled={disabledNext}
