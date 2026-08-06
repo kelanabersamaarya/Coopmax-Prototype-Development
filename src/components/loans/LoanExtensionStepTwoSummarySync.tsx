@@ -271,7 +271,7 @@ export default function LoanExtensionStepTwoSummarySync() {
           width: 100%;
           align-items: flex-start;
           gap: 12px;
-          margin: 0 0 16px;
+          margin: -8px 0 8px;
           overflow: hidden;
           border: 1px solid #93c5fd;
           border-radius: 12px;
