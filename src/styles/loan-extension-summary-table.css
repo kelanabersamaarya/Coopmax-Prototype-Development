@@ -24,9 +24,9 @@
   > .safe-x-scroll
   > table[class*="min-w-\\[650px\\]"] {
   display: table !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
+  width: 948.76px !important;
+  min-width: 948.76px !important;
+  max-width: 948.76px !important;
   table-layout: fixed !important;
   border-collapse: collapse !important;
   border-spacing: 0 !important;
@@ -57,8 +57,45 @@
   section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
   > .safe-x-scroll
   > table[class*="min-w-\\[650px\\]"]
-  th {
-  width: 33.333% !important;
+  th:nth-child(1),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
+  td:nth-child(1) {
+  width: 379.48px !important;
+  min-width: 379.48px !important;
+  max-width: 379.48px !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
+  th:nth-child(2),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
+  td:nth-child(2),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
+  td:nth-child(3) {
+  width: 284.64px !important;
+  min-width: 284.64px !important;
+  max-width: 284.64px !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
+  th:nth-child(3) {
+  width: 284.64px !important;
+  min-width: 284.64px !important;
+  max-width: 284.64px !important;
   background: #ffffff !important;
   color: #111827 !important;
   font-size: 12px !important;
@@ -71,8 +108,13 @@
   section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
   > .safe-x-scroll
   > table[class*="min-w-\\[650px\\]"]
-  th:first-child {
-  width: 40% !important;
+  th {
+  background: #ffffff !important;
+  color: #111827 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -107,53 +149,10 @@
 @media (max-width: 640px) {
   [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
     section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll {
-    overflow-x: auto !important;
-  }
-
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
     > .safe-x-scroll
     > table[class*="min-w-\\[650px\\]"] {
-    width: 760px !important;
-    min-width: 760px !important;
-    max-width: none !important;
-    table-layout: fixed !important;
-  }
-
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"]
-    th:first-child,
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"]
-    td:first-child {
-    width: 40% !important;
-  }
-
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"]
-    th:nth-child(2),
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"]
-    td:nth-child(2),
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"]
-    th:nth-child(3),
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"]
-    td:nth-child(3) {
-    width: 30% !important;
+    width: 948.76px !important;
+    min-width: 948.76px !important;
+    max-width: 948.76px !important;
   }
 }
