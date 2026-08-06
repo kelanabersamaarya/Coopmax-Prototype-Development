@@ -18,6 +18,7 @@ function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
   label.textContent = expanded
     ? "Tampilkan Lebih Sedikit"
     : "Tampilkan Lebih Banyak";
+  label.style.whiteSpace = "nowrap";
 
   const chevron = document.createElement("span");
   chevron.setAttribute("aria-hidden", "true");
@@ -70,17 +71,19 @@ function styleToggleButton(button: HTMLButtonElement) {
     alignItems: "center",
     justifyContent: "center",
     gap: "6px",
-    width: "170px",
+    width: "max-content",
+    minWidth: "170px",
     minHeight: "38px",
     padding: "8px 10px",
     border: "0",
     borderRadius: "8px",
-    background: "rgba(15, 118, 110, 0.22)",
+    background: "transparent",
     color: "#ffffff",
     cursor: "pointer",
     fontSize: "12px",
     fontWeight: "700",
     lineHeight: "1",
+    whiteSpace: "nowrap",
     pointerEvents: "auto",
     touchAction: "manipulation",
     userSelect: "none",
@@ -142,11 +145,13 @@ function syncAccountInfoToggle() {
     });
 
     button.addEventListener("mouseenter", () => {
-      button.style.background = "rgba(15, 118, 110, 0.38)";
+      button.style.background = "transparent";
+      button.style.textDecoration = "underline";
     });
 
     button.addEventListener("mouseleave", () => {
-      button.style.background = "rgba(15, 118, 110, 0.22)";
+      button.style.background = "transparent";
+      button.style.textDecoration = "none";
     });
 
     section.appendChild(button);
