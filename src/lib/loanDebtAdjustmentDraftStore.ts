@@ -1,4 +1,4 @@
-import type { InterestAdjustment } from "@/components/loans/LoanInterestAdjustmentDialog";
+import type { InterestAdjustment } from "@/components/loans/loan-adjustment-types";
 
 const STORAGE_KEY = "dyad.loanDebtAdjustmentDraft.v1";
 
