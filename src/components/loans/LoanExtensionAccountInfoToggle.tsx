@@ -7,6 +7,16 @@ const GRID_SELECTOR = ".loan-extension-account-grid";
 const TOGGLE_CLASS = "loan-extension-account-info-toggle";
 const COLLAPSED_COUNT = 12;
 
+function applyFieldVisibility(
+  fields: HTMLElement[],
+  expanded: boolean,
+) {
+  fields.forEach((field, index) => {
+    const shouldShow = expanded || index < COLLAPSED_COUNT;
+    field.style.setProperty("display", shouldShow ? "block" : "none", "important");
+  });
+}
+
 function syncAccountInfoToggle() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
   const grid = wizard?.querySelector<HTMLElement>(GRID_SELECTOR);
@@ -53,16 +63,17 @@ function syncAccountInfoToggle() {
       button.style.color = "#ffffff";
     });
 
-    button.addEventListener("click", () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const expanded = button?.getAttribute("aria-expanded") === "true";
       const nextExpanded = !expanded;
 
-      fields.forEach((field, index) => {
-        field.style.display = nextExpanded || index < COLLAPSED_COUNT ? "" : "none";
-      });
+      applyFieldVisibility(fields, nextExpanded);
 
-      button.setAttribute("aria-expanded", String(nextExpanded));
-      button.textContent = nextExpanded
+      button?.setAttribute("aria-expanded", String(nextExpanded));
+      button!.textContent = nextExpanded
         ? "Tampilkan Lebih Sedikit"
         : "Tampilkan Lebih Banyak";
     });
@@ -71,9 +82,7 @@ function syncAccountInfoToggle() {
   }
 
   const expanded = button.getAttribute("aria-expanded") === "true";
-  fields.forEach((field, index) => {
-    field.style.display = expanded || index < COLLAPSED_COUNT ? "" : "none";
-  });
+  applyFieldVisibility(fields, expanded);
 }
 
 export default function LoanExtensionAccountInfoToggle() {
@@ -97,6 +106,7 @@ export default function LoanExtensionAccountInfoToggle() {
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
+
       document
         .querySelectorAll(`.${TOGGLE_CLASS}`)
         .forEach((button) => button.remove());
