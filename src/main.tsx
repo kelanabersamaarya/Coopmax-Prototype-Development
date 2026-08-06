@@ -4,5 +4,6 @@ import "./globals.css";
 import "./styles/placeholders.css";
 import "./styles/loan-interest-wizard-step-two.css";
 import "./styles/loan-interest-reason-field.css";
+import "./styles/loan-interest-summary-visibility.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
