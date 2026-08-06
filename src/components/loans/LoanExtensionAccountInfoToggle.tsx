@@ -31,14 +31,27 @@ function getElements() {
     grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
   );
 
-  return { grid, section, fields };
+  return { wizard, grid, section, fields };
 }
 
-function applyVisibility(fields: HTMLElement[], expanded: boolean) {
+function restoreFirstStep(fields: HTMLElement[], section: HTMLElement) {
   fields.forEach((field) => {
-    const label = field.dataset.accountItemLabel?.trim() ?? "";
+    field.style.removeProperty("display");
+  });
+
+  section.style.removeProperty("position");
+  section.style.removeProperty("z-index");
+  section.style.removeProperty("padding-bottom");
+  section.querySelector(`.${TOGGLE_CLASS}`)?.remove();
+}
+
+function applyCompactVisibility(
+  fields: HTMLElement[],
+  expanded: boolean,
+) {
+  fields.forEach((field) => {
     const labelText =
-      label ||
+      field.dataset.accountItemLabel?.trim() ||
       field
         .querySelector<HTMLElement>(":scope > div:first-child")
         ?.textContent?.trim() ||
@@ -52,7 +65,10 @@ function applyVisibility(fields: HTMLElement[], expanded: boolean) {
   });
 }
 
-function updateButton(button: HTMLButtonElement, expanded: boolean) {
+function updateToggleButton(
+  button: HTMLButtonElement,
+  expanded: boolean,
+) {
   button.replaceChildren();
 
   const label = document.createElement("span");
@@ -80,19 +96,22 @@ function updateButton(button: HTMLButtonElement, expanded: boolean) {
 
   button.append(label, icon);
   button.setAttribute("aria-expanded", String(expanded));
-  button.setAttribute(
-    "aria-label",
-    expanded
-      ? "Sembunyikan informasi rekening tambahan"
-      : "Tampilkan informasi rekening tambahan",
-  );
 }
 
 function sync() {
   const elements = getElements();
-  if (!elements || elements.fields.length <= COMPACT_LABELS.size) return;
+  if (!elements) return;
 
-  const { grid, section, fields } = elements;
+  const { wizard, grid, section, fields } = elements;
+  const step = wizard.dataset.loanExtensionStep;
+
+  // Wizard pertama harus tetap menggunakan tampilan aslinya.
+  if (step !== "2") {
+    restoreFirstStep(fields, section);
+    return;
+  }
+
+  if (fields.length === 0) return;
 
   section.style.position = "relative";
   section.style.zIndex = "1";
@@ -113,8 +132,8 @@ function sync() {
       const nextExpanded = !expanded;
 
       grid.dataset.accountInfoExpanded = String(nextExpanded);
-      applyVisibility(fields, nextExpanded);
-      updateButton(button!, nextExpanded);
+      applyCompactVisibility(fields, nextExpanded);
+      updateToggleButton(button!, nextExpanded);
     });
 
     section.appendChild(button);
@@ -146,8 +165,8 @@ function sync() {
   });
 
   const expanded = grid.dataset.accountInfoExpanded === "true";
-  applyVisibility(fields, expanded);
-  updateButton(button, expanded);
+  applyCompactVisibility(fields, expanded);
+  updateToggleButton(button, expanded);
 }
 
 export default function LoanExtensionAccountInfoToggle() {
