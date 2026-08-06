@@ -229,8 +229,8 @@ function syncSummaryDetails() {
   if (reasonValue) reasonValue.textContent = reason;
 
   const parent = summarySection.parentElement;
-  parent.insertBefore(impactPanel, summarySection.nextSibling);
-  parent.insertBefore(detailPanel, impactPanel.nextSibling);
+  parent.insertBefore(impactPanel, summarySection);
+  parent.insertBefore(detailPanel, summarySection.nextSibling);
 
   replaceSummaryRows(wizard);
   wizard.dataset.loanExtensionSummarySynced = "true";
