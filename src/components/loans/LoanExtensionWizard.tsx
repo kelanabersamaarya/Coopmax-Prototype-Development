@@ -643,10 +643,13 @@ export default function LoanExtensionWizard({
                           ["Tenor", `${CURRENT_TENOR} Bulan`, `${simulation.tenor} Bulan`],
                           ["Tanggal Jatuh Tempo Akhir", "07-04-2027", simulation.dueDate],
                           ["Alasan Perpanjangan", "-", reason],
-                        ].map(([label, before, after]) => (
+                        ].map(([label, before, after], index) => (
                           <tr
                             key={label}
-                            className="border-b border-slate-100 bg-white text-[12px] text-black"
+                            className={cn(
+                              "border-b border-slate-100 text-[12px] text-black",
+                              index % 2 ? "bg-slate-50/60" : "bg-white",
+                            )}
                           >
                             <td className="px-4 py-3 font-medium">{label}</td>
                             <td className="px-4 py-3">{before}</td>
