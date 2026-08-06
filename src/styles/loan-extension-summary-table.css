@@ -73,14 +73,7 @@
   max-width: 284.64px !important;
 }
 
-/* Hilangkan baris Tanggal Efektif */
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
-  table
-  tbody
-  tr:nth-child(2) {
-  display: none !important;
-}
+/* Baris Tanggal Jatuh Tempo Akhir sengaja ditampilkan. */
 
 /* Header section tetap tepat 45px */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
