@@ -381,7 +381,6 @@ export default function LoanExtensionWizard({
         ),
         remainingInterest: Math.max(0, monthlyInterest * (tenor - index - 1)),
         penalty,
-        remainingPenalty: Math.max(0, 75_000 * (3 - index - 1)),
       };
     });
 
