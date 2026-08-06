@@ -1,53 +1,66 @@
 /* Penanda perubahan suku bunga pada tabel simulasi step kedua.
-   Tabel diubah menjadi flex oleh stylesheet lain, sehingga bingkai harus
-   ditempel langsung pada cell yang masih terlihat. */
+   Tabel memakai layout flex, jadi garis biru dibuat sebagai pseudo-element
+   di cell pertama dan terakhir agar tidak menutupi separator antarbaris. */
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"] {
   position: relative !important;
-  z-index: 2 !important;
-  background-color: #ffffff !important;
-  border-top: 0 !important;
-  border-bottom: 0 !important;
-  border-left: 0 !important;
-  border-right: 0 !important;
+  z-index: 1 !important;
+  border: 0 !important;
+  background: #ffffff !important;
 }
 
-/* Semua garis horizontal bawaan pada baris perubahan dibuat netral. */
+/* Separator antarbaris tetap tampil normal. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
   td {
   position: relative !important;
-  border-top-color: transparent !important;
-  border-bottom-color: #e2e8f0 !important;
-  background-color: #ffffff !important;
+  border-top: 0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
 }
 
-/* Cell pertama yang terlihat: Jatuh Tempo (DOM cell ke-2).
-   Garis kiri ditempel langsung pada cell ini agar tidak tertutup cell lain. */
+/* Garis kiri biru berada di dalam batas cell, sehingga tidak menimpa
+   separator horizontal pada ujung tabel. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
-  td:nth-child(2) {
-  border-left: 2px solid #2563eb !important;
+  td:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 10;
+  width: 2px;
+  background: #2563eb;
+  pointer-events: none;
 }
 
-/* Cell terakhir yang terlihat: Tagihan Denda (DOM cell ke-10).
-   Garis kanan ditempel langsung pada cell ini. */
+/* Garis kanan biru pada cell terakhir yang terlihat. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
-  td:nth-child(10) {
-  border-right: 2px solid #2563eb !important;
+  td:nth-child(10)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: -1px;
+  z-index: 10;
+  width: 2px;
+  background: #2563eb;
+  pointer-events: none;
 }
 
-/* Garis atas pada awal periode perubahan dan awal halaman berikutnya. */
+/* Awal blok perubahan dan awal halaman baru memiliki garis atas biru
+   yang hanya membentang di area tabel perubahan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -61,7 +74,7 @@
   border-top: 2px solid #2563eb !important;
 }
 
-/* Garis bawah pada akhir periode perubahan dan akhir halaman. */
+/* Akhir blok perubahan dan akhir halaman diberi garis bawah biru. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -75,7 +88,7 @@
   border-bottom: 2px solid #2563eb !important;
 }
 
-/* Sisakan ruang untuk panel informasi hanya pada baris awal blok. */
+/* Ruang untuk panel informasi pada awal blok/per halaman. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -143,17 +156,7 @@
   line-height: 1;
 }
 
-/* Jangan gunakan pseudo-element pada td karena dapat menimpa garis biru. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
-  td::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* Mobile: panel tetap berada di dalam area tabel. */
+/* Mobile tetap mengikuti lebar tabel tanpa mengubah separator. */
 @media (max-width: 640px) {
   [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     table[class*="min-w-[1780px]"]
