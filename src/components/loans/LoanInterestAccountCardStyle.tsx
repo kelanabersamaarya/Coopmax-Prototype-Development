@@ -60,8 +60,18 @@ function AccountFields() {
   const [expanded, setExpanded] = React.useState(false);
 
   const compactFields = [
-    ...accountFields.slice(0, 8),
+    accountFields[0],
+    accountFields[1],
+    accountFields[2],
+    accountFields[3],
+    accountFields[4],
+    accountFields[5],
+    accountFields[6],
+    accountFields[7],
     accountFields[12],
+    accountFields[13],
+    accountFields[15],
+    accountFields[16],
   ];
 
   const visibleFields = expanded ? accountFields : compactFields;
