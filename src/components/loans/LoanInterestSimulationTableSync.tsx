@@ -12,7 +12,7 @@ const rows = [
   ["25-02-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "225.000"],
   ["25-03-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
   ["25-04-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
-  ["25-05-2026", "916.667", "916.667", "833.333", "83.333", "833.333", ""],
+  ["25-05-2026", "916.667", "916.667", "833.333", "833.333", "33.333", ""],
 ] as const;
 
 function findSimulationTable(wizard: HTMLElement) {
@@ -76,11 +76,9 @@ function syncTable() {
 
   const replacement = document.createElement("div");
   replacement.innerHTML = buildTableMarkup().trim();
-  const nextTable = replacement.firstElementChild;
 
-  if (nextTable) {
-    table.replaceWith(nextTable);
-  }
+  const nextTable = replacement.firstElementChild;
+  if (nextTable) table.replaceWith(nextTable);
 }
 
 export default function LoanInterestSimulationTableSync() {
@@ -111,14 +109,25 @@ export default function LoanInterestSimulationTableSync() {
   return (
     <style>
       {`
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS},
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} thead,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} tbody,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} tr,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th *,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td * {
+          font-size: 12px !important;
+        }
+
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} {
           width: 100% !important;
           min-width: 980px !important;
           table-layout: fixed !important;
           border-collapse: collapse !important;
-          background: #fff !important;
+          background: #ffffff !important;
           color: #0f172a !important;
-          font-size: 12px !important;
+          font-family: inherit !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-date {
@@ -143,18 +152,11 @@ export default function LoanInterestSimulationTableSync() {
           width: 140px !important;
         }
 
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th *,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td * {
-          font-size: 12px !important;
-        }
-
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th {
           height: 72px !important;
           padding: 10px 8px !important;
           border-bottom: 1px solid #cbd5e1 !important;
-          background: #fff !important;
+          background: #ffffff !important;
           color: #334155 !important;
           font-weight: 800 !important;
           line-height: 1.2 !important;
@@ -167,7 +169,7 @@ export default function LoanInterestSimulationTableSync() {
           height: 48px !important;
           padding: 12px 8px !important;
           border-top: 1px solid #e2e8f0 !important;
-          background: #fff !important;
+          background: #ffffff !important;
           color: #0f172a !important;
           font-weight: 400 !important;
           line-height: 1.2 !important;
@@ -186,6 +188,10 @@ export default function LoanInterestSimulationTableSync() {
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:last-child,
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:last-child {
           padding-right: 20px !important;
+        }
+
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:first-child {
+          font-weight: 400 !important;
         }
 
         @media (max-width: 640px) {
