@@ -7,13 +7,50 @@ const GRID_SELECTOR = ".loan-extension-account-grid";
 const TOGGLE_CLASS = "loan-extension-account-info-toggle";
 const COLLAPSED_COUNT = 12;
 
-function applyFieldVisibility(
-  fields: HTMLElement[],
-  expanded: boolean,
-) {
+function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
+  button.innerHTML = "";
+
+  const label = document.createElement("span");
+  label.textContent = expanded
+    ? "Tampilkan Lebih Sedikit"
+    : "Tampilkan Lebih Banyak";
+
+  const chevron = document.createElement("span");
+  chevron.setAttribute("aria-hidden", "true");
+  chevron.style.display = "inline-flex";
+  chevron.style.alignItems = "center";
+  chevron.style.justifyContent = "center";
+  chevron.style.width = "16px";
+  chevron.style.height = "16px";
+  chevron.style.transition = "transform 180ms ease";
+  chevron.style.transform = expanded ? "rotate(180deg)" : "rotate(0deg)";
+  chevron.innerHTML = `
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="16"
+      height="16"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  `;
+
+  button.append(label, chevron);
+}
+
+function applyFieldVisibility(fields: HTMLElement[], expanded: boolean) {
   fields.forEach((field, index) => {
     const shouldShow = expanded || index < COLLAPSED_COUNT;
-    field.style.setProperty("display", shouldShow ? "block" : "none", "important");
+    field.style.setProperty(
+      "display",
+      shouldShow ? "block" : "none",
+      "important",
+    );
   });
 }
 
@@ -39,10 +76,12 @@ function syncAccountInfoToggle() {
     button.type = "button";
     button.className = TOGGLE_CLASS;
     button.setAttribute("aria-expanded", "false");
-    button.textContent = "Tampilkan Lebih Banyak";
 
     Object.assign(button.style, {
-      display: "block",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      gap: "5px",
       marginLeft: "auto",
       marginTop: "16px",
       padding: "4px 0",
@@ -71,11 +110,11 @@ function syncAccountInfoToggle() {
       const nextExpanded = !expanded;
 
       applyFieldVisibility(fields, nextExpanded);
-
       button?.setAttribute("aria-expanded", String(nextExpanded));
-      button!.textContent = nextExpanded
-        ? "Tampilkan Lebih Sedikit"
-        : "Tampilkan Lebih Banyak";
+
+      if (button) {
+        setButtonContent(button, nextExpanded);
+      }
     });
 
     section.appendChild(button);
@@ -83,6 +122,7 @@ function syncAccountInfoToggle() {
 
   const expanded = button.getAttribute("aria-expanded") === "true";
   applyFieldVisibility(fields, expanded);
+  setButtonContent(button, expanded);
 }
 
 export default function LoanExtensionAccountInfoToggle() {
