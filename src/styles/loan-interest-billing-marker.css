@@ -72,49 +72,50 @@
   > tbody
   > tr:last-child
   > td {
-  border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-bottom: 2px solid rgb(37 99 235 / 0.7);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }
 
 /*
-  Grace Period:
-  Pada beberapa tampilan, bingkai biru dibuat oleh wrapper dengan
-  border-blue-600/70, sedangkan pada tampilan lain class-nya dirender
-  melalui kombinasi border-2 dan border-blue-*. Target dibuat berdasarkan
-  ciri bingkai tersebut agar tidak bergantung pada struktur tabel.
+  Hilangkan garis bawah hanya pada container bingkai Grace Period.
+  Selector memakai isi panel agar tidak bergantung pada wrapper tabel.
 */
-.billing-v1-compact-rows
-  div[class*="border-2"][class*="border-blue-"] {
+div[class*="border-blue-"]:has(
+    div[class*="bg-blue-"] :is(div, span)
+  ):has(
+    div
+  ) {
   border-bottom-width: 0 !important;
-  border-bottom-color: transparent !important;
   border-bottom-style: solid !important;
+  border-bottom-color: transparent !important;
 }
 
-.billing-table-compact
-  div[class*="border-2"][class*="border-blue-"] {
+/* Target utama untuk bingkai yang memiliki border-2 biru. */
+div[class*="border-2"][class*="border-blue-"]:has(
+    div[class*="bg-blue-50"]
+  ) {
   border-bottom-width: 0 !important;
-  border-bottom-color: transparent !important;
   border-bottom-style: solid !important;
-}
-
-/* Kompatibilitas untuk wrapper yang hanya memiliki class border biru. */
-.billing-v1-compact-rows
-  div[class*="border-blue-"] {
   border-bottom-color: transparent !important;
 }
 
-.billing-table-compact
-  div[class*="border-blue-"] {
+/* Target kompatibilitas ketika panel info menggunakan bg-blue-100/bg-blue-50. */
+div[class*="border-blue-600"]:has(
+    div[class*="bg-blue-100"]
+  ) {
+  border-bottom-width: 0 !important;
+  border-bottom-style: solid !important;
   border-bottom-color: transparent !important;
 }
 
-/* Jangan mengubah border bingkai penanda perubahan suku bunga. */
+/* Pastikan bingkai penanda perubahan suku bunga tetap memiliki garis bawah. */
 .billing-v1-compact-rows
   table
   > tbody
   > tr:nth-child(4)
-  > td {
+  > td,
+[data-interest-change="true"] {
   border-bottom-color: inherit !important;
 }
 
