@@ -1,4 +1,4 @@
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference {
   display: grid !important;
   grid-template-columns: 1fr !important;
@@ -6,7 +6,7 @@
   margin-top: 28px !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-field {
   display: block !important;
@@ -14,7 +14,7 @@
   order: initial !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-label {
   color: rgb(255 255 255 / 0.84) !important;
@@ -23,7 +23,7 @@
   line-height: 1.25 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-value {
   margin-top: 6px !important;
@@ -34,10 +34,10 @@
   overflow-wrap: anywhere !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-status,
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-period-highlight {
   display: inline-flex !important;
@@ -51,13 +51,13 @@
   white-space: nowrap !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-status {
   background: #3bb001 !important;
 }
 
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+[data-loan-extension-wizard="true"]
   .loan-extension-account-grid-reference
   .loan-extension-account-period-highlight {
   background: #3bb001 !important;
@@ -65,14 +65,14 @@
 }
 
 @media (min-width: 640px) {
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  [data-loan-extension-wizard="true"]
     .loan-extension-account-grid-reference {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (min-width: 1024px) {
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  [data-loan-extension-wizard="true"]
     .loan-extension-account-grid-reference {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 24px 32px !important;
@@ -80,7 +80,7 @@
 }
 
 @media (max-width: 639px) {
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  [data-loan-extension-wizard="true"]
     .loan-extension-account-grid-reference
     .loan-extension-account-value {
     font-size: 13px !important;

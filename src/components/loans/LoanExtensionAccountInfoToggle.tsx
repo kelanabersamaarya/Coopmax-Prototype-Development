@@ -34,13 +34,11 @@ function getElements() {
   return { wizard, grid, section, fields };
 }
 
-function restoreFirstStep(
-  fields: HTMLElement[],
-  section: HTMLElement,
-  grid: HTMLElement,
-) {
-  fields.forEach((field) => field.style.removeProperty("display"));
-  grid.dataset.accountInfoExpanded = "false";
+function restoreFirstStep(fields: HTMLElement[], section: HTMLElement) {
+  fields.forEach((field) => {
+    field.style.removeProperty("display");
+  });
+
   section.style.removeProperty("position");
   section.style.removeProperty("z-index");
   section.style.removeProperty("padding-bottom");
@@ -105,10 +103,11 @@ function sync() {
   if (!elements) return;
 
   const { wizard, grid, section, fields } = elements;
+  const step = wizard.dataset.loanExtensionStep;
 
-  // Langkah pertama tidak disentuh sama sekali.
-  if (wizard.dataset.loanExtensionStep !== "2") {
-    restoreFirstStep(fields, section, grid);
+  // Wizard pertama harus tetap menggunakan tampilan aslinya.
+  if (step !== "2") {
+    restoreFirstStep(fields, section);
     return;
   }
 
