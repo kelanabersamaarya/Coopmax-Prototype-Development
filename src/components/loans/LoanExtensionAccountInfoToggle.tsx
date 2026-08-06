@@ -18,62 +18,37 @@ const COMPACT_LABELS = new Set([
   "Tanggal Transaksi Terakhir",
 ]);
 
-function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
-  button.replaceChildren();
+function getElements() {
+  const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
+  const grid = wizard?.querySelector<HTMLElement>(GRID_SELECTOR);
+  const section = grid?.closest("section") as HTMLElement | null;
 
-  const label = document.createElement("span");
-  label.textContent = expanded
-    ? "Tampilkan Lebih Sedikit"
-    : "Tampilkan Lebih Banyak";
-  label.style.whiteSpace = "nowrap";
+  if (!wizard || !grid || !section) return null;
 
-  const chevron = document.createElement("span");
-  chevron.setAttribute("aria-hidden", "true");
-  chevron.style.display = "inline-flex";
-  chevron.style.alignItems = "center";
-  chevron.style.justifyContent = "center";
-  chevron.style.width = "18px";
-  chevron.style.height = "18px";
-  chevron.style.flexShrink = "0";
-  chevron.style.transition = "transform 180ms ease";
-  chevron.style.transform = expanded ? "rotate(180deg)" : "rotate(0deg)";
-  chevron.innerHTML = `
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      width="18"
-      height="18"
-      aria-hidden="true"
-    >
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
-  `;
-
-  button.append(label, chevron);
-}
-
-function applyFieldVisibility(grid: HTMLElement, expanded: boolean) {
   const fields = Array.from(
     grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
   );
 
+  return { grid, section, fields };
+}
+
+function applyVisibility(
+  fields: HTMLElement[],
+  expanded: boolean,
+) {
   fields.forEach((field) => {
     const label = field.dataset.accountItemLabel?.trim() ?? "";
-    const shouldShow = expanded || COMPACT_LABELS.has(label);
+    const visible = expanded || COMPACT_LABELS.has(label);
 
     field.style.setProperty(
       "display",
-      shouldShow ? "block" : "none",
+      visible ? "block" : "none",
       "important",
     );
   });
 }
 
-function styleToggleButton(button: HTMLButtonElement) {
+function styleButton(button: HTMLButtonElement) {
   Object.assign(button.style, {
     position: "absolute",
     right: "16px",
@@ -83,7 +58,6 @@ function styleToggleButton(button: HTMLButtonElement) {
     alignItems: "center",
     justifyContent: "center",
     gap: "6px",
-    width: "max-content",
     minWidth: "170px",
     minHeight: "38px",
     padding: "8px 10px",
@@ -98,126 +72,107 @@ function styleToggleButton(button: HTMLButtonElement) {
     whiteSpace: "nowrap",
     pointerEvents: "auto",
     touchAction: "manipulation",
-    userSelect: "none",
   });
 }
 
-function getAccountInfoGrid() {
-  const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
-  const grid = wizard?.querySelector<HTMLElement>(GRID_SELECTOR);
+function updateButton(button: HTMLButtonElement, expanded: boolean) {
+  button.replaceChildren();
 
-  if (!wizard || !grid) return null;
+  const label = document.createElement("span");
+  label.textContent = expanded
+    ? "Tampilkan Lebih Sedikit"
+    : "Tampilkan Lebih Banyak";
 
-  return { wizard, grid };
+  const icon = document.createElement("span");
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = `
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      style="display:block;transform:rotate(${expanded ? 180 : 0}deg);transition:transform 180ms ease"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  `;
+
+  button.append(label, icon);
+  button.setAttribute("aria-expanded", String(expanded));
+  button.setAttribute(
+    "aria-label",
+    expanded
+      ? "Sembunyikan informasi rekening tambahan"
+      : "Tampilkan informasi rekening tambahan",
+  );
 }
 
-function syncAccountInfoToggle() {
-  const result = getAccountInfoGrid();
-  if (!result) return;
+function sync() {
+  const elements = getElements();
+  if (!elements || elements.fields.length <= COMPACT_LABELS.size) return;
 
-  const { grid } = result;
-  const fields = grid.querySelectorAll(".loan-extension-account-field");
-
-  if (fields.length <= COMPACT_LABELS.size) return;
-
-  const section = grid.closest("section");
-  if (!section) return;
-
+  const { grid, section, fields } = elements;
   section.style.position = "relative";
   section.style.zIndex = "1";
   section.style.paddingBottom = "64px";
 
-  let button = section.querySelector<HTMLButtonElement>(`.${TOGGLE_CLASS}`);
+  let button = section.querySelector<HTMLButtonElement>(
+    `.${TOGGLE_CLASS}`,
+  );
 
   if (!button) {
     button = document.createElement("button");
     button.type = "button";
     button.className = TOGGLE_CLASS;
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute(
-      "aria-label",
-      "Tampilkan informasi rekening lainnya",
-    );
-
-    button.addEventListener("pointerdown", (event) => {
-      event.stopPropagation();
-    });
 
     button.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
 
       const expanded =
-        button?.getAttribute("aria-expanded") === "true";
+        grid.dataset.accountInfoExpanded === "true";
       const nextExpanded = !expanded;
 
       grid.dataset.accountInfoExpanded = String(nextExpanded);
-      button?.setAttribute("aria-expanded", String(nextExpanded));
-      button?.setAttribute(
-        "aria-label",
-        nextExpanded
-          ? "Sembunyikan informasi rekening tambahan"
-          : "Tampilkan informasi rekening lainnya",
-      );
-
-      applyFieldVisibility(grid, nextExpanded);
-
-      if (button) {
-        setButtonContent(button, nextExpanded);
-      }
-    });
-
-    button.addEventListener("mouseenter", () => {
-      button.style.textDecoration = "underline";
-    });
-
-    button.addEventListener("mouseleave", () => {
-      button.style.textDecoration = "none";
+      applyVisibility(fields, nextExpanded);
+      updateButton(button!, nextExpanded);
     });
 
     section.appendChild(button);
   }
 
-  styleToggleButton(button);
+  styleButton(button);
 
   const expanded = grid.dataset.accountInfoExpanded === "true";
-  button.setAttribute("aria-expanded", String(expanded));
-  applyFieldVisibility(grid, expanded);
-  setButtonContent(button, expanded);
+  applyVisibility(fields, expanded);
+  updateButton(button, expanded);
 }
 
 export default function LoanExtensionAccountInfoToggle() {
   React.useEffect(() => {
-    let frameId = 0;
-    let retryId = 0;
-    let attempts = 0;
+    let frame = 0;
 
     const scheduleSync = () => {
-      window.cancelAnimationFrame(frameId);
-      frameId = window.requestAnimationFrame(syncAccountInfoToggle);
-    };
-
-    const retryMount = () => {
-      attempts += 1;
-      scheduleSync();
-
-      if (attempts < 30) {
-        retryId = window.setTimeout(retryMount, 120);
-      }
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(sync);
     };
 
     const observer = new MutationObserver(scheduleSync);
-
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    retryMount();
+    const interval = window.setInterval(sync, 250);
+    scheduleSync();
 
     return () => {
-      window.cancelAnimationFrame(frameId);
-      window.clearTimeout(retryId);
+      window.cancelAnimationFrame(frame);
+      window.clearInterval(interval);
       observer.disconnect();
 
       document
