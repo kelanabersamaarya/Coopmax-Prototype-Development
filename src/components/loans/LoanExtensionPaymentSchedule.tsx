@@ -61,6 +61,16 @@ export default function LoanExtensionPaymentSchedule({
                 <br />
                 Bunga
               </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[155px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
               <th className="w-[145px] px-3 py-3 text-right">
                 Tagihan
                 <br />
@@ -89,6 +99,12 @@ export default function LoanExtensionPaymentSchedule({
                 </td>
                 <td className="px-3 py-3 text-right font-semibold tabular-nums text-[#2563EB]">
                   {formatIdr(row.interest)}
+                </td>
+                <td className="px-3 py-3 text-right tabular-nums">
+                  {formatIdr(row.remainingPrincipal)}
+                </td>
+                <td className="px-3 py-3 text-right tabular-nums">
+                  {formatIdr(row.remainingInterest)}
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
                   {formatIdr(row.penalty)}
