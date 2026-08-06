@@ -78,44 +78,35 @@
 }
 
 /*
-  Hilangkan garis bawah hanya pada container bingkai Grace Period.
-  Selector memakai isi panel agar tidak bergantung pada wrapper tabel.
+  Target langsung BillingTableView2 yang digunakan oleh:
+  - TransaksiAnggotaView1
+  - TransaksiAnggotaView2
+  - LoanBillingAndSummarySection
+  Bingkai Grace Period memiliki class border-blue-600/70 dan panel bg-blue-50.
 */
-div[class*="border-blue-"]:has(
-    div[class*="bg-blue-"] :is(div, span)
-  ):has(
-    div
-  ) {
+[class~="border-blue-600/70"]:has([class~="bg-blue-50"]) {
   border-bottom-width: 0 !important;
-  border-bottom-style: solid !important;
+  border-bottom-style: none !important;
   border-bottom-color: transparent !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
-/* Target utama untuk bingkai yang memiliki border-2 biru. */
-div[class*="border-2"][class*="border-blue-"]:has(
-    div[class*="bg-blue-50"]
+/* Pastikan aturan ini tetap berlaku pada wrapper yang memiliki overflow-hidden. */
+[class~="overflow-hidden"][class~="border-blue-600/70"]:has(
+    [class~="bg-blue-50"]
   ) {
-  border-bottom-width: 0 !important;
-  border-bottom-style: solid !important;
-  border-bottom-color: transparent !important;
+  border-bottom: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
-/* Target kompatibilitas ketika panel info menggunakan bg-blue-100/bg-blue-50. */
-div[class*="border-blue-600"]:has(
-    div[class*="bg-blue-100"]
-  ) {
-  border-bottom-width: 0 !important;
-  border-bottom-style: solid !important;
-  border-bottom-color: transparent !important;
-}
-
-/* Pastikan bingkai penanda perubahan suku bunga tetap memiliki garis bawah. */
+/* Jangan mengubah bingkai penanda perubahan suku bunga. */
 .billing-v1-compact-rows
   table
   > tbody
   > tr:nth-child(4)
-  > td,
-[data-interest-change="true"] {
+  > td {
   border-bottom-color: inherit !important;
 }
 
