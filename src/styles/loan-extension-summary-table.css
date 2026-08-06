@@ -1,76 +1,46 @@
 /* Ringkasan Perpanjangan Pinjaman - Step 2 */
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"]) {
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"]) {
   width: 100% !important;
   min-width: 0 !important;
   overflow: hidden !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > div:first-child {
-  width: 100% !important;
-}
-
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  .safe-x-scroll {
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll {
   display: block !important;
   width: 100% !important;
-  min-width: 0 !important;
   max-width: 100% !important;
+  min-width: 0 !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   -webkit-overflow-scrolling: touch !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  .safe-x-scroll
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
   > table[class*="min-w-\\[650px\\]"] {
   display: table !important;
   width: 100% !important;
-  min-width: 760px !important;
-  max-width: none !important;
-  table-layout: auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
   border-collapse: collapse !important;
   border-spacing: 0 !important;
 }
 
-/* Informasi lebih lebar karena berisi label deskriptif. */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
-  th:first-child,
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
-  td:first-child {
-  width: 42% !important;
-  min-width: 260px !important;
-}
-
-/* Kolom sebelum dan sesudah cukup lebar untuk teks serta tanggal. */
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
-  th:nth-child(2),
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
-  td:nth-child(2),
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
-  th:nth-child(3),
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
-  td:nth-child(3) {
-  width: 29% !important;
-  min-width: 220px !important;
-}
-
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
   th,
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
   td {
   box-sizing: border-box !important;
   min-width: 0 !important;
@@ -84,8 +54,11 @@
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
   th {
+  width: 33.333% !important;
   background: #ffffff !important;
   color: #111827 !important;
   font-size: 12px !important;
@@ -95,7 +68,17 @@
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
+  th:first-child {
+  width: 40% !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
   td {
   border-top: 1px solid #e2e8f0 !important;
   color: #111827 !important;
@@ -104,58 +87,73 @@
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
   tbody
   tr:nth-child(even) {
   background: #f8fafc !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  table[class*="min-w-\\[650px\\]"]
+  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+  > .safe-x-scroll
+  > table[class*="min-w-\\[650px\\]"]
   td:nth-child(3) {
   color: #2563eb !important;
   font-weight: 700 !important;
 }
 
-@media (min-width: 1024px) {
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"] {
-    min-width: 0 !important;
-  }
-
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    table[class*="min-w-\\[650px\\]"]
-    th:first-child,
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    table[class*="min-w-\\[650px\\]"]
-    td:first-child {
-    min-width: 0 !important;
-  }
-
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    table[class*="min-w-\\[650px\\]"]
-    th:nth-child(2),
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    table[class*="min-w-\\[650px\\]"]
-    td:nth-child(2),
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    table[class*="min-w-\\[650px\\]"]
-    th:nth-child(3),
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    table[class*="min-w-\\[650px\\]"]
-    td:nth-child(3) {
-    min-width: 0 !important;
-  }
-}
-
 @media (max-width: 640px) {
   [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    .safe-x-scroll
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll {
+    overflow-x: auto !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
     > table[class*="min-w-\\[650px\\]"] {
     width: 760px !important;
     min-width: 760px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"]
+    th:first-child,
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"]
+    td:first-child {
+    width: 40% !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"]
+    th:nth-child(2),
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"]
+    td:nth-child(2),
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"]
+    th:nth-child(3),
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    > .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"]
+    td:nth-child(3) {
+    width: 30% !important;
   }
 }
