@@ -2,8 +2,14 @@
   .loan-interest-summary {
   display: table !important;
   visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
   width: 100% !important;
   min-width: 620px !important;
+  max-width: none !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
   table-layout: auto !important;
   border-collapse: collapse !important;
 }
@@ -13,6 +19,7 @@
   thead {
   display: table-header-group !important;
   visibility: visible !important;
+  opacity: 1 !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -20,6 +27,7 @@
   tbody {
   display: table-row-group !important;
   visibility: visible !important;
+  opacity: 1 !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -27,6 +35,7 @@
   tr {
   display: table-row !important;
   visibility: visible !important;
+  opacity: 1 !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -37,6 +46,9 @@
   td {
   display: table-cell !important;
   visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
   color: #000000 !important;
 }
 
@@ -50,4 +62,21 @@
   td:nth-child(3)
   * {
   color: #2563eb !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  .loan-interest-summary
+  td:nth-child(3)
+  *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  .loan-interest-summary
+  th:nth-child(3) {
+  color: #2563eb !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  .loan-interest-summary
+  ~ * {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
