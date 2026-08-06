@@ -49,6 +49,18 @@ const accountItems: AccountItem[] = [
   { label: "Durasi Grace Period", value: "3" },
 ];
 
+const compactLabels = [
+  "Kode Pinjaman",
+  "Nama Nasabah",
+  "Sektor Pinjaman",
+  "Tujuan Pinjaman",
+  "Kolektor",
+  "Tanggal Dibuat",
+  "Tanggal Jatuh Tempo",
+  "Periode Waktu",
+  "Sisa Tenor",
+];
+
 function createField(item: AccountItem) {
   const field = document.createElement("div");
   field.className = "loan-extension-account-field";
@@ -120,43 +132,44 @@ function orderFields(grid: HTMLElement) {
   }
 }
 
+function applyCompactVisibility(grid: HTMLElement, expanded: boolean) {
+  Array.from(
+    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
+  ).forEach((field) => {
+    const label = field.dataset.accountItemLabel ?? "";
+    const shouldShow = expanded || compactLabels.includes(label);
+
+    field.style.setProperty(
+      "display",
+      shouldShow ? "block" : "none",
+      "important",
+    );
+  });
+}
+
 function mountAccountInfo() {
   const grid = getWizardGrid();
   if (!grid) return;
 
-  if (!grid.classList.contains(MARKER_CLASS)) {
-    grid.classList.add(
-      MARKER_CLASS,
-      "loan-extension-account-grid-reference",
-    );
-  }
-
+  grid.classList.add(MARKER_CLASS, "loan-extension-account-grid-reference");
   orderFields(grid);
 
   const accountNoField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Kode Pinjaman"] .loan-extension-account-value',
   );
 
-  if (accountNoField) {
-    accountNoField.textContent = "SMG260004";
-  }
+  if (accountNoField) accountNoField.textContent = "SMG260004";
 
   const customerNameField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Nama Nasabah"] .loan-extension-account-value',
   );
 
-  if (customerNameField) {
-    customerNameField.textContent = "Bapak Bagus";
-  }
+  if (customerNameField) customerNameField.textContent = "Bapak Bagus";
 
-  const remainingTenorField = grid.querySelector<HTMLElement>(
-    '[data-account-item-label="Sisa Tenor"]',
-  );
+  const expanded =
+    grid.dataset.accountInfoExpanded === "true";
 
-  if (remainingTenorField) {
-    remainingTenorField.style.display = "block";
-    remainingTenorField.style.visibility = "visible";
-  }
+  applyCompactVisibility(grid, expanded);
 }
 
 export default function LoanExtensionAccountInfoLayout() {
@@ -184,6 +197,7 @@ export default function LoanExtensionAccountInfoLayout() {
     observer.observe(document.body, {
       childList: true,
       subtree: true,
+      attributes: true,
     });
 
     retryMount();
