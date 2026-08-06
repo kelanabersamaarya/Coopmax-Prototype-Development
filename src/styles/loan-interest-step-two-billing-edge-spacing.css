@@ -1,20 +1,30 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  th:nth-child(10),
+  th:nth-child(10) {
+  padding-right: 22px !important;
+  text-align: right !important;
+}
+
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   td:nth-child(10) {
   padding-right: 22px !important;
   text-align: right !important;
+  text-indent: -22px !important;
 }
 
 @media (max-width: 640px) {
   [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     table[class*="min-w-[1780px]"]
-    th:nth-child(10),
+    th:nth-child(10) {
+    padding-right: 22px !important;
+    text-indent: 0 !important;
+  }
+
   [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     table[class*="min-w-[1780px]"]
     td:nth-child(10) {
     padding-right: 22px !important;
+    text-indent: -22px !important;
   }
 }
