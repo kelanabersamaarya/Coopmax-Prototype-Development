@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { ChevronDown } from "lucide-react";
 import { createPortal } from "react-dom";
 
 type AccountField = {
@@ -95,10 +96,18 @@ function AccountFields() {
         <button
           type="button"
           onClick={() => setExpanded((current) => !current)}
-          className="text-[12px] font-semibold text-white underline underline-offset-4 transition hover:text-white/80"
+          className="inline-flex items-center gap-1 text-[12px] font-semibold text-white transition hover:text-white/80 focus:outline-none"
           aria-expanded={expanded}
         >
-          {expanded ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
+          <span>
+            {expanded ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
+          </span>
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${
+              expanded ? "rotate-180" : ""
+            }`}
+            strokeWidth={2.5}
+          />
         </button>
       </div>
     </>
