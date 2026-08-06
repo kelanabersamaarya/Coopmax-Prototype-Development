@@ -11,11 +11,9 @@ export default function GracePeriodInfoRow({
   colSpan: number;
   noBorder?: boolean;
 }) {
-  // Perkecil whitespace kiri/kanan (tanpa mengubah size icon)
   const outerPad = noBorder ? "px-1.5 py-1" : "px-1.5 py-1.5";
   const boxPad = noBorder ? "px-3 py-2" : "px-2.5 py-2";
 
-  // Jangan ubah size icon
   const iconSize = noBorder ? "h-6 w-6" : "h-6 w-6";
   const iconWrap = noBorder ? "h-9 w-9" : "h-9 w-9";
 
@@ -25,7 +23,7 @@ export default function GracePeriodInfoRow({
         <div className={cn("bg-white", outerPad)}>
           <div
             className={cn(
-              "rounded-2xl text-xs text-slate-800",
+              "rounded-2xl text-xs",
               boxPad,
               noBorder ? "bg-blue-50" : "border border-blue-200 bg-blue-50",
             )}
@@ -42,10 +40,10 @@ export default function GracePeriodInfoRow({
               </span>
 
               <div className="min-w-0">
-                <div className="font-semibold leading-tight">
+                <div className="font-semibold leading-tight text-black">
                   Periode Grace Period
                 </div>
-                <div className="mt-0.5 leading-snug text-slate-700">
+                <div className="mt-0.5 leading-snug text-black">
                   Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
                   dalam grace period selama 2 bulan. Selama periode ini nasabah
                   hanya membayar bunga.
