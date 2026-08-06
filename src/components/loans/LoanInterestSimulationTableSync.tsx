@@ -4,16 +4,59 @@ import * as React from "react";
 
 const WIZARD_SELECTOR = '[data-loan-interest-wizard="true"]';
 const TABLE_TITLE = "Simulasi Angsuran Setelah Perubahan Suku Bunga";
-const TABLE_CLASS = "loan-interest-member-style-table";
+const TABLE_CLASS = "loan-interest-billing-simulation-table";
+const WRAPPER_CLASS = "loan-interest-billing-simulation-wrapper";
 
 const rows = [
-  ["25-01-2026", "916.667", "0,00", "83.333", "0,00", "26.389", "100.000"],
-  ["25-01-2026", "916.667", "0,00", "83.333", "0,00", "26.389", "75.000"],
-  ["25-02-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "225.000"],
-  ["25-03-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
-  ["25-04-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
-  ["25-05-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
-] as const;
+  {
+    dueDate: "25-01-2026",
+    total: "916.667",
+    principal: "0,00",
+    interest: "83.333",
+    remainingPrincipal: "0,00",
+    remainingInterest: "26.389",
+  },
+  {
+    dueDate: "25-02-2026",
+    total: "916.667",
+    principal: "0,00",
+    interest: "83.333",
+    remainingPrincipal: "0,00",
+    remainingInterest: "26.389",
+  },
+  {
+    dueDate: "25-03-2026",
+    total: "916.667",
+    principal: "916.667",
+    interest: "83.333",
+    remainingPrincipal: "833.333",
+    remainingInterest: "33.333",
+  },
+  {
+    dueDate: "25-04-2026",
+    total: "916.667",
+    principal: "916.667",
+    interest: "83.333",
+    remainingPrincipal: "833.333",
+    remainingInterest: "33.333",
+  },
+  {
+    dueDate: "25-05-2026",
+    total: "916.667",
+    principal: "916.667",
+    interest: "83.333",
+    remainingPrincipal: "833.333",
+    remainingInterest: "33.333",
+  },
+  {
+    dueDate: "25-06-2026",
+    total: "916.667",
+    principal: "916.667",
+    interest: "83.333",
+    remainingPrincipal: "833.333",
+    remainingInterest: "33.333",
+  },
+];
 
 function findSimulationTable(wizard: HTMLElement) {
   const title = Array.from(wizard.querySelectorAll<HTMLElement>("div")).find(
@@ -23,67 +66,113 @@ function findSimulationTable(wizard: HTMLElement) {
   return title?.parentElement?.querySelector<HTMLTableElement>("table") ?? null;
 }
 
+function cell(value: string, className = "") {
+  return `<td class="${className}">${value}</td>`;
+}
+
+function penaltyCell(index: number) {
+  if (index >= 3) return cell("0,00", "numeric-cell");
+
+  return cell(
+    `<span class="penalty-value">75.000</span><button type="button" class="penalty-info-button" aria-label="Lihat Detail Denda" title="Lihat Detail Denda">i</button>`,
+    "numeric-cell penalty-cell",
+  );
+}
+
+function buildGraceInfoRow() {
+  return `
+    <tr class="grace-info-row">
+      <td colspan="7">
+        <div class="grace-info-box">
+          <span class="grace-info-icon">i</span>
+          <div>
+            <div class="grace-info-title">Periode Grace Period</div>
+            <div class="grace-info-description">
+              Berikut ini merupakan periode tagihan pinjaman yang termasuk ke dalam
+              grace period selama 2 bulan. Selama periode ini nasabah hanya membayar bunga.
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  `;
+}
+
 function buildTableMarkup() {
-  const body = rows
-    .map(
-      ([date, total, principal, interest, remainingPrincipal, remainingInterest, penalty]) => `
-        <tr>
-          <td>${date}</td>
-          <td>${total}</td>
-          <td>${principal}</td>
-          <td>${interest}</td>
-          <td>${remainingPrincipal}</td>
-          <td>${remainingInterest}</td>
-          <td>${penalty}</td>
-        </tr>
-      `,
-    )
-    .join("");
+  const graceRows = rows.slice(0, 2);
+  const regularRows = rows.slice(2);
+
+  const renderRow = (row: (typeof rows)[number], index: number) => `
+    <tr class="billing-data-row">
+      ${cell(row.dueDate, "date-cell")}
+      ${cell(row.total, "numeric-cell")}
+      ${cell(row.principal, "numeric-cell")}
+      ${cell(row.interest, "numeric-cell")}
+      ${cell(row.remainingPrincipal, "numeric-cell")}
+      ${cell(row.remainingInterest, "numeric-cell")}
+      ${penaltyCell(index)}
+    </tr>
+  `;
 
   return `
-    <table class="${TABLE_CLASS}">
-      <colgroup>
-        <col class="col-date" />
-        <col class="col-total" />
-        <col class="col-principal" />
-        <col class="col-interest" />
-        <col class="col-remaining-principal" />
-        <col class="col-remaining-interest" />
-        <col class="col-penalty" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>JATUH<br />TEMPO</th>
-          <th>TOTAL TAGIHAN<br />BELUM DIBAYAR</th>
-          <th>TAGIHAN<br />POKOK</th>
-          <th>TAGIHAN<br />BUNGA</th>
-          <th>SISA TAGIHAN<br />POKOK</th>
-          <th>SISA TAGIHAN<br />BUNGA</th>
-          <th>TAGIHAN<br />DENDA</th>
-        </tr>
-      </thead>
-      <tbody>${body}</tbody>
-    </table>
+    <div class="${WRAPPER_CLASS}">
+      <div class="billing-table-scroll">
+        <table class="${TABLE_CLASS}">
+          <thead>
+            <tr>
+              <th>Jatuh<br />Tempo</th>
+              <th>Total Tagihan<br />Belum Dibayar</th>
+              <th>Tagihan<br />Pokok</th>
+              <th>Tagihan<br />Bunga</th>
+              <th>Sisa Tagihan<br />Pokok</th>
+              <th>Sisa Tagihan<br />Bunga</th>
+              <th>Tagihan<br />Denda</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="grace-shell-row">
+              <td colspan="7">
+                <div class="grace-shell">
+                  <table class="${TABLE_CLASS} grace-inner-table">
+                    <tbody>
+                      ${buildGraceInfoRow()}
+                      ${graceRows.map((row, index) => renderRow(row, index)).join("")}
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            ${regularRows
+              .map((row, index) => renderRow(row, index + 2))
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
   `;
 }
 
 function syncTable() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
 
-  if (!wizard || wizard.dataset.loanInterestStep !== "2") return;
+  if (!wizard || wizard.dataset.loanInterestStep !== "2") {
+    wizard?.querySelector(`.${WRAPPER_CLASS}`)?.remove();
+    return;
+  }
+
+  const existing = wizard.querySelector(`.${WRAPPER_CLASS}`);
+  if (existing) return;
 
   const table = findSimulationTable(wizard);
-
   if (!table || table.classList.contains(TABLE_CLASS)) return;
 
   const replacement = document.createElement("div");
   replacement.innerHTML = buildTableMarkup().trim();
 
   const nextTable = replacement.firstElementChild;
+  if (!nextTable) return;
 
-  if (nextTable) {
-    table.replaceWith(nextTable);
-  }
+  table.parentElement?.replaceWith(nextTable);
 }
 
 export default function LoanInterestSimulationTableSync() {
@@ -108,107 +197,162 @@ export default function LoanInterestSimulationTableSync() {
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
+      document
+        .querySelectorAll(`.${WRAPPER_CLASS}`)
+        .forEach((element) => element.remove());
     };
   }, []);
 
   return (
     <style>
       {`
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS},
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} thead,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} tbody,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} tr,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th *,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td * {
-          font-size: 12px !important;
+        [data-loan-interest-wizard="true"] .${WRAPPER_CLASS} {
+          width: 100%;
+          overflow: hidden;
+          border: 1px solid #e2e8f0;
+          border-radius: 5px;
+          background: #ffffff;
+        }
+
+        [data-loan-interest-wizard="true"] .billing-table-scroll {
+          width: 100%;
+          overflow-x: auto;
+          overscroll-behavior-x: contain;
+          -webkit-overflow-scrolling: touch;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} {
-          width: 100% !important;
-          min-width: 980px !important;
-          table-layout: fixed !important;
-          border-collapse: collapse !important;
-          background: #ffffff !important;
-          color: #0f172a !important;
-          font-family: inherit !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-date {
-          width: 112px !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-total {
-          width: 156px !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-principal,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-interest {
-          width: 128px !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-remaining-principal,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-remaining-interest {
-          width: 148px !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .col-penalty {
-          width: 140px !important;
+          width: 100%;
+          min-width: 980px;
+          table-layout: fixed;
+          border-collapse: collapse;
+          background: #ffffff;
+          color: #0f172a;
+          font-family: inherit;
+          font-size: 12px;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th {
-          height: 54px !important;
-          padding: 6px 8px !important;
-          border-bottom: 1px solid #cbd5e1 !important;
-          background: #ffffff !important;
-          color: #334155 !important;
-          font-weight: 800 !important;
-          line-height: 1.15 !important;
-          text-align: right !important;
-          vertical-align: middle !important;
-          white-space: normal !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td {
-          height: 48px !important;
-          padding: 12px 8px !important;
-          border-top: 1px solid #e2e8f0 !important;
-          background: #ffffff !important;
-          color: #0f172a !important;
-          font-weight: 400 !important;
-          line-height: 1.2 !important;
-          text-align: right !important;
-          vertical-align: middle !important;
-          white-space: nowrap !important;
-          font-variant-numeric: tabular-nums !important;
+          padding: 10px 12px;
+          background: #ffffff;
+          border-bottom: 1px solid #e2e8f0;
+          color: #334155;
+          font-size: 10px;
+          font-weight: 800;
+          line-height: 1.1;
+          text-align: right;
+          text-transform: uppercase;
+          vertical-align: middle;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:first-child,
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:first-child {
-          padding-left: 20px !important;
-          text-align: left !important;
+          text-align: left;
         }
 
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:last-child,
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:last-child {
-          padding-right: 20px !important;
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td {
+          padding: 12px;
+          border-top: 1px solid #e2e8f0;
+          color: #0f172a;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 1.2;
+          text-align: right;
+          white-space: nowrap;
+          vertical-align: middle;
         }
 
-        @media (max-width: 640px) {
-          [data-loan-interest-wizard="true"] .${TABLE_CLASS} {
-            min-width: 980px !important;
-          }
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .date-cell {
+          font-weight: 700;
+        }
 
-          [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:first-child,
-          [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:first-child {
-            padding-left: 16px !important;
-          }
+        [data-loan-interest-wizard="true"] .grace-shell-row > td {
+          padding: 0;
+          border-top: 1px solid #e2e8f0;
+        }
 
-          [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:last-child,
-          [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:last-child {
-            padding-right: 16px !important;
-          }
+        [data-loan-interest-wizard="true"] .grace-shell {
+          margin: 8px;
+          overflow: hidden;
+          border: 2px solid rgba(37, 99, 235, 0.7);
+          border-radius: 5px;
+        }
+
+        [data-loan-interest-wizard="true"] .grace-inner-table {
+          min-width: 100%;
+        }
+
+        [data-loan-interest-wizard="true"] .grace-info-row td {
+          padding: 0;
+          border-top: 0;
+        }
+
+        [data-loan-interest-wizard="true"] .grace-info-box {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          margin: 6px;
+          padding: 10px 12px;
+          border-radius: 12px;
+          background: #eff6ff;
+          color: #1e293b;
+          text-align: left;
+        }
+
+        [data-loan-interest-wizard="true"] .grace-info-icon {
+          display: inline-flex;
+          height: 36px;
+          width: 36px;
+          flex: 0 0 auto;
+          align-items: center;
+          justify-content: center;
+          border-radius: 999px;
+          background: #dbeafe;
+          color: #1d4ed8;
+          font-size: 16px;
+          font-weight: 800;
+        }
+
+        [data-loan-interest-wizard="true"] .grace-info-title {
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 1.2;
+        }
+
+        [data-loan-interest-wizard="true"] .grace-info-description {
+          margin-top: 3px;
+          font-size: 11px;
+          line-height: 1.4;
+        }
+
+        [data-loan-interest-wizard="true"] .penalty-cell {
+          white-space: nowrap;
+        }
+
+        [data-loan-interest-wizard="true"] .penalty-value {
+          vertical-align: middle;
+        }
+
+        [data-loan-interest-wizard="true"] .penalty-info-button {
+          display: inline-flex;
+          height: 20px;
+          width: 20px;
+          margin-left: 8px;
+          align-items: center;
+          justify-content: center;
+          border: 0;
+          border-radius: 999px;
+          background: #2563eb;
+          color: #ffffff;
+          font-size: 12px;
+          font-weight: 800;
+          line-height: 1;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        [data-loan-interest-wizard="true"] .penalty-info-button:hover {
+          background: #1d4ed8;
         }
       `}
     </style>
