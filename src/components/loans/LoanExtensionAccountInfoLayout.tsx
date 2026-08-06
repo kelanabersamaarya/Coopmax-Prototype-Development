@@ -85,12 +85,39 @@ function getWizardGrid() {
   );
 
   const primaryGrid = grids[0] ?? null;
-
-  grids.slice(1).forEach((grid) => {
-    grid.remove();
-  });
+  grids.slice(1).forEach((grid) => grid.remove());
 
   return primaryGrid;
+}
+
+function orderFields(grid: HTMLElement) {
+  const fieldsByLabel = new Map<string, HTMLElement>();
+
+  Array.from(
+    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
+  ).forEach((field) => {
+    const label = field.dataset.accountItemLabel?.trim() ?? "";
+
+    if (!label || fieldsByLabel.has(label)) {
+      field.remove();
+      return;
+    }
+
+    fieldsByLabel.set(label, field);
+  });
+
+  const orderedFields = accountItems.map((item) => {
+    return fieldsByLabel.get(item.label) ?? createField(item);
+  });
+
+  const currentFields = Array.from(grid.children);
+
+  if (
+    currentFields.length !== orderedFields.length ||
+    currentFields.some((field, index) => field !== orderedFields[index])
+  ) {
+    grid.replaceChildren(...orderedFields);
+  }
 }
 
 function mountAccountInfo() {
@@ -98,32 +125,13 @@ function mountAccountInfo() {
   if (!grid) return;
 
   if (!grid.classList.contains(MARKER_CLASS)) {
-    grid.replaceChildren(...accountItems.map(createField));
     grid.classList.add(
       MARKER_CLASS,
       "loan-extension-account-grid-reference",
     );
   }
 
-  const uniqueFields = new Map<string, HTMLElement>();
-
-  Array.from(
-    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
-  ).forEach((field) => {
-    const label = field.dataset.accountItemLabel?.trim() ?? "";
-
-    if (!label || uniqueFields.has(label)) {
-      field.remove();
-      return;
-    }
-
-    uniqueFields.set(label, field);
-  });
-
-  accountItems.forEach((item) => {
-    if (uniqueFields.has(item.label)) return;
-    grid.appendChild(createField(item));
-  });
+  orderFields(grid);
 
   const accountNoField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Kode Pinjaman"] .loan-extension-account-value',
