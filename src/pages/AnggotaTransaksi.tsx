@@ -15,7 +15,6 @@ export default function AnggotaTransaksi() {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Nasabah | null>(null);
 
-  // Seed dialog saat ini: index 0 = "Gaby", index 1 = "Nyoman Ariana", index 2 = "Komang Dewa"
   const showView1 = selected?.nama === "Gaby";
   const showView3 = selected?.nama === "Komang Dewa";
   const showView2 = selected?.nama === "Nyoman Ariana";
@@ -60,11 +59,11 @@ export default function AnggotaTransaksi() {
             </Button>
 
             <Button
-              onClick={() => {
+              onClick={() =>
                 toast("Riwayat Transaksi (prototype)", {
                   description: "Halaman riwayat belum dibuat.",
-                });
-              }}
+                })
+              }
               className="h-11 rounded-[5px] bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]"
             >
               <History className="mr-2 h-4 w-4" />
@@ -90,11 +89,9 @@ export default function AnggotaTransaksi() {
           </div>
         ) : null}
 
-        {/* Area transaksi hanya muncul setelah nasabah dipilih */}
         {selected ? (
           <div className="-mx-4 md:-mx-6">
             <div className="overflow-x-auto px-2 pb-2 md:px-3">
-              {/* HAPUS border/ring paling luar (biar tidak ada border ekstra seperti screenshot) */}
               <div className="min-w-0 overflow-hidden rounded-[5px] bg-transparent">
                 <div className="min-w-0 p-2 sm:p-3">
                   {showView1 ? (

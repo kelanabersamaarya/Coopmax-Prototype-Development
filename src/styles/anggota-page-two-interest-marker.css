@@ -1,35 +1,62 @@
+/* Hanya BillingTableView2 pada halaman kedua yang menerima penanda. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
+  .anggota-page-two-billing
   > table {
   border: 0 !important;
 }
 
-/* Header tabel tetap berada di luar penanda perubahan bunga. */
+/* Pastikan semua penanda lama pada tabel bertingkat tidak tampil. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
+  .anggota-page-two-billing
+  table
+  > tbody::before,
+.w-full.px-0:has([data-anggota-transaction-page="2"])
+  .anggota-page-two-billing
+  table
+  > tbody::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Header tetap polos dan berada di luar bingkai perubahan. */
+.w-full.px-0:has([data-anggota-transaction-page="2"])
+  .anggota-page-two-billing
   > table
   > thead {
   position: relative !important;
-  z-index: 1 !important;
+  z-index: 2 !important;
   background: #ffffff !important;
+  box-shadow: none !important;
 }
 
-/* Bingkai hanya mengelilingi baris billing pada tbody. */
+/* Satu bingkai kontinu hanya untuk seluruh baris billing. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
+  .anggota-page-two-billing
   > table
   > tbody {
   position: relative !important;
-  z-index: 0 !important;
-  box-shadow: inset 2px 0 0 rgb(37 99 235 / 0.7),
-    inset -2px 0 0 rgb(37 99 235 / 0.7),
-    inset 0 2px 0 rgb(37 99 235 / 0.7),
-    inset 0 -2px 0 rgb(37 99 235 / 0.7) !important;
+  z-index: 1 !important;
+  display: block !important;
+  overflow: hidden !important;
+  border: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-radius: 0 0 5px 5px !important;
+  box-shadow: none !important;
+  background: #ffffff !important;
 }
 
-/* Ruang untuk label di dalam area tagihan, bukan di header. */
+/* Karena tbody menjadi block, baris tetap memenuhi lebar billing. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
+  .anggota-page-two-billing
+  > table
+  > tbody
+  > tr {
+  display: table-row !important;
+  width: 100% !important;
+}
+
+/* Satu panel informasi di bagian paling atas area tagihan. */
+.w-full.px-0:has([data-anggota-transaction-page="2"])
+  .anggota-page-two-billing
   > table
   > tbody
   > tr:first-child
@@ -37,9 +64,8 @@
   padding-top: 58px !important;
 }
 
-/* Label perubahan suku bunga berada di dalam area tagihan. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
+  .anggota-page-two-billing
   > table
   > tbody::before {
   content: "Periode Perubahan Suku Bunga";
@@ -47,7 +73,7 @@
   left: 8px;
   right: 8px;
   top: 8px;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   min-height: 36px;
   align-items: center;
@@ -63,16 +89,15 @@
   pointer-events: none;
 }
 
-/* Ikon informasi pada label perubahan suku bunga. */
 .w-full.px-0:has([data-anggota-transaction-page="2"])
-  div:has(> table)
+  .anggota-page-two-billing
   > table
   > tbody::after {
   content: "i";
   position: absolute;
   left: 20px;
   top: 17px;
-  z-index: 3;
+  z-index: 4;
   display: grid;
   height: 20px;
   width: 20px;
@@ -88,17 +113,7 @@
 
 @media (max-width: 640px) {
   .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table)
-    > table
-    > tbody {
-    box-shadow: inset 2px 0 0 rgb(37 99 235 / 0.7),
-      inset -2px 0 0 rgb(37 99 235 / 0.7),
-      inset 0 2px 0 rgb(37 99 235 / 0.7),
-      inset 0 -2px 0 rgb(37 99 235 / 0.7) !important;
-  }
-
-  .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table)
+    .anggota-page-two-billing
     > table
     > tbody
     > tr:first-child
@@ -107,7 +122,7 @@
   }
 
   .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table)
+    .anggota-page-two-billing
     > table
     > tbody::before {
     left: 6px;
@@ -116,7 +131,7 @@
   }
 
   .w-full.px-0:has([data-anggota-transaction-page="2"])
-    div:has(> table)
+    .anggota-page-two-billing
     > table
     > tbody::after {
     left: 16px;

@@ -141,12 +141,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const interestOnlyCols = isBungaOnly(jenisTransaksi);
   const penaltyOnlyCols = isPenaltyOnly(jenisTransaksi);
   const feeOnlyCols = isFeeOnly(jenisTransaksi);
-
   const isPenurunanBakiDebetMode = isPenurunanBakiDebet(jenisTransaksi);
 
   const pageSize = 6;
   const [page, setPage] = React.useState<number>(1);
-
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
   React.useEffect(() => {
@@ -244,12 +242,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penurunanTotals = React.useMemo(() => {
     if (!isPenurunanBakiDebetMode) return null;
 
-    const totalPokokText = formatIdrLike(penurunanTotalPokok);
-    const sisaText = formatIdrLike(penurunanSisaPokokTotal);
-
     return {
-      totalPokokText,
-      sisaText,
+      totalPokokText: formatIdrLike(penurunanTotalPokok),
+      sisaText: formatIdrLike(penurunanSisaPokokTotal),
     };
   }, [
     isPenurunanBakiDebetMode,
@@ -259,17 +254,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
-
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
-
   const useView2Style = isRegulerMode || isKhususMode || isPelunasanMode;
-
   const showPenaltyColumnInTable = !isPenurunanBakiDebetMode;
-
   const compactRowsForView2 = isRegulerMode || isKhususMode || isPelunasanMode;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebetMode;
-
-  const alignNumbersForPenurunan = "";
 
   return (
     <div className="w-full px-0">
@@ -281,107 +270,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          <div className="relative">
-            <InformasiRekeningHeader
-              title="PINJAMAN BILLING"
-              items={[
-                { label: "No. Rekening Pinjaman", value: "SMG260004" },
-                { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
-                { label: "Satuan Grace Period", value: "Bulan" },
-                { label: "Durasi Grace Period", value: "3" },
-                {
-                  label: "Tenor Pinjaman",
-                  value: (
-                    <span className="inline-flex items-center gap-2">
-                      18 Bulan
-                      <Tooltip delayDuration={150}>
-                        <TooltipTrigger asChild>
-                          <button
-                            type="button"
-                            className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white transition hover:bg-white/30"
-                            aria-label="Informasi perubahan tenor"
-                          >
-                            <Info className="h-3.5 w-3.5" />
-                          </button>
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-[280px] rounded-xl border-slate-200 bg-white px-3 py-2 text-[12px] font-semibold leading-relaxed text-slate-800 shadow-xl">
-                          Terdapat penambahan tenor pinjaman dari tenor awal
-                          sebesar 12 bulan menjadi 18 bulan
-                        </TooltipContent>
-                      </Tooltip>
-                    </span>
-                  ),
-                },
-                { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
-              ]}
-            />
-
-            <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    type="button"
-                    className="inline-flex h-9 items-center rounded-[5px] bg-white px-3 text-sm font-semibold text-slate-900 ring-1 ring-white/60 hover:bg-white/90"
-                  >
-                    Aksi <ChevronDown className="ml-1 h-4 w-4 text-slate-600" />
-                  </button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent
-                  align="end"
-                  className="w-72 rounded-[5px] border-slate-200 p-1"
-                >
-                  <DropdownMenuItem
-                    className="rounded-[5px]"
-                    onClick={() => toast("Riwayat Transaksi (prototype)")}
-                  >
-                    <History className="mr-2 h-4 w-4" />
-                    Riwayat Transaksi
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="rounded-[5px]"
-                    onClick={() => toast("Simulasi Tunggakan (prototype)")}
-                  >
-                    <Calculator className="mr-2 h-4 w-4" />
-                    Simulasi Tunggakan
-                  </DropdownMenuItem>
-
-                  <DropdownMenuSeparator className="my-1" />
-
-                  <DropdownMenuItem
-                    className="rounded-[5px]"
-                    onClick={() => toast("Cetak Kwitansi Terakhir (prototype)")}
-                  >
-                    <ReceiptText className="mr-2 h-4 w-4" />
-                    Cetak Kwitansi Terakhir
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="rounded-[5px]"
-                    onClick={() =>
-                      toast("Cetak Buku Transaksi Terakhir (prototype)")
-                    }
-                  >
-                    <BookOpenText className="mr-2 h-4 w-4" />
-                    Cetak Buku Transaksi Terakhir
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="rounded-[5px]"
-                    onClick={() => toast("Cetak Buku (prototype)")}
-                  >
-                    <Printer className="mr-2 h-4 w-4" />
-                    Cetak Buku
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="rounded-[5px]"
-                    onClick={() => toast("Cetak Prima Nota (prototype)")}
-                  >
-                    <ScrollText className="mr-2 h-4 w-4" />
-                    Cetak Prima Nota
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
+          <InformasiRekeningHeader
+            title="PINJAMAN BILLING"
+            items={[
+              { label: "No. Rekening Pinjaman", value: "SMG260004" },
+              { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
+              { label: "Satuan Grace Period", value: "Bulan" },
+              { label: "Durasi Grace Period", value: "3" },
+              { label: "Tenor Pinjaman", value: "18 Bulan" },
+              { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
+            ]}
+          />
 
           <SectionHighlightWide
             title="Tagihan dan Pembayaran Angsuran"
@@ -400,15 +299,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 className={cn(
                   "billing-v1-compact-rows",
                   applyCompactOverrides
-                    ? [
-                        "[&_.bg-white.px-3.py-3]:!py-1.5",
-                        "[&_.px-4.py-4]:!py-2",
-                      ].join(" ")
+                    ? "[&_.bg-white.px-3.py-3]:!py-1.5 [&_.px-4.py-4]:!py-2"
                     : "",
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
-                  "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
-                  alignNumbersForPenurunan,
                 )}
               >
                 {isPenurunanBakiDebetMode ? (
@@ -416,17 +310,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     rows={pagedRowsForView2}
                     selected={selected}
                     setSelected={setSelected}
-                    isLocked={true}
+                    isLocked
                     showNextBillInfo={false}
                     showGraceInfo={page === 1}
                     highlightGraceBlock={page === 1}
-                    keepGraceShellWithoutInfo={false}
-                    hideSelection={true}
+                    hideSelection
                     showPenaltyColumn={false}
                     disableRowRings
                     disableRowActiveRing
                     rowDensity="default"
-                    className="mt-0"
+                    className="anggota-page-two-billing mt-0"
                     contextKey={penaltyContextKey}
                   />
                 ) : useView2Style ? (
@@ -438,13 +331,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     showNextBillInfo={false}
                     showGraceInfo={page === 1}
                     highlightGraceBlock={page === 1}
-                    keepGraceShellWithoutInfo={false}
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
                     penaltyContentEnabled={page === 1}
                     disableRowRings
                     rowDensity="default"
-                    className="mt-0"
+                    className="anggota-page-two-billing mt-0"
                     contextKey={penaltyContextKey}
                   />
                 ) : (
@@ -469,8 +361,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
-                  Menampilkan {showingStart} sampai {showingEnd} dari {rows.length}{" "}
-                  entri
+                  Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
                 </div>
 
                 <AnggotaTransactionPagination
@@ -526,13 +417,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 setTabungan={setTabungan}
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
-                onPayPenurunanBakiDebet={() => {}}
               />
             </div>
           </div>
-        </div>
 
-        <div className="sr-only">{nasabah.nama}</div>
+          <div className="sr-only">{nasabah.nama}</div>
+        </div>
       </div>
     </div>
   );
