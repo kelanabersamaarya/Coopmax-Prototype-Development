@@ -38,5 +38,5 @@
   table[class*="min-w-[1780px]"]
   thead
   th:nth-child(9)::after {
-  content: "Sisa Tagihan Denda";
+  content: "Sisa Tagihan Bunga";
 }
