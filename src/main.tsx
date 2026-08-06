@@ -16,5 +16,6 @@ import "./styles/hide-loan-change-info.css";
 import "./styles/loan-interest-billing-marker.css";
 import "./styles/anggota-page-two-interest-marker.css";
 import "./styles/loan-extension-account-info-reference.css";
+import "./styles/loan-extension-hide-duplicate-close.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
