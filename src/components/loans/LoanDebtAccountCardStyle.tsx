@@ -10,27 +10,47 @@ type AccountField = {
 };
 
 const accountFields: AccountField[] = [
-  { label: "No. Rek. Pinjaman", value: "SMG260004" },
-  { label: "Nama Anggota", value: "Bapak Bagus" },
-  { label: "Produk Pinjaman", value: "Pinjaman Billing" },
-  { label: "Status Pinjaman", value: "Aktif / Sudah Dicairkan" },
-  { label: "Baki Debet Pokok", value: "10.553.571,00" },
-  { label: "Tunggakan Pokok", value: "0,00" },
-  { label: "Tunggakan Bunga", value: "125.000,00" },
-  { label: "Denda dan Biaya Lainnya", value: "0,00" },
-  { label: "Total Kewajiban", value: "10.678.571,00" },
+  { label: "Kode Pinjaman", value: "SMG260004" },
+  { label: "Nama Nasabah", value: "Agus" },
+  { label: "Status", value: "Aktif / Sudah Disalurkan" },
+  { label: "Sektor Pinjaman", value: "Umum" },
+  { label: "Tujuan Pinjaman", value: "Konsumtif" },
+  { label: "Kolektor", value: "Gina Farida M.M." },
+  { label: "Tanggal Dibuat", value: "07 Apr 2026" },
+  { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+  { label: "Tanggal Pinjaman Aktif", value: "07 Apr 2026" },
+  { label: "Tanggal Transaksi Terakhir", value: "14 Apr 2026" },
+  { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+  { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
+  { label: "Periode Waktu", value: "12 Bulan" },
+  { label: "Suku Bunga Saat Ini (%)", value: "12,00%" },
+  { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
+  { label: "Angsuran Pokok", value: "1.000.000,00" },
+  { label: "Angsuran Bunga", value: "120.000,00" },
+  { label: "Sisa Pinjaman", value: "10.553.571,00" },
+  { label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
+  { label: "Total Harus Bayar", value: "1.120.000,00" },
+  { label: "Total Bayar Bunga", value: "120.000,00" },
+  { label: "Jumlah Hutang Pokok", value: "0 Kali" },
+  { label: "Jumlah Hutang Bunga", value: "0 Kali" },
+  { label: "Hutang Pokok", value: "0,00" },
+  { label: "Hutang Bunga", value: "0,00" },
+  { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
+  { label: "Kolektibilitas", value: "-" },
+  { label: "Satuan Grace Period", value: "Bulan" },
+  { label: "Durasi Grace Period", value: "3" },
 ];
-
-const compactLabels = new Set([
-  "No. Rek. Pinjaman",
-  "Nama Anggota",
-  "Produk Pinjaman",
-  "Status Pinjaman",
-  "Baki Debet Pokok",
-]);
 
 function AccountFields() {
   const [expanded, setExpanded] = React.useState(false);
+
+  const compactLabels = new Set([
+    "Kode Pinjaman",
+    "Nama Nasabah",
+    "Status",
+    "Sektor Pinjaman",
+    "Tujuan Pinjaman",
+  ]);
 
   const visibleFields = expanded
     ? accountFields
@@ -65,19 +85,14 @@ function AccountFields() {
         >
           {expanded ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
           <ChevronDown
-            className={cn(
-              "h-4 w-4 transition-transform",
-              expanded ? "rotate-180" : "",
-            )}
+            className={`h-4 w-4 transition-transform ${
+              expanded ? "rotate-180" : ""
+            }`}
           />
         </button>
       </div>
     </>
   );
-}
-
-function cn(...values: Array<string | false | null | undefined>) {
-  return values.filter(Boolean).join(" ");
 }
 
 function findWizardCard() {
@@ -90,6 +105,7 @@ function findWizardCard() {
   return (
     Array.from(wizard.querySelectorAll<HTMLElement>("div")).find((element) => {
       const className = String(element.className ?? "");
+
       return (
         className.includes("bg-[#17a2b8]") &&
         (element.textContent ?? "").includes("INFORMASI REKENING PINJAMAN")
@@ -102,6 +118,7 @@ function findOriginalFields(card: HTMLElement) {
   return Array.from(card.children).find((child) => {
     const element = child as HTMLElement;
     const className = String(element.className ?? "");
+
     return className.includes("mt-7") && className.includes("grid");
   }) as HTMLElement | undefined;
 }
@@ -110,8 +127,8 @@ function restoreCard(card: HTMLElement | null) {
   if (!card) return;
 
   card.classList.remove("loan-debt-reference-card");
-  const fields = findOriginalFields(card);
 
+  const fields = findOriginalFields(card);
   if (fields) fields.style.display = "";
 }
 
@@ -135,6 +152,7 @@ export default function LoanDebtAccountCardStyle() {
 
       frameId = window.requestAnimationFrame(() => {
         const card = findWizardCard();
+
         if (!card) {
           restore();
           return;
@@ -194,6 +212,8 @@ export default function LoanDebtAccountCardStyle() {
             }
 
             .loan-debt-reference-fields {
+              grid-template-columns: 1fr !important;
+              gap: 16px            .loan-debt-reference-fields {
               grid-template-columns: 1fr !important;
               gap: 16px !important;
               margin-top: 20px !important;
