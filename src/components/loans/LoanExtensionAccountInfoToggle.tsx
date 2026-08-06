@@ -5,12 +5,9 @@ import * as React from "react";
 const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const GRID_SELECTOR = ".loan-extension-account-grid";
 const TOGGLE_CLASS = "loan-extension-account-info-toggle";
-const COLLAPSED_COUNT = 12;
+const COLLAPSED_COUNT = 9;
 
 function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
-  const currentState = button.dataset.expanded === "true";
-  if (button.childElementCount > 0 && currentState === expanded) return;
-
   button.dataset.expanded = String(expanded);
   button.replaceChildren();
 
@@ -90,16 +87,19 @@ function styleToggleButton(button: HTMLButtonElement) {
   });
 }
 
+function getAccountInfoFields(grid: HTMLElement) {
+  return Array.from(
+    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
+  );
+}
+
 function syncAccountInfoToggle() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
   const grid = wizard?.querySelector<HTMLElement>(GRID_SELECTOR);
 
   if (!wizard || !grid) return;
 
-  const fields = Array.from(
-    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
-  );
-
+  const fields = getAccountInfoFields(grid);
   if (fields.length <= COLLAPSED_COUNT) return;
 
   const section = grid.closest("section");
@@ -116,7 +116,10 @@ function syncAccountInfoToggle() {
     button.type = "button";
     button.className = TOGGLE_CLASS;
     button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-label", "Tampilkan informasi rekening lainnya");
+    button.setAttribute(
+      "aria-label",
+      "Tampilkan informasi rekening lainnya",
+    );
 
     button.addEventListener("pointerdown", (event) => {
       event.stopPropagation();
@@ -126,9 +129,10 @@ function syncAccountInfoToggle() {
       event.preventDefault();
       event.stopPropagation();
 
-      const expanded = button?.getAttribute("aria-expanded") === "true";
-      const nextExpanded = !expanded;
+      const nextExpanded =
+        button?.getAttribute("aria-expanded") !== "true";
 
+      grid.dataset.accountInfoExpanded = String(nextExpanded);
       button?.setAttribute("aria-expanded", String(nextExpanded));
       button?.setAttribute(
         "aria-label",
@@ -145,12 +149,10 @@ function syncAccountInfoToggle() {
     });
 
     button.addEventListener("mouseenter", () => {
-      button.style.background = "transparent";
       button.style.textDecoration = "underline";
     });
 
     button.addEventListener("mouseleave", () => {
-      button.style.background = "transparent";
       button.style.textDecoration = "none";
     });
 
@@ -159,7 +161,8 @@ function syncAccountInfoToggle() {
 
   styleToggleButton(button);
 
-  const expanded = button.getAttribute("aria-expanded") === "true";
+  const expanded = grid.dataset.accountInfoExpanded === "true";
+  button.setAttribute("aria-expanded", String(expanded));
   applyFieldVisibility(fields, expanded);
   setButtonContent(button, expanded);
 }
