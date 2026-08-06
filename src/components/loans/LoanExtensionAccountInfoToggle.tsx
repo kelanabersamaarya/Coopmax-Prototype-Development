@@ -20,8 +20,9 @@ function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
   chevron.style.display = "inline-flex";
   chevron.style.alignItems = "center";
   chevron.style.justifyContent = "center";
-  chevron.style.width = "16px";
-  chevron.style.height = "16px";
+  chevron.style.width = "18px";
+  chevron.style.height = "18px";
+  chevron.style.flexShrink = "0";
   chevron.style.transition = "transform 180ms ease";
   chevron.style.transform = expanded ? "rotate(180deg)" : "rotate(0deg)";
   chevron.innerHTML = `
@@ -32,8 +33,8 @@ function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
       stroke-width="2.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       aria-hidden="true"
     >
       <path d="m6 9 6 6 6-6"></path>
@@ -58,23 +59,27 @@ function applyFieldVisibility(fields: HTMLElement[], expanded: boolean) {
 function styleToggleButton(button: HTMLButtonElement) {
   Object.assign(button.style, {
     position: "absolute",
-    right: "20px",
-    bottom: "16px",
-    zIndex: "30",
+    right: "16px",
+    bottom: "12px",
+    zIndex: "100",
     display: "inline-flex",
     alignItems: "center",
-    justifyContent: "flex-end",
-    gap: "5px",
-    minHeight: "24px",
-    padding: "3px 0",
+    justifyContent: "center",
+    gap: "6px",
+    width: "170px",
+    minHeight: "38px",
+    padding: "8px 10px",
     border: "0",
-    background: "transparent",
+    borderRadius: "8px",
+    background: "rgba(15, 118, 110, 0.22)",
     color: "#ffffff",
     cursor: "pointer",
-    fontSize: "11px",
-    fontWeight: "600",
+    fontSize: "12px",
+    fontWeight: "700",
     lineHeight: "1",
     pointerEvents: "auto",
+    touchAction: "manipulation",
+    userSelect: "none",
   });
 }
 
@@ -94,7 +99,8 @@ function syncAccountInfoToggle() {
   if (!section) return;
 
   section.style.position = "relative";
-  section.style.paddingBottom = "58px";
+  section.style.zIndex = "1";
+  section.style.paddingBottom = "64px";
 
   let button = section.querySelector<HTMLButtonElement>(`.${TOGGLE_CLASS}`);
 
@@ -104,6 +110,15 @@ function syncAccountInfoToggle() {
     button.className = TOGGLE_CLASS;
     button.setAttribute("aria-expanded", "false");
     button.setAttribute("aria-label", "Tampilkan informasi rekening lainnya");
+
+    button.addEventListener(
+      "pointerdown",
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      { passive: false },
+    );
 
     button.addEventListener("click", (event) => {
       event.preventDefault();
@@ -125,11 +140,11 @@ function syncAccountInfoToggle() {
     });
 
     button.addEventListener("mouseenter", () => {
-      button.style.color = "rgba(255,255,255,0.78)";
+      button.style.background = "rgba(15, 118, 110, 0.38)";
     });
 
     button.addEventListener("mouseleave", () => {
-      button.style.color = "#ffffff";
+      button.style.background = "rgba(15, 118, 110, 0.22)";
     });
 
     section.appendChild(button);
