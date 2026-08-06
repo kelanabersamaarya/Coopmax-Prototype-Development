@@ -1,111 +1,114 @@
-/* Ubah Suku Bunga > Step Simulasi:
-   Tandai billing mulai periode ketiga sebagai periode perubahan suku bunga.
-*/
+/* Penanda perubahan suku bunga dimulai dari periode ketiga. */
 
-[data-loan-interest-wizard="true"]
+/* Semua baris mulai periode ketiga berada di dalam satu blok perubahan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(n + 3)
-  td {
+  tr:nth-child(n + 3) {
   position: relative !important;
   background-color: #ffffff !important;
-  border-left: 0 !important;
-  border-right: 0 !important;
-}
-
-/* Sisi kiri bingkai biru */
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(n + 3)
-  td:first-child {
   border-left: 2px solid #2563eb !important;
-}
-
-/* Sisi kanan bingkai biru */
-[data-loan-interest-wizard="true"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(n + 3)
-  td:last-child {
   border-right: 2px solid #2563eb !important;
 }
 
-/* Garis atas blok perubahan pada billing periode ketiga */
-[data-loan-interest-wizard="true"]
+/* Garis atas blok perubahan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(3) {
+  border-top: 2px solid #2563eb !important;
+}
+
+/* Garis bawah blok perubahan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:last-child {
+  border-bottom: 2px solid #2563eb !important;
+}
+
+/* Hilangkan padding tambahan yang sebelumnya membuat ruang kosong besar. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr:nth-child(3)
   td {
-  border-top: 2px solid #2563eb !important;
-  padding-top: 76px !important;
+  padding-top: 13px !important;
 }
 
-/* Panel informasi dengan gaya penanda grace period */
-[data-loan-interest-wizard="true"]
+/* Penanda informasi dibuat seperti panel Grace Period,
+   tetapi tidak lagi ditempel pada cell yang disembunyikan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(3)
-  td:first-child::before {
+  tr:nth-child(3)::before {
   content: "Periode Perubahan Suku Bunga";
   position: absolute;
-  z-index: 3;
-  top: 10px;
+  top: 8px;
   left: 10px;
-  display: flex;
-  width: calc(1780px - 20px);
-  min-height: 52px;
-  align-items: center;
+  right: 10px;
+  z-index: 20;
+  display: block;
+  min-height: 40px;
   border-radius: 12px;
-  background-color: #eff6ff;
-  padding: 11px 13px 11px 49px;
+  background: #eff6ff;
+  padding: 10px 14px 10px 44px;
   color: #000000;
   font-size: 12px;
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.35;
   text-align: left;
-  text-transform: none;
+  pointer-events: none;
 }
 
-/* Ikon informasi pada panel */
-[data-loan-interest-wizard="true"]
+/* Ikon informasi pada panel penanda. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:nth-child(3)
-  td:first-child::after {
+  tr:nth-child(3)::after {
   content: "i";
   position: absolute;
-  z-index: 4;
-  top: 25px;
-  left: 21px;
+  top: 17px;
+  left: 22px;
+  z-index: 21;
   display: grid;
-  height: 22px;
-  width: 22px;
+  height: 20px;
+  width: 20px;
   place-items: center;
-  border-radius: 999px;
-  background-color: #2563eb;
+  border-radius: 9999px;
+  background: #2563eb;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 800;
   line-height: 1;
 }
 
-/* Garis bawah blok perubahan pada billing terakhir */
-[data-loan-interest-wizard="true"]
+/* Pastikan isi baris tetap memiliki jarak normal dan tidak menciptakan
+   ruang kosong tambahan akibat aturan lama. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr:last-child
+  tr:nth-child(n + 3)
   td {
-  border-bottom: 2px solid #2563eb !important;
+  padding-top: 13px !important;
+  padding-bottom: 13px !important;
 }
 
-/* Mobile: panel mengikuti lebar tabel yang dapat digeser */
+/* Tampilan mobile tetap proporsional. */
 @media (max-width: 640px) {
-  [data-loan-interest-wizard="true"]
+  [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     table[class*="min-w-[1780px]"]
     tbody
-    tr:nth-child(3)
-    td:first-child::before {
-    width: calc(980px - 20px);
+    tr:nth-child(3)::before {
+    left: 6px;
+    right: 6px;
+    padding-left: 40px;
+  }
+
+  [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+    table[class*="min-w-[1780px]"]
+    tbody
+    tr:nth-child(3)::after {
+    left: 16px;
   }
 }
