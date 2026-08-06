@@ -7,10 +7,11 @@ const IMPACT_PANEL_CLASS = "loan-extension-tenor-impact-panel";
 const DETAIL_PANEL_CLASS = "loan-extension-method-reason-panel";
 
 function createImpactPanel() {
-  const panel = document.createElement("div");
+  const panel = document.createElement("section");
   panel.className = IMPACT_PANEL_CLASS;
+  panel.setAttribute("aria-label", "Informasi dampak perubahan tenor");
   panel.innerHTML = `
-    <span class="loan-extension-tenor-impact-icon" aria-hidden="true">i</span>
+    <div class="loan-extension-tenor-impact-icon" aria-hidden="true">i</div>
     <div class="loan-extension-tenor-impact-content">
       <div class="loan-extension-tenor-impact-title">
         Informasi Dampak Perubahan Tenor
@@ -97,8 +98,7 @@ function syncSummaryDetails() {
   const summarySection = findSummarySection(wizard);
   if (!summarySection?.parentElement) return;
 
-  const effectiveDateRow = getSummaryRow(wizard, "Tanggal Efektif");
-  effectiveDateRow?.remove();
+  getSummaryRow(wizard, "Tanggal Efektif")?.remove();
 
   const method = getSummaryValue(wizard, "Metode Perpanjangan");
   const reason = getSummaryValue(wizard, "Alasan Perpanjangan");
@@ -117,10 +117,6 @@ function syncSummaryDetails() {
   if (methodValue) methodValue.textContent = method;
   if (reasonValue) reasonValue.textContent = reason;
 
-  // Urutan akhir:
-  // 1. Informasi dampak perubahan tenor
-  // 2. Ringkasan perpanjangan pinjaman
-  // 3. Metode dan alasan perpanjangan
   parent.insertBefore(impactPanel, summarySection);
   parent.insertBefore(detailPanel, summarySection.nextSibling);
 }
@@ -154,5 +150,64 @@ export default function LoanExtensionStepTwoSummarySync() {
     };
   }, []);
 
-  return null;
+  return (
+    <style>
+      {`
+        [data-loan-extension-wizard="true"] .${IMPACT_PANEL_CLASS} {
+          display: flex;
+          width: 100%;
+          align-items: flex-start;
+          gap: 12px;
+          margin: 0 0 16px;
+          overflow: hidden;
+          border: 1px solid #93c5fd;
+          border-radius: 12px;
+          background: #dbeafe;
+          padding: 14px 16px;
+          color: #1e3a8a;
+          box-sizing: border-box;
+        }
+
+        [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-icon {
+          display: grid;
+          width: 30px;
+          height: 30px;
+          flex: 0 0 auto;
+          place-items: center;
+          margin-top: 1px;
+          border-radius: 9999px;
+          background: #2563eb;
+          color: #ffffff;
+          font-size: 18px;
+          font-weight: 800;
+          line-height: 1;
+        }
+
+        [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-content {
+          min-width: 0;
+        }
+
+        [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-title {
+          color: #1e3a8a;
+          font-size: 14px;
+          font-weight: 800;
+          line-height: 1.3;
+        }
+
+        [data-loan-extension-wizard="true"] .loan-extension-tenor-impact-description {
+          margin-top: 4px;
+          color: #1e40af;
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 1.45;
+        }
+
+        @media (max-width: 640px) {
+          [data-loan-extension-wizard="true"] .${IMPACT_PANEL_CLASS} {
+            padding: 12px;
+          }
+        }
+      `}
+    </style>
+  );
 }
