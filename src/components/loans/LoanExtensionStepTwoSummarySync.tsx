@@ -28,17 +28,29 @@ function createDetailPanel() {
   panel.className = DETAIL_PANEL_CLASS;
   panel.setAttribute("aria-label", "Informasi metode dan alasan perpanjangan");
   panel.innerHTML = `
-    <div class="loan-extension-method-reason-title">
-      Informasi Perpanjangan Pinjaman
-    </div>
     <div class="loan-extension-method-reason-grid">
       <div class="loan-extension-method-reason-item">
-        <div class="loan-extension-method-reason-label">Metode Perpanjangan</div>
-        <div class="loan-extension-method-reason-value" data-extension-method-value>-</div>
+        <div class="loan-extension-method-reason-label">
+          METODE PERPANJANGAN
+        </div>
+        <div
+          class="loan-extension-method-reason-value"
+          data-extension-method-value
+        >
+          -
+        </div>
       </div>
+
       <div class="loan-extension-method-reason-item">
-        <div class="loan-extension-method-reason-label">Alasan Perpanjangan</div>
-        <div class="loan-extension-method-reason-value" data-extension-reason-value>-</div>
+        <div class="loan-extension-method-reason-label">
+          ALASAN PERPANJANGAN
+        </div>
+        <div
+          class="loan-extension-method-reason-value"
+          data-extension-reason-value
+        >
+          -
+        </div>
       </div>
     </div>
   `;
@@ -52,7 +64,9 @@ function findSummarySection(wizard: HTMLElement) {
 }
 
 function getSummaryRow(wizard: HTMLElement, label: string) {
-  const rows = Array.from(wizard.querySelectorAll<HTMLTableRowElement>("table tbody tr"));
+  const rows = Array.from(
+    wizard.querySelectorAll<HTMLTableRowElement>("table tbody tr"),
+  );
 
   return rows.find((row) => {
     const firstCell = row.querySelector("td");
@@ -137,9 +151,7 @@ export default function LoanExtensionStepTwoSummarySync() {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
       document
-        .querySelectorAll(
-          `.${IMPACT_PANEL_CLASS}, .${DETAIL_PANEL_CLASS}`,
-        )
+        .querySelectorAll(`.${IMPACT_PANEL_CLASS}, .${DETAIL_PANEL_CLASS}`)
         .forEach((panel) => panel.remove());
     };
   }, []);
