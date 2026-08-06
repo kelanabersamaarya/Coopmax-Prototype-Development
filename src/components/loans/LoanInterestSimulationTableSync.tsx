@@ -12,7 +12,7 @@ const rows = [
   ["25-02-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "225.000"],
   ["25-03-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
   ["25-04-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
-  ["25-05-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
+  ["25-05-2026", "916.667", "916.667", "83.333", "833.333", "833.333", ""],
 ] as const;
 
 function findSimulationTable(wizard: HTMLElement) {
@@ -181,10 +181,6 @@ export default function LoanInterestSimulationTableSync() {
           vertical-align: middle !important;
           white-space: nowrap !important;
           font-variant-numeric: tabular-nums !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} tbody tr:nth-child(even) td {
-          background: #f8fafc !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} .loan-interest-member-date {
