@@ -151,12 +151,6 @@ function replaceSummaryRows(wizard: HTMLElement) {
   if (!tbody) return;
 
   const originalRows = Array.from(tbody.querySelectorAll("tr"));
-  const method = originalRows.find(
-    (row) => row.querySelector("td")?.textContent?.trim() === "Metode Perpanjangan",
-  );
-  const effectiveDate = originalRows.find(
-    (row) => row.querySelector("td")?.textContent?.trim() === "Tanggal Efektif",
-  );
   const tenor = originalRows.find(
     (row) => row.querySelector("td")?.textContent?.trim() === "Tenor",
   );
@@ -169,16 +163,6 @@ function replaceSummaryRows(wizard: HTMLElement) {
   const scheduleValues = getScheduleValues(wizard);
 
   tbody.replaceChildren(
-    createSummaryRow(
-      "Metode Perpanjangan",
-      method?.querySelectorAll("td")[1]?.textContent?.trim() || "-",
-      method?.querySelectorAll("td")[2]?.textContent?.trim() || "-",
-    ),
-    createSummaryRow(
-      "Tanggal Efektif",
-      effectiveDate?.querySelectorAll("td")[1]?.textContent?.trim() || "-",
-      effectiveDate?.querySelectorAll("td")[2]?.textContent?.trim() || "-",
-    ),
     createSummaryRow(
       "Tenor",
       "12 Bulan",

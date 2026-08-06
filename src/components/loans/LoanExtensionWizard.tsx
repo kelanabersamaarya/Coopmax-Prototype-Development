@@ -456,7 +456,7 @@ export default function LoanExtensionWizard({
           <StepIndicator step={step} />
           <Separator className="bg-slate-200" />
 
-          <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
+          <main className="px-5 py-6 sm:px-8">
             {step === 1 ? (
               <div className="grid gap-6">
                 <section className="loan-extension-account-info rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
@@ -628,8 +628,8 @@ export default function LoanExtensionWizard({
                     Ringkasan Perpanjangan Pinjaman
                   </div>
 
-                  <div className="safe-x-scroll">
-                    <table className="w-full min-w-[650px] border-collapse">
+                  <div className="w-full overflow-hidden">
+                    <table className="w-full table-fixed border-collapse">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-black">
                           <th className="w-[40%] px-4 py-3">Informasi</th>
@@ -639,8 +639,6 @@ export default function LoanExtensionWizard({
                       </thead>
                       <tbody>
                         {[
-                          ["Metode Perpanjangan", "-", method],
-                          ["Tanggal Efektif", "-", effectiveDate],
                           ["Tenor", `${CURRENT_TENOR} Bulan`, `${simulation.tenor} Bulan`],
                           ["Tanggal Jatuh Tempo Akhir", "07-04-2027", simulation.dueDate],
                           ["Alasan Perpanjangan", "-", reason],
