@@ -456,7 +456,7 @@ export default function LoanExtensionWizard({
           <StepIndicator step={step} />
           <Separator className="bg-slate-200" />
 
-          <main className="px-5 py-6 sm:px-8">
+          <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
             {step === 1 ? (
               <div className="grid gap-6">
                 <section className="loan-extension-account-info rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">

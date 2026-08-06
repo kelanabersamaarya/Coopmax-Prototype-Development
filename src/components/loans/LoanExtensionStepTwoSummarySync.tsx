@@ -60,7 +60,7 @@ function createDetailPanel() {
 
 function findSummarySection(wizard: HTMLElement) {
   return Array.from(wizard.querySelectorAll<HTMLElement>("section")).find(
-    (section) => section.querySelector("table.min-w-\\[650px\\]"),
+    (section) => section.querySelector("table"),
   );
 }
 
@@ -195,6 +195,15 @@ function syncSummaryDetails() {
   // hapus semua panel yang sebelumnya diinjeksi.
   if (!wizard || wizard.dataset.loanExtensionStep !== "2") {
     removeInjectedPanels();
+    wizard?.removeAttribute("data-loan-extension-summary-synced");
+    return;
+  }
+
+  if (
+    wizard.dataset.loanExtensionSummarySynced === "true" &&
+    wizard.querySelector(`.${IMPACT_PANEL_CLASS}`) &&
+    wizard.querySelector(`.${DETAIL_PANEL_CLASS}`)
+  ) {
     return;
   }
 
@@ -224,6 +233,7 @@ function syncSummaryDetails() {
   parent.insertBefore(detailPanel, summarySection);
 
   replaceSummaryRows(wizard);
+  wizard.dataset.loanExtensionSummarySynced = "true";
 }
 
 export default function LoanExtensionStepTwoSummarySync() {
