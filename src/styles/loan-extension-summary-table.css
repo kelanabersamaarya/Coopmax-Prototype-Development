@@ -17,7 +17,9 @@
   max-width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  padding-top: 0 !important;
   padding-bottom: 0 !important;
+  margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
 
@@ -28,8 +30,8 @@
   width: 948.76px !important;
   min-width: 948.76px !important;
   max-width: 948.76px !important;
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
   table-layout: fixed !important;
   border-collapse: collapse !important;
   border-spacing: 0 !important;
@@ -80,13 +82,14 @@
   display: none !important;
 }
 
-/* Header section tepat 45px */
+/* Header section tetap tepat 45px */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
   > div:first-child {
   display: flex !important;
   height: 45px !important;
   min-height: 45px !important;
+  margin: 0 !important;
   align-items: center !important;
   box-sizing: border-box !important;
   padding: 0 16px !important;
@@ -96,6 +99,20 @@
   font-weight: 700 !important;
   line-height: 1.25 !important;
   text-transform: uppercase !important;
+}
+
+/* Header tabel langsung menempel setelah header section */
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  thead,
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  thead
+  tr {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* Jarak bawah kecil setelah baris Alasan Perpanjangan */
