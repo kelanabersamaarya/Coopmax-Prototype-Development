@@ -12,7 +12,7 @@ const rows = [
   ["25-02-2026", "916.667", "916.667", "83.333", "833.333", "33.333", "225.000"],
   ["25-03-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
   ["25-04-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
-  ["25-05-2026", "916.667", "916.667", "833.333", "833.333", "33.333", ""],
+  ["25-05-2026", "916.667", "916.667", "83.333", "833.333", "33.333", ""],
 ] as const;
 
 function findSimulationTable(wizard: HTMLElement) {
@@ -69,16 +69,21 @@ function buildTableMarkup() {
 
 function syncTable() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
+
   if (!wizard || wizard.dataset.loanInterestStep !== "2") return;
 
   const table = findSimulationTable(wizard);
-  if (!table) return;
+
+  if (!table || table.classList.contains(TABLE_CLASS)) return;
 
   const replacement = document.createElement("div");
   replacement.innerHTML = buildTableMarkup().trim();
 
   const nextTable = replacement.firstElementChild;
-  if (nextTable) table.replaceWith(nextTable);
+
+  if (nextTable) {
+    table.replaceWith(nextTable);
+  }
 }
 
 export default function LoanInterestSimulationTableSync() {
