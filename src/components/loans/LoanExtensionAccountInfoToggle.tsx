@@ -8,6 +8,10 @@ const TOGGLE_CLASS = "loan-extension-account-info-toggle";
 const COLLAPSED_COUNT = 12;
 
 function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
+  const currentState = button.dataset.expanded === "true";
+  if (button.childElementCount > 0 && currentState === expanded) return;
+
+  button.dataset.expanded = String(expanded);
   button.replaceChildren();
 
   const label = document.createElement("span");
@@ -111,24 +115,19 @@ function syncAccountInfoToggle() {
     button.setAttribute("aria-expanded", "false");
     button.setAttribute("aria-label", "Tampilkan informasi rekening lainnya");
 
-    button.addEventListener(
-      "pointerdown",
-      (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      },
-      { passive: false },
-    );
+    button.addEventListener("pointerdown", (event) => {
+      event.stopPropagation();
+    });
 
     button.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
 
-      const expanded = button.getAttribute("aria-expanded") === "true";
+      const expanded = button?.getAttribute("aria-expanded") === "true";
       const nextExpanded = !expanded;
 
-      button.setAttribute("aria-expanded", String(nextExpanded));
-      button.setAttribute(
+      button?.setAttribute("aria-expanded", String(nextExpanded));
+      button?.setAttribute(
         "aria-label",
         nextExpanded
           ? "Sembunyikan informasi rekening tambahan"
@@ -136,7 +135,10 @@ function syncAccountInfoToggle() {
       );
 
       applyFieldVisibility(fields, nextExpanded);
-      setButtonContent(button, nextExpanded);
+
+      if (button) {
+        setButtonContent(button, nextExpanded);
+      }
     });
 
     button.addEventListener("mouseenter", () => {
