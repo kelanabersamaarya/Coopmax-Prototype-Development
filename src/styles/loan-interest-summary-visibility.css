@@ -7,9 +7,9 @@
   height: auto !important;
   max-height: none !important;
   overflow: visible !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  background: #ffffff !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
   box-sizing: border-box !important;
 }
 
@@ -26,8 +26,7 @@
   width: 100% !important;
   min-width: 0 !important;
   max-width: 100% !important;
-  overflow-x: auto !important;
-  overflow-y: visible !important;
+  overflow: visible !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -38,10 +37,13 @@
   max-width: none !important;
   height: auto !important;
   table-layout: fixed !important;
-  border: 0 !important;
-  border-collapse: collapse !important;
-  border-radius: 0 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 12px !important;
   background: #ffffff !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -81,6 +83,7 @@
   vertical-align: middle !important;
   white-space: normal !important;
   overflow-wrap: anywhere !important;
+  box-sizing: border-box !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -108,15 +111,14 @@
   font-weight: 700 !important;
 }
 
-/* Jadikan baris alasan sebagai panel mandiri di bawah ringkasan. */
+/* Baris alasan dikeluarkan dari visual section ringkasan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
   tbody
   tr:last-child {
   display: block !important;
-  width: calc(100% - 32px) !important;
-  min-width: 0 !important;
-  margin: 16px !important;
+  width: 100% !important;
+  margin: 16px 0 0 !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
   background: #ffffff !important;
@@ -124,6 +126,7 @@
   box-sizing: border-box !important;
 }
 
+/* Kolom pembungkus alasan dibuat satu kolom penuh. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
   tbody
@@ -131,6 +134,7 @@
   td {
   display: none !important;
   width: 100% !important;
+  min-width: 100% !important;
   padding: 0 !important;
   border: 0 !important;
   text-align: left !important;
@@ -143,18 +147,23 @@
   tr:last-child
   td:nth-child(3) {
   display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  padding: 0 !important;
   color: #000000 !important;
   font-weight: 400 !important;
 }
 
+/* Header section alasan memiliki panjang yang sama dengan ringkasan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
   tbody
   tr:last-child
   td:nth-child(3)::before {
-  content: "Alasan Perubahan";
+  content: "ALASAN PERUBAHAN";
   display: block !important;
   width: 100% !important;
+  min-height: 42px !important;
   padding: 12px 16px !important;
   border-bottom: 1px solid #e2e8f0 !important;
   background: #f9faff !important;
@@ -162,16 +171,17 @@
   font-size: 12px !important;
   font-weight: 700 !important;
   line-height: 1.35 !important;
-  text-transform: uppercase !important;
+  text-align: left !important;
   box-sizing: border-box !important;
 }
 
+/* Teks alasan memenuhi seluruh section. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
   tbody
   tr:last-child
   td:nth-child(3) {
-  padding: 12px 16px !important;
+  padding-bottom: 12px !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -180,10 +190,15 @@
   tr:last-child
   td:nth-child(3)
   * {
+  display: block !important;
+  width: 100% !important;
+  padding: 12px 16px 0 !important;
   color: #000000 !important;
   font-weight: 400 !important;
+  text-align: left !important;
 }
 
+/* Ringkasan berhenti sebelum section alasan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
   tbody
@@ -194,11 +209,6 @@
 
 @media (max-width: 640px) {
   [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-    div:has(> .safe-x-scroll > table.loan-interest-summary) {
-    border-radius: 10px !important;
-  }
-
-  [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     table.loan-interest-summary {
     min-width: 560px !important;
   }
@@ -207,7 +217,7 @@
     table.loan-interest-summary
     tbody
     tr:last-child {
-    width: calc(100% - 24px) !important;
-    margin: 12px !important;
+    width: 100% !important;
+    margin-top: 12px !important;
   }
 }
