@@ -1,15 +1,12 @@
-/* Step 2 - Ringkasan Perpanjangan Pinjaman
-   Lebar kolom:
-   Informasi                  : 379.48px
-   Sebelum Perpanjangan       : 284.64px
-   Sesudah Perpanjangan       : 284.64px
-*/
+/* Step 2 - Ringkasan Perpanjangan Pinjaman */
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4))) {
   width: 100% !important;
   min-width: 0 !important;
   overflow: hidden !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -20,6 +17,8 @@
   max-width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -29,6 +28,8 @@
   width: 948.76px !important;
   min-width: 948.76px !important;
   max-width: 948.76px !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
   table-layout: fixed !important;
   border-collapse: collapse !important;
   border-spacing: 0 !important;
@@ -70,20 +71,35 @@
   max-width: 284.64px !important;
 }
 
-/* Hilangkan hanya baris Tanggal Efektif dari ringkasan Step 2.
-   Urutan baris tabel:
-   1. Metode Perpanjangan
-   2. Tanggal Efektif
-   3. Tenor
-   4. Tanggal Jatuh Tempo Akhir
-   5. Alasan Perpanjangan
-*/
+/* Hilangkan baris Tanggal Efektif */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
   table
   tbody
   tr:nth-child(2) {
   display: none !important;
+}
+
+/* Hilangkan celah setelah baris Alasan Perpanjangan */
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  tbody
+  tr:last-child
+  td {
+  padding-bottom: 0 !important;
+  border-bottom: 0 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  tbody
+  tr:last-child
+  td
+  > * {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
