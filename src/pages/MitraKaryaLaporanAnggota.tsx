@@ -21,8 +21,8 @@ import {
 import { cn } from "@/lib/utils";
 import MemberReportEntriesPicker from "@/components/mitra-karya/MemberReportEntriesPicker";
 
-type Category = "Anggota" | "Calon Anggota";
-type KtpStatus = "Tersedia" | "Belum Tersedia";
+type Category = "Semua" | "Anggota" | "Calon Anggota";
+type KtpStatus = "Semua" | "Tersedia" | "Belum Tersedia";
 
 type Member = {
   id: string;

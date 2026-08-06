@@ -37,6 +37,7 @@ const seedRows: HistoryRow[] = [
     installment: "Angsuran ke-1",
     type: "Pengurangan Bunga",
     amount: "50.000",
+    reason: "-",
     interestBefore: "83.333",
     interestAfter: "33.333",
     changedBy: "Arya Dharma",
