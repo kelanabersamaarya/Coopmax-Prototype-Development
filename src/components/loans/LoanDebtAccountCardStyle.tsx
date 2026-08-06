@@ -213,8 +213,6 @@ export default function LoanDebtAccountCardStyle() {
 
             .loan-debt-reference-fields {
               grid-template-columns: 1fr !important;
-              gap: 16px            .loan-debt-reference-fields {
-              grid-template-columns: 1fr !important;
               gap: 16px !important;
               margin-top: 20px !important;
             }
