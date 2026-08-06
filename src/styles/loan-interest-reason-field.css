@@ -1,0 +1,27 @@
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  textarea[placeholder="Masukkan alasan perubahan suku bunga"] {
+  margin-top: 0 !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  textarea[placeholder="Masukkan alasan perubahan suku bunga"]
+  :is(:scope) {
+  margin-top: 0 !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  textarea[placeholder="Masukkan alasan perubahan suku bunga"]
+  ~ * {
+  margin-top: 0 !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  div.grid:has(> textarea[placeholder="Masukkan alasan perubahan suku bunga"]) {
+  align-items: start !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="1"]
+  div.grid:has(> textarea[placeholder="Masukkan alasan perubahan suku bunga"])
+  > label {
+  padding-top: 0.5rem !important;
+}
