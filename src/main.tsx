@@ -20,5 +20,6 @@ import "./styles/loan-extension-account-info-reference.css";
 import "./styles/loan-extension-hide-duplicate-close.css";
 import "./styles/loan-extension-summary-table.css";
 import "./styles/loan-extension-method-reason-panel.css";
+import "./styles/loan-debt-hide-adjustment-hint.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
