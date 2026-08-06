@@ -13,18 +13,16 @@ function updateUnsupportedDebtMessage() {
   );
 
   dialogs.forEach((dialog) => {
-    const elements = Array.from(
-      dialog.querySelectorAll<HTMLElement>("p, div"),
-    );
+    const paragraphs = Array.from(dialog.querySelectorAll<HTMLParagraphElement>("p"));
 
-    elements.forEach((element) => {
-      const text = element.textContent?.trim().toLowerCase() ?? "";
+    paragraphs.forEach((paragraph) => {
+      const text = paragraph.textContent?.trim().toLowerCase() ?? "";
 
       if (
         text.includes("perubahan nominal bunga") ||
         text.includes("perubahan hutang bunga")
       ) {
-        element.textContent = UPDATED_MESSAGE;
+        paragraph.textContent = UPDATED_MESSAGE;
       }
     });
   });
