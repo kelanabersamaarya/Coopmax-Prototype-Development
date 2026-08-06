@@ -159,7 +159,13 @@ export default function LoanInterestSimulationTableSync() {
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:first-child,
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:first-child {
+          padding-left: 20px !important;
           text-align: left !important;
+        }
+
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:last-child,
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:last-child {
+          padding-right: 20px !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} td {
@@ -184,6 +190,22 @@ export default function LoanInterestSimulationTableSync() {
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} .loan-interest-member-date {
           font-weight: 700 !important;
           text-align: left !important;
+        }
+
+        @media (max-width: 640px) {
+          [data-loan-interest-wizard="true"] .${TABLE_CLASS} {
+            min-width: 980px !important;
+          }
+
+          [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:first-child,
+          [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:first-child {
+            padding-left: 16px !important;
+          }
+
+          [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:last-child,
+          [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:last-child {
+            padding-right: 16px !important;
+          }
         }
       `}
     </style>
