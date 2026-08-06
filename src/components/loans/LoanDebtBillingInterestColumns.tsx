@@ -42,10 +42,6 @@ function restoreOriginalCellValue(
   const actionButton = cell.querySelector("button");
   const originalMarkup = cell.getAttribute(ORIGINAL_MARKUP_ATTRIBUTE);
 
-  if (actionButton) {
-    actionButton.remove();
-  }
-
   cell.replaceChildren();
 
   if (originalMarkup) {
@@ -56,7 +52,7 @@ function restoreOriginalCellValue(
       cell.appendChild(wrapper.firstChild);
     }
   } else {
-    cell.appendChild(document.createTextNode(originalValue));
+    cell.textContent = originalValue;
   }
 
   if (actionButton) {
