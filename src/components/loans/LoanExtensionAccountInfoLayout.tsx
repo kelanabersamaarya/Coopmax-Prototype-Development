@@ -118,9 +118,9 @@ function orderFields(grid: HTMLElement) {
     fieldsByLabel.set(label, field);
   });
 
-  const orderedFields = accountItems.map((item) => {
-    return fieldsByLabel.get(item.label) ?? createField(item);
-  });
+  const orderedFields = accountItems.map(
+    (item) => fieldsByLabel.get(item.label) ?? createField(item),
+  );
 
   const currentFields = Array.from(grid.children);
 
@@ -157,19 +157,17 @@ function mountAccountInfo() {
   const accountNoField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Kode Pinjaman"] .loan-extension-account-value',
   );
-
   if (accountNoField) accountNoField.textContent = "SMG260004";
 
   const customerNameField = grid.querySelector<HTMLElement>(
     '[data-account-item-label="Nama Nasabah"] .loan-extension-account-value',
   );
-
   if (customerNameField) customerNameField.textContent = "Bapak Bagus";
 
-  const expanded =
-    grid.dataset.accountInfoExpanded === "true";
-
-  applyCompactVisibility(grid, expanded);
+  applyCompactVisibility(
+    grid,
+    grid.dataset.accountInfoExpanded === "true",
+  );
 }
 
 export default function LoanExtensionAccountInfoLayout() {
@@ -197,7 +195,6 @@ export default function LoanExtensionAccountInfoLayout() {
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      attributes: true,
     });
 
     retryMount();
