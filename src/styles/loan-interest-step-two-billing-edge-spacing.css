@@ -1,30 +1,45 @@
+/* Wizard Ubah Suku Bunga:
+   Tagihan Denda berada pada kolom ke-10.
+   Header tetap, hanya angka pada isi tabel yang diberi padding kanan 22px.
+*/
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   th:nth-child(10) {
   padding-right: 22px !important;
-  text-align: right !important;
+  text-indent: 0 !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   td:nth-child(10) {
   padding-right: 22px !important;
+  text-indent: 0 !important;
   text-align: right !important;
-  text-indent: -22px !important;
 }
 
-@media (max-width: 640px) {
-  [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-    table[class*="min-w-[1780px]"]
-    th:nth-child(10) {
-    padding-right: 22px !important;
-    text-indent: 0 !important;
-  }
+/* Wizard Ubah Nominal Bunga:
+   Tagihan Denda berada pada kolom ke-5.
+   Selector dibuat langsung ke td yang terlihat pada hasil inspect.
+*/
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  th:nth-child(5) {
+  padding-right: 22px !important;
+  text-indent: 0 !important;
+}
 
-  [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-    table[class*="min-w-[1780px]"]
-    td:nth-child(10) {
-    padding-right: 22px !important;
-    text-indent: -22px !important;
-  }
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  td:nth-child(5) {
+  padding-right: 22px !important;
+  text-indent: 0 !important;
+  text-align: right !important;
+}
+
+/* Kompatibilitas untuk tabel yang dirender lebih ringkas oleh CSS wizard. */
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  td:nth-child(5)
+  > * {
+  text-align: right !important;
 }
