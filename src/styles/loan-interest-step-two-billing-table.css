@@ -49,6 +49,7 @@
   display: block !important;
   order: 1 !important;
   flex: 0 0 14% !important;
+  padding-left: 22px !important;
   text-align: left !important;
 }
 
@@ -117,7 +118,7 @@
   text-align: right !important;
 }
 
-/* Kolom Denda */
+/* Kolom Tagihan Denda */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   th:nth-child(10),
@@ -128,7 +129,7 @@
   order: 7 !important;
   flex: 1 1 14% !important;
   position: relative !important;
-  padding-right: 32px !important;
+  padding-right: 22px !important;
   text-align: right !important;
 }
 
@@ -171,7 +172,10 @@
   table[class*="min-w-[1780px]"]
   th {
   min-height: 58px !important;
-  padding: 12px 10px !important;
+  padding-top: 12px !important;
+  padding-right: 10px !important;
+  padding-bottom: 12px !important;
+  padding-left: 10px !important;
   color: #334155 !important;
   font-size: 10px !important;
   font-weight: 800 !important;
@@ -184,14 +188,24 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   th:nth-child(2) {
+  padding-left: 22px !important;
   text-align: left !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  th:nth-child(10) {
+  padding-right: 22px !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   td {
   min-height: 46px !important;
-  padding: 13px 10px !important;
+  padding-top: 13px !important;
+  padding-right: 10px !important;
+  padding-bottom: 13px !important;
+  padding-left: 10px !important;
   border-top: 1px solid #e2e8f0 !important;
   color: #0f172a !important;
   font-size: 12px !important;
@@ -202,61 +216,12 @@
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(even) {
-  background-color: #f8fafc !important;
-}
-
-/* Ikon pada sisi kanan kolom denda: tiga baris awal mata, sisanya plus. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(-n + 3)
-  td:nth-child(10)::after {
-  content: "⌾";
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  display: grid;
-  width: 19px;
-  height: 19px;
-  transform: translateY(-50%);
-  place-items: center;
-  border-radius: 999px;
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1;
+  td:nth-child(2) {
+  padding-left: 22px !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(n + 4)
   td:nth-child(10) {
-  color: transparent !important;
-  font-size: 0 !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(n + 4)
-  td:nth-child(10)::after {
-  content: "+";
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  display: grid;
-  width: 19px;
-  height: 19px;
-  transform: translateY(-50%);
-  place-items: center;
-  border-radius: 999px;
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1;
+  padding-right: 22px !important;
 }
