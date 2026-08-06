@@ -15,6 +15,7 @@ type AccountItem = {
 
 const accountItems: AccountItem[] = [
   { label: "Kode Pinjaman", value: "SMG260004" },
+  { label: "Nama Nasabah", value: "Bapak Bagus" },
   { label: "Sektor Pinjaman", value: "Umum" },
   { label: "Tujuan Pinjaman", value: "Konsumtif" },
   { label: "Kolektor", value: "Gina Farida M.M." },
@@ -130,6 +131,14 @@ function mountAccountInfo() {
 
   if (accountNoField) {
     accountNoField.textContent = "SMG260004";
+  }
+
+  const customerNameField = grid.querySelector<HTMLElement>(
+    '[data-account-item-label="Nama Nasabah"] .loan-extension-account-value',
+  );
+
+  if (customerNameField) {
+    customerNameField.textContent = "Bapak Bagus";
   }
 
   const remainingTenorField = grid.querySelector<HTMLElement>(
