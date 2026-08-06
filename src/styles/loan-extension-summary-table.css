@@ -1,0 +1,96 @@
+/* Step 2 Perpanjangan Pinjaman:
+   Tabel ringkasan mengisi card dan membagi kolom secara proporsional.
+*/
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\] {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  th,
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  td {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  white-space: normal !important;
+  vertical-align: top !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  th:first-child,
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  td:first-child {
+  width: 40% !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  th:nth-child(2),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  td:nth-child(2),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  th:nth-child(3),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  td:nth-child(3) {
+  width: 30% !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  th {
+  padding: 12px 14px !important;
+  line-height: 1.25 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  td {
+  padding: 12px 14px !important;
+  line-height: 1.4 !important;
+}
+
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  table.min-w-\[650px\]
+  td:nth-child(3) {
+  color: #2563eb !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 640px) {
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    .safe-x-scroll:has(> table.min-w-\[650px\]) {
+    overflow-x: auto !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table.min-w-\[650px\] {
+    width: 650px !important;
+    min-width: 650px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table.min-w-\[650px\]
+    th,
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table.min-w-\[650px\]
+    td {
+    padding: 10px 12px !important;
+  }
+}
