@@ -7,15 +7,17 @@ const GRID_SELECTOR = ".loan-extension-account-grid";
 const TOGGLE_CLASS = "loan-extension-account-info-toggle";
 
 const COMPACT_LABELS = new Set([
-  "Kode Pinjaman",
-  "Nama Nasabah",
-  "Sektor Pinjaman",
-  "Tujuan Pinjaman",
-  "Kolektor",
-  "Tanggal Dibuat",
-  "Tanggal Jatuh Tempo",
-  "Tanggal Pinjaman Aktif",
-  "Tanggal Transaksi Terakhir",
+  "No. Rek. Pinjaman",
+  "Nama Anggota",
+  "Nama Anggota / Debitur",
+  "Produk Pinjaman",
+  "Status Pinjaman",
+  "Baki Debet",
+  "Baki Debet Pokok",
+  "Nominal Angsuran",
+  "Suku Bunga",
+  "Suku Bunga Saat Ini",
+  "Sisa Tenor",
 ]);
 
 function getElements() {
@@ -36,7 +38,11 @@ function applyVisibility(fields: HTMLElement[], expanded: boolean) {
   fields.forEach((field) => {
     const label = field.dataset.accountItemLabel?.trim() ?? "";
     const labelText =
-      label || field.querySelector(":scope > div:first-child")?.textContent?.trim() || "";
+      label ||
+      field
+        .querySelector<HTMLElement>(":scope > div:first-child")
+        ?.textContent?.trim() ||
+      "";
 
     field.style.setProperty(
       "display",
