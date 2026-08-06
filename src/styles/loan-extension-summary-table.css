@@ -1,28 +1,30 @@
-/* Ringkasan Perpanjangan Pinjaman - Step 2 */
+/* Step 2 - Ringkasan Perpanjangan Pinjaman
+   Lebar kolom:
+   Informasi                  : 379.48px
+   Sebelum Perpanjangan       : 284.64px
+   Sesudah Perpanjangan       : 284.64px
+*/
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"]) {
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4))) {
   width: 100% !important;
   min-width: 0 !important;
   overflow: hidden !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll {
-  display: block !important;
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  > div {
   width: 100% !important;
-  max-width: 100% !important;
   min-width: 0 !important;
+  max-width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"] {
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table {
   display: table !important;
   width: 948.76px !important;
   min-width: 948.76px !important;
@@ -33,35 +35,12 @@
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
-  th,
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
-  td {
-  box-sizing: border-box !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  padding: 14px 18px !important;
-  overflow-wrap: normal !important;
-  word-break: normal !important;
-  white-space: normal !important;
-  vertical-align: top !important;
-  line-height: 1.4 !important;
-}
-
-[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   th:nth-child(1),
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   td:nth-child(1) {
   width: 379.48px !important;
   min-width: 379.48px !important;
@@ -69,19 +48,20 @@
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   th:nth-child(2),
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   td:nth-child(2),
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  th:nth-child(3),
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   td:nth-child(3) {
   width: 284.64px !important;
   min-width: 284.64px !important;
@@ -89,70 +69,58 @@
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
-  th:nth-child(3) {
-  width: 284.64px !important;
-  min-width: 284.64px !important;
-  max-width: 284.64px !important;
-  background: #ffffff !important;
-  color: #111827 !important;
-  font-size: 12px !important;
-  font-weight: 800 !important;
-  text-align: left !important;
-  text-transform: uppercase !important;
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  th,
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  td {
+  box-sizing: border-box !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: normal !important;
+  vertical-align: top !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   th {
   background: #ffffff !important;
   color: #111827 !important;
   font-size: 12px !important;
   font-weight: 800 !important;
+  line-height: 1.25 !important;
+  padding: 12px 16px !important;
   text-align: left !important;
   text-transform: uppercase !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   td {
   border-top: 1px solid #e2e8f0 !important;
   color: #111827 !important;
   font-size: 12px !important;
   font-weight: 400 !important;
+  line-height: 1.4 !important;
+  padding: 14px 16px !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   tbody
   tr:nth-child(even) {
   background: #f8fafc !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-  section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-  > .safe-x-scroll
-  > table[class*="min-w-\\[650px\\]"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
   td:nth-child(3) {
   color: #2563eb !important;
   font-weight: 700 !important;
-}
-
-@media (max-width: 640px) {
-  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
-    section:has(> .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
-    > .safe-x-scroll
-    > table[class*="min-w-\\[650px\\]"] {
-    width: 948.76px !important;
-    min-width: 948.76px !important;
-    max-width: 948.76px !important;
-  }
 }
