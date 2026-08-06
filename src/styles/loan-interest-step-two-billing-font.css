@@ -1,34 +1,37 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"],
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"] * {
+  table[class*="min-w-[1780px]"] {
   font-size: 12px !important;
   color: #000000 !important;
 }
 
+/* Header tabel tetap 12px, hitam, dan bold. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   thead,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  thead *,
+  thead tr,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  thead th {
+  thead th,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead th * {
   font-size: 12px !important;
   font-weight: 700 !important;
   color: #000000 !important;
 }
 
+/* Isi tabel tetap 12px dan hitam secara default. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  tbody *,
+  tbody td,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  tbody td {
+  tbody td * {
   font-size: 12px !important;
   font-weight: 400 !important;
   color: #000000 !important;
@@ -99,7 +102,7 @@
   font-weight: 700 !important;
 }
 
-/* Nilai total angsuran sesudah penyesuaian tetap ikut berwarna biru. */
+/* Nilai total angsuran sesudah penyesuaian tetap biru. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
