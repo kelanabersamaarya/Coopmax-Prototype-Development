@@ -1,0 +1,106 @@
+/* Penanda perubahan suku bunga pada tabel billing Transaksi Anggota.
+   Mulai dari tagihan ke-4, mengikuti gaya visual grace period. */
+
+.billing-v1-compact-rows
+  table
+  > tbody
+  > tr:nth-child(4)
+  > td {
+  position: relative;
+  border-top: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-left: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-right: 2px solid rgb(37 99 235 / 0.7) !important;
+  padding-top: 58px !important;
+}
+
+.billing-v1-compact-rows
+  table
+  > tbody
+  > tr:nth-child(4)
+  > td::before {
+  content: "Periode Perubahan Suku Bunga";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  border-radius: 12px;
+  background: #eff6ff;
+  padding: 8px 12px 8px 42px;
+  color: #000000;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.billing-v1-compact-rows
+  table
+  > tbody
+  > tr:nth-child(4)
+  > td::after {
+  content: "i";
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  display: grid;
+  height: 20px;
+  width: 20px;
+  place-items: center;
+  border-radius: 9999px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.billing-v1-compact-rows
+  table
+  > tbody
+  > tr:nth-child(n + 4)
+  > td {
+  border-left: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-right: 2px solid rgb(37 99 235 / 0.7) !important;
+}
+
+.billing-v1-compact-rows
+  table
+  > tbody
+  > tr:last-child
+  > td {
+  border-bottom: 2px solid rgb(37 99 235 / 0.7) !important;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+@media (max-width: 640px) {
+  .billing-v1-compact-rows
+    table
+    > tbody
+    > tr:nth-child(4)
+    > td {
+    padding-top: 62px !important;
+  }
+
+  .billing-v1-compact-rows
+    table
+    > tbody
+    > tr:nth-child(4)
+    > td::before {
+    left: 6px;
+    right: 6px;
+    padding-left: 40px;
+  }
+
+  .billing-v1-compact-rows
+    table
+    > tbody
+    > tr:nth-child(4)
+    > td::after {
+    left: 16px;
+  }
+}
