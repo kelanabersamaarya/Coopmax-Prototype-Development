@@ -57,19 +57,35 @@ const accountFields: AccountField[] = [
 ];
 
 function AccountFields() {
+  const [expanded, setExpanded] = React.useState(false);
+  const visibleFields = expanded ? accountFields : accountFields.slice(0, 8);
+
   return (
-    <div className="loan-interest-reference-fields grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-      {accountFields.map((field) => (
-        <div key={field.label} className="min-w-0">
-          <div className="text-[11px] font-semibold leading-tight text-white/85">
-            {field.label}
+    <>
+      <div className="loan-interest-reference-fields grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+        {visibleFields.map((field) => (
+          <div key={field.label} className="min-w-0">
+            <div className="text-[11px] font-semibold leading-tight text-white/85">
+              {field.label}
+            </div>
+            <div className="mt-1 text-[14px] font-extrabold leading-snug tracking-tight text-white">
+              {field.value}
+            </div>
           </div>
-          <div className="mt-1 text-[14px] font-extrabold leading-snug tracking-tight text-white">
-            {field.value}
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+
+      <div className="mt-5 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="text-[12px] font-semibold text-white underline underline-offset-4 transition hover:text-white/80"
+          aria-expanded={expanded}
+        >
+          {expanded ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
+        </button>
+      </div>
+    </>
   );
 }
 
