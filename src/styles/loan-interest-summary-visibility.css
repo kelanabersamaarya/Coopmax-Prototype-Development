@@ -11,7 +11,6 @@
   background: #ffffff !important;
 }
 
-/* Gunakan header asli dari komponen, jangan tambahkan header pseudo duplikat. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   div:has(> .safe-x-scroll > table.loan-interest-summary)::before {
   content: none !important;
@@ -83,6 +82,15 @@
   line-height: 1.35 !important;
   text-align: left !important;
   white-space: normal !important;
+}
+
+/* Border bawah terakhir cukup menggunakan border luar section. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table.loan-interest-summary
+  tbody
+  tr:last-child
+  td {
+  border-bottom: 0 !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
