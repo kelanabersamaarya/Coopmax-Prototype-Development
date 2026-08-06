@@ -6,6 +6,12 @@ const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const IMPACT_PANEL_CLASS = "loan-extension-tenor-impact-panel";
 const DETAIL_PANEL_CLASS = "loan-extension-method-reason-panel";
 
+function removeInjectedPanels() {
+  document
+    .querySelectorAll(`.${IMPACT_PANEL_CLASS}, .${DETAIL_PANEL_CLASS}`)
+    .forEach((panel) => panel.remove());
+}
+
 function createImpactPanel() {
   const panel = document.createElement("section");
   panel.className = IMPACT_PANEL_CLASS;
@@ -144,14 +150,46 @@ function replaceSummaryRows(wizard: HTMLElement) {
 
   if (!tbody) return;
 
+  const originalRows = Array.from(tbody.querySelectorAll("tr"));
+  const method = originalRows.find(
+    (row) => row.querySelector("td")?.textContent?.trim() === "Metode Perpanjangan",
+  );
+  const effectiveDate = originalRows.find(
+    (row) => row.querySelector("td")?.textContent?.trim() === "Tanggal Efektif",
+  );
+  const tenor = originalRows.find(
+    (row) => row.querySelector("td")?.textContent?.trim() === "Tenor",
+  );
+  const dueDate = originalRows.find(
+    (row) =>
+      row.querySelector("td")?.textContent?.trim() ===
+      "Tanggal Jatuh Tempo Akhir",
+  );
+
   const scheduleValues = getScheduleValues(wizard);
 
   tbody.replaceChildren(
-    createSummaryRow("Tenor", "12 Bulan", getSummaryValue(wizard, "Tenor")),
+    createSummaryRow(
+      "Metode Perpanjangan",
+      method?.querySelectorAll("td")[1]?.textContent?.trim() || "-",
+      method?.querySelectorAll("td")[2]?.textContent?.trim() || "-",
+    ),
+    createSummaryRow(
+      "Tanggal Efektif",
+      effectiveDate?.querySelectorAll("td")[1]?.textContent?.trim() || "-",
+      effectiveDate?.querySelectorAll("td")[2]?.textContent?.trim() || "-",
+    ),
+    createSummaryRow(
+      "Tenor",
+      "12 Bulan",
+      tenor?.querySelectorAll("td")[2]?.textContent?.trim() ||
+        `${scheduleValues.finalDueDate === "-" ? "12" : "12"} Bulan`,
+    ),
     createSummaryRow(
       "Tanggal Jatuh Tempo Akhir",
       "07-04-2027",
-      scheduleValues.finalDueDate,
+      dueDate?.querySelectorAll("td")[2]?.textContent?.trim() ||
+        scheduleValues.finalDueDate,
     ),
     createSummaryRow(
       "Angsuran Bulanan",
@@ -168,18 +206,15 @@ function replaceSummaryRows(wizard: HTMLElement) {
 
 function syncSummaryDetails() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
-  const existingImpact = wizard?.querySelector<HTMLElement>(
-    `.${IMPACT_PANEL_CLASS}`,
-  );
-  const existingDetails = wizard?.querySelector<HTMLElement>(
-    `.${DETAIL_PANEL_CLASS}`,
-  );
 
+  // Step 1, modal tertutup, atau wizard sudah berganti:
+  // hapus semua panel yang sebelumnya diinjeksi.
   if (!wizard || wizard.dataset.loanExtensionStep !== "2") {
-    existingImpact?.remove();
-    existingDetails?.remove();
+    removeInjectedPanels();
     return;
   }
+
+  removeInjectedPanels();
 
   const summarySection = findSummarySection(wizard);
   if (!summarySection?.parentElement) return;
@@ -187,9 +222,8 @@ function syncSummaryDetails() {
   const method = getSummaryValue(wizard, "Metode Perpanjangan");
   const reason = getSummaryValue(wizard, "Alasan Perpanjangan");
 
-  const parent = summarySection.parentElement;
-  const impactPanel = existingImpact ?? createImpactPanel();
-  const detailPanel = existingDetails ?? createDetailPanel();
+  const impactPanel = createImpactPanel();
+  const detailPanel = createDetailPanel();
 
   const methodValue = detailPanel.querySelector<HTMLElement>(
     "[data-extension-method-value]",
@@ -201,8 +235,9 @@ function syncSummaryDetails() {
   if (methodValue) methodValue.textContent = method;
   if (reasonValue) reasonValue.textContent = reason;
 
+  const parent = summarySection.parentElement;
   parent.insertBefore(impactPanel, summarySection);
-  parent.insertBefore(detailPanel, summarySection.nextSibling);
+  parent.insertBefore(detailPanel, summarySection);
 
   replaceSummaryRows(wizard);
 }
@@ -222,6 +257,7 @@ export default function LoanExtensionStepTwoSummarySync() {
       childList: true,
       subtree: true,
       characterData: true,
+      attributes: true,
     });
 
     scheduleSync();
@@ -229,10 +265,7 @@ export default function LoanExtensionStepTwoSummarySync() {
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
-
-      document
-        .querySelectorAll(`.${IMPACT_PANEL_CLASS}, .${DETAIL_PANEL_CLASS}`)
-        .forEach((panel) => panel.remove());
+      removeInjectedPanels();
     };
   }, []);
 
