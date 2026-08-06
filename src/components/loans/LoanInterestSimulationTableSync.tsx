@@ -41,7 +41,7 @@ const rows = [
     interest: "83.333",
     remainingPrincipal: "833.333",
     remainingInterest: "33.333",
-    penalty: "+",
+    penalty: "0,00",
   },
   {
     dueDate: "25-04-2026",
@@ -50,7 +50,7 @@ const rows = [
     interest: "83.333",
     remainingPrincipal: "833.333",
     remainingInterest: "33.333",
-    penalty: "+",
+    penalty: "0,00",
   },
   {
     dueDate: "25-05-2026",
@@ -59,7 +59,7 @@ const rows = [
     interest: "83.333",
     remainingPrincipal: "833.333",
     remainingInterest: "33.333",
-    penalty: "+",
+    penalty: "0,00",
   },
 ];
 
@@ -100,9 +100,7 @@ function buildTableMarkup() {
           <th>TAGIHAN<br />BUNGA</th>
           <th>SISA TAGIHAN<br />POKOK</th>
           <th>SISA TAGIHAN<br />BUNGA</th>
-          <th class="loan-interest-member-penalty-header">
-            TAGIHAN DENDA
-          </th>
+          <th>TAGIHAN<br />DENDA</th>
         </tr>
       </thead>
       <tbody>${body}</tbody>
@@ -150,7 +148,7 @@ export default function LoanInterestSimulationTableSync() {
       {`
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} {
           width: 100% !important;
-          min-width: 930px !important;
+          min-width: 820px !important;
           table-layout: fixed !important;
           border-collapse: collapse !important;
           background: #ffffff !important;
@@ -159,17 +157,15 @@ export default function LoanInterestSimulationTableSync() {
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th {
-          height: 168px !important;
           padding: 10px 8px !important;
           border-bottom: 1px solid #cbd5e1 !important;
           background: #ffffff !important;
           color: #334155 !important;
           font-size: 10px !important;
           font-weight: 800 !important;
-          line-height: 1.15 !important;
+          line-height: 1.2 !important;
           text-align: right !important;
           vertical-align: middle !important;
-          white-space: normal !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:first-child,
@@ -179,12 +175,12 @@ export default function LoanInterestSimulationTableSync() {
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:nth-child(2) {
-          width: 158px !important;
+          width: 150px !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:nth-child(3),
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:nth-child(4) {
-          width: 132px !important;
+          width: 125px !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:nth-child(5),
@@ -192,25 +188,11 @@ export default function LoanInterestSimulationTableSync() {
           width: 145px !important;
         }
 
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:nth-child(7),
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:nth-child(7) {
-          width: 42px !important;
-          min-width: 42px !important;
-          max-width: 42px !important;
-        }
-
-        [data-loan-interest-wizard="true"]
-          .${TABLE_CLASS}
-          .loan-interest-member-penalty-header {
-          padding-left: 8px !important;
-          padding-right: 4px !important;
-          overflow-wrap: anywhere !important;
-          word-break: break-all !important;
-          text-align: center !important;
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:nth-child(7) {
+          width: 120px !important;
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} td {
-          height: 43px !important;
           padding: 12px 8px !important;
           border-top: 1px solid #e2e8f0 !important;
           background: #ffffff !important;
@@ -224,41 +206,22 @@ export default function LoanInterestSimulationTableSync() {
           font-variant-numeric: tabular-nums !important;
         }
 
-        [data-loan-interest-wizard="true"]
-          .${TABLE_CLASS}
-          tbody
-          tr:nth-child(even)
-          td {
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} tbody tr:nth-child(even) td {
           background: #f8fafc !important;
         }
 
-        [data-loan-interest-wizard="true"]
-          .${TABLE_CLASS}
-          .loan-interest-member-date {
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .loan-interest-member-date {
           font-weight: 700 !important;
           text-align: left !important;
         }
 
-        [data-loan-interest-wizard="true"]
-          .${TABLE_CLASS}
-          .loan-interest-member-penalty {
-          padding-left: 8px !important;
-          padding-right: 0 !important;
-          overflow: visible !important;
-          text-align: left !important;
-        }
-
-        [data-loan-interest-wizard="true"]
-          .${TABLE_CLASS}
-          .loan-interest-member-penalty
-          span {
-          display: inline-block !important;
-          transform: translateX(3px) !important;
+        [data-loan-interest-wizard="true"] .${TABLE_CLASS} .loan-interest-member-penalty {
+          text-align: right !important;
         }
 
         @media (max-width: 640px) {
           [data-loan-interest-wizard="true"] .${TABLE_CLASS} {
-            min-width: 930px !important;
+            min-width: 740px !important;
           }
         }
       `}
