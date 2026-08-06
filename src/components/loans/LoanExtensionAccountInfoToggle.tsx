@@ -5,10 +5,20 @@ import * as React from "react";
 const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const GRID_SELECTOR = ".loan-extension-account-grid";
 const TOGGLE_CLASS = "loan-extension-account-info-toggle";
-const COLLAPSED_COUNT = 9;
+
+const COMPACT_LABELS = new Set([
+  "Kode Pinjaman",
+  "Nama Nasabah",
+  "Sektor Pinjaman",
+  "Tujuan Pinjaman",
+  "Kolektor",
+  "Tanggal Dibuat",
+  "Tanggal Jatuh Tempo",
+  "Tanggal Pinjaman Aktif",
+  "Tanggal Transaksi Terakhir",
+]);
 
 function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
-  button.dataset.expanded = String(expanded);
   button.replaceChildren();
 
   const label = document.createElement("span");
@@ -46,9 +56,14 @@ function setButtonContent(button: HTMLButtonElement, expanded: boolean) {
   button.append(label, chevron);
 }
 
-function applyFieldVisibility(fields: HTMLElement[], expanded: boolean) {
-  fields.forEach((field, index) => {
-    const shouldShow = expanded || index < COLLAPSED_COUNT;
+function applyFieldVisibility(grid: HTMLElement, expanded: boolean) {
+  const fields = Array.from(
+    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
+  );
+
+  fields.forEach((field) => {
+    const label = field.dataset.accountItemLabel?.trim() ?? "";
+    const shouldShow = expanded || COMPACT_LABELS.has(label);
 
     field.style.setProperty(
       "display",
@@ -87,20 +102,23 @@ function styleToggleButton(button: HTMLButtonElement) {
   });
 }
 
-function getAccountInfoFields(grid: HTMLElement) {
-  return Array.from(
-    grid.querySelectorAll<HTMLElement>(".loan-extension-account-field"),
-  );
-}
-
-function syncAccountInfoToggle() {
+function getAccountInfoGrid() {
   const wizard = document.querySelector<HTMLElement>(WIZARD_SELECTOR);
   const grid = wizard?.querySelector<HTMLElement>(GRID_SELECTOR);
 
-  if (!wizard || !grid) return;
+  if (!wizard || !grid) return null;
 
-  const fields = getAccountInfoFields(grid);
-  if (fields.length <= COLLAPSED_COUNT) return;
+  return { wizard, grid };
+}
+
+function syncAccountInfoToggle() {
+  const result = getAccountInfoGrid();
+  if (!result) return;
+
+  const { grid } = result;
+  const fields = grid.querySelectorAll(".loan-extension-account-field");
+
+  if (fields.length <= COMPACT_LABELS.size) return;
 
   const section = grid.closest("section");
   if (!section) return;
@@ -129,8 +147,9 @@ function syncAccountInfoToggle() {
       event.preventDefault();
       event.stopPropagation();
 
-      const nextExpanded =
-        button?.getAttribute("aria-expanded") !== "true";
+      const expanded =
+        button?.getAttribute("aria-expanded") === "true";
+      const nextExpanded = !expanded;
 
       grid.dataset.accountInfoExpanded = String(nextExpanded);
       button?.setAttribute("aria-expanded", String(nextExpanded));
@@ -141,7 +160,7 @@ function syncAccountInfoToggle() {
           : "Tampilkan informasi rekening lainnya",
       );
 
-      applyFieldVisibility(fields, nextExpanded);
+      applyFieldVisibility(grid, nextExpanded);
 
       if (button) {
         setButtonContent(button, nextExpanded);
@@ -163,17 +182,28 @@ function syncAccountInfoToggle() {
 
   const expanded = grid.dataset.accountInfoExpanded === "true";
   button.setAttribute("aria-expanded", String(expanded));
-  applyFieldVisibility(fields, expanded);
+  applyFieldVisibility(grid, expanded);
   setButtonContent(button, expanded);
 }
 
 export default function LoanExtensionAccountInfoToggle() {
   React.useEffect(() => {
     let frameId = 0;
+    let retryId = 0;
+    let attempts = 0;
 
     const scheduleSync = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(syncAccountInfoToggle);
+    };
+
+    const retryMount = () => {
+      attempts += 1;
+      scheduleSync();
+
+      if (attempts < 30) {
+        retryId = window.setTimeout(retryMount, 120);
+      }
     };
 
     const observer = new MutationObserver(scheduleSync);
@@ -183,10 +213,11 @@ export default function LoanExtensionAccountInfoToggle() {
       subtree: true,
     });
 
-    scheduleSync();
+    retryMount();
 
     return () => {
       window.cancelAnimationFrame(frameId);
+      window.clearTimeout(retryId);
       observer.disconnect();
 
       document
