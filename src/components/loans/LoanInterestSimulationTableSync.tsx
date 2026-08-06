@@ -153,13 +153,13 @@ export default function LoanInterestSimulationTableSync() {
         }
 
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th {
-          height: 72px !important;
-          padding: 10px 8px !important;
+          height: 54px !important;
+          padding: 6px 8px !important;
           border-bottom: 1px solid #cbd5e1 !important;
           background: #ffffff !important;
           color: #334155 !important;
           font-weight: 800 !important;
-          line-height: 1.2 !important;
+          line-height: 1.15 !important;
           text-align: right !important;
           vertical-align: middle !important;
           white-space: normal !important;
@@ -188,10 +188,6 @@ export default function LoanInterestSimulationTableSync() {
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} th:last-child,
         [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:last-child {
           padding-right: 20px !important;
-        }
-
-        [data-loan-interest-wizard="true"] .${TABLE_CLASS} td:first-child {
-          font-weight: 400 !important;
         }
 
         @media (max-width: 640px) {
