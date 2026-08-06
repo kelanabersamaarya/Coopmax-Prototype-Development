@@ -47,18 +47,38 @@ const months = [
 const years = Array.from({ length: 16 }, (_, index) => String(2026 + index));
 
 const accountDetails = [
-  ["No. Rek. Pinjaman", "SMG260004"],
-  ["Nama Anggota", "Bapak Bagus"],
+  ["Kode Pinjaman", "SMG260004"],
+  ["Nama Nasabah", "Bapak Agus"],
+  ["Status", "Aktif / Sudah Disalurkan"],
+  ["Sektor Pinjaman", "Umum"],
+  ["Tujuan Pinjaman", "Konsumtif"],
+  ["Kolektor", "Gina Farida M.M."],
+  ["Tanggal Dibuat", "07 Apr 2026"],
+  ["Tanggal Jatuh Tempo", "07 Apr 2027"],
+  ["Tanggal Pinjaman Aktif", "07 Apr 2026"],
+  ["Tanggal Transaksi Terakhir", "14 Apr 2026"],
+  ["Selisih Tanggal Transaksi", "6 Hari"],
+  ["Tanggal Pembayaran Setiap Bulan", "07"],
+  ["Periode Waktu", "12 Bulan"],
+  ["Jumlah Pinjaman Diajukan", "12.000.000,00"],
+  ["Jumlah Pinjaman Disetujui", "12.000.000,00"],
   ["Produk Pinjaman", "Pinjaman Billing"],
-  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
-  ["Baki Debet", "10.553.571,00"],
-  ["Nominal Angsuran", "1.120.000,00"],
-  ["Suku Bunga", "12,00% per tahun"],
-  ["Sisa Tenor", "12 Bulan"],
-  ["Tunggakan Pokok", "0,00"],
-  ["Tunggakan Bunga", "0,00"],
-  ["Denda", "0,00"],
-  ["Total Kewajiban", "10.678.571,00"],
+  ["Suku Bunga Saat Ini (%)", "12,00%"],
+  ["Metode Bunga Pinjaman", "Bunga Flat"],
+  ["Angsuran Pokok", "1.000.000,00"],
+  ["Angsuran Bunga", "120.000,00"],
+  ["Sisa Pinjaman", "10.553.571,00"],
+  ["Sisa Bunga Pinjaman", "1.266.429,00"],
+  ["Total Harus Bayar", "1.120.000,00"],
+  ["Total Bayar Bunga", "120.000,00"],
+  ["Jumlah Hutang Pokok", "0 Kali"],
+  ["Jumlah Hutang Bunga", "0 Kali"],
+  ["Hutang Pokok", "0,00"],
+  ["Hutang Bunga", "0,00"],
+  ["Skema Tagihan", "Tagihan Sesuai Jadwal Angsuran"],
+  ["Kolektibilitas", "-"],
+  ["Satuan Grace Period", "Bulan"],
+  ["Durasi Grace Period", "3"],
 ] as const;
 
 function formatDmy(date: Date) {
@@ -78,7 +98,7 @@ function addMonths(date: Date, amount: number) {
 }
 
 function AccountField({ label, value }: { label: string; value: string }) {
-  const isStatus = label === "Status Pinjaman";
+  const isStatus = label === "Status";
 
   return (
     <div className="loan-extension-account-field min-w-0">
@@ -474,12 +494,12 @@ export default function LoanExtensionWizard({
                     </button>
                   </div>
 
-                  <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
+                  <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
                     {accountDetails.map(([label, value]) => (
                       <AccountField
                         key={label}
                         label={label}
-                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
+                        value={label === "Kode Pinjaman" ? accountNo : value}
                       />
                     ))}
                   </div>
