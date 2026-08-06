@@ -13,17 +13,14 @@ const accountFields: AccountField[] = [
   { label: "Sektor Pinjaman", value: "Umum" },
   { label: "Tujuan Pinjaman", value: "Konsumtif" },
   { label: "Kolektor", value: "Gina Farida M.M." },
-
   { label: "Tanggal Dibuat", value: "07 Apr 2026" },
   { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
   { label: "Tanggal Pinjaman Aktif", value: "07 Apr 2026" },
   { label: "Tanggal Transaksi Terakhir", value: "14 Apr 2026" },
-
   { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
   { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
   { label: "Periode Waktu", value: "12 Bulan" },
   { label: "Produk Pinjaman", value: "Pinjaman Billing" },
-
   {
     label: "Bunga Per Tahun (%)",
     value: (
@@ -33,15 +30,8 @@ const accountFields: AccountField[] = [
     ),
   },
   { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
-  {
-    label: "Jumlah Pinjaman Diajukan",
-    value: "12.000.000,00",
-  },
-  {
-    label: "Jumlah Pinjaman Disetujui",
-    value: "12.000.000,00",
-  },
-
+  { label: "Jumlah Pinjaman Diajukan", value: "12.000.000,00" },
+  { label: "Jumlah Pinjaman Disetujui", value: "12.000.000,00" },
   { label: "Sisa Pinjaman", value: "10.553.571,00" },
   { label: "Angsuran Pokok", value: "1.000.000,00" },
   { label: "Angsuran Bunga", value: "120.000,00" },
@@ -52,11 +42,7 @@ const accountFields: AccountField[] = [
   { label: "Hutang Pokok", value: "0,00" },
   { label: "Total Harus Bayar", value: "1.120.000,00" },
   { label: "Total Bayar Bunga", value: "120.000,00" },
-  {
-    label: "Skema Tagihan",
-    value: "Tagihan Sesuai Jadwal Angsuran",
-  },
-
+  { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
   {
     label: "Status",
     value: (
@@ -92,7 +78,7 @@ function findWizardCard() {
     '[data-loan-interest-wizard="true"]',
   );
 
-  if (!wizard) return null;
+  if (!wizard || wizard.dataset.loanInterestStep !== "1") return null;
 
   return (
     Array.from(wizard.querySelectorAll<HTMLElement>("div")).find((element) => {
@@ -107,11 +93,40 @@ function findWizardCard() {
   );
 }
 
+function findOriginalFields(card: HTMLElement) {
+  return Array.from(card.querySelectorAll<HTMLElement>("div")).find(
+    (element) => {
+      const className = String(element.className ?? "");
+      return className.includes("mt-7") && className.includes("grid");
+    },
+  );
+}
+
+function restoreCard(card: HTMLElement | null) {
+  if (!card) return;
+
+  card.classList.remove("loan-interest-reference-card");
+
+  const originalFields = findOriginalFields(card);
+  if (originalFields) {
+    originalFields.style.display = "";
+  }
+}
+
 export default function LoanInterestAccountCardStyle() {
   const [target, setTarget] = React.useState<HTMLElement | null>(null);
+  const cardRef = React.useRef<HTMLElement | null>(null);
+  const originalFieldsRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     let frameId = 0;
+
+    function restore() {
+      restoreCard(cardRef.current);
+      cardRef.current = null;
+      originalFieldsRef.current = null;
+      setTarget(null);
+    }
 
     function syncCard() {
       window.cancelAnimationFrame(frameId);
@@ -120,19 +135,19 @@ export default function LoanInterestAccountCardStyle() {
         const card = findWizardCard();
 
         if (!card) {
-          setTarget(null);
+          restore();
           return;
         }
 
-        const originalFields = Array.from(
-          card.querySelectorAll<HTMLElement>("div"),
-        ).find((element) => {
-          const className = String(element.className ?? "");
-          return className.includes("mt-7") && className.includes("grid");
-        });
-
+        const originalFields = findOriginalFields(card);
         if (!originalFields) return;
 
+        if (cardRef.current && cardRef.current !== card) {
+          restoreCard(cardRef.current);
+        }
+
+        cardRef.current = card;
+        originalFieldsRef.current = originalFields;
         originalFields.style.display = "none";
         card.classList.add("loan-interest-reference-card");
         setTarget(card);
@@ -152,22 +167,7 @@ export default function LoanInterestAccountCardStyle() {
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
-
-      const card = findWizardCard();
-
-      if (card) {
-        card.classList.remove("loan-interest-reference-card");
-
-        Array.from(card.querySelectorAll<HTMLElement>("div")).forEach(
-          (element) => {
-            const className = String(element.className ?? "");
-
-            if (className.includes("mt-7") && className.includes("grid")) {
-              element.style.display = "";
-            }
-          },
-        );
-      }
+      restore();
     };
   }, []);
 
@@ -213,7 +213,7 @@ export default function LoanInterestAccountCardStyle() {
         `}
       </style>
 
-      {target ? createPortal(<AccountFields />, target) : null}
+      {target && target.isConnected ? createPortal(<AccountFields />, target) : null}
     </>
   );
 }
