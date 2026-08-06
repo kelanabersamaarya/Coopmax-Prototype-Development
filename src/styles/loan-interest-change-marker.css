@@ -1,6 +1,4 @@
-/* Penanda perubahan suku bunga pada tabel simulasi step kedua.
-   Tabel memakai layout flex, jadi garis biru dibuat sebagai pseudo-element
-   di cell pertama dan terakhir agar tidak menutupi separator antarbaris. */
+/* Penanda perubahan suku bunga pada tabel simulasi step kedua. */
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
@@ -12,7 +10,6 @@
   background: #ffffff !important;
 }
 
-/* Separator antarbaris tetap tampil normal. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -21,46 +18,29 @@
   position: relative !important;
   border-top: 0 !important;
   border-bottom: 1px solid #e2e8f0 !important;
-  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
-/* Garis kiri biru berada di dalam batas cell, sehingga tidak menimpa
-   separator horizontal pada ujung tabel. */
+/* Garis biru kiri pada cell Jatuh Tempo yang terlihat. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
-  td:nth-child(2)::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: -1px;
-  left: 0;
-  z-index: 10;
-  width: 2px;
-  background: #2563eb;
-  pointer-events: none;
+  td:nth-child(2) {
+  box-shadow: inset 2px 0 0 #2563eb !important;
 }
 
-/* Garis kanan biru pada cell terakhir yang terlihat. */
+/* Garis biru kanan pada cell Tagihan Denda yang terlihat.
+   Menggunakan inset shadow agar tidak bergantung pada pseudo-element. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
   tr[data-interest-change="true"]
-  td:nth-child(10)::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: -1px;
-  z-index: 10;
-  width: 2px;
-  background: #2563eb;
-  pointer-events: none;
+  td:nth-child(10) {
+  box-shadow: inset -2px 0 0 #2563eb !important;
 }
 
-/* Awal blok perubahan dan awal halaman baru memiliki garis atas biru
-   yang hanya membentang di area tabel perubahan. */
+/* Garis atas hanya pada awal blok perubahan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -74,7 +54,7 @@
   border-top: 2px solid #2563eb !important;
 }
 
-/* Akhir blok perubahan dan akhir halaman diberi garis bawah biru. */
+/* Garis bawah hanya pada akhir blok perubahan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -156,7 +136,16 @@
   line-height: 1;
 }
 
-/* Mobile tetap mengikuti lebar tabel tanpa mengubah separator. */
+/* Pastikan tidak ada aturan pseudo-element lain yang mengganggu garis kanan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td:nth-child(10)::after {
+  content: none !important;
+  display: none !important;
+}
+
 @media (max-width: 640px) {
   [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
     table[class*="min-w-[1780px]"]
