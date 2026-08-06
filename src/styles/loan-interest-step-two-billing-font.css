@@ -20,7 +20,6 @@
   color: #000000 !important;
 }
 
-/* Label header yang dibuat melalui ::after. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   thead
@@ -54,6 +53,26 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
+  tr,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(even),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr:nth-child(odd),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr
+  td {
+  background-color: #ffffff !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
   td.text-\[\#2563EB\],
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
@@ -67,7 +86,7 @@
   font-weight: 400 !important;
 }
 
-/* Tabel billing simulasi Ubah Nominal Bunga memakai min-w-[1880px]. */
+/* Tabel billing simulasi Ubah Nominal Bunga. */
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
   table[class*="min-w-[1880px]"]
   thead,
@@ -84,19 +103,6 @@
 
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
   table[class*="min-w-[1880px]"]
-  tbody,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody *,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody td {
-  font-size: 12px !important;
-  color: #000000 !important;
-}
-
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
   thead
   th:nth-child(6)::after,
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
@@ -106,4 +112,38 @@
   font-size: 12px !important;
   font-weight: 700 !important;
   color: #000000 !important;
+}
+
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody,
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody *,
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody td {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #000000 !important;
+}
+
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody
+  tr,
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody
+  tr:nth-child(even),
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody
+  tr:nth-child(odd),
+[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
+  table[class*="min-w-[1880px]"]
+  tbody
+  tr
+  td {
+  background-color: #ffffff !important;
 }
