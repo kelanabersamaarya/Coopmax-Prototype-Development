@@ -1,0 +1,73 @@
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(1),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(1)::after,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5)::after,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6)::after,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8)::after,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9)::after {
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(5)::after {
+  content: "TAGIHAN BUNGA\A SEBELUM PENYESUAIAN" !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6)::after {
+  content: "TAGIHAN BUNGA\A SESUDAH PENYESUAIAN" !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(8)::after {
+  content: "SISA TAGIHAN BUNGA\A SEBELUM PENYESUAIAN" !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9)::after {
+  content: "SISA TAGIHAN BUNGA\A SESUDAH PENYESUAIAN" !important;
+}
