@@ -22,6 +22,7 @@
   max-width: 100% !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -30,22 +31,25 @@
   > table[class*="min-w-\\[650px\\]"] {
   display: table !important;
   width: 100% !important;
-  min-width: 0 !important;
+  min-width: 760px !important;
   max-width: none !important;
-  table-layout: fixed !important;
+  table-layout: auto !important;
   border-collapse: collapse !important;
+  border-spacing: 0 !important;
 }
 
-/* Proporsi kolom: Informasi 40%, Sebelum 30%, Sesudah 30%. */
+/* Informasi lebih lebar karena berisi label deskriptif. */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   table[class*="min-w-\\[650px\\]"]
   th:first-child,
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   table[class*="min-w-\\[650px\\]"]
   td:first-child {
-  width: 40% !important;
+  width: 42% !important;
+  min-width: 260px !important;
 }
 
+/* Kolom sebelum dan sesudah cukup lebar untuk teks serta tanggal. */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   table[class*="min-w-\\[650px\\]"]
   th:nth-child(2),
@@ -58,7 +62,8 @@
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   table[class*="min-w-\\[650px\\]"]
   td:nth-child(3) {
-  width: 30% !important;
+  width: 29% !important;
+  min-width: 220px !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -70,12 +75,12 @@
   box-sizing: border-box !important;
   min-width: 0 !important;
   max-width: none !important;
-  padding: 12px 14px !important;
-  overflow-wrap: break-word !important;
+  padding: 14px 18px !important;
+  overflow-wrap: normal !important;
   word-break: normal !important;
   white-space: normal !important;
   vertical-align: top !important;
-  line-height: 1.35 !important;
+  line-height: 1.4 !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
@@ -112,13 +117,45 @@
   font-weight: 700 !important;
 }
 
+@media (min-width: 1024px) {
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
+    .safe-x-scroll
+    > table[class*="min-w-\\[650px\\]"] {
+    min-width: 0 !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table[class*="min-w-\\[650px\\]"]
+    th:first-child,
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table[class*="min-w-\\[650px\\]"]
+    td:first-child {
+    min-width: 0 !important;
+  }
+
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table[class*="min-w-\\[650px\\]"]
+    th:nth-child(2),
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table[class*="min-w-\\[650px\\]"]
+    td:nth-child(2),
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table[class*="min-w-\\[650px\\]"]
+    th:nth-child(3),
+  [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+    table[class*="min-w-\\[650px\\]"]
+    td:nth-child(3) {
+    min-width: 0 !important;
+  }
+}
+
 @media (max-width: 640px) {
   [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
     section:has(> div > .safe-x-scroll > table[class*="min-w-\\[650px\\]"])
     .safe-x-scroll
     > table[class*="min-w-\\[650px\\]"] {
-    width: 650px !important;
-    min-width: 650px !important;
-    table-layout: fixed !important;
+    width: 760px !important;
+    min-width: 760px !important;
   }
 }
