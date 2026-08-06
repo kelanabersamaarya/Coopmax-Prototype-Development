@@ -77,12 +77,14 @@
   border-bottom-right-radius: 12px;
 }
 
-/* Hilangkan hanya garis biru bawah bingkai Grace Period.
-   Penanda perubahan suku bunga tetap dipertahankan. */
-table
-  td:has(.font-semibold.leading-tight)
+/* Hanya menonaktifkan border biru bawah pada bingkai Grace Period. */
+.billing-v1-compact-rows
+  table
+  > tbody
+  > tr:first-child
+  > td
   > div
-  > div[class*="border-2"][class*="border-blue-"] {
+  > div.overflow-hidden.rounded-\[5px\].border-2.border-blue-600\/70 {
   border-bottom-color: transparent !important;
 }
 
