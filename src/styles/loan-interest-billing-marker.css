@@ -77,15 +77,26 @@
   border-bottom-right-radius: 12px;
 }
 
-/* Hanya menonaktifkan border biru bawah pada bingkai Grace Period. */
+/* Hanya border bawah bingkai Grace Period yang dinonaktifkan. */
+.billing-v1-compact-rows
+  div.overflow-hidden[class*="border-blue-600"] {
+  border-bottom-color: transparent !important;
+  border-bottom-style: solid !important;
+}
+
+/* Kompatibilitas untuk bingkai Grace Period yang memakai border biru opacity. */
+.billing-v1-compact-rows
+  div.overflow-hidden[class*="border-2"][class*="border-blue-"] {
+  border-bottom-color: transparent !important;
+}
+
+/* Jangan mengubah border bingkai penanda perubahan suku bunga. */
 .billing-v1-compact-rows
   table
   > tbody
-  > tr:first-child
-  > td
-  > div
-  > div.overflow-hidden.rounded-\[5px\].border-2.border-blue-600\/70 {
-  border-bottom-color: transparent !important;
+  > tr:nth-child(4)
+  > td {
+  border-bottom-color: inherit !important;
 }
 
 @media (max-width: 640px) {
