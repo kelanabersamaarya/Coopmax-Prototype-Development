@@ -11,5 +11,6 @@ import "./styles/loan-interest-step-two-column-labels.css";
 import "./styles/loan-interest-step-two-billing-font.css";
 import "./styles/loan-interest-step-two-billing-edge-spacing.css";
 import "./styles/loan-interest-change-marker.css";
+import "./styles/loan-interest-wizard-save-icon.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
