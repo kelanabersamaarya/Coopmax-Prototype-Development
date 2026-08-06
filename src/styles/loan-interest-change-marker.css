@@ -1,7 +1,6 @@
 /* Penanda perubahan suku bunga dimulai dari periode ketiga dan berlanjut
    hingga periode terakhir, termasuk saat tabel berpindah halaman. */
 
-/* Setiap baris yang termasuk periode perubahan memiliki garis samping. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -10,6 +9,46 @@
   border-left: 2px solid #2563eb !important;
   border-right: 2px solid #2563eb !important;
   background-color: #ffffff !important;
+}
+
+/* Garis pemisah horizontal tidak boleh menimpa garis sisi biru. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td {
+  border-top-color: transparent !important;
+}
+
+/* Garis antarbaris tetap terlihat di dalam area blok perubahan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]
+  td::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: #e2e8f0;
+  pointer-events: none;
+}
+
+/* Pastikan sisi biru berada di lapisan paling atas. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"]::marker {
+  color: transparent;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-change="true"] {
+  z-index: 2 !important;
 }
 
 /* Garis atas pada awal blok perubahan atau awal halaman berikutnya. */
@@ -36,8 +75,7 @@
   border-bottom: 2px solid #2563eb !important;
 }
 
-/* Panel informasi pada awal blok perubahan dan awal halaman kedua.
-   Panel dibuat seperti penanda Grace Period. */
+/* Panel informasi pada awal blok perubahan dan awal halaman kedua. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -91,7 +129,7 @@
   line-height: 1;
 }
 
-/* Jarak isi tabel tetap normal; hanya baris awal yang memberi ruang untuk panel. */
+/* Jarak isi tabel tetap normal. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
@@ -101,6 +139,7 @@
   padding-bottom: 13px !important;
 }
 
+/* Beri ruang hanya pada baris tempat panel informasi ditampilkan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
