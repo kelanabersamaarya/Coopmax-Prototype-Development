@@ -5,7 +5,6 @@ import * as React from "react";
 const WIZARD_SELECTOR = '[data-loan-extension-wizard="true"]';
 const IMPACT_PANEL_CLASS = "loan-extension-tenor-impact-panel";
 const DETAIL_PANEL_CLASS = "loan-extension-method-reason-panel";
-const SUMMARY_TITLE = "Ringkasan Perpanjangan Pinjaman";
 
 function createImpactPanel() {
   const panel = document.createElement("section");
@@ -60,14 +59,9 @@ function findSummarySection(wizard: HTMLElement) {
 }
 
 function getSummaryRow(wizard: HTMLElement, label: string) {
-  const rows = Array.from(
+  return Array.from(
     wizard.querySelectorAll<HTMLTableRowElement>("table tbody tr"),
-  );
-
-  return rows.find((row) => {
-    const firstCell = row.querySelector("td");
-    return firstCell?.textContent?.trim() === label;
-  });
+  ).find((row) => row.querySelector("td")?.textContent?.trim() === label);
 }
 
 function getSummaryValue(wizard: HTMLElement, label: string) {
@@ -94,6 +88,7 @@ function getScheduleValues(wizard: HTMLElement) {
     return {
       monthlyInstallment: "-",
       totalInterest: "-",
+      finalDueDate: "-",
     };
   }
 
@@ -102,7 +97,10 @@ function getScheduleValues(wizard: HTMLElement) {
   );
 
   const firstRowCells = rows[0]?.querySelectorAll("td");
+  const lastRowCells = rows[rows.length - 1]?.querySelectorAll("td");
+
   const monthlyInstallment = firstRowCells?.[1]?.textContent?.trim() || "-";
+  const finalDueDate = lastRowCells?.[0]?.textContent?.trim() || "-";
 
   const totalInterest = rows.reduce((total, row) => {
     const cells = row.querySelectorAll("td");
@@ -112,6 +110,7 @@ function getScheduleValues(wizard: HTMLElement) {
   return {
     monthlyInstallment,
     totalInterest: formatAmount(totalInterest),
+    finalDueDate,
   };
 }
 
@@ -145,18 +144,14 @@ function replaceSummaryRows(wizard: HTMLElement) {
 
   if (!tbody) return;
 
-  const oldTenor = getSummaryValue(wizard, "Tenor");
-  const newTenor = oldTenor;
-  const oldDueDate = getSummaryValue(wizard, "Tanggal Jatuh Tempo Akhir");
-  const newDueDate = oldDueDate;
   const scheduleValues = getScheduleValues(wizard);
 
   tbody.replaceChildren(
-    createSummaryRow("Tenor", "12 Bulan", newTenor),
+    createSummaryRow("Tenor", "12 Bulan", getSummaryValue(wizard, "Tenor")),
     createSummaryRow(
       "Tanggal Jatuh Tempo Akhir",
       "07-04-2027",
-      newDueDate,
+      scheduleValues.finalDueDate,
     ),
     createSummaryRow(
       "Angsuran Bulanan",
