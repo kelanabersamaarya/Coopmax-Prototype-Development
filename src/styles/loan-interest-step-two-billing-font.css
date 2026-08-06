@@ -20,6 +20,23 @@
   color: #000000 !important;
 }
 
+/* Label header yang dibuat melalui ::after. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(6)::after,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  thead
+  th:nth-child(9)::after {
+  display: block !important;
+  color: #000000 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+}
+
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody,
@@ -67,27 +84,6 @@
 
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
   table[class*="min-w-[1880px]"]
-  thead
-  th:nth-child(5),
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead
-  th:nth-child(7),
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead
-  th:nth-child(8),
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  thead
-  th:nth-child(9) {
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  color: #000000 !important;
-}
-
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
   tbody,
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
   table[class*="min-w-[1880px]"]
@@ -101,15 +97,13 @@
 
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
   table[class*="min-w-[1880px]"]
-  tbody
-  td.text-\[\#2563EB\],
+  thead
+  th:nth-child(6)::after,
 [data-loan-debt-wizard="true"][data-loan-debt-step="2"]
   table[class*="min-w-[1880px]"]
-  tbody
-  td.text-blue-600,
-[data-loan-debt-wizard="true"][data-loan-debt-step="2"]
-  table[class*="min-w-[1880px]"]
-  tbody
-  td.text-emerald-700 {
+  thead
+  th:nth-child(9)::after {
+  font-size: 12px !important;
+  font-weight: 700 !important;
   color: #000000 !important;
 }
