@@ -34,6 +34,7 @@
   border-spacing: 0 !important;
 }
 
+/* Kolom Informasi */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
   table
@@ -47,6 +48,7 @@
   max-width: 379.48px !important;
 }
 
+/* Kolom Sebelum dan Sesudah Perpanjangan */
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
   section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
   table
@@ -66,6 +68,22 @@
   width: 284.64px !important;
   min-width: 284.64px !important;
   max-width: 284.64px !important;
+}
+
+/* Hilangkan hanya baris Tanggal Efektif dari ringkasan Step 2.
+   Urutan baris tabel:
+   1. Metode Perpanjangan
+   2. Tanggal Efektif
+   3. Tenor
+   4. Tanggal Jatuh Tempo Akhir
+   5. Alasan Perpanjangan
+*/
+[data-loan-extension-wizard="true"][data-loan-extension-step="2"]
+  section:has(table th:nth-child(3)):not(:has(table th:nth-child(4)))
+  table
+  tbody
+  tr:nth-child(2) {
+  display: none !important;
 }
 
 [data-loan-extension-wizard="true"][data-loan-extension-step="2"]
