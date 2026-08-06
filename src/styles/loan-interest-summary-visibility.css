@@ -46,35 +46,11 @@
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
-  thead {
-  display: table-header-group !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table.loan-interest-summary
-  tbody {
-  display: table-row-group !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table.loan-interest-summary
-  tr {
-  display: table-row !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table.loan-interest-summary
   th,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table.loan-interest-summary
   td {
   display: table-cell !important;
-  visibility: visible !important;
-  opacity: 1 !important;
   padding: 12px 16px !important;
   border-bottom: 1px solid #e2e8f0 !important;
   background: #ffffff !important;
@@ -86,16 +62,6 @@
   white-space: normal !important;
   overflow-wrap: anywhere !important;
   box-sizing: border-box !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table.loan-interest-summary
-  thead
-  th {
-  background: #ffffff !important;
-  color: #000000 !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
@@ -118,7 +84,7 @@
   font-weight: 700 !important;
 }
 
-/* Panel alasan dibuat benar-benar terpisah dari kartu ringkasan. */
+/* Panel alasan berdiri sebagai kartu terpisah dari ringkasan. */
 .loan-interest-reason-section {
   position: relative !important;
   z-index: 1 !important;
@@ -129,34 +95,19 @@
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
   background: #ffffff !important;
-  box-shadow: 0 0 0 8px #ffffff !important;
+  box-shadow: none !important;
   box-sizing: border-box !important;
 }
 
 .loan-interest-reason-section-title {
-  padding: 12px 16px !important;
   border-bottom: 1px solid #e2e8f0 !important;
   border-radius: 0 !important;
   background: #f9faff !important;
-  color: #000000 !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  line-height: 1.35 !important;
-  letter-spacing: 0.025em !important;
-  text-transform: uppercase !important;
 }
 
 .loan-interest-reason-section-content {
-  min-height: 48px !important;
-  padding: 14px 16px !important;
   border-radius: 0 !important;
   background: #ffffff !important;
-  color: #000000 !important;
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  line-height: 1.45 !important;
-  white-space: pre-wrap !important;
-  overflow-wrap: anywhere !important;
 }
 
 @media (max-width: 640px) {
@@ -173,12 +124,5 @@
   .loan-interest-reason-section {
     margin-top: 24px !important;
     border-radius: 10px !important;
-    box-shadow: 0 0 0 6px #ffffff !important;
-  }
-
-  .loan-interest-reason-section-title,
-  .loan-interest-reason-section-content {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
   }
 }
