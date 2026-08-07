@@ -1,88 +1,29 @@
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference {
+[data-loan-extension-wizard="true"] .loan-extension-account-grid-reference {
   display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: 24px 28px !important;
-  margin-top: 28px !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 24px 32px !important;
 }
 
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-field {
-  display: block !important;
+[data-loan-extension-wizard="true"] .loan-extension-account-grid-reference .loan-extension-account-field {
   min-width: 0 !important;
-  order: initial !important;
-}
-
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-label {
-  color: rgb(255 255 255 / 0.84) !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  line-height: 1.25 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-value {
-  margin-top: 6px !important;
-  color: #ffffff !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  line-height: 1.35 !important;
   overflow-wrap: anywhere !important;
 }
 
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-status,
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-period-highlight {
-  display: inline-flex !important;
-  align-items: center !important;
-  border-radius: 5px !important;
-  padding: 4px 9px !important;
-  color: #ffffff !important;
-  font-size: 11px !important;
+[data-loan-extension-wizard="true"] .loan-extension-account-grid-reference .loan-extension-account-heading {
+  grid-column: 1 / -1 !important;
+  color: #fff !important;
   font-weight: 800 !important;
-  line-height: 1.1 !important;
-  white-space: nowrap !important;
 }
 
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-status {
-  background: #3bb001 !important;
+[data-loan-extension-wizard="true"] .loan-extension-account-grid-reference .loan-extension-account-value {
+  color: #fff !important;
+  overflow-wrap: anywhere !important;
 }
 
-[data-loan-extension-wizard="true"]
-  .loan-extension-account-grid-reference
-  .loan-extension-account-period-highlight {
-  background: #3bb001 !important;
-  box-shadow: 0 0 0 2px rgb(59 176 1 / 0.2) !important;
-}
-
-@media (min-width: 640px) {
-  [data-loan-extension-wizard="true"]
-    .loan-extension-account-grid-reference {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  [data-loan-extension-wizard="true"]
-    .loan-extension-account-grid-reference {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 24px 32px !important;
-  }
+@media (max-width: 1023px) {
+  [data-loan-extension-wizard="true"] .loan-extension-account-grid-reference { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 }
 
 @media (max-width: 639px) {
-  [data-loan-extension-wizard="true"]
-    .loan-extension-account-grid-reference
-    .loan-extension-account-value {
-    font-size: 13px !important;
-  }
+  [data-loan-extension-wizard="true"] .loan-extension-account-grid-reference { grid-template-columns: minmax(0, 1fr) !important; gap: 1rem 0 !important; }
 }

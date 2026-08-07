@@ -1,157 +1,48 @@
-/* Modal Perpanjangan Pinjaman
-   Paksa seluruh section INFORMASI REKENING PINJAMAN beserta isi field-nya
-   tampil sebelum DATA PERPANJANGAN PINJAMAN.
-*/
-
 [data-loan-extension-wizard="true"] section.loan-extension-account-info {
+  position: relative;
   display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
   background-color: #17a2b8 !important;
+  color: #fff !important;
 }
 
-/* Header section tetap flex agar tombol riwayat berada di pojok kanan atas. */
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  > div:first-child {
+[data-loan-extension-wizard="true"] section.loan-extension-account-info > div:first-child {
   display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
   align-items: center !important;
   justify-content: space-between !important;
   gap: 1rem !important;
-  color: #ffffff !important;
 }
 
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  > div:first-child
-  > button {
-  margin-left: auto !important;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-grid {
+[data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid {
   display: grid !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 1.5rem 2rem !important;
 }
 
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-grid
-  > .loan-extension-account-field {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+[data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-field {
   min-width: 0 !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
+  overflow-wrap: anywhere;
 }
 
-/* Status Pinjaman dipindahkan ke urutan terakhir. */
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field:nth-child(4) {
-  order: 99 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field
-  > div:first-child {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 1.25 !important;
-  white-space: normal;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field
-  > div:last-child {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  color: #ffffff !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  line-height: 1.4 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field
-  span {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field
-  [class*="bg-lime-400"] {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background-color: #3bb001 !important;
-  color: #ffffff !important;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field
-  [class*="bg-lime-400"]
-  * {
-  color: #ffffff !important;
-}
-
-/* Tunggakan Bunga berada pada item ke-9:
-   tampilkan 0,00 tanpa mengubah Denda ataupun Total Kewajiban. */
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field:nth-child(9)
-  > div:last-child {
-  font-size: 0 !important;
-}
-
-[data-loan-extension-wizard="true"]
-  section.loan-extension-account-info
-  .loan-extension-account-field:nth-child(9)
-  > div:last-child::after {
-  content: "0,00";
-  color: #ffffff;
-  font-size: 14px;
+[data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-heading {
+  grid-column: 1 / -1;
+  margin-top: .5rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid rgb(255 255 255 / .28);
+  color: #fff;
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.4;
+  letter-spacing: .04em;
+  text-transform: uppercase;
 }
 
-@media (min-width: 640px) {
-  [data-loan-extension-wizard="true"]
-    section.loan-extension-account-info
-    .loan-extension-account-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
+[data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-value {
+  overflow-wrap: anywhere;
 }
 
-@media (min-width: 1024px) {
-  [data-loan-extension-wizard="true"]
-    section.loan-extension-account-info
-    .loan-extension-account-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  }
+@media (max-width: 1023px) {
+  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+@media (max-width: 639px) {
+  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 1rem 0 !important; }
 }

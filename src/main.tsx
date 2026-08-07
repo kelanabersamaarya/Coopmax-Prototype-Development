@@ -16,6 +16,7 @@ import "./styles/loan-interest-wizard-save-icon.css";
 import "./styles/hide-loan-change-info.css";
 import "./styles/loan-interest-billing-marker.css";
 import "./styles/anggota-page-two-interest-marker.css";
+import "./styles/loan-extension-account-info.css";
 import "./styles/loan-extension-account-info-reference.css";
 import "./styles/loan-extension-hide-duplicate-close.css";
 import "./styles/loan-extension-summary-table.css";

@@ -46,20 +46,50 @@ const months = [
 
 const years = Array.from({ length: 16 }, (_, index) => String(2026 + index));
 
-const accountDetails = [
-  ["No. Rek. Pinjaman", "SMG260004"],
-  ["Nama Anggota", "Bapak Bagus"],
-  ["Produk Pinjaman", "Pinjaman Billing"],
-  ["Status Pinjaman", "Aktif / Sudah Dicairkan"],
-  ["Baki Debet", "10.553.571,00"],
-  ["Nominal Angsuran", "1.120.000,00"],
-  ["Suku Bunga", "12,00% per tahun"],
-  ["Sisa Tenor", "12 Bulan"],
-  ["Tunggakan Pokok", "0,00"],
-  ["Tunggakan Bunga", "0,00"],
-  ["Denda", "0,00"],
-  ["Total Kewajiban", "10.678.571,00"],
-] as const;
+type AccountItem =
+  | { type: "heading"; label: string }
+  | { type: "field"; label: string; value: string; compact?: boolean; status?: boolean };
+
+const accountDetails: AccountItem[] = [
+  { type: "field", label: "Kode Pinjaman", value: "SMG260004", compact: true },
+  { type: "field", label: "Nama Nasabah", value: "Gina Farida M.M.", compact: true },
+  { type: "field", label: "Status", value: "Aktif / Sudah Disalurkan", compact: true, status: true },
+  { type: "field", label: "Sektor Pinjaman", value: "Umum", compact: true },
+  { type: "field", label: "Tujuan Pinjaman", value: "Konsumtif", compact: true },
+  { type: "field", label: "Kolektor", value: "Gina Farida M.M.", compact: true },
+  { type: "field", label: "Produk Pinjaman", value: "Pinjaman Billing", compact: true },
+  { type: "heading", label: "Informasi Pinjaman" },
+  { type: "field", label: "Tanggal Dibuat", value: "07 Apr 2026", compact: true },
+  { type: "field", label: "Tanggal Pinjaman Aktif", value: "07 Apr 2026", compact: true },
+  { type: "field", label: "Tanggal Transaksi Terakhir", value: "14 Apr 2026", compact: true },
+  { type: "field", label: "Tanggal Jatuh Tempo", value: "07 Apr 2027", compact: true },
+  { type: "heading", label: "Detail Waktu" },
+  { type: "field", label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+  { type: "field", label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
+  { type: "field", label: "Periode Waktu", value: "12 Bulan", compact: true },
+  { type: "heading", label: "Jumlah & Angsuran" },
+  { type: "field", label: "Jumlah Pinjaman Diajukan", value: "12.000.000,00" },
+  { type: "field", label: "Jumlah Pinjaman Disetujui", value: "12.000.000,00" },
+  { type: "field", label: "Angsuran Pokok", value: "1.000.000,00" },
+  { type: "field", label: "Angsuran Bunga", value: "120.000,00" },
+  { type: "heading", label: "Rincian Bunga dan Pembayaran" },
+  { type: "field", label: "Suku Bunga Saat Ini (%)", value: "12,00%" },
+  { type: "field", label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
+  { type: "field", label: "Sisa Pinjaman", value: "10.553.571,00" },
+  { type: "field", label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
+  { type: "field", label: "Total Harus Bayar", value: "1.120.000,00" },
+  { type: "field", label: "Total Bayar Bunga", value: "120.000,00" },
+  { type: "heading", label: "Informasi Hutang" },
+  { type: "field", label: "Jumlah Hutang Pokok", value: "0 Kali" },
+  { type: "field", label: "Jumlah Hutang Bunga", value: "0 Kali" },
+  { type: "field", label: "Hutang Pokok", value: "0,00" },
+  { type: "field", label: "Hutang Bunga", value: "0,00" },
+  { type: "heading", label: "Lain-lain" },
+  { type: "field", label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
+  { type: "field", label: "Kolektibilitas", value: "-" },
+  { type: "field", label: "Satuan Grace Period", value: "Bulan" },
+  { type: "field", label: "Durasi Grace Period", value: "3" },
+];
 
 function formatDmy(date: Date) {
   return `${String(date.getDate()).padStart(2, "0")}-${String(
@@ -77,21 +107,39 @@ function addMonths(date: Date, amount: number) {
   return result;
 }
 
-function AccountField({ label, value }: { label: string; value: string }) {
-  const isStatus = label === "Status Pinjaman";
-
+function AccountField({
+  label,
+  value,
+  compact = false,
+  status = false,
+}: {
+  label: string;
+  value: string;
+  compact?: boolean;
+  status?: boolean;
+}) {
   return (
-    <div className="loan-extension-account-field min-w-0">
-      <div className="text-[12px] font-semibold text-white/85">{label}</div>
-      <div className="mt-1.5 text-[14px] font-extrabold leading-snug text-white">
-        {isStatus ? (
+    <div
+      className="loan-extension-account-field min-w-0"
+      data-account-item-label={label}
+      data-account-compact={compact ? "true" : "false"}
+    >
+      <div className="loan-extension-account-label text-[12px] font-semibold text-white/85">{label}</div>
+      <div className="loan-extension-account-value mt-1.5 text-[14px] font-extrabold leading-snug text-white">
+        {status ? (
           <span className="inline-flex rounded-[4px] bg-[#3BB001] px-2 py-1 text-[11px] font-extrabold leading-none text-white">
             {value}
           </span>
-        ) : (
-          value
-        )}
+        ) : value}
       </div>
+    </div>
+  );
+}
+
+function AccountHeading({ label }: { label: string }) {
+  return (
+    <div className="loan-extension-account-heading" data-account-item-heading="true">
+      {label}
     </div>
   );
 }
@@ -475,13 +523,19 @@ export default function LoanExtensionWizard({
                   </div>
 
                   <div className="loan-extension-account-grid mt-7 grid gap-x-8 gap-y-6">
-                    {accountDetails.map(([label, value]) => (
-                      <AccountField
-                        key={label}
-                        label={label}
-                        value={label === "No. Rek. Pinjaman" ? accountNo : value}
-                      />
-                    ))}
+                    {accountDetails.map((item) =>
+                      item.type === "heading" ? (
+                        <AccountHeading key={item.label} label={item.label} />
+                      ) : (
+                        <AccountField
+                          key={item.label}
+                          label={item.label}
+                          value={item.label === "Kode Pinjaman" ? accountNo : item.value}
+                          compact={item.compact}
+                          status={item.status}
+                        />
+                      ),
+                    )}
                   </div>
                 </section>
 
