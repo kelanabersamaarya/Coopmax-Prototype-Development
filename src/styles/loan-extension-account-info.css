@@ -18,6 +18,20 @@
   gap: 1.5rem 2rem !important;
 }
 
+/* Step pertama: hilangkan seluruh judul kelompok informasi. */
+[data-loan-extension-wizard="true"][data-loan-extension-step="1"]
+  section.loan-extension-account-info
+  .loan-extension-account-heading {
+  display: none !important;
+}
+
+/* Step pertama: tampilkan Status sebagai informasi terakhir. */
+[data-loan-extension-wizard="true"][data-loan-extension-step="1"]
+  section.loan-extension-account-info
+  .loan-extension-account-field[data-account-item-label="Status"] {
+  order: 999 !important;
+}
+
 [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-field {
   min-width: 0 !important;
   overflow-wrap: anywhere;
@@ -40,9 +54,14 @@
 }
 
 @media (max-width: 1023px) {
-  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
 
 @media (max-width: 639px) {
-  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 1rem 0 !important; }
+  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1rem 0 !important;
+  }
 }
