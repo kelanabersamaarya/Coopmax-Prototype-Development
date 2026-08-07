@@ -23,16 +23,19 @@
   overflow-wrap: anywhere;
 }
 
-[data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-heading {
-  grid-column: 1 / -1;
-  margin-top: .5rem;
-  padding-bottom: .5rem;
-  border-bottom: 1px solid rgb(255 255 255 / .28);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+/* Judul kelompok informasi tidak ditampilkan pada step pertama. */
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-heading {
+  display: none !important;
+}
+
+/* Status dipindahkan ke urutan paling akhir pada panel informasi rekening. */
+[data-loan-extension-wizard="true"]
+  section.loan-extension-account-info
+  .loan-extension-account-field[data-account-item-label="Status"] {
+  order: 999 !important;
+  grid-column: 1 / -1 !important;
 }
 
 [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-value {
@@ -40,9 +43,14 @@
 }
 
 @media (max-width: 1023px) {
-  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
 
 @media (max-width: 639px) {
-  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 1rem 0 !important; }
+  [data-loan-extension-wizard="true"] section.loan-extension-account-info .loan-extension-account-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1rem 0 !important;
+  }
 }
