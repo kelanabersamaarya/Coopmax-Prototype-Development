@@ -25,15 +25,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import type { BillingRow } from "@/domain/loans/types/billing";
 
-export type BillingRow = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-};
+export type { BillingRow } from "@/domain/loans/types/billing";
 
 const PENALTY_ROWS = 3;
 

@@ -9,15 +9,9 @@ import PenaltyDetailDialog, {
 import { Info } from "lucide-react";
 import NumericCell from "@/components/anggota/NumericCell";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
+import type { BillingRow } from "@/domain/loans/types/billing";
 
-export type BillingRow = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-};
+export type { BillingRow } from "@/domain/loans/types/billing";
 
 const PENALTY_ROWS = 3;
 const PENALTY_AMOUNT = 75000;
