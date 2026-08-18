@@ -4,65 +4,20 @@ import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type SubItem = {
-  label: string;
-  to: string;
-  disabled?: boolean;
-};
-
-const baseItems: SubItem[] = [
-  { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
-  { label: "Rekening Pinjaman", to: "/loans/accounts" },
-  { label: "Transaksi Pinjaman", to: "/loans/transactions" },
-  { label: "Produk Pinjaman Konsolidasi", to: "/loan-products" },
-  { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
-];
-
-const sakItems: SubItem[] = [
-  { label: "Produk Pinjaman Konsolidasi", to: "/loan-products" },
-  { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
-];
-
-function isObsPath(pathname: string) {
-  return (
-    pathname.startsWith("/obs-samudra-harta") ||
-    pathname.startsWith("/obs-web")
-  );
-}
-
-function isSakCabangPath(pathname: string) {
-  return pathname.startsWith("/sak-ep-cabang");
-}
-
-function isPaymentLinkLoanProductsPath(pathname: string) {
-  return pathname.startsWith("/payment-link/loan-products");
-}
-
-function getRouteForContext(to: string, pathname: string) {
-  if (isSakCabangPath(pathname)) return `/sak-ep-cabang${to}`;
-  if (!isObsPath(pathname)) return to;
-  return `/obs-samudra-harta${to}`;
-}
+import { loanMenuItems, sakLoanMenuItems } from "@/navigation/menu-config";
+import { isSakCabangPath, resolveLoanRoute } from "@/navigation/route-context";
+import { isLoanMenuItemActive, isLoanSectionActive } from "@/navigation/menu-state";
 
 export default function SidebarPinjamanMenu() {
   const location = useLocation();
-  const obsArea = isObsPath(location.pathname);
   const sakCabangArea = isSakCabangPath(location.pathname);
 
   const items = React.useMemo(() => {
-    if (sakCabangArea) return sakItems;
-    return baseItems;
+    if (sakCabangArea) return sakLoanMenuItems;
+    return loanMenuItems;
   }, [sakCabangArea]);
 
-  const isActive =
-    isPaymentLinkLoanProductsPath(location.pathname) ||
-    location.pathname.startsWith("/loan-products") ||
-    location.pathname.startsWith("/loans") ||
-    location.pathname.startsWith("/anggota/transaksi") ||
-    location.pathname.startsWith("/laporan") ||
-    location.pathname.startsWith("/pengaturan-umum") ||
-    location.pathname.startsWith("/sak-ep-cabang");
+  const isActive = isLoanSectionActive(location.pathname);
 
   const [open, setOpen] = React.useState<boolean>(isActive);
 
@@ -70,77 +25,8 @@ export default function SidebarPinjamanMenu() {
     if (isActive) setOpen(true);
   }, [isActive]);
 
-  function isItemActive(item: SubItem) {
-    const itemTo = getRouteForContext(item.to, location.pathname);
-
-    if (item.to === "/loan-products") {
-      if (sakCabangArea) {
-        return (
-          location.pathname === itemTo ||
-          (location.pathname.startsWith(`${itemTo}/`) &&
-            location.pathname !== "/sak-ep-cabang/loan-products/cabang" &&
-            location.search !== "?from=cabang")
-        );
-      }
-
-      if (obsArea) {
-        return (
-          location.pathname === itemTo ||
-          (location.pathname.startsWith(`${itemTo}/`) &&
-            location.pathname !== "/obs-samudra-harta/loan-products/cabang" &&
-            location.search !== "?from=cabang")
-        );
-      }
-
-      if (isPaymentLinkLoanProductsPath(location.pathname)) {
-        return (
-          location.pathname === "/payment-link/loan-products" ||
-          (location.pathname.startsWith("/payment-link/loan-products/") &&
-            location.search !== "?from=cabang")
-        );
-      }
-
-      return (
-        location.pathname === "/loan-products" ||
-        (location.pathname.startsWith("/loan-products/") &&
-          location.pathname !== "/loan-products/cabang" &&
-          location.search !== "?from=cabang")
-      );
-    }
-
-    if (item.to === "/loan-products/cabang") {
-      if (sakCabangArea) {
-        return (
-          location.pathname === itemTo ||
-          (location.pathname.startsWith("/sak-ep-cabang/loan-products/") &&
-            location.search === "?from=cabang")
-        );
-      }
-
-      if (obsArea) {
-        return (
-          location.pathname === itemTo ||
-          (location.pathname.startsWith("/obs-samudra-harta/loan-products/") &&
-            location.search === "?from=cabang")
-        );
-      }
-
-      if (isPaymentLinkLoanProductsPath(location.pathname)) {
-        return (
-          location.pathname === "/payment-link/loan-products/cabang" ||
-          (location.pathname.startsWith("/payment-link/loan-products/") &&
-            location.search === "?from=cabang")
-        );
-      }
-
-      return (
-        location.pathname === "/loan-products/cabang" ||
-        (location.pathname.startsWith("/loan-products/") &&
-          location.search === "?from=cabang")
-      );
-    }
-
-    return location.pathname === itemTo || location.pathname.startsWith(`${itemTo}/`);
+  function isItemActive(item: { to: string }) {
+    return isLoanMenuItemActive(item.to, location.pathname, location.search);
   }
 
   return (
@@ -181,7 +67,7 @@ export default function SidebarPinjamanMenu() {
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
               {items.map((item) => {
                 const active = isItemActive(item);
-                const to = getRouteForContext(item.to, location.pathname);
+                const to = resolveLoanRoute(item.to, location.pathname);
 
                 return (
                   <NavLink
