@@ -16,6 +16,7 @@ import {
   CircleX,
   X,
   SquareCheckBig,
+  CircleAlert,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLoanInterestRate } from "@/lib/loanInterestStore";
@@ -157,6 +158,7 @@ export default function LoanAccountDetailSections({
   );
   const [rollbackRow, setRollbackRow] = React.useState<StatusHistoryRow | null>(null);
   const [rollbackReason, setRollbackReason] = React.useState("");
+  const [showRollbackConfirmation, setShowRollbackConfirmation] = React.useState(false);
   const interestRate = useLoanInterestRate(accountNo, 12);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
@@ -567,11 +569,7 @@ export default function LoanAccountDetailSections({
               <button
                 type="button"
                 disabled={!rollbackReason.trim()}
-                onClick={() => {
-                  setHistory((current) => current.filter((item) => item.no !== rollbackRow.no));
-                  setRollbackRow(null);
-                  toast("Perubahan status disimpan");
-                }}
+                onClick={() => setShowRollbackConfirmation(true)}
                 className="inline-flex h-7 w-[90px] items-center justify-center gap-1 rounded-md bg-[#2db900] px-2 text-xs font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <SquareCheckBig className="h-4 w-4 stroke-[2.5]" />
@@ -580,6 +578,43 @@ export default function LoanAccountDetailSections({
             </div>
           </div>
         </div>,
+            document.body,
+          )
+        : null}
+
+      {showRollbackConfirmation && rollbackRow && typeof document !== "undefined"
+        ? createPortal(
+            <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/65 p-4">
+              <div className="w-full max-w-[420px] rounded-xl bg-white p-6 shadow-2xl">
+                <div className="flex justify-center">
+                  <CircleAlert className="h-24 w-24 stroke-[1.5] text-orange-200" />
+                </div>
+                <h2 className="mt-5 text-center text-xl font-bold leading-tight text-slate-950">
+                  Yakin Melakukan Perubahan Status Pinjaman?
+                </h2>
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setHistory((current) => current.filter((item) => item.no !== rollbackRow.no));
+                      setShowRollbackConfirmation(false);
+                      setRollbackRow(null);
+                      toast("Perubahan status disimpan");
+                    }}
+                    className="h-12 rounded-md bg-[#348bd1] text-base font-medium text-white transition-colors hover:bg-[#287cbe]"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowRollbackConfirmation(false)}
+                    className="h-12 rounded-md bg-[#7d8fbd] text-base font-medium text-white transition-colors hover:bg-[#6f81ad]"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>,
             document.body,
           )
         : null}
