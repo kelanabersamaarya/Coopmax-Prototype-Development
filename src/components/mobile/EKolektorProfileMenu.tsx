@@ -169,11 +169,18 @@ function FingerprintToggle({
 
 export default function EKolektorProfileMenu({
   onOpenSettings,
+  onFingerprintEnable,
 }: {
   onOpenSettings?: () => void;
+  onFingerprintEnable?: () => void;
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
   const [fingerprintLogin, setFingerprintLogin] = React.useState(false);
+
+  function handleFingerprintChange(value: boolean) {
+    setFingerprintLogin(value);
+    if (value) onFingerprintEnable?.();
+  }
 
   return (
     <div className="bg-white pb-8 pt-[22px]">
