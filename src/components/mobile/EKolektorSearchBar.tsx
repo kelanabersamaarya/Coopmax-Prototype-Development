@@ -1,11 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, ScanLine, Search } from "lucide-react";
+import { Check, ChevronDown, ScanLine, Search } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 type SearchMode = "semua" | "rekening" | "anggota" | "nama";
+
+const searchOptions: Array<{ value: SearchMode; label: string }> = [
+  { value: "semua", label: "Semua" },
+  { value: "rekening", label: "No. Rekening" },
+  { value: "anggota", label: "No. Anggota" },
+  { value: "nama", label: "Nama Anggota" },
+];
 
 export default function EKolektorSearchBar({
   className,
@@ -14,6 +21,16 @@ export default function EKolektorSearchBar({
 }) {
   const [query, setQuery] = React.useState("");
   const [searchMode, setSearchMode] = React.useState<SearchMode>("semua");
+  const [isOpen, setIsOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (!dropdownRef.current?.contains(event.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   const placeholder =
     searchMode === "rekening"
@@ -23,25 +40,53 @@ export default function EKolektorSearchBar({
         : searchMode === "nama"
           ? "Nama Anggota"
           : "Cari nasabah atau rekening";
+  const selectedLabel = searchOptions.find((option) => option.value === searchMode)?.label;
 
   return (
     <div className={cn("flex w-full items-center gap-[14px]", className)}>
       <div className="flex h-[41px] min-w-0 flex-1 items-center rounded-[9px] bg-[#F1F1F1] px-[13px]">
-        <label className="relative flex h-[27px] shrink-0 items-center rounded-[7px] bg-white/80 px-2 shadow-[0_1px_3px_rgba(35,48,90,0.08)]">
-          <span className="sr-only">Jenis pencarian</span>
-          <select
-            value={searchMode}
-            onChange={(event) => setSearchMode(event.target.value as SearchMode)}
-            className="h-full max-w-[74px] cursor-pointer appearance-none bg-transparent pr-4 text-[10px] font-semibold text-[#004FC7] outline-none"
-            aria-label="Jenis pencarian"
+        <div ref={dropdownRef} className="relative shrink-0">
+          <button
+            type="button"
+            onClick={() => setIsOpen((open) => !open)}
+            className="flex h-[27px] min-w-[76px] items-center justify-between gap-1 rounded-[7px] bg-white px-2 text-[12px] font-semibold text-[#004FC7] shadow-[0_1px_3px_rgba(35,48,90,0.08)] outline-none transition active:scale-[0.98]"
+            aria-haspopup="listbox"
+            aria-expanded={isOpen}
           >
-            <option value="semua">Semua</option>
-            <option value="rekening">No. Rekening</option>
-            <option value="anggota">No. Anggota</option>
-            <option value="nama">Nama Anggota</option>
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-1 h-3 w-3 text-[#004FC7]" />
-        </label>
+            <span className="truncate">{selectedLabel}</span>
+            <ChevronDown className={cn("h-3 w-3 shrink-0 transition-transform", isOpen && "rotate-180")} />
+          </button>
+
+          {isOpen ? (
+            <div
+              role="listbox"
+              aria-label="Jenis pencarian"
+              className="absolute left-0 top-[31px] z-50 w-[126px] overflow-hidden rounded-[7px] border border-[#D8E2F2] bg-white p-1 shadow-[0_6px_16px_rgba(35,48,90,0.16)]"
+            >
+              {searchOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={searchMode === option.value}
+                  onClick={() => {
+                    setSearchMode(option.value);
+                    setIsOpen(false);
+                  }}
+                  className={cn(
+                    "flex h-[30px] w-full items-center justify-between rounded-[5px] px-2 text-left text-[12px] font-medium transition",
+                    searchMode === option.value
+                      ? "bg-[#EAF2FF] text-[#004FC7]"
+                      : "text-[#23305A] hover:bg-[#F3F7FD]",
+                  )}
+                >
+                  <span>{option.label}</span>
+                  {searchMode === option.value ? <Check className="h-3 w-3" /> : null}
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
 
         <Search
           className="ml-[10px] h-[22px] w-[22px] shrink-0 text-[#8D8D8D]"
