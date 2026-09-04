@@ -7,24 +7,28 @@ const loanAccounts = [
     productName: "LP Denda RP",
     customerName: "KORMANI",
     accountNo: "3259238260108",
+    memberNo: "AGT-2600001",
     address: "Penatih",
   },
   {
     productName: "Pinjaman Billing",
     customerName: "LAURA PATEL",
     accountNo: "7260175",
+    memberNo: "AGT-2600002",
     address: "Denpasar",
   },
   {
     productName: "Pinjaman Bulanan",
     customerName: "I KETUT AGUS PASEK JAYA ARTA",
     accountNo: "SMG260004",
+    memberNo: "AGT-2600003",
     address: "Sidakarya",
   },
   {
     productName: "Pinjaman Harian",
     customerName: "RIKA WASTUTI",
     accountNo: "072260001",
+    memberNo: "AGT-2600004",
     address: "Jl. Kenanga No. 12",
   },
 ];
@@ -39,7 +43,7 @@ export default function EKolektorPinjamanInfo({
       {loanAccounts.map((account) => (
         <div
           key={account.accountNo}
-          className="relative h-[160px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]"
+          className="relative h-[190px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]"
         >
           <div className="flex h-full items-start gap-[16px] px-[18px] pb-[48px] pt-[14px]">
             <div className="grid h-[55px] w-[55px] shrink-0 place-items-center rounded-full bg-[#004FC7]">
@@ -55,10 +59,19 @@ export default function EKolektorPinjamanInfo({
               <div className="mt-[5px] truncate text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
                 {account.customerName}
               </div>
-              <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
+              <div className="mt-[5px] text-[11px] font-semibold leading-tight tracking-tight text-[#63809E]">
+                No. Rekening
+              </div>
+              <div className="mt-[2px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
                 {account.accountNo}
               </div>
-              <div className="mt-[5px] text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
+              <div className="mt-[4px] text-[11px] font-semibold leading-tight tracking-tight text-[#63809E]">
+                No. Anggota
+              </div>
+              <div className="mt-[2px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
+                {account.memberNo}
+              </div>
+              <div className="mt-[4px] text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
                 {account.address}
               </div>
             </div>
