@@ -13,6 +13,7 @@ import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
 import SidebarSakSimpananBerjangkaMenu from "@/components/SidebarSakSimpananBerjangkaMenu";
 import SidebarSakAkuntingMenu from "@/components/SidebarSakAkuntingMenu";
 import SidebarDjoinpayMenu from "@/components/SidebarDjoinpayMenu";
+import SidebarMBankingMenu from "@/components/SidebarMBankingMenu";
 import SidebarMitraKaryaMenu from "@/components/SidebarMitraKaryaMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
@@ -195,6 +196,7 @@ export default function Index() {
                                 {!isObsArea ? <SidebarAnggotaMenu /> : null}
                                 <SidebarPinjamanMenu />
                                 {!isObsArea ? <SidebarMobileMenu /> : null}
+                                {!isObsArea ? <SidebarMBankingMenu /> : null}
                                 {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarObsMenu />
                                 ) : null}
