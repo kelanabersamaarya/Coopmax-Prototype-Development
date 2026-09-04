@@ -39,11 +39,7 @@ export default function EKolektorSettingsPage({
   }
 
   function handleExit() {
-    setShowBiometricLogout(true);
-  }
-
-  function cancelLogoutPrompt() {
-    setShowBiometricLogout(false);
+    onLogout();
   }
 
   return (
