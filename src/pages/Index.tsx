@@ -13,6 +13,7 @@ import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
 import SidebarSakSimpananBerjangkaMenu from "@/components/SidebarSakSimpananBerjangkaMenu";
 import SidebarSakAkuntingMenu from "@/components/SidebarSakAkuntingMenu";
 import SidebarDjoinpayMenu from "@/components/SidebarDjoinpayMenu";
+import SidebarDashboardMenu from "@/components/SidebarDashboardMenu";
 import SidebarMBankingMenu from "@/components/SidebarMBankingMenu";
 import SidebarMitraKaryaMenu from "@/components/SidebarMitraKaryaMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
@@ -34,6 +35,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 
 const implementedRoutes = new Set([
   "/dashboard",
+  "/dashboard-simpanan",
   "/simpanan/rekening",
   "/sak-ep-cabang/dashboard",
   "/obs-samudra-harta",
@@ -180,6 +182,7 @@ export default function Index() {
 
                           <div className="space-y-1 px-2">
                             <SidebarNavItem item={g.items[0]!} />
+                            {!isObsArea ? <SidebarDashboardMenu /> : null}
 
                             {isNewMBankingArea ? (
                               <SidebarMobileMenu />

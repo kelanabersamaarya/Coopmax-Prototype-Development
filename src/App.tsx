@@ -9,6 +9,7 @@ import TermSavingsProductsListPage from "./components/savings/term-products/Term
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import DashboardSimpanan from "./pages/DashboardSimpanan";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
 import MitraKaryaLaporanAnggotaV2 from "./pages/MitraKaryaLaporanAnggotaV2";
@@ -65,6 +66,7 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
 
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route
               path="mitra-karya/laporan/anggota"
