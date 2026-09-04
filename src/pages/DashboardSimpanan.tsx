@@ -96,8 +96,8 @@ function SavingsBarChart({ data = chartData }: { data?: typeof chartData }) {
 
 export default function DashboardSimpanan() {
   return (
-    <div className="min-h-screen bg-[#f5f7fc] px-3 py-6 md:px-6 md:py-7">
-      <div className="mx-auto max-w-[1500px]">
+    <div className="min-h-screen overflow-x-auto bg-[#f5f7fc] px-3 py-6 md:px-6 md:py-7">
+      <div className="mx-auto min-w-[1100px] max-w-[1500px]">
         <header className="mb-7 px-2 md:px-5">
           <h1 className="text-[21px] font-semibold text-[#00245e]">Hi, Arya!</h1>
           <p className="mt-1 text-base text-[#00245e]">Selamat datang kembali di KOPERASI COOPMAX</p>
@@ -128,8 +128,8 @@ export default function DashboardSimpanan() {
         <section className="mt-4 overflow-hidden rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
           <h2 className="text-sm font-extrabold uppercase text-slate-900">10 Tabungan dengan Saldo Terbanyak September 2026</h2>
           <p className="mt-1 text-xs text-[#7186b5]">Tabungan dari tiap produk tabung</p>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[900px] border-collapse text-xs text-[#173d75]"><thead><tr className="border-b border-[#b9c8df] text-left text-[10px] uppercase tracking-wide"><th className="py-2">Nasabah</th><th>Simpanan Sukarela</th><th>Simpanan Pokok</th><th>Simpanan Wajib</th><th>Simpanan Program</th></tr></thead><tbody>{topMembers.map((row) => <tr key={row[0]} className="border-b border-[#d5deeb]"><td className="py-1">{row[0]}</td>{row.slice(1).map((value) => <td key={value} className="whitespace-nowrap py-1">{value}</td>)}</tr>)}</tbody></table>
+          <div className="mt-4">
+            <table className="w-full border-collapse text-xs text-[#173d75]"><thead><tr className="border-b border-[#b9c8df] text-left text-[10px] uppercase tracking-wide"><th className="py-2">Nasabah</th><th>Simpanan Sukarela</th><th>Simpanan Pokok</th><th>Simpanan Wajib</th><th>Simpanan Program</th></tr></thead><tbody>{topMembers.map((row) => <tr key={row[0]} className="border-b border-[#d5deeb]"><td className="py-1">{row[0]}</td>{row.slice(1).map((value) => <td key={value} className="whitespace-nowrap py-1">{value}</td>)}</tr>)}</tbody></table>
           </div>
           <button type="button" className="mt-5 border-t border-slate-200 pt-4 text-xs text-[#7186b5]">Lihat semua rekening tabungan</button>
         </section>
