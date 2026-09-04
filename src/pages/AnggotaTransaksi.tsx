@@ -1,6 +1,13 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Search, History } from "lucide-react";
 import { toast } from "sonner";
 import NasabahPickerDialog, {
@@ -10,8 +17,11 @@ import TransaksiAnggotaView1 from "@/components/anggota/TransaksiAnggotaView1";
 import TransaksiAnggotaView2 from "@/components/anggota/TransaksiAnggotaView2";
 import TransaksiAnggotaView3 from "@/components/anggota/TransaksiAnggotaView3";
 
+type SearchField = "nasabah" | "rekening";
+
 export default function AnggotaTransaksi() {
   const [query, setQuery] = React.useState("");
+  const [searchField, setSearchField] = React.useState<SearchField>("nasabah");
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Nasabah | null>(null);
 
@@ -40,12 +50,24 @@ export default function AnggotaTransaksi() {
         </h1>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="w-full sm:max-w-md">
+          <div className="flex w-full sm:max-w-md">
+            <Select
+              value={searchField}
+              onValueChange={(value) => setSearchField(value as SearchField)}
+            >
+              <SelectTrigger className="h-11 w-[142px] shrink-0 rounded-r-none border-r-0 border-slate-300 bg-slate-50 text-xs font-semibold text-slate-700">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-[8px]">
+                <SelectItem value="nasabah">No. Nasabah</SelectItem>
+                <SelectItem value="rekening">No. Rekening</SelectItem>
+              </SelectContent>
+            </Select>
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="No Nasabah/No Rekening"
-              className="h-11 rounded-[5px] border-slate-300 bg-white"
+              placeholder={searchField === "nasabah" ? "Masukkan nomor nasabah" : "Masukkan nomor rekening"}
+              className="h-11 rounded-l-none rounded-r-[5px] border-slate-300 bg-white"
             />
           </div>
 
