@@ -187,13 +187,6 @@ export default function EKolektorProfileMenu({
         </div>
       </div>
 
-      <div className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px]">
-        <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-          Login dengan Sidik Jari
-        </span>
-        <FingerprintToggle checked={fingerprintLogin} onChange={setFingerprintLogin} />
-      </div>
-
       <SectionTitle>Akun</SectionTitle>
       <div className="bg-white">
         {accountItems.map((item) => (
@@ -205,6 +198,13 @@ export default function EKolektorProfileMenu({
             withDivider
           />
         ))}
+
+        <div className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px]">
+          <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+            Login dengan Sidik Jari
+          </span>
+          <FingerprintToggle checked={fingerprintLogin} onChange={setFingerprintLogin} />
+        </div>
       </div>
 
       <SectionTitle>Umum</SectionTitle>
