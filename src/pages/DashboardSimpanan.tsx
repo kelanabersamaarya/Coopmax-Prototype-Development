@@ -74,6 +74,12 @@ const chartData = [
   { day: "30", core: 500, mbanking: 400 },
 ];
 
+const coreChartData = chartData.map((item) => ({
+  day: item.day,
+  setoran: item.core,
+  tarikan: item.mbanking,
+}));
+
 const totalChartData = chartData.map((item, index) => ({
   day: item.day,
   setoran: item.core + [220, 360, 280, 420, 300, 380][index % 6],
@@ -152,7 +158,7 @@ function SavingsBarChart({
         ["pembelian", "#1687ef"],
         ["ppob", "#48b900"],
       ]
-    : variant === "total"
+    : variant === "total" || variant === "core"
       ? [["setoran", "#5612cf"], ["tarikan", "#09c3c7"]]
       : [["core", "#5612cf"], ["mbanking", "#09c3c7"]];
   const maxValue = Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
@@ -180,8 +186,8 @@ function SavingsBarChart({
                 const value = Number(item[key]) || 0;
                 return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
-              {variant === "total" && (
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-3 py-2 text-[11px] text-white shadow-lg group-hover:block">
+              {(variant === "total" || variant === "core") && (
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-white px-3 py-2 text-[11px] text-slate-700 shadow-lg ring-2 ring-slate-200 group-hover:block">
                   <div className="font-semibold">Tanggal {String(item.day)}</div>
                   <div>Setoran: {Number(item.setoran).toLocaleString("id-ID")}</div>
                   <div>Tarikan: {Number(item.tarikan).toLocaleString("id-ID")}</div>
@@ -262,7 +268,7 @@ export default function DashboardSimpanan() {
         </div>
 
         <div className="mt-4 grid gap-4">
-          <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
+          <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart data={coreChartData} variant="core" /></ChartCard>
           <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026"><SavingsBarChart data={mbankingData} variant="mbanking" /></ChartCard>
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
