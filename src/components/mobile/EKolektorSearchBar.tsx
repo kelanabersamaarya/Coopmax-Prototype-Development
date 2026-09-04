@@ -21,8 +21,22 @@ export default function EKolektorSearchBar({
   return (
     <div className={cn("flex w-full items-center gap-[14px]", className)}>
       <div className="flex h-[41px] min-w-0 flex-1 items-center rounded-[9px] bg-[#F1F1F1] px-[13px]">
+        <label className="relative flex h-[27px] shrink-0 items-center rounded-[7px] bg-white/80 px-2 shadow-[0_1px_3px_rgba(35,48,90,0.08)]">
+          <span className="sr-only">Jenis pencarian</span>
+          <select
+            value={searchMode}
+            onChange={(event) => setSearchMode(event.target.value as SearchMode)}
+            className="h-full max-w-[74px] cursor-pointer appearance-none bg-transparent pr-4 text-[10px] font-semibold text-[#004FC7] outline-none"
+            aria-label="Jenis pencarian"
+          >
+            <option value="rekening">Rekening</option>
+            <option value="nama">Nama</option>
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-1 h-3 w-3 text-[#004FC7]" />
+        </label>
+
         <Search
-          className="h-[22px] w-[22px] shrink-0 text-[#8D8D8D]"
+          className="ml-[10px] h-[22px] w-[22px] shrink-0 text-[#8D8D8D]"
           strokeWidth={2.4}
         />
 
@@ -38,20 +52,6 @@ export default function EKolektorSearchBar({
             "outline-none",
           )}
         />
-
-        <label className="relative ml-2 flex h-[27px] shrink-0 items-center rounded-[7px] bg-white/80 px-2 shadow-[0_1px_3px_rgba(35,48,90,0.08)]">
-          <span className="sr-only">Jenis pencarian</span>
-          <select
-            value={searchMode}
-            onChange={(event) => setSearchMode(event.target.value as SearchMode)}
-            className="h-full max-w-[74px] cursor-pointer appearance-none bg-transparent pr-4 text-[10px] font-semibold text-[#004FC7] outline-none"
-            aria-label="Jenis pencarian"
-          >
-            <option value="rekening">Rekening</option>
-            <option value="nama">Nama</option>
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-1 h-3 w-3 text-[#004FC7]" />
-        </label>
       </div>
 
       <button
