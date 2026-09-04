@@ -14,6 +14,8 @@ import {
   ShieldCheck,
   XCircle,
   CircleX,
+  X,
+  SquareCheckBig,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLoanInterestRate } from "@/lib/loanInterestStore";
@@ -557,9 +559,9 @@ export default function LoanAccountDetailSections({
               <button
                 type="button"
                 onClick={() => setRollbackRow(null)}
-                className="inline-flex h-12 min-w-[200px] items-center justify-center gap-3 rounded-xl bg-[#7d8fbd] px-5 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#6f81ad]"
+                className="inline-flex h-7 w-[90px] items-center justify-center gap-1 rounded-md bg-[#7d8fbd] px-2 text-xs font-normal text-white shadow-sm transition-colors hover:bg-[#6f81ad]"
               >
-                <CircleX className="h-10 w-10 stroke-[1.8]" />
+                <X className="h-4 w-4 stroke-[2.5]" />
                 Batalkan
               </button>
               <button
@@ -570,9 +572,9 @@ export default function LoanAccountDetailSections({
                   setRollbackRow(null);
                   toast("Perubahan status disimpan");
                 }}
-                className="inline-flex h-12 min-w-[200px] items-center justify-center gap-3 rounded-xl bg-[#2db900] px-5 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-7 w-[90px] items-center justify-center gap-1 rounded-md bg-[#2db900] px-2 text-xs font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <ShieldCheck className="h-10 w-10 stroke-[1.8]" />
+                <SquareCheckBig className="h-4 w-4 stroke-[2.5]" />
                 Simpan
               </button>
             </div>
