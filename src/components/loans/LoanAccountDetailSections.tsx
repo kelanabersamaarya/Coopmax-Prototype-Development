@@ -627,23 +627,23 @@ export default function LoanAccountDetailSections({
       {showRollbackBlocked && typeof document !== "undefined"
         ? createPortal(
             <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/65 p-4">
-              <div className="w-full max-w-[728px] rounded-2xl bg-white px-8 py-10 shadow-2xl">
+              <div className="w-full max-w-[560px] rounded-2xl bg-white px-6 py-7 shadow-2xl">
                 <div className="flex justify-center">
-                  <div className="flex h-28 w-28 items-center justify-center rounded-full border-[5px] border-[#ffd0aa] text-[#ffbd85]">
-                    <span className="text-6xl font-light leading-none">!</span>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-[#ffd0aa] text-[#ffbd85]">
+                    <span className="text-5xl font-light leading-none">!</span>
                   </div>
                 </div>
-                <h2 className="mt-7 text-center text-2xl font-bold text-slate-950">
+                <h2 className="mt-5 text-center text-xl font-bold text-slate-950">
                   Perubahan Status Tidak Dapat Dilakukan
                 </h2>
-                <p className="mx-auto mt-5 max-w-[630px] text-center text-[22px] leading-tight text-slate-500">
+                <p className="mx-auto mt-4 max-w-[490px] text-center text-base leading-tight text-slate-500">
                   Perubahan status tidak dapat dilakukan karena sudah terdapat proses tutup buku. Lakukan pembatalan tutup buku terlebih dahulu untuk melakukan perubahan status
                 </p>
-                <div className="mt-8 flex justify-center">
+                <div className="mt-6 flex justify-center">
                   <button
                     type="button"
                     onClick={() => setShowRollbackBlocked(false)}
-                    className="h-12 w-[110px] rounded-md border-2 border-[#b6cee4] bg-[#348bd1] text-base font-medium text-white shadow-[0_0_0_4px_rgba(182,206,228,0.25)] transition-colors hover:bg-[#287cbe]"
+                    className="h-10 w-[100px] rounded-md border-2 border-[#b6cee4] bg-[#348bd1] text-sm font-medium text-white shadow-[0_0_0_4px_rgba(182,206,228,0.25)] transition-colors hover:bg-[#287cbe]"
                   >
                     OK
                   </button>
