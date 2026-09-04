@@ -187,10 +187,10 @@ function SavingsBarChart({
 
   return (
     <div className="h-full w-full overflow-visible">
-      <div className="relative h-[250px] w-[2720px] border-b border-slate-200">
+      <div className="relative h-[270px] w-[2720px] border-b border-slate-200 pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
           <div key={level} className="absolute left-20 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
-            {axisLabels[index] !== undefined && <span className="absolute right-full top-0 mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] text-slate-900">{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
+            {axisLabels[index] !== undefined && <span className="absolute right-full top-0 mr-2 translate-y-1 whitespace-nowrap text-[11px] text-slate-900">{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
           </div>
         ))}
         <div className="absolute bottom-0 left-20 top-0 z-0 grid w-[2640px] grid-cols-[repeat(30,88px)] items-end">
