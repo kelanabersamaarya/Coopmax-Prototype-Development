@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronRight, RefreshCw, Trash2 } from "lucide-react";
+import { ChevronRight, Fingerprint, RefreshCw, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const accountItems = [
@@ -139,12 +139,41 @@ function OfflineToggle({
   );
 }
 
+function FingerprintToggle({
+  checked,
+  onChange,
+}: {
+  checked: boolean;
+  onChange: (value: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className={cn(
+        "relative inline-flex h-[30px] w-[54px] shrink-0 items-center rounded-full p-[3px] transition",
+        checked ? "bg-[#004FC7]" : "bg-[#D8D8D8]",
+      )}
+      aria-pressed={checked}
+      aria-label="Login dengan Sidik Jari"
+    >
+      <span
+        className={cn(
+          "h-[24px] w-[24px] rounded-full bg-white shadow-sm transition-transform",
+          checked ? "translate-x-[24px]" : "translate-x-0",
+        )}
+      />
+    </button>
+  );
+}
+
 export default function EKolektorProfileMenu({
   onOpenSettings,
 }: {
   onOpenSettings?: () => void;
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
+  const [fingerprintLogin, setFingerprintLogin] = React.useState(false);
 
   return (
     <div className="bg-white pb-8 pt-[22px]">
@@ -156,6 +185,14 @@ export default function EKolektorProfileMenu({
 
           <OfflineToggle checked={offlineMode} onChange={setOfflineMode} />
         </div>
+      </div>
+
+      <div className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px]">
+        <span className="flex min-w-0 items-center gap-2 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          <Fingerprint className="h-[20px] w-[20px] text-[#004FC7]" strokeWidth={2.4} />
+          Login dengan Sidik Jari
+        </span>
+        <FingerprintToggle checked={fingerprintLogin} onChange={setFingerprintLogin} />
       </div>
 
       <SectionTitle>Akun</SectionTitle>
