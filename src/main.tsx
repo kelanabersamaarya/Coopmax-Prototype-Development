@@ -14,8 +14,6 @@ import "./styles/loan-interest-step-two-billing-edge-spacing.css";
 import "./styles/loan-interest-change-marker.css";
 import "./styles/loan-interest-wizard-save-icon.css";
 import "./styles/hide-loan-change-info.css";
-import "./styles/loan-interest-billing-marker.css";
-import "./styles/anggota-page-two-interest-marker.css";
 import "./styles/loan-extension-account-info.css";
 import "./styles/loan-extension-account-info-reference.css";
 import "./styles/loan-extension-hide-duplicate-close.css";
