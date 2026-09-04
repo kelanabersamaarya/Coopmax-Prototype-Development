@@ -17,6 +17,7 @@ import {
   X,
   SquareCheckBig,
   CircleAlert,
+  CircleCheckBig,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLoanInterestRate } from "@/lib/loanInterestStore";
@@ -159,6 +160,7 @@ export default function LoanAccountDetailSections({
   const [rollbackRow, setRollbackRow] = React.useState<StatusHistoryRow | null>(null);
   const [rollbackReason, setRollbackReason] = React.useState("");
   const [showRollbackConfirmation, setShowRollbackConfirmation] = React.useState(false);
+  const [showRollbackSuccess, setShowRollbackSuccess] = React.useState(false);
   const interestRate = useLoanInterestRate(accountNo, 12);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
@@ -598,8 +600,7 @@ export default function LoanAccountDetailSections({
                     onClick={() => {
                       setHistory((current) => current.filter((item) => item.no !== rollbackRow.no));
                       setShowRollbackConfirmation(false);
-                      setRollbackRow(null);
-                      toast("Perubahan status disimpan");
+                      setShowRollbackSuccess(true);
                     }}
                     className="h-12 rounded-md bg-[#348bd1] text-base font-medium text-white transition-colors hover:bg-[#287cbe]"
                   >
@@ -611,6 +612,37 @@ export default function LoanAccountDetailSections({
                     className="h-12 rounded-md bg-[#7d8fbd] text-base font-medium text-white transition-colors hover:bg-[#6f81ad]"
                   >
                     Cancel
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
+
+      {showRollbackSuccess && typeof document !== "undefined"
+        ? createPortal(
+            <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/65 p-4">
+              <div className="w-full max-w-[690px] rounded-3xl bg-white px-8 py-12 shadow-2xl">
+                <div className="flex justify-center">
+                  <CircleCheckBig className="h-36 w-36 stroke-[1.5] text-[#43b600]" />
+                </div>
+                <h2 className="mt-7 text-center text-4xl font-bold leading-tight text-black">
+                  Perubahan Status Pinjaman Berhasil
+                  <br />
+                  Dilakukan
+                </h2>
+                <div className="mt-7 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowRollbackSuccess(false);
+                      setRollbackRow(null);
+                      toast("Perubahan status disimpan");
+                    }}
+                    className="h-20 w-[145px] rounded-lg border-2 border-[#b6cee4] bg-[#348bd1] text-3xl font-medium text-white shadow-[0_0_0_4px_rgba(182,206,228,0.25)] transition-colors hover:bg-[#287cbe]"
+                  >
+                    OK
                   </button>
                 </div>
               </div>
