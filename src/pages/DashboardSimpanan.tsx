@@ -144,31 +144,38 @@ function SavingsBarChart({
   data?: Array<Record<string, string | number>>;
   variant?: "core" | "mbanking" | "total";
 }) {
+  const keys = variant === "mbanking"
+    ? [
+        ["transfer", "#5612cf"],
+        ["topUp", "#09c3c7"],
+        ["pembelian", "#1687ef"],
+        ["ppob", "#48b900"],
+      ]
+    : variant === "total"
+      ? [["total", "#5612cf"]]
+      : [["core", "#5612cf"], ["mbanking", "#09c3c7"]];
+  const maxValue = Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
+
   return (
-    <div className="h-full min-w-[2200px]">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-          <CartesianGrid stroke="#e2e8f0" vertical={false} />
-          <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#0f172a" }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 10, fill: "#0f172a" }} axisLine={false} tickLine={false} />
-          <Tooltip />
-          {variant === "mbanking" ? (
-            <>
-              <Bar dataKey="transfer" name="Transfer antar nasabah" fill="#5612cf" barSize={22} minPointSize={2} isAnimationActive={false} />
-              <Bar dataKey="topUp" name="Transfer in / Top Up" fill="#09c3c7" barSize={22} minPointSize={2} isAnimationActive={false} />
-              <Bar dataKey="pembelian" name="Pembelian" fill="#1687ef" barSize={22} minPointSize={2} isAnimationActive={false} />
-              <Bar dataKey="ppob" name="Pembayaran PPOB" fill="#48b900" barSize={22} minPointSize={2} isAnimationActive={false} />
-            </>
-          ) : variant === "total" ? (
-            <Bar dataKey="total" name="Total Transaksi" fill="#5612cf" barSize={48} minPointSize={2} isAnimationActive={false} />
-          ) : (
-            <>
-              <Bar dataKey="core" name="Core Banking" fill="#5612cf" barSize={48} minPointSize={2} isAnimationActive={false} />
-              <Bar dataKey="mbanking" name="MBanking" fill="#09c3c7" barSize={48} minPointSize={2} isAnimationActive={false} />
-            </>
-          )}
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="h-full min-w-[2200px] overflow-hidden">
+      <div className="relative h-[230px] border-b border-slate-200">
+        {[0, 25, 50, 75, 100].map((level) => (
+          <div key={level} className="absolute inset-x-0 border-t border-slate-200" style={{ bottom: `${level}%` }} />
+        ))}
+        <div className="absolute inset-x-0 bottom-0 top-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
+          {data.map((item) => (
+            <div key={String(item.day)} className="flex h-full items-end justify-center gap-1 px-2">
+              {keys.map(([key, color]) => {
+                const value = Number(item[key]) || 0;
+                return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-[repeat(30,minmax(64px,1fr))] text-center text-[11px] text-slate-900">
+        {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
+      </div>
     </div>
   );
 }
