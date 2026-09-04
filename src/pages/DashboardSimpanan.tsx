@@ -2,8 +2,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  ComposedChart,
-  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -44,10 +42,10 @@ const savingsProducts = [
 ];
 
 const chartData = [
-  { day: "01", core: 500, mbanking: 400 },
-  { day: "02", core: 200000, mbanking: 100000 },
-  { day: "03", core: 50000, mbanking: 400 },
-  { day: "04", core: 600, mbanking: 500 },
+  { day: "01", core: 500, mbanking: 400, info: 900 },
+  { day: "02", core: 200000, mbanking: 100000, info: 300000 },
+  { day: "03", core: 50000, mbanking: 400, info: 50400 },
+  { day: "04", core: 600, mbanking: 500, info: 1100 },
   { day: "05", core: 500, mbanking: 500 },
   { day: "06", core: 400, mbanking: 450 },
   { day: "07", core: 300, mbanking: 350 },
@@ -149,7 +147,7 @@ function SavingsBarChart({
   return (
     <div className="h-full min-w-[2200px]">
       <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+        <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
           <CartesianGrid stroke="#e2e8f0" vertical={false} />
           <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#0f172a" }} axisLine={false} tickLine={false} />
           <YAxis tick={{ fontSize: 10, fill: "#0f172a" }} axisLine={false} tickLine={false} />
@@ -167,8 +165,7 @@ function SavingsBarChart({
               <Bar dataKey="mbanking" name="MBanking" fill="#09c3c7" barSize={48} />
             </>
           )}
-          <Line type="monotone" dataKey={variant === "total" ? "total" : variant === "mbanking" ? "transfer" : "core"} name="Informasi transaksi" stroke="#ff8a00" strokeWidth={2} dot={{ r: 2, fill: "#ff8a00" }} activeDot={{ r: 4 }} />
-        </ComposedChart>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
