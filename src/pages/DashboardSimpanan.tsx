@@ -43,8 +43,8 @@ const savingsProducts = [
 
 const chartData = [
   { day: "01", core: 500, mbanking: 400, info: 900 },
-  { day: "02", core: 200000, mbanking: 100000, info: 300000 },
-  { day: "03", core: 50000, mbanking: 400, info: 50400 },
+  { day: "02", core: 800, mbanking: 650, info: 1450 },
+  { day: "03", core: 650, mbanking: 400, info: 1050 },
   { day: "04", core: 600, mbanking: 500, info: 1100 },
   { day: "05", core: 500, mbanking: 500 },
   { day: "06", core: 400, mbanking: 450 },
@@ -81,10 +81,10 @@ const totalChartData = chartData.map((item) => ({
 
 const mbankingData = chartData.map((item, index) => ({
   day: item.day,
-  transfer: index % 5 === 0 ? 2 : index % 3 === 0 ? 1 : 0,
-  topUp: index % 4 === 0 ? 1 : 0,
-  pembelian: index % 6 === 0 ? 1 : 0,
-  ppob: index % 7 === 0 ? 1 : 0,
+  transfer: [520, 680, 430, 760, 590, 720][index % 6],
+  topUp: [420, 560, 380, 640, 470, 520][index % 6],
+  pembelian: [300, 460, 350, 520, 400, 480][index % 6],
+  ppob: [220, 340, 260, 410, 300, 380][index % 6],
 }));
 
 const growthData = [
