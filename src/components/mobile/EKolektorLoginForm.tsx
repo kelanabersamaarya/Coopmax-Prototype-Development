@@ -181,7 +181,7 @@ export default function EKolektorLoginForm({
                   <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
                 </div>
                 <h2 id="login-biometric-title" className="mt-4 text-[19px] font-extrabold leading-tight text-[#203064]">
-                  Konfirmasi Biometrik
+                  Login Dengan Biometrik
                 </h2>
                 <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
                   Sentuh sensor sidik jari atau arahkan wajah ke kamera depan.
