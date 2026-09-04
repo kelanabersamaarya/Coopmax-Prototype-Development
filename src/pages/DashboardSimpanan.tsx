@@ -231,7 +231,7 @@ export default function DashboardSimpanan() {
 
         <div className="mt-4 grid gap-4">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
-          <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026"><SavingsBarChart data={mbankingData as typeof chartData} variant="mbanking" /></ChartCard>
+          <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026"><SavingsBarChart data={mbankingData} variant="mbanking" /></ChartCard>
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
             <ResponsiveContainer width="100%" height="100%">
