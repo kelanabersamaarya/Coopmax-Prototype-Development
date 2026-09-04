@@ -1,9 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { ScanLine, Search } from "lucide-react";
+import { ChevronDown, ScanLine, Search } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+
+type SearchMode = "rekening" | "nama";
 
 export default function EKolektorSearchBar({
   className,
@@ -11,6 +13,10 @@ export default function EKolektorSearchBar({
   className?: string;
 }) {
   const [query, setQuery] = React.useState("");
+  const [searchMode, setSearchMode] = React.useState<SearchMode>("rekening");
+
+  const placeholder =
+    searchMode === "rekening" ? "Rekening Simpanan atau Pinjaman" : "Nama Nasabah";
 
   return (
     <div className={cn("flex w-full items-center gap-[14px]", className)}>
@@ -23,7 +29,8 @@ export default function EKolektorSearchBar({
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Rekening Simpanan atau Pinjaman"
+          placeholder={placeholder}
+          aria-label={searchMode === "rekening" ? "Cari rekening" : "Cari nama nasabah"}
           className={cn(
             "ml-[10px] min-w-0 flex-1 bg-transparent",
             "text-[12px] font-normal text-[#4B4B4B]",
@@ -31,6 +38,20 @@ export default function EKolektorSearchBar({
             "outline-none",
           )}
         />
+
+        <label className="relative ml-2 flex h-[27px] shrink-0 items-center rounded-[7px] bg-white/80 px-2 shadow-[0_1px_3px_rgba(35,48,90,0.08)]">
+          <span className="sr-only">Jenis pencarian</span>
+          <select
+            value={searchMode}
+            onChange={(event) => setSearchMode(event.target.value as SearchMode)}
+            className="h-full max-w-[74px] cursor-pointer appearance-none bg-transparent pr-4 text-[10px] font-semibold text-[#004FC7] outline-none"
+            aria-label="Jenis pencarian"
+          >
+            <option value="rekening">Rekening</option>
+            <option value="nama">Nama</option>
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-1 h-3 w-3 text-[#004FC7]" />
+        </label>
       </div>
 
       <button
