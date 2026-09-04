@@ -154,15 +154,17 @@ function SavingsBarChart({
           <Tooltip />
           {variant === "mbanking" ? (
             <>
-              <Bar dataKey="transfer" name="Transfer antar nasabah" fill="#5612cf" barSize={22} />
-              <Bar dataKey="topUp" name="Transfer in / Top Up" fill="#09c3c7" barSize={22} />
-              <Bar dataKey="pembelian" name="Pembelian" fill="#1687ef" barSize={22} />
-              <Bar dataKey="ppob" name="Pembayaran PPOB" fill="#48b900" barSize={22} />
+              <Bar dataKey="transfer" name="Transfer antar nasabah" fill="#5612cf" barSize={22} minPointSize={2} isAnimationActive={false} />
+              <Bar dataKey="topUp" name="Transfer in / Top Up" fill="#09c3c7" barSize={22} minPointSize={2} isAnimationActive={false} />
+              <Bar dataKey="pembelian" name="Pembelian" fill="#1687ef" barSize={22} minPointSize={2} isAnimationActive={false} />
+              <Bar dataKey="ppob" name="Pembayaran PPOB" fill="#48b900" barSize={22} minPointSize={2} isAnimationActive={false} />
             </>
+          ) : variant === "total" ? (
+            <Bar dataKey="total" name="Total Transaksi" fill="#5612cf" barSize={48} minPointSize={2} isAnimationActive={false} />
           ) : (
             <>
-              <Bar dataKey="core" name="Core Banking" fill="#5612cf" barSize={48} />
-              <Bar dataKey="mbanking" name="MBanking" fill="#09c3c7" barSize={48} />
+              <Bar dataKey="core" name="Core Banking" fill="#5612cf" barSize={48} minPointSize={2} isAnimationActive={false} />
+              <Bar dataKey="mbanking" name="MBanking" fill="#09c3c7" barSize={48} minPointSize={2} isAnimationActive={false} />
             </>
           )}
         </BarChart>
