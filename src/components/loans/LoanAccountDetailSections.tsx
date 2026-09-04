@@ -598,7 +598,6 @@ export default function LoanAccountDetailSections({
                   <button
                     type="button"
                     onClick={() => {
-                      setHistory((current) => current.filter((item) => item.no !== rollbackRow.no));
                       setShowRollbackConfirmation(false);
                       setShowRollbackSuccess(true);
                     }}
@@ -636,6 +635,7 @@ export default function LoanAccountDetailSections({
                   <button
                     type="button"
                     onClick={() => {
+                      setHistory((current) => current.filter((item) => item.no !== rollbackRow?.no));
                       setShowRollbackSuccess(false);
                       setRollbackRow(null);
                       toast("Perubahan status disimpan");
