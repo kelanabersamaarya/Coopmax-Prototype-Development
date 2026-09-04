@@ -2,6 +2,8 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  ComposedChart,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -74,6 +76,11 @@ const chartData = [
   { day: "30", core: 500, mbanking: 400 },
 ];
 
+const totalChartData = chartData.map((item) => ({
+  ...item,
+  total: item.core + item.mbanking,
+}));
+
 const mbankingData = chartData.map((item, index) => ({
   day: item.day,
   transfer: index % 5 === 0 ? 2 : index % 3 === 0 ? 1 : 0,
@@ -137,16 +144,16 @@ function SavingsBarChart({
   variant = "core",
 }: {
   data?: Array<Record<string, string | number>>;
-  variant?: "core" | "mbanking";
+  variant?: "core" | "mbanking" | "total";
 }) {
   return (
     <div className="h-full min-w-[2200px]">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-        <CartesianGrid stroke="#e2e8f0" vertical={false} />
-        <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#0f172a" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 10, fill: "#0f172a" }} axisLine={false} tickLine={false} />
-        <Tooltip />
+        <ComposedChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+          <CartesianGrid stroke="#e2e8f0" vertical={false} />
+          <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#0f172a" }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 10, fill: "#0f172a" }} axisLine={false} tickLine={false} />
+          <Tooltip />
           {variant === "mbanking" ? (
             <>
               <Bar dataKey="transfer" name="Transfer antar nasabah" fill="#5612cf" barSize={22} />
@@ -156,11 +163,12 @@ function SavingsBarChart({
             </>
           ) : (
             <>
-              <Bar dataKey="core" fill="#5612cf" barSize={48} radius={[0, 0, 0, 0]} />
-              <Bar dataKey="mbanking" fill="#09c3c7" barSize={48} radius={[0, 0, 0, 0]} />
+              <Bar dataKey="core" name="Core Banking" fill="#5612cf" barSize={48} />
+              <Bar dataKey="mbanking" name="MBanking" fill="#09c3c7" barSize={48} />
             </>
           )}
-        </BarChart>
+          <Line type="monotone" dataKey={variant === "total" ? "total" : variant === "mbanking" ? "transfer" : "core"} name="Informasi transaksi" stroke="#ff8a00" strokeWidth={2} dot={{ r: 2, fill: "#ff8a00" }} activeDot={{ r: 4 }} />
+        </ComposedChart>
       </ResponsiveContainer>
     </div>
   );
@@ -232,7 +240,7 @@ export default function DashboardSimpanan() {
         <div className="mt-4 grid gap-4">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
           <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026"><SavingsBarChart data={mbankingData} variant="mbanking" /></ChartCard>
-          <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
+          <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={growthData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
