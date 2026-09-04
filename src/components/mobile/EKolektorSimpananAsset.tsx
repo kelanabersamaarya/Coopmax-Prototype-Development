@@ -1,44 +1,94 @@
 "use client";
 
+import { toast } from "sonner";
+
+const savingAccounts = [
+  {
+    customerName: "KORMANI",
+    accountNo: "3259238260108",
+    memberNo: "AGT-2600001",
+    productName: "Simpanan Sukarela",
+    address: "Penatih",
+  },
+  {
+    customerName: "LAURA PATEL",
+    accountNo: "7260175",
+    memberNo: "AGT-2600002",
+    productName: "Simpanan Wajib",
+    address: "Denpasar",
+  },
+  {
+    customerName: "I KETUT AGUS PASEK JAYA ARTA",
+    accountNo: "SMG260004",
+    memberNo: "AGT-2600003",
+    productName: "Simpanan Pokok",
+    address: "Sidakarya",
+  },
+];
+
 export default function EKolektorSimpananAsset() {
   return (
-    <div className="mt-[26px] flex flex-col items-center">
-      <svg
-        viewBox="0 0 220 170"
-        fill="none"
-        className="h-[170px] w-[220px]"
-        aria-hidden="true"
-      >
-        <path
-          d="M112 28C93 40 100 62 120 61C143 60 141 33 119 38C95 43 88 75 112 88C138 102 153 72 127 66C98 60 75 91 91 118"
-          stroke="#AFAFAF"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-        />
+    <div className="mt-[22px] grid w-full gap-[14px]">
+      {savingAccounts.map((account) => (
+        <div
+          key={account.accountNo}
+          className="relative min-h-[250px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]"
+        >
+          <div className="min-h-[250px] px-[22px] pb-[66px] pt-[20px]">
+            <div className="flex items-center gap-[14px]">
+              <div className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#004FC7]">
+                <span className="text-[14px] font-normal leading-none text-white">
+                  {account.customerName.charAt(0)}
+                </span>
+              </div>
+              <div className="min-w-0 truncate text-[16px] font-extrabold leading-tight tracking-tight text-[#172957]">
+                {account.customerName}
+              </div>
+            </div>
 
-        <path d="M44 86L78 58H165L192 86H44Z" fill="#A8A8A8" />
-        <path d="M78 58H165L190 84H101L78 58Z" fill="#BDBDBD" />
-        <path d="M75 82H166V140H75V82Z" fill="#B9B9B9" />
-        <path d="M75 82L101 107H190L166 82H75Z" fill="#6F6F6F" />
-        <path d="M101 98H190V108H101V98Z" fill="#9B9B9B" />
-        <path d="M78 58L101 82H190L166 58H78Z" fill="#B5B5B5" />
+            <div className="mt-[14px] h-px w-full bg-[#E4E8EF]" />
 
-        <circle cx="104" cy="111" r="3.2" fill="#203040" />
-        <circle cx="136" cy="111" r="3.2" fill="#203040" />
+            <div className="mt-[11px] grid gap-[7px] text-[14px] leading-tight">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">No. Rekening</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.accountNo}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">No. Anggota</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.memberNo}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">Produk simpanan</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.productName}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">Alamat</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.address}
+                </span>
+              </div>
+            </div>
+          </div>
 
-        <path
-          d="M106 132C112 121 128 121 134 132"
-          stroke="#7A7A7A"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-
-        <rect x="160" y="129" width="14" height="18" fill="white" />
-      </svg>
-
-      <div className="-mt-1 text-center text-[16px] font-normal leading-tight text-[#8E8E8E]">
-        Tidak Ada Data Simpanan
-      </div>
+          <button
+            type="button"
+            onClick={() =>
+              toast("Pilih simpanan (prototype)", {
+                description: "Aksi tombol belum dihubungkan.",
+              })
+            }
+            className="absolute inset-x-0 bottom-0 h-[52px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:bg-[#0046B3]"
+          >
+            Pilih
+          </button>
+        </div>
+      ))}
     </div>
   );
 }
