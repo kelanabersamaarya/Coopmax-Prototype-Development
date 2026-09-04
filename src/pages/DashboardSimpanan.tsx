@@ -166,6 +166,7 @@ function SavingsBarChart({
   const maxValue = variant === "core"
     ? 200000
     : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
+  const axisLabels = variant === "core" ? [200000, 150000, 100000, 50000, 0] : [];
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
     topUp: "Transfer In / Top Up",
@@ -180,9 +181,11 @@ function SavingsBarChart({
 
   return (
     <div className="h-full min-w-[2200px] overflow-visible">
-      <div className="relative h-[230px] border-b border-slate-200">
-        {[0, 25, 50, 75, 100].map((level) => (
-          <div key={level} className="absolute inset-x-0 border-t border-slate-200" style={{ bottom: `${level}%` }} />
+      <div className="relative h-[230px] border-b border-slate-200 pl-16">
+        {[0, 25, 50, 75, 100].map((level, index) => (
+          <div key={level} className="absolute inset-x-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
+            {axisLabels[index] !== undefined && <span className="absolute right-full top-0 mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] text-slate-900">{axisLabels[index].toLocaleString("id-ID")}</span>}
+          </div>
         ))}
         <div className="absolute inset-x-0 bottom-0 top-0 z-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
           {data.map((item) => (
