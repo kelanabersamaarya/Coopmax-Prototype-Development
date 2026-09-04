@@ -75,7 +75,12 @@ export default function EKolektorTransactionTabs({
       {showAccounts && activeTab === "pinjaman" ? (
         <EKolektorPinjamanInfo onSelect={onSelectLoan} />
       ) : null}
-      {!showAccounts ? <EKolektorEmptyState className="mt-[42px]" /> : null}
+      {!showAccounts ? (
+        <EKolektorEmptyState
+          className="mt-[42px]"
+          title={activeTab === "simpanan" ? "Tidak Ada Data Simpanan" : "Tidak Ada Data Pinjaman"}
+        />
+      ) : null}
     </div>
   );
 }
