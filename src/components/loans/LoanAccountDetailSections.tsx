@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -503,9 +504,10 @@ export default function LoanAccountDetailSections({
         </div>
       </div>
 
-      {rollbackRow ? (
-        <div className="fixed inset-0 z-[100] flex min-h-screen w-screen items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-[1px]">
-          <div className="my-auto w-full max-w-[980px] overflow-hidden rounded-xl bg-white shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+      {rollbackRow && typeof document !== "undefined"
+        ? createPortal(
+            <div className="fixed inset-0 z-[100] flex min-h-screen w-screen items-start justify-center overflow-y-auto bg-black/70 p-4 pt-[min(18vh,160px)] backdrop-blur-[1px]">
+          <div className="w-full max-w-[980px] overflow-hidden rounded-xl bg-white shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
               <h2 className="text-lg font-extrabold text-slate-900">Perubahan Status Pinjaman</h2>
               <button
@@ -567,8 +569,10 @@ export default function LoanAccountDetailSections({
               </button>
             </div>
           </div>
-        </div>
-      ) : null}
+        </div>,
+            document.body,
+          )
+        : null}
     </Card>
   );
 }
