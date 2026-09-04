@@ -16,6 +16,17 @@ export default function EKolektorLoginForm({
   const [username, setUsername] = React.useState("");
   const [showBiometricPrompt, setShowBiometricPrompt] = React.useState(false);
   const [password, setPassword] = React.useState("");
+
+  React.useEffect(() => {
+    if (!showBiometricPrompt) return;
+
+    const timer = window.setTimeout(() => {
+      setShowBiometricPrompt(false);
+      onLogin();
+    }, 3000);
+
+    return () => window.clearTimeout(timer);
+  }, [showBiometricPrompt, onLogin]);
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -188,10 +199,7 @@ export default function EKolektorLoginForm({
                 </p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowBiometricPrompt(false);
-                    onLogin();
-                  }}
+                  onClick={() => setShowBiometricPrompt(false)}
                   className="mt-5 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
                 >
                   Batal
