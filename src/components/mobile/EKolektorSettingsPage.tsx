@@ -107,6 +107,13 @@ export default function EKolektorSettingsPage({
             >
               Reset
             </button>
+            <button
+              type="button"
+              onClick={handleExit}
+              className="mt-3 h-[43px] w-full rounded-[9px] border border-[#EF135D] bg-white text-[14px] font-semibold text-[#EF135D] transition active:scale-[0.99]"
+            >
+              Keluar
+            </button>
           </div>
         </main>
       </div>
