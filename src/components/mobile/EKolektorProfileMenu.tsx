@@ -155,7 +155,7 @@ function FingerprintToggle({
         checked ? "bg-[#004FC7]" : "bg-[#D8D8D8]",
       )}
       aria-pressed={checked}
-      aria-label="Login dengan Sidik Jari"
+      aria-label="Login Dengan Biometrik"
     >
       <span
         className={cn(
@@ -208,7 +208,7 @@ export default function EKolektorProfileMenu({
 
         <div className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px]">
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-            Login dengan Sidik Jari
+            Login Dengan Biometrik
           </span>
           <FingerprintToggle checked={fingerprintLogin} onChange={handleFingerprintChange} />
         </div>
