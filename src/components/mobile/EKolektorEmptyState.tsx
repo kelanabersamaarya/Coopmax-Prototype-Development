@@ -12,7 +12,7 @@ export default function EKolektorEmptyState({
       <img
         src="/kolektor_empty.png"
         alt=""
-        className="h-auto w-full max-w-[300px] object-contain"
+        className="h-auto w-full max-w-[250px] object-contain"
       />
       <div className="mt-4 text-[18px] font-extrabold leading-tight tracking-tight text-[#23305A]">
         {title}
