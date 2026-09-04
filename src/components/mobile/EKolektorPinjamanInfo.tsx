@@ -43,9 +43,9 @@ export default function EKolektorPinjamanInfo({
       {loanAccounts.map((account) => (
         <div
           key={account.accountNo}
-          className="relative h-[190px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]"
+          className="relative min-h-[250px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]"
         >
-          <div className="flex h-full items-start gap-[16px] px-[18px] pb-[48px] pt-[14px]">
+          <div className="flex min-h-[250px] items-start gap-[16px] px-[18px] pb-[62px] pt-[20px]">
             <div className="grid h-[55px] w-[55px] shrink-0 place-items-center rounded-full bg-[#004FC7]">
               <span className="text-[14px] font-normal leading-none text-white">
                 {account.customerName.charAt(0)}
@@ -71,7 +71,7 @@ export default function EKolektorPinjamanInfo({
               <div className="mt-[2px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
                 {account.memberNo}
               </div>
-              <div className="mt-[4px] text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
+              <div className="mt-[4px] truncate text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
                 {account.address}
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function EKolektorPinjamanInfo({
                 description: "Aksi tombol belum dihubungkan.",
               });
             }}
-            className="absolute inset-x-0 bottom-0 h-[45px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:bg-[#0046B3]"
+            className="absolute inset-x-0 bottom-0 h-[52px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:bg-[#0046B3]"
           >
             Pilih
           </button>
