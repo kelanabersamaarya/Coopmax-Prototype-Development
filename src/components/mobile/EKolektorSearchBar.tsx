@@ -49,12 +49,12 @@ export default function EKolektorSearchBar({
           <button
             type="button"
             onClick={() => setIsOpen((open) => !open)}
-            className="flex h-[27px] min-w-[76px] items-center justify-between gap-1 rounded-[7px] bg-white px-2 text-[12px] font-semibold text-[#004FC7] shadow-[0_1px_3px_rgba(35,48,90,0.08)] outline-none transition active:scale-[0.98]"
+            className="flex h-[27px] min-w-[76px] items-center justify-between gap-1 rounded-[7px] bg-white px-2 text-[12px] font-semibold text-black shadow-[0_1px_3px_rgba(35,48,90,0.08)] outline-none transition active:scale-[0.98]"
             aria-haspopup="listbox"
             aria-expanded={isOpen}
           >
             <span className="truncate">{selectedLabel}</span>
-            <ChevronDown className={cn("h-3 w-3 shrink-0 transition-transform", isOpen && "rotate-180")} />
+            <ChevronDown className={cn("h-3 w-3 shrink-0 text-black transition-transform", isOpen && "rotate-180")} />
           </button>
 
           {isOpen ? (
@@ -74,10 +74,10 @@ export default function EKolektorSearchBar({
                     setIsOpen(false);
                   }}
                   className={cn(
-                    "flex h-[30px] w-full items-center justify-between rounded-[5px] px-2 text-left text-[12px] font-medium transition",
+                    "flex h-[30px] w-full items-center justify-between rounded-[5px] px-2 text-left text-[12px] font-medium text-black transition",
                     searchMode === option.value
-                      ? "bg-[#EAF2FF] text-[#004FC7]"
-                      : "text-[#23305A] hover:bg-[#F3F7FD]",
+                      ? "bg-[#EAF2FF]"
+                      : "hover:bg-[#F3F7FD]",
                   )}
                 >
                   <span>{option.label}</span>
