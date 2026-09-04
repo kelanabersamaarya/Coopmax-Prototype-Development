@@ -175,11 +175,18 @@ function SavingsBarChart({
         ))}
         <div className="absolute inset-x-0 bottom-0 top-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="flex h-full items-end justify-center gap-1 px-2">
+            <div key={String(item.day)} className="group relative flex h-full items-end justify-center gap-1 px-2">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
-                return <div key={key} title={`${labelMap[key]}: ${value.toLocaleString("id-ID")}`} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
+                return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
+              {variant === "total" && (
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-3 py-2 text-[11px] text-white shadow-lg group-hover:block">
+                  <div className="font-semibold">Tanggal {String(item.day)}</div>
+                  <div>Setoran: {Number(item.setoran).toLocaleString("id-ID")}</div>
+                  <div>Tarikan: {Number(item.tarikan).toLocaleString("id-ID")}</div>
+                </div>
+              )}
             </div>
           ))}
         </div>
