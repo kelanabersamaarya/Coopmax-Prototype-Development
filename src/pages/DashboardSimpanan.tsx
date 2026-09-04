@@ -187,7 +187,7 @@ function SavingsBarChart({
             {axisLabels[index] !== undefined && <span className="absolute right-full top-0 mr-3 -translate-y-1/2 whitespace-nowrap text-[11px] text-slate-900">{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
           </div>
         ))}
-        <div className="absolute bottom-0 left-24 right-0 top-0 z-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
+        <div className="absolute inset-x-0 bottom-0 top-0 z-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
           {data.map((item) => (
             <div key={String(item.day)} className="group relative z-10 flex h-full items-end justify-center gap-1 px-2 hover:z-[100]">
               {keys.map(([key, color]) => {
