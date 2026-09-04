@@ -52,15 +52,13 @@ export default function EKolektorTransactions({
             onSearch={(query) => setHasSearched(Boolean(query))}
           />
 
-          {hasSearched ? (
-            <EKolektorTransactionTabs
-              className="mt-[24px]"
-              onSelectLoan={(accountNo) => {
-                setSelectedAccountNo(accountNo);
-                setScreen("loan-transaction");
-              }}
-            />
-          ) : null}
+          <EKolektorTransactionTabs
+            className="mt-[24px]"
+            onSelectLoan={(accountNo) => {
+              setSelectedAccountNo(accountNo);
+              setScreen("loan-transaction");
+            }}
+          />
         </div>
       </div>
 
