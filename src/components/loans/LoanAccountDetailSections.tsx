@@ -532,13 +532,13 @@ export default function LoanAccountDetailSections({
               <div className="rounded-xl bg-cyan-600 p-5 text-white">
                 <div className="mb-5 text-sm font-extrabold uppercase">Informasi Rekening Pinjaman</div>
                 <div className="grid gap-4 sm:grid-cols-4">
-                  <div><div className="text-xs opacity-80">No. Rek. Pinjaman</div><div className="mt-1 font-bold">{accountNo}</div></div>
-                  <div><div className="text-xs opacity-80">Nama Nasabah</div><div className="mt-1 font-bold">Dinda Farida</div></div>
-                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Dibuat</div><div className="mt-1 font-bold">03 September 2026</div></div>
-                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Aktif</div><div className="mt-1 font-bold">03 September 2026</div></div>
-                  <div><div className="text-xs opacity-80">Tanggal Jatuh Tempo</div><div className="mt-1 font-bold">03 September 2027</div></div>
-                  <div><div className="text-xs opacity-80">Nominal Pinjaman Diajukan</div><div className="mt-1 font-bold">10.000.000,00</div></div>
-                  <div><div className="text-xs opacity-80">Nominal Pinjaman Disetujui</div><div className="mt-1 font-bold">10.000.000,00</div></div>
+                  <div><div className="text-xs opacity-80">No. Rek. Pinjaman</div><div className="mt-1 text-base font-bold">{accountNo}</div></div>
+                  <div><div className="text-xs opacity-80">Nama Nasabah</div><div className="mt-1 text-base font-bold">Dinda Farida</div></div>
+                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Dibuat</div><div className="mt-1 text-base font-bold">03 September 2026</div></div>
+                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Aktif</div><div className="mt-1 text-base font-bold">03 September 2026</div></div>
+                  <div><div className="text-xs opacity-80">Tanggal Jatuh Tempo</div><div className="mt-1 text-base font-bold">03 September 2027</div></div>
+                  <div><div className="text-xs opacity-80">Nominal Pinjaman Diajukan</div><div className="mt-1 text-base font-bold">10.000.000,00</div></div>
+                  <div><div className="text-xs opacity-80">Nominal Pinjaman Disetujui</div><div className="mt-1 text-base font-bold">10.000.000,00</div></div>
                 </div>
               </div>
 
