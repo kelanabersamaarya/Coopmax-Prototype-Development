@@ -553,8 +553,15 @@ export default function LoanAccountDetailSections({
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 border-t border-slate-200 px-5 py-4">
-              <button type="button" onClick={() => setRollbackRow(null)} className="rounded-md bg-slate-500 px-5 py-2 text-sm font-semibold text-white">Batal</button>
+            <div className="flex justify-end gap-4 border-t border-slate-200 px-5 py-4">
+              <button
+                type="button"
+                onClick={() => setRollbackRow(null)}
+                className="inline-flex h-12 min-w-[190px] items-center justify-center gap-4 rounded-xl bg-[#7d8fbd] px-6 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#6f81ad]"
+              >
+                <CircleX className="h-10 w-10 stroke-[1.8]" />
+                Batalkan
+              </button>
               <button
                 type="button"
                 disabled={!rollbackReason.trim()}
@@ -563,8 +570,9 @@ export default function LoanAccountDetailSections({
                   setRollbackRow(null);
                   toast("Perubahan status disimpan");
                 }}
-                className="rounded-md bg-green-600 px-5 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-12 min-w-[190px] items-center justify-center gap-4 rounded-xl bg-[#2db900] px-6 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
               >
+                <ShieldCheck className="h-10 w-10 stroke-[1.8]" />
                 Simpan
               </button>
             </div>
