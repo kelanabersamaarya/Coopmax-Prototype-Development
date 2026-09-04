@@ -24,8 +24,10 @@ const settingsItems = [
 
 export default function EKolektorSettingsPage({
   onBack,
+  onLogout,
 }: {
   onBack: () => void;
+  onLogout: () => void;
 }) {
   const [settings, setSettings] = React.useState<Record<string, boolean>>(() =>
     Object.fromEntries(settingsItems.map((item) => [item, false])),
@@ -38,6 +40,10 @@ export default function EKolektorSettingsPage({
 
   function handleExit() {
     setShowBiometricLogout(true);
+  }
+
+  function cancelLogoutPrompt() {
+    setShowBiometricLogout(false);
   }
 
   return (
@@ -146,7 +152,7 @@ export default function EKolektorSettingsPage({
             </p>
             <button
               type="button"
-              onClick={onBack}
+              onClick={onLogout}
               className="mt-5 h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99]"
             >
               Login dengan Biometrik

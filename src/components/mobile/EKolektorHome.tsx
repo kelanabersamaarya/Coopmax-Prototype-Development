@@ -24,7 +24,12 @@ export default function EKolektorHome({
   const [showProfile, setShowProfile] = React.useState(false);
 
   if (showProfile) {
-    return <EKolektorProfilePage onBack={() => setShowProfile(false)} />;
+    return (
+      <EKolektorProfilePage
+        onBack={() => setShowProfile(false)}
+        onLogout={onLogout}
+      />
+    );
   }
 
   return (

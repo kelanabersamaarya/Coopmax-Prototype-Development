@@ -170,10 +170,12 @@ function FingerprintToggle({
 export default function EKolektorProfileMenu({
   onOpenSettings,
   onFingerprintEnable,
+  onLogout,
   biometricEnabled = false,
 }: {
   onOpenSettings?: () => void;
   onFingerprintEnable?: () => void;
+  onLogout?: () => void;
   biometricEnabled?: boolean;
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
@@ -278,7 +280,10 @@ export default function EKolektorProfileMenu({
             </p>
             <button
               type="button"
-              onClick={() => setShowLogoutPrompt(false)}
+              onClick={() => {
+                setShowLogoutPrompt(false);
+                onLogout?.();
+              }}
               className="mt-5 h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99]"
             >
               Login dengan Biometrik
