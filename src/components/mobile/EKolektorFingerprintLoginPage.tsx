@@ -39,20 +39,20 @@ export default function EKolektorFingerprintLoginPage({
             Sakti E-Collector memerlukan akses ke fitur biometrik, seperti sidik jari atau pemindai wajah, untuk mengamankan akun Anda. Dengan menggunakan metode ini, Anda dapat dengan mudah dan aman mengakses aplikasi tanpa perlu memasukkan kata sandi setiap kali. Data biometrik Anda tidak akan disimpan atau dibagikan kepada pihak ketiga.
           </p>
 
-          <div className="mt-auto flex w-full gap-3">
-            <button
-              type="button"
-              onClick={onBack}
-              className="h-[45px] flex-1 rounded-[9px] border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.99]"
-            >
-              Batal
-            </button>
+          <div className="mt-auto flex w-full flex-col gap-3">
             <button
               type="button"
               onClick={onContinue}
-              className="h-[45px] flex-1 rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99]"
+              className="h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99]"
             >
               Aktifkan
+            </button>
+            <button
+              type="button"
+              onClick={onBack}
+              className="h-[45px] w-full rounded-[9px] border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.99]"
+            >
+              Batal
             </button>
           </div>
         </main>
