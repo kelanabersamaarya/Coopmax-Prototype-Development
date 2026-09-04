@@ -90,8 +90,9 @@ const mbankingData = chartData.map((item, index) => ({
   day: item.day,
   transfer: [520, 680, 430, 760, 590, 720][index % 6],
   topUp: [420, 560, 380, 640, 470, 520][index % 6],
-  pembelian: [300, 460, 350, 520, 400, 480][index % 6],
-  ppob: [220, 340, 260, 410, 300, 380][index % 6],
+  pembelianPpob: [300, 460, 350, 520, 400, 480][index % 6],
+  angsuran: [260, 380, 300, 440, 340, 400][index % 6],
+  iuran: [180, 300, 220, 360, 260, 320][index % 6],
 }));
 
 const growthData = [
@@ -155,8 +156,9 @@ function SavingsBarChart({
     ? [
         ["transfer", "#5612cf"],
         ["topUp", "#09c3c7"],
-        ["pembelian", "#1687ef"],
-        ["ppob", "#48b900"],
+        ["pembelianPpob", "#1687ef"],
+        ["angsuran", "#48b900"],
+        ["iuran", "#f59e0b"],
       ]
     : variant === "total" || variant === "core"
       ? [["setoran", "#5612cf"], ["tarikan", "#09c3c7"]]
@@ -165,8 +167,9 @@ function SavingsBarChart({
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
     topUp: "Transfer In / Top Up",
-    pembelian: "Pembelian",
-    ppob: "Pembayaran PPOB",
+    pembelianPpob: "Pembelian & Pembayaran PPOB",
+    angsuran: "Pembayaran Angsuran",
+    iuran: "Pembayaran Iuran Simpanan Wajib & Program",
     core: "Core Banking",
     mbanking: "MBanking",
     setoran: "Setoran",
@@ -186,7 +189,7 @@ function SavingsBarChart({
                 const value = Number(item[key]) || 0;
                 return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
-              {(variant === "total" || variant === "core") && (
+              {(variant === "total" || variant === "core") ? (
                 <div
                   className="pointer-events-none absolute left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-3 text-[14px] leading-7 shadow-md ring-1 ring-slate-200 group-hover:block"
                   style={{ bottom: `${Math.min(Math.max(Number(item.setoran) || 0, Number(item.tarikan) || 0) / maxValue * 100 + 2, 82)}%` }}
@@ -194,6 +197,15 @@ function SavingsBarChart({
                   <div className="font-medium text-slate-900">{String(item.day)}</div>
                   <div className="text-[#5612cf]">setoran : {Number(item.setoran).toLocaleString("id-ID")}</div>
                   <div className="text-[#09c3c7]">tarikan : {Number(item.tarikan).toLocaleString("id-ID")}</div>
+                </div>
+              ) : (
+                <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-3 text-[13px] leading-6 shadow-md ring-1 ring-slate-200 group-hover:block">
+                  <div className="font-medium text-slate-900">{String(item.day)}</div>
+                  <div className="text-[#5612cf]">Transfer antar nasabah : {Number(item.transfer).toLocaleString("id-ID")}</div>
+                  <div className="text-[#09c3c7]">Transfer In / Top Up : {Number(item.topUp).toLocaleString("id-ID")}</div>
+                  <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {Number(item.pembelianPpob).toLocaleString("id-ID")}</div>
+                  <div className="text-[#48b900]">Pembayaran Angsuran : {Number(item.angsuran).toLocaleString("id-ID")}</div>
+                  <div className="text-[#f59e0b]">Iuran Simpanan Wajib & Program : {Number(item.iuran).toLocaleString("id-ID")}</div>
                 </div>
               )}
             </div>
