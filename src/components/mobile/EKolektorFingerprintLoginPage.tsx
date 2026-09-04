@@ -106,7 +106,7 @@ export default function EKolektorFingerprintLoginPage({
             <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
           </button>
           <h1 className="text-[20px] font-extrabold tracking-tight text-[#004FC7]">
-            Login dengan Sidik Jari
+            Login dengan Biometrik
           </h1>
         </header>
 
@@ -115,7 +115,7 @@ export default function EKolektorFingerprintLoginPage({
             <Fingerprint className="h-[70px] w-[70px]" strokeWidth={1.7} />
           </div>
           <h2 className="mt-[32px] text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">
-            Aktifkan Login dengan Sidik Jari
+            Aktifkan Login dengan Biometrik
           </h2>
           <p className="mt-[12px] max-w-[360px] text-[14px] leading-relaxed text-[#8C8C8C]">
             Sakti E-Collector memerlukan akses ke fitur biometrik, seperti sidik jari atau pemindai wajah, untuk mengamankan akun Anda. Dengan menggunakan metode ini, Anda dapat dengan mudah dan aman mengakses aplikasi tanpa perlu memasukkan kata sandi setiap kali. Data biometrik Anda tidak akan disimpan atau dibagikan kepada pihak ketiga.
