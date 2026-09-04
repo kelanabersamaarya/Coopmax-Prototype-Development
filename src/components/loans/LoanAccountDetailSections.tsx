@@ -161,6 +161,7 @@ export default function LoanAccountDetailSections({
   const [rollbackReason, setRollbackReason] = React.useState("");
   const [showRollbackConfirmation, setShowRollbackConfirmation] = React.useState(false);
   const [showRollbackSuccess, setShowRollbackSuccess] = React.useState(false);
+  const [showRollbackBlocked, setShowRollbackBlocked] = React.useState(false);
   const interestRate = useLoanInterestRate(accountNo, 12);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
@@ -483,6 +484,10 @@ export default function LoanAccountDetailSections({
                           type="button"
                           onClick={() => {
                             if (row.status === "Aktif / Sudah Dicairkan") {
+                              if (accountNo.toLowerCase() === "klpk04.07260001") {
+                                setShowRollbackBlocked(true);
+                                return;
+                              }
                               setRollbackRow(row);
                               setRollbackReason("");
                               return;
@@ -611,6 +616,36 @@ export default function LoanAccountDetailSections({
                     className="h-12 rounded-md bg-[#7d8fbd] text-base font-medium text-white transition-colors hover:bg-[#6f81ad]"
                   >
                     Cancel
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
+
+      {showRollbackBlocked && typeof document !== "undefined"
+        ? createPortal(
+            <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/65 p-4">
+              <div className="w-full max-w-[728px] rounded-2xl bg-white px-8 py-10 shadow-2xl">
+                <div className="flex justify-center">
+                  <div className="flex h-28 w-28 items-center justify-center rounded-full border-[5px] border-[#ffd0aa] text-[#ffbd85]">
+                    <span className="text-6xl font-light leading-none">!</span>
+                  </div>
+                </div>
+                <h2 className="mt-7 text-center text-2xl font-bold text-slate-950">
+                  Perubahan Status Tidak Dapat Dilakukan
+                </h2>
+                <p className="mx-auto mt-5 max-w-[630px] text-center text-[22px] leading-tight text-slate-500">
+                  Perubahan status tidak dapat dilakukan karena sudah terdapat proses tutup buku. Lakukan pembatalan tutup buku terlebih dahulu untuk melakukan perubahan status
+                </p>
+                <div className="mt-8 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowRollbackBlocked(false)}
+                    className="h-12 w-[110px] rounded-md border-2 border-[#b6cee4] bg-[#348bd1] text-base font-medium text-white shadow-[0_0_0_4px_rgba(182,206,228,0.25)] transition-colors hover:bg-[#287cbe]"
+                  >
+                    OK
                   </button>
                 </div>
               </div>
