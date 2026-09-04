@@ -54,6 +54,7 @@ export default function EKolektorTransactions({
 
           <EKolektorTransactionTabs
             className="mt-[24px]"
+            showAccounts={hasSearched}
             onSelectLoan={(accountNo) => {
               setSelectedAccountNo(accountNo);
               setScreen("loan-transaction");
