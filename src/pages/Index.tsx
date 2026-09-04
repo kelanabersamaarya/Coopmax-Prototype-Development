@@ -46,6 +46,7 @@ const implementedRoutes = new Set([
   "/laporan/kolektibilitas",
   "/mobile/e-kolektor",
   "/mobile/m-banking",
+  "/mobile/mbanking-transactions",
   "/mobile/new-mbanking",
   "/payment-link",
   "/mitra-karya/dashboard",

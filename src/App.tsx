@@ -41,6 +41,7 @@ import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
+import MobileMBankingTransactions from "./pages/MobileMBankingTransactions";
 import MobilePaymentLinkStatus from "./pages/MobilePaymentLinkStatus";
 import NewMBanking from "./pages/NewMBanking";
 import PaymentLink from "./pages/PaymentLink";
@@ -230,6 +231,7 @@ const App = () => (
 
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
             <Route path="mobile/m-banking" element={<MobileMBanking />} />
+            <Route path="mobile/mbanking-transactions" element={<MobileMBankingTransactions />} />
             <Route
               path="mobile/status-pembayaran-payment-link"
               element={<MobilePaymentLinkStatus />}
