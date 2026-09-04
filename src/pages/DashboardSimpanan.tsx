@@ -88,11 +88,11 @@ const totalChartData = chartData.map((item, index) => ({
 
 const mbankingData = chartData.map((item, index) => ({
   day: item.day,
-  transfer: [520, 680, 430, 760, 590, 720][index % 6],
-  topUp: [420, 560, 380, 640, 470, 520][index % 6],
-  pembelianPpob: [300, 460, 350, 520, 400, 480][index % 6],
-  angsuran: [260, 380, 300, 440, 340, 400][index % 6],
-  iuran: [180, 300, 220, 360, 260, 320][index % 6],
+  transfer: [0.72, 0.9, 0.55, 1, 0.78, 0.95][index % 6],
+  topUp: [0.58, 0.75, 0.48, 0.84, 0.62, 0.7][index % 6],
+  pembelianPpob: [0.42, 0.62, 0.5, 0.72, 0.55, 0.66][index % 6],
+  angsuran: [0.36, 0.52, 0.42, 0.6, 0.47, 0.56][index % 6],
+  iuran: [0.25, 0.4, 0.3, 0.48, 0.36, 0.44][index % 6],
 }));
 
 const growthData = [
@@ -165,8 +165,14 @@ function SavingsBarChart({
       : [["core", "#5612cf"], ["mbanking", "#09c3c7"]];
   const maxValue = variant === "core"
     ? 200000
-    : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
-  const axisLabels = variant === "core" ? [200000, 150000, 100000, 50000, 0] : [];
+    : variant === "mbanking"
+      ? 1
+      : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
+  const axisLabels = variant === "core"
+    ? [200000, 150000, 100000, 50000, 0]
+    : variant === "mbanking"
+      ? [1, 0.75, 0.5, 0.25, 0]
+      : [];
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
     topUp: "Transfer In / Top Up",
