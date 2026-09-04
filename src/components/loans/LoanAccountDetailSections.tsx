@@ -622,16 +622,16 @@ export default function LoanAccountDetailSections({
       {showRollbackSuccess && typeof document !== "undefined"
         ? createPortal(
             <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/65 p-4">
-              <div className="w-full max-w-[690px] rounded-3xl bg-white px-8 py-12 shadow-2xl">
+              <div className="w-full max-w-[420px] rounded-xl bg-white p-6 shadow-2xl">
                 <div className="flex justify-center">
-                  <CircleCheckBig className="h-36 w-36 stroke-[1.5] text-[#43b600]" />
+                  <CircleCheckBig className="h-24 w-24 stroke-[1.5] text-[#43b600]" />
                 </div>
-                <h2 className="mt-7 text-center text-4xl font-bold leading-tight text-black">
+                <h2 className="mt-5 text-center text-xl font-bold leading-tight text-black">
                   Perubahan Status Pinjaman Berhasil
                   <br />
                   Dilakukan
                 </h2>
-                <div className="mt-7 flex justify-center">
+                <div className="mt-5 flex justify-center">
                   <button
                     type="button"
                     onClick={() => {
@@ -640,7 +640,7 @@ export default function LoanAccountDetailSections({
                       setRollbackRow(null);
                       toast("Perubahan status disimpan");
                     }}
-                    className="h-20 w-[145px] rounded-lg border-2 border-[#b6cee4] bg-[#348bd1] text-3xl font-medium text-white shadow-[0_0_0_4px_rgba(182,206,228,0.25)] transition-colors hover:bg-[#287cbe]"
+                    className="h-12 w-[145px] rounded-md border-2 border-[#b6cee4] bg-[#348bd1] text-base font-medium text-white shadow-[0_0_0_4px_rgba(182,206,228,0.25)] transition-colors hover:bg-[#287cbe]"
                   >
                     OK
                   </button>
