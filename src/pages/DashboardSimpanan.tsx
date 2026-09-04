@@ -187,10 +187,10 @@ function SavingsBarChart({
                 return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
               {(variant === "total" || variant === "core") && (
-                <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap rounded-xl bg-white px-4 py-3 text-[13px] text-slate-700 shadow-xl ring-2 ring-slate-200 group-hover:block">
-                  <div className="font-semibold">Tanggal {String(item.day)}</div>
-                  <div>Setoran: {Number(item.setoran).toLocaleString("id-ID")}</div>
-                  <div>Tarikan: {Number(item.tarikan).toLocaleString("id-ID")}</div>
+                <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-3 text-[14px] leading-7 shadow-md ring-1 ring-slate-200 group-hover:block">
+                  <div className="font-medium text-slate-900">{String(item.day)}</div>
+                  <div className="text-[#5612cf]">setoran : {Number(item.setoran).toLocaleString("id-ID")}</div>
+                  <div className="text-[#09c3c7]">tarikan : {Number(item.tarikan).toLocaleString("id-ID")}</div>
                 </div>
               )}
             </div>
