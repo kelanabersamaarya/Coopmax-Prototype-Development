@@ -198,7 +198,10 @@ function SavingsBarChart({
                   <div className="text-[#09c3c7]">tarikan : {Number(item.tarikan).toLocaleString("id-ID")}</div>
                 </div>
               ) : (
-                <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block">
+                <div
+                  className="pointer-events-none absolute left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
+                  style={{ bottom: `${Math.min(Math.max(...keys.map(([key]) => Number(item[key]) || 0)) / maxValue * 100 + 2, 82)}%` }}
+                >
                   <div className="text-[#5612cf]">Transfer antar nasabah : {Number(item.transfer).toLocaleString("id-ID")}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {Number(item.topUp).toLocaleString("id-ID")}</div>
                   <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {Number(item.pembelianPpob).toLocaleString("id-ID")}</div>
