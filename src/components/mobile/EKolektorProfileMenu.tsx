@@ -172,17 +172,18 @@ export default function EKolektorProfileMenu({
   onFingerprintEnable,
   onLogout,
   biometricEnabled = false,
+  onBiometricChange,
 }: {
   onOpenSettings?: () => void;
   onFingerprintEnable?: () => void;
   onLogout?: () => void;
   biometricEnabled?: boolean;
+  onBiometricChange?: (value: boolean) => void;
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
-  const [fingerprintLogin, setFingerprintLogin] = React.useState(biometricEnabled);
 
   function handleFingerprintChange(value: boolean) {
-    setFingerprintLogin(value);
+    onBiometricChange?.(value);
     if (value) onFingerprintEnable?.();
   }
 
@@ -214,7 +215,7 @@ export default function EKolektorProfileMenu({
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Login Dengan Biometrik
           </span>
-          <FingerprintToggle checked={fingerprintLogin} onChange={handleFingerprintChange} />
+          <FingerprintToggle checked={biometricEnabled} onChange={handleFingerprintChange} />
         </div>
       </div>
 

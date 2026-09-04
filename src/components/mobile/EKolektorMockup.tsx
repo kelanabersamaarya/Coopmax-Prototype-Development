@@ -57,6 +57,8 @@ export default function EKolektorMockup() {
         <EKolektorHome
           transactions={transactions}
           onBiometricEnabled={() => setBiometricEnabled(true)}
+          biometricEnabled={biometricEnabled}
+          onBiometricChange={setBiometricEnabled}
           onLogout={() => {
             setLoggedIn(false);
             setScreen("home");

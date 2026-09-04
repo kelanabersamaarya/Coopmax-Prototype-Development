@@ -15,11 +15,15 @@ export default function EKolektorHome({
   onLogout,
   onOpenTransactions,
   onBiometricEnabled,
+  biometricEnabled,
+  onBiometricChange,
   transactions = [],
 }: {
   onLogout: () => void;
   onOpenTransactions: () => void;
   onBiometricEnabled: () => void;
+  biometricEnabled: boolean;
+  onBiometricChange: (value: boolean) => void;
   transactions?: EKolektorTodayTransaction[];
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
@@ -31,6 +35,8 @@ export default function EKolektorHome({
       onBack={() => setShowProfile(false)}
       onLogout={onLogout}
       onBiometricEnabled={onBiometricEnabled}
+      biometricEnabled={biometricEnabled}
+      onBiometricChange={onBiometricChange}
     />
     );
   }

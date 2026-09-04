@@ -11,14 +11,17 @@ export default function EKolektorProfilePage({
   onBack,
   onLogout,
   onBiometricEnabled,
+  biometricEnabled,
+  onBiometricChange,
 }: {
   onBack: () => void;
   onLogout: () => void;
   onBiometricEnabled: () => void;
+  biometricEnabled: boolean;
+  onBiometricChange: (value: boolean) => void;
 }) {
   const [showSettings, setShowSettings] = React.useState(false);
   const [showFingerprintLogin, setShowFingerprintLogin] = React.useState(false);
-  const [biometricEnabled, setBiometricEnabled] = React.useState(false);
 
   if (showFingerprintLogin) {
     return (
@@ -54,6 +57,7 @@ export default function EKolektorProfilePage({
           onFingerprintEnable={() => setShowFingerprintLogin(true)}
           onLogout={onLogout}
           biometricEnabled={biometricEnabled}
+          onBiometricChange={onBiometricChange}
         />
       </div>
 
