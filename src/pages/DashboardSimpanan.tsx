@@ -74,9 +74,10 @@ const chartData = [
   { day: "30", core: 500, mbanking: 400 },
 ];
 
-const totalChartData = chartData.map((item) => ({
-  ...item,
-  total: item.core + item.mbanking,
+const totalChartData = chartData.map((item, index) => ({
+  day: item.day,
+  setoran: item.core + [220, 360, 280, 420, 300, 380][index % 6],
+  tarikan: item.mbanking + [140, 240, 180, 300, 210, 260][index % 6],
 }));
 
 const mbankingData = chartData.map((item, index) => ({
@@ -152,9 +153,19 @@ function SavingsBarChart({
         ["ppob", "#48b900"],
       ]
     : variant === "total"
-      ? [["total", "#5612cf"]]
+      ? [["setoran", "#5612cf"], ["tarikan", "#09c3c7"]]
       : [["core", "#5612cf"], ["mbanking", "#09c3c7"]];
   const maxValue = Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
+  const labelMap: Record<string, string> = {
+    transfer: "Transfer antar nasabah",
+    topUp: "Transfer In / Top Up",
+    pembelian: "Pembelian",
+    ppob: "Pembayaran PPOB",
+    core: "Core Banking",
+    mbanking: "MBanking",
+    setoran: "Setoran",
+    tarikan: "Tarikan",
+  };
 
   return (
     <div className="h-full min-w-[2200px] overflow-hidden">
@@ -167,7 +178,7 @@ function SavingsBarChart({
             <div key={String(item.day)} className="flex h-full items-end justify-center gap-1 px-2">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
-                return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
+                return <div key={key} title={`${labelMap[key]}: ${value.toLocaleString("id-ID")}`} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
             </div>
           ))}
