@@ -10,9 +10,11 @@ import EKolektorFingerprintLoginPage from "@/components/mobile/EKolektorFingerpr
 export default function EKolektorProfilePage({
   onBack,
   onLogout,
+  onBiometricEnabled,
 }: {
   onBack: () => void;
   onLogout: () => void;
+  onBiometricEnabled: () => void;
 }) {
   const [showSettings, setShowSettings] = React.useState(false);
   const [showFingerprintLogin, setShowFingerprintLogin] = React.useState(false);
@@ -24,6 +26,7 @@ export default function EKolektorProfilePage({
         onBack={() => setShowFingerprintLogin(false)}
         onContinue={() => {
           setBiometricEnabled(true);
+          onBiometricEnabled();
           setShowFingerprintLogin(false);
         }}
       />

@@ -15,6 +15,7 @@ type EKolektorScreen = "home" | "transactions";
 
 export default function EKolektorMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [biometricEnabled, setBiometricEnabled] = React.useState(false);
   const [screen, setScreen] = React.useState<EKolektorScreen>("home");
   const [transactions, setTransactions] = React.useState<
     EKolektorTodayTransaction[]
@@ -35,6 +36,7 @@ export default function EKolektorMockup() {
     return (
       <MobileMockupFrame edgeToEdge>
         <EKolektorLoginForm
+          biometricEnabled={biometricEnabled}
           onLogin={() => {
             setLoggedIn(true);
             setScreen("home");
@@ -54,6 +56,7 @@ export default function EKolektorMockup() {
       ) : (
         <EKolektorHome
           transactions={transactions}
+          onBiometricEnabled={() => setBiometricEnabled(true)}
           onLogout={() => {
             setLoggedIn(false);
             setScreen("home");

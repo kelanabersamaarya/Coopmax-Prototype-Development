@@ -1,17 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { Check, Eye, EyeOff } from "lucide-react";
+import { Check, Eye, EyeOff, Fingerprint } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
 
 export default function EKolektorLoginForm({
   onLogin,
+  biometricEnabled = false,
 }: {
   onLogin: () => void;
+  biometricEnabled?: boolean;
 }) {
   const [username, setUsername] = React.useState("");
+  const [showBiometricPrompt, setShowBiometricPrompt] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
@@ -133,19 +136,69 @@ export default function EKolektorLoginForm({
               Simpan Username
             </label>
 
-            <button
-              type="submit"
-              className={cn(
-                "mt-2 h-[41px] w-full rounded-[9px]",
-                "bg-[#004FC7] text-[14px] font-semibold text-white",
-                "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
-                "transition hover:bg-[#0046B3] active:translate-y-px",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
-              )}
-            >
-              Masuk
-            </button>
+            <div className="mt-2 flex w-full gap-3">
+              <button
+                type="submit"
+                className={cn(
+                  "h-[41px] flex-1 rounded-[9px]",
+                  "bg-[#004FC7] text-[14px] font-semibold text-white",
+                  "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
+                  "transition hover:bg-[#0046B3] active:translate-y-px",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
+                )}
+              >
+                Masuk
+              </button>
+              {biometricEnabled ? (
+                <button
+                  type="button"
+                  onClick={() => setShowBiometricPrompt(true)}
+                  className="inline-flex h-[41px] w-[52px] shrink-0 items-center justify-center rounded-[9px] bg-[#004FC7] text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:translate-y-px"
+                  aria-label="Login dengan Biometrik"
+                >
+                  <Fingerprint className="h-5 w-5" strokeWidth={2} />
+                </button>
+              ) : null}
+            </div>
           </form>
+
+          {showBiometricPrompt ? (
+            <div className="absolute inset-0 z-40 flex items-end bg-[#10234A]/30">
+              <button
+                type="button"
+                aria-label="Tutup konfirmasi biometrik"
+                onClick={() => setShowBiometricPrompt(false)}
+                className="absolute inset-0 cursor-default"
+              />
+              <section
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="login-biometric-title"
+                className="relative w-full rounded-t-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_-8px_24px_rgba(32,48,100,0.16)]"
+              >
+                <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
+                <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
+                  <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
+                </div>
+                <h2 id="login-biometric-title" className="mt-4 text-[19px] font-extrabold leading-tight text-[#203064]">
+                  Konfirmasi Biometrik
+                </h2>
+                <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
+                  Sentuh sensor sidik jari atau arahkan wajah ke kamera depan.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowBiometricPrompt(false);
+                    onLogin();
+                  }}
+                  className="mt-5 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+                >
+                  Batal
+                </button>
+              </section>
+            </div>
+          ) : null}
 
           <div className="mt-auto pt-6 text-center">
             <div className="text-[11px] font-normal leading-relaxed text-[#9A9A9A]">

@@ -14,10 +14,12 @@ import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-t
 export default function EKolektorHome({
   onLogout,
   onOpenTransactions,
+  onBiometricEnabled,
   transactions = [],
 }: {
   onLogout: () => void;
   onOpenTransactions: () => void;
+  onBiometricEnabled: () => void;
   transactions?: EKolektorTodayTransaction[];
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
@@ -26,9 +28,10 @@ export default function EKolektorHome({
   if (showProfile) {
     return (
       <EKolektorProfilePage
-        onBack={() => setShowProfile(false)}
-        onLogout={onLogout}
-      />
+      onBack={() => setShowProfile(false)}
+      onLogout={onLogout}
+      onBiometricEnabled={onBiometricEnabled}
+    />
     );
   }
 
