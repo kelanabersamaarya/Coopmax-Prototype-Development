@@ -52,7 +52,7 @@ export default function EKolektorPinjamanInfo({
                   {account.customerName.charAt(0)}
                 </span>
               </div>
-              <div className="min-w-0 truncate text-[18px] font-extrabold leading-tight tracking-tight text-[#172957]">
+              <div className="min-w-0 truncate text-[16px] font-extrabold leading-tight tracking-tight text-[#172957]">
                 {account.customerName}
               </div>
             </div>
