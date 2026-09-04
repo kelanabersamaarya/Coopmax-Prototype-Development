@@ -182,16 +182,16 @@ function SavingsBarChart({
         {[0, 25, 50, 75, 100].map((level) => (
           <div key={level} className="absolute inset-x-0 border-t border-slate-200" style={{ bottom: `${level}%` }} />
         ))}
-        <div className="absolute inset-x-0 bottom-0 top-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
+        <div className="absolute inset-x-0 bottom-0 top-0 z-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="group relative z-10 flex h-full items-end justify-center gap-1 px-2">
+            <div key={String(item.day)} className="group relative z-10 flex h-full items-end justify-center gap-1 px-2 hover:z-[100]">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
                 return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
               {(variant === "total" || variant === "core") ? (
                 <div
-                  className="pointer-events-none absolute left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
+                  className="pointer-events-none absolute left-1/2 z-[200] hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
                   style={{ bottom: `${Math.min(Math.max(Number(item.setoran) || 0, Number(item.tarikan) || 0) / maxValue * 100 + 2, 82)}%` }}
                 >
                   <div className="text-[#5612cf]">setoran : {Number(item.setoran).toLocaleString("id-ID")}</div>
@@ -199,7 +199,7 @@ function SavingsBarChart({
                 </div>
               ) : (
                 <div
-                  className="pointer-events-none absolute left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
+                  className="pointer-events-none absolute left-1/2 z-[200] hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
                   style={{ bottom: `${Math.min(Math.max(...keys.map(([key]) => Number(item[key]) || 0)) / maxValue * 100 + 2, 82)}%` }}
                 >
                   <div className="text-[#5612cf]">Transfer antar nasabah : {Number(item.transfer).toLocaleString("id-ID")}</div>
