@@ -102,7 +102,7 @@ function DashboardSummaryCard({
   items: string[][];
 }) {
   return (
-    <section className="w-[520px] shrink-0 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
+    <section className="w-[620px] shrink-0 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <div className="text-4xl font-medium text-[#00245e]">{value}</div>
       <div className="text-sm font-medium text-violet-700">{label}</div>
       <div className="mt-2 grid max-w-[560px] gap-1 text-[11px] text-[#7186b5]">
