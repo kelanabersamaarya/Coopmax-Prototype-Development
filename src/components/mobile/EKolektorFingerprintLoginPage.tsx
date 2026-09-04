@@ -41,7 +41,7 @@ export default function EKolektorFingerprintLoginPage({
               <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
             </button>
             <h1 className="text-[20px] font-extrabold tracking-tight text-[#004FC7]">
-              Konfirmasi Aktivasi
+              Aktivasi Login Biometrik
             </h1>
           </header>
 
