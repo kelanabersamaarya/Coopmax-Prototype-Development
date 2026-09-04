@@ -150,7 +150,7 @@ export default function DashboardSimpanan() {
           <p className="mt-1 text-base text-[#00245e]">Selamat datang kembali di KOPERASI COOPMAX</p>
         </header>
 
-        <div className="flex min-w-0 gap-4 overflow-x-auto pb-2">
+        <div className="flex min-w-0 gap-4 pb-2">
           <DashboardSummaryCard
             value="187"
             label="Rekening Aktif"
