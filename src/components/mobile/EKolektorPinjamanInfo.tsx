@@ -45,34 +45,44 @@ export default function EKolektorPinjamanInfo({
           key={account.accountNo}
           className="relative min-h-[250px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]"
         >
-          <div className="flex min-h-[250px] items-start gap-[16px] px-[18px] pb-[62px] pt-[20px]">
-            <div className="grid h-[55px] w-[55px] shrink-0 place-items-center rounded-full bg-[#004FC7]">
-              <span className="text-[14px] font-normal leading-none text-white">
-                {account.customerName.charAt(0)}
-              </span>
-            </div>
-
-            <div className="min-w-0 pt-[2px]">
-              <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
-                {account.productName}
+          <div className="min-h-[250px] px-[22px] pb-[66px] pt-[20px]">
+            <div className="flex items-center gap-[14px]">
+              <div className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#004FC7]">
+                <span className="text-[14px] font-normal leading-none text-white">
+                  {account.customerName.charAt(0)}
+                </span>
               </div>
-              <div className="mt-[5px] truncate text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
+              <div className="min-w-0 truncate text-[18px] font-extrabold leading-tight tracking-tight text-[#172957]">
                 {account.customerName}
               </div>
-              <div className="mt-[5px] text-[11px] font-semibold leading-tight tracking-tight text-[#63809E]">
-                No. Rekening
+            </div>
+
+            <div className="mt-[14px] h-px w-full bg-[#E4E8EF]" />
+
+            <div className="mt-[11px] grid gap-[7px] text-[14px] leading-tight">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">No. Rekening</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.accountNo}
+                </span>
               </div>
-              <div className="mt-[2px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
-                {account.accountNo}
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">No. Anggota</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.memberNo}
+                </span>
               </div>
-              <div className="mt-[4px] text-[11px] font-semibold leading-tight tracking-tight text-[#63809E]">
-                No. Anggota
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">Produk pinjaman</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.productName}
+                </span>
               </div>
-              <div className="mt-[2px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
-                {account.memberNo}
-              </div>
-              <div className="mt-[4px] truncate text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
-                {account.address}
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-[#63809E]">Alamat</span>
+                <span className="truncate text-right font-extrabold text-[#172957]">
+                  {account.address}
+                </span>
               </div>
             </div>
           </div>
