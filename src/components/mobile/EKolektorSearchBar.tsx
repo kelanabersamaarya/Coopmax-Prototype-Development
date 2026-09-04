@@ -88,11 +88,6 @@ export default function EKolektorSearchBar({
           ) : null}
         </div>
 
-        <Search
-          className="ml-[10px] h-[22px] w-[22px] shrink-0 text-[#8D8D8D]"
-          strokeWidth={2.4}
-        />
-
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
@@ -104,6 +99,11 @@ export default function EKolektorSearchBar({
             "placeholder:text-[12px] placeholder:font-normal placeholder:text-[#B8B8B8]",
             "outline-none",
           )}
+        />
+
+        <Search
+          className="ml-[10px] h-[22px] w-[22px] shrink-0 text-[#8D8D8D]"
+          strokeWidth={2.4}
         />
       </div>
 
