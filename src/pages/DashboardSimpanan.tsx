@@ -92,6 +92,28 @@ const topMembers = [
   ["ardina", "Rp 50.360.000,00", "Rp 200.000,00", "Rp 100.000,00", "Rp 500.000,00"],
 ];
 
+function DashboardSummaryCard({
+  value,
+  label,
+  items,
+}: {
+  value: string;
+  label: string;
+  items: string[][];
+}) {
+  return (
+    <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
+      <div className="text-4xl font-medium text-[#00245e]">{value}</div>
+      <div className="text-sm font-medium text-violet-700">{label}</div>
+      <div className="mt-2 grid max-w-[560px] gap-1 text-[11px] text-[#7186b5]">
+        {items.map(([count, itemLabel]) => (
+          <div key={`${count}-${itemLabel}`}>{count} {itemLabel}</div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ChartCard({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
@@ -128,13 +150,59 @@ export default function DashboardSimpanan() {
           <p className="mt-1 text-base text-[#00245e]">Selamat datang kembali di KOPERASI COOPMAX</p>
         </header>
 
-        <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
-          <div className="text-4xl font-medium text-[#00245e]">187</div>
-          <div className="text-sm font-medium text-violet-700">Rekening Aktif</div>
-          <div className="mt-2 grid max-w-[500px] gap-1 text-[11px] text-[#7186b5]">
-            {savingsProducts.map(([count, label]) => <div key={label}>{count} {label}</div>)}
-          </div>
-        </section>
+        <div className="grid gap-4">
+          <DashboardSummaryCard
+            value="187"
+            label="Rekening Aktif"
+            items={savingsProducts}
+          />
+          <DashboardSummaryCard
+            value="0"
+            label="Rekening Diblokir"
+            items={savingsProducts.map(([_, label]) => ["0", label])}
+          />
+          <DashboardSummaryCard
+            value="2"
+            label="Rekening Ditutup"
+            items={savingsProducts.map(([_, label], index) => [index < 1 ? "2" : "0", label])}
+          />
+          <DashboardSummaryCard
+            value="Rp 100.006,7 Milyar"
+            label="Nominal Tabungan"
+            items={[
+              ["100.006,7 Milyar", "Simpanan Sukarela"],
+              ["16,6 Juta", "Simpanan Pokok"],
+              ["4,4 Juta", "Simpanan Wajib"],
+              ["10,4 Juta", "Simpanan Program"],
+              ["6,2 Juta", "tabungan"],
+              ["500,000", "Mandiri Tabungan Rupiah- Bank Mandiri"],
+              ["20,000", "TabunganKu – Bank BPD Bali"],
+              ["150,000", "Tabungan BRI simp edes"],
+              ["50,000", "SIMPEDA – BANK BPD BALI"],
+              ["100,000", "Tabungan BritAma"],
+              ["500,000", "Tahapan BCA"],
+              ["50,000", "SIBAPA – BANK BPD BALI"],
+              ["500,000", "Tabungan BRI Junio"],
+              ["200,000", "Tabunganku-BNI"],
+              ["50,000", "SIMPANAN LPD – BANK BPD BALI"],
+              ["100,000", "Tabungan haji BRI"],
+              ["20,000", "TabunganKu- Bank Mandiri"],
+              ["50,000", "THT Bali Dwipa – Bank BPD Bali"],
+              ["5.000", "Tabungan Simpel -BANK BPD BALI"],
+              ["250,000", "BNITaplus"],
+              ["200.000", "Tahapan Xpresi BCA"],
+              ["1,0 Juta", "BNITaplus Bisnis"],
+              ["10,000", "Mandiri Tabungan Payroll - Bank Mandiri"],
+              ["100,000", "Mandiri Tabungan Now - Bank Mandiri"],
+              ["5,0 Juta", "Tapres BCA"],
+              ["500,000", "BNI Giro Perorangan"],
+              ["165,000", "Mandiri Tabungan Simpanan Pelajar- Bank Mandiri"],
+              ["1,0 Juta", "TabunganKu"],
+              ["100,000", "Simpanan Asuransi"],
+              ["50,000", "Simpanan Berjangka Test"],
+            ]}
+          />
+        </div>
 
         <div className="mt-4 grid gap-4">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
