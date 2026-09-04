@@ -152,6 +152,8 @@ export default function LoanAccountDetailSections({
   const [history, setHistory] = React.useState<StatusHistoryRow[]>(
     () => statusHistorySeed,
   );
+  const [rollbackRow, setRollbackRow] = React.useState<StatusHistoryRow | null>(null);
+  const [rollbackReason, setRollbackReason] = React.useState("");
   const interestRate = useLoanInterestRate(accountNo, 12);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
@@ -473,6 +475,11 @@ export default function LoanAccountDetailSections({
                         <button
                           type="button"
                           onClick={() => {
+                            if (row.status === "Aktif / Sudah Dicairkan") {
+                              setRollbackRow(row);
+                              setRollbackReason("");
+                              return;
+                            }
                             setHistory((current) =>
                               current.filter((item) => item.no !== row.no),
                             );
@@ -495,6 +502,73 @@ export default function LoanAccountDetailSections({
           </table>
         </div>
       </div>
+
+      {rollbackRow ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4">
+          <div className="w-full max-w-[950px] overflow-hidden rounded-xl bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+              <h2 className="text-lg font-extrabold text-slate-900">Perubahan Status Pinjaman</h2>
+              <button
+                type="button"
+                onClick={() => setRollbackRow(null)}
+                className="text-2xl leading-none text-slate-900"
+                aria-label="Tutup"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="space-y-4 p-5">
+              <div className="flex gap-3 rounded-xl border border-amber-400 bg-amber-50 p-3 text-xs text-slate-900">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+                <div>
+                  <div className="font-extrabold">Dampak Perubahan Status Pinjaman</div>
+                  <p className="mt-1">Status pinjaman akan dikembalikan dari Aktif menjadi Disetujui, serta transaksi amortisasi dan jurnal amortisasi terkait akan dihapus/dibatalkan.</p>
+                </div>
+              </div>
+
+              <div className="rounded-xl bg-cyan-600 p-5 text-white">
+                <div className="mb-5 text-sm font-extrabold uppercase">Informasi Rekening Pinjaman</div>
+                <div className="grid gap-4 sm:grid-cols-4">
+                  <div><div className="text-xs opacity-80">No. Rek. Pinjaman</div><div className="mt-1 font-bold">{accountNo}</div></div>
+                  <div><div className="text-xs opacity-80">Nama Nasabah</div><div className="mt-1 font-bold">Dinda Farida</div></div>
+                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Dibuat</div><div className="mt-1 font-bold">03 September 2026</div></div>
+                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Aktif</div><div className="mt-1 font-bold">03 September 2026</div></div>
+                  <div><div className="text-xs opacity-80">Tanggal Jatuh Tempo</div><div className="mt-1 font-bold">03 September 2027</div></div>
+                  <div><div className="text-xs opacity-80">Nominal Pinjaman Diajukan</div><div className="mt-1 font-bold">10.000.000,00</div></div>
+                  <div><div className="text-xs opacity-80">Nominal Pinjaman Disetujui</div><div className="mt-1 font-bold">10.000.000,00</div></div>
+                </div>
+              </div>
+
+              <div className="overflow-hidden rounded-xl border border-slate-200">
+                <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">Data Perubahan Status Pinjaman</div>
+                <div className="grid gap-4 p-4 md:grid-cols-[180px_1fr]">
+                  <label className="text-sm font-medium text-slate-800">Tanggal Perubahan<span className="text-rose-600">*</span></label>
+                  <input type="text" value="04-09-2026" readOnly className="h-10 rounded-md border border-slate-300 bg-slate-100 px-3 text-sm text-slate-500" />
+                  <label className="text-sm font-medium text-slate-800">Alasan Perubahan<span className="text-rose-600">*</span></label>
+                  <textarea value={rollbackReason} onChange={(event) => setRollbackReason(event.target.value)} placeholder="Masukkan Alasan Perubahan Status" className="min-h-[92px] rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500" />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 border-t border-slate-200 px-5 py-4">
+              <button type="button" onClick={() => setRollbackRow(null)} className="rounded-md bg-slate-500 px-5 py-2 text-sm font-semibold text-white">Batal</button>
+              <button
+                type="button"
+                disabled={!rollbackReason.trim()}
+                onClick={() => {
+                  setHistory((current) => current.filter((item) => item.no !== rollbackRow.no));
+                  setRollbackRow(null);
+                  toast("Perubahan status disimpan");
+                }}
+                className="rounded-md bg-green-600 px-5 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </Card>
   );
 }
