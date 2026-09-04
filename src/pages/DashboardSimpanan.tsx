@@ -193,9 +193,9 @@ function SavingsBarChart({
             {axisLabels[index] !== undefined && <span className="absolute left-0 top-0 -translate-y-1/2 whitespace-nowrap text-[11px] text-slate-900">{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
           </div>
         ))}
-        <div className="absolute bottom-0 left-20 top-0 z-0 grid grid-cols-[repeat(30,64px)] items-end">
+        <div className="absolute bottom-0 left-20 top-0 z-0 grid grid-cols-[repeat(30,88px)] items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="group relative z-10 flex h-full w-16 items-end justify-center gap-1 hover:z-[100]">
+            <div key={String(item.day)} className="group relative z-10 flex h-full w-[88px] items-end justify-center gap-1 px-2 hover:z-[100]">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
                 return <div key={key} className="w-5 shrink-0 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
