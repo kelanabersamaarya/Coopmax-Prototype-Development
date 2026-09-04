@@ -193,12 +193,12 @@ function SavingsBarChart({
             {axisLabels[index] !== undefined && <span className="absolute left-0 top-0 -translate-y-1/2 whitespace-nowrap text-[11px] text-slate-900">{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
           </div>
         ))}
-        <div className="absolute bottom-0 left-20 right-0 top-0 z-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
+        <div className="absolute bottom-0 left-20 right-0 top-0 z-0 grid grid-cols-[repeat(30,minmax(96px,1fr))] items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-1 px-2 hover:z-[100]">
+            <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-1 hover:z-[100]">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
-                return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
+                return <div key={key} className="w-4 shrink-0 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
               {(variant === "total" || variant === "core") ? (
                 <div
