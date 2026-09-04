@@ -180,7 +180,6 @@ export default function EKolektorProfileMenu({
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
   const [fingerprintLogin, setFingerprintLogin] = React.useState(biometricEnabled);
-  const [showLogoutPrompt, setShowLogoutPrompt] = React.useState(false);
 
   function handleFingerprintChange(value: boolean) {
     setFingerprintLogin(value);
@@ -248,13 +247,13 @@ export default function EKolektorProfileMenu({
 
       <button
         type="button"
-        onClick={() => setShowLogoutPrompt(true)}
+        onClick={() => onLogout?.()}
         className="w-full border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-left text-[16px] font-extrabold leading-tight tracking-tight text-[#203064] transition active:bg-[#F7F9FC]"
       >
         Keluar
       </button>
 
-      {showLogoutPrompt && (
+      {false && (
         <div className="absolute inset-0 z-40 flex items-end bg-[#10234A]/30">
           <button
             type="button"
