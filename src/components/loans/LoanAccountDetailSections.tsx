@@ -557,7 +557,7 @@ export default function LoanAccountDetailSections({
               <button
                 type="button"
                 onClick={() => setRollbackRow(null)}
-                className="inline-flex h-12 min-w-[190px] items-center justify-center gap-4 rounded-xl bg-[#7d8fbd] px-6 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#6f81ad]"
+                className="inline-flex h-12 min-w-[200px] items-center justify-center gap-3 rounded-xl bg-[#7d8fbd] px-5 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#6f81ad]"
               >
                 <CircleX className="h-10 w-10 stroke-[1.8]" />
                 Batalkan
@@ -570,7 +570,7 @@ export default function LoanAccountDetailSections({
                   setRollbackRow(null);
                   toast("Perubahan status disimpan");
                 }}
-                className="inline-flex h-12 min-w-[190px] items-center justify-center gap-4 rounded-xl bg-[#2db900] px-6 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-12 min-w-[200px] items-center justify-center gap-3 rounded-xl bg-[#2db900] px-5 text-2xl font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <ShieldCheck className="h-10 w-10 stroke-[1.8]" />
                 Simpan
