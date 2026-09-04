@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RefreshCw, Search } from "lucide-react";
+import { RefreshCw, X } from "lucide-react";
 import { toast } from "sonner";
 
 const transactions = [
@@ -73,7 +73,14 @@ export default function MobileMBanking() {
                   <th className="px-2 pb-2">
                     <div className="flex">
                       <input value={dateFilter} onChange={(event) => setDateFilter(event.target.value)} className="h-8 w-full rounded-l border border-slate-300 px-2 text-xs font-normal outline-none focus:border-violet-500" />
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-r bg-slate-500 text-white"><Search className="h-4 w-4" /></span>
+                      <button
+                        type="button"
+                        onClick={() => setDateFilter("")}
+                        aria-label="Hapus filter tanggal"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-r bg-slate-500 text-white transition hover:bg-slate-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
                     </div>
                   </th>
                 </tr>
