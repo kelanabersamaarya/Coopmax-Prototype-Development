@@ -43,8 +43,8 @@ const savingsProducts = [
 
 const chartData = [
   { day: "01", core: 500, mbanking: 400, info: 900 },
-  { day: "02", core: 800, mbanking: 650, info: 1450 },
-  { day: "03", core: 650, mbanking: 400, info: 1050 },
+  { day: "02", core: 200000, mbanking: 100000, info: 300000 },
+  { day: "03", core: 50000, mbanking: 400, info: 50400 },
   { day: "04", core: 600, mbanking: 500, info: 1100 },
   { day: "05", core: 500, mbanking: 500 },
   { day: "06", core: 400, mbanking: 450 },
@@ -163,7 +163,9 @@ function SavingsBarChart({
     : variant === "total" || variant === "core"
       ? [["setoran", "#5612cf"], ["tarikan", "#09c3c7"]]
       : [["core", "#5612cf"], ["mbanking", "#09c3c7"]];
-  const maxValue = Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
+  const maxValue = variant === "core"
+    ? 200000
+    : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
     topUp: "Transfer In / Top Up",
