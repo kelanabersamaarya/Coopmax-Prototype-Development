@@ -104,23 +104,25 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle: str
 
 function SavingsBarChart({ data = chartData }: { data?: typeof chartData }) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+    <div className="h-full min-w-[2200px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
         <CartesianGrid stroke="#e2e8f0" vertical={false} />
         <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#0f172a" }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fontSize: 10, fill: "#0f172a" }} axisLine={false} tickLine={false} />
         <Tooltip />
-        <Bar dataKey="core" fill="#5612cf" barSize={48} radius={[0, 0, 0, 0]} />
-        <Bar dataKey="mbanking" fill="#09c3c7" barSize={48} radius={[0, 0, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
+          <Bar dataKey="core" fill="#5612cf" barSize={48} radius={[0, 0, 0, 0]} />
+          <Bar dataKey="mbanking" fill="#09c3c7" barSize={48} radius={[0, 0, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
 
 export default function DashboardSimpanan() {
   return (
     <div className="min-h-screen overflow-x-auto bg-[#f5f7fc] px-3 py-6 md:px-6 md:py-7">
-      <div className="mx-auto min-w-[1100px] max-w-[1500px]">
+      <div className="mx-auto min-w-[2200px] max-w-[2200px]">
         <header className="mb-7 px-2 md:px-5">
           <h1 className="text-[21px] font-semibold text-[#00245e]">Hi, Arya!</h1>
           <p className="mt-1 text-base text-[#00245e]">Selamat datang kembali di KOPERASI COOPMAX</p>
