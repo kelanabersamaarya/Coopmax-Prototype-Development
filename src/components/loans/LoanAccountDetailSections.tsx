@@ -504,8 +504,8 @@ export default function LoanAccountDetailSections({
       </div>
 
       {rollbackRow ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4">
-          <div className="w-full max-w-[950px] overflow-hidden rounded-xl bg-white shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex min-h-screen w-screen items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-[1px]">
+          <div className="my-auto w-full max-w-[980px] overflow-hidden rounded-xl bg-white shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
               <h2 className="text-lg font-extrabold text-slate-900">Perubahan Status Pinjaman</h2>
               <button
