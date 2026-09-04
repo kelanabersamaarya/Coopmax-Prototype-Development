@@ -16,8 +16,10 @@ const searchOptions: Array<{ value: SearchMode; label: string }> = [
 
 export default function EKolektorSearchBar({
   className,
+  onSearch,
 }: {
   className?: string;
+  onSearch?: (query: string, mode: SearchMode) => void;
 }) {
   const [query, setQuery] = React.useState("");
   const [searchMode, setSearchMode] = React.useState<SearchMode>("semua");
@@ -91,6 +93,9 @@ export default function EKolektorSearchBar({
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") onSearch?.(query.trim(), searchMode);
+          }}
           placeholder={placeholder}
           aria-label="Cari nasabah"
           className={cn(

@@ -18,6 +18,7 @@ export default function EKolektorTransactions({
   onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const [screen, setScreen] = React.useState<TransactionScreen>("list");
+  const [hasSearched, setHasSearched] = React.useState(false);
   const [selectedAccountNo, setSelectedAccountNo] = React.useState("");
 
   if (screen === "loan-transaction") {
@@ -46,15 +47,20 @@ export default function EKolektorTransactions({
             Pilih nasabah untuk melanjutkan
           </div>
 
-          <EKolektorSearchBar className="mt-[22px]" />
-
-          <EKolektorTransactionTabs
-            className="mt-[24px]"
-            onSelectLoan={(accountNo) => {
-              setSelectedAccountNo(accountNo);
-              setScreen("loan-transaction");
-            }}
+          <EKolektorSearchBar
+            className="mt-[22px]"
+            onSearch={(query) => setHasSearched(Boolean(query))}
           />
+
+          {hasSearched ? (
+            <EKolektorTransactionTabs
+              className="mt-[24px]"
+              onSelectLoan={(accountNo) => {
+                setSelectedAccountNo(accountNo);
+                setScreen("loan-transaction");
+              }}
+            />
+          ) : null}
         </div>
       </div>
 
