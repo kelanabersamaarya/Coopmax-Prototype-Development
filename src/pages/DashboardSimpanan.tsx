@@ -174,20 +174,20 @@ function SavingsBarChart({
   };
 
   return (
-    <div className="h-full min-w-[2200px] overflow-hidden">
+    <div className="h-full min-w-[2200px] overflow-visible">
       <div className="relative h-[230px] border-b border-slate-200">
         {[0, 25, 50, 75, 100].map((level) => (
           <div key={level} className="absolute inset-x-0 border-t border-slate-200" style={{ bottom: `${level}%` }} />
         ))}
         <div className="absolute inset-x-0 bottom-0 top-0 grid grid-cols-[repeat(30,minmax(64px,1fr))] items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="group relative flex h-full items-end justify-center gap-1 px-2">
+            <div key={String(item.day)} className="group relative z-10 flex h-full items-end justify-center gap-1 px-2">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
                 return <div key={key} className="w-5 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
               {(variant === "total" || variant === "core") && (
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-white px-3 py-2 text-[11px] text-slate-700 shadow-lg ring-2 ring-slate-200 group-hover:block">
+                <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-50 hidden -translate-x-1/2 whitespace-nowrap rounded-xl bg-white px-4 py-3 text-[13px] text-slate-700 shadow-xl ring-2 ring-slate-200 group-hover:block">
                   <div className="font-semibold">Tanggal {String(item.day)}</div>
                   <div>Setoran: {Number(item.setoran).toLocaleString("id-ID")}</div>
                   <div>Tarikan: {Number(item.tarikan).toLocaleString("id-ID")}</div>
