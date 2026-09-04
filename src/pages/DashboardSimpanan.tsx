@@ -74,6 +74,14 @@ const chartData = [
   { day: "30", core: 500, mbanking: 400 },
 ];
 
+const mbankingData = chartData.map((item, index) => ({
+  day: item.day,
+  transfer: index % 5 === 0 ? 2 : index % 3 === 0 ? 1 : 0,
+  topUp: index % 4 === 0 ? 1 : 0,
+  pembelian: index % 6 === 0 ? 1 : 0,
+  ppob: index % 7 === 0 ? 1 : 0,
+}));
+
 const growthData = [
   { month: "Maret", sukarela: 1, pokok: 2, wajib: 2, program: 1 },
   { month: "April", sukarela: 2, pokok: 2, wajib: 1, program: 1 },
@@ -124,7 +132,13 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle: str
   );
 }
 
-function SavingsBarChart({ data = chartData }: { data?: typeof chartData }) {
+function SavingsBarChart({
+  data = chartData,
+  variant = "core",
+}: {
+  data?: Array<Record<string, string | number>>;
+  variant?: "core" | "mbanking";
+}) {
   return (
     <div className="h-full min-w-[2200px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -133,8 +147,19 @@ function SavingsBarChart({ data = chartData }: { data?: typeof chartData }) {
         <XAxis dataKey="day" tick={{ fontSize: 11, fill: "#0f172a" }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fontSize: 10, fill: "#0f172a" }} axisLine={false} tickLine={false} />
         <Tooltip />
-          <Bar dataKey="core" fill="#5612cf" barSize={48} radius={[0, 0, 0, 0]} />
-          <Bar dataKey="mbanking" fill="#09c3c7" barSize={48} radius={[0, 0, 0, 0]} />
+          {variant === "mbanking" ? (
+            <>
+              <Bar dataKey="transfer" name="Transfer antar nasabah" fill="#5612cf" barSize={22} />
+              <Bar dataKey="topUp" name="Transfer in / Top Up" fill="#09c3c7" barSize={22} />
+              <Bar dataKey="pembelian" name="Pembelian" fill="#1687ef" barSize={22} />
+              <Bar dataKey="ppob" name="Pembayaran PPOB" fill="#48b900" barSize={22} />
+            </>
+          ) : (
+            <>
+              <Bar dataKey="core" fill="#5612cf" barSize={48} radius={[0, 0, 0, 0]} />
+              <Bar dataKey="mbanking" fill="#09c3c7" barSize={48} radius={[0, 0, 0, 0]} />
+            </>
+          )}
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -206,7 +231,7 @@ export default function DashboardSimpanan() {
 
         <div className="mt-4 grid gap-4">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
-          <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026"><SavingsBarChart data={chartData.map((item) => ({ ...item, core: 0, mbanking: 0 }))} /></ChartCard>
+          <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026"><SavingsBarChart data={mbankingData as typeof chartData} variant="mbanking" /></ChartCard>
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
             <ResponsiveContainer width="100%" height="100%">
