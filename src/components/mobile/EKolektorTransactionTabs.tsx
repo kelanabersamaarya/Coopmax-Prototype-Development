@@ -5,7 +5,7 @@ import { HandCoins, PiggyBank } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorSimpananAsset from "@/components/mobile/EKolektorSimpananAsset";
 import EKolektorPinjamanInfo from "@/components/mobile/EKolektorPinjamanInfo";
-import MBankingTransactionEmptyState from "@/components/mobile/MBankingTransactionEmptyState";
+import EKolektorEmptyState from "@/components/mobile/EKolektorEmptyState";
 
 type TransactionTab = "simpanan" | "pinjaman";
 
@@ -75,12 +75,7 @@ export default function EKolektorTransactionTabs({
       {showAccounts && activeTab === "pinjaman" ? (
         <EKolektorPinjamanInfo onSelect={onSelectLoan} />
       ) : null}
-      {!showAccounts ? (
-        <MBankingTransactionEmptyState
-          className="mt-[42px]"
-          title="Tidak Ada Data Simpanan"
-        />
-      ) : null}
+      {!showAccounts ? <EKolektorEmptyState className="mt-[42px]" /> : null}
     </div>
   );
 }
