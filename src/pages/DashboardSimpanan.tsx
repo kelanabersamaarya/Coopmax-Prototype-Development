@@ -140,7 +140,7 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle: str
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">{title}</h2>
       <p className="mt-1 text-xs text-blue-700">{subtitle}</p>
-      <div className="mt-5 h-[270px] w-full overflow-x-auto overflow-y-visible">{children}</div>
+      <div className="mt-5 h-[270px] w-full overflow-x-auto overflow-y-hidden">{children}</div>
     </section>
   );
 }
@@ -186,7 +186,7 @@ function SavingsBarChart({
   };
 
   return (
-    <div className="h-full w-full overflow-x-auto overflow-y-visible">
+    <div className="h-full w-full overflow-visible">
       <div className="relative h-[250px] w-[2720px] border-b border-slate-200">
         {[0, 25, 50, 75, 100].map((level, index) => (
           <div key={level} className="absolute left-20 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
@@ -203,7 +203,7 @@ function SavingsBarChart({
               {(variant === "total" || variant === "core") ? (
                 <div
                   className="pointer-events-none absolute left-1/2 z-[200] hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
-                  style={{ bottom: `${Math.min(Math.max(Number(item.setoran) || 0, Number(item.tarikan) || 0) / maxValue * 100 + 2, 82)}%` }}
+                  style={{ top: "8px" }}
                 >
                   <div className="text-[#5612cf]">setoran : {Number(item.setoran).toLocaleString("id-ID")}</div>
                   <div className="text-[#09c3c7]">tarikan : {Number(item.tarikan).toLocaleString("id-ID")}</div>
@@ -211,7 +211,7 @@ function SavingsBarChart({
               ) : (
                 <div
                   className="pointer-events-none absolute left-1/2 z-[200] hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
-                  style={{ bottom: `${Math.min(Math.max(...keys.map(([key]) => Number(item[key]) || 0)) / maxValue * 100 + 2, 82)}%` }}
+                  style={{ top: "8px" }}
                 >
                   <div className="text-[#5612cf]">Transfer antar nasabah : {Number(item.transfer).toLocaleString("id-ID")}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {Number(item.topUp).toLocaleString("id-ID")}</div>
