@@ -210,7 +210,7 @@ export default function EKolektorProfileMenu({
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Login dengan Sidik Jari
           </span>
-          <FingerprintToggle checked={fingerprintLogin} onChange={setFingerprintLogin} />
+          <FingerprintToggle checked={fingerprintLogin} onChange={handleFingerprintChange} />
         </div>
       </div>
 

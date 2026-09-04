@@ -5,6 +5,7 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorProfileHeader from "@/components/mobile/EKolektorProfileHeader";
 import EKolektorProfileMenu from "@/components/mobile/EKolektorProfileMenu";
 import EKolektorSettingsPage from "@/components/mobile/EKolektorSettingsPage";
+import EKolektorFingerprintLoginPage from "@/components/mobile/EKolektorFingerprintLoginPage";
 
 export default function EKolektorProfilePage({
   onBack,
@@ -12,6 +13,16 @@ export default function EKolektorProfilePage({
   onBack: () => void;
 }) {
   const [showSettings, setShowSettings] = React.useState(false);
+  const [showFingerprintLogin, setShowFingerprintLogin] = React.useState(false);
+
+  if (showFingerprintLogin) {
+    return (
+      <EKolektorFingerprintLoginPage
+        onBack={() => setShowFingerprintLogin(false)}
+        onContinue={() => setShowFingerprintLogin(false)}
+      />
+    );
+  }
 
   if (showSettings) {
     return <EKolektorSettingsPage onBack={() => setShowSettings(false)} />;
@@ -24,7 +35,10 @@ export default function EKolektorProfilePage({
 
         <div className="h-[10px] w-full bg-[#F2F2F2]" />
 
-        <EKolektorProfileMenu onOpenSettings={() => setShowSettings(true)} />
+        <EKolektorProfileMenu
+          onOpenSettings={() => setShowSettings(true)}
+          onFingerprintEnable={() => setShowFingerprintLogin(true)}
+        />
       </div>
 
       <EKolektorAndroidNavBar onBack={onBack} />
