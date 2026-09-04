@@ -5,7 +5,7 @@ import { ChevronDown, ScanLine, Search } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-type SearchMode = "rekening" | "nama";
+type SearchMode = "semua" | "rekening" | "anggota" | "nama";
 
 export default function EKolektorSearchBar({
   className,
@@ -13,10 +13,16 @@ export default function EKolektorSearchBar({
   className?: string;
 }) {
   const [query, setQuery] = React.useState("");
-  const [searchMode, setSearchMode] = React.useState<SearchMode>("rekening");
+  const [searchMode, setSearchMode] = React.useState<SearchMode>("semua");
 
   const placeholder =
-    searchMode === "rekening" ? "Rekening Simpanan atau Pinjaman" : "Nama Nasabah";
+    searchMode === "rekening"
+      ? "No. Rekening"
+      : searchMode === "anggota"
+        ? "No. Anggota"
+        : searchMode === "nama"
+          ? "Nama Anggota"
+          : "Cari nasabah atau rekening";
 
   return (
     <div className={cn("flex w-full items-center gap-[14px]", className)}>
@@ -29,8 +35,10 @@ export default function EKolektorSearchBar({
             className="h-full max-w-[74px] cursor-pointer appearance-none bg-transparent pr-4 text-[10px] font-semibold text-[#004FC7] outline-none"
             aria-label="Jenis pencarian"
           >
-            <option value="rekening">Rekening</option>
-            <option value="nama">Nama</option>
+            <option value="semua">Semua</option>
+            <option value="rekening">No. Rekening</option>
+            <option value="anggota">No. Anggota</option>
+            <option value="nama">Nama Anggota</option>
           </select>
           <ChevronDown className="pointer-events-none absolute right-1 h-3 w-3 text-[#004FC7]" />
         </label>
@@ -44,7 +52,7 @@ export default function EKolektorSearchBar({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={placeholder}
-          aria-label={searchMode === "rekening" ? "Cari rekening" : "Cari nama nasabah"}
+          aria-label="Cari nasabah"
           className={cn(
             "ml-[10px] min-w-0 flex-1 bg-transparent",
             "text-[12px] font-normal text-[#4B4B4B]",
