@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Fingerprint } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorFeatureToggle from "@/components/mobile/EKolektorFeatureToggle";
@@ -30,9 +30,14 @@ export default function EKolektorSettingsPage({
   const [settings, setSettings] = React.useState<Record<string, boolean>>(() =>
     Object.fromEntries(settingsItems.map((item) => [item, false])),
   );
+  const [showBiometricLogout, setShowBiometricLogout] = React.useState(false);
 
   function resetSettings() {
     setSettings(Object.fromEntries(settingsItems.map((item) => [item, false])));
+  }
+
+  function handleExit() {
+    setShowBiometricLogout(true);
   }
 
   return (
@@ -45,10 +50,10 @@ export default function EKolektorSettingsPage({
 
           <button
             type="button"
-            onClick={onBack}
+            onClick={handleExit}
             className="-ml-1 inline-flex h-[28px] w-[28px] items-center justify-center rounded-full text-white transition active:scale-[0.96]"
-            aria-label="Kembali"
-            title="Kembali"
+            aria-label="Keluar"
+            title="Keluar"
           >
             <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
           </button>
@@ -106,7 +111,49 @@ export default function EKolektorSettingsPage({
         </main>
       </div>
 
-      <EKolektorAndroidNavBar onBack={onBack} />
+      <EKolektorAndroidNavBar onBack={handleExit} />
+
+      {showBiometricLogout && (
+        <div className="absolute inset-0 z-40 flex items-end bg-[#10234A]/30">
+          <button
+            type="button"
+            aria-label="Tutup opsi login biometrik"
+            onClick={() => setShowBiometricLogout(false)}
+            className="absolute inset-0 cursor-default"
+          />
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="biometric-logout-title"
+            className="relative w-full rounded-t-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_-8px_24px_rgba(32,48,100,0.16)]"
+          >
+            <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
+            <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
+              <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
+            </div>
+            <h2 id="biometric-logout-title" className="mt-4 text-[19px] font-extrabold leading-tight text-[#203064]">
+              Login dengan Biometrik
+            </h2>
+            <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
+              Gunakan biometrik untuk mengakses aplikasi kembali dengan cepat dan aman.
+            </p>
+            <button
+              type="button"
+              onClick={onBack}
+              className="mt-5 h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99]"
+            >
+              Login dengan Biometrik
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowBiometricLogout(false)}
+              className="mt-4 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+            >
+              Batal
+            </button>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
