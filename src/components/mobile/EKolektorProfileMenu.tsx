@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronRight, RefreshCw, Trash2 } from "lucide-react";
+import { ChevronRight, Fingerprint, RefreshCw, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const accountItems = [
@@ -178,6 +178,7 @@ export default function EKolektorProfileMenu({
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
   const [fingerprintLogin, setFingerprintLogin] = React.useState(biometricEnabled);
+  const [showLogoutPrompt, setShowLogoutPrompt] = React.useState(false);
 
   function handleFingerprintChange(value: boolean) {
     setFingerprintLogin(value);
@@ -243,9 +244,55 @@ export default function EKolektorProfileMenu({
         ))}
       </div>
 
-      <div className="border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+      <button
+        type="button"
+        onClick={() => setShowLogoutPrompt(true)}
+        className="w-full border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-left text-[16px] font-extrabold leading-tight tracking-tight text-[#203064] transition active:bg-[#F7F9FC]"
+      >
         Keluar
-      </div>
+      </button>
+
+      {showLogoutPrompt && (
+        <div className="absolute inset-0 z-40 flex items-end bg-[#10234A]/30">
+          <button
+            type="button"
+            aria-label="Tutup opsi login biometrik"
+            onClick={() => setShowLogoutPrompt(false)}
+            className="absolute inset-0 cursor-default"
+          />
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="profile-logout-title"
+            className="relative w-full rounded-t-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_-8px_24px_rgba(32,48,100,0.16)]"
+          >
+            <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
+            <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
+              <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
+            </div>
+            <h2 id="profile-logout-title" className="mt-4 text-[19px] font-extrabold leading-tight text-[#203064]">
+              Login dengan Biometrik
+            </h2>
+            <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
+              Gunakan biometrik untuk mengakses aplikasi kembali dengan cepat dan aman.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowLogoutPrompt(false)}
+              className="mt-5 h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99]"
+            >
+              Login dengan Biometrik
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowLogoutPrompt(false)}
+              className="mt-4 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+            >
+              Batal
+            </button>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
