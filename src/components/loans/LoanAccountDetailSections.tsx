@@ -624,7 +624,7 @@ export default function LoanAccountDetailSections({
             <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/65 p-4">
               <div className="w-full max-w-[420px] rounded-xl bg-white p-6 shadow-2xl">
                 <div className="flex justify-center">
-                  <CircleCheckBig className="h-24 w-24 stroke-[1.5] text-[#43b600]" />
+                  <CircleCheckBig className="h-24 w-24 stroke-[1.5] text-[#3db400]" />
                 </div>
                 <h2 className="mt-5 text-center text-xl font-bold leading-tight text-black">
                   Perubahan Status Pinjaman Berhasil
