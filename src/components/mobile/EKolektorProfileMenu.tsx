@@ -170,12 +170,14 @@ function FingerprintToggle({
 export default function EKolektorProfileMenu({
   onOpenSettings,
   onFingerprintEnable,
+  biometricEnabled = false,
 }: {
   onOpenSettings?: () => void;
   onFingerprintEnable?: () => void;
+  biometricEnabled?: boolean;
 }) {
   const [offlineMode, setOfflineMode] = React.useState(false);
-  const [fingerprintLogin, setFingerprintLogin] = React.useState(false);
+  const [fingerprintLogin, setFingerprintLogin] = React.useState(biometricEnabled);
 
   function handleFingerprintChange(value: boolean) {
     setFingerprintLogin(value);
