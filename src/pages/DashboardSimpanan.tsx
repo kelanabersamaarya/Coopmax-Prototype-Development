@@ -191,7 +191,7 @@ function SavingsBarChart({
     <div className="h-full w-full overflow-visible">
       <div className="relative h-[290px] w-full pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
-          <div key={level} className="absolute left-12 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
+          <div key={level} className="absolute left-20 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
             {axisLabels[index] !== undefined && (
               <span
                 className={`absolute left-[-37px] top-0 whitespace-nowrap text-[11px] leading-none text-slate-900 ${
