@@ -154,7 +154,7 @@ function MbankingFilters({
   onMonthChange: (value: string) => void;
 }) {
   return (
-    <div className="mt-4 flex items-end">
+    <div className="mt-4 mb-4 flex items-end">
       <label className="grid">
         <input type="month" aria-label="Bulan transaksi" value={month} onChange={(event) => onMonthChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
       </label>
