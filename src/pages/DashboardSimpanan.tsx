@@ -193,7 +193,7 @@ function SavingsBarChart({
             {axisLabels[index] !== undefined && (
               <span
                 className={`absolute left-[-37px] top-0 whitespace-nowrap text-[16px] leading-none text-slate-900 ${
-                  index === 0 ? "translate-y-[2px]" : index === 4 ? "translate-y-0" : "-translate-y-1/2"
+                  index === 0 ? "-translate-y-1/2" : index === 4 ? "translate-y-0" : "-translate-y-1/2"
                 }`}
               >
                 {axisLabels[4 - index].toLocaleString("id-ID")}
