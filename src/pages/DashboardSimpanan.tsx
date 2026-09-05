@@ -203,7 +203,7 @@ function SavingsBarChart({
             )}
           </div>
         ))}
-        <div className="absolute bottom-0 left-12 top-0 z-0 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] items-end">
+        <div className="absolute bottom-0 left-20 top-0 z-0 grid w-[calc(100%-5rem)] grid-cols-[repeat(30,minmax(0,1fr))] items-end">
           {data.map((item) => (
             <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-0.5 hover:z-[100]">
               {keys.map(([key, color]) => {
@@ -234,7 +234,7 @@ function SavingsBarChart({
           ))}
         </div>
       </div>
-      <div className="ml-12 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
+      <div className="ml-20 grid w-[calc(100%-5rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
         {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
       </div>
     </div>
