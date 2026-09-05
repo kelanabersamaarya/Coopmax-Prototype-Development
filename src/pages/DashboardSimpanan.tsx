@@ -141,7 +141,7 @@ function ChartCard({ title, subtitle, children, contentClassName = "" }: { title
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">{title}</h2>
       <p className="mt-1 text-xs text-blue-700">{subtitle}</p>
-      <div className={`mt-5 h-[320px] w-full overflow-visible ${contentClassName}`}>{children}</div>
+      <div className={`mt-3 h-[320px] w-full overflow-visible ${contentClassName}`}>{children}</div>
     </section>
   );
 }
@@ -154,7 +154,7 @@ function MbankingFilters({
   onMonthChange: (value: string) => void;
 }) {
   return (
-    <div className="mt-4 mb-4 flex items-end">
+    <div className="mt-1 mb-4 flex items-end">
       <label className="grid">
         <input type="month" aria-label="Bulan transaksi" value={month} onChange={(event) => onMonthChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
       </label>
