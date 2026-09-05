@@ -251,7 +251,7 @@ function SavingsBarChart({
           ))}
         </div>
       </div>
-      <div className="ml-12 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
+      <div className="ml-12 mt-3 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
         {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
       </div>
     </div>
