@@ -140,7 +140,7 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle: str
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">{title}</h2>
       <p className="mt-1 text-xs text-blue-700">{subtitle}</p>
-      <div className="mt-5 h-[270px] w-full overflow-visible">{children}</div>
+      <div className="mt-5 h-[290px] w-full overflow-visible">{children}</div>
     </section>
   );
 }
@@ -189,7 +189,7 @@ function SavingsBarChart({
 
   return (
     <div className="h-full w-full overflow-visible">
-      <div className="relative h-[270px] w-full pt-4">
+      <div className="relative h-[290px] w-full pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
           <div key={level} className="absolute left-12 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
             {axisLabels[index] !== undefined && (
