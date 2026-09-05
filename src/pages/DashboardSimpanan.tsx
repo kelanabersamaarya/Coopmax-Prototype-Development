@@ -147,37 +147,17 @@ function ChartCard({ title, subtitle, children, contentClassName = "" }: { title
 }
 
 function MbankingFilters({
-  period,
-  startDate,
-  endDate,
-  onPeriodChange,
-  onStartDateChange,
-  onEndDateChange,
+  date,
+  onDateChange,
 }: {
-  period: string;
-  startDate: string;
-  endDate: string;
-  onPeriodChange: (value: string) => void;
-  onStartDateChange: (value: string) => void;
-  onEndDateChange: (value: string) => void;
+  date: string;
+  onDateChange: (value: string) => void;
 }) {
   return (
-    <div className="mt-4 flex flex-wrap items-end gap-3 rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200/70">
+    <div className="mt-4 flex items-end rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200/70">
       <label className="grid gap-1 text-[11px] font-semibold text-slate-600">
-        Periode transaksi
-        <select value={period} onChange={(event) => onPeriodChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500">
-          <option value="harian">Harian</option>
-          <option value="mingguan">Mingguan</option>
-          <option value="bulanan">Bulanan</option>
-        </select>
-      </label>
-      <label className="grid gap-1 text-[11px] font-semibold text-slate-600">
-        Dari tanggal
-        <input type="date" value={startDate} onChange={(event) => onStartDateChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
-      </label>
-      <label className="grid gap-1 text-[11px] font-semibold text-slate-600">
-        Sampai tanggal
-        <input type="date" value={endDate} onChange={(event) => onEndDateChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
+        Tanggal transaksi
+        <input type="date" value={date} onChange={(event) => onDateChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
       </label>
     </div>
   );
@@ -280,32 +260,11 @@ function SavingsBarChart({
 }
 
 export default function DashboardSimpanan() {
-  const [period, setPeriod] = React.useState("harian");
-  const [startDate, setStartDate] = React.useState("2026-09-01");
-  const [endDate, setEndDate] = React.useState("2026-09-30");
-  const filteredMbankingData = React.useMemo(() => {
-    const startDay = Number(startDate.slice(-2));
-    const endDay = Number(endDate.slice(-2));
-    const selected = mbankingData.filter((item) => {
-      const day = Number(item.day);
-      return day >= startDay && day <= endDay;
-    });
-
-    if (period === "harian") return selected;
-    const groupSize = period === "mingguan" ? 7 : 30;
-    return selected.reduce<Array<Record<string, string | number>>>((groups, item, index) => {
-      const groupIndex = Math.floor(index / groupSize);
-      const current = groups[groupIndex];
-      if (!current) {
-        groups[groupIndex] = { ...item };
-        return groups;
-      }
-      Object.keys(item).forEach((key) => {
-        if (key !== "day") current[key] = (Number(current[key]) + Number(item[key])) / 2;
-      });
-      return groups;
-    }, []);
-  }, [endDate, period, startDate]);
+  const [selectedDate, setSelectedDate] = React.useState("2026-09-01");
+  const filteredMbankingData = React.useMemo(
+    () => mbankingData.filter((item) => item.day === selectedDate.slice(-2)),
+    [selectedDate],
+  );
 
   return (
     <div className="min-h-screen overflow-x-auto bg-[#f5f7fc] px-3 py-6 md:px-6 md:py-7">
@@ -372,14 +331,7 @@ export default function DashboardSimpanan() {
         <div className="mt-4 grid gap-4">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart data={coreChartData} variant="core" /></ChartCard>
           <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026" contentClassName="mt-0 h-[350px]">
-            <MbankingFilters
-              period={period}
-              startDate={startDate}
-              endDate={endDate}
-              onPeriodChange={setPeriod}
-              onStartDateChange={setStartDate}
-              onEndDateChange={setEndDate}
-            />
+            <MbankingFilters date={selectedDate} onDateChange={setSelectedDate} />
             <SavingsBarChart data={filteredMbankingData} variant="mbanking" />
           </ChartCard>
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
