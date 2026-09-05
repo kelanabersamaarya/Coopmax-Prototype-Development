@@ -140,7 +140,7 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle: str
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">{title}</h2>
       <p className="mt-1 text-xs text-blue-700">{subtitle}</p>
-      <div className="mt-5 h-[290px] w-full overflow-visible">{children}</div>
+      <div className="mt-5 h-[320px] w-full overflow-visible">{children}</div>
     </section>
   );
 }
@@ -234,7 +234,7 @@ function SavingsBarChart({
           ))}
         </div>
       </div>
-      <div className="ml-12 mt-3 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
+      <div className="ml-12 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
         {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
       </div>
     </div>
