@@ -192,7 +192,7 @@ function SavingsBarChart({
           <div key={level} className="absolute left-12 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
             {axisLabels[index] !== undefined && (
               <span
-                className={`absolute left-[-12px] top-0 whitespace-nowrap text-[16px] leading-none text-slate-900 ${
+                className={`absolute left-[-27px] top-0 whitespace-nowrap text-[16px] leading-none text-slate-900 ${
                   index === 0 ? "-translate-y-full" : index === 4 ? "translate-y-0" : "-translate-y-1/2"
                 }`}
               >
