@@ -140,7 +140,7 @@ function ChartCard({ title, subtitle, children }: { title: string; subtitle: str
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">{title}</h2>
       <p className="mt-1 text-xs text-blue-700">{subtitle}</p>
-      <div className="mt-5 h-[270px] w-full overflow-x-auto overflow-y-hidden">{children}</div>
+      <div className="mt-5 h-[270px] w-full overflow-hidden">{children}</div>
     </section>
   );
 }
@@ -187,18 +187,18 @@ function SavingsBarChart({
 
   return (
     <div className="h-full w-full overflow-visible">
-      <div className="relative h-[270px] w-[2720px] border-b border-slate-200 pt-4">
+      <div className="relative h-[270px] w-full border-b border-slate-200 pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
-          <div key={level} className="absolute left-20 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
+          <div key={level} className="absolute left-12 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
             {axisLabels[index] !== undefined && <span className={`absolute right-full top-0 mr-2 whitespace-nowrap text-[11px] text-slate-900 ${index === 4 ? "-translate-y-1/2" : "translate-y-1"}`}>{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
           </div>
         ))}
-        <div className="absolute bottom-0 left-20 top-0 z-0 grid w-[2640px] grid-cols-[repeat(30,88px)] items-end">
+        <div className="absolute bottom-0 left-12 top-0 z-0 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="group relative z-10 flex h-full w-[88px] items-end justify-center gap-1 hover:z-[100]">
+            <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-0.5 hover:z-[100]">
               {keys.map(([key, color]) => {
                 const value = Number(item[key]) || 0;
-                return <div key={key} className="w-5 shrink-0 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
+                return <div key={key} className="w-2 shrink-0 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
               {(variant === "total" || variant === "core") ? (
                 <div
@@ -224,7 +224,7 @@ function SavingsBarChart({
           ))}
         </div>
       </div>
-      <div className="ml-20 grid w-[2640px] grid-cols-[repeat(30,88px)] text-center text-[11px] text-slate-900">
+      <div className="ml-12 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
         {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
       </div>
     </div>
