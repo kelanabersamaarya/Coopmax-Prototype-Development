@@ -333,7 +333,7 @@ export default function DashboardSimpanan() {
             <MbankingFilters month={selectedMonth} onMonthChange={setSelectedMonth} />
             <SavingsBarChart data={filteredMbankingData} variant="mbanking" />
           </ChartCard>
-          <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
+          <ChartCard title="Transaksi Total" subtitle="Bulan September 2026" contentClassName="mt-6"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={growthData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
