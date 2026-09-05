@@ -17,11 +17,11 @@ import TransaksiAnggotaView1 from "@/components/anggota/TransaksiAnggotaView1";
 import TransaksiAnggotaView2 from "@/components/anggota/TransaksiAnggotaView2";
 import TransaksiAnggotaView3 from "@/components/anggota/TransaksiAnggotaView3";
 
-type SearchField = "nasabah" | "rekening";
+type SearchField = "rekening";
 
 export default function AnggotaTransaksi() {
   const [query, setQuery] = React.useState("");
-  const [searchField, setSearchField] = React.useState<SearchField>("nasabah");
+  const [searchField, setSearchField] = React.useState<SearchField>("rekening");
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Nasabah | null>(null);
 
@@ -59,14 +59,13 @@ export default function AnggotaTransaksi() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-[8px]">
-                <SelectItem value="nasabah">No. Nasabah</SelectItem>
                 <SelectItem value="rekening">No. Rekening</SelectItem>
               </SelectContent>
             </Select>
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={searchField === "nasabah" ? "Masukkan nomor nasabah" : "Masukkan nomor rekening"}
+              placeholder="Masukkan nomor rekening"
               className="h-11 rounded-l-none rounded-r-[5px] border-slate-300 bg-white"
             />
           </div>
