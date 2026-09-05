@@ -147,17 +147,17 @@ function ChartCard({ title, subtitle, children, contentClassName = "" }: { title
 }
 
 function MbankingFilters({
-  date,
-  onDateChange,
+  month,
+  onMonthChange,
 }: {
-  date: string;
-  onDateChange: (value: string) => void;
+  month: string;
+  onMonthChange: (value: string) => void;
 }) {
   return (
     <div className="mt-4 flex items-end rounded-lg bg-slate-50 p-3 ring-1 ring-slate-200/70">
       <label className="grid gap-1 text-[11px] font-semibold text-slate-600">
-        Tanggal transaksi
-        <input type="date" value={date} onChange={(event) => onDateChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
+        Bulan transaksi
+        <input type="month" value={month} onChange={(event) => onMonthChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
       </label>
     </div>
   );
@@ -260,10 +260,10 @@ function SavingsBarChart({
 }
 
 export default function DashboardSimpanan() {
-  const [selectedDate, setSelectedDate] = React.useState("2026-09-01");
+  const [selectedMonth, setSelectedMonth] = React.useState("2026-09");
   const filteredMbankingData = React.useMemo(
-    () => mbankingData.filter((item) => item.day === selectedDate.slice(-2)),
-    [selectedDate],
+    () => (selectedMonth === "2026-09" ? mbankingData : []),
+    [selectedMonth],
   );
 
   return (
@@ -331,7 +331,7 @@ export default function DashboardSimpanan() {
         <div className="mt-4 grid gap-4">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026"><SavingsBarChart data={coreChartData} variant="core" /></ChartCard>
           <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026" contentClassName="mt-0 h-[350px]">
-            <MbankingFilters date={selectedDate} onDateChange={setSelectedDate} />
+            <MbankingFilters month={selectedMonth} onMonthChange={setSelectedMonth} />
             <SavingsBarChart data={filteredMbankingData} variant="mbanking" />
           </ChartCard>
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
