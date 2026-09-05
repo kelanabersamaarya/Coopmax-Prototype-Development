@@ -168,7 +168,7 @@ function SavingsBarChart({
     : variant === "mbanking"
       ? 1
       : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
-  const axisLabels = variant === "core"
+  const axisLabels = variant === "core" || variant === "total"
     ? [200000, 150000, 100000, 50000, 0]
     : variant === "mbanking"
       ? [1, 0.75, 0.5, 0.25, 0]
