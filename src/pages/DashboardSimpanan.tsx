@@ -190,7 +190,15 @@ function SavingsBarChart({
       <div className="relative h-[270px] w-full border-b border-slate-200 pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
           <div key={level} className="absolute left-12 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
-            {axisLabels[index] !== undefined && <span className={`absolute right-full top-0 mr-2 whitespace-nowrap text-[11px] text-slate-900 ${index === 4 ? "-translate-y-1/2" : "translate-y-1"}`}>{axisLabels[4 - index].toLocaleString("id-ID")}</span>}
+            {axisLabels[index] !== undefined && (
+              <span
+                className={`absolute left-[-12px] top-0 whitespace-nowrap text-[16px] leading-none text-slate-900 ${
+                  index === 0 ? "-translate-y-full" : index === 4 ? "translate-y-0" : "-translate-y-1/2"
+                }`}
+              >
+                {axisLabels[4 - index].toLocaleString("id-ID")}
+              </span>
+            )}
           </div>
         ))}
         <div className="absolute bottom-0 left-12 top-0 z-0 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] items-end">
