@@ -184,6 +184,8 @@ function SavingsBarChart({
     setoran: "Setoran",
     tarikan: "Tarikan",
   };
+  const formatMbankingValue = (value: unknown) =>
+    `Rp ${(Number(value || 0) * 1_000_000).toLocaleString("id-ID")}`;
 
   return (
     <div className="h-full w-full overflow-visible">
@@ -221,11 +223,11 @@ function SavingsBarChart({
                   className="pointer-events-none absolute left-1/2 z-[200] hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
                   style={{ top: "8px" }}
                 >
-                  <div className="text-[#5612cf]">Transfer antar nasabah : {Number(item.transfer).toLocaleString("id-ID")}</div>
-                  <div className="text-[#09c3c7]">Transfer In / Top Up : {Number(item.topUp).toLocaleString("id-ID")}</div>
-                  <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {Number(item.pembelianPpob).toLocaleString("id-ID")}</div>
-                  <div className="text-[#48b900]">Pembayaran Angsuran : {Number(item.angsuran).toLocaleString("id-ID")}</div>
-                  <div className="text-[#f59e0b]">Iuran Simpanan Wajib & Program : {Number(item.iuran).toLocaleString("id-ID")}</div>
+                  <div className="text-[#5612cf]">Transfer antar nasabah : {formatMbankingValue(item.transfer)}</div>
+                  <div className="text-[#09c3c7]">Transfer In / Top Up : {formatMbankingValue(item.topUp)}</div>
+                  <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {formatMbankingValue(item.pembelianPpob)}</div>
+                  <div className="text-[#48b900]">Pembayaran Angsuran : {formatMbankingValue(item.angsuran)}</div>
+                  <div className="text-[#f59e0b]">Iuran Simpanan Wajib & Program : {formatMbankingValue(item.iuran)}</div>
                 </div>
               )}
             </div>
