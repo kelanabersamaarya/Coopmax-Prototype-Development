@@ -191,7 +191,7 @@ function SavingsBarChart({
     <div className="h-full w-full overflow-visible">
       <div className="relative h-[290px] w-full pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
-          <div key={level} className="absolute left-20 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
+          <div key={level} className="absolute left-12 right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
             {axisLabels[index] !== undefined && (
               <span
                 className={`absolute left-[-37px] top-0 whitespace-nowrap text-[11px] leading-none text-slate-900 ${
@@ -203,7 +203,7 @@ function SavingsBarChart({
             )}
           </div>
         ))}
-        <div className="absolute bottom-0 left-20 top-0 z-0 grid w-[calc(100%-5rem)] grid-cols-[repeat(30,minmax(0,1fr))] items-end">
+        <div className="absolute bottom-0 left-12 top-0 z-0 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] items-end">
           {data.map((item) => (
             <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-0.5 hover:z-[100]">
               {keys.map(([key, color]) => {
@@ -234,7 +234,7 @@ function SavingsBarChart({
           ))}
         </div>
       </div>
-      <div className="ml-20 grid w-[calc(100%-5rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
+      <div className="ml-12 grid w-[calc(100%-3rem)] grid-cols-[repeat(30,minmax(0,1fr))] text-center text-[11px] text-slate-900">
         {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
       </div>
     </div>
