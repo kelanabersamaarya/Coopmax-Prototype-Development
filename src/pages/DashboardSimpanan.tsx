@@ -185,7 +185,7 @@ function SavingsBarChart({
     tarikan: "Tarikan",
   };
   const formatMbankingValue = (value: unknown) =>
-    `Rp ${(Number(value || 0) * 1_000_000).toLocaleString("id-ID")}`;
+    (Number(value || 0) * 1_000_000).toLocaleString("id-ID");
 
   return (
     <div className="h-full w-full overflow-visible">
