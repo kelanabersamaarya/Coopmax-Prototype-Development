@@ -178,7 +178,7 @@ export default function EKolektorLoginForm({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="login-biometric-title"
-                className="relative w-full max-w-[340px] rounded-[20px] bg-white px-6 pb-6 pt-6 text-center shadow-[0_12px_34px_rgba(32,48,100,0.28)]"
+                className="relative w-full max-w-[390px] rounded-[20px] bg-white px-6 pb-6 pt-6 text-center shadow-[0_12px_34px_rgba(32,48,100,0.28)]"
               >
                 <div className="mx-auto grid h-[60px] w-[60px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
                   <Fingerprint className="h-[36px] w-[36px]" strokeWidth={1.7} />
