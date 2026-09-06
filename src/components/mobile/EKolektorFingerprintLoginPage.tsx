@@ -82,7 +82,7 @@ export default function EKolektorFingerprintLoginPage({
               type="button"
               onClick={onContinue}
               disabled={!password.trim()}
-              className="mt-auto h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8] disabled:shadow-none"
+              className="mt-auto h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
             >
               Aktifkan Login Biometrik
             </button>
