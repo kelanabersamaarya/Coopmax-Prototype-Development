@@ -141,7 +141,7 @@ export default function EKolektorFingerprintLoginPage({
       <EKolektorAndroidNavBar onBack={onBack} />
 
       {showConfirmation && (
-        <div className="absolute inset-0 z-20 flex items-end justify-center bg-[#10234A]/25 px-4 pb-[82px]">
+        <div className="absolute inset-0 z-20 flex items-end justify-center bg-[#10234A]/25 px-4 pb-[62px]">
           <button
             type="button"
             aria-label="Tutup konfirmasi"
