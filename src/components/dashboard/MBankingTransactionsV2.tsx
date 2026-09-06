@@ -78,9 +78,11 @@ export default function MBankingTransactionsV2() {
       .filter((item) => Number(item.day) >= startDay && Number(item.day) <= endDay)
       .map((item) => ({
         day: item.day,
-        value: type === "all"
-          ? item.transfer + item.topUp + item.pembelianPpob + item.angsuran + item.iuran
-          : item[type],
+        transfer: type === "all" || type === "transfer" ? item.transfer : 0,
+        topUp: type === "all" || type === "topUp" ? item.topUp : 0,
+        pembelianPpob: type === "all" || type === "pembelianPpob" ? item.pembelianPpob : 0,
+        angsuran: type === "all" || type === "angsuran" ? item.angsuran : 0,
+        iuran: type === "all" || type === "iuran" ? item.iuran : 0,
       }));
   }, [endDate, startDate, type]);
 
@@ -118,8 +120,16 @@ export default function MBankingTransactionsV2() {
             <CartesianGrid stroke="#e2e8f0" vertical={false} />
             <XAxis dataKey="day" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
-            <Tooltip formatter={(value: number) => [`${value.toLocaleString("id-ID")} transaksi`, selectedType.label]} labelFormatter={(label) => `Tanggal ${label} September 2026`} />
-            <Bar dataKey="value" fill={selectedType.color} radius={[5, 5, 0, 0]} maxBarSize={28} />
+            <Tooltip
+              formatter={(value: number, name: string) => [
+                `${value.toLocaleString("id-ID")} transaksi`,
+                transactionTypes.find((item) => item.value === name)?.label ?? name,
+              ]}
+              labelFormatter={(label) => `Tanggal ${label} September 2026`}
+            />
+            {transactionTypes.slice(1).map((item) => (
+              <Bar key={item.value} dataKey={item.value} name={item.value} fill={item.color} radius={[5, 5, 0, 0]} maxBarSize={28} />
+            ))}
           </BarChart>
         </ResponsiveContainer>
       </div>
