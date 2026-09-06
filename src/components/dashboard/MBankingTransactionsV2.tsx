@@ -80,6 +80,9 @@ export default function MBankingTransactionsV2() {
       value: filteredData.reduce((sum, item) => sum + item[category.value as keyof TransactionRow] as number, 0),
     }));
   }, [endDate]);
+  const maxValue = Math.max(...chartData.map((item) => item.value), 1);
+  const axisMax = Math.ceil(maxValue / 1000) * 1000;
+  const axisTicks = Array.from({ length: 5 }, (_, index) => Math.round((axisMax * index) / 4));
 
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
@@ -95,7 +98,7 @@ export default function MBankingTransactionsV2() {
           <BarChart data={chartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <CartesianGrid stroke="#e2e8f0" strokeWidth={1} vertical={false} />
             <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
-            <YAxis ticks={[0, 250, 500, 750, 1000]} domain={[0, 1000]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
+            <YAxis ticks={axisTicks} domain={[0, axisMax]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
             <Tooltip
               formatter={(value: number) => [`${value.toLocaleString("id-ID")} transaksi`, "Jumlah"]}
               labelFormatter={(label) => String(label)}
