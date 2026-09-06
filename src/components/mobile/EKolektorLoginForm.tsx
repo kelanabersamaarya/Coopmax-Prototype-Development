@@ -194,7 +194,7 @@ export default function EKolektorLoginForm({
                   onClick={() => setShowBiometricPrompt(false)}
                   className="mt-4 text-[13px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
                 >
-                  Batal
+                  Gunakan Password
                 </button>
               </section>
             </div>
