@@ -107,7 +107,8 @@ export default function MBankingTransactionsV2() {
               contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "4px", boxShadow: "0 4px 12px rgba(15, 23, 42, 0.12)" }}
               labelStyle={{ color: "#173d75", fontSize: 13, fontWeight: 600 }}
               itemStyle={{ color: "#173d75", fontSize: 13 }}
-              formatter={(_value: number, _name: string, item) => [`Rp ${(Number(item.payload.total) * 1000).toLocaleString("id-ID")}`, ""]}
+              separator=""
+              formatter={(_value: number, _name: string, item) => [(Number(item.payload.total) * 1000).toLocaleString("id-ID"), ""]}
               labelFormatter={(label) => String(label)}
             />
             <Bar dataKey="value" name="Jumlah transaksi" radius={[5, 5, 0, 0]} maxBarSize={52}>
