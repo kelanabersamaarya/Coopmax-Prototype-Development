@@ -5,8 +5,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-type TransactionType = "all" | "transfer" | "topUp" | "pembelianPpob" | "angsuran" | "iuran";
-
 type TransactionRow = {
   day: string;
   transfer: number;
@@ -48,12 +46,12 @@ function formatDate(date: Date | undefined) {
   return date.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-function DateFilter({ label, value, onChange }: { label: string; value?: Date; onChange: (date?: Date) => void }) {
+function DateFilter({ value, onChange }: { value?: Date; onChange: (date?: Date) => void }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button type="button" variant="outline" className="h-10 min-w-[170px] justify-between rounded-lg border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-none hover:bg-slate-50">
-          <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-violet-700" />{value ? formatDate(value) : label}</span>
+        <Button type="button" variant="outline" className="h-10 min-w-[190px] justify-between rounded-lg border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-none hover:bg-slate-50">
+          <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-violet-700" />{formatDate(value)}</span>
           <ChevronDown className="h-4 w-4 text-slate-400" />
         </Button>
       </PopoverTrigger>
@@ -65,42 +63,32 @@ function DateFilter({ label, value, onChange }: { label: string; value?: Date; o
 }
 
 export default function MBankingTransactionsV2() {
-  const [type, setType] = React.useState<TransactionType>("all");
-  const [startDate, setStartDate] = React.useState<Date | undefined>(new Date(2026, 8, 1));
-  const [endDate, setEndDate] = React.useState<Date | undefined>(new Date(2026, 8, 15));
-  const selectedType = transactionTypes.find((item) => item.value === type) ?? transactionTypes[0];
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(new Date(2026, 8, 15));
+  const startDate = new Date(2026, 8, 1);
+  const endDate = selectedDate;
   const chartData = React.useMemo(() => {
     const startDay = startDate?.getFullYear() === 2026 && startDate.getMonth() === 8 ? startDate.getDate() : 1;
     const endDay = endDate?.getFullYear() === 2026 && endDate.getMonth() === 8 ? endDate.getDate() : 31;
     const filteredData = transactionData.filter((item) => Number(item.day) >= startDay && Number(item.day) <= endDay);
-    const categories = type === "all" ? transactionTypes.slice(1) : transactionTypes.filter((item) => item.value === type);
+    const categories = transactionTypes.slice(1);
 
     return categories.map((category) => ({
       category: category.label,
       color: category.color,
       value: filteredData.reduce((sum, item) => sum + item[category.value], 0),
     }));
-  }, [endDate, startDate, type]);
+  }, [endDate]);
 
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-        <div>
-          <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">Transaksi MBanking V2</h2>
-          <p className="mt-1 text-xs text-blue-700">Analisis transaksi berdasarkan jenis transaksi MBanking</p>
+        <div className="flex justify-start">
+          <DateFilter value={selectedDate} onChange={setSelectedDate} />
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <DateFilter label="Tanggal mulai" value={startDate} onChange={setStartDate} />
-          <span className="text-xs text-slate-400">sampai</span>
-          <DateFilter label="Tanggal akhir" value={endDate} onChange={setEndDate} />
-          <select aria-label="Jenis transaksi MBanking" value={type} onChange={(event) => setType(event.target.value as TransactionType)} className="h-10 min-w-[220px] rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 outline-none focus:border-violet-500">
-            {transactionTypes.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-          </select>
-        </div>
+        <div />
       </div>
 
       <div className="mt-6 h-[310px] w-full">
-        <div className="mb-2 flex items-center justify-between text-xs text-slate-500"><span>Grafik {selectedType.label}</span><span>{formatDate(startDate)} — {formatDate(endDate)}</span></div>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <CartesianGrid stroke="#e2e8f0" vertical={false} />
