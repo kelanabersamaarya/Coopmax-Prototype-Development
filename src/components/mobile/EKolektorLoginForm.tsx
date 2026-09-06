@@ -167,7 +167,7 @@ export default function EKolektorLoginForm({
           </form>
 
           {showBiometricPrompt ? (
-            <div className="absolute inset-0 z-40 flex items-center justify-center bg-[#10234A]/30 px-6">
+            <div className="absolute inset-0 z-40 flex items-end justify-center bg-[#10234A]/30 px-4 pb-6">
               <button
                 type="button"
                 aria-label="Tutup konfirmasi biometrik"
@@ -178,7 +178,7 @@ export default function EKolektorLoginForm({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="login-biometric-title"
-                className="relative w-full max-w-[300px] rounded-[18px] bg-white px-5 pb-5 pt-5 text-center shadow-[0_10px_30px_rgba(32,48,100,0.2)]"
+                className="relative w-full max-w-[340px] rounded-[20px] bg-white px-6 pb-6 pt-6 text-center shadow-[0_12px_34px_rgba(32,48,100,0.28)]"
               >
                 <div className="mx-auto grid h-[60px] w-[60px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
                   <Fingerprint className="h-[36px] w-[36px]" strokeWidth={1.7} />
