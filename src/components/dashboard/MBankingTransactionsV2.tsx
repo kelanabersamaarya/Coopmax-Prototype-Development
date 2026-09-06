@@ -103,7 +103,11 @@ export default function MBankingTransactionsV2() {
           <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
           <YAxis ticks={axisTicks} domain={[0, 1]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => String(value).replace("0.", "0,")} />
             <Tooltip
-              formatter={(value: number, name: string, item) => [`${Number(item.payload.total).toLocaleString("id-ID")} transaksi`, "Jumlah"]}
+              cursor={{ fill: "transparent" }}
+              contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "4px", boxShadow: "0 4px 12px rgba(15, 23, 42, 0.12)" }}
+              labelStyle={{ color: "#173d75", fontSize: 13, fontWeight: 600 }}
+              itemStyle={{ color: "#173d75", fontSize: 13 }}
+              formatter={(_value: number, _name: string, item) => [`Jumlah: ${Number(item.payload.total).toLocaleString("id-ID")} transaksi`, ""]}
               labelFormatter={(label) => String(label)}
             />
             <Bar dataKey="value" name="Jumlah transaksi" radius={[5, 5, 0, 0]} maxBarSize={52}>
