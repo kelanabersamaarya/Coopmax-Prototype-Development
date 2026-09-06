@@ -22,7 +22,7 @@ const transactionTypes: Array<{ value: TransactionType; label: string; color: st
   { value: "topUp", label: "Transfer In / Top Up", color: "#09c3c7" },
   { value: "pembelianPpob", label: "Pembelian & Pembayaran PPOB", color: "#1687ef" },
   { value: "angsuran", label: "Pembayaran Angsuran", color: "#48b900" },
-  { value: "iuran", label: "Pembayaran Iuran", color: "#f59e0b" },
+  { value: "iuran", label: "Pembayaran Iuran Wajib dan Simpanan Program", color: "#f59e0b" },
 ];
 
 const transactionData: TransactionRow[] = [
