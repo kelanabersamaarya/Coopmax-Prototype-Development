@@ -83,7 +83,7 @@ export default function MBankingTransactionsV2() {
 
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+      <div className="flex flex-col gap-3">
         <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">TRANSAKSI MBANKING V2</h2>
         <div className="flex justify-start">
           <DateFilter value={selectedDate} onChange={setSelectedDate} />
@@ -93,9 +93,9 @@ export default function MBankingTransactionsV2() {
       <div className="mt-4 h-[310px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
-            <CartesianGrid stroke="#e2e8f0" vertical={false} />
+            <CartesianGrid stroke="#e2e8f0" strokeWidth={1} vertical={false} />
             <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
-            <YAxis ticks={[0, 250, 500, 750, 1000]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
+            <YAxis ticks={[0, 250, 500, 750, 1000]} domain={[0, 1000]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
             <Tooltip
               formatter={(value: number) => [`${value.toLocaleString("id-ID")} transaksi`, "Jumlah"]}
               labelFormatter={(label) => String(label)}
