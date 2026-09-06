@@ -4,7 +4,6 @@ import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 
 type TransactionType = "all" | "transfer" | "topUp" | "pembelianPpob" | "angsuran" | "iuran";
 
@@ -98,16 +97,6 @@ export default function MBankingTransactionsV2() {
             {transactionTypes.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
           </select>
         </div>
-      </div>
-
-      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {transactionTypes.slice(1).map((item) => (
-          <button key={item.value} type="button" onClick={() => setType(item.value)} className={cn("rounded-lg border px-3 py-3 text-left transition", type === item.value ? "border-violet-300 bg-violet-50" : "border-slate-200 bg-white hover:border-violet-200")}>
-            <span className="mb-2 block h-1.5 w-8 rounded-full" style={{ backgroundColor: item.color }} />
-            <span className="block text-[11px] font-semibold leading-4 text-slate-700">{item.label}</span>
-            <span className="mt-1 block text-xs text-slate-400">{transactionData.reduce((sum, row) => sum + row[item.value], 0).toLocaleString("id-ID")} transaksi</span>
-          </button>
-        ))}
       </div>
 
       <div className="mt-6 h-[310px] w-full">
