@@ -77,12 +77,15 @@ export default function MBankingTransactionsV2() {
     return categories.map((category) => ({
       category: category.label,
       color: category.color,
-      value: filteredData.reduce((sum, item) => sum + item[category.value as keyof TransactionRow] as number, 0),
+      total: filteredData.reduce((sum, item) => sum + item[category.value as keyof TransactionRow] as number, 0),
     }));
   }, [endDate]);
-  const maxValue = Math.max(...chartData.map((item) => item.value), 1);
-  const axisMax = Math.ceil(maxValue / 1000) * 1000;
-  const axisTicks = Array.from({ length: 5 }, (_, index) => Math.round((axisMax * index) / 4));
+  const maxValue = Math.max(...chartData.map((item) => item.total), 1);
+  const normalizedChartData = chartData.map((item) => ({
+    ...item,
+    value: item.total / maxValue,
+  }));
+  const axisTicks = [0, 0.25, 0.5, 0.75, 1];
 
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
@@ -95,12 +98,12 @@ export default function MBankingTransactionsV2() {
 
       <div className="mt-4 h-[310px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
-            <CartesianGrid stroke="#e2e8f0" strokeWidth={1} vertical={false} />
-            <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
-            <YAxis ticks={axisTicks} domain={[0, axisMax]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
+          <BarChart data={normalizedChartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+          <CartesianGrid stroke="#e2e8f0" strokeWidth={1} vertical={false} />
+          <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
+          <YAxis ticks={axisTicks} domain={[0, 1]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => String(value).replace("0.", "0,")} />
             <Tooltip
-              formatter={(value: number) => [`${value.toLocaleString("id-ID")} transaksi`, "Jumlah"]}
+              formatter={(value: number, name: string, item) => [`${Number(item.payload.total).toLocaleString("id-ID")} transaksi`, "Jumlah"]}
               labelFormatter={(label) => String(label)}
             />
             <Bar dataKey="value" name="Jumlah transaksi" radius={[5, 5, 0, 0]} maxBarSize={52}>
