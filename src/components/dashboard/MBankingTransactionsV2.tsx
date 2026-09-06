@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CalendarDays, ChevronDown } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -52,9 +52,9 @@ function DateFilter({ value, onChange }: { value?: Date; onChange: (date?: Date)
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button type="button" variant="outline" className="h-9 min-w-[190px] justify-between rounded-md border-slate-300 bg-white px-3 text-xs font-normal text-slate-700 shadow-none hover:bg-slate-50">
-          <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-slate-500" />{formatDate(value)}</span>
-          <ChevronDown className="h-4 w-4 text-slate-500" />
+        <Button type="button" variant="outline" className="h-[52px] min-w-[205px] justify-between rounded-[4px] border-[#c6d2e3] bg-white px-5 text-base font-normal text-[#173d75] shadow-none hover:bg-slate-50">
+          <span>{value ? value.toLocaleDateString("id-ID", { month: "long", year: "numeric" }) : "Pilih bulan"}</span>
+          <CalendarDays className="h-[18px] w-[18px] text-black" strokeWidth={2} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto rounded-xl border-slate-200 p-0" align="start">
