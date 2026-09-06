@@ -131,7 +131,7 @@ export default function EKolektorFingerprintLoginPage({
             <button
               type="button"
               onClick={onBack}
-              className="h-[45px] w-full rounded-[9px] border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.99]"
+              className="h-[45px] w-full rounded-[9px] border border-[#A8A8A8] bg-white text-[14px] font-semibold text-[#777777] transition active:scale-[0.99]"
             >
               Batal
             </button>
