@@ -98,7 +98,7 @@ export default function MBankingTransactionsV2() {
 
       <div className="mt-4 h-[310px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={normalizedChartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+          <BarChart data={normalizedChartData} margin={{ top: 8, right: 12, left: -18, bottom: 0 }}>
           <CartesianGrid stroke="#e2e8f0" strokeWidth={1} vertical={false} />
           <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
           <YAxis ticks={axisTicks} domain={[0, 1]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => String(value).replace("0.", "0,")} />
