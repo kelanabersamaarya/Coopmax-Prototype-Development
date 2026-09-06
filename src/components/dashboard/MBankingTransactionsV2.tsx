@@ -1,6 +1,6 @@
 import * as React from "react";
 import { CalendarDays, ChevronDown } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -73,17 +73,14 @@ export default function MBankingTransactionsV2() {
   const chartData = React.useMemo(() => {
     const startDay = startDate?.getFullYear() === 2026 && startDate.getMonth() === 8 ? startDate.getDate() : 1;
     const endDay = endDate?.getFullYear() === 2026 && endDate.getMonth() === 8 ? endDate.getDate() : 31;
+    const filteredData = transactionData.filter((item) => Number(item.day) >= startDay && Number(item.day) <= endDay);
+    const categories = type === "all" ? transactionTypes.slice(1) : transactionTypes.filter((item) => item.value === type);
 
-    return transactionData
-      .filter((item) => Number(item.day) >= startDay && Number(item.day) <= endDay)
-      .map((item) => ({
-        day: item.day,
-        transfer: type === "all" || type === "transfer" ? item.transfer : 0,
-        topUp: type === "all" || type === "topUp" ? item.topUp : 0,
-        pembelianPpob: type === "all" || type === "pembelianPpob" ? item.pembelianPpob : 0,
-        angsuran: type === "all" || type === "angsuran" ? item.angsuran : 0,
-        iuran: type === "all" || type === "iuran" ? item.iuran : 0,
-      }));
+    return categories.map((category) => ({
+      category: category.label,
+      color: category.color,
+      value: filteredData.reduce((sum, item) => sum + item[category.value], 0),
+    }));
   }, [endDate, startDate, type]);
 
   return (
@@ -118,18 +115,15 @@ export default function MBankingTransactionsV2() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <CartesianGrid stroke="#e2e8f0" vertical={false} />
-            <XAxis dataKey="day" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+            <XAxis dataKey="category" tick={{ fontSize: 10 }} angle={-12} height={58} interval={0} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
             <Tooltip
-              formatter={(value: number, name: string) => [
-                `${value.toLocaleString("id-ID")} transaksi`,
-                transactionTypes.find((item) => item.value === name)?.label ?? name,
-              ]}
-              labelFormatter={(label) => `Tanggal ${label} September 2026`}
+              formatter={(value: number) => [`${value.toLocaleString("id-ID")} transaksi`, "Jumlah"]}
+              labelFormatter={(label) => String(label)}
             />
-            {transactionTypes.slice(1).map((item) => (
-              <Bar key={item.value} dataKey={item.value} name={item.value} fill={item.color} radius={[5, 5, 0, 0]} maxBarSize={28} />
-            ))}
+            <Bar dataKey="value" name="Jumlah transaksi" radius={[5, 5, 0, 0]} maxBarSize={52}>
+              {chartData.map((item) => <Cell key={item.category} fill={item.color} />)}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
