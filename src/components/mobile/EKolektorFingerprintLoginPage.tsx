@@ -141,7 +141,7 @@ export default function EKolektorFingerprintLoginPage({
       <EKolektorAndroidNavBar onBack={onBack} />
 
       {showConfirmation && (
-        <div className="absolute inset-0 z-20 flex items-end bg-[#10234A]/25">
+        <div className="absolute inset-0 z-20 flex items-end justify-center bg-[#10234A]/25 px-4 pb-6">
           <button
             type="button"
             aria-label="Tutup konfirmasi"
@@ -152,7 +152,7 @@ export default function EKolektorFingerprintLoginPage({
             role="dialog"
             aria-modal="true"
             aria-labelledby="biometric-confirmation-title"
-            className="relative w-full rounded-t-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_-8px_24px_rgba(32,48,100,0.12)]"
+            className="relative w-full max-w-[390px] rounded-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_12px_34px_rgba(32,48,100,0.28)]"
           >
             <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
             <h2 id="biometric-confirmation-title" className="text-[20px] font-extrabold leading-tight text-[#203064]">
@@ -167,7 +167,7 @@ export default function EKolektorFingerprintLoginPage({
             <button
               type="button"
               onClick={() => setShowConfirmation(false)}
-              className="mt-5 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+              className="mt-5 text-[14px] font-semibold text-[#777777] transition active:scale-[0.98]"
             >
               Batal
             </button>
