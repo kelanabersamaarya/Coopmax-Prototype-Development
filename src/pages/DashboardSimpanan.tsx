@@ -328,7 +328,7 @@ export default function DashboardSimpanan() {
           />
         </div>
 
-        <div className="mt-4 grid gap-4">
+        <div className="mt-4 grid gap-2">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026" contentClassName="mt-6"><SavingsBarChart data={coreChartData} variant="core" /></ChartCard>
           <ChartCard title="Transaksi MBanking" subtitle="" contentClassName="mt-0 h-[370px]">
             <MbankingFilters month={selectedMonth} onMonthChange={setSelectedMonth} />

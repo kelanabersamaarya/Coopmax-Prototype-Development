@@ -5,6 +5,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
+type TransactionType = "all" | "transfer" | "topUp" | "pembelianPpob" | "angsuran" | "iuran";
+
 type TransactionRow = {
   day: string;
   transfer: number;
@@ -50,9 +52,9 @@ function DateFilter({ value, onChange }: { value?: Date; onChange: (date?: Date)
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button type="button" variant="outline" className="h-10 min-w-[190px] justify-between rounded-lg border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-none hover:bg-slate-50">
-          <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-violet-700" />{formatDate(value)}</span>
-          <ChevronDown className="h-4 w-4 text-slate-400" />
+        <Button type="button" variant="outline" className="h-9 min-w-[190px] justify-between rounded-md border-slate-300 bg-white px-3 text-xs font-normal text-slate-700 shadow-none hover:bg-slate-50">
+          <span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-slate-500" />{formatDate(value)}</span>
+          <ChevronDown className="h-4 w-4 text-slate-500" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto rounded-xl border-slate-200 p-0" align="start">
@@ -75,25 +77,25 @@ export default function MBankingTransactionsV2() {
     return categories.map((category) => ({
       category: category.label,
       color: category.color,
-      value: filteredData.reduce((sum, item) => sum + item[category.value], 0),
+      value: filteredData.reduce((sum, item) => sum + item[category.value as keyof TransactionRow] as number, 0),
     }));
   }, [endDate]);
 
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">TRANSAKSI MBANKING V2</h2>
         <div className="flex justify-start">
           <DateFilter value={selectedDate} onChange={setSelectedDate} />
         </div>
-        <div />
       </div>
 
-      <div className="mt-6 h-[310px] w-full">
+      <div className="mt-4 h-[310px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
             <CartesianGrid stroke="#e2e8f0" vertical={false} />
-            <XAxis dataKey="category" tick={{ fontSize: 10 }} angle={-12} height={58} interval={0} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
+            <XAxis dataKey="category" tick={{ fontSize: 10 }} height={42} interval={0} axisLine={false} tickLine={false} />
+            <YAxis ticks={[0, 250, 500, 750, 1000]} tick={{ fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={(value) => `${value}`} />
             <Tooltip
               formatter={(value: number) => [`${value.toLocaleString("id-ID")} transaksi`, "Jumlah"]}
               labelFormatter={(label) => String(label)}
