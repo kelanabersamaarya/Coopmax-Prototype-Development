@@ -52,9 +52,9 @@ function DateFilter({ value, onChange }: { value?: Date; onChange: (date?: Date)
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button type="button" variant="outline" className="h-[52px] min-w-[205px] justify-between rounded-[4px] border-[#c6d2e3] bg-white px-5 text-base font-normal text-[#173d75] shadow-none hover:bg-slate-50">
-          <span>{value ? value.toLocaleDateString("id-ID", { month: "long", year: "numeric" }) : "Pilih bulan"}</span>
-          <CalendarDays className="h-[18px] w-[18px] text-black" strokeWidth={2} />
+        <Button type="button" variant="outline" className="h-[36px] w-[146px] justify-between rounded-[4px] border-[#c6d2e3] bg-white px-3 text-xs font-normal text-[#173d75] shadow-none hover:bg-slate-50">
+          <span>{value ? value.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" }) : "Pilih tanggal"}</span>
+          <CalendarDays className="h-4 w-4 text-black" strokeWidth={2} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto rounded-xl border-slate-200 p-0" align="start">
