@@ -14,11 +14,11 @@ export default function EKolektorLoginForm({
   biometricEnabled?: boolean;
 }) {
   const [username, setUsername] = React.useState("");
-  const [showBiometricPrompt, setShowBiometricPrompt] = React.useState(false);
+  const [showBiometricPrompt, setShowBiometricPrompt] = React.useState(biometricEnabled);
   const [password, setPassword] = React.useState("");
 
   React.useEffect(() => {
-    if (biometricEnabled) setShowBiometricPrompt(true);
+    setShowBiometricPrompt(biometricEnabled);
   }, [biometricEnabled]);
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
