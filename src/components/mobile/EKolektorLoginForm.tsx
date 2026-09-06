@@ -18,15 +18,8 @@ export default function EKolektorLoginForm({
   const [password, setPassword] = React.useState("");
 
   React.useEffect(() => {
-    if (!showBiometricPrompt) return;
-
-    const timer = window.setTimeout(() => {
-      setShowBiometricPrompt(false);
-      onLogin();
-    }, 3000);
-
-    return () => window.clearTimeout(timer);
-  }, [showBiometricPrompt, onLogin]);
+    if (biometricEnabled) setShowBiometricPrompt(true);
+  }, [biometricEnabled]);
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -174,7 +167,7 @@ export default function EKolektorLoginForm({
           </form>
 
           {showBiometricPrompt ? (
-            <div className="absolute inset-0 z-40 flex items-end bg-[#10234A]/30">
+            <div className="absolute inset-0 z-40 flex items-center justify-center bg-[#10234A]/30 px-6">
               <button
                 type="button"
                 aria-label="Tutup konfirmasi biometrik"
@@ -185,22 +178,21 @@ export default function EKolektorLoginForm({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="login-biometric-title"
-                className="relative w-full rounded-t-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_-8px_24px_rgba(32,48,100,0.16)]"
+                className="relative w-full max-w-[300px] rounded-[18px] bg-white px-5 pb-5 pt-5 text-center shadow-[0_10px_30px_rgba(32,48,100,0.2)]"
               >
-                <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
-                <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-                  <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
+                <div className="mx-auto grid h-[60px] w-[60px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
+                  <Fingerprint className="h-[36px] w-[36px]" strokeWidth={1.7} />
                 </div>
-                <h2 id="login-biometric-title" className="mt-4 text-[19px] font-extrabold leading-tight text-[#203064]">
+                <h2 id="login-biometric-title" className="mt-3 text-[17px] font-extrabold leading-tight text-[#203064]">
                   Login Dengan Biometrik
                 </h2>
-                <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
-                  Sentuh sensor sidik jari atau arahkan wajah ke kamera depan.
+                <p className="mx-auto mt-2 text-[13px] leading-relaxed text-[#777F91]">
+                  Gunakan sidik jari atau pemindai wajah untuk masuk.
                 </p>
                 <button
                   type="button"
                   onClick={() => setShowBiometricPrompt(false)}
-                  className="mt-5 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+                  className="mt-4 text-[13px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
                 >
                   Batal
                 </button>
