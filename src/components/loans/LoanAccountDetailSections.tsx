@@ -162,6 +162,7 @@ export default function LoanAccountDetailSections({
   const [showRollbackConfirmation, setShowRollbackConfirmation] = React.useState(false);
   const [showRollbackSuccess, setShowRollbackSuccess] = React.useState(false);
   const [showRollbackBlocked, setShowRollbackBlocked] = React.useState(false);
+  const [rollbackTab, setRollbackTab] = React.useState<"informasi" | "amortisasi">("informasi");
   const interestRate = useLoanInterestRate(accountNo, 12);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
@@ -540,6 +541,34 @@ export default function LoanAccountDetailSections({
                 </div>
               </div>
 
+              <div className="flex rounded-lg border-b border-slate-200 bg-slate-50 p-1">
+                <button
+                  type="button"
+                  onClick={() => setRollbackTab("informasi")}
+                  className={cn(
+                    "flex-1 rounded-md px-4 py-2.5 text-sm font-extrabold transition-colors",
+                    rollbackTab === "informasi"
+                      ? "bg-cyan-600 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-white hover:text-cyan-700",
+                  )}
+                >
+                  Informasi Pinjaman
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRollbackTab("amortisasi")}
+                  className={cn(
+                    "flex-1 rounded-md px-4 py-2.5 text-sm font-extrabold transition-colors",
+                    rollbackTab === "amortisasi"
+                      ? "bg-cyan-600 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-white hover:text-cyan-700",
+                  )}
+                >
+                  Transaksi Amortisasi
+                </button>
+              </div>
+
+              {rollbackTab === "informasi" && (
               <div className="rounded-xl bg-cyan-600 p-5 text-white">
                 <div className="mb-5 text-sm font-extrabold uppercase">Informasi Rekening Pinjaman</div>
                 <div className="grid gap-4 sm:grid-cols-4">
@@ -552,6 +581,18 @@ export default function LoanAccountDetailSections({
                   <div><div className="text-xs opacity-80">Nominal Pinjaman Disetujui</div><div className="mt-1 text-base font-bold">10.000.000,00</div></div>
                 </div>
               </div>
+              )}
+
+              {rollbackTab === "amortisasi" && (
+                <div className="overflow-hidden rounded-xl border border-slate-200">
+                  <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
+                    Transaksi Amortisasi
+                  </div>
+                  <div className="p-8 text-center text-sm text-slate-500">
+                    Data transaksi amortisasi rekening pinjaman akan ditampilkan di sini.
+                  </div>
+                </div>
+              )}
 
               <div className="overflow-hidden rounded-xl border border-slate-200">
                 <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">Data Perubahan Status Pinjaman</div>
