@@ -674,8 +674,62 @@ export default function LoanAccountDetailSections({
                     <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
                       Biaya Administrasi
                     </div>
-                    <div className="p-8 text-center text-sm text-slate-500">
-                      Data biaya administrasi akan ditampilkan di sini.
+                    <div className="overflow-hidden">
+                      <table className="w-full table-fixed text-sm text-slate-600">
+                        <thead className="bg-white text-xs font-extrabold uppercase tracking-wide text-slate-700">
+                          <tr className="border-b border-slate-200">
+                            <th className="w-[7%] whitespace-nowrap px-2 py-3 text-center">No.</th>
+                            <th className="w-[18%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Tanggal</span>
+                              <span className="block">Pembayaran</span>
+                            </th>
+                            <th className="w-[23%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Amortisasi Biaya</span>
+                              <span className="block">Administrasi</span>
+                            </th>
+                            <th className="w-[23%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Sisa Amortisasi</span>
+                              <span className="block">Biaya Administrasi</span>
+                            </th>
+                            <th className="w-[29%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Pendapatan Biaya Administrasi</span>
+                              <span className="block">Telah Diakui</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            ["1", "07-09-2026", "9.720", "626", "9.094"],
+                            ["2", "07-10-2026", "8.978", "8.978", "0"],
+                            ["3", "07-11-2026", "8.224", "8.224", "0"],
+                            ["4", "07-12-2026", "7.459", "7.459", "0"],
+                            ["5", "07-01-2027", "6.681", "6.681", "0"],
+                          ].map(([no, tanggal, amortisasi, sisa, pendapatan], index) => (
+                            <tr key={no} className={cn(index < 4 && "border-b border-slate-100")}>
+                              <td className="whitespace-nowrap px-2 py-2 text-center">{no}</td>
+                              <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">{tanggal}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-right">{amortisasi}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-right">{sisa}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-right">{pendapatan}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <div className="flex items-center justify-end border-t border-slate-200 px-3 py-3 text-sm">
+                        <button
+                          type="button"
+                          className="h-11 rounded-l-sm bg-[#eef1f6] px-4 font-medium text-[#c7cfdd]"
+                        >
+                          Previous
+                        </button>
+                        <span className="flex h-11 min-w-10 items-center justify-center bg-[#5b45f5] px-3 font-semibold text-white">1</span>
+                        <button
+                          type="button"
+                          className="h-11 rounded-r-sm bg-[#eef1f6] px-4 font-medium text-[#c7cfdd]"
+                        >
+                          Next
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
