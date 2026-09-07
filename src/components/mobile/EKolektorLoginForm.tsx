@@ -177,15 +177,15 @@ export default function EKolektorLoginForm({
                 className="relative w-full rounded-[24px] bg-white px-6 pb-7 pt-6 text-center shadow-[0_12px_34px_rgba(32,48,100,0.28)]"
               >
                 <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
-                <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-                  <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
-                </div>
-                <h2 id="login-biometric-title" className="mt-4 text-[19px] font-extrabold leading-tight text-[#203064]">
+                <h2 id="login-biometric-title" className="text-[19px] font-extrabold leading-tight text-[#203064]">
                   Login Dengan Biometrik
                 </h2>
                 <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
                   Sentuh sensor sidik jari atau arahkan wajah ke kamera depan.
                 </p>
+                <div className="mx-auto mt-5 grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
+                  <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
+                </div>
                 <button
                   type="button"
                   onClick={() => setShowBiometricPrompt(false)}
