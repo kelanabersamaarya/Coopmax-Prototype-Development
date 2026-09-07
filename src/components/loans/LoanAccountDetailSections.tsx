@@ -521,7 +521,7 @@ export default function LoanAccountDetailSections({
         ? createPortal(
             <div className="fixed inset-0 z-[100] flex min-h-screen w-screen items-start justify-center overflow-y-auto bg-black/70 p-4 pt-4 backdrop-blur-[1px]">
           <div className="max-h-[75vh] w-full max-w-[980px] overflow-y-auto rounded-xl bg-white shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
-            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4">
               <h2 className="text-lg font-extrabold text-slate-900">Perubahan Status Pinjaman</h2>
               <button
                 type="button"
@@ -737,7 +737,7 @@ export default function LoanAccountDetailSections({
 
             </div>
 
-            <div className="flex justify-end gap-4 border-t border-slate-200 px-5 py-4">
+            <div className="sticky bottom-0 z-10 flex justify-end gap-4 border-t border-slate-200 bg-white px-5 py-4">
               <button
                 type="button"
                 onClick={() => setRollbackRow(null)}
