@@ -165,6 +165,17 @@ export default function LoanAccountDetailSections({
   const [rollbackTab, setRollbackTab] = React.useState<"informasi" | "amortisasi">("informasi");
   const [amortizationPage, setAmortizationPage] = React.useState(1);
   const interestRate = useLoanInterestRate(accountNo, 12);
+
+  React.useEffect(() => {
+    if (!rollbackRow) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [rollbackRow]);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
   return (
