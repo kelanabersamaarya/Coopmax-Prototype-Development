@@ -585,12 +585,22 @@ export default function LoanAccountDetailSections({
               )}
 
               {rollbackTab === "amortisasi" && (
-                <div className="overflow-hidden rounded-xl border border-slate-200">
-                  <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
-                    Transaksi Amortisasi
+                <div className="space-y-4">
+                  <div className="overflow-hidden rounded-xl border border-slate-200">
+                    <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
+                      Pengakuan Piutang Bunga
+                    </div>
+                    <div className="p-8 text-center text-sm text-slate-500">
+                      Data pengakuan piutang bunga akan ditampilkan di sini.
+                    </div>
                   </div>
-                  <div className="p-8 text-center text-sm text-slate-500">
-                    Data transaksi amortisasi rekening pinjaman akan ditampilkan di sini.
+                  <div className="overflow-hidden rounded-xl border border-slate-200">
+                    <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
+                      Biaya Administrasi
+                    </div>
+                    <div className="p-8 text-center text-sm text-slate-500">
+                      Data biaya administrasi akan ditampilkan di sini.
+                    </div>
                   </div>
                 </div>
               )}
