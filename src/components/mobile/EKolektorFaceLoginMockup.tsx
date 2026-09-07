@@ -111,14 +111,16 @@ export default function EKolektorFaceLoginMockup() {
               >
                 Masuk
               </button>
-              <button
-                type="button"
-                onClick={() => setShowConfirmation(true)}
-                className="inline-flex h-[41px] w-[52px] shrink-0 items-center justify-center rounded-[9px] bg-[#004FC7] text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)]"
-                aria-label="Login dengan wajah"
-              >
-                <ScanFace className="h-5 w-5" strokeWidth={2} />
-              </button>
+              {biometricEnabled ? (
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmation(true)}
+                  className="inline-flex h-[41px] w-[52px] shrink-0 items-center justify-center rounded-[9px] bg-[#004FC7] text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)]"
+                  aria-label="Login dengan wajah"
+                >
+                  <ScanFace className="h-5 w-5" strokeWidth={2} />
+                </button>
+              ) : null}
             </div>
 
             <div className="mt-auto pt-6 text-center text-[11px] leading-relaxed text-[#9A9A9A]">
