@@ -18,11 +18,16 @@ export default function EKolektorFaceLoginMockup() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [biometricEnabled, setBiometricEnabled] = React.useState(() => localStorage.getItem("dyad.e-kolektor.face-biometric-enabled") === "true");
   const [transactions, setTransactions] = React.useState<EKolektorTodayTransaction[]>(() => getEKolektorTransactions());
 
   React.useEffect(() => {
     saveEKolektorTransactions(transactions);
   }, [transactions]);
+
+  React.useEffect(() => {
+    localStorage.setItem("dyad.e-kolektor.face-biometric-enabled", String(biometricEnabled));
+  }, [biometricEnabled]);
 
   function login() {
     toast.success("Masuk E-Kolektor", {
@@ -36,9 +41,9 @@ export default function EKolektorFaceLoginMockup() {
       <MobileMockupFrame edgeToEdge>
         <EKolektorHome
           transactions={transactions}
-          onBiometricEnabled={() => {}}
-          biometricEnabled={false}
-          onBiometricChange={() => {}}
+          onBiometricEnabled={() => setBiometricEnabled(true)}
+          biometricEnabled={biometricEnabled}
+          onBiometricChange={setBiometricEnabled}
           biometricType="face"
           onLogout={() => setLoggedIn(false)}
           onOpenTransactions={() => {}}
