@@ -36,7 +36,7 @@ export default function EKolektorFingerprintLoginPage({
           <header className="flex items-center gap-4 px-[26px] pb-[18px] pt-[28px]">
             <button
               type="button"
-              onClick={() => setShowPassword(false)}
+              onClick={() => (mode === "disable" ? onBack() : setShowPassword(false))}
               className="inline-flex h-[28px] w-[28px] items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]"
               aria-label="Kembali"
             >
