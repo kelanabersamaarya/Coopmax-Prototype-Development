@@ -206,9 +206,6 @@ export default function EKolektorLoginForm({
                 )}>
                   <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
                 </div>
-                {isScanning ? (
-                  <p className="mt-4 text-[13px] font-semibold text-[#004FC7]">Memindai sidik jari...</p>
-                ) : null}
                 <button
                   type="button"
                   onClick={() => (isScanning ? setIsScanning(false) : setShowBiometricPrompt(false))}
