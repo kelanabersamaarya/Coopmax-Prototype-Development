@@ -564,7 +564,7 @@ export default function LoanAccountDetailSections({
                       : "text-slate-500 hover:text-[#5b45f5]",
                   )}
                 >
-                  Informasi Pinjaman
+                  Informasi Rekening Pinjaman
                 </button>
                 <button
                   type="button"
