@@ -41,6 +41,7 @@ import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
+import MobileEKolektorFace from "./pages/MobileEKolektorFace";
 import MobileMBanking from "./pages/MobileMBanking";
 import MobileMBankingTransactions from "./pages/MobileMBankingTransactions";
 import MobilePaymentLinkStatus from "./pages/MobilePaymentLinkStatus";
@@ -232,6 +233,7 @@ const App = () => (
             <Route path="pengaturan-umum" element={<PengaturanUmum />} />
 
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
+            <Route path="mobile/e-kolektor-wajah" element={<MobileEKolektorFace />} />
             <Route path="mobile/m-banking" element={<MobileMBanking />} />
             <Route path="mobile/mbanking-transactions" element={<MobileMBankingTransactions />} />
             <Route
