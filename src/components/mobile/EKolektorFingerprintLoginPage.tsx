@@ -1,18 +1,21 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Fingerprint, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Fingerprint, ScanFace, Eye, EyeOff } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 export default function EKolektorFingerprintLoginPage({
   onBack,
   onContinue,
   mode = "enable",
+  biometricType = "fingerprint",
 }: {
   onBack: () => void;
   onContinue: () => void;
   mode?: "enable" | "disable";
+  biometricType?: "fingerprint" | "face";
 }) {
+  const BiometricIcon = biometricType === "face" ? ScanFace : Fingerprint;
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(mode === "disable");
   const [password, setPassword] = React.useState("");
@@ -43,13 +46,15 @@ export default function EKolektorFingerprintLoginPage({
               <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
             </button>
             <h1 className="text-[20px] font-extrabold tracking-tight text-[#004FC7]">
-              {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktivasi Login Biometrik"}
+              {mode === "disable"
+                ? `Nonaktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`
+                : `Aktivasi Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`}
             </h1>
           </header>
 
           <main className="flex min-h-[calc(100%-74px)] flex-col px-[26px] pb-8 pt-[58px]">
             <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-              <Fingerprint className="h-[56px] w-[56px]" strokeWidth={1.7} />
+              <BiometricIcon className="h-[56px] w-[56px]" strokeWidth={1.7} />
             </div>
             <h2 className="mt-[30px] text-center text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">
               Masukkan Password
@@ -89,8 +94,10 @@ export default function EKolektorFingerprintLoginPage({
                 disabled={!password.trim()}
                 className="h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
               >
-                {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktifkan Login Biometrik"}
-              </button>
+                {mode === "disable"
+                  ? `Nonaktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`
+                  : `Aktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`}
+                  </button>
               {mode === "disable" ? (
                 <button
                   type="button"
@@ -127,7 +134,7 @@ export default function EKolektorFingerprintLoginPage({
 
         <main className="flex min-h-[calc(100%-74px)] flex-col items-center px-[26px] pb-8 pt-[58px] text-center">
           <div className="grid h-[116px] w-[116px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-            <Fingerprint className="h-[70px] w-[70px]" strokeWidth={1.7} />
+            <BiometricIcon className="h-[70px] w-[70px]" strokeWidth={1.7} />
           </div>
           <h2 className="mt-[32px] text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Aktifkan Login dengan Biometrik
@@ -177,7 +184,7 @@ export default function EKolektorFingerprintLoginPage({
               Sentuh sensor sidik jari atau arahkan wajah ke kamera depan
             </p>
             <div className="mx-auto mt-5 grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-              <Fingerprint className="h-[56px] w-[56px]" strokeWidth={1.7} />
+              <BiometricIcon className="h-[56px] w-[56px]" strokeWidth={1.7} />
             </div>
             <button
               type="button"

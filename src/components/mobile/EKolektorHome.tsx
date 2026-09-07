@@ -17,6 +17,7 @@ export default function EKolektorHome({
   onBiometricEnabled,
   biometricEnabled,
   onBiometricChange,
+  biometricType = "fingerprint",
   transactions = [],
 }: {
   onLogout: () => void;
@@ -24,6 +25,7 @@ export default function EKolektorHome({
   onBiometricEnabled: () => void;
   biometricEnabled: boolean;
   onBiometricChange: (value: boolean) => void;
+  biometricType?: "fingerprint" | "face";
   transactions?: EKolektorTodayTransaction[];
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
@@ -37,6 +39,7 @@ export default function EKolektorHome({
       onBiometricEnabled={onBiometricEnabled}
       biometricEnabled={biometricEnabled}
       onBiometricChange={onBiometricChange}
+      biometricType={biometricType}
     />
     );
   }

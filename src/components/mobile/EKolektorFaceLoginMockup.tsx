@@ -39,6 +39,7 @@ export default function EKolektorFaceLoginMockup() {
           onBiometricEnabled={() => {}}
           biometricEnabled={false}
           onBiometricChange={() => {}}
+          biometricType="face"
           onLogout={() => setLoggedIn(false)}
           onOpenTransactions={() => {}}
         />
