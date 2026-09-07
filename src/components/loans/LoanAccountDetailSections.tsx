@@ -720,7 +720,7 @@ export default function LoanAccountDetailSections({
                           ].map(([no, tanggal, amortisasi, sisa, pendapatan], index) => (
                             <tr key={no} className={cn(index < 4 && "border-b border-slate-100")}>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{no}</td>
-                              <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">{tanggal}</td>
+                              <td className="whitespace-nowrap bg-white px-2 py-2 text-center">{tanggal}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-right">{amortisasi}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-right">{sisa}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-right">{pendapatan}</td>
