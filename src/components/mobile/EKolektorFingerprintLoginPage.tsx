@@ -48,7 +48,7 @@ export default function EKolektorFingerprintLoginPage({
             <h1 className="text-[20px] font-extrabold tracking-tight text-[#004FC7]">
               {mode === "disable"
                 ? `Nonaktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`
-                : `Aktivasi Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`}
+                : "Aktivasi Login Biometrik"}
             </h1>
           </header>
 
@@ -96,8 +96,8 @@ export default function EKolektorFingerprintLoginPage({
               >
                 {mode === "disable"
                   ? `Nonaktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`
-                  : `Aktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`}
-                  </button>
+                  : "Aktifkan Login Biometrik"}
+              </button>
               {mode === "disable" ? (
                 <button
                   type="button"
