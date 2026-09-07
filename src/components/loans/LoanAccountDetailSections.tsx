@@ -609,71 +609,56 @@ export default function LoanAccountDetailSections({
                         <thead className="bg-white text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
                             <th className="w-[7%] whitespace-nowrap bg-white px-2 py-3 text-center">No.</th>
-                            <th className="w-[13%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Tanggal</span>
+                            <th className="w-[24%] px-2 py-3 text-center leading-tight">Tanggal Transaksi / Pengakuan</th>
+                            <th className="w-[20%] px-2 py-3 text-center leading-tight">Jenis Transaksi</th>
+                            <th className="w-[18%] px-2 py-3 text-center leading-tight">Status Transaksi</th>
+                            <th className="w-[17%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Jadwal</span>
                               <span className="block">Pembayaran</span>
                             </th>
-                            <th className="w-[13%] px-2 py-3 text-center">Pokok</th>
-                            <th className="w-[12%] px-2 py-3 text-center">Bunga</th>
-                            <th className="w-[19%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Bunga Yang</span>
-                              <span className="block">Telah Dibayarkan</span>
-                            </th>
-                            <th className="w-[16%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Sisa Bunga Yang</span>
-                              <span className="block">Dapat Diakui</span>
-                            </th>
-                            <th className="w-[15%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Piutang Bunga Yang</span>
-                              <span className="block">Telah Diakui</span>
-                            </th>
+                            <th className="w-[14%] px-2 py-3 text-center">Nominal</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">1</td>
-                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-09-2026</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">195.000</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">195.000</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">195.000</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">31-08-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pengakuan</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">150.968</td>
                           </tr>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">2</td>
-                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-10-2026</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">178.750</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">178.750</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">05-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pembayaran</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">44.032</td>
                           </tr>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">3</td>
-                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-11-2026</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">162.500</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">162.500</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">12-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pengakuan</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">14-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">146.325</td>
                           </tr>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">4</td>
-                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-12-2026</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">146.250</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">146.250</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">19-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pembayaran</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">21-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">42.675</td>
                           </tr>
                           <tr>
                             <td className="whitespace-nowrap px-2 py-2 text-center">5</td>
-                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-01-2027</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">129.000</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">129.000</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">26-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pengakuan</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">28-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">141.890</td>
                           </tr>
                         </tbody>
                       </table>
