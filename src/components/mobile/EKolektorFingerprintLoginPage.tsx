@@ -7,12 +7,14 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 export default function EKolektorFingerprintLoginPage({
   onBack,
   onContinue,
+  mode = "enable",
 }: {
   onBack: () => void;
   onContinue: () => void;
+  mode?: "enable" | "disable";
 }) {
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(mode === "disable");
   const [password, setPassword] = React.useState("");
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
@@ -41,7 +43,7 @@ export default function EKolektorFingerprintLoginPage({
               <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
             </button>
             <h1 className="text-[20px] font-extrabold tracking-tight text-[#004FC7]">
-              Aktivasi Login Biometrik
+              {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktivasi Login Biometrik"}
             </h1>
           </header>
 
@@ -53,7 +55,9 @@ export default function EKolektorFingerprintLoginPage({
               Masukkan Password
             </h2>
             <p className="mt-3 text-center text-[14px] leading-relaxed text-[#777F91]">
-              Masukkan password Anda untuk mengonfirmasi aktivasi login biometrik.
+              {mode === "disable"
+                ? "Masukkan password Anda untuk mengonfirmasi penonaktifan login biometrik."
+                : "Masukkan password Anda untuk mengonfirmasi aktivasi login biometrik."}
             </p>
 
             <label className="mt-8 text-[14px] font-semibold text-[#203064]" htmlFor="biometric-password">
@@ -84,7 +88,7 @@ export default function EKolektorFingerprintLoginPage({
               disabled={!password.trim()}
               className="mt-auto h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
             >
-              Aktifkan Login Biometrik
+              {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktifkan Login Biometrik"}
             </button>
           </main>
         </div>

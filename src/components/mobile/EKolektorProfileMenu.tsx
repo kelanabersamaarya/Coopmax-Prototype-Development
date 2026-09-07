@@ -183,8 +183,11 @@ export default function EKolektorProfileMenu({
   const [offlineMode, setOfflineMode] = React.useState(false);
 
   function handleFingerprintChange(value: boolean) {
-    onBiometricChange?.(value);
-    if (value) onFingerprintEnable?.();
+    if (value) {
+      onFingerprintEnable?.();
+      return;
+    }
+    onFingerprintEnable?.();
   }
 
   return (
