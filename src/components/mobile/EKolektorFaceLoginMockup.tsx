@@ -18,6 +18,7 @@ export default function EKolektorFaceLoginMockup() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [isScanning, setIsScanning] = React.useState(false);
   const [biometricEnabled, setBiometricEnabled] = React.useState(() => localStorage.getItem("dyad.e-kolektor.face-biometric-enabled") === "true");
   const [transactions, setTransactions] = React.useState<EKolektorTodayTransaction[]>(() => getEKolektorTransactions());
 
@@ -28,6 +29,16 @@ export default function EKolektorFaceLoginMockup() {
   React.useEffect(() => {
     localStorage.setItem("dyad.e-kolektor.face-biometric-enabled", String(biometricEnabled));
   }, [biometricEnabled]);
+
+  React.useEffect(() => {
+    if (!isScanning) return;
+    const timer = window.setTimeout(() => {
+      setIsScanning(false);
+      setShowConfirmation(false);
+      setLoggedIn(true);
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [isScanning]);
 
   function login() {
     toast.success("Masuk E-Kolektor", {
@@ -114,7 +125,10 @@ export default function EKolektorFaceLoginMockup() {
               {biometricEnabled ? (
                 <button
                   type="button"
-                  onClick={() => setShowConfirmation(true)}
+                  onClick={() => {
+                    setShowConfirmation(true);
+                    setIsScanning(true);
+                  }}
                   className="inline-flex h-[41px] w-[52px] shrink-0 items-center justify-center rounded-[9px] bg-[#004FC7] text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)]"
                   aria-label="Login dengan wajah"
                 >

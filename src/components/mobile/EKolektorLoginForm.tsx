@@ -18,6 +18,17 @@ export default function EKolektorLoginForm({
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showBiometricPrompt, setShowBiometricPrompt] = React.useState(false);
+  const [isScanning, setIsScanning] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isScanning) return;
+    const timer = window.setTimeout(() => {
+      setIsScanning(false);
+      setShowBiometricPrompt(false);
+      onLogin();
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [isScanning, onLogin]);
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -152,7 +163,10 @@ export default function EKolektorLoginForm({
               {biometricEnabled ? (
                 <button
                   type="button"
-                  onClick={() => setShowBiometricPrompt(true)}
+                  onClick={() => {
+                    setShowBiometricPrompt(true);
+                    setIsScanning(true);
+                  }}
                   className="inline-flex h-[41px] w-[52px] shrink-0 items-center justify-center rounded-[9px] bg-[#004FC7] text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:translate-y-px"
                   aria-label="Login dengan Biometrik"
                 >
@@ -183,12 +197,18 @@ export default function EKolektorLoginForm({
                 <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-[#777F91]">
                   Sentuh sensor sidik jari atau arahkan wajah ke kamera depan.
                 </p>
-                <div className="mx-auto mt-5 grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
+                <div className={cn(
+                  "mx-auto mt-5 grid h-[68px] w-[68px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]",
+                  isScanning ? "animate-pulse" : "",
+                )}>
                   <Fingerprint className="h-[40px] w-[40px]" strokeWidth={1.7} />
                 </div>
+                {isScanning ? (
+                  <p className="mt-4 text-[13px] font-semibold text-[#004FC7]">Memindai sidik jari...</p>
+                ) : null}
                 <button
                   type="button"
-                  onClick={() => setShowBiometricPrompt(false)}
+                  onClick={() => (isScanning ? setIsScanning(false) : setShowBiometricPrompt(false))}
                   className="mt-5 text-[14px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
                 >
                   Batal
