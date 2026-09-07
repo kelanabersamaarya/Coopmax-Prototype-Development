@@ -594,13 +594,6 @@ export default function LoanAccountDetailSections({
                 </div>
               )}
 
-              <div className="overflow-hidden rounded-xl border border-slate-200">
-                <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">Data Perubahan Status Pinjaman</div>
-                <div className="grid gap-4 p-4 md:grid-cols-[180px_1fr]">
-                  <label className="text-sm font-medium text-slate-800">Tanggal Perubahan<span className="text-rose-600">*</span></label>
-                  <input type="text" value="04-09-2026" readOnly className="h-10 rounded-md border border-slate-300 bg-slate-100 px-3 text-sm text-slate-500" />
-                </div>
-              </div>
             </div>
 
             <div className="flex justify-end gap-4 border-t border-slate-200 px-5 py-4">
