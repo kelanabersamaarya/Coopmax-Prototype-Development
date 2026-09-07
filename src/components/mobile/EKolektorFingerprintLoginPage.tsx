@@ -56,7 +56,7 @@ export default function EKolektorFingerprintLoginPage({
             </h2>
             <p className="mt-3 text-center text-[14px] leading-relaxed text-[#777F91]">
               {mode === "disable"
-                ? "Masukkan password Anda untuk mengonfirmasi penonaktifan login biometrik."
+                ? "Masukkan password Anda untuk menonaktfikan login biometrik."
                 : "Masukkan password Anda untuk mengonfirmasi aktivasi login biometrik."}
             </p>
 
