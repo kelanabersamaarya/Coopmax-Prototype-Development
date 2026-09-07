@@ -124,10 +124,10 @@ export default function EKolektorFaceLoginMockup() {
               >
                 <div className="mx-auto mb-5 h-1 w-12 rounded-full bg-[#D8E2F2]" />
                 <h2 id="face-confirmation-title" className="text-[17px] font-extrabold leading-tight text-[#203064]">
-                  Konfirmasi Pengenalan Wajah
+                  Login dengan Biometrik
                 </h2>
                 <p className="mx-auto mt-2 max-w-[300px] text-[13px] leading-relaxed text-[#777F91]">
-                  Arahkan wajah Anda ke kamera depan untuk masuk.
+                  Sentuh sensor sidik jari atau arahkan wajah ke kamera depan.
                 </p>
                 <div className="mx-auto mt-5 grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
                   <ScanFace className="h-[56px] w-[56px]" strokeWidth={1.7} />
