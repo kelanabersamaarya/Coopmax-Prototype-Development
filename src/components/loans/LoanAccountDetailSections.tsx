@@ -576,7 +576,7 @@ export default function LoanAccountDetailSections({
                       : "text-slate-500 hover:text-[#5b45f5]",
                   )}
                 >
-                  Transaksi Amortisasi
+                  Informasi Amortisasi
                 </button>
               </div>
 
