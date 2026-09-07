@@ -163,6 +163,7 @@ export default function LoanAccountDetailSections({
   const [showRollbackSuccess, setShowRollbackSuccess] = React.useState(false);
   const [showRollbackBlocked, setShowRollbackBlocked] = React.useState(false);
   const [rollbackTab, setRollbackTab] = React.useState<"informasi" | "amortisasi">("informasi");
+  const [amortizationPage, setAmortizationPage] = React.useState(1);
   const interestRate = useLoanInterestRate(accountNo, 12);
   const formattedInterestRate = `${interestRate.toFixed(2).replace(".", ",")}%`;
 
@@ -592,9 +593,9 @@ export default function LoanAccountDetailSections({
                     </div>
                     <div className="overflow-hidden">
                       <table className="w-full table-fixed text-sm text-slate-600">
-                        <thead className="bg-slate-50 text-xs font-extrabold uppercase tracking-wide text-slate-700">
+                        <thead className="bg-white text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
-                            <th className="w-[7%] whitespace-nowrap px-2 py-3 text-left">No.</th>
+                            <th className="w-[7%] whitespace-nowrap bg-white px-2 py-3 text-left">No.</th>
                             <th className="w-[17%] px-2 py-3 text-left leading-tight">Tanggal Transaksi / Pengakuan</th>
                             <th className="w-[22%] px-2 py-3 text-left leading-tight">Jenis Transaksi</th>
                             <th className="w-[17%] px-2 py-3 text-left leading-tight">Status Transaksi</th>
@@ -614,7 +615,7 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">150.968</td>
                           </tr>
-                          <tr>
+                          <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">2</td>
                             <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">05-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2">Transaksi Pembayaran</td>
@@ -622,8 +623,56 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">44.032</td>
                           </tr>
+                          <tr className="border-b border-slate-100">
+                            <td className="whitespace-nowrap px-2 py-2 text-center">3</td>
+                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">12-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2">Transaksi Pengakuan</td>
+                            <td className="whitespace-nowrap px-2 py-2 font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">14-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">146.325</td>
+                          </tr>
+                          <tr className="border-b border-slate-100">
+                            <td className="whitespace-nowrap px-2 py-2 text-center">4</td>
+                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">19-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2">Transaksi Pembayaran</td>
+                            <td className="whitespace-nowrap px-2 py-2 font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">21-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">42.675</td>
+                          </tr>
+                          <tr>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">5</td>
+                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">26-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2">Transaksi Pengakuan</td>
+                            <td className="whitespace-nowrap px-2 py-2 font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">28-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">141.890</td>
+                          </tr>
                         </tbody>
                       </table>
+                      <div className="flex items-center justify-end gap-2 border-t border-slate-200 px-3 py-3 text-sm">
+                        <button
+                          type="button"
+                          onClick={() => setAmortizationPage(1)}
+                          className="rounded-md border border-slate-200 px-3 py-1 text-slate-500 hover:bg-slate-50"
+                        >
+                          ‹
+                        </button>
+                        <span className="rounded-md bg-[#5b45f5] px-3 py-1 font-semibold text-white">{amortizationPage}</span>
+                        <button
+                          type="button"
+                          onClick={() => setAmortizationPage(2)}
+                          className="rounded-md border border-slate-200 px-3 py-1 text-slate-600 hover:bg-slate-50"
+                        >
+                          2
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setAmortizationPage(2)}
+                          className="rounded-md border border-slate-200 px-3 py-1 text-slate-500 hover:bg-slate-50"
+                        >
+                          ›
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="overflow-hidden rounded-xl border border-slate-200">
