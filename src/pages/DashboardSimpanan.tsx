@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import MBankingTransactionsV2 from "@/components/dashboard/MBankingTransactionsV2";
 
 const savingsProducts = [
   ["56", "Simpanan Sukarela"],
@@ -334,7 +333,6 @@ export default function DashboardSimpanan() {
             <MbankingFilters month={selectedMonth} onMonthChange={setSelectedMonth} />
             <SavingsBarChart data={filteredMbankingData} variant="mbanking" />
           </ChartCard>
-          <MBankingTransactionsV2 />
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026" contentClassName="mt-6"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
             <ResponsiveContainer width="100%" height="100%">
