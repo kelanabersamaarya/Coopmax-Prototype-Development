@@ -607,7 +607,7 @@ export default function LoanAccountDetailSections({
                         alt="Belum ada transaksi amortisasi"
                         className="mb-6 h-44 w-44 object-contain"
                       />
-                      <p className="text-base font-medium text-black">
+                      <p className="text-base font-bold text-black">
                         Belum Terdapat Transaksi Amortisasi yang Dilakukan
                       </p>
                     </div>
