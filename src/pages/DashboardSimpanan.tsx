@@ -140,7 +140,7 @@ function ChartCard({ title, subtitle, children, contentClassName = "" }: { title
   return (
     <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200/60 md:p-6">
       <h2 className="text-sm font-extrabold uppercase tracking-wide text-slate-900">{title}</h2>
-      <p className="mt-1 text-xs text-blue-700">{subtitle}</p>
+      <p className="mt-1 text-xs text-slate-500">{subtitle}</p>
       <div className={`mt-3 h-[340px] w-full overflow-visible ${contentClassName}`}>{children}</div>
     </section>
   );
