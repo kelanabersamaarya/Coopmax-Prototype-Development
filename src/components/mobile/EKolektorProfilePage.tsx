@@ -27,6 +27,7 @@ export default function EKolektorProfilePage({
   if (showFingerprintLogin) {
     return (
       <EKolektorFingerprintLoginPage
+        key={fingerprintAction}
         mode={fingerprintAction}
         onBack={() => setShowFingerprintLogin(false)}
         onContinue={() => {
