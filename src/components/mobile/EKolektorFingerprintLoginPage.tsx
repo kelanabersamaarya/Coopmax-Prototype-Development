@@ -46,9 +46,7 @@ export default function EKolektorFingerprintLoginPage({
               <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
             </button>
             <h1 className="text-[20px] font-extrabold tracking-tight text-[#004FC7]">
-              {mode === "disable"
-                ? `Nonaktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`
-                : "Aktivasi Login Biometrik"}
+              {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktivasi Login Biometrik"}
             </h1>
           </header>
 
@@ -94,9 +92,7 @@ export default function EKolektorFingerprintLoginPage({
                 disabled={!password.trim()}
                 className="h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
               >
-                {mode === "disable"
-                  ? `Nonaktifkan Login ${biometricType === "face" ? "Wajah" : "Biometrik"}`
-                  : "Aktifkan Login Biometrik"}
+                {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktifkan Login Biometrik"}
               </button>
               {mode === "disable" ? (
                 <button
