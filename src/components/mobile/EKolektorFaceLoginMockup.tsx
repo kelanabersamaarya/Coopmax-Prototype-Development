@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Eye, EyeOff, ScanFace } from "lucide-react";
+import { Check, Eye, EyeOff, ScanFace } from "lucide-react";
 import { toast } from "sonner";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
@@ -16,6 +16,7 @@ export default function EKolektorFaceLoginMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [transactions, setTransactions] = React.useState<EKolektorTodayTransaction[]>(() => getEKolektorTransactions());
 
@@ -24,7 +25,6 @@ export default function EKolektorFaceLoginMockup() {
   }, [transactions]);
 
   function login() {
-    if (!password.trim()) return;
     toast.success("Masuk E-Kolektor", {
       description: "Login berhasil menggunakan password.",
     });
@@ -82,12 +82,26 @@ export default function EKolektorFaceLoginMockup() {
               </div>
             </div>
 
+            <label className="mt-5 flex w-fit items-center gap-3 text-[14px] font-normal text-[#727272]">
+              <button
+                type="button"
+                onClick={() => setRememberUsername((current) => !current)}
+                className={`inline-flex h-[18px] w-[18px] items-center justify-center rounded-[4px] border transition ${
+                  rememberUsername ? "border-[#004FC7] bg-[#004FC7]" : "border-[#C9C9C9] bg-white"
+                }`}
+                aria-pressed={rememberUsername}
+                aria-label="Simpan Username"
+              >
+                {rememberUsername ? <Check className="h-[15px] w-[15px] text-white" strokeWidth={3.4} /> : null}
+              </button>
+              Simpan Username
+            </label>
+
             <div className="mt-6 flex w-full gap-3">
               <button
                 type="button"
                 onClick={login}
-                disabled={!password.trim()}
-                className="h-[41px] flex-1 rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
+                className="h-[41px] flex-1 rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition active:translate-y-px"
               >
                 Masuk
               </button>
