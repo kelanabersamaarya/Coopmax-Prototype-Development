@@ -624,7 +624,7 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">1</td>
                             <td className="whitespace-nowrap bg-white px-2 py-2 text-center">31-08-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pengakuan</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Telah Dihapus</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">150.968</td>
                           </tr>
@@ -632,7 +632,7 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">2</td>
                             <td className="whitespace-nowrap bg-white px-2 py-2 text-center">05-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pembayaran</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Telah Dihapus</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">44.032</td>
                           </tr>
@@ -640,7 +640,7 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">3</td>
                             <td className="whitespace-nowrap bg-white px-2 py-2 text-center">12-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pengakuan</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Telah Dihapus</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">14-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">146.325</td>
                           </tr>
@@ -648,7 +648,7 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">4</td>
                             <td className="whitespace-nowrap bg-white px-2 py-2 text-center">19-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pembayaran</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Telah Dihapus</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">21-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">42.675</td>
                           </tr>
@@ -656,7 +656,7 @@ export default function LoanAccountDetailSections({
                             <td className="whitespace-nowrap px-2 py-2 text-center">5</td>
                             <td className="whitespace-nowrap bg-white px-2 py-2 text-center">26-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">Transaksi Pengakuan</td>
-                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-lime-600">Telah Dihapus</td>
                             <td className="whitespace-nowrap px-2 py-2 text-center">28-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">141.890</td>
                           </tr>
