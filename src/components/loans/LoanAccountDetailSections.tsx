@@ -541,15 +541,15 @@ export default function LoanAccountDetailSections({
                 </div>
               </div>
 
-              <div className="flex rounded-lg border-b border-slate-200 bg-slate-50 p-1">
+              <div className="flex items-center gap-3 px-1">
                 <button
                   type="button"
                   onClick={() => setRollbackTab("informasi")}
                   className={cn(
-                    "flex-1 rounded-md px-4 py-2.5 text-sm font-extrabold transition-colors",
+                    "rounded-full px-6 py-3 text-sm font-medium transition-colors",
                     rollbackTab === "informasi"
-                      ? "bg-cyan-600 text-white shadow-sm"
-                      : "text-slate-600 hover:bg-white hover:text-cyan-700",
+                      ? "bg-[#5b45f5] text-white shadow-sm"
+                      : "text-slate-500 hover:text-[#5b45f5]",
                   )}
                 >
                   Informasi Pinjaman
@@ -558,10 +558,10 @@ export default function LoanAccountDetailSections({
                   type="button"
                   onClick={() => setRollbackTab("amortisasi")}
                   className={cn(
-                    "flex-1 rounded-md px-4 py-2.5 text-sm font-extrabold transition-colors",
+                    "rounded-full px-6 py-3 text-sm font-medium transition-colors",
                     rollbackTab === "amortisasi"
-                      ? "bg-cyan-600 text-white shadow-sm"
-                      : "text-slate-600 hover:bg-white hover:text-cyan-700",
+                      ? "bg-[#5b45f5] text-white shadow-sm"
+                      : "text-slate-500 hover:text-[#5b45f5]",
                   )}
                 >
                   Transaksi Amortisasi
