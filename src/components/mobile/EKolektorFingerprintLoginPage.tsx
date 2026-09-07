@@ -82,14 +82,25 @@ export default function EKolektorFingerprintLoginPage({
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={onContinue}
-              disabled={!password.trim()}
-              className="mt-auto h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
-            >
-              {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktifkan Login Biometrik"}
-            </button>
+            <div className="mt-auto flex w-full flex-col gap-3">
+              <button
+                type="button"
+                onClick={onContinue}
+                disabled={!password.trim()}
+                className="h-[45px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
+              >
+                {mode === "disable" ? "Nonaktifkan Login Biometrik" : "Aktifkan Login Biometrik"}
+              </button>
+              {mode === "disable" ? (
+                <button
+                  type="button"
+                  onClick={onBack}
+                  className="h-[45px] w-full rounded-[9px] border border-[#A8A8A8] bg-white text-[14px] font-semibold text-[#777777] transition active:scale-[0.99]"
+                >
+                  Batal
+                </button>
+              ) : null}
+            </div>
           </main>
         </div>
         <EKolektorAndroidNavBar onBack={onBack} />
