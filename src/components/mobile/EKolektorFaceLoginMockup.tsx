@@ -5,16 +5,45 @@ import { Eye, EyeOff, ScanFace } from "lucide-react";
 import { toast } from "sonner";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
+import EKolektorHome from "@/components/mobile/EKolektorHome";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
+import {
+  getEKolektorTransactions,
+  saveEKolektorTransactions,
+} from "@/lib/eKolektorTransactionsStore";
 
 export default function EKolektorFaceLoginMockup() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [transactions, setTransactions] = React.useState<EKolektorTodayTransaction[]>(() => getEKolektorTransactions());
+
+  React.useEffect(() => {
+    saveEKolektorTransactions(transactions);
+  }, [transactions]);
 
   function login() {
-    toast.success("Masuk E-Kolektor dengan wajah", {
-      description: "Login berhasil menggunakan pengenalan wajah.",
+    if (!password.trim()) return;
+    toast.success("Masuk E-Kolektor", {
+      description: "Login berhasil menggunakan password.",
     });
+    setLoggedIn(true);
+  }
+
+  if (loggedIn) {
+    return (
+      <MobileMockupFrame edgeToEdge>
+        <EKolektorHome
+          transactions={transactions}
+          onBiometricEnabled={() => {}}
+          biometricEnabled={false}
+          onBiometricChange={() => {}}
+          onLogout={() => setLoggedIn(false)}
+          onOpenTransactions={() => {}}
+        />
+      </MobileMockupFrame>
+    );
   }
 
   return (
@@ -57,7 +86,8 @@ export default function EKolektorFaceLoginMockup() {
               <button
                 type="button"
                 onClick={login}
-                className="h-[41px] flex-1 rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)]"
+                disabled={!password.trim()}
+                className="h-[41px] flex-1 rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition disabled:cursor-not-allowed disabled:bg-[#AFC6E8]"
               >
                 Masuk
               </button>
