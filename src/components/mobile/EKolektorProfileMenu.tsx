@@ -218,7 +218,7 @@ export default function EKolektorProfileMenu({
 
         <div className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px]">
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-            {biometricType === "face" ? "Login Dengan Wajah" : "Login Dengan Biometrik"}
+            Login dengan Biometrik
           </span>
           <FingerprintToggle checked={biometricEnabled} onChange={handleFingerprintChange} />
         </div>
