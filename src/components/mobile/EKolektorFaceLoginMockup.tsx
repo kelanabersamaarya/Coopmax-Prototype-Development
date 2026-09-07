@@ -148,7 +148,10 @@ export default function EKolektorFaceLoginMockup() {
             <div className="absolute inset-0 z-40 flex items-end justify-center bg-[#10234A]/30 px-4 pb-6">
               <button
                 type="button"
-                onClick={() => setShowConfirmation(false)}
+                onClick={() => {
+                  setIsScanning(false);
+                  setShowConfirmation(false);
+                }}
                 className="absolute inset-0 cursor-default"
                 aria-label="Tutup konfirmasi pengenalan wajah"
               />
@@ -170,7 +173,10 @@ export default function EKolektorFaceLoginMockup() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setShowConfirmation(false)}
+                  onClick={() => {
+                    setIsScanning(false);
+                    setShowConfirmation(false);
+                  }}
                   className="mt-5 text-[14px] font-semibold text-[#777777]"
                 >
                   Batal

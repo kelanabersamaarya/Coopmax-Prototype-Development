@@ -181,7 +181,10 @@ export default function EKolektorLoginForm({
               <button
                 type="button"
                 aria-label="Tutup konfirmasi biometrik"
-                onClick={() => setShowBiometricPrompt(false)}
+                onClick={() => {
+                  setIsScanning(false);
+                  setShowBiometricPrompt(false);
+                }}
                 className="absolute inset-0 cursor-default"
               />
               <section
