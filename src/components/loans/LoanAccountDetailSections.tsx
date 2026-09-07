@@ -607,7 +607,7 @@ export default function LoanAccountDetailSections({
                         <thead className="bg-white text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
                             <th className="w-[7%] whitespace-nowrap bg-white px-2 py-3 text-center">No.</th>
-                            <th className="w-[18%] px-2 py-3 text-center leading-tight">
+                            <th className="w-[13%] px-2 py-3 text-center leading-tight">
                               <span className="block">Tanggal</span>
                               <span className="block">Pembayaran</span>
                             </th>
@@ -630,7 +630,7 @@ export default function LoanAccountDetailSections({
                         <tbody>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">1</td>
-                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">07-09-2026</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-09-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">195.000</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">195.000</td>
@@ -639,7 +639,7 @@ export default function LoanAccountDetailSections({
                           </tr>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">2</td>
-                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">07-10-2026</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-10-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">178.750</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
@@ -648,7 +648,7 @@ export default function LoanAccountDetailSections({
                           </tr>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">3</td>
-                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">07-11-2026</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-11-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">162.500</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
@@ -657,7 +657,7 @@ export default function LoanAccountDetailSections({
                           </tr>
                           <tr className="border-b border-slate-100">
                             <td className="whitespace-nowrap px-2 py-2 text-center">4</td>
-                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">07-12-2026</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-12-2026</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">146.250</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
@@ -666,7 +666,7 @@ export default function LoanAccountDetailSections({
                           </tr>
                           <tr>
                             <td className="whitespace-nowrap px-2 py-2 text-center">5</td>
-                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">07-01-2027</td>
+                            <td className="whitespace-nowrap bg-white px-2 py-2 text-center">07-01-2027</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">1.083.333</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">129.000</td>
                             <td className="whitespace-nowrap px-2 py-2 text-right">0</td>
