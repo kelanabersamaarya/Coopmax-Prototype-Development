@@ -598,7 +598,10 @@ export default function LoanAccountDetailSections({
                             <th className="w-[22%] px-2 py-3 text-left leading-tight">Tanggal Transaksi / Pengakuan</th>
                             <th className="w-[22%] px-2 py-3 text-left leading-tight">Jenis Transaksi</th>
                             <th className="w-[17%] px-2 py-3 text-left leading-tight">Status Transaksi</th>
-                            <th className="w-[18%] px-2 py-3 text-center leading-tight">Jadwal Pembayaran</th>
+                            <th className="w-[18%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Jadwal</span>
+                              <span className="block">Pembayaran</span>
+                            </th>
                             <th className="w-[14%] px-2 py-3 text-right">Nominal</th>
                           </tr>
                         </thead>
