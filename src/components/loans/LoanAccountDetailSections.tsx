@@ -595,15 +595,13 @@ export default function LoanAccountDetailSections({
                   </div>
                   <div className="grid grid-cols-2 gap-x-8 gap-y-7 px-6 py-6 sm:grid-cols-5">
                     <div><div className="text-xs text-slate-800">No. Rekening Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">{accountNo}</div></div>
-                    <div><div className="text-xs text-slate-800">Produk Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Pinjaman Billing</div></div>
-                    <div><div className="text-xs text-slate-800">No. SPK</div><div className="mt-2 text-xs font-bold text-slate-950">SPK/2026/07/0004</div></div>
-                    <div><div className="text-xs text-slate-800">Sektor Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Umum</div></div>
-                    <div><div className="text-xs text-slate-800">Tujuan Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Pembelian Alat</div></div>
-                    <div><div className="text-xs text-slate-800">Cabang Pembukaan Rekening</div><div className="mt-2 text-xs font-bold text-slate-950">DEMO - CABANG 1</div></div>
-                    <div><div className="text-xs text-slate-800">Kolektor/AO</div><div className="mt-2 text-xs font-bold text-slate-950">Kantor</div></div>
-                    <div><div className="text-xs text-slate-800">Kolektibilitas</div><div className="mt-2 text-xs font-bold text-slate-950">-</div></div>
-                    <div><div className="text-xs text-slate-800">Jumlah Pinjaman Diajukan</div><div className="mt-2 text-xs font-bold text-slate-950">5.000.000,00</div></div>
-                    <div><div className="text-xs text-slate-800">Jumlah Pinjaman Disetujui</div><div className="mt-2 text-xs font-bold text-slate-950">5.000.000,00</div></div>
+                    <div><div className="text-xs text-slate-800">Produk Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Pinjaman Bulanan 1</div></div>
+                    <div><div className="text-xs text-slate-800">Nama Nasabah</div><div className="mt-2 text-xs font-bold text-slate-950">Dinda Farida</div></div>
+                    <div><div className="text-xs text-slate-800">Tanggal Pinjaman Dibuat</div><div className="mt-2 text-xs font-bold text-slate-950">03 September 2026</div></div>
+                    <div><div className="text-xs text-slate-800">Tanggal Pinjaman Aktif</div><div className="mt-2 text-xs font-bold text-slate-950">03 September 2026</div></div>
+                    <div><div className="text-xs text-slate-800">Tanggal Jatuh Tempo</div><div className="mt-2 text-xs font-bold text-slate-950">03 September 2027</div></div>
+                    <div><div className="text-xs text-slate-800">Nominal Pinjaman Diajukan</div><div className="mt-2 text-xs font-bold text-slate-950">10.000.000,00</div></div>
+                    <div><div className="text-xs text-slate-800">Nominal Pinjaman Disetujui</div><div className="mt-2 text-xs font-bold text-slate-950">10.000.000,00</div></div>
                   </div>
                 </div>
               )}
