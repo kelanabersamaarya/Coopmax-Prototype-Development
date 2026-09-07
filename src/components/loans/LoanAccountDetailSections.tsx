@@ -590,34 +590,34 @@ export default function LoanAccountDetailSections({
                     <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
                       Pengakuan Piutang Bunga
                     </div>
-                    <div className="overflow-x-auto">
-                      <table className="w-full min-w-[900px] text-sm text-slate-600">
+                    <div className="overflow-hidden">
+                      <table className="w-full table-fixed text-sm text-slate-600">
                         <thead className="bg-slate-50 text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
-                            <th className="w-16 px-4 py-3 text-center">No.</th>
-                            <th className="min-w-[220px] px-4 py-3 text-left">Tanggal Transaksi / Pengakuan</th>
-                            <th className="min-w-[190px] px-4 py-3 text-left">Jenis Transaksi</th>
-                            <th className="min-w-[170px] px-4 py-3 text-left">Status Transaksi</th>
-                            <th className="min-w-[180px] px-4 py-3 text-center">Jadwal Pembayaran</th>
-                            <th className="min-w-[140px] px-4 py-3 text-right">Nominal</th>
+                            <th className="w-[7%] whitespace-nowrap px-2 py-3 text-center">No.</th>
+                            <th className="w-[22%] px-2 py-3 text-left leading-tight">Tanggal Transaksi / Pengakuan</th>
+                            <th className="w-[22%] px-2 py-3 text-left leading-tight">Jenis Transaksi</th>
+                            <th className="w-[17%] px-2 py-3 text-left leading-tight">Status Transaksi</th>
+                            <th className="w-[18%] px-2 py-3 text-center leading-tight">Jadwal Pembayaran</th>
+                            <th className="w-[14%] px-2 py-3 text-right">Nominal</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr className="border-b border-slate-100">
-                            <td className="px-4 py-2 text-center">1</td>
-                            <td className="bg-slate-100 px-4 py-2 text-center">31-08-2026</td>
-                            <td className="px-4 py-2">Transaksi Pengakuan</td>
-                            <td className="px-4 py-2 font-semibold text-lime-600">Sukses</td>
-                            <td className="px-4 py-2 text-center">07-09-2026</td>
-                            <td className="px-4 py-2 text-right">150.968</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">1</td>
+                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">31-08-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2">Transaksi Pengakuan</td>
+                            <td className="whitespace-nowrap px-2 py-2 font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">150.968</td>
                           </tr>
                           <tr>
-                            <td className="px-4 py-2 text-center">2</td>
-                            <td className="bg-slate-100 px-4 py-2 text-center">05-09-2026</td>
-                            <td className="px-4 py-2">Transaksi Pembayaran</td>
-                            <td className="px-4 py-2 font-semibold text-lime-600">Sukses</td>
-                            <td className="px-4 py-2 text-center">07-09-2026</td>
-                            <td className="px-4 py-2 text-right">44.032</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">2</td>
+                            <td className="whitespace-nowrap bg-slate-100 px-2 py-2 text-center">05-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2">Transaksi Pembayaran</td>
+                            <td className="whitespace-nowrap px-2 py-2 font-semibold text-lime-600">Sukses</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-center">07-09-2026</td>
+                            <td className="whitespace-nowrap px-2 py-2 text-right">44.032</td>
                           </tr>
                         </tbody>
                       </table>
