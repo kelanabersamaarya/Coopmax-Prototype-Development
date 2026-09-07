@@ -649,28 +649,23 @@ export default function LoanAccountDetailSections({
                           </tr>
                         </tbody>
                       </table>
-                      <div className="flex items-center justify-end gap-2 border-t border-slate-200 px-3 py-3 text-sm">
+                      <div className="flex items-center justify-end border-t border-slate-200 px-3 py-3 text-sm">
                         <button
                           type="button"
                           onClick={() => setAmortizationPage(1)}
-                          className="rounded-md border border-slate-200 px-3 py-1 text-slate-500 hover:bg-slate-50"
+                          className="h-11 rounded-l-sm bg-[#eef1f6] px-4 font-medium text-[#c7cfdd] transition-colors hover:bg-[#e5e9f0]"
                         >
-                          ‹
+                          Previous
                         </button>
-                        <span className="rounded-md bg-[#5b45f5] px-3 py-1 font-semibold text-white">{amortizationPage}</span>
+                        <span className="flex h-11 min-w-10 items-center justify-center bg-[#5b45f5] px-3 font-semibold text-white">
+                          {amortizationPage}
+                        </span>
                         <button
                           type="button"
                           onClick={() => setAmortizationPage(2)}
-                          className="rounded-md border border-slate-200 px-3 py-1 text-slate-600 hover:bg-slate-50"
+                          className="h-11 rounded-r-sm bg-[#eef1f6] px-4 font-medium text-[#c7cfdd] transition-colors hover:bg-[#e5e9f0]"
                         >
-                          2
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setAmortizationPage(2)}
-                          className="rounded-md border border-slate-200 px-3 py-1 text-slate-500 hover:bg-slate-50"
-                        >
-                          ›
+                          Next
                         </button>
                       </div>
                     </div>
