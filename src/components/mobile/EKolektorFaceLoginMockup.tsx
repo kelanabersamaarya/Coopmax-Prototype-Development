@@ -12,6 +12,15 @@ import {
   saveEKolektorTransactions,
 } from "@/lib/eKolektorTransactionsStore";
 
+function FaceScanIcon({ className }: { className: string }) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" aria-hidden="true">
+      <path d="M20 24v-2a12 12 0 0 1 24 0v2M16 30v-7a16 16 0 0 1 32 0v7M22 32v-9a10 10 0 0 1 20 0v9M28 31v-8a4 4 0 0 1 8 0v8M28 37c0 7-2 10-4 13M36 37c0 8 1 11 3 14M20 37c0 4-1 7-3 10M44 37c0 4 1 7 3 10" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 16v-4h4M48 16v-4h-4M12 48v4h4M48 48v4h-4" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function EKolektorFaceLoginMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [password, setPassword] = React.useState("");
@@ -130,7 +139,7 @@ export default function EKolektorFaceLoginMockup() {
                   Arahkan wajah Anda ke kamera depan untuk masuk.
                 </p>
                 <div className="mx-auto mt-5 grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-                  <ScanFace className="h-[56px] w-[56px]" strokeWidth={1.7} />
+                  <FaceScanIcon className="h-[56px] w-[56px]" />
                 </div>
                 <button
                   type="button"
