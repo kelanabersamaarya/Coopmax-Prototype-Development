@@ -542,12 +542,12 @@ export default function LoanAccountDetailSections({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 px-1">
+              <div className="flex w-full items-center">
                 <button
                   type="button"
                   onClick={() => setRollbackTab("informasi")}
                   className={cn(
-                    "rounded-full px-6 py-3 text-sm font-medium transition-colors",
+                    "flex w-1/2 items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-colors",
                     rollbackTab === "informasi"
                       ? "bg-[#5b45f5] text-white shadow-sm"
                       : "text-slate-500 hover:text-[#5b45f5]",
@@ -559,7 +559,7 @@ export default function LoanAccountDetailSections({
                   type="button"
                   onClick={() => setRollbackTab("amortisasi")}
                   className={cn(
-                    "rounded-full px-6 py-3 text-sm font-medium transition-colors",
+                    "flex w-1/2 items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-colors",
                     rollbackTab === "amortisasi"
                       ? "bg-[#5b45f5] text-white shadow-sm"
                       : "text-slate-500 hover:text-[#5b45f5]",
