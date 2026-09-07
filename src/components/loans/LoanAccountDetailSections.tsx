@@ -599,8 +599,6 @@ export default function LoanAccountDetailSections({
                 <div className="grid gap-4 p-4 md:grid-cols-[180px_1fr]">
                   <label className="text-sm font-medium text-slate-800">Tanggal Perubahan<span className="text-rose-600">*</span></label>
                   <input type="text" value="04-09-2026" readOnly className="h-10 rounded-md border border-slate-300 bg-slate-100 px-3 text-sm text-slate-500" />
-                  <label className="text-sm font-medium text-slate-800">Alasan Perubahan<span className="text-rose-600">*</span></label>
-                  <textarea value={rollbackReason} onChange={(event) => setRollbackReason(event.target.value)} placeholder="Masukkan Alasan Perubahan Status" className="min-h-[92px] rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500" />
                 </div>
               </div>
             </div>
@@ -616,9 +614,8 @@ export default function LoanAccountDetailSections({
               </button>
               <button
                 type="button"
-                disabled={!rollbackReason.trim()}
                 onClick={() => setShowRollbackConfirmation(true)}
-                className="inline-flex h-7 w-[90px] items-center justify-center gap-1 rounded-md bg-[#2db900] px-2 text-xs font-normal text-white shadow-sm transition-colors hover:bg-[#249700] disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-7 w-[90px] items-center justify-center gap-1 rounded-md bg-[#2db900] px-2 text-xs font-normal text-white shadow-sm transition-colors hover:bg-[#249700]"
               >
                 <SquareCheckBig className="h-4 w-4 stroke-[2.5]" />
                 Simpan
