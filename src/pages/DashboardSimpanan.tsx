@@ -146,22 +146,6 @@ function ChartCard({ title, subtitle, children, contentClassName = "" }: { title
   );
 }
 
-function MbankingFilters({
-  month,
-  onMonthChange,
-}: {
-  month: string;
-  onMonthChange: (value: string) => void;
-}) {
-  return (
-    <div className="mt-1 mb-8 flex items-end">
-      <label className="grid">
-        <input type="month" aria-label="Bulan transaksi" value={month} onChange={(event) => onMonthChange(event.target.value)} className="h-9 rounded-md border border-slate-300 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-500" />
-      </label>
-    </div>
-  );
-}
-
 function SavingsBarChart({
   data = chartData,
   variant = "core",
@@ -259,12 +243,6 @@ function SavingsBarChart({
 }
 
 export default function DashboardSimpanan() {
-  const [selectedMonth, setSelectedMonth] = React.useState("2026-09");
-  const filteredMbankingData = React.useMemo(
-    () => (selectedMonth === "2026-09" ? mbankingData : []),
-    [selectedMonth],
-  );
-
   return (
     <div className="min-h-screen overflow-x-auto bg-[#f5f7fc] px-3 py-6 md:px-6 md:py-7">
       <div className="mx-auto min-w-[2200px] max-w-[2200px]">
@@ -329,9 +307,8 @@ export default function DashboardSimpanan() {
 
         <div className="mt-4 grid gap-2">
           <ChartCard title="Transaksi Core Banking" subtitle="Bulan September 2026" contentClassName="mt-6"><SavingsBarChart data={coreChartData} variant="core" /></ChartCard>
-          <ChartCard title="Transaksi MBanking" subtitle="" contentClassName="mt-0 h-[370px]">
-            <MbankingFilters month={selectedMonth} onMonthChange={setSelectedMonth} />
-            <SavingsBarChart data={filteredMbankingData} variant="mbanking" />
+          <ChartCard title="Transaksi MBanking" subtitle="Bulan September 2026" contentClassName="mt-0 h-[370px]">
+            <SavingsBarChart data={mbankingData} variant="mbanking" />
           </ChartCard>
           <ChartCard title="Transaksi Total" subtitle="Bulan September 2026" contentClassName="mt-6"><SavingsBarChart data={totalChartData} variant="total" /></ChartCard>
           <ChartCard title="Pertumbuhan Tabungan" subtitle="Bulan Maret 2026 - Bulan September 2026">
