@@ -637,7 +637,7 @@ export default function LoanAccountDetailSections({
                   Perubahan Status Tidak Dapat Dilakukan
                 </h2>
                 <p className="mx-auto mt-4 max-w-[490px] text-center text-base leading-tight text-slate-500">
-                  Perubahan status tidak dapat dilakukan karena sudah terdapat proses tutup buku. Lakukan pembatalan tutup buku terlebih dahulu untuk melakukan perubahan status
+                  Perubahan status tidak dapat dilakukan karena sudah terdapat proses tutup buku pada periode September 2026. Lakukan pembatalan tutup buku pada periode September 2026 untuk melakukan perubahan status
                 </p>
                 <div className="mt-6 flex justify-center">
                   <button
