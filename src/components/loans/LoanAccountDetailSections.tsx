@@ -594,15 +594,15 @@ export default function LoanAccountDetailSections({
                       <table className="w-full table-fixed text-sm text-slate-600">
                         <thead className="bg-slate-50 text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
-                            <th className="w-[7%] whitespace-nowrap px-2 py-3 text-center">No.</th>
-                            <th className="w-[22%] px-2 py-3 text-left leading-tight">Tanggal Transaksi / Pengakuan</th>
+                            <th className="w-[7%] whitespace-nowrap px-2 py-3 text-left">No.</th>
+                            <th className="w-[17%] px-2 py-3 text-left leading-tight">Tanggal Transaksi / Pengakuan</th>
                             <th className="w-[22%] px-2 py-3 text-left leading-tight">Jenis Transaksi</th>
                             <th className="w-[17%] px-2 py-3 text-left leading-tight">Status Transaksi</th>
-                            <th className="w-[18%] px-2 py-3 text-center leading-tight">
+                            <th className="w-[23%] px-2 py-3 text-left leading-tight">
                               <span className="block">Jadwal</span>
                               <span className="block">Pembayaran</span>
                             </th>
-                            <th className="w-[14%] px-2 py-3 text-right">Nominal</th>
+                            <th className="w-[14%] px-2 py-3 text-left">Nominal</th>
                           </tr>
                         </thead>
                         <tbody>
