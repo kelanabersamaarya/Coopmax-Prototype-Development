@@ -581,19 +581,31 @@ export default function LoanAccountDetailSections({
               </div>
 
               {rollbackTab === "informasi" && (
-              <div className="rounded-xl bg-cyan-600 p-5 text-white">
-                <div className="mb-5 text-sm font-extrabold uppercase">Informasi Rekening Pinjaman</div>
-                <div className="grid gap-4 sm:grid-cols-4">
-                  <div><div className="text-xs opacity-80">No. Rek. Pinjaman</div><div className="mt-1 text-base font-bold">{accountNo}</div></div>
-                  <div><div className="text-xs opacity-80">Produk Pinjaman</div><div className="mt-1 text-base font-bold">Pinjaman Bulanan 1</div></div>
-                  <div><div className="text-xs opacity-80">Nama Nasabah</div><div className="mt-1 text-base font-bold">Dinda Farida</div></div>
-                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Dibuat</div><div className="mt-1 text-base font-bold">03 September 2026</div></div>
-                  <div><div className="text-xs opacity-80">Tanggal Pinjaman Aktif</div><div className="mt-1 text-base font-bold">03 September 2026</div></div>
-                  <div><div className="text-xs opacity-80">Tanggal Jatuh Tempo</div><div className="mt-1 text-base font-bold">03 September 2027</div></div>
-                  <div><div className="text-xs opacity-80">Nominal Pinjaman Diajukan</div><div className="mt-1 text-base font-bold">10.000.000,00</div></div>
-                  <div><div className="text-xs opacity-80">Nominal Pinjaman Disetujui</div><div className="mt-1 text-base font-bold">10.000.000,00</div></div>
+                <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+                  <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-4">
+                    <div className="text-sm font-extrabold uppercase text-slate-900">Informasi Rekening Pinjaman</div>
+                    <div className="flex gap-2">
+                      <button type="button" className="rounded-md bg-blue-600 px-3 py-2 text-xs font-medium text-white shadow-sm">
+                        ◉ Lihat Lebih Detail
+                      </button>
+                      <button type="button" className="rounded-md bg-blue-600 px-3 py-2 text-xs font-medium text-white shadow-sm">
+                        Aksi⌄
+                      </button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-7 px-6 py-6 sm:grid-cols-5">
+                    <div><div className="text-xs text-slate-800">No. Rekening Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">{accountNo}</div></div>
+                    <div><div className="text-xs text-slate-800">Produk Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Pinjaman Billing</div></div>
+                    <div><div className="text-xs text-slate-800">No. SPK</div><div className="mt-2 text-xs font-bold text-slate-950">SPK/2026/07/0004</div></div>
+                    <div><div className="text-xs text-slate-800">Sektor Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Umum</div></div>
+                    <div><div className="text-xs text-slate-800">Tujuan Pinjaman</div><div className="mt-2 text-xs font-bold text-slate-950">Pembelian Alat</div></div>
+                    <div><div className="text-xs text-slate-800">Cabang Pembukaan Rekening</div><div className="mt-2 text-xs font-bold text-slate-950">DEMO - CABANG 1</div></div>
+                    <div><div className="text-xs text-slate-800">Kolektor/AO</div><div className="mt-2 text-xs font-bold text-slate-950">Kantor</div></div>
+                    <div><div className="text-xs text-slate-800">Kolektibilitas</div><div className="mt-2 text-xs font-bold text-slate-950">-</div></div>
+                    <div><div className="text-xs text-slate-800">Jumlah Pinjaman Diajukan</div><div className="mt-2 text-xs font-bold text-slate-950">5.000.000,00</div></div>
+                    <div><div className="text-xs text-slate-800">Jumlah Pinjaman Disetujui</div><div className="mt-2 text-xs font-bold text-slate-950">5.000.000,00</div></div>
+                  </div>
                 </div>
-              </div>
               )}
 
               {rollbackTab === "amortisasi" && (
