@@ -29,6 +29,7 @@ export default function EKolektorProfilePage({
       <EKolektorFingerprintLoginPage
         key={fingerprintAction}
         mode={fingerprintAction}
+        biometricMethod="fingerprint"
         onBack={() => setShowFingerprintLogin(false)}
         onContinue={() => {
           onBiometricChange(fingerprintAction === "enable");

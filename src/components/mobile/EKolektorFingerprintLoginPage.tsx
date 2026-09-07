@@ -1,17 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Fingerprint, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Fingerprint, Eye, EyeOff, ScanFace } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 export default function EKolektorFingerprintLoginPage({
   onBack,
   onContinue,
   mode = "enable",
+  biometricMethod = "fingerprint",
 }: {
   onBack: () => void;
   onContinue: () => void;
   mode?: "enable" | "disable";
+  biometricMethod?: "fingerprint" | "face";
 }) {
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(mode === "disable");
@@ -49,7 +51,7 @@ export default function EKolektorFingerprintLoginPage({
 
           <main className="flex min-h-[calc(100%-74px)] flex-col px-[26px] pb-8 pt-[58px]">
             <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-              <Fingerprint className="h-[56px] w-[56px]" strokeWidth={1.7} />
+              {biometricMethod === "face" ? <ScanFace className="h-[56px] w-[56px]" strokeWidth={1.7} /> : <Fingerprint className="h-[56px] w-[56px]" strokeWidth={1.7} />}
             </div>
             <h2 className="mt-[30px] text-center text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">
               Masukkan Password
@@ -127,7 +129,7 @@ export default function EKolektorFingerprintLoginPage({
 
         <main className="flex min-h-[calc(100%-74px)] flex-col items-center px-[26px] pb-8 pt-[58px] text-center">
           <div className="grid h-[116px] w-[116px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-            <Fingerprint className="h-[70px] w-[70px]" strokeWidth={1.7} />
+            {biometricMethod === "face" ? <ScanFace className="h-[70px] w-[70px]" strokeWidth={1.7} /> : <Fingerprint className="h-[70px] w-[70px]" strokeWidth={1.7} />}
           </div>
           <h2 className="mt-[32px] text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Aktifkan Login dengan Biometrik
@@ -177,7 +179,7 @@ export default function EKolektorFingerprintLoginPage({
               Sentuh sensor sidik jari atau arahkan wajah ke kamera depan
             </p>
             <div className="mx-auto mt-5 grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EAF2FF] text-[#004FC7]">
-              <Fingerprint className="h-[56px] w-[56px]" strokeWidth={1.7} />
+              {biometricMethod === "face" ? <ScanFace className="h-[56px] w-[56px]" strokeWidth={1.7} /> : <Fingerprint className="h-[56px] w-[56px]" strokeWidth={1.7} />}
             </div>
             <button
               type="button"
