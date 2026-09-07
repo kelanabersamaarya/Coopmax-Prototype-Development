@@ -600,6 +600,19 @@ export default function LoanAccountDetailSections({
 
               {rollbackTab === "amortisasi" && (
                 <div className="space-y-4">
+                  {accountNo.toLowerCase() === "smg260021" ? (
+                    <div className="flex min-h-[360px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-10 text-center">
+                      <img
+                        src="/empty%20box%20ilustration%201.png"
+                        alt="Belum ada transaksi amortisasi"
+                        className="mb-6 h-44 w-44 object-contain"
+                      />
+                      <p className="text-base font-medium text-black">
+                        Belum Terdapat Transaksi Amortisasi yang Dilakukan
+                      </p>
+                    </div>
+                  ) : (
+                    <>
                   <div className="overflow-hidden rounded-xl border border-slate-200">
                     <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
                       Pengakuan Piutang Bunga
@@ -745,6 +758,8 @@ export default function LoanAccountDetailSections({
                       </div>
                     </div>
                   </div>
+                    </>
+                  )}
                 </div>
               )}
 
