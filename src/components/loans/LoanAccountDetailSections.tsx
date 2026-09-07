@@ -573,6 +573,7 @@ export default function LoanAccountDetailSections({
                 <div className="mb-5 text-sm font-extrabold uppercase">Informasi Rekening Pinjaman</div>
                 <div className="grid gap-4 sm:grid-cols-4">
                   <div><div className="text-xs opacity-80">No. Rek. Pinjaman</div><div className="mt-1 text-base font-bold">{accountNo}</div></div>
+                  <div><div className="text-xs opacity-80">Produk Pinjaman</div><div className="mt-1 text-base font-bold">Pinjaman Bulanan 1</div></div>
                   <div><div className="text-xs opacity-80">Nama Nasabah</div><div className="mt-1 text-base font-bold">Dinda Farida</div></div>
                   <div><div className="text-xs opacity-80">Tanggal Pinjaman Dibuat</div><div className="mt-1 text-base font-bold">03 September 2026</div></div>
                   <div><div className="text-xs opacity-80">Tanggal Pinjaman Aktif</div><div className="mt-1 text-base font-bold">03 September 2026</div></div>
