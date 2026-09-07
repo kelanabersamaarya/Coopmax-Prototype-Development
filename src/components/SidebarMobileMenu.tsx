@@ -11,7 +11,7 @@ type SubItem = {
 };
 
 const allItems: SubItem[] = [
-  { label: "E-Kolektor", to: "/mobile/e-kolektor" },
+  { label: "E-Kolektor Sidik Jari", to: "/mobile/e-kolektor" },
   { label: "E-Kolektor Wajah", to: "/mobile/e-kolektor-wajah" },
   { label: "M-Banking", to: "/mobile/m-banking" },
 ];
