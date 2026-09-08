@@ -549,7 +549,7 @@ export default function LoanAccountDetailSections({
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
                 <div>
                   <div className="text-base font-extrabold">Dampak Perubahan Status Pinjaman</div>
-                  <p className="mt-1 text-sm">Status pinjaman akan dikembalikan dari Aktif menjadi Disetujui, serta transaksi amortisasi dan jurnal amortisasi terkait akan dihapus/dibatalkan.</p>
+                  <p className="mt-1 text-sm">Status pinjaman akan dikembalikan dari Aktif menjadi Disetujui, jika terdapat transaksi amortisasi dan jurnal amortisasi terkait akan dihapus/dibatalkan.</p>
                 </div>
               </div>
 
