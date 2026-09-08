@@ -721,9 +721,9 @@ export default function LoanAccountDetailSections({
                         <tbody>
                           {[
                             ["07-09-2026", "Transaksi Pengakuan", "Telah Diakui", "07-09-2026", "9.720"],
-                            ["07-10-2026", "Transaksi Pengakuan", "Telah Dihapus", "07-10-2026", "8.978"],
+                            ["07-10-2026", "Transaksi Pembayaran", "Telah Dihapus", "07-10-2026", "8.978"],
                             ["07-11-2026", "Transaksi Pengakuan", "Telah Diakui", "07-11-2026", "8.224"],
-                            ["07-12-2026", "Transaksi Pengakuan", "Telah Dihapus", "07-12-2026", "7.459"],
+                            ["07-12-2026", "Transaksi Pembayaran", "Telah Dihapus", "07-12-2026", "7.459"],
                             ["07-01-2027", "Transaksi Pengakuan", "Telah Diakui", "07-01-2027", "6.681"],
                           ].map(([tanggal, jenis, status, jadwal, nominal], index) => (
                             <tr key={tanggal} className={cn(index < 4 && "border-b border-slate-100")}>
