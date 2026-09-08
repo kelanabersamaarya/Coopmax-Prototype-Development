@@ -721,16 +721,19 @@ export default function LoanAccountDetailSections({
                         <tbody>
                           {[
                             ["07-09-2026", "Transaksi Pengakuan", "Telah Diakui", "07-09-2026", "9.720"],
-                            ["07-10-2026", "Transaksi Pengakuan", "Telah Diakui", "07-10-2026", "8.978"],
+                            ["07-10-2026", "Transaksi Pengakuan", "Telah Dihapus", "07-10-2026", "8.978"],
                             ["07-11-2026", "Transaksi Pengakuan", "Telah Diakui", "07-11-2026", "8.224"],
-                            ["07-12-2026", "Transaksi Pengakuan", "Telah Diakui", "07-12-2026", "7.459"],
+                            ["07-12-2026", "Transaksi Pengakuan", "Telah Dihapus", "07-12-2026", "7.459"],
                             ["07-01-2027", "Transaksi Pengakuan", "Telah Diakui", "07-01-2027", "6.681"],
                           ].map(([tanggal, jenis, status, jadwal, nominal], index) => (
                             <tr key={tanggal} className={cn(index < 4 && "border-b border-slate-100")}>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{index + 1}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{tanggal}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{jenis}</td>
-                              <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-emerald-600">{status}</td>
+                              <td className={cn(
+                                "whitespace-nowrap px-2 py-2 text-center font-semibold",
+                                status === "Telah Dihapus" ? "text-red-600" : "text-emerald-600",
+                              )}>{status}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{jadwal}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-right">{nominal}</td>
                             </tr>
