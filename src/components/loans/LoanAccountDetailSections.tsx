@@ -706,8 +706,8 @@ export default function LoanAccountDetailSections({
                           <tr className="border-b border-slate-200">
                             <th className="w-[7%] px-2 py-3 text-center">No.</th>
                             <th className="w-[22%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Tanggal Pengakuan</span>
-                              <span className="block">/ Transaksi</span>
+                              <span className="block">Tanggal Transaksi</span>
+                              <span className="block">/Pengakuan</span>
                             </th>
                             <th className="w-[19%] px-2 py-3 text-center leading-tight">Jenis Transaksi</th>
                             <th className="w-[17%] px-2 py-3 text-center leading-tight">Status Transaksi</th>
