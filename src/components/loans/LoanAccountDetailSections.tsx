@@ -698,45 +698,39 @@ export default function LoanAccountDetailSections({
                   </div>
                   <div className="overflow-hidden rounded-xl border border-slate-200">
                     <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold uppercase">
-                      Biaya Administrasi
+                      Pengakuan Biaya Administrasi
                     </div>
                     <div className="overflow-hidden">
                       <table className="w-full table-fixed text-sm text-slate-600">
                         <thead className="bg-white text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
-                            <th className="w-[7%] whitespace-nowrap px-2 py-3 text-center">No.</th>
-                            <th className="w-[18%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Tanggal</span>
+                            <th className="w-[24%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Tanggal Pengakuan</span>
+                              <span className="block">/ Transaksi</span>
+                            </th>
+                            <th className="w-[20%] px-2 py-3 text-center leading-tight">Jenis Transaksi</th>
+                            <th className="w-[18%] px-2 py-3 text-center leading-tight">Status Transaksi</th>
+                            <th className="w-[20%] px-2 py-3 text-center leading-tight">
+                              <span className="block">Jadwal</span>
                               <span className="block">Pembayaran</span>
                             </th>
-                            <th className="w-[23%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Amortisasi Biaya</span>
-                              <span className="block">Administrasi</span>
-                            </th>
-                            <th className="w-[23%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Sisa Amortisasi</span>
-                              <span className="block">Biaya Administrasi</span>
-                            </th>
-                            <th className="w-[29%] px-2 py-3 text-center leading-tight">
-                              <span className="block">Pendapatan Biaya Administrasi</span>
-                              <span className="block">Telah Diakui</span>
-                            </th>
+                            <th className="w-[18%] px-2 py-3 text-center">Nominal</th>
                           </tr>
                         </thead>
                         <tbody>
                           {[
-                            ["1", "07-09-2026", "9.720", "626", "9.094"],
-                            ["2", "07-10-2026", "8.978", "8.978", "0"],
-                            ["3", "07-11-2026", "8.224", "8.224", "0"],
-                            ["4", "07-12-2026", "7.459", "7.459", "0"],
-                            ["5", "07-01-2027", "6.681", "6.681", "0"],
-                          ].map(([no, tanggal, amortisasi, sisa, pendapatan], index) => (
-                            <tr key={no} className={cn(index < 4 && "border-b border-slate-100")}>
-                              <td className="whitespace-nowrap px-2 py-2 text-center">{no}</td>
-                              <td className="whitespace-nowrap bg-white px-2 py-2 text-center">{tanggal}</td>
-                              <td className="whitespace-nowrap px-2 py-2 text-right">{amortisasi}</td>
-                              <td className="whitespace-nowrap px-2 py-2 text-right">{sisa}</td>
-                              <td className="whitespace-nowrap px-2 py-2 text-right">{pendapatan}</td>
+                            ["07-09-2026", "Transaksi Pengakuan", "Telah Diakui", "07-09-2026", "9.720"],
+                            ["07-10-2026", "Transaksi Pengakuan", "Telah Diakui", "07-10-2026", "8.978"],
+                            ["07-11-2026", "Transaksi Pengakuan", "Telah Diakui", "07-11-2026", "8.224"],
+                            ["07-12-2026", "Transaksi Pengakuan", "Telah Diakui", "07-12-2026", "7.459"],
+                            ["07-01-2027", "Transaksi Pengakuan", "Telah Diakui", "07-01-2027", "6.681"],
+                          ].map(([tanggal, jenis, status, jadwal, nominal], index) => (
+                            <tr key={tanggal} className={cn(index < 4 && "border-b border-slate-100")}>
+                              <td className="whitespace-nowrap px-2 py-2 text-center">{tanggal}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-center">{jenis}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-emerald-600">{status}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-center">{jadwal}</td>
+                              <td className="whitespace-nowrap px-2 py-2 text-right">{nominal}</td>
                             </tr>
                           ))}
                         </tbody>
