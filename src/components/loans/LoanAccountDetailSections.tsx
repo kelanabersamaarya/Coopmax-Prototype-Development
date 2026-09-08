@@ -704,17 +704,18 @@ export default function LoanAccountDetailSections({
                       <table className="w-full table-fixed text-sm text-slate-600">
                         <thead className="bg-white text-xs font-extrabold uppercase tracking-wide text-slate-700">
                           <tr className="border-b border-slate-200">
-                            <th className="w-[24%] px-2 py-3 text-center leading-tight">
+                            <th className="w-[7%] px-2 py-3 text-center">No.</th>
+                            <th className="w-[22%] px-2 py-3 text-center leading-tight">
                               <span className="block">Tanggal Pengakuan</span>
                               <span className="block">/ Transaksi</span>
                             </th>
-                            <th className="w-[20%] px-2 py-3 text-center leading-tight">Jenis Transaksi</th>
-                            <th className="w-[18%] px-2 py-3 text-center leading-tight">Status Transaksi</th>
-                            <th className="w-[20%] px-2 py-3 text-center leading-tight">
+                            <th className="w-[19%] px-2 py-3 text-center leading-tight">Jenis Transaksi</th>
+                            <th className="w-[17%] px-2 py-3 text-center leading-tight">Status Transaksi</th>
+                            <th className="w-[19%] px-2 py-3 text-center leading-tight">
                               <span className="block">Jadwal</span>
                               <span className="block">Pembayaran</span>
                             </th>
-                            <th className="w-[18%] px-2 py-3 text-center">Nominal</th>
+                            <th className="w-[16%] px-2 py-3 text-center">Nominal</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -726,6 +727,7 @@ export default function LoanAccountDetailSections({
                             ["07-01-2027", "Transaksi Pengakuan", "Telah Diakui", "07-01-2027", "6.681"],
                           ].map(([tanggal, jenis, status, jadwal, nominal], index) => (
                             <tr key={tanggal} className={cn(index < 4 && "border-b border-slate-100")}>
+                              <td className="whitespace-nowrap px-2 py-2 text-center">{index + 1}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{tanggal}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-center">{jenis}</td>
                               <td className="whitespace-nowrap px-2 py-2 text-center font-semibold text-emerald-600">{status}</td>
