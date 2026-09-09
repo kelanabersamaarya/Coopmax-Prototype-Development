@@ -365,7 +365,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
       <MemberReportEntriesPicker className="mb-4" />
 
       <div className="mitra-karya-member-report">
-        <table className="min-w-[1720px] w-full">
+        <table className={`min-w-[1720px] w-full ${configuredReport ? "custom-report-table" : "default-report-table"}`}>
           <thead>
             <tr>
               <th>No.</th>

@@ -175,6 +175,44 @@ section:has(.mitra-karya-member-report) {
   font-variant-numeric: tabular-nums;
 }
 
+.mitra-karya-member-report table.default-report-table {
+  width: 1320px !important;
+  min-width: 1320px !important;
+}
+
+.mitra-karya-member-report table.default-report-table th,
+.mitra-karya-member-report table.default-report-table td {
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+.mitra-karya-member-report table.default-report-table th:nth-child(1),
+.mitra-karya-member-report table.default-report-table td:nth-child(1) { width: 42px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(2),
+.mitra-karya-member-report table.default-report-table td:nth-child(2) { width: 105px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(3),
+.mitra-karya-member-report table.default-report-table td:nth-child(3) { width: 135px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(4),
+.mitra-karya-member-report table.default-report-table td:nth-child(4) { width: 120px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(5),
+.mitra-karya-member-report table.default-report-table td:nth-child(5) { width: 135px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(6),
+.mitra-karya-member-report table.default-report-table td:nth-child(6) { width: 135px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(7),
+.mitra-karya-member-report table.default-report-table td:nth-child(7) { width: 110px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(8),
+.mitra-karya-member-report table.default-report-table td:nth-child(8),
+.mitra-karya-member-report table.default-report-table th:nth-child(9),
+.mitra-karya-member-report table.default-report-table td:nth-child(9),
+.mitra-karya-member-report table.default-report-table th:nth-child(10),
+.mitra-karya-member-report table.default-report-table td:nth-child(10),
+.mitra-karya-member-report table.default-report-table th:nth-child(11),
+.mitra-karya-member-report table.default-report-table td:nth-child(11),
+.mitra-karya-member-report table.default-report-table th:nth-child(12),
+.mitra-karya-member-report table.default-report-table td:nth-child(12) { width: 115px; }
+.mitra-karya-member-report table.default-report-table th:nth-child(13),
+.mitra-karya-member-report table.default-report-table td:nth-child(13) { width: 85px; }
+
 @media (max-width: 640px) {
   section:has(.mitra-karya-member-report) {
     padding: 12px;
