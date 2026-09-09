@@ -109,11 +109,11 @@ export default function GeneralJournalReport() {
 
           <div className="overflow-hidden rounded-none border border-slate-300">
             <div className="flex justify-end gap-2 border-b border-slate-300 p-5">
-              <Button className="h-[24px] w-[90px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
-                Export Excel <ChevronDown className="ml-1 h-4 w-4" />
+              <Button className="h-[24px] w-[181px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
+                Export Excel <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
-              <Button className="h-[24px] w-[90px] rounded-[5px] bg-rose-600 px-2 text-[12px] font-normal hover:bg-rose-700">
-                Export PDF <ChevronDown className="ml-1 h-4 w-4" />
+              <Button className="h-[24px] w-[181px] rounded-[5px] bg-rose-600 px-2 text-[12px] font-normal hover:bg-rose-700">
+                Export PDF <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </div>
 
