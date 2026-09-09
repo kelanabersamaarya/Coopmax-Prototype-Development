@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import MemberReportEntriesPicker from "@/components/mitra-karya/MemberReportEntriesPicker";
+import { useNavigate } from "react-router-dom";
 
 type Category = "Semua" | "Anggota" | "Calon Anggota";
 type KtpStatus = "Semua" | "Tersedia" | "Belum Tersedia";
@@ -498,6 +499,7 @@ function ReportResults({ rows }: { rows: Member[] }) {
 }
 
 export default function MitraKaryaLaporanAnggota() {
+  const navigate = useNavigate();
   const [name, setName] = React.useState("");
   const [dateStart, setDateStart] = React.useState("");
   const [dateEnd, setDateEnd] = React.useState("");
@@ -778,18 +780,18 @@ export default function MitraKaryaLaporanAnggota() {
                   Anda dapat melakukan kustomisasi tampilan laporan (pengaturan
                   kolom dan urutan data) pada laporan ini dengan menggunakan fitur
                   penyesuaian laporan. Silahkan klik menu{" "}
-                  <span className="font-semibold text-violet-600">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
+                    className="font-semibold text-violet-600 underline-offset-2 hover:underline"
+                  >
                     Penyesuaian Laporan
-                  </span>{" "}
+                  </button>{" "}
                   untuk dapat melakukan pengaturan.
                 </p>
                 <button
                   type="button"
-                  onClick={() =>
-                    toast("Pilih Laporan (prototype)", {
-                      description: "Menu penyesuaian laporan belum dihubungkan.",
-                    })
-                  }
+                  onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
                   className="mt-5 inline-flex h-[42px] items-center gap-2 rounded-[5px] bg-[#7C3AED] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6D28D9]"
                 >
                   Pilih Laporan
