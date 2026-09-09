@@ -72,11 +72,11 @@ export default function MitraKaryaPenyesuaianLaporan() {
           entri
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[980px] border-collapse text-[12px] text-[#002060]">
+          <table className="w-full min-w-[980px] border-collapse text-[12px] text-[#002060] [&_tbody_td:nth-child(2)]:bg-[#e9edf2]">
             <thead>
               <tr className="bg-[#e9edf2] text-[12px] font-bold uppercase tracking-wide">
                 <th className="w-[70px] px-2 py-2 text-left">No.</th>
-                <th className="w-[280px] px-2 py-2 text-left"><SortLabel>Basis Laporan</SortLabel></th>
+                <th className="w-[280px] bg-[#e9edf2] px-2 py-2 text-left"><SortLabel>Basis Laporan</SortLabel></th>
                 <th className="w-[280px] px-2 py-2 text-left"><SortLabel>Judul Laporan</SortLabel></th>
                 <th className="w-[145px] px-2 py-2 text-left"><SortLabel>Total Laporan</SortLabel></th>
                 <th className="w-[145px] px-2 py-2 text-left"><SortLabel>Tanda Tangan</SortLabel></th>
@@ -85,7 +85,7 @@ export default function MitraKaryaPenyesuaianLaporan() {
               </tr>
               <tr className="border-b border-slate-300">
                 <th />
-                <th className="px-2 py-2"><Select value={basis} onValueChange={setBasis}><SelectTrigger className={selectClass}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua --</SelectItem>{[...new Set(reports.map((r) => r.basis))].map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent></Select></th>
+                <th className="bg-white px-2 py-2"><Select value={basis} onValueChange={setBasis}><SelectTrigger className={selectClass}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua --</SelectItem>{[...new Set(reports.map((r) => r.basis))].map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent></Select></th>
                 <th className="px-2 py-2"><Input value={title} onChange={(e) => setTitle(e.target.value)} className="h-8 rounded-[4px] border-slate-300 text-[13px] shadow-none focus-visible:ring-0" /></th>
                 {[[total, setTotal], [signature, setSignature], [main, setMain]].map(([value, setter], index) => <th className="px-2 py-2" key={index}><Select value={value as string} onValueChange={setter as (value: string) => void}><SelectTrigger className={selectClass}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua --</SelectItem><SelectItem value="Tampilkan">Tampilkan</SelectItem><SelectItem value="Tidak">Tidak</SelectItem></SelectContent></Select></th>)}
                 <th />
