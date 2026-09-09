@@ -74,7 +74,7 @@ export default function MitraKaryaPenyesuaianLaporan() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[980px] border-collapse text-[12px] text-[#002060] [&_tbody_td:nth-child(2)]:bg-[#e9edf2]">
             <thead>
-              <tr className="bg-[#e9edf2] text-[12px] font-bold uppercase tracking-wide">
+              <tr className="bg-white text-[12px] font-bold uppercase tracking-wide">
                 <th className="w-[70px] px-2 py-2 text-left">No.</th>
                 <th className="w-[280px] bg-[#e9edf2] px-2 py-2 text-left"><SortLabel>Basis Laporan</SortLabel></th>
                 <th className="w-[280px] px-2 py-2 text-left"><SortLabel>Judul Laporan</SortLabel></th>
