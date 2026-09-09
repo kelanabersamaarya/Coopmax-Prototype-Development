@@ -25,7 +25,7 @@ const members: Member[] = [
   { id: "A2600007", name: "bmt al fath ikmi", registeredAt: "14-08-2026", identity: "512234567890", phone: "812345678900", address: "Jl", verified: false },
 ];
 
-const inputClass = "h-8 rounded-md border-slate-300 bg-white text-[12px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400";
+const inputClass = "h-8 rounded-[5px] border-slate-300 bg-white text-[12px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400";
 
 export default function MitraKaryaAnggota() {
   const [query, setQuery] = React.useState("");
@@ -57,7 +57,7 @@ export default function MitraKaryaAnggota() {
           <label className="flex items-center gap-1.5 text-[13px] text-slate-700">
             Tampilkan
             <Select value={pageSize} onValueChange={setPageSize}>
-              <SelectTrigger className="h-7 w-[46px] rounded-sm border-slate-300 px-2 text-[12px] shadow-none"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="h-7 w-[46px] rounded-[5px] border-slate-300 px-2 text-[12px] shadow-none"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="10">10</SelectItem><SelectItem value="20">20</SelectItem><SelectItem value="50">50</SelectItem></SelectContent>
             </Select>
             entri
@@ -87,7 +87,7 @@ export default function MitraKaryaAnggota() {
             </thead>
             <tbody>
               {filteredMembers.map((member, index) => <tr key={member.id} className="border-b border-slate-300 text-[#08265a] hover:bg-blue-50/40">
-                <td className="px-3 py-2.5">{index + 1}</td><td className="px-3 py-2.5 text-[#155eef]">{member.id}</td><td className="px-3 py-2.5 capitalize">{member.name}</td><td className="bg-[#f1f3f7] px-3 py-2.5">{member.registeredAt}</td><td className="px-3 py-2.5">{member.identity}</td><td className="px-3 py-2.5">{member.phone}</td><td className="px-3 py-2.5 uppercase">{member.address}</td><td className="px-3 py-2.5"><span className="inline-flex items-center gap-1.5 rounded-md bg-red-100 px-2 py-1 text-[9px] font-medium text-red-700"><span className="grid h-4 w-4 place-items-center rounded-full bg-red-500 text-white">×</span>{member.verified ? "TERVERIFIKASI" : "BELUM TERVERIFIKASI"}</span></td><td className="px-3 py-2.5"><span className="rounded-sm bg-green-600 px-1.5 py-1 text-[10px] font-bold text-white">Aktif</span></td>
+                <td className="px-3 py-2.5">{index + 1}</td><td className="px-3 py-2.5 text-[#155eef]">{member.id}</td><td className="px-3 py-2.5 capitalize">{member.name}</td><td className="bg-[#f1f3f7] px-3 py-2.5">{member.registeredAt}</td><td className="px-3 py-2.5">{member.identity}</td><td className="px-3 py-2.5">{member.phone}</td><td className="px-3 py-2.5 uppercase">{member.address}</td><td className="px-3 py-2.5"><span className="inline-flex items-center gap-1.5 rounded-[5px] bg-red-100 px-2 py-1 text-[9px] font-medium text-red-700"><span className="grid h-4 w-4 place-items-center rounded-full bg-red-500 text-white">×</span>{member.verified ? "TERVERIFIKASI" : "BELUM TERVERIFIKASI"}</span></td><td className="px-3 py-2.5"><span className="rounded-[5px] bg-green-600 px-1.5 py-1 text-[10px] font-bold text-white">Aktif</span></td>
               </tr>)}
               {filteredMembers.length === 0 && <tr><td colSpan={9} className="py-10 text-center text-slate-500">Data anggota tidak ditemukan.</td></tr>}
             </tbody>
