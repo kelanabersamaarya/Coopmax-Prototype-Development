@@ -1,0 +1,148 @@
+import * as React from "react";
+import { CalendarDays, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+const journalRows = [
+  {
+    no: "1",
+    member: "Laura Patel",
+    accountNo: "SK01260002",
+    transaction: "TRANSAKSI SETORAN SIMPANAN",
+    ref: "AK/TAB/2/100826/00001",
+    account: "Kas",
+    debit: "50.000,00",
+    debitCode: "1.1.1.1",
+    credit: "",
+    creditCode: "",
+    note: "Penarikan tabungan untuk keperluan anggota",
+  },
+  {
+    no: "2",
+    member: "Laura Patel",
+    accountNo: "SK01260002",
+    transaction: "TRANSAKSI SETORAN SIMPANAN",
+    ref: "AK/TAB/2/100826/00001",
+    account: "Simpanan Sukarela",
+    debit: "",
+    debitCode: "",
+    credit: "50.000,00",
+    creditCode: "2.1.3",
+    note: "",
+  },
+];
+
+export default function GeneralJournalReport() {
+  const [date, setDate] = React.useState("2025-11-05");
+  const [visible, setVisible] = React.useState(true);
+
+  const formattedDate = new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+
+  return (
+    <div className="rounded-[5px] bg-white px-1 py-2 text-slate-950 md:px-4 md:py-4">
+      <div className="flex items-baseline gap-3">
+        <h1 className="text-[26px] font-extrabold tracking-tight">Laporan</h1>
+        <span className="text-[22px] font-normal">Jurnal Umum</span>
+      </div>
+
+      <div className="mt-12 max-w-[340px]">
+        <label htmlFor="journal-date" className="text-[17px] font-medium">
+          Tanggal Laporan
+        </label>
+        <div className="mt-3 flex h-[52px] overflow-hidden rounded-[6px] border border-slate-300 bg-white shadow-sm">
+          <span className="inline-flex w-[68px] shrink-0 items-center justify-center border-r border-slate-300 bg-slate-100 text-slate-400">
+            <CalendarDays className="h-7 w-7" strokeWidth={2} />
+          </span>
+          <Input
+            id="journal-date"
+            type="date"
+            value={date}
+            onChange={(event) => setDate(event.target.value)}
+            className="h-full rounded-none border-0 px-3 text-[17px] shadow-none focus-visible:ring-0"
+          />
+        </div>
+        <Button
+          type="button"
+          onClick={() => setVisible(true)}
+          className="mt-7 h-[52px] rounded-[7px] bg-violet-600 px-5 text-[17px] font-normal text-white hover:bg-violet-700"
+        >
+          Tampilkan Laporan
+        </Button>
+      </div>
+
+      {visible ? (
+        <section className="mt-10" aria-label="Hasil laporan jurnal umum">
+          <div className="mb-12 text-center">
+            <h2 className="text-[28px] font-extrabold leading-tight">Jurnal Umum</h2>
+            <p className="text-[26px] font-extrabold leading-tight">{formattedDate}</p>
+          </div>
+
+          <div className="overflow-hidden rounded-none border border-slate-300">
+            <div className="flex justify-end gap-2 border-b border-slate-300 p-5">
+              <Button className="h-[40px] rounded-[7px] bg-green-600 px-4 text-[16px] font-normal hover:bg-green-700">
+                Export Excel <ChevronDown className="ml-3 h-4 w-4" />
+              </Button>
+              <Button className="h-[40px] rounded-[7px] bg-rose-600 px-4 text-[16px] font-normal hover:bg-rose-700">
+                Export PDF <ChevronDown className="ml-3 h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="min-w-[1500px] w-full border-collapse text-[15px]">
+                <thead className="font-bold">
+                  <tr>
+                    <th rowSpan={2} className="journal-cell w-[70px]">NO</th>
+                    <th rowSpan={2} className="journal-cell w-[250px]">NAMA ANGGOTA</th>
+                    <th rowSpan={2} className="journal-cell w-[190px]">NO. REKENING</th>
+                    <th rowSpan={2} className="journal-cell w-[220px]">JENIS<br />TRANSAKSI</th>
+                    <th rowSpan={2} className="journal-cell w-[300px]">REF</th>
+                    <th rowSpan={2} className="journal-cell w-[270px]">NAMA AKUN DAN<br />KETERANGAN</th>
+                    <th colSpan={2} className="journal-cell h-[72px]">DEBET</th>
+                    <th colSpan={2} className="journal-cell">KREDIT</th>
+                    <th rowSpan={2} className="journal-cell w-[250px]">KETERANGAN</th>
+                  </tr>
+                  <tr>
+                    <th className="journal-cell w-[170px]">JUMLAH</th>
+                    <th className="journal-cell w-[150px]">KODE AKUN</th>
+                    <th className="journal-cell w-[170px]">JUMLAH</th>
+                    <th className="journal-cell w-[150px]">KODE AKUN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {journalRows.map((row) => (
+                    <tr key={row.no}>
+                      <td className="journal-cell text-center align-top">{row.no}</td>
+                      <td className="journal-cell align-top">{row.member}</td>
+                      <td className="journal-cell align-top">{row.accountNo}</td>
+                      <td className="journal-cell align-top uppercase">{row.transaction}</td>
+                      <td className="journal-cell align-top">{row.ref}</td>
+                      <td className="journal-cell align-top">{row.account}</td>
+                      <td className="journal-cell text-right align-top">{row.debit}</td>
+                      <td className="journal-cell align-top">{row.debitCode}</td>
+                      <td className="journal-cell text-right align-top">{row.credit}</td>
+                      <td className="journal-cell align-top">{row.creditCode}</td>
+                      <td className="journal-cell align-top">{row.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="mt-12 flex flex-col gap-4 text-[15px] md:flex-row md:items-center md:justify-between">
+            <span>Menampilkan 1 sampai 1 dari 1 entri (disaring dari 592 entri keseluruhan)</span>
+            <div className="flex items-center gap-1">
+              <Button disabled className="rounded-none bg-slate-100 text-slate-300">Sebelumnya</Button>
+              <Button className="rounded-none bg-indigo-600 text-white hover:bg-indigo-700">1</Button>
+              <Button disabled className="rounded-none bg-slate-100 text-slate-300">Selanjutnya</Button>
+            </div>
+          </div>
+        </section>
+      ) : null}
+    </div>
+  );
+}
