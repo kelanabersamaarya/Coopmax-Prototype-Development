@@ -8,7 +8,6 @@ import {
   ChevronRight,
   FileBarChart2,
   Home,
-  UserPlus,
   UsersRound,
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -69,22 +68,18 @@ export default function SidebarMitraKaryaMenu() {
         <div className={cn("grid overflow-hidden transition-[grid-template-rows,opacity] duration-200", memberOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
           <div className="min-h-0">
             <div className="space-y-1 px-2.5 pb-2 pt-2">
-              {memberItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    className={({ isActive }) => cn(
-                      "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                      isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </NavLink>
-                );
-              })}
+              {memberItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) => cn(
+                    "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                    isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                  )}
+                >
+                  {item.label}
+                </NavLink>
+              ))}
             </div>
           </div>
         </div>
