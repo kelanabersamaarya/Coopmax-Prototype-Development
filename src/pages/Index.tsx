@@ -54,6 +54,7 @@ const implementedRoutes = new Set([
   "/mitra-karya/dashboard",
   "/mitra-karya/akunting",
   "/mitra-karya/laporan/anggota",
+  "/mitra-karya/laporan/ktp",
 ]);
 
 function resolveNavTo(to: string) {

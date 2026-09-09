@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import "./globals.css";
 import "./App.css";
 import "./styles/placeholders.css";
+import "./styles/mitra-karya-ktp-report.css";
 import "./styles/loan-account-info-toggle.css";
 import "./styles/loan-interest-wizard-step-two.css";
 import "./styles/loan-interest-reason-field.css";
