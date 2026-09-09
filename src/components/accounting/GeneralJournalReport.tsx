@@ -75,11 +75,11 @@ export default function GeneralJournalReport() {
         <span className="text-[16px] font-normal">Jurnal Umum</span>
       </div>
 
-      <div className="mt-12 max-w-[340px]">
+      <div className="mt-7 max-w-[340px]">
         <label htmlFor="journal-date" className="text-[14px] font-medium">
           Tanggal Laporan
         </label>
-        <div className="mt-3 flex h-[26px] w-[143px] overflow-hidden rounded-[5px] border border-slate-300 bg-white shadow-sm">
+        <div className="mt-2 flex h-[26px] w-[143px] overflow-hidden rounded-[5px] border border-slate-300 bg-white shadow-sm">
           <span className="inline-flex w-[46px] shrink-0 items-center justify-center border-r border-slate-300 bg-slate-100 text-slate-400">
             <CalendarDays className="h-[19px] w-[19px]" strokeWidth={2} />
           </span>
@@ -94,7 +94,7 @@ export default function GeneralJournalReport() {
         <Button
           type="button"
           onClick={() => setVisible(true)}
-          className="mt-4 h-[28px] w-[123px] rounded-[6px] bg-violet-600 px-2 text-[12px] font-normal text-white hover:bg-violet-700"
+          className="mt-3 h-[28px] w-[123px] rounded-[6px] bg-violet-600 px-2 text-[12px] font-normal text-white hover:bg-violet-700"
         >
           Tampilkan Laporan
         </Button>
