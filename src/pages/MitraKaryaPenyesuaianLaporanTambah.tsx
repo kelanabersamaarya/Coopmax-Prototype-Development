@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CheckSquare, GripVertical, Plus, Trash2, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,18 +15,19 @@ function FormRow({ label, children, required = true }: { label: string; children
   );
 }
 
-function ReportSwitch({ defaultChecked = false, onChange }: { defaultChecked?: boolean; onChange?: (checked: boolean) => void }) {
+function ReportSwitch({ defaultChecked = false, checked: controlledChecked, onChange }: { defaultChecked?: boolean; checked?: boolean; onChange?: (checked: boolean) => void }) {
   const [checked, setChecked] = React.useState(defaultChecked);
+  const isChecked = controlledChecked ?? checked;
 
   return (
     <span className="relative inline-flex h-6 w-[62px]">
       <Switch
-        checked={checked}
+        checked={isChecked}
         onCheckedChange={(value) => { setChecked(value); onChange?.(value); }}
         className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5] [&>span]:h-5 [&>span]:w-5 [&>span]:bg-white [&>span]:data-[state=checked]:translate-x-[38px] [&>span]:data-[state=unchecked]:translate-x-0"
       />
       <span className={`pointer-events-none absolute inset-y-0 flex items-center text-[10px] font-bold leading-none text-white ${checked ? "left-[13px]" : "right-[10px]"}`}>
-        {checked ? "ON" : "OFF"}
+        {isChecked ? "ON" : "OFF"}
       </span>
     </span>
   );
@@ -34,12 +35,26 @@ function ReportSwitch({ defaultChecked = false, onChange }: { defaultChecked?: b
 
 export default function MitraKaryaPenyesuaianLaporanTambah() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEdit = Boolean(id);
   const [basis, setBasis] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [showTotal, setShowTotal] = React.useState(true);
   const [showSignature, setShowSignature] = React.useState(true);
   const [isMain, setIsMain] = React.useState(false);
   const [columnRows, setColumnRows] = React.useState<number[]>([]);
+
+  React.useEffect(() => {
+    if (!id) return;
+    const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { basis: string; title: string; total: "Tampilkan" | "Tidak"; signature: "Tampilkan" | "Tidak"; main: "Tampilkan" | "Tidak" }[];
+    const report = savedReports.find((item) => item.title === decodeURIComponent(id));
+    if (!report) return;
+    setBasis(report.basis === "Laporan Anggota" ? "anggota" : report.basis === "Laporan Rekening Tabungan" ? "tabungan" : report.basis === "Laporan Rekening Pinjaman" ? "pinjaman" : "deposito");
+    setTitle(report.title);
+    setShowTotal(report.total === "Tampilkan");
+    setShowSignature(report.signature === "Tampilkan");
+    setIsMain(report.main === "Tampilkan");
+  }, [id]);
   const [sortRows, setSortRows] = React.useState<number[]>([]);
   const [draggedRow, setDraggedRow] = React.useState<number | null>(null);
 
@@ -58,7 +73,7 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] px-1 py-7 md:px-4 md:py-8">
-      <h1 className="px-5 text-[22px] font-medium text-[#002060]"><strong>Penyesuaian Laporan</strong> <span className="text-[16px]">Tambah</span></h1>
+      <h1 className="px-5 text-[22px] font-medium text-[#002060]"><strong>Penyesuaian Laporan</strong> <span className="text-[16px]">{isEdit ? "Ubah" : "Tambah"}</span></h1>
       <Card className="mt-10 rounded-[22px] border-0 bg-white px-6 py-8 shadow-sm md:px-12 md:py-8 [&_svg.lucide-chevron-down]:text-black [&_svg.lucide-chevron-down]:opacity-100">
         <div className="grid gap-3">
           <FormRow label="Basis Laporan">
@@ -85,7 +100,9 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
           <button type="button" onClick={() => navigate("/mitra-karya/laporan/penyesuaian")} className="inline-flex h-10 items-center gap-1 rounded-[7px] bg-[#7d8da9] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6d7d98]"><X className="h-3 w-3" strokeWidth={3} />Batalkan</button>
           <button type="button" onClick={() => {
             const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]");
-            localStorage.setItem("mitra-karya-penyesuaian-laporan", JSON.stringify([...savedReports, { basis: basis === "tabungan" ? "Laporan Rekening Tabungan" : basis === "anggota" ? "Laporan Anggota" : basis === "pinjaman" ? "Laporan Rekening Pinjaman" : "Laporan Rekening Deposito", title: title || "Tanpa Judul", total: showTotal ? "Tampilkan" : "Tidak", signature: showSignature ? "Tampilkan" : "Tidak", main: isMain ? "Tampilkan" : "Tidak" }]));
+                    const nextReport = { basis: basis === "tabungan" ? "Laporan Rekening Tabungan" : basis === "anggota" ? "Laporan Anggota" : basis === "pinjaman" ? "Laporan Rekening Pinjaman" : "Laporan Rekening Deposito", title: title || "Tanpa Judul", total: showTotal ? "Tampilkan" : "Tidak", signature: showSignature ? "Tampilkan" : "Tidak", main: isMain ? "Tampilkan" : "Tidak" };
+                    const nextReports = isEdit ? savedReports.map((report: typeof nextReport) => report.title === decodeURIComponent(id || "") ? nextReport : report) : [...savedReports, nextReport];
+                    localStorage.setItem("mitra-karya-penyesuaian-laporan", JSON.stringify(nextReports));
             navigate("/mitra-karya/laporan/penyesuaian");
           }} className="inline-flex h-10 items-center gap-1 rounded-[7px] bg-[#26ad00] px-5 text-[13px] font-semibold text-white transition hover:bg-[#209500]"><CheckSquare className="h-4 w-4" strokeWidth={3} />Simpan</button>
         </div>

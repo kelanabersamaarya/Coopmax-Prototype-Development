@@ -94,6 +94,10 @@ const App = () => (
               path="mitra-karya/laporan/penyesuaian/tambah"
               element={<MitraKaryaPenyesuaianLaporanTambah />}
             />
+            <Route
+              path="mitra-karya/laporan/penyesuaian/:id/ubah"
+              element={<MitraKaryaPenyesuaianLaporanTambah />}
+            />
             <Route path="simpanan/rekening" element={<RekeningSimpanan />} />
 
             <Route path="payment-link" element={<PaymentLink />} />
