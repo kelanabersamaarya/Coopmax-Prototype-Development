@@ -16,7 +16,12 @@ function FormRow({ label, children, required = true }: { label: string; children
 }
 
 function ReportSwitch({ defaultChecked = false }: { defaultChecked?: boolean }) {
-  return <Switch defaultChecked={defaultChecked} className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5]" />;
+  return (
+    <Switch
+      defaultChecked={defaultChecked}
+      className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5] [&>span]:h-5 [&>span]:w-5 [&>span]:bg-white [&>span]:data-[state=checked]:translate-x-[38px] [&>span]:data-[state=unchecked]:translate-x-0"
+    />
+  );
 }
 
 export default function MitraKaryaPenyesuaianLaporanTambah() {
