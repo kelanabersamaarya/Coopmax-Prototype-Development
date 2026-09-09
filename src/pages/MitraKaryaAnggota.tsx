@@ -44,7 +44,7 @@ export default function MitraKaryaAnggota() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-3rem)] bg-[#f7f8fc] px-3 py-4 text-[#08265a] sm:px-6 sm:py-7">
+    <div className="min-h-[calc(100vh-3rem)] px-3 py-4 text-[#08265a] sm:px-6 sm:py-7">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-[21px] font-semibold tracking-tight">Anggota <span className="font-normal">Daftar</span></h1>
         <Button onClick={showAddMember} className="h-10 self-start rounded-full bg-white px-5 text-[13px] font-medium text-[#34527d] shadow-[0_3px_14px_rgba(50,70,110,0.08)] hover:bg-blue-50 sm:self-auto">
