@@ -306,7 +306,18 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
   const configuredReport = savedReports.find((report) => report.title === selectedReport);
   const configuredColumns = configuredReport?.columns || [];
   const defaultColumns = [
-    { key: "no-anggota", label: "No. Anggota" }, { key: "nama", label: "Nama" }, { key: "tanggal-daftar", label: "Tanggal Daftar" }, { key: "alamat", label: "Alamat" }, { key: "no-handphone", label: "No. Handphone" }, { key: "kategori", label: "Kategori" }, { key: "simpanan-pokok", label: "Simpanan Pokok" }, { key: "simpanan-wajib", label: "Simpanan Wajib" },
+    { key: "no-anggota", label: "No. Anggota" },
+    { key: "nama", label: "Nama" },
+    { key: "tanggal-daftar", label: "Tanggal Daftar" },
+    { key: "alamat", label: "Alamat" },
+    { key: "no-handphone", label: "No. Handphone" },
+    { key: "kategori", label: "Kategori" },
+    { key: "simpanan-pokok", label: "Simpanan Pokok" },
+    { key: "simpanan-wajib", label: "Simpanan Wajib" },
+    { key: "simpanan-khusus", label: "Simpanan Khusus" },
+    { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" },
+    { key: "total-simpanan", label: "Total Simpanan" },
+    { key: "status", label: "Status" },
   ];
   const fieldLabels: Record<string, string> = Object.fromEntries([...defaultColumns, { key: "nomor-identitas", label: "Nomor Identitas" }, { key: "tanggal-lahir", label: "Tanggal Lahir" }, { key: "jenis-kelamin", label: "Jenis Kelamin" }, { key: "tempat-lahir", label: "Tempat Lahir" }, { key: "simpanan-khusus", label: "Simpanan Khusus" }, { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" }, { key: "total-simpanan", label: "Total Simpanan" }, { key: "status", label: "Status" }, { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" }, { key: "preview-file-ktp", label: "Preview File KTP" }].map((field) => [field.key, field.label]));
   const columns = (configuredReport ? configuredColumns : defaultColumns).map((column) => ({ ...column, label: column.label || fieldLabels[column.key] || column.key }));
@@ -392,7 +403,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
                   <td>{formatMoney(totals.simpananKhusus)}</td>
                   <td>{formatMoney(totals.simpananPenyertaan)}</td>
                   <td>{formatMoney(totalSimpanan)}</td>
-                  <td colSpan={3} />
+                  <td />
                 </tr>
                 <tr className="mitra-karya-total-row mitra-karya-total-all-row">
                   <td colSpan={7}>Total</td>
@@ -401,7 +412,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
                   <td>{formatMoney(totals.simpananKhusus)}</td>
                   <td>{formatMoney(totals.simpananPenyertaan)}</td>
                   <td>{formatMoney(totalSimpanan)}</td>
-                  <td colSpan={3} />
+                  <td />
                 </tr>
               </>
             ) : null}
