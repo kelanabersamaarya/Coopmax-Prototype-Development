@@ -31,6 +31,7 @@ export default function MitraKaryaAnggota() {
   const [query, setQuery] = React.useState("");
   const [verification, setVerification] = React.useState("semua");
   const [pageSize, setPageSize] = React.useState("20");
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const filteredMembers = members.filter((member) => {
     const search = query.trim().toLowerCase();
@@ -42,6 +43,13 @@ export default function MitraKaryaAnggota() {
   function showAddMember() {
     toast("Form pendaftaran anggota", { description: "Menu tambah anggota siap digunakan." });
   }
+
+  const totalPages = Math.max(1, Math.ceil(filteredMembers.length / Number(pageSize)));
+  const paginatedMembers = filteredMembers.slice((currentPage - 1) * Number(pageSize), currentPage * Number(pageSize));
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [query, verification, pageSize]);
 
   return (
     <div className="min-h-[calc(100vh-3rem)] px-3 py-4 text-[#08265a] sm:px-6 sm:py-7">
@@ -85,14 +93,21 @@ export default function MitraKaryaAnggota() {
               </tr>
             </thead>
             <tbody>
-              {filteredMembers.map((member, index) => <tr key={member.id} className="border-b border-slate-300 text-[#08265a] hover:bg-blue-50/40">
+              {paginatedMembers.map((member, index) => <tr key={member.id} className="border-b border-slate-300 text-[#08265a] hover:bg-blue-50/40">
                 <td className="px-3 py-2.5">{index + 1}</td><td className="px-3 py-2.5 text-[#155eef]">{member.id}</td><td className="px-3 py-2.5 capitalize">{member.name}</td><td className="bg-[#f1f3f7] px-3 py-2.5">{member.registeredAt}</td><td className="px-3 py-2.5">{member.identity}</td><td className="px-3 py-2.5">{member.phone}</td><td className="px-3 py-2.5 uppercase">{member.address}</td><td className="px-3 py-2.5"><span className="inline-flex items-center gap-1.5 rounded-[5px] bg-red-100 px-2 py-1 text-[9px] font-medium text-red-700"><span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-red-500 text-white"><X className="h-3 w-3" strokeWidth={3} /></span>{member.verified ? "TERVERIFIKASI" : "BELUM TERVERIFIKASI"}</span></td><td className="px-3 py-2.5"><span className="rounded-[5px] bg-green-600 px-1.5 py-1 text-[10px] font-bold text-white">Aktif</span></td>
               </tr>)}
               {filteredMembers.length === 0 && <tr><td colSpan={9} className="py-10 text-center text-slate-500">Data anggota tidak ditemukan.</td></tr>}
             </tbody>
           </table>
         </div>
-        <div className="mt-3 border-t border-slate-100 pt-3 text-[12px] text-slate-500"><span>Menampilkan 1 sampai {filteredMembers.length} dari {filteredMembers.length} entri</span></div>
+        <div className="mt-3 flex flex-col gap-3 border-t border-slate-100 pt-3 text-[12px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <span>Menampilkan {filteredMembers.length ? (currentPage - 1) * Number(pageSize) + 1 : 0} sampai {Math.min(currentPage * Number(pageSize), filteredMembers.length)} dari {filteredMembers.length} entri</span>
+          <div className="flex items-center gap-1">
+            <button type="button" disabled={currentPage === 1} onClick={() => setCurrentPage((page) => Math.max(1, page - 1))} className="h-8 rounded-[5px] bg-slate-100 px-3 text-slate-300 disabled:cursor-not-allowed">Sebelumnya</button>
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => <button key={page} type="button" onClick={() => setCurrentPage(page)} className={cn("h-8 min-w-8 rounded-[5px] px-2", currentPage === page ? "bg-violet-600 text-white" : "bg-slate-100 text-slate-700")}>{page}</button>)}
+            <button type="button" disabled={currentPage === totalPages} onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))} className="h-8 rounded-[5px] bg-slate-100 px-3 text-slate-700 disabled:cursor-not-allowed disabled:text-slate-300">Selanjutnya</button>
+          </div>
+        </div>
       </section>
     </div>
   );
