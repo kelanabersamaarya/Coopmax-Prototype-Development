@@ -766,7 +766,7 @@ export default function MitraKaryaLaporanAnggota() {
               </FilterSelect>
             </FormRow>
 
-            {selectedReport === "Laporan KTP Anggota" ? <FormRow label="File KTP Anggota">
+            {selectedReport === "Laporan KTP Anggota" ? <FormRow label="Ketersediaan File KTP">
               <FilterSelect
                 value={ktpStatus}
                 onChange={(value) => setKtpStatus(value as KtpStatus)}
