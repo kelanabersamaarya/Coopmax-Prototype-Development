@@ -6,8 +6,22 @@
 }
 
 .journal-cell {
-  border: 1px solid #cbd5e1;
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
   padding: 14px 16px;
   text-align: left;
   vertical-align: middle;
+}
+
+.journal-table thead .journal-cell {
+  border-top: 1px solid #cbd5e1;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.journal-table tbody tr:last-child .journal-cell {
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.journal-table tbody tr:nth-child(even) .journal-cell {
+  border-bottom: 1px solid #cbd5e1;
 }

@@ -92,7 +92,7 @@ export default function GeneralJournalReport() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-[1500px] w-full border-collapse text-[15px]">
+              <table className="journal-table min-w-[1500px] w-full border-collapse text-[15px]">
                 <thead className="font-bold">
                   <tr>
                     <th rowSpan={2} className="journal-cell w-[70px]">NO</th>
