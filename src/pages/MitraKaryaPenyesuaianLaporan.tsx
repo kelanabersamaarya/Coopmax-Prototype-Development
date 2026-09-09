@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { PlusSquare, Eye, Pencil, X, FileText, ChevronDown, ChevronUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -45,6 +46,7 @@ function StatusBadge({ value }: { value: Report["total"] }) {
 }
 
 export default function MitraKaryaPenyesuaianLaporan() {
+  const navigate = useNavigate();
   const [basis, setBasis] = React.useState("Semua");
   const [title, setTitle] = React.useState("");
   const [total, setTotal] = React.useState("Semua");
@@ -63,7 +65,7 @@ export default function MitraKaryaPenyesuaianLaporan() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))] px-1 py-7 md:px-4 md:py-8">
       <div className="flex items-center justify-between px-5">
         <h1 className="text-[22px] font-medium text-[#002060]"><strong>Penyesuaian Laporan</strong> <span className="text-[16px]">Daftar</span></h1>
-        <button type="button" className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[14px] text-[#52658a] shadow-sm transition hover:text-violet-600 hover:shadow-md"><PlusSquare className="h-[18px] w-[18px] text-[#52658a]" strokeWidth={2.5} />Tambah</button>
+        <button type="button" onClick={() => navigate("/mitra-karya/laporan/penyesuaian/tambah")} className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[14px] text-[#52658a] shadow-sm transition hover:text-violet-600 hover:shadow-md"><PlusSquare className="h-[18px] w-[18px] text-[#52658a]" strokeWidth={2.5} />Tambah</button>
       </div>
 
       <Card className="mt-8 rounded-[22px] border-0 bg-white p-5 shadow-sm md:p-5">

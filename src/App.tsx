@@ -17,6 +17,7 @@ import MitraKaryaPendaftaranAnggota from "./pages/MitraKaryaPendaftaranAnggota";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
 import MitraKaryaLaporanAnggotaV2 from "./pages/MitraKaryaLaporanAnggotaV2";
 import MitraKaryaPenyesuaianLaporan from "./pages/MitraKaryaPenyesuaianLaporan";
+import MitraKaryaPenyesuaianLaporanTambah from "./pages/MitraKaryaPenyesuaianLaporanTambah";
 import RekeningSimpanan from "./pages/RekeningSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
@@ -88,6 +89,10 @@ const App = () => (
             <Route
               path="mitra-karya/laporan/penyesuaian"
               element={<MitraKaryaPenyesuaianLaporan />}
+            />
+            <Route
+              path="mitra-karya/laporan/penyesuaian/tambah"
+              element={<MitraKaryaPenyesuaianLaporanTambah />}
             />
             <Route path="simpanan/rekening" element={<RekeningSimpanan />} />
 
