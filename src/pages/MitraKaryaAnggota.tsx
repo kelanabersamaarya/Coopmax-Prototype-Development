@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ChevronDown, ChevronUp, SquarePlus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ const members: Member[] = [
 const inputClass = "h-8 rounded-[5px] border-slate-300 bg-white text-[12px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400";
 
 export default function MitraKaryaAnggota() {
+  const navigate = useNavigate();
   const [query, setQuery] = React.useState("");
   const [verification, setVerification] = React.useState("semua");
   const [pageSize, setPageSize] = React.useState("20");
@@ -41,7 +43,7 @@ export default function MitraKaryaAnggota() {
   });
 
   function showAddMember() {
-    toast("Form pendaftaran anggota", { description: "Menu tambah anggota siap digunakan." });
+    navigate("/mitra-karya/anggota/pendaftaran");
   }
 
   const totalPages = Math.max(1, Math.ceil(filteredMembers.length / Number(pageSize)));
