@@ -6,7 +6,6 @@ import {
   Calculator,
   ChevronDown,
   ChevronRight,
-  FileBarChart2,
   Home,
   UsersRound,
 } from "lucide-react";
@@ -124,11 +123,10 @@ export default function SidebarMitraKaryaMenu() {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) => cn(
-                    "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                    "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
                     isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
                   )}
                 >
-                  <FileBarChart2 className="h-4 w-4" />
                   {item.label}
                 </NavLink>
               ))}
