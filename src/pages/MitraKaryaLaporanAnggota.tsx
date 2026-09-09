@@ -515,6 +515,7 @@ export default function MitraKaryaLaporanAnggota() {
     "Berdasarkan Simpanan Anggota",
   );
   const [selectedReport, setSelectedReport] = React.useState("Laporan Anggota (Default)");
+  const [reportRefreshKey, setReportRefreshKey] = React.useState(0);
   const [ktpStatus, setKtpStatus] = React.useState<KtpStatus>("Semua");
   const [searched, setSearched] = React.useState(false);
 
@@ -526,7 +527,21 @@ export default function MitraKaryaLaporanAnggota() {
       "Laporan KTP Anggota",
       ...savedReports.filter((report) => report.basis === "Laporan Anggota").map((report) => report.title),
     ])];
+  }, [reportRefreshKey]);
+
+  React.useEffect(() => {
+    const refreshReports = () => setReportRefreshKey((key) => key + 1);
+    window.addEventListener("storage", refreshReports);
+    window.addEventListener("focus", refreshReports);
+    return () => {
+      window.removeEventListener("storage", refreshReports);
+      window.removeEventListener("focus", refreshReports);
+    };
   }, []);
+
+  React.useEffect(() => {
+    if (!memberReportOptions.includes(selectedReport)) setSelectedReport("Laporan Anggota (Default)");
+  }, [memberReportOptions, selectedReport]);
 
   const filteredMembers = React.useMemo(() => {
     const nameQuery = name.trim().toLowerCase();
