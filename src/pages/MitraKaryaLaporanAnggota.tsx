@@ -3,9 +3,8 @@ import {
   ChevronDown,
   ChevronUp,
   Eye,
-  FileSpreadsheet,
+  FileDown,
   Info,
-  Printer,
   Search,
   X,
 } from "lucide-react";
@@ -516,19 +515,21 @@ export default function MitraKaryaLaporanAnggota() {
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              onClick={() => exportReport("Export Excel")}
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-[13px] font-semibold text-[#001b4e] shadow-sm transition hover:bg-slate-50"
+              onClick={() => exportReport("Export Laporan Rekapitulasi KTP")}
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[13px] font-medium text-[#536581] shadow-sm transition hover:bg-slate-50"
             >
-              <FileSpreadsheet className="h-4 w-4" />
-              Export Excel
+              <FileDown className="h-4 w-4 text-[#536581]" />
+              Export Laporan Rekapitulasi KTP
+              <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
             </button>
             <button
               type="button"
-              onClick={() => toast("Cetak (prototype)")}
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-200 bg-white px-5 text-[13px] font-semibold text-[#001b4e] shadow-sm transition hover:bg-slate-50"
+              onClick={() => exportReport("Export Laporan Anggota")}
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[13px] font-medium text-[#536581] shadow-sm transition hover:bg-slate-50"
             >
-              <Printer className="h-4 w-4" />
-              Cetak
+              <FileDown className="h-4 w-4 text-[#536581]" />
+              Export Laporan Anggota
+              <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
             </button>
           </div>
         </div>
