@@ -51,7 +51,7 @@ export default function MitraKaryaPenyesuaianLaporan() {
   const navigate = useNavigate();
   const [reportRows, setReportRows] = React.useState<Report[]>(() => {
     const savedReports = window.localStorage.getItem(savedReportsKey);
-    return savedReports ? [...reports, ...JSON.parse(savedReports) as Report[]] : reports;
+    return savedReports ? [...(JSON.parse(savedReports) as Report[]).reverse(), ...reports] : reports;
   });
   const [basis, setBasis] = React.useState("Semua");
   const [title, setTitle] = React.useState("");
