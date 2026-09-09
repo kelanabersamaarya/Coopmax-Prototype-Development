@@ -34,6 +34,7 @@ function ReportSwitch({ defaultChecked = false }: { defaultChecked?: boolean }) 
 
 export default function MitraKaryaPenyesuaianLaporanTambah() {
   const navigate = useNavigate();
+  const [basis, setBasis] = React.useState("");
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] px-1 py-7 md:px-4 md:py-8">
@@ -41,8 +42,18 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
       <Card className="mt-10 rounded-[22px] border-0 bg-white px-6 py-8 shadow-sm md:px-12 md:py-8">
         <div className="grid gap-3">
           <FormRow label="Basis Laporan">
-            <Select><SelectTrigger className="h-8 w-full rounded-[5px] border-slate-300 text-[13px] shadow-none focus:ring-0"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="tabungan">Laporan Rekening Tabungan</SelectItem><SelectItem value="anggota">Laporan Anggota</SelectItem><SelectItem value="pinjaman">Laporan Rekening Pinjaman</SelectItem><SelectItem value="deposito">Laporan Rekening Deposito</SelectItem></SelectContent></Select>
+            <Select value={basis} onValueChange={setBasis}><SelectTrigger className="h-8 w-full rounded-[5px] border-slate-300 text-[13px] shadow-none focus:ring-0"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="tabungan">Laporan Rekening Tabungan</SelectItem><SelectItem value="anggota">Laporan Anggota</SelectItem><SelectItem value="pinjaman">Laporan Rekening Pinjaman</SelectItem><SelectItem value="deposito">Laporan Rekening Deposito</SelectItem></SelectContent></Select>
           </FormRow>
+          {basis ? <div className="mt-5 grid grid-cols-1 gap-16">
+            <section>
+              <div className="flex items-center justify-between border-b border-slate-300 pb-2"><h2 className="text-[21px] text-[#002060]"><strong>Pengaturan Kolom Laporan</strong> <span className="text-[16px]">Daftar</span></h2><button type="button" className="h-8 rounded-[5px] bg-[#3564ef] px-4 text-[13px] font-semibold text-white hover:bg-[#2854d8]">+ Tambah</button></div>
+              <div className="grid grid-cols-3 px-4 pt-2 text-[11px] font-medium uppercase tracking-wide text-[#64769a]"><span>Field Key</span><span>Field Label</span><span>Field Order</span></div>
+            </section>
+            <section>
+              <div className="flex items-center justify-between border-b border-slate-300 pb-2"><h2 className="text-[21px] text-[#002060]"><strong>Pengaturan Urutan Data</strong> <span className="text-[16px]">Daftar</span></h2><button type="button" className="h-8 rounded-[5px] bg-[#3564ef] px-4 text-[13px] font-semibold text-white hover:bg-[#2854d8]">+ Tambah</button></div>
+              <div className="grid grid-cols-3 px-4 pt-2 text-[11px] font-medium uppercase tracking-wide text-[#64769a]"><span>Sort Key</span><span>Tipe Urutan</span><span>Sort Order</span></div>
+            </section>
+          </div> : null}
           <FormRow label="Judul Laporan"><Input className="h-8 rounded-[5px] border-slate-300 text-[13px] shadow-none focus-visible:ring-0" /></FormRow>
           <FormRow label="Tampilkan Total"><ReportSwitch defaultChecked /></FormRow>
           <FormRow label="Tanda Tangan Laporan"><ReportSwitch defaultChecked /></FormRow>
