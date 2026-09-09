@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plus, Search, SlidersHorizontal, X } from "lucide-react";
+import { Search, SlidersHorizontal, SquarePlus, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,7 +48,7 @@ export default function MitraKaryaAnggota() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-[21px] font-semibold tracking-tight">Anggota <span className="font-normal">Daftar</span></h1>
         <Button onClick={showAddMember} className="h-10 self-start rounded-full bg-white px-5 text-[13px] font-medium text-[#34527d] shadow-[0_3px_14px_rgba(50,70,110,0.08)] hover:bg-blue-50 sm:self-auto">
-          <Plus className="mr-2 h-4 w-4" /> Tambah
+          <SquarePlus className="mr-2 h-[17px] w-[17px]" strokeWidth={1.8} /> Tambah
         </Button>
       </div>
 
