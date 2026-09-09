@@ -14,8 +14,8 @@ import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const memberItems = [
-  { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran", icon: UserPlus },
-  { label: "Anggota", to: "/anggota/transaksi", icon: UsersRound },
+  { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran" },
+  { label: "Anggota", to: "/anggota/transaksi" },
 ];
 
 const reportItems = [
