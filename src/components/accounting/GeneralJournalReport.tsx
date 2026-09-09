@@ -30,6 +30,32 @@ const journalRows = [
     creditCode: "2.1.3",
     note: "",
   },
+  {
+    no: "3",
+    member: "Budi Santoso",
+    accountNo: "SK01260017",
+    transaction: "TRANSAKSI PENARIKAN SIMPANAN",
+    ref: "AK/TAB/2/100826/00002",
+    account: "Simpanan Sukarela",
+    debit: "25.000,00",
+    debitCode: "2.1.3",
+    credit: "",
+    creditCode: "",
+    note: "Penarikan simpanan anggota",
+  },
+  {
+    no: "4",
+    member: "Budi Santoso",
+    accountNo: "SK01260017",
+    transaction: "TRANSAKSI PENARIKAN SIMPANAN",
+    ref: "AK/TAB/2/100826/00002",
+    account: "Kas",
+    debit: "",
+    debitCode: "",
+    credit: "25.000,00",
+    creditCode: "1.1.1.1",
+    note: "",
+  },
 ];
 
 export default function GeneralJournalReport() {
@@ -134,7 +160,7 @@ export default function GeneralJournalReport() {
           </div>
 
           <div className="mt-12 flex flex-col gap-4 text-[15px] md:flex-row md:items-center md:justify-between">
-            <span>Menampilkan 1 sampai 1 dari 1 entri (disaring dari 592 entri keseluruhan)</span>
+            <span>Menampilkan 1 sampai 4 dari 4 entri (disaring dari 592 entri keseluruhan)</span>
             <div className="flex items-center gap-1">
               <Button disabled className="rounded-none bg-slate-100 text-slate-300">Sebelumnya</Button>
               <Button className="rounded-none bg-indigo-600 text-white hover:bg-indigo-700">1</Button>
