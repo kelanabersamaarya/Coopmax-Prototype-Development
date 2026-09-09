@@ -52,6 +52,7 @@ const implementedRoutes = new Set([
   "/mobile/new-mbanking",
   "/payment-link",
   "/mitra-karya/dashboard",
+  "/mitra-karya/anggota/pendaftaran",
   "/mitra-karya/akunting",
   "/mitra-karya/laporan/anggota",
 ]);

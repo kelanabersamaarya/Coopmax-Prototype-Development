@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import DashboardSimpanan from "./pages/DashboardSimpanan";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
+import MitraKaryaPendaftaranAnggota from "./pages/MitraKaryaPendaftaranAnggota";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
 import MitraKaryaLaporanAnggotaV2 from "./pages/MitraKaryaLaporanAnggotaV2";
 import RekeningSimpanan from "./pages/RekeningSimpanan";
@@ -69,6 +70,7 @@ const App = () => (
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
+            <Route path="mitra-karya/anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/akunting" element={<SakAkunting />} />
             <Route
               path="mitra-karya/laporan/anggota"

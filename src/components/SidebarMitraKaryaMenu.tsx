@@ -8,25 +8,32 @@ import {
   ChevronRight,
   FileBarChart2,
   Home,
+  UserPlus,
+  UsersRound,
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
+const memberItems = [
+  { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran", icon: UserPlus },
+  { label: "Anggota", to: "/anggota/transaksi", icon: UsersRound },
+];
+
 const reportItems = [
-  {
-    label: "Laporan Anggota",
-    to: "/mitra-karya/laporan/anggota",
-  },
+  { label: "Laporan Anggota", to: "/mitra-karya/laporan/anggota" },
 ];
 
 export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
+  const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname === "/anggota/transaksi";
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
+  const [memberOpen, setMemberOpen] = React.useState(memberActive);
   const [reportOpen, setReportOpen] = React.useState(reportActive);
 
   React.useEffect(() => {
+    if (memberActive) setMemberOpen(true);
     if (reportActive) setReportOpen(true);
-  }, [reportActive]);
+  }, [memberActive, reportActive]);
 
   const accountingActive = location.pathname.startsWith("/mitra-karya/akunting");
 
@@ -42,13 +49,52 @@ export default function SidebarMitraKaryaMenu() {
         <span className="min-w-0 flex-1">Dashboard Pengembangan</span>
       </NavLink>
 
+      <div className="rounded-2xl bg-white">
+        <button
+          type="button"
+          onClick={() => setMemberOpen((current) => !current)}
+          className={cn(
+            "flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left text-[13px] font-semibold transition",
+            memberActive ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200" : "text-slate-800 hover:bg-slate-50",
+          )}
+          aria-expanded={memberOpen}
+        >
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+            <UsersRound className="h-4.5 w-4.5" />
+          </span>
+          <span className="min-w-0 flex-1">Anggota</span>
+          <ChevronDown className={cn("h-4 w-4 text-slate-400 transition", memberOpen ? "rotate-180" : "")} />
+        </button>
+
+        <div className={cn("grid overflow-hidden transition-[grid-template-rows,opacity] duration-200", memberOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+          <div className="min-h-0">
+            <div className="space-y-1 px-2.5 pb-2 pt-2">
+              {memberItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    className={({ isActive }) => cn(
+                      "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                      isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                    )}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {item.label}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <NavLink
         to="/mitra-karya/akunting"
         className={cn(
           "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left text-[13px] font-semibold transition",
-          accountingActive
-            ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
-            : "text-slate-800 hover:bg-slate-50",
+          accountingActive ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200" : "text-slate-800 hover:bg-slate-50",
         )}
       >
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
@@ -64,9 +110,7 @@ export default function SidebarMitraKaryaMenu() {
           onClick={() => setReportOpen((current) => !current)}
           className={cn(
             "flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left text-[13px] font-semibold transition",
-            reportActive
-              ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
-              : "text-slate-800 hover:bg-slate-50",
+            reportActive ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200" : "text-slate-800 hover:bg-slate-50",
           )}
           aria-expanded={reportOpen}
         >
@@ -74,34 +118,20 @@ export default function SidebarMitraKaryaMenu() {
             <BarChart3 className="h-4.5 w-4.5" />
           </span>
           <span className="min-w-0 flex-1">Laporan</span>
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 text-slate-400 transition",
-              reportOpen ? "rotate-180" : "",
-            )}
-          />
+          <ChevronDown className={cn("h-4 w-4 text-slate-400 transition", reportOpen ? "rotate-180" : "")} />
         </button>
 
-        <div
-          className={cn(
-            "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
-            reportOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-          )}
-        >
+        <div className={cn("grid overflow-hidden transition-[grid-template-rows,opacity] duration-200", reportOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
           <div className="min-h-0">
             <div className="space-y-1 px-2.5 pb-2 pt-2">
               {reportItems.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                      isActive
-                        ? "bg-violet-600 text-white"
-                        : "text-slate-800 hover:bg-slate-50",
-                    )
-                  }
+                  className={({ isActive }) => cn(
+                    "flex items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                    isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                  )}
                 >
                   <FileBarChart2 className="h-4 w-4" />
                   {item.label}
