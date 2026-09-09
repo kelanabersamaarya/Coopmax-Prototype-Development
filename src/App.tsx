@@ -69,6 +69,7 @@ const App = () => (
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
+            <Route path="mitra-karya/akunting" element={<SakAkunting />} />
             <Route
               path="mitra-karya/laporan/anggota"
               element={<MitraKaryaLaporanAnggota />}

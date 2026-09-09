@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, FileBarChart2, Handshake, UsersRound } from "lucide-react";
+import { ArrowRight, Calculator, Handshake, UsersRound } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -43,27 +43,27 @@ export default function MitraKaryaDashboard() {
 
         <button
           type="button"
-          onClick={() => navigate("/mitra-karya/laporan/anggota")}
+          onClick={() => navigate("/mitra-karya/akunting")}
           className={cn(
             "group rounded-[12px] border border-sky-200 bg-white p-5 text-left shadow-sm",
             "transition hover:bg-sky-50",
           )}
         >
           <div className="flex items-start gap-4">
-            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-sky-100 text-sky-700">
-              <FileBarChart2 className="h-5 w-5" />
+            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-violet-100 text-violet-700">
+              <Calculator className="h-5 w-5" />
             </span>
 
             <div className="min-w-0 flex-1">
               <h2 className="text-[16px] font-extrabold text-slate-900">
-                Laporan Anggota
+                Akunting
               </h2>
               <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
-                Lihat laporan simpanan dan data anggota Koperasi Mitra Karya.
+                Kelola transaksi, laporan, dan pengaturan akuntansi koperasi.
               </p>
             </div>
 
-            <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-sky-600 transition group-hover:translate-x-1" />
+            <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-violet-600 transition group-hover:translate-x-1" />
           </div>
         </button>
       </div>
