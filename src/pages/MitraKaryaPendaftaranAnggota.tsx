@@ -26,6 +26,7 @@ function SelectField({ placeholder, children }: { placeholder: string; children:
 export default function MitraKaryaPendaftaranAnggota() {
   const navigate = useNavigate();
   const [name, setName] = React.useState("");
+  const [activeTab, setActiveTab] = React.useState<"general" | "upload">("general");
   const [ktpFile, setKtpFile] = React.useState<File | null>(null);
   const [supportingFile, setSupportingFile] = React.useState<File | null>(null);
 
@@ -37,9 +38,10 @@ export default function MitraKaryaPendaftaranAnggota() {
   return (
     <div className="min-h-screen px-3 py-5 text-[#002060] sm:px-6 md:px-8">
       <div className="flex items-center gap-2"><button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="text-[#536b91] hover:text-violet-600"><ArrowLeft className="h-4 w-4" /></button><h1 className="text-[22px] font-semibold">Anggota <span className="font-normal">Tambah</span></h1></div>
-      <div className="mt-8 flex items-center gap-10 border-b border-transparent text-[13px]"><span className="rounded-full bg-violet-600 px-4 py-3 text-white">General Information</span><span className="text-[#536b91]">Upload File</span></div>
+      <div className="mt-8 flex items-center gap-3 border-b border-transparent text-[13px]"><button type="button" onClick={() => setActiveTab("general")} className={`rounded-full px-4 py-3 transition ${activeTab === "general" ? "bg-violet-600 text-white" : "text-[#536b91] hover:bg-violet-50 hover:text-violet-700"}`}>General Information</button><button type="button" onClick={() => setActiveTab("upload")} className={`rounded-full px-4 py-3 transition ${activeTab === "upload" ? "bg-violet-600 text-white" : "text-[#536b91] hover:bg-violet-50 hover:text-violet-700"}`}>Upload File</button></div>
 
       <form onSubmit={handleSubmit} className="mt-10 rounded-[20px] bg-white px-5 py-7 shadow-[0_4px_20px_rgba(45,68,110,0.04)] sm:px-8 md:px-12">
+        {activeTab === "general" ? <>
         <div className="grid gap-[10px]">
           <Row label="ID Anggota" required><div className="flex"><Input defaultValue="A2600016" readOnly className={`${fieldClass} rounded-r-none bg-[#e4e9f1]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2 hover:bg-[#6c7d99]"><RefreshCw className="h-4 w-4" /></Button></div></Row>
           <Row label="ID Nasabah"><div className="flex"><Input defaultValue="N2600020" readOnly className={`${fieldClass} rounded-r-none bg-[#e4e9f1]`} /><Button type="button" className="h-8 rounded-none bg-[#7d8eaa] px-2 hover:bg-[#6c7d99]"><Search className="h-4 w-4" /></Button><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2 hover:bg-[#6c7d99]"><RefreshCw className="h-4 w-4" /></Button></div></Row>
@@ -76,8 +78,7 @@ export default function MitraKaryaPendaftaranAnggota() {
           <Row label="Simpanan Wajib"><Input defaultValue="50.000,00" className={fieldClass} /></Row>
           <Row label="Kolektor" required><SelectField placeholder="Pilih Kolektor"><SelectItem value="kolektor-1">Kolektor 1</SelectItem></SelectField></Row>
         </div>
-
-        <div className="mt-12 border-t border-slate-100 pt-8">
+        </> : <div className="mt-2 border-t border-slate-100 pt-8">
           <h2 className="text-[20px] font-semibold">Upload File</h2>
           <p className="mt-1 text-[12px] text-[#7890b2]">Unggah dokumen anggota untuk melengkapi data pendaftaran.</p>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
@@ -90,7 +91,7 @@ export default function MitraKaryaPendaftaranAnggota() {
               <label className="mt-5 flex cursor-pointer items-center justify-center gap-2 rounded-[5px] border border-dashed border-slate-300 bg-white px-4 py-5 text-[13px] font-medium text-[#536b91] transition hover:bg-slate-50"><FileUp className="h-5 w-5" />{supportingFile ? supportingFile.name : "Pilih file pendukung"}<input type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" className="hidden" onChange={(event) => setSupportingFile(event.target.files?.[0] ?? null)} /></label>
             </div>
           </div>
-        </div>
+        </div>}
         <div className="mt-10 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="rounded-[5px] bg-[#7d8eaa] text-white hover:bg-[#6c7d99]"><X className="mr-1 h-3 w-3" /> Batalkan</Button><Button type="submit" className="rounded-[5px] bg-green-600 text-white hover:bg-green-700"><Check className="mr-1 h-3 w-3" /> Simpan</Button><Button type="button" className="rounded-[5px] bg-green-700 px-3 text-white hover:bg-green-800"><ChevronDown className="h-4 w-4" /></Button></div>
       </form>
     </div>
