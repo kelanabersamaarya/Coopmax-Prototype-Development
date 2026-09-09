@@ -514,8 +514,18 @@ export default function MitraKaryaLaporanAnggota() {
   const [reportType, setReportType] = React.useState(
     "Berdasarkan Simpanan Anggota",
   );
+  const [selectedReport, setSelectedReport] = React.useState("Pilih Laporan");
   const [ktpStatus, setKtpStatus] = React.useState<KtpStatus>("Semua");
   const [searched, setSearched] = React.useState(false);
+
+  const memberReportOptions = React.useMemo(() => {
+    const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { basis: string; title: string }[];
+    return [...new Set([
+      "Laporan Anggota jk",
+      "Laporan Anggota",
+      ...savedReports.filter((report) => report.basis === "Laporan Anggota").map((report) => report.title),
+    ])];
+  }, []);
 
   const filteredMembers = React.useMemo(() => {
     const nameQuery = name.trim().toLowerCase();
@@ -789,14 +799,28 @@ export default function MitraKaryaLaporanAnggota() {
                   </button>{" "}
                   untuk dapat melakukan pengaturan.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
-                  className="mt-5 inline-flex h-[42px] items-center gap-2 rounded-[5px] bg-[#7C3AED] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6D28D9]"
-                >
-                  Pilih Laporan
-                  <ChevronDown className="h-4 w-4" />
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="mt-5 inline-flex h-[42px] items-center gap-2 rounded-[5px] bg-[#7C3AED] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6D28D9]"
+                    >
+                      {selectedReport}
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-[240px] rounded-[5px] border-slate-200 p-1">
+                    {memberReportOptions.map((report) => (
+                      <DropdownMenuItem
+                        key={report}
+                        onClick={() => setSelectedReport(report)}
+                        className="cursor-pointer rounded-[3px] text-[13px] text-[#002060] focus:bg-[#2563eb] focus:text-white"
+                      >
+                        {report}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </section>
