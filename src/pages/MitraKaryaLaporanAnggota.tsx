@@ -514,7 +514,7 @@ export default function MitraKaryaLaporanAnggota() {
   const [reportType, setReportType] = React.useState(
     "Berdasarkan Simpanan Anggota",
   );
-  const [selectedReport, setSelectedReport] = React.useState("Pilih Laporan");
+  const [selectedReport, setSelectedReport] = React.useState("Laporan Anggota (Default)");
   const [ktpStatus, setKtpStatus] = React.useState<KtpStatus>("Semua");
   const [searched, setSearched] = React.useState(false);
 
@@ -522,7 +522,8 @@ export default function MitraKaryaLaporanAnggota() {
     const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { basis: string; title: string }[];
     return [...new Set([
       "Laporan Anggota jk",
-      "Laporan Anggota",
+      "Laporan Anggota (Default)",
+      "Laporan KTP Anggota",
       ...savedReports.filter((report) => report.basis === "Laporan Anggota").map((report) => report.title),
     ])];
   }, []);
