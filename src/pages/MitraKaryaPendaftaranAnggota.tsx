@@ -82,8 +82,10 @@ export default function MitraKaryaPendaftaranAnggota() {
     setShowSaveConfirmation(true);
   }
 
-  function confirmSave() {
-    const newMember = { id: "A2600016", name: name.trim() || "Anggota Baru", registeredAt: "09-09-2026", identity: "-", phone: "-", address: "-", verified: false, ktpFile: ktpFile ? { name: ktpFile.name, type: ktpFile.type } : null, supportingFile: supportingFile ? { name: supportingFile.name, type: supportingFile.type } : null };
+  async function confirmSave() {
+    const readFile = (file: File | null) => file ? new Promise<{ name: string; type: string; dataUrl: string }>((resolve) => { const reader = new FileReader(); reader.onload = () => resolve({ name: file.name, type: file.type, dataUrl: String(reader.result) }); reader.readAsDataURL(file); }) : Promise.resolve(null);
+    const [ktpFileData, supportingFileData] = await Promise.all([readFile(ktpFile), readFile(supportingFile)]);
+    const newMember = { id: "A2600016", name: name.trim() || "Anggota Baru", registeredAt: "09-09-2026", identity: "-", phone: "-", address: "-", verified: false, ktpFile: ktpFileData, supportingFile: supportingFileData };
     const savedMembers = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]");
     localStorage.setItem("mitra-karya-members", JSON.stringify([newMember, ...savedMembers.filter((member: { id: string }) => member.id !== newMember.id)]));
     setShowSaveConfirmation(false);
