@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./globals.css";
+import "./App.css";
 import "./styles/placeholders.css";
 import "./styles/loan-account-info-toggle.css";
 import "./styles/loan-interest-wizard-step-two.css";
