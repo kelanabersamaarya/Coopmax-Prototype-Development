@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, SlidersHorizontal, SquarePlus, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Search, SlidersHorizontal, SquarePlus, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,14 +70,14 @@ export default function MitraKaryaAnggota() {
             <thead>
               <tr className="text-[12px] font-bold uppercase text-[#092961]">
                 <th className="w-14 px-3 pb-2">No.</th>
-                <th className="w-[115px] px-3 pb-2">ID <span className="float-right text-[15px]">↕</span></th>
-                <th className="w-[175px] px-3 pb-2">Nama <span className="float-right text-[15px]">↕</span></th>
-                <th className="w-[125px] bg-[#eef1f6] px-3 pb-2">Tgl Daftar⌄</th>
-                <th className="w-[150px] px-3 pb-2">No. Identitas <span className="float-right text-[15px]">↕</span></th>
-                <th className="w-[175px] px-3 pb-2">No. Telp/Handphone <span className="float-right text-[15px]">↕</span></th>
-                <th className="w-[165px] px-3 pb-2">Alamat <span className="float-right text-[15px]">↕</span></th>
-                <th className="w-[155px] px-3 pb-2">Status Verifikasi KTP <span className="float-right text-[15px]">↕</span></th>
-                <th className="w-[95px] px-3 pb-2">Status <span className="float-right text-[15px]">↕</span></th>
+                <th className="w-[115px] px-3 pb-2"><span className="inline-flex items-center gap-2">ID <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[175px] px-3 pb-2"><span className="inline-flex items-center gap-2">Nama <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[125px] bg-[#eef1f6] px-3 pb-2"><span className="inline-flex items-center gap-2">Tgl Daftar <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[150px] px-3 pb-2"><span className="inline-flex items-center gap-2">No. Identitas <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[175px] px-3 pb-2"><span className="inline-flex items-center gap-2">No. Telp/Handphone <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[165px] px-3 pb-2"><span className="inline-flex items-center gap-2">Alamat <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[155px] px-3 pb-2"><span className="inline-flex items-center gap-2">Status Verifikasi KTP <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
+                <th className="w-[95px] px-3 pb-2"><span className="inline-flex items-center gap-2">Status <span className="inline-flex flex-col text-[#082f60]"><ChevronUp className="h-3.5 w-3.5" strokeWidth={3} /><ChevronDown className="-mt-1 h-3.5 w-3.5" strokeWidth={3} /></span></span></th>
               </tr>
               <tr className="border-b border-slate-300">
                 {["", "", "", "", "", "", ""].map((_, index) => <th key={index} className="px-3 pb-2"><Input value={index === 1 || index === 2 ? query : ""} onChange={index === 1 || index === 2 ? (event) => setQuery(event.target.value) : undefined} className={inputClass} /></th>)}
