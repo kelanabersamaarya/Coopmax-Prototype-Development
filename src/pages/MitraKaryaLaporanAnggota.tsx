@@ -568,7 +568,9 @@ export default function MitraKaryaLaporanAnggota() {
             />
             <ExportMenu
               label="Export Laporan Anggota"
-              onExport={(format) => exportReport(`Export Laporan Anggota ${format}`)}
+              onExport={(format) =>
+                exportReport(`Export Laporan Anggota ${format}`)
+              }
             />
           </div>
         </div>
