@@ -108,7 +108,7 @@ export default function GeneralJournalReport() {
           </div>
 
           <div className="overflow-hidden rounded-none border border-slate-300">
-            <div className="flex justify-end gap-2 border-b border-slate-300 p-5">
+            <div className="flex min-h-[48px] justify-end gap-2 border-b border-slate-300 px-5 py-3">
               <Button className="h-[25px] w-[128px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
                 Export Excel <ChevronDown className="ml-1 h-4 w-4" />
               </Button>
