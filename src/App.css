@@ -25,3 +25,7 @@
 .journal-table tbody tr:nth-child(even) .journal-cell {
   border-bottom: 1px solid #cbd5e1;
 }
+
+.journal-date-input::-webkit-calendar-picker-indicator {
+  display: none;
+}

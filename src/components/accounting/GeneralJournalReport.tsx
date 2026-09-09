@@ -79,16 +79,16 @@ export default function GeneralJournalReport() {
         <label htmlFor="journal-date" className="text-[14px] font-medium">
           Tanggal Laporan
         </label>
-        <div className="mt-3 flex h-[52px] overflow-hidden rounded-[6px] border border-slate-300 bg-white shadow-sm">
-          <span className="inline-flex w-[68px] shrink-0 items-center justify-center border-r border-slate-300 bg-slate-100 text-slate-400">
-            <CalendarDays className="h-7 w-7" strokeWidth={2} />
+        <div className="mt-3 flex h-[26px] w-[143px] overflow-hidden rounded-[5px] border border-slate-300 bg-white shadow-sm">
+          <span className="inline-flex w-[46px] shrink-0 items-center justify-center border-r border-slate-300 bg-slate-100 text-slate-400">
+            <CalendarDays className="h-[19px] w-[19px]" strokeWidth={2} />
           </span>
           <Input
             id="journal-date"
             type="date"
             value={date}
             onChange={(event) => setDate(event.target.value)}
-            className="h-full rounded-none border-0 px-3 text-[12px] shadow-none focus-visible:ring-0"
+            className="journal-date-input h-full rounded-none border-0 px-2 text-[12px] shadow-none focus-visible:ring-0"
           />
         </div>
         <Button
