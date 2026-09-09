@@ -16,6 +16,7 @@
 .journal-table thead .journal-cell {
   border-top: 1px solid #cbd5e1;
   border-bottom: 1px solid #cbd5e1;
+  text-align: center;
 }
 
 .journal-table tbody tr:last-child .journal-cell {
