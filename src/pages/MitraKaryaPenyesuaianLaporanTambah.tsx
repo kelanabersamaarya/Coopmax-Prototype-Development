@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, Save, X } from "lucide-react";
+import { GripVertical, Plus, Save, Trash2, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -35,6 +35,7 @@ function ReportSwitch({ defaultChecked = false }: { defaultChecked?: boolean }) 
 export default function MitraKaryaPenyesuaianLaporanTambah() {
   const navigate = useNavigate();
   const [basis, setBasis] = React.useState("");
+  const [columnRows, setColumnRows] = React.useState<number[]>([]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] px-1 py-7 md:px-4 md:py-8">
@@ -50,8 +51,9 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
           <FormRow label="Tetapkan Sebagai Laporan Utama"><ReportSwitch /></FormRow>
           {basis ? <div className="mt-5 grid grid-cols-1 gap-16">
             <section>
-              <div className="flex items-center justify-between border-b border-slate-300 pb-2"><h2 className="text-[21px] text-[#002060]"><strong>Pengaturan Kolom Laporan</strong> <span className="text-[16px]">Daftar</span></h2><button type="button" className="h-8 rounded-[5px] bg-[#3564ef] px-4 text-[13px] font-semibold text-white hover:bg-[#2854d8]">+ Tambah</button></div>
-              <div className="grid grid-cols-3 px-4 pt-2 text-[11px] font-medium uppercase tracking-wide text-[#64769a]"><span>Field Key</span><span>Field Label</span><span>Field Order</span></div>
+              <div className="flex items-center justify-between border-b border-slate-300 pb-2"><h2 className="text-[21px] text-[#002060]"><strong>Pengaturan Kolom Laporan</strong> <span className="text-[16px]">Daftar</span></h2><button type="button" onClick={() => setColumnRows((rows) => [...rows, rows.length + 1])} className="h-8 rounded-[5px] bg-[#3564ef] px-4 text-[13px] font-semibold text-white hover:bg-[#2854d8]">+ Tambah</button></div>
+              <div className="grid grid-cols-[1fr_1fr_1fr_180px_40px] px-2 pt-2 text-[11px] font-medium uppercase tracking-wide text-[#64769a]"><span>Field Key</span><span>Field Label</span><span>Field Order</span><span /><span /></div>
+              {columnRows.map((row, index) => <div key={row} className="grid grid-cols-[1fr_1fr_1fr_180px_40px] items-center gap-1 border-b border-slate-200 py-1"><Select><SelectTrigger className="h-8 rounded-[5px] border-slate-300 text-[13px]"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="id">ID Anggota</SelectItem><SelectItem value="nama">Nama Anggota</SelectItem><SelectItem value="alamat">Alamat</SelectItem></SelectContent></Select><Input className="h-8 rounded-[5px] border-slate-300 text-[13px]" /><span className="px-2 text-[13px] text-[#002060]">{index + 1}</span><div className="flex gap-1"><button type="button" className="inline-flex h-8 w-11 items-center justify-center rounded-[5px] bg-[#7d8da9] text-white"><Plus className="h-4 w-4" /></button><button type="button" onClick={() => setColumnRows((rows) => rows.filter((item) => item !== row))} className="inline-flex h-8 w-11 items-center justify-center rounded-[5px] bg-[#e8334f] text-white"><Trash2 className="h-4 w-4" /></button></div><GripVertical className="h-4 w-4 text-[#002060]" /></div>
             </section>
             <section>
               <div className="flex items-center justify-between border-b border-slate-300 pb-2"><h2 className="text-[21px] text-[#002060]"><strong>Pengaturan Urutan Data</strong> <span className="text-[16px]">Daftar</span></h2><button type="button" className="h-8 rounded-[5px] bg-[#3564ef] px-4 text-[13px] font-semibold text-white hover:bg-[#2854d8]">+ Tambah</button></div>
