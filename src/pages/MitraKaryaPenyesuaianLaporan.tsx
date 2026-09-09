@@ -46,13 +46,17 @@ function StatusBadge({ value }: { value: Report["total"] }) {
 }
 
 const savedReportsKey = "mitra-karya-penyesuaian-laporan";
+const deletedReportsKey = "mitra-karya-penyesuaian-laporan-deleted";
+
+function getReportRows() {
+  const savedReports = JSON.parse(window.localStorage.getItem(savedReportsKey) || "[]") as Report[];
+  const deletedTitles = new Set(JSON.parse(window.localStorage.getItem(deletedReportsKey) || "[]") as string[]);
+  return [...savedReports.reverse(), ...reports].filter((report) => !deletedTitles.has(report.title));
+}
 
 export default function MitraKaryaPenyesuaianLaporan() {
   const navigate = useNavigate();
-  const [reportRows, setReportRows] = React.useState<Report[]>(() => {
-    const savedReports = window.localStorage.getItem(savedReportsKey);
-    return savedReports ? [...(JSON.parse(savedReports) as Report[]).reverse(), ...reports] : reports;
-  });
+  const [reportRows, setReportRows] = React.useState<Report[]>(getReportRows);
   const [basis, setBasis] = React.useState("Semua");
   const [title, setTitle] = React.useState("");
   const [total, setTotal] = React.useState("Semua");
@@ -62,7 +66,9 @@ export default function MitraKaryaPenyesuaianLaporan() {
   const deleteReport = (title: string) => {
     const savedReports = JSON.parse(localStorage.getItem(savedReportsKey) || "[]") as Report[];
     const nextReports = savedReports.filter((report) => report.title !== title);
+    const deletedTitles = JSON.parse(localStorage.getItem(deletedReportsKey) || "[]") as string[];
     localStorage.setItem(savedReportsKey, JSON.stringify(nextReports));
+    localStorage.setItem(deletedReportsKey, JSON.stringify([...new Set([...deletedTitles, title])]));
     setReportRows((rows) => rows.filter((report) => report.title !== title));
   };
 

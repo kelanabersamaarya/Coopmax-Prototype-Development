@@ -59,8 +59,11 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
   const save = () => {
     const saved = JSON.parse(localStorage.getItem(reportKey) || "[]") as SavedReport[];
     const next: SavedReport = { basis: basis === "tabungan" ? "Laporan Rekening Tabungan" : basis === "anggota" ? "Laporan Anggota" : basis === "pinjaman" ? "Laporan Rekening Pinjaman" : "Laporan Rekening Deposito", title: title || "Tanpa Judul", total: showTotal ? "Tampilkan" : "Tidak", signature: showSignature ? "Tampilkan" : "Tidak", main: isMain ? "Tampilkan" : "Tidak", columns, sorts };
+    const deletedTitles = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan-deleted") || "[]") as string[];
     const updated = isEdit ? saved.map((item) => item.title === decodeURIComponent(id || "") ? next : item) : [...saved, next];
-    localStorage.setItem(reportKey, JSON.stringify(updated)); navigate("/mitra-karya/laporan/penyesuaian");
+    localStorage.setItem(reportKey, JSON.stringify(updated));
+    localStorage.setItem("mitra-karya-penyesuaian-laporan-deleted", JSON.stringify(deletedTitles.filter((item) => item !== next.title)));
+    navigate("/mitra-karya/laporan/penyesuaian");
   };
 
   return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-1 py-7 md:px-4 md:py-8"><h1 className="px-5 text-[22px] font-medium text-[#002060]"><strong>Penyesuaian Laporan</strong> <span className="text-[16px]">{isEdit ? "Ubah" : "Tambah"}</span></h1><Card className="mt-10 rounded-[22px] border-0 bg-white px-6 py-8 shadow-sm md:px-12 md:py-8 [&_svg.lucide-chevron-down]:text-black [&_svg.lucide-chevron-down]:opacity-100"><div className="grid gap-3">
