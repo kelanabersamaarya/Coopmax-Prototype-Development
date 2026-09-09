@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, ArrowLeft, Check, CheckCircle2, ChevronDown, CreditCard, FileText, FileUp, RefreshCw, Search, Sparkles, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Check, CheckCircle2, ChevronDown, CreditCard, FileText, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
