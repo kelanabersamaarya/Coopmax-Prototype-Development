@@ -4,12 +4,20 @@ import {
   ChevronUp,
   Eye,
   FileDown,
+  FileSpreadsheet,
+  FileText,
   Info,
   Search,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -231,6 +239,45 @@ function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
     >
       {status}
     </span>
+  );
+}
+
+function ExportMenu({
+  label,
+  onExport,
+}: {
+  label: string;
+  onExport: (format: "PDF" | "Excel") => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[13px] font-medium text-[#536581] shadow-sm transition hover:bg-slate-50"
+        >
+          <FileDown className="h-4 w-4 text-[#536581]" />
+          {label}
+          <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-[180px] rounded-xl border-slate-200 bg-white p-1.5 shadow-lg">
+        <DropdownMenuItem
+          onSelect={() => onExport("PDF")}
+          className="gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium text-[#536581] focus:bg-slate-100 focus:text-[#001b4e]"
+        >
+          <FileText className="h-4 w-4 text-[#dc3545]" />
+          Export PDF
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => onExport("Excel")}
+          className="gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium text-[#536581] focus:bg-slate-100 focus:text-[#001b4e]"
+        >
+          <FileSpreadsheet className="h-4 w-4 text-[#1f9d55]" />
+          Export Excel
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -513,24 +560,16 @@ export default function MitraKaryaLaporanAnggota() {
           </h1>
 
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => exportReport("Export Laporan Rekapitulasi KTP")}
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[13px] font-medium text-[#536581] shadow-sm transition hover:bg-slate-50"
-            >
-              <FileDown className="h-4 w-4 text-[#536581]" />
-              Export Laporan Rekapitulasi KTP
-              <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
-            </button>
-            <button
-              type="button"
-              onClick={() => exportReport("Export Laporan Anggota")}
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[13px] font-medium text-[#536581] shadow-sm transition hover:bg-slate-50"
-            >
-              <FileDown className="h-4 w-4 text-[#536581]" />
-              Export Laporan Anggota
-              <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
-            </button>
+            <ExportMenu
+              label="Export Laporan Rekapitulasi KTP"
+              onExport={(format) =>
+                exportReport(`Export Laporan Rekapitulasi KTP ${format}`)
+              }
+            />
+            <ExportMenu
+              label="Export Laporan Anggota"
+              onExport={(format) => exportReport(`Export Laporan Anggota ${format}`)}
+            />
           </div>
         </div>
 
