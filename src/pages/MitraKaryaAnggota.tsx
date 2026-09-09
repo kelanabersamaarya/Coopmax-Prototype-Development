@@ -100,7 +100,7 @@ export default function MitraKaryaAnggota() {
             </tbody>
           </table>
         </div>
-        <div className="mt-3 flex flex-col gap-3 border-t border-slate-100 pt-3 text-[12px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-3 flex flex-col gap-3 pt-3 text-[12px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <span>Menampilkan {filteredMembers.length ? (currentPage - 1) * Number(pageSize) + 1 : 0} sampai {Math.min(currentPage * Number(pageSize), filteredMembers.length)} dari {filteredMembers.length} entri</span>
           <div className="flex items-center gap-1">
             <button type="button" disabled={currentPage === 1} onClick={() => setCurrentPage((page) => Math.max(1, page - 1))} className="h-8 rounded-[5px] bg-slate-100 px-3 text-slate-300 disabled:cursor-not-allowed">Sebelumnya</button>
