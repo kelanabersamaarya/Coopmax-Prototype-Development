@@ -66,7 +66,7 @@ export default function MitraKaryaPenyesuaianLaporan() {
         <button type="button" className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[14px] text-[#52658a] shadow-sm transition hover:text-violet-600 hover:shadow-md"><PlusSquare className="h-[18px] w-[18px] text-[#52658a]" strokeWidth={2.5} />Tambah</button>
       </div>
 
-      <Card className="mt-16 rounded-[22px] border-0 bg-white p-5 shadow-sm md:p-5">
+      <Card className="mt-8 rounded-[22px] border-0 bg-white p-5 shadow-sm md:p-5">
         <div className="mb-3 flex items-center gap-1 text-[13px] text-[#002060]">Tampilkan
           <Select defaultValue="20"><SelectTrigger className="ml-1 h-7 w-[44px] rounded-none border-[#8994a5] px-1 text-[13px]"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="20">20</SelectItem><SelectItem value="10">10</SelectItem></SelectContent></Select>
           entri
