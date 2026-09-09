@@ -31,7 +31,7 @@ function GeneralInformation() {
       <Row label="Status Pernikahan" required><SelectField placeholder="Pilih Status Pernikahan"><SelectItem value="belum-menikah">Belum Menikah</SelectItem><SelectItem value="menikah">Menikah</SelectItem></SelectField></Row>
       <Row label="Jenis Identitas" required><SelectField placeholder="Pilih Jenis Identitas"><SelectItem value="ktp">KTP</SelectItem><SelectItem value="sim">SIM</SelectItem></SelectField></Row>
       <Row label="No. Identitas" required><Input className={fieldClass} /></Row>
-      <Row label="No. Telp/Handphone (+62)" required><div className="flex"><span className="flex h-8 items-center rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e1e6ef] px-3 text-[13px] text-[#536b91]">+62</span><Input placeholder="Contoh. 81123456789" className={`${fieldClass} rounded-l-none`} /></div></Row>
+      <Row label="No. Telp/Handphone (+62)" required><div className="flex"><span className="flex h-8 shrink-0 items-center whitespace-nowrap rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e1e6ef] px-3 text-[13px] text-[#536b91]">+62</span><Input placeholder="Contoh. 81123456789" className={`${fieldClass} min-w-0 rounded-l-none`} /></div></Row>
       <Row label="Nama Gadis Ibu Kandung" required><Input className={fieldClass} /></Row>
       <Row label="Nama ahli waris" required><Input className={fieldClass} /></Row>
       <Row label="Email"><Input placeholder="Contoh. example@email.com" className={fieldClass} /></Row>
