@@ -572,7 +572,7 @@ export default function MitraKaryaLaporanAnggota() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <h1 className="text-[24px] font-bold tracking-tight text-[#001b4e]">
-            Laporan Anggota
+            {selectedReport}
           </h1>
 
           <div className="flex flex-wrap items-center gap-2">
