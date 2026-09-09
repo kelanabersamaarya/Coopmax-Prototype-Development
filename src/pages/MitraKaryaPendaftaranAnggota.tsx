@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Check, ChevronDown, RefreshCw, Search, Sparkles, X } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, FileText, FileUp, RefreshCw, Search, Sparkles, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,8 @@ function SelectField({ placeholder, children }: { placeholder: string; children:
 export default function MitraKaryaPendaftaranAnggota() {
   const navigate = useNavigate();
   const [name, setName] = React.useState("");
+  const [ktpFile, setKtpFile] = React.useState<File | null>(null);
+  const [supportingFile, setSupportingFile] = React.useState<File | null>(null);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,6 +75,21 @@ export default function MitraKaryaPendaftaranAnggota() {
           <Row label="No Rekening" required><div className="flex"><Input defaultValue="P002260016" readOnly className={`${fieldClass} rounded-r-none bg-[#e4e9f1]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2 hover:bg-[#6c7d99]"><RefreshCw className="h-4 w-4" /></Button></div></Row>
           <Row label="Simpanan Wajib"><Input defaultValue="50.000,00" className={fieldClass} /></Row>
           <Row label="Kolektor" required><SelectField placeholder="Pilih Kolektor"><SelectItem value="kolektor-1">Kolektor 1</SelectItem></SelectField></Row>
+        </div>
+
+        <div className="mt-12 border-t border-slate-100 pt-8">
+          <h2 className="text-[20px] font-semibold">Upload File</h2>
+          <p className="mt-1 text-[12px] text-[#7890b2]">Unggah dokumen anggota untuk melengkapi data pendaftaran.</p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
+            <div className="rounded-[10px] border border-[#d5ddeb] bg-[#fbfcff] p-5">
+              <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] bg-violet-100 text-violet-600"><FileText className="h-5 w-5" /></span><div><h3 className="text-[14px] font-semibold text-[#002060]">File KTP <span className="text-red-500">*</span></h3><p className="mt-1 text-[11px] text-[#7890b2]">Format JPG, JPEG, atau PDF. Maksimal 2 MB.</p></div></div>
+              <label className="mt-5 flex cursor-pointer items-center justify-center gap-2 rounded-[5px] border border-dashed border-violet-300 bg-white px-4 py-5 text-[13px] font-medium text-violet-600 transition hover:bg-violet-50"><FileUp className="h-5 w-5" />{ktpFile ? ktpFile.name : "Pilih file KTP"}<input type="file" required accept=".jpg,.jpeg,.pdf,image/jpeg,application/pdf" className="hidden" onChange={(event) => setKtpFile(event.target.files?.[0] ?? null)} /></label>
+            </div>
+            <div className="rounded-[10px] border border-[#d5ddeb] bg-[#fbfcff] p-5">
+              <div className="flex items-start gap-3"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] bg-slate-100 text-slate-600"><FileText className="h-5 w-5" /></span><div><h3 className="text-[14px] font-semibold text-[#002060]">File Pendukung <span className="font-normal text-[#7890b2]">(Opsional)</span></h3><p className="mt-1 text-[11px] text-[#7890b2]">Dokumen pendukung lain, jika diperlukan. Maksimal 2 MB.</p></div></div>
+              <label className="mt-5 flex cursor-pointer items-center justify-center gap-2 rounded-[5px] border border-dashed border-slate-300 bg-white px-4 py-5 text-[13px] font-medium text-[#536b91] transition hover:bg-slate-50"><FileUp className="h-5 w-5" />{supportingFile ? supportingFile.name : "Pilih file pendukung"}<input type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" className="hidden" onChange={(event) => setSupportingFile(event.target.files?.[0] ?? null)} /></label>
+            </div>
+          </div>
         </div>
         <div className="mt-10 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="rounded-[5px] bg-[#7d8eaa] text-white hover:bg-[#6c7d99]"><X className="mr-1 h-3 w-3" /> Batalkan</Button><Button type="submit" className="rounded-[5px] bg-green-600 text-white hover:bg-green-700"><Check className="mr-1 h-3 w-3" /> Simpan</Button><Button type="button" className="rounded-[5px] bg-green-700 px-3 text-white hover:bg-green-800"><ChevronDown className="h-4 w-4" /></Button></div>
       </form>
