@@ -59,6 +59,13 @@ export default function MitraKaryaPenyesuaianLaporan() {
   const [signature, setSignature] = React.useState("Semua");
   const [main, setMain] = React.useState("Semua");
 
+  const deleteReport = (title: string) => {
+    const savedReports = JSON.parse(localStorage.getItem(savedReportsKey) || "[]") as Report[];
+    const nextReports = savedReports.filter((report) => report.title !== title);
+    localStorage.setItem(savedReportsKey, JSON.stringify(nextReports));
+    setReportRows((rows) => rows.filter((report) => report.title !== title));
+  };
+
   const filtered = reportRows.filter((report) =>
     (basis === "Semua" || report.basis === basis) &&
     (!title || report.title.toLowerCase().includes(title.toLowerCase())) &&
@@ -100,7 +107,7 @@ export default function MitraKaryaPenyesuaianLaporan() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((report, index) => <tr className="border-b border-slate-300" key={`${report.title}-${index}`}><td className="px-2 py-2">{index + 1}</td><td className="px-2 py-2">{report.basis}</td><td className="px-2 py-2 leading-tight">{report.title}</td><td className="px-2 py-2"><StatusBadge value={report.total} /></td><td className="px-2 py-2"><StatusBadge value={report.signature} /></td><td className="px-2 py-2"><StatusBadge value={report.main} /></td><td className="px-2 py-2"><div className="flex items-center gap-2"><FileText className="h-4 w-4 text-amber-500" /><Eye className="h-4 w-4 text-slate-500" /><Pencil onClick={() => navigate(`/mitra-karya/laporan/penyesuaian/${encodeURIComponent(report.title)}/ubah`)} className="h-4 w-4 cursor-pointer text-blue-500" /><X className="h-4 w-4 rounded-full bg-[#e8324b] p-0.5 text-white" /></div></td></tr>)}
+              {filtered.map((report, index) => <tr className="border-b border-slate-300" key={`${report.title}-${index}`}><td className="px-2 py-2">{index + 1}</td><td className="px-2 py-2">{report.basis}</td><td className="px-2 py-2 leading-tight">{report.title}</td><td className="px-2 py-2"><StatusBadge value={report.total} /></td><td className="px-2 py-2"><StatusBadge value={report.signature} /></td><td className="px-2 py-2"><StatusBadge value={report.main} /></td><td className="px-2 py-2"><div className="flex items-center gap-2"><FileText className="h-4 w-4 text-amber-500" /><Eye className="h-4 w-4 text-slate-500" /><Pencil onClick={() => navigate(`/mitra-karya/laporan/penyesuaian/${encodeURIComponent(report.title)}/ubah`)} className="h-4 w-4 cursor-pointer text-blue-500" /><X onClick={() => deleteReport(report.title)} className="h-4 w-4 cursor-pointer rounded-full bg-[#e8324b] p-0.5 text-white" /></div></td></tr>)}
             </tbody>
           </table>
         </div>
