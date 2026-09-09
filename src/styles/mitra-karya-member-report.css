@@ -165,7 +165,7 @@ section:has(.mitra-karya-member-report) {
   font-weight: 700;
 }
 
-.mitra-karya-member-report .mitra-karya-total-row td:nth-child(n + 8):nth-child(-n + 12) {
+.mitra-karya-member-report .mitra-karya-total-row td:not(:first-child):not(:last-child) {
   text-align: right !important;
   font-variant-numeric: tabular-nums;
 }
