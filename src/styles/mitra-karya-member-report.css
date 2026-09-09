@@ -53,11 +53,11 @@ section:has(.mitra-karya-member-report) {
   padding: 8px 10px;
   text-align: left;
   vertical-align: middle;
-  white-space: nowrap;
 }
 
 .mitra-karya-member-report th {
   height: 72px;
+  white-space: nowrap;
   color: #002060;
   font-size: 12px;
   font-weight: 800;
@@ -75,6 +75,9 @@ section:has(.mitra-karya-member-report) {
   font-size: 12px;
   font-weight: 400;
   line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .mitra-karya-member-report th:nth-child(1),
@@ -115,6 +118,21 @@ section:has(.mitra-karya-member-report) {
 .mitra-karya-member-report td:nth-child(12) {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.mitra-karya-member-report td:nth-child(2),
+.mitra-karya-member-report td:nth-child(4),
+.mitra-karya-member-report td:nth-child(6),
+.mitra-karya-member-report td:nth-child(7),
+.mitra-karya-member-report td:nth-child(13),
+.mitra-karya-member-report td:nth-child(14),
+.mitra-karya-member-report td:nth-child(15) {
+  white-space: nowrap;
+}
+
+.mitra-karya-member-report td:nth-child(5) {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .mitra-karya-member-report td:nth-child(13),
