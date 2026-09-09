@@ -24,6 +24,7 @@ const reportItems = [
 export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
   const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname === "/anggota/transaksi";
+  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran";
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
   const [memberOpen, setMemberOpen] = React.useState(memberActive);
   const [reportOpen, setReportOpen] = React.useState(reportActive);
@@ -53,7 +54,7 @@ export default function SidebarMitraKaryaMenu() {
           onClick={() => setMemberOpen((current) => !current)}
           className={cn(
             "flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left text-[13px] font-semibold transition",
-            memberActive ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200" : "text-slate-800 hover:bg-slate-50",
+            memberListActive ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200" : "text-slate-800 hover:bg-slate-50",
           )}
           aria-expanded={memberOpen}
         >
@@ -73,7 +74,7 @@ export default function SidebarMitraKaryaMenu() {
                   to={item.to}
                   className={() => cn(
                     "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                    item.to === "/mitra-karya/anggota" && location.pathname === item.to ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                    item.to === "/mitra-karya/anggota" && memberListActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
                   )}
                 >
                   {item.label}
