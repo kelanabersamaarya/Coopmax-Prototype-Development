@@ -6,9 +6,9 @@ import GeneralJournalReport from "@/components/accounting/GeneralJournalReport";
 
 export default function SakAkunting() {
   const [active, setActive] = React.useState<AccountingMenuItem>({
-    groupId: "transaksi",
-    groupLabel: "TRANSAKSI",
-    itemLabel: "Dashboard",
+    groupId: "laporan",
+    groupLabel: "LAPORAN",
+    itemLabel: "Jurnal Umum",
   });
 
   const isKodeAkun = active.groupId === "pengaturan" && active.itemLabel === "Kode Akun";
