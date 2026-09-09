@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDown, ChevronUp, Search, SlidersHorizontal, SquarePlus, X } from "lucide-react";
+import { ChevronDown, ChevronUp, SquarePlus, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,7 +62,6 @@ export default function MitraKaryaAnggota() {
             </Select>
             entri
           </label>
-          <div className="flex items-center gap-2 text-[12px] text-slate-500"><SlidersHorizontal className="h-4 w-4" /> Filter cepat</div>
         </div>
 
         <div className="overflow-x-auto pb-2">
@@ -93,7 +92,7 @@ export default function MitraKaryaAnggota() {
             </tbody>
           </table>
         </div>
-        <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-[12px] text-slate-500"><span>Menampilkan 1 sampai {filteredMembers.length} dari {filteredMembers.length} entri</span><button type="button" onClick={() => { setQuery(""); setVerification("semua"); }} className="inline-flex items-center gap-1 text-blue-600 hover:underline"><Search className="h-3.5 w-3.5" /> Reset filter <X className="h-3.5 w-3.5" /></button></div>
+        <div className="mt-3 border-t border-slate-100 pt-3 text-[12px] text-slate-500"><span>Menampilkan 1 sampai {filteredMembers.length} dari {filteredMembers.length} entri</span></div>
       </section>
     </div>
   );
