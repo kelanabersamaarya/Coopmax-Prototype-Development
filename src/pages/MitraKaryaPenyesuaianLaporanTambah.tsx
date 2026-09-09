@@ -40,10 +40,10 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] px-1 py-7 md:px-4 md:py-8">
       <h1 className="px-5 text-[22px] font-medium text-[#002060]"><strong>Penyesuaian Laporan</strong> <span className="text-[16px]">Tambah</span></h1>
-      <Card className="mt-10 rounded-[22px] border-0 bg-white px-6 py-8 shadow-sm md:px-12 md:py-8">
+      <Card className="mt-10 rounded-[22px] border-0 bg-white px-6 py-8 shadow-sm md:px-12 md:py-8 [&_button>svg]:text-black">
         <div className="grid gap-3">
           <FormRow label="Basis Laporan">
-            <Select value={basis} onValueChange={setBasis}><SelectTrigger className="h-8 w-full rounded-[5px] border-slate-300 text-[13px] shadow-none focus:ring-0"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="tabungan">Laporan Rekening Tabungan</SelectItem><SelectItem value="anggota">Laporan Anggota</SelectItem><SelectItem value="pinjaman">Laporan Rekening Pinjaman</SelectItem><SelectItem value="deposito">Laporan Rekening Deposito</SelectItem></SelectContent></Select>
+            <Select value={basis} onValueChange={setBasis}><SelectTrigger className="h-8 w-full rounded-[5px] border-slate-300 text-[13px] shadow-none focus:ring-0 [&>svg]:text-black"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="tabungan">Laporan Rekening Tabungan</SelectItem><SelectItem value="anggota">Laporan Anggota</SelectItem><SelectItem value="pinjaman">Laporan Rekening Pinjaman</SelectItem><SelectItem value="deposito">Laporan Rekening Deposito</SelectItem></SelectContent></Select>
           </FormRow>
           <FormRow label="Judul Laporan"><Input className="h-8 rounded-[5px] border-slate-300 text-[13px] shadow-none focus-visible:ring-0" /></FormRow>
           <FormRow label="Tampilkan Total"><ReportSwitch defaultChecked /></FormRow>
