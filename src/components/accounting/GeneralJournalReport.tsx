@@ -103,8 +103,8 @@ export default function GeneralJournalReport() {
       {visible ? (
         <section className="mt-10" aria-label="Hasil laporan jurnal umum">
           <div className="mb-12 text-center">
-            <h2 className="text-[28px] font-extrabold leading-tight">Jurnal Umum</h2>
-            <p className="text-[26px] font-extrabold leading-tight">{formattedDate}</p>
+            <h2 className="text-[18px] font-extrabold leading-tight">Jurnal Umum</h2>
+            <p className="text-[18px] font-extrabold leading-tight">{formattedDate}</p>
           </div>
 
           <div className="overflow-hidden rounded-none border border-slate-300">
