@@ -71,9 +71,9 @@ export default function SidebarMitraKaryaMenu() {
                 <NavLink
                   key={item.to}
                   to={item.to}
-                  className={({ isActive }) => cn(
+                  className={() => cn(
                     "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                    isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                    item.to === "/mitra-karya/anggota" && location.pathname === item.to ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
                   )}
                 >
                   {item.label}
