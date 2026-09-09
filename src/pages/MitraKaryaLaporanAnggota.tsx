@@ -751,7 +751,7 @@ export default function MitraKaryaLaporanAnggota() {
               </FilterSelect>
             </FormRow>
 
-            <FormRow label="File KTP Anggota">
+            {selectedReport === "Laporan KTP Anggota" ? <FormRow label="File KTP Anggota">
               <FilterSelect
                 value={ktpStatus}
                 onChange={(value) => setKtpStatus(value as KtpStatus)}
@@ -761,7 +761,7 @@ export default function MitraKaryaLaporanAnggota() {
                 <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
                 <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
               </FilterSelect>
-            </FormRow>
+            </FormRow> : null}
 
             <div className="grid sm:grid-cols-[166px_minmax(0,1fr)]">
               <div />
