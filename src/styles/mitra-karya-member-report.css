@@ -1,4 +1,7 @@
 section:has(.mitra-karya-member-report) {
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   border-radius: 10px !important;
   padding: 16px;
@@ -6,6 +9,8 @@ section:has(.mitra-karya-member-report) {
 }
 
 .mitra-karya-member-report {
+  width: 1015px;
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   border: 0;
