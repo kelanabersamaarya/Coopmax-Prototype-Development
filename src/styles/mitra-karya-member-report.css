@@ -111,6 +111,11 @@ section:has(.mitra-karya-member-report) {
 .mitra-karya-member-report th:nth-child(15),
 .mitra-karya-member-report td:nth-child(15) { width: 65px; }
 
+.mitra-karya-member-report th:nth-child(8),
+.mitra-karya-member-report th:nth-child(9),
+.mitra-karya-member-report th:nth-child(10),
+.mitra-karya-member-report th:nth-child(11),
+.mitra-karya-member-report th:nth-child(12),
 .mitra-karya-member-report td:nth-child(8),
 .mitra-karya-member-report td:nth-child(9),
 .mitra-karya-member-report td:nth-child(10),
