@@ -13,7 +13,6 @@ import DashboardSimpanan from "./pages/DashboardSimpanan";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
 import MitraKaryaLaporanAnggotaV2 from "./pages/MitraKaryaLaporanAnggotaV2";
-import MitraKaryaLaporanKtp from "./pages/MitraKaryaLaporanKtp";
 import RekeningSimpanan from "./pages/RekeningSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
@@ -74,10 +73,6 @@ const App = () => (
             <Route
               path="mitra-karya/laporan/anggota"
               element={<MitraKaryaLaporanAnggota />}
-            />
-            <Route
-              path="mitra-karya/laporan/ktp"
-              element={<MitraKaryaLaporanKtp />}
             />
             <Route
               path="mitra-karya/laporan/anggota-v2"
