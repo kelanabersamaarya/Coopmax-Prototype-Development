@@ -304,9 +304,11 @@ function SortableHeader({
 function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedReport: string }) {
   const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { title: string; columns?: { key: string; label: string }[] }[];
   const configuredColumns = savedReports.find((report) => report.title === selectedReport)?.columns || [];
-  const columns = configuredColumns.length ? configuredColumns : [
+  const defaultColumns = [
     { key: "no-anggota", label: "No. Anggota" }, { key: "nama", label: "Nama" }, { key: "tanggal-daftar", label: "Tanggal Daftar" }, { key: "alamat", label: "Alamat" }, { key: "no-handphone", label: "No. Handphone" }, { key: "kategori", label: "Kategori" }, { key: "simpanan-pokok", label: "Simpanan Pokok" }, { key: "simpanan-wajib", label: "Simpanan Wajib" },
   ];
+  const fieldLabels: Record<string, string> = Object.fromEntries([...defaultColumns, { key: "nomor-identitas", label: "Nomor Identitas" }, { key: "tanggal-lahir", label: "Tanggal Lahir" }, { key: "jenis-kelamin", label: "Jenis Kelamin" }, { key: "tempat-lahir", label: "Tempat Lahir" }, { key: "simpanan-khusus", label: "Simpanan Khusus" }, { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" }, { key: "total-simpanan", label: "Total Simpanan" }, { key: "status", label: "Status" }, { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" }, { key: "preview-file-ktp", label: "Preview File KTP" }].map((field) => [field.key, field.label]));
+  const columns = (configuredColumns.length ? configuredColumns : defaultColumns).map((column) => ({ ...column, label: column.label || fieldLabels[column.key] || column.key }));
   const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus, "preview-file-ktp": member.ktpStatus === "Tersedia" ? "Preview" : "-" }[key] || "");
 
   const totals = React.useMemo(
