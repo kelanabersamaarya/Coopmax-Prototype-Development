@@ -301,7 +301,14 @@ function SortableHeader({
   );
 }
 
-function ReportResults({ rows }: { rows: Member[] }) {
+function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedReport: string }) {
+  const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { title: string; columns?: { key: string; label: string }[] }[];
+  const configuredColumns = savedReports.find((report) => report.title === selectedReport)?.columns || [];
+  const columns = configuredColumns.length ? configuredColumns : [
+    { key: "no-anggota", label: "No. Anggota" }, { key: "nama", label: "Nama" }, { key: "tanggal-daftar", label: "Tanggal Daftar" }, { key: "alamat", label: "Alamat" }, { key: "no-handphone", label: "No. Handphone" }, { key: "kategori", label: "Kategori" }, { key: "simpanan-pokok", label: "Simpanan Pokok" }, { key: "simpanan-wajib", label: "Simpanan Wajib" },
+  ];
+  const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus, "preview-file-ktp": member.ktpStatus === "Tersedia" ? "Preview" : "-" }[key] || "");
+
   const totals = React.useMemo(
     () =>
       rows.reduce(
@@ -337,30 +344,7 @@ function ReportResults({ rows }: { rows: Member[] }) {
           <thead>
             <tr>
               <th>No.</th>
-              <th>
-                <SortableHeader>No. Anggota</SortableHeader>
-              </th>
-              <th>
-                <SortableHeader>Nama</SortableHeader>
-              </th>
-              <th>
-                <SortableHeader>
-                  <>
-                    Tanggal
-                    <br />
-                    Daftar
-                  </>
-                </SortableHeader>
-              </th>
-              <th>
-                <SortableHeader>Alamat</SortableHeader>
-              </th>
-              <th>
-                <SortableHeader>No. Handphone</SortableHeader>
-              </th>
-              <th>
-                <SortableHeader>Kategori</SortableHeader>
-              </th>
+              {columns.map((column) => <th key={column.key}><SortableHeader>{column.label}</SortableHeader></th>)}
               <th>Simpanan Pokok</th>
               <th>Simpanan Wajib</th>
               <th>Simpanan Khusus</th>
@@ -398,23 +382,7 @@ function ReportResults({ rows }: { rows: Member[] }) {
                 return (
                   <tr key={member.id}>
                     <td>{index + 1}</td>
-                    <td>{member.id}</td>
-                    <td>{member.name}</td>
-                    <td>{member.registeredAt}</td>
-                    <td>{member.address}</td>
-                    <td>{member.phone}</td>
-                    <td>{member.category}</td>
-                    <td>{formatMoney(member.simpananPokok)}</td>
-                    <td>{formatMoney(member.simpananWajib)}</td>
-                    <td>{formatMoney(member.simpananKhusus)}</td>
-                    <td>{formatMoney(member.simpananPenyertaan)}</td>
-                    <td>{formatMoney(total)}</td>
-                    <td>
-                      <StatusBadge status={member.status} />
-                    </td>
-                    <td>
-                      <KtpBadge status={member.ktpStatus} />
-                    </td>
+                    {columns.map((column) => <td key={column.key}>{getValue(member, column.key)}</td>)}
                     <td>
                       <button
                         type="button"
@@ -842,7 +810,7 @@ export default function MitraKaryaLaporanAnggota() {
           </section>
         </div>
 
-        {searched ? <ReportResults rows={filteredMembers} /> : null}
+        {searched ? <ReportResults rows={filteredMembers} selectedReport={selectedReport} /> : null}
       </div>
     </div>
   );
