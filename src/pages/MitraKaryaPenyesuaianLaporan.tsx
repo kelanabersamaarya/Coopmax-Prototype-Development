@@ -45,15 +45,21 @@ function StatusBadge({ value }: { value: Report["total"] }) {
   return <span className={cn("inline-flex rounded-[3px] px-1.5 py-1 text-[10px] font-bold leading-none text-white", value === "Tampilkan" ? "bg-[#28a900]" : "bg-[#e8324b]")}>{value}</span>;
 }
 
+const savedReportsKey = "mitra-karya-penyesuaian-laporan";
+
 export default function MitraKaryaPenyesuaianLaporan() {
   const navigate = useNavigate();
+  const [reportRows, setReportRows] = React.useState<Report[]>(() => {
+    const savedReports = window.localStorage.getItem(savedReportsKey);
+    return savedReports ? [...reports, ...JSON.parse(savedReports) as Report[]] : reports;
+  });
   const [basis, setBasis] = React.useState("Semua");
   const [title, setTitle] = React.useState("");
   const [total, setTotal] = React.useState("Semua");
   const [signature, setSignature] = React.useState("Semua");
   const [main, setMain] = React.useState("Semua");
 
-  const filtered = reports.filter((report) =>
+  const filtered = reportRows.filter((report) =>
     (basis === "Semua" || report.basis === basis) &&
     (!title || report.title.toLowerCase().includes(title.toLowerCase())) &&
     (total === "Semua" || report.total === total) &&

@@ -15,14 +15,14 @@ function FormRow({ label, children, required = true }: { label: string; children
   );
 }
 
-function ReportSwitch({ defaultChecked = false }: { defaultChecked?: boolean }) {
+function ReportSwitch({ defaultChecked = false, onChange }: { defaultChecked?: boolean; onChange?: (checked: boolean) => void }) {
   const [checked, setChecked] = React.useState(defaultChecked);
 
   return (
     <span className="relative inline-flex h-6 w-[62px]">
       <Switch
         checked={checked}
-        onCheckedChange={setChecked}
+        onCheckedChange={(value) => { setChecked(value); onChange?.(value); }}
         className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5] [&>span]:h-5 [&>span]:w-5 [&>span]:bg-white [&>span]:data-[state=checked]:translate-x-[38px] [&>span]:data-[state=unchecked]:translate-x-0"
       />
       <span className={`pointer-events-none absolute inset-y-0 flex items-center text-[10px] font-bold leading-none text-white ${checked ? "left-[13px]" : "right-[10px]"}`}>
@@ -35,6 +35,10 @@ function ReportSwitch({ defaultChecked = false }: { defaultChecked?: boolean }) 
 export default function MitraKaryaPenyesuaianLaporanTambah() {
   const navigate = useNavigate();
   const [basis, setBasis] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [showTotal, setShowTotal] = React.useState(true);
+  const [showSignature, setShowSignature] = React.useState(true);
+  const [isMain, setIsMain] = React.useState(false);
   const [columnRows, setColumnRows] = React.useState<number[]>([]);
   const [sortRows, setSortRows] = React.useState<number[]>([]);
   const [draggedRow, setDraggedRow] = React.useState<number | null>(null);
@@ -60,10 +64,10 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
           <FormRow label="Basis Laporan">
             <Select value={basis} onValueChange={setBasis}><SelectTrigger className="h-8 w-full rounded-[5px] border-slate-300 text-[13px] shadow-none focus:ring-0 [&>svg]:text-black"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="tabungan">Laporan Rekening Tabungan</SelectItem><SelectItem value="anggota">Laporan Anggota</SelectItem><SelectItem value="pinjaman">Laporan Rekening Pinjaman</SelectItem><SelectItem value="deposito">Laporan Rekening Deposito</SelectItem></SelectContent></Select>
           </FormRow>
-          <FormRow label="Judul Laporan"><Input className="h-8 rounded-[5px] border-slate-300 text-[13px] shadow-none focus-visible:ring-0" /></FormRow>
-          <FormRow label="Tampilkan Total"><ReportSwitch defaultChecked /></FormRow>
-          <FormRow label="Tanda Tangan Laporan"><ReportSwitch defaultChecked /></FormRow>
-          <FormRow label="Tetapkan Sebagai Laporan Utama"><ReportSwitch /></FormRow>
+          <FormRow label="Judul Laporan"><Input value={title} onChange={(event) => setTitle(event.target.value)} className="h-8 rounded-[5px] border-slate-300 text-[13px] shadow-none focus-visible:ring-0" /></FormRow>
+          <FormRow label="Tampilkan Total"><ReportSwitch defaultChecked onChange={setShowTotal} /></FormRow>
+          <FormRow label="Tanda Tangan Laporan"><ReportSwitch defaultChecked onChange={setShowSignature} /></FormRow>
+          <FormRow label="Tetapkan Sebagai Laporan Utama"><ReportSwitch onChange={setIsMain} /></FormRow>
           {basis ? <div className="mt-5 grid grid-cols-1 gap-16">
             <section>
               <div className="flex items-center justify-between border-b border-slate-300 pb-2"><h2 className="text-[21px] text-[#002060]"><strong>Pengaturan Kolom Laporan</strong> <span className="text-[16px]">Daftar</span></h2><button type="button" onClick={() => setColumnRows((rows) => [...rows, rows.length + 1])} className="h-8 rounded-[5px] bg-[#3564ef] px-4 text-[13px] font-semibold text-white hover:bg-[#2854d8]">+ Tambah</button></div>
@@ -79,7 +83,11 @@ export default function MitraKaryaPenyesuaianLaporanTambah() {
         </div>
         <div className="mt-5 flex justify-end gap-1">
           <button type="button" onClick={() => navigate("/mitra-karya/laporan/penyesuaian")} className="inline-flex h-10 items-center gap-1 rounded-[7px] bg-[#7d8da9] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6d7d98]"><X className="h-3 w-3" strokeWidth={3} />Batalkan</button>
-          <button type="button" onClick={() => navigate("/mitra-karya/laporan/penyesuaian")} className="inline-flex h-10 items-center gap-1 rounded-[7px] bg-[#26ad00] px-5 text-[13px] font-semibold text-white transition hover:bg-[#209500]"><CheckSquare className="h-4 w-4" strokeWidth={3} />Simpan</button>
+          <button type="button" onClick={() => {
+            const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]");
+            localStorage.setItem("mitra-karya-penyesuaian-laporan", JSON.stringify([...savedReports, { basis: basis === "tabungan" ? "Laporan Rekening Tabungan" : basis === "anggota" ? "Laporan Anggota" : basis === "pinjaman" ? "Laporan Rekening Pinjaman" : "Laporan Rekening Deposito", title: title || "Tanpa Judul", total: showTotal ? "Tampilkan" : "Tidak", signature: showSignature ? "Tampilkan" : "Tidak", main: isMain ? "Tampilkan" : "Tidak" }]));
+            navigate("/mitra-karya/laporan/penyesuaian");
+          }} className="inline-flex h-10 items-center gap-1 rounded-[7px] bg-[#26ad00] px-5 text-[13px] font-semibold text-white transition hover:bg-[#209500]"><CheckSquare className="h-4 w-4" strokeWidth={3} />Simpan</button>
         </div>
       </Card>
     </div>
