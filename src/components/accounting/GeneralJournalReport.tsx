@@ -76,7 +76,7 @@ export default function GeneralJournalReport() {
       </div>
 
       <div className="mt-12 max-w-[340px]">
-        <label htmlFor="journal-date" className="text-[17px] font-medium">
+        <label htmlFor="journal-date" className="text-[14px] font-medium">
           Tanggal Laporan
         </label>
         <div className="mt-3 flex h-[52px] overflow-hidden rounded-[6px] border border-slate-300 bg-white shadow-sm">
@@ -88,13 +88,13 @@ export default function GeneralJournalReport() {
             type="date"
             value={date}
             onChange={(event) => setDate(event.target.value)}
-            className="h-full rounded-none border-0 px-3 text-[17px] shadow-none focus-visible:ring-0"
+            className="h-full rounded-none border-0 px-3 text-[12px] shadow-none focus-visible:ring-0"
           />
         </div>
         <Button
           type="button"
           onClick={() => setVisible(true)}
-          className="mt-7 h-[52px] rounded-[7px] bg-violet-600 px-5 text-[17px] font-normal text-white hover:bg-violet-700"
+          className="mt-4 h-[28px] w-[123px] rounded-[6px] bg-violet-600 px-2 text-[12px] font-normal text-white hover:bg-violet-700"
         >
           Tampilkan Laporan
         </Button>
