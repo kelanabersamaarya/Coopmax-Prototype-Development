@@ -13,7 +13,7 @@ const selectClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] tex
 function Label({ children, required = false }: { children: React.ReactNode; required?: boolean }) { return <label className="text-[13px] font-medium text-[#002060]">{children}{required && <span className="text-red-500">*</span>}</label>; }
 function Row({ label, required, children, note }: { label: string; required?: boolean; children: React.ReactNode; note?: string }) { return <div className="grid gap-2 md:grid-cols-[190px_minmax(0,1fr)] md:items-start"><Label required={required}>{label}</Label><div className="min-w-0">{children}{note && <p className="mt-1 text-[11px] text-[#7890b2]">{note}</p>}</div></div>; }
 function SelectField({ placeholder, children }: { placeholder: string; children: React.ReactNode }) { return <Select><SelectTrigger className={selectClass}><SelectValue placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select>; }
-function GeneralInformation() {
+function GeneralInformation({ name = "", onNameChange = () => {} }: { name?: string; onNameChange?: (name: string) => void } = {}) {
   return <>
     <div className="grid gap-[10px]">
       <Row label="ID Anggota" required><div className="flex"><Input defaultValue="A2600016" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row>
@@ -21,7 +21,7 @@ function GeneralInformation() {
       <Row label="Tanggal Daftar" required><Input defaultValue="09-09-2026" className={fieldClass} /></Row>
       <Row label="NIP" note="Nomor induk pegawai bersifat optional atau tidak wajib diisi"><Input className={fieldClass} /></Row>
       <Row label="NIK" required><div className="grid gap-2 lg:grid-cols-[minmax(0,1fr)_272px]"><Input placeholder="Masukan NIK" className={fieldClass} /><Button type="button" className="h-8 bg-violet-600 text-[12px] hover:bg-violet-600">◉ Verifikasi KTP ✨</Button></div></Row>
-      <Row label="Nama" required><Input className={fieldClass} /></Row>
+      <Row label="Nama" required><Input name="name" value={name} onChange={(event) => onNameChange(event.target.value)} className={fieldClass} /></Row>
       <Row label="Kategori" required><SelectField placeholder="Pilih Kategori Anggota"><SelectItem value="anggota">Anggota</SelectItem><SelectItem value="calon">Calon Anggota</SelectItem></SelectField></Row>
       <Row label="Jenis Kelamin" required><div className="flex gap-5 text-[13px]"><label><input type="radio" name="gender" defaultChecked className="mr-1 accent-blue-600" />Perempuan</label><label><input type="radio" name="gender" className="mr-1 accent-blue-600" />Laki - Laki</label></div></Row>
       <Row label="Tempat Lahir" required><Input className={fieldClass} /></Row>
@@ -73,6 +73,8 @@ export default function MitraKaryaPendaftaranAnggota() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const submittedName = new FormData(event.currentTarget).get("name");
+    if (typeof submittedName === "string") setName(submittedName);
     if (!ktpFile) {
       setShowKtpAlert(true);
       return;
@@ -81,6 +83,9 @@ export default function MitraKaryaPendaftaranAnggota() {
   }
 
   function confirmSave() {
+    const newMember = { id: "A2600016", name: name || "Anggota Baru", registeredAt: "09-09-2026", identity: "-", phone: "-", address: "-", verified: false };
+    const savedMembers = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]");
+    localStorage.setItem("mitra-karya-members", JSON.stringify([newMember, ...savedMembers.filter((member: { id: string }) => member.id !== newMember.id)]));
     setShowSaveConfirmation(false);
     setShowSaveSuccess(true);
   }

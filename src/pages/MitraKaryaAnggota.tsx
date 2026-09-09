@@ -34,8 +34,15 @@ export default function MitraKaryaAnggota() {
   const [verification, setVerification] = React.useState("semua");
   const [pageSize, setPageSize] = React.useState("20");
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [savedMembers, setSavedMembers] = React.useState<Member[]>([]);
 
-  const filteredMembers = members.filter((member) => {
+  React.useEffect(() => {
+    const storedMembers = localStorage.getItem("mitra-karya-members");
+    if (storedMembers) setSavedMembers(JSON.parse(storedMembers));
+  }, []);
+
+  const allMembers = [...savedMembers, ...members.filter((member) => !savedMembers.some((savedMember) => savedMember.id === member.id))];
+  const filteredMembers = allMembers.filter((member) => {
     const search = query.trim().toLowerCase();
     const matchesSearch = !search || [member.id, member.name, member.identity, member.phone, member.address].join(" ").toLowerCase().includes(search);
     const matchesVerification = verification === "semua" || (verification === "terverifikasi" ? member.verified : !member.verified);
