@@ -72,17 +72,20 @@ section:has(.mitra-karya-member-report) {
 
 .mitra-karya-member-report th > div {
   align-items: center;
-  gap: 10px;
+  column-gap: 16px;
 }
 
 .mitra-karya-member-report th > div > span:first-child {
   flex: 1 1 auto;
   min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .mitra-karya-member-report th > div > span:last-child {
-  flex: 0 0 auto;
-  margin-left: 4px;
+  flex: 0 0 14px;
+  width: 14px;
+  margin-left: 6px;
 }
 
 .mitra-karya-member-report td {
@@ -187,8 +190,8 @@ section:has(.mitra-karya-member-report) {
 }
 
 .mitra-karya-member-report table.default-report-table {
-  width: 1320px !important;
-  min-width: 1320px !important;
+  width: 1450px !important;
+  min-width: 1450px !important;
 }
 
 .mitra-karya-member-report table.default-report-table th,
