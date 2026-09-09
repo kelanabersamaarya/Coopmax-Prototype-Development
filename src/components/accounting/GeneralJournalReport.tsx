@@ -71,8 +71,8 @@ export default function GeneralJournalReport() {
   return (
     <div className="rounded-[5px] bg-white px-1 py-2 text-slate-950 md:px-4 md:py-4">
       <div className="flex items-baseline gap-3">
-        <h1 className="text-[26px] font-extrabold tracking-tight">Laporan</h1>
-        <span className="text-[22px] font-normal">Jurnal Umum</span>
+        <h1 className="text-[22px] font-extrabold tracking-tight">Laporan</h1>
+        <span className="text-[16px] font-normal">Jurnal Umum</span>
       </div>
 
       <div className="mt-12 max-w-[340px]">
