@@ -69,6 +69,7 @@ export default function MitraKaryaPendaftaranAnggota() {
   const [supportingFile, setSupportingFile] = React.useState<File | null>(null);
   const [showKtpAlert, setShowKtpAlert] = React.useState(false);
   const [showSaveConfirmation, setShowSaveConfirmation] = React.useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -81,7 +82,7 @@ export default function MitraKaryaPendaftaranAnggota() {
 
   function confirmSave() {
     setShowSaveConfirmation(false);
-    toast.success("Data anggota berhasil disimpan", { description: name || "Anggota baru siap diproses." });
+    setShowSaveSuccess(true);
   }
 
   return <>
@@ -92,5 +93,6 @@ export default function MitraKaryaPendaftaranAnggota() {
     </div>
     {showKtpAlert && <div role="dialog" aria-modal="true" aria-labelledby="ktp-alert-title" className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><div className="mx-auto flex h-[90px] w-[90px] items-center justify-center rounded-full border-4 border-[#ffd0a8] text-[56px] font-light leading-none text-[#ffbd8a]">!</div><h2 id="ktp-alert-title" className="mt-8 text-[30px] font-semibold text-[#45556b]">Foto KTP Belum Diunggah</h2><p className="mt-2 text-[18px] text-[#45556b]">Silakan unggah foto KTP pada tab upload file</p><Button type="button" onClick={() => setShowKtpAlert(false)} className="mt-5 h-[54px] min-w-[104px] rounded-[7px] border-2 border-white bg-[#3185d4] text-[17px] font-medium shadow-[0_0_0_2px_#9fc9ec] hover:bg-[#2878c4]">OK</Button></div></div>}
     {showSaveConfirmation && <div role="dialog" aria-modal="true" aria-labelledby="save-confirmation-title" className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><div className="mx-auto flex h-[90px] w-[90px] items-center justify-center rounded-full border-4 border-[#ffd0a8] text-[56px] font-light leading-none text-[#ffbd8a]">!</div><h2 id="save-confirmation-title" className="mt-8 text-[30px] font-semibold text-[#45556b]">Yakin untuk menyimpan data ?</h2><div className="mt-8 flex justify-center gap-2"><Button type="button" onClick={confirmSave} className="h-[48px] min-w-[104px] rounded-[7px] border-2 border-white bg-[#3185d4] text-[16px] font-semibold shadow-[0_0_0_2px_#9fc9ec] hover:bg-[#2878c4]">Yes</Button><Button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-[48px] min-w-[126px] rounded-[5px] bg-[#ababab] text-[16px] font-semibold hover:bg-[#999999]">Cancel</Button></div></div></div>}
+    {showSaveSuccess && <div role="dialog" aria-modal="true" aria-labelledby="save-success-title" className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><div className="mx-auto flex h-[90px] w-[90px] items-center justify-center rounded-full border-4 border-[#e0f3d5] text-[#9cdb78]"><Check className="h-14 w-14" strokeWidth={2.5} /></div><h2 id="save-success-title" className="mt-8 text-[30px] font-semibold text-[#5b5b5b]">Berhasil menambahkan data</h2><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="mt-8 h-[54px] min-w-[104px] rounded-[7px] border-2 border-white bg-[#3185d4] text-[17px] font-medium shadow-[0_0_0_2px_#9fc9ec] hover:bg-[#2878c4]">OK</Button></div></div>}
   </>;
 }
