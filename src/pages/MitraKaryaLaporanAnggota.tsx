@@ -261,7 +261,10 @@ function ExportMenu({
           <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[180px] rounded-xl border-slate-200 bg-white p-1.5 shadow-lg">
+      <DropdownMenuContent
+        align="end"
+        className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-0 rounded-xl border-slate-200 bg-white p-1.5 shadow-lg"
+      >
         <DropdownMenuItem
           onSelect={() => onExport("PDF")}
           className="gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium text-[#536581] focus:bg-slate-100 focus:text-[#001b4e]"
