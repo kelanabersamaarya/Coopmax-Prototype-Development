@@ -54,7 +54,7 @@ export default function MitraKaryaPendaftaranAnggota() {
           <Row label="Status Pernikahan" required><SelectField placeholder="Pilih Status Pernikahan"><SelectItem value="menikah">Menikah</SelectItem><SelectItem value="belum">Belum Menikah</SelectItem></SelectField></Row>
           <Row label="Jenis Identitas" required><SelectField placeholder="Pilih Jenis Identitas"><SelectItem value="ktp">KTP</SelectItem><SelectItem value="sim">SIM</SelectItem></SelectField></Row>
           <Row label="No. Identitas" required><Input className={fieldClass} /></Row>
-          <Row label="No. Telp/Handphone (+62)" required><div className="flex"><span className="inline-flex h-8 items-center rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e4e9f1] px-3 text-[13px] text-[#7890b2]">+62</span><Input placeholder="Contoh. 81123456789" className={`${fieldClass} rounded-l-none`} /></div></Row>
+          <Row label="No. Telp/Handphone (+62)" required><div className="flex w-full min-w-0"><span className="inline-flex h-8 min-w-[50px] shrink-0 items-center justify-center whitespace-nowrap rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e4e9f1] px-2 text-[13px] text-[#7890b2]">+62</span><Input placeholder="Contoh. 81123456789" className={`${fieldClass} min-w-0 flex-1 rounded-l-none`} /></div></Row>
           <Row label="Nama Gadis Ibu Kandung" required><Input className={fieldClass} /></Row>
           <Row label="Nama ahli waris" required><Input className={fieldClass} /></Row>
           <Row label="Email"><Input placeholder="Contoh. example@email.com" className={fieldClass} /></Row>
