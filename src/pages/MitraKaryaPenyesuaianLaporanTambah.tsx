@@ -16,11 +16,19 @@ function FormRow({ label, children, required = true }: { label: string; children
 }
 
 function ReportSwitch({ defaultChecked = false }: { defaultChecked?: boolean }) {
+  const [checked, setChecked] = React.useState(defaultChecked);
+
   return (
-    <Switch
-      defaultChecked={defaultChecked}
-      className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5] [&>span]:h-5 [&>span]:w-5 [&>span]:bg-white [&>span]:data-[state=checked]:translate-x-[38px] [&>span]:data-[state=unchecked]:translate-x-0"
-    />
+    <span className="relative inline-flex h-6 w-[62px]">
+      <Switch
+        checked={checked}
+        onCheckedChange={setChecked}
+        className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5] [&>span]:h-5 [&>span]:w-5 [&>span]:bg-white [&>span]:data-[state=checked]:translate-x-[38px] [&>span]:data-[state=unchecked]:translate-x-0"
+      />
+      <span className={`pointer-events-none absolute inset-y-0 flex items-center text-[10px] font-bold leading-none text-white ${checked ? "left-[13px]" : "right-[10px]"}`}>
+        {checked ? "ON" : "OFF"}
+      </span>
+    </span>
   );
 }
 
