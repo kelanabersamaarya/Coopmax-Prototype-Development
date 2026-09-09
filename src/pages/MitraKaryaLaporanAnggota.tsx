@@ -310,7 +310,18 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
   ];
   const fieldLabels: Record<string, string> = Object.fromEntries([...defaultColumns, { key: "nomor-identitas", label: "Nomor Identitas" }, { key: "tanggal-lahir", label: "Tanggal Lahir" }, { key: "jenis-kelamin", label: "Jenis Kelamin" }, { key: "tempat-lahir", label: "Tempat Lahir" }, { key: "simpanan-khusus", label: "Simpanan Khusus" }, { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" }, { key: "total-simpanan", label: "Total Simpanan" }, { key: "status", label: "Status" }, { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" }, { key: "preview-file-ktp", label: "Preview File KTP" }].map((field) => [field.key, field.label]));
   const columns = (configuredReport ? configuredColumns : defaultColumns).map((column) => ({ ...column, label: column.label || fieldLabels[column.key] || column.key }));
-  const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus, "preview-file-ktp": member.ktpStatus === "Tersedia" ? "Preview" : "-" }[key] || "");
+  const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus }[key] || "");
+  const renderCell = (member: Member, key: string) => key === "preview-file-ktp" && member.ktpStatus === "Tersedia" ? (
+    <button
+      type="button"
+      onClick={() => toast("Preview KTP anggota (prototype)", { description: member.name })}
+      className="inline-flex h-6 w-6 items-center justify-center rounded-[4px] text-[#2563EB] transition hover:bg-blue-50"
+      aria-label={`Preview KTP ${member.name}`}
+      title="Preview KTP"
+    >
+      <Eye className="h-4 w-4" strokeWidth={2.5} />
+    </button>
+  ) : key === "preview-file-ktp" ? "-" : getValue(member, key);
 
   const totals = React.useMemo(
     () =>
@@ -348,38 +359,16 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
             <tr>
               <th>No.</th>
               {columns.map((column) => <th key={column.key}><SortableHeader>{column.label}</SortableHeader></th>)}
-              <th>Aksi</th>
             </tr>
           </thead>
 
           <tbody>
             {rows.length > 0 ? (
               rows.map((member, index) => {
-                const total =
-                  member.simpananPokok +
-                  member.simpananWajib +
-                  member.simpananKhusus +
-                  member.simpananPenyertaan;
-
                 return (
                   <tr key={member.id}>
                     <td>{index + 1}</td>
-                    {columns.map((column) => <td key={column.key}>{getValue(member, column.key)}</td>)}
-                    <td>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          toast("Detail anggota (prototype)", {
-                            description: member.name,
-                          })
-                        }
-                        className="inline-flex h-6 w-6 items-center justify-center rounded-[4px] text-[#2563EB] transition hover:bg-blue-50"
-                        aria-label={`Lihat ${member.name}`}
-                        title="Lihat detail"
-                      >
-                        <Eye className="h-4 w-4" strokeWidth={2.5} />
-                      </button>
-                    </td>
+                    {columns.map((column) => <td key={column.key}>{renderCell(member, column.key)}</td>)}
                   </tr>
                 );
               })
