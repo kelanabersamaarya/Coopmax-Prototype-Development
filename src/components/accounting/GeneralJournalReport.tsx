@@ -60,7 +60,7 @@ const journalRows = [
 
 export default function GeneralJournalReport() {
   const [date, setDate] = React.useState("2025-11-05");
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
 
   const formattedDate = new Intl.DateTimeFormat("id-ID", {
     day: "numeric",
