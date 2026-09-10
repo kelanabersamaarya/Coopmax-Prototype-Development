@@ -297,6 +297,17 @@ export function openReportPdfPreview({
             display: none !important;
           }
 
+          .export-only {
+            display: inline !important;
+            color: #1d4ed8 !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+          }
+
+          .export-hide {
+            display: none !important;
+          }
+
           .safe-x-scroll,
           .print-scroll-reset {
             overflow: visible !important;

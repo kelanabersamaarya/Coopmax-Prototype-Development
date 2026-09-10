@@ -298,25 +298,35 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
   const renderCell = (member: Member, key: string) => key === "ketersediaan-file-ktp" ? (
     <KtpBadge status={member.ktpStatus} />
   ) : key === "preview-file-ktp" && member.ktpStatus === "Tersedia" ? (
-    <button
-      type="button"
-      onClick={() => setSelectedKtpMember(member)}
-      className="group relative inline-flex h-8 w-12 overflow-hidden rounded-[4px] border border-blue-100 bg-blue-50 transition hover:border-blue-400"
-      aria-label={`Preview KTP ${member.name}`}
-      title="Preview KTP"
-    >
-      <img
-        src="/image 4.png"
-        alt={`Pratinjau KTP ${member.name}`}
-        className="h-full w-full object-cover"
-        onError={(event) => {
-          event.currentTarget.src = "/imagektpblur.png";
-        }}
-      />
-      <span className="absolute inset-0 grid place-items-center bg-[#002060]/35 opacity-0 transition group-hover:opacity-100">
-        <Eye className="h-4 w-4 text-white" strokeWidth={2.5} />
-      </span>
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => setSelectedKtpMember(member)}
+        className="export-hide group relative inline-flex h-8 w-12 overflow-hidden rounded-[4px] border border-blue-100 bg-blue-50 transition hover:border-blue-400"
+        aria-label={`Preview KTP ${member.name}`}
+        title="Preview KTP"
+      >
+        <img
+          src="/image 4.png"
+          alt={`Pratinjau KTP ${member.name}`}
+          className="h-full w-full object-cover"
+          onError={(event) => {
+            event.currentTarget.src = "/imagektpblur.png";
+          }}
+        />
+        <span className="absolute inset-0 grid place-items-center bg-[#002060]/35 opacity-0 transition group-hover:opacity-100">
+          <Eye className="h-4 w-4 text-white" strokeWidth={2.5} />
+        </span>
+      </button>
+      <a
+        href="/image 4.png"
+        target="_blank"
+        rel="noreferrer"
+        className="export-only hidden font-medium text-blue-700 underline"
+      >
+        Lihat File KTP
+      </a>
+    </>
   ) : key === "preview-file-ktp" ? "-" : getValue(member, key);
 
   const totals = React.useMemo(

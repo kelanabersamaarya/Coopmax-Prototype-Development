@@ -79,9 +79,17 @@ export function openReportPrintPreview() {
 
       body.dyad-print-report .no-print,
       body.dyad-print-report .print-hide,
-      body.dyad-print-report .print-hide * {
+      body.dyad-print-report .print-hide *,
+      body.dyad-print-report .export-only,
+      body.dyad-print-report .export-only * {
         display: none !important;
         visibility: hidden !important;
+      }
+
+      body.dyad-print-report .export-hide,
+      body.dyad-print-report .export-hide * {
+        display: inline-flex !important;
+        visibility: visible !important;
       }
 
       body.dyad-print-report .safe-x-scroll,
