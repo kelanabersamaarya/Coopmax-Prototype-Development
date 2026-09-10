@@ -109,10 +109,10 @@ export default function GeneralJournalReport() {
 
           <div className="overflow-hidden rounded-none border border-slate-300">
             <div className="flex min-h-[48px] justify-end gap-2 border-b border-slate-300 px-5 py-3">
-              <Button className="h-[25px] w-[105px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
+              <Button className="h-[25px] w-[95px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
                 Export Excel
               </Button>
-              <Button className="h-[25px] w-[105px] rounded-[5px] bg-rose-600 px-2 text-[12px] font-normal hover:bg-rose-700">
+              <Button className="h-[25px] w-[95px] rounded-[5px] bg-rose-600 px-2 text-[12px] font-normal hover:bg-rose-700">
                 Export PDF
               </Button>
             </div>
