@@ -1,5 +1,5 @@
 section:has(.mitra-karya-member-report) {
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
