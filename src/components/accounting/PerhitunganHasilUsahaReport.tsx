@@ -113,7 +113,7 @@ function RecapTable() {
   const equity = recapSections[2];
 
   return (
-    <div className="grid min-w-[900px] grid-cols-2 gap-2 bg-white p-1">
+    <div className="grid w-full grid-cols-2 gap-1 bg-white p-1">
       <RecapColumn sections={[asset]} />
       <RecapColumn sections={[liability, equity]} />
     </div>
@@ -126,12 +126,17 @@ function RecapColumn({
   sections: readonly (typeof recapSections[number])[];
 }) {
   return (
-    <table className="w-full border-collapse text-[12px]">
+    <table className="w-full table-fixed border-collapse text-[11px]">
+      <colgroup>
+        <col className="w-[42%]" />
+        <col className="w-[29%]" />
+        <col className="w-[29%]" />
+      </colgroup>
       <thead>
         <tr className="uppercase tracking-wider text-[#526786]">
-          <th className="border border-[#c8d3e5] px-3 py-2 text-left">Perkiraan</th>
-          <th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Lalu</th>
-          <th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Ini</th>
+          <th className="border border-[#c8d3e5] px-1.5 py-2 text-left">Perkiraan</th>
+          <th className="border border-[#c8d3e5] px-1 py-2 text-right">Bulan Lalu</th>
+          <th className="border border-[#c8d3e5] px-1 py-2 text-right">Bulan Ini</th>
         </tr>
       </thead>
       <tbody>
@@ -142,15 +147,15 @@ function RecapColumn({
             </tr>
             {section.rows.map((row) => (
               <tr key={row[0]}>
-                <td className="border border-[#c8d3e5] px-3 py-1">{row[0]}</td>
-                <td className="border border-[#c8d3e5] px-2 py-1 text-right">{row[1]}</td>
-                <td className="border border-[#c8d3e5] px-2 py-1 text-right">{row[2]}</td>
+                <td className="break-words border border-[#c8d3e5] px-1.5 py-1">{row[0]}</td>
+                <td className="border border-[#c8d3e5] px-1 py-1 text-right tabular-nums">{row[1]}</td>
+                <td className="border border-[#c8d3e5] px-1 py-1 text-right tabular-nums">{row[2]}</td>
               </tr>
             ))}
             <tr className="font-bold">
-              <td className="border border-[#c8d3e5] px-3 py-1">{section.total[0]}</td>
-              <td className="border border-[#c8d3e5] px-2 py-1 text-right">{section.total[1]}</td>
-              <td className="border border-[#c8d3e5] px-2 py-1 text-right">{section.total[2]}</td>
+              <td className="break-words border border-[#c8d3e5] px-1.5 py-1">{section.total[0]}</td>
+              <td className="border border-[#c8d3e5] px-1 py-1 text-right tabular-nums">{section.total[1]}</td>
+              <td className="border border-[#c8d3e5] px-1 py-1 text-right tabular-nums">{section.total[2]}</td>
             </tr>
           </React.Fragment>
         ))}
