@@ -12,7 +12,7 @@ type SavedReport = { basis: string; title: string; total: "Tampilkan" | "Tidak";
 
 const reportKey = "mitra-karya-penyesuaian-laporan";
 const fieldOptions = [
-  ["no-anggota", "No. Anggota"], ["nama", "Nama Anggota"], ["tanggal-daftar", "Tanggal Daftar"], ["nomor-identitas", "Nomor Identitas"], ["tanggal-lahir", "Tanggal Lahir"], ["jenis-kelamin", "Jenis Kelamin"], ["tempat-lahir", "Tempat Lahir"], ["alamat", "Alamat Anggota"], ["no-handphone", "No. Handphone"], ["kategori", "Kategori"], ["simpanan-pokok", "Simpanan Pokok"], ["simpanan-wajib", "Simpanan Wajib"], ["simpanan-khusus", "Simpanan Khusus"], ["simpanan-penyertaan", "Simpanan Penyertaan"], ["total-simpanan", "Total Simpanan"], ["status", "Status"], ["ketersediaan-file-ktp", "Ketersediaan File KTP"], ["preview-file-ktp", "Preview File KTP"],
+  ["no-anggota", "No. Anggota"], ["nama", "Nama Anggota"], ["tanggal-daftar", "Tanggal Daftar"], ["nomor-identitas", "Nomor Identitas"], ["tanggal-lahir", "Tanggal Lahir"], ["jenis-kelamin", "Jenis Kelamin"], ["tempat-lahir", "Tempat Lahir"], ["alamat", "Alamat Anggota"], ["no-handphone", "No. Handphone"], ["kategori", "Kategori"], ["simpanan-pokok", "Simpanan Pokok"], ["simpanan-wajib", "Simpanan Wajib"], ["simpanan-khusus", "Simpanan Khusus"], ["simpanan-penyertaan", "Simpanan Penyertaan"], ["total-simpanan", "Total Simpanan"], ["status", "Status"], ["ketersediaan-file-ktp", "Ketersediaan File KTP"], ["preview-file-ktp", "Pratinjau File KTP"],
 ] as const;
 
 function FormRow({ label, children }: { label: string; children: React.ReactNode }) {
