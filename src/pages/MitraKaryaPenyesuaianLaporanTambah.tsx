@@ -22,7 +22,37 @@ function ReportSwitch({ checked, onChange }: { checked: boolean; onChange: (valu
   return <span className="relative inline-flex h-6 w-[62px]"><Switch checked={checked} onCheckedChange={onChange} className="h-6 w-[62px] rounded-full border-0 bg-[#a59bed] data-[state=checked]:bg-[#5843f5] [&>span]:h-5 [&>span]:w-5 [&>span]:bg-white [&>span]:data-[state=checked]:translate-x-[38px] [&>span]:data-[state=unchecked]:translate-x-0" /><span className={`pointer-events-none absolute inset-y-0 flex items-center text-[10px] font-bold text-white ${checked ? "left-[13px]" : "right-[10px]"}`}>{checked ? "ON" : "OFF"}</span></span>;
 }
 function Options({ value, onChange }: { value: string; onChange: (value: string) => void }) {
-  return <Select value={value} onValueChange={onChange}><SelectTrigger className="h-8 rounded-[5px] border-slate-300 text-[13px]"><SelectValue /></SelectTrigger><SelectContent><SelectItem className="focus:bg-[#2563eb] focus:text-white" value="__empty__"><span className="sr-only">Kosongkan Field Key</span>&nbsp;</SelectItem>{fieldOptions.map(([key, label]) => <SelectItem key={key} className="focus:bg-[#2563eb] focus:text-white" value={key}>{label}</SelectItem>)}</SelectContent></Select>;
+  const [search, setSearch] = React.useState("");
+  const filteredOptions = fieldOptions.filter(([, label]) =>
+    label.toLowerCase().includes(search.trim().toLowerCase()),
+  );
+
+  return (
+    <Select
+      value={value}
+      onValueChange={onChange}
+      onOpenChange={(open) => {
+        if (!open) setSearch("");
+      }}
+    >
+      <SelectTrigger className="h-8 rounded-[5px] border-slate-300 text-[13px]"><SelectValue /></SelectTrigger>
+      <SelectContent>
+        <div className="border-b border-slate-200 p-2">
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            onKeyDown={(event) => event.stopPropagation()}
+            onPointerDown={(event) => event.stopPropagation()}
+            placeholder="Cari field..."
+            className="h-8 rounded-[4px] border-slate-300 text-[12px] shadow-none focus-visible:ring-0"
+            aria-label="Cari field key"
+          />
+        </div>
+        <SelectItem className="focus:bg-[#2563eb] focus:text-white" value="__empty__"><span className="sr-only">Kosongkan Field Key</span>&nbsp;</SelectItem>
+        {filteredOptions.map(([key, label]) => <SelectItem key={key} className="focus:bg-[#2563eb] focus:text-white" value={key}>{label}</SelectItem>)}
+      </SelectContent>
+    </Select>
+  );
 }
 
 export default function MitraKaryaPenyesuaianLaporanTambah() {
