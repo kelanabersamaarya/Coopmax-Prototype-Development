@@ -30,20 +30,44 @@ export default function ReportPrintHeader({
         style={{
           width: "100%",
           textAlign: "center",
-          fontSize: "12px",
+          fontSize: "16px",
           fontWeight: 700,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
+          lineHeight: 1.45,
         }}
       >
-        KOPERASI COOPMAX
+        <div>Koperasi Coopmax</div>
+        <div>Nomor BH : 21/KC/04-2025</div>
+        <div>Email: coopmax@kop.com</div>
       </div>
+
+      <div
+        className="report-header-line-thick"
+        style={{
+          display: "block",
+          width: "100%",
+          height: "0",
+          marginTop: "10px",
+          borderTop: "2px solid #111827",
+          background: "transparent",
+        }}
+      />
+      <div
+        className="report-header-line-thin"
+        style={{
+          display: "block",
+          width: "100%",
+          height: "0",
+          marginTop: "2px",
+          borderTop: "1px solid #111827",
+          background: "transparent",
+        }}
+      />
 
       <div
         style={{
           width: "100%",
           textAlign: "center",
-          marginTop: "5px",
+          marginTop: "10px",
           fontSize: "17px",
           fontWeight: 800,
           letterSpacing: "0.03em",
@@ -67,29 +91,6 @@ export default function ReportPrintHeader({
           Dicetak pada {printedAt}
         </div>
       ) : null}
-
-      <div
-        className="report-header-line-thick"
-        style={{
-          display: "block",
-          width: "100%",
-          height: "0",
-          marginTop: "8px",
-          borderTop: "2px solid #111827",
-          background: "transparent",
-        }}
-      />
-      <div
-        className="report-header-line-thin"
-        style={{
-          display: "block",
-          width: "100%",
-          height: "0",
-          marginTop: "2px",
-          borderTop: "1px solid #111827",
-          background: "transparent",
-        }}
-      />
 
       {reportBasis ? (
         <div
