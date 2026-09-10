@@ -108,7 +108,55 @@ const recapSections = [
 ] as const;
 
 function RecapTable() {
-  return <table className="min-w-[760px] w-full border-collapse text-[12px]"><thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Perkiraan</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-[#c8d3e5] px-3 py-2">Bulan Ini</th></tr></thead><tbody>{recapSections.map((section) => <React.Fragment key={section.title}><tr className="bg-[#dfe6eb] font-bold"><td colSpan={3} className="border-b border-[#c8d3e5] px-3 py-1">{section.title}</td></tr>{section.rows.map((row) => <tr key={row[0]}><td className="border-b border-r border-[#c8d3e5] px-8 py-1">{row[0]}</td><td className="border-b border-r border-[#c8d3e5] px-2 py-1 text-right">{row[1]}</td><td className="border-b border-[#c8d3e5] px-2 py-1 text-right">{row[2]}</td></tr>)}<tr className="font-bold"><td className="border-b border-r border-[#c8d3e5] px-3 py-1">{section.total[0]}</td><td className="border-b border-r border-[#c8d3e5] px-2 py-1 text-right">{section.total[1]}</td><td className="border-b border-[#c8d3e5] px-2 py-1 text-right">{section.total[2]}</td></tr></React.Fragment>)}</tbody></table>;
+  const asset = recapSections[0];
+  const liability = recapSections[1];
+  const equity = recapSections[2];
+
+  return (
+    <div className="grid min-w-[900px] grid-cols-2 gap-2 bg-white p-1">
+      <RecapColumn sections={[asset]} />
+      <RecapColumn sections={[liability, equity]} />
+    </div>
+  );
+}
+
+function RecapColumn({
+  sections,
+}: {
+  sections: readonly (typeof recapSections[number])[];
+}) {
+  return (
+    <table className="w-full border-collapse text-[12px]">
+      <thead>
+        <tr className="uppercase tracking-wider text-[#526786]">
+          <th className="border border-[#c8d3e5] px-3 py-2 text-left">Perkiraan</th>
+          <th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Lalu</th>
+          <th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Ini</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sections.map((section) => (
+          <React.Fragment key={section.title}>
+            <tr className="bg-[#dfe6eb] font-bold">
+              <td colSpan={3} className="border border-[#c8d3e5] px-3 py-1">{section.title}</td>
+            </tr>
+            {section.rows.map((row) => (
+              <tr key={row[0]}>
+                <td className="border border-[#c8d3e5] px-3 py-1">{row[0]}</td>
+                <td className="border border-[#c8d3e5] px-2 py-1 text-right">{row[1]}</td>
+                <td className="border border-[#c8d3e5] px-2 py-1 text-right">{row[2]}</td>
+              </tr>
+            ))}
+            <tr className="font-bold">
+              <td className="border border-[#c8d3e5] px-3 py-1">{section.total[0]}</td>
+              <td className="border border-[#c8d3e5] px-2 py-1 text-right">{section.total[1]}</td>
+              <td className="border border-[#c8d3e5] px-2 py-1 text-right">{section.total[2]}</td>
+            </tr>
+          </React.Fragment>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 function ReportRow({ row }: { row: readonly [string, string, string, string, boolean?] }) {
