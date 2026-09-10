@@ -46,17 +46,17 @@ export default function PerhitunganHasilUsahaReport() {
       <div className="p-1 md:p-0">
         <h1 className="text-[21px] font-bold">Laporan <span className="font-normal">Perhitungan Hasil Usaha</span></h1>
         <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
-          <label className="w-full text-[13px] md:max-w-[305px]">Periode
+          <label className="w-full text-[13px] md:max-w-[245px]">Periode
             <div className="relative mt-1.5">
               <select value={period} onChange={(e) => setPeriod(e.target.value)} className="h-[31px] w-full appearance-none rounded-[5px] border border-[#c8d3e5] bg-white px-3 text-[13px] outline-none focus:ring-2 focus:ring-violet-200">
                 <option>Perbulan</option><option>Harian</option><option>Per tahun</option>
               </select><ChevronDown className="pointer-events-none absolute right-2 top-2 h-4 w-4 text-slate-500" />
             </div>
           </label>
-          <label className="w-full text-[13px] md:max-w-[305px]">Tanggal Laporan
+          <label className="w-full text-[13px] md:max-w-[245px]">Tanggal Laporan
             <div className="mt-1.5 flex h-[31px] overflow-hidden rounded-[5px] border border-[#c8d3e5]">
               <span className="inline-flex w-12 items-center justify-center bg-slate-100 text-slate-400"><CalendarDays className="h-5 w-5" /></span>
-              <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" />
+              <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="date-report-input h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" />
             </div>
           </label>
         </div>

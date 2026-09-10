@@ -1,0 +1,9 @@
+.date-report-input::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.date-report-input {
+  appearance: none;
+  -webkit-appearance: none;
+}
