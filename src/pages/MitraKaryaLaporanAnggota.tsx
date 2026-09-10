@@ -3,10 +3,9 @@ import {
   ChevronDown,
   ChevronUp,
   Eye,
-  FileSpreadsheet,
-  FileText,
   Info,
   Printer,
+  Save,
   Search,
   X,
 } from "lucide-react";
@@ -519,12 +518,12 @@ export default function MitraKaryaLaporanAnggota() {
 
           <div className="flex flex-wrap items-center gap-2">
             <ReportActionButton
-              icon={FileSpreadsheet}
+              icon={Save}
               label="Export Excel"
               onClick={() => exportReport("Export Excel")}
             />
             <ReportActionButton
-              icon={FileText}
+              icon={Save}
               label="Export PDF"
               onClick={() => exportReport("Export PDF")}
             />
