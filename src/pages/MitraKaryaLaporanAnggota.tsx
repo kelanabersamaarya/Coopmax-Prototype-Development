@@ -440,30 +440,46 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={`Pratinjau KTP ${selectedKtpMember.name}`}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#001b4e]/60 p-4"
+          aria-label={`Foto KTP Anggota ${selectedKtpMember.name}`}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 sm:p-6"
           onClick={() => setSelectedKtpMember(null)}
         >
           <div
-            className="relative max-h-[90vh] max-w-[min(760px,calc(100vw-2rem))] rounded-xl bg-white p-3 shadow-2xl"
+            className="relative flex max-h-[calc(100vh-2rem)] w-full max-w-[765px] flex-col overflow-hidden rounded-[10px] bg-white shadow-2xl sm:max-h-[calc(100vh-3rem)]"
             onClick={(event) => event.stopPropagation()}
           >
-            <button
-              type="button"
-              onClick={() => setSelectedKtpMember(null)}
-              className="absolute right-2 top-2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#002060] text-white transition hover:bg-[#003580]"
-              aria-label="Tutup pratinjau KTP"
-            >
-              <X className="h-4 w-4" strokeWidth={3} />
-            </button>
-            <img
-              src="/image 4.png"
-              alt={`Foto KTP ${selectedKtpMember.name}`}
-              className="max-h-[calc(90vh-1.5rem)] w-auto max-w-full rounded-lg object-contain"
-              onError={(event) => {
-                event.currentTarget.src = "/imagektpblur.png";
-              }}
-            />
+            <div className="flex h-[63px] shrink-0 items-center justify-between border-b border-slate-200 px-6 sm:px-9">
+              <h2 className="text-[17px] font-bold text-[#101010]">Foto KTP Anggota</h2>
+              <button
+                type="button"
+                onClick={() => setSelectedKtpMember(null)}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#111111] transition hover:bg-slate-100"
+                aria-label="Tutup pratinjau KTP"
+              >
+                <X className="h-5 w-5" strokeWidth={2.5} />
+              </button>
+            </div>
+            <div className="flex min-h-0 flex-1 items-center justify-center border-b border-slate-200 px-6 py-5 sm:px-12 sm:py-5">
+              <div className="flex max-h-full w-full items-center justify-center rounded-[4px] border border-[#cbd5e1] p-3 sm:p-[15px]">
+                <img
+                  src="/image 4.png"
+                  alt={`Foto KTP ${selectedKtpMember.name}`}
+                  className="max-h-[56vh] w-auto max-w-full object-contain sm:max-h-[390px]"
+                  onError={(event) => {
+                    event.currentTarget.src = "/imagektpblur.png";
+                  }}
+                />
+              </div>
+            </div>
+            <div className="flex h-[58px] shrink-0 items-center justify-end px-6 sm:px-9">
+              <button
+                type="button"
+                onClick={() => setSelectedKtpMember(null)}
+                className="inline-flex h-8 items-center rounded-[5px] bg-[#7d8db8] px-5 text-[12px] font-medium text-white transition hover:bg-[#6d7dab]"
+              >
+                Selesai
+              </button>
+            </div>
           </div>
         </div>
       ) : null}
