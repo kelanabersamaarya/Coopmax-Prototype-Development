@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   ChevronDown,
-  ChevronUp,
   Eye,
   Info,
   Printer,
@@ -271,15 +270,7 @@ function SortableHeader({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex items-center justify-between gap-2">
-      <span className="min-w-0 leading-[1.2]">{children}</span>
-      <span className="inline-flex shrink-0 flex-col leading-none text-[#002060]">
-        <ChevronUp className="-mb-0.5 h-3.5 w-3.5" strokeWidth={2.8} />
-        <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.8} />
-      </span>
-    </div>
-  );
+  return <span className="leading-[1.2]">{children}</span>;
 }
 
 function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedReport: string }) {
