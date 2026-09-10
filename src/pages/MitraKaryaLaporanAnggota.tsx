@@ -449,7 +449,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex h-[63px] shrink-0 items-center justify-between border-b border-slate-200 px-6 sm:px-9">
-              <h2 className="text-[17px] font-bold text-[#101010]">Foto KTP Anggota</h2>
+              <h2 className="text-[17px] font-bold text-[#101010]">File KTP Anggota</h2>
               <button
                 type="button"
                 onClick={() => setSelectedKtpMember(null)}
