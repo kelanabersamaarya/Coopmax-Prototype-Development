@@ -3,10 +3,10 @@ import {
   ChevronDown,
   ChevronUp,
   Eye,
-  FileDown,
   FileSpreadsheet,
   FileText,
   Info,
+  Printer,
   Search,
   X,
 } from "lucide-react";
@@ -243,45 +243,24 @@ function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
   );
 }
 
-function ExportMenu({
+function ReportActionButton({
+  icon: Icon,
   label,
-  onExport,
+  onClick,
 }: {
+  icon: React.ComponentType<{ className?: string }>;
   label: string;
-  onExport: (format: "PDF" | "Excel") => void;
+  onClick: () => void;
 }) {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          type="button"
-          className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[13px] font-medium text-[#536581] shadow-sm transition hover:bg-slate-50"
-        >
-          <FileDown className="h-4 w-4 text-[#536581]" />
-          {label}
-          <ChevronDown className="ml-1 h-4 w-4 text-[#536581]" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-0 rounded-xl border-slate-200 bg-white p-1.5 shadow-lg"
-      >
-        <DropdownMenuItem
-          onSelect={() => onExport("PDF")}
-          className="gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium text-[#536581] focus:bg-slate-100 focus:text-[#001b4e]"
-        >
-          <FileText className="h-4 w-4 text-[#dc3545]" />
-          Export PDF
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onSelect={() => onExport("Excel")}
-          className="gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium text-[#536581] focus:bg-slate-100 focus:text-[#001b4e]"
-        >
-          <FileSpreadsheet className="h-4 w-4 text-[#1f9d55]" />
-          Export Excel
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-100 bg-white px-4 text-[14px] font-normal text-[#536581] shadow-sm transition hover:bg-slate-50 hover:shadow-md"
+    >
+      <Icon className="h-[17px] w-[17px] text-[#536581]" />
+      {label}
+    </button>
   );
 }
 
@@ -539,17 +518,20 @@ export default function MitraKaryaLaporanAnggota() {
           </h1>
 
           <div className="flex flex-wrap items-center gap-2">
-            <ExportMenu
-              label="Export Laporan Rekapitulasi KTP"
-              onExport={(format) =>
-                exportReport(`Export Laporan Rekapitulasi KTP ${format}`)
-              }
+            <ReportActionButton
+              icon={FileSpreadsheet}
+              label="Export Excel"
+              onClick={() => exportReport("Export Excel")}
             />
-            <ExportMenu
-              label="Export Laporan Anggota"
-              onExport={(format) =>
-                exportReport(`Export Laporan Anggota ${format}`)
-              }
+            <ReportActionButton
+              icon={FileText}
+              label="Export PDF"
+              onClick={() => exportReport("Export PDF")}
+            />
+            <ReportActionButton
+              icon={Printer}
+              label="Cetak"
+              onClick={() => exportReport("Cetak")}
             />
           </div>
         </div>
