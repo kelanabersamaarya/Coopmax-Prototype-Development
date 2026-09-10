@@ -164,6 +164,18 @@ export default function Dashboard() {
             accent="emerald"
             onClick={() => navigate("/mitra-karya/laporan/anggota")}
           />
+
+          <DevMenuCard
+            title="Kebutuhan Koperasi Astiti Dana Lestari"
+            subtitle="Akses kebutuhan operasional Koperasi Astiti Dana Lestari."
+            icon={Handshake}
+            accent="violet"
+            onClick={() => {
+              toast("Kebutuhan Koperasi Astiti Dana Lestari", {
+                description: "Modul siap digunakan untuk pengembangan berikutnya.",
+              });
+            }}
+          />
         </div>
       </div>
     </div>
