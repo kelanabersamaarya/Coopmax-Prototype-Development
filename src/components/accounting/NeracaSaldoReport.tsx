@@ -1,6 +1,7 @@
 import * as React from "react";
 import { CalendarDays, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 
 const detailedRows = [
@@ -90,13 +91,27 @@ export default function NeracaSaldoReport() {
         </div>
         <Button type="button" onClick={() => setIsReportVisible(true)} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
       </div>
-      {isReportVisible ? reportType === "Laporan Rekap" ? <div className="mt-6 overflow-x-auto border border-[#c8d3e5]"><SimpleRecapTable /></div> : <div className="mt-6 overflow-x-auto border border-[#c8d3e5]"><DetailedTable /></div> : null}
+      {isReportVisible ? (
+        <div className="mt-6 overflow-x-auto border border-[#c8d3e5]">
+          <div className="flex min-w-[680px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
+            <Button type="button" onClick={() => toast.success("Laporan siap diekspor ke Excel")} className="h-9 rounded-[7px] bg-green-600 px-4 text-xs hover:bg-green-700">Export Excel<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
+            <Button type="button" onClick={() => toast.success("Laporan siap diekspor ke PDF")} className="h-9 rounded-[7px] bg-rose-600 px-4 text-xs hover:bg-rose-700">Export PDF<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
+          </div>
+          {reportType === "Laporan Rekap" ? <SimpleRecapTable /> : <DetailedTable />}
+        </div>
+      ) : null}
     </div>
   );
 }
 
 function DetailedTable() {
-  return <table className="w-full min-w-[680px] border-collapse text-[10px]"><thead><tr className="text-[#526786]"><th className="border border-[#c8d3e5] px-2 py-1 text-center">Deskripsi</th><th className="border border-[#c8d3e5] px-2 py-1 text-right">Bulan Lalu</th><th className="border border-[#c8d3e5] px-2 py-1 text-right">Bulan Ini</th></tr></thead><tbody>{detailedRows.map((row, index) => <tr key={`${row[0]}-${index}`} className={row[3] === "grand" ? "bg-[#dfe6eb] font-bold" : row[3] === "total" ? "font-bold" : row[3] === "section" ? "font-bold" : ""}><td className="border border-[#c8d3e5] px-2 py-1">{row[0]}</td><td className="border border-[#c8d3e5] px-2 py-1 text-right tabular-nums">{row[1]}</td><td className="border border-[#c8d3e5] px-2 py-1 text-right tabular-nums">{row[2]}</td></tr>)}</tbody></table>;
+  return (
+    <table className="w-full min-w-[680px] border-collapse text-[11px]">
+      <colgroup><col className="w-[52%]" /><col className="w-[24%]" /><col className="w-[24%]" /></colgroup>
+      <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Lalu</th><th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Ini</th></tr></thead>
+      <tbody>{detailedRows.map((row, index) => <tr key={`${row[0]}-${index}`} className={row[3] === "grand" ? "bg-[#dfe6eb] font-bold" : row[3] === "total" ? "font-bold" : row[3] === "section" ? "font-bold" : ""}><td className="break-words border border-[#c8d3e5] px-3 py-1">{row[0]}</td><td className="border border-[#c8d3e5] px-2 py-1 text-right tabular-nums">{row[1]}</td><td className="border border-[#c8d3e5] px-2 py-1 text-right tabular-nums">{row[2]}</td></tr>)}</tbody>
+    </table>
+  );
 }
 
 function SimpleRecapTable() {
