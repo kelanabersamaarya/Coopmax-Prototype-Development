@@ -108,7 +108,7 @@ function DetailedTable() {
   return (
     <table className="w-full min-w-[680px] border-collapse text-[11px]">
       <colgroup><col className="w-[52%]" /><col className="w-[24%]" /><col className="w-[24%]" /></colgroup>
-      <thead><tr className="bg-[#dfe6eb] uppercase tracking-wider text-[#526786]"><th className="border border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Lalu</th><th className="border border-[#c8d3e5] px-3 py-2 text-right">Bulan Ini</th></tr></thead>
+      <thead><tr className="bg-[#dfe6eb] uppercase tracking-wider text-[#526786]"><th className="border border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border border-[#c8d3e5] px-3 py-2 text-center">Bulan Lalu</th><th className="border border-[#c8d3e5] px-3 py-2 text-center">Bulan Ini</th></tr></thead>
       <tbody>{detailedRows.map((row, index) => <tr key={`${row[0]}-${index}`} className={row[3] === "grand" ? "bg-[#dfe6eb] font-bold" : row[3] === "total" ? "font-bold" : row[3] === "section" ? "font-bold" : ""}><td className="break-words border border-[#c8d3e5] px-3 py-1">{row[0]}</td><td className="border border-[#c8d3e5] px-2 py-1 text-right tabular-nums">{row[1]}</td><td className="border border-[#c8d3e5] px-2 py-1 text-right tabular-nums">{row[2]}</td></tr>)}</tbody>
     </table>
   );
