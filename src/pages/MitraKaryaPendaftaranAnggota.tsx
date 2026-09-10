@@ -14,7 +14,7 @@ function Label({ children, required = false }: { children: React.ReactNode; requ
 function Row({ label, required, children, note }: { label: string; required?: boolean; children: React.ReactNode; note?: string }) { return <div className="grid gap-2 md:grid-cols-[190px_minmax(0,1fr)] md:items-start"><Label required={required}>{label}</Label><div className="min-w-0">{children}{note && <p className="mt-1 text-[11px] text-[#7890b2]">{note}</p>}</div></div>; }
 function SelectField({ placeholder, children, defaultValue, name = placeholder }: { placeholder: string; children: React.ReactNode; defaultValue?: string; name?: string }) {
   const [value, setValue] = React.useState(defaultValue ?? "");
-  return <><Select value={value} onValueChange={setValue}><SelectTrigger className={selectClass}><SelectValue placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select><input type="hidden" name={name} value={value} /></>;
+  return <><Select value={value} onValueChange={setValue}><SelectTrigger className={selectClass}><SelectValue className="text-black data-[placeholder]:text-[#7890b2]" placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select><input type="hidden" name={name} value={value} /></>;
 }
 function GeneralInformation({ name = "", onNameChange = () => {}, isEdit = name !== "" }: { name?: string; onNameChange?: (name: string) => void; isEdit?: boolean } = {}) {
   return <>
