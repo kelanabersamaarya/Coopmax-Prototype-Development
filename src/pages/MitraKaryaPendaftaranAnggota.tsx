@@ -12,34 +12,37 @@ const fieldClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text
 const selectClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text-[#7890b2] shadow-none focus:ring-0";
 function Label({ children, required = false }: { children: React.ReactNode; required?: boolean }) { return <label className="text-[13px] font-medium text-[#002060]">{children}{required && <span className="text-red-500">*</span>}</label>; }
 function Row({ label, required, children, note }: { label: string; required?: boolean; children: React.ReactNode; note?: string }) { return <div className="grid gap-2 md:grid-cols-[190px_minmax(0,1fr)] md:items-start"><Label required={required}>{label}</Label><div className="min-w-0">{children}{note && <p className="mt-1 text-[11px] text-[#7890b2]">{note}</p>}</div></div>; }
-function SelectField({ placeholder, children, defaultValue }: { placeholder: string; children: React.ReactNode; defaultValue?: string }) { return <Select defaultValue={defaultValue}><SelectTrigger className={selectClass}><SelectValue placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select>; }
+function SelectField({ placeholder, children, defaultValue, name = placeholder }: { placeholder: string; children: React.ReactNode; defaultValue?: string; name?: string }) {
+  const [value, setValue] = React.useState(defaultValue ?? "");
+  return <><Select value={value} onValueChange={setValue}><SelectTrigger className={selectClass}><SelectValue placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select><input type="hidden" name={name} value={value} /></>;
+}
 function GeneralInformation({ name = "", onNameChange = () => {}, isEdit = name !== "" }: { name?: string; onNameChange?: (name: string) => void; isEdit?: boolean } = {}) {
   return <>
     <div className="grid gap-[10px]">
       <Row label="ID Anggota" required><div className="flex"><Input defaultValue="A2600016" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row>
       <Row label="ID Nasabah"><div className="flex"><Input defaultValue="N2600020" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-none bg-[#7d8eaa] px-2"><Search className="h-4 w-4" /></Button><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row>
-      <Row label="Tanggal Daftar" required><Input defaultValue="09-09-2026" className={fieldClass} /></Row>
+      <Row label="Tanggal Daftar" required><Input name="registeredAt" defaultValue="09-09-2026" className={fieldClass} /></Row>
       <Row label="NIP" note="Nomor induk pegawai bersifat optional atau tidak wajib diisi"><Input defaultValue={isEdit ? "0000" : undefined} className={fieldClass} /></Row>
       <Row label="NIK" required><div className="grid gap-2 lg:grid-cols-[minmax(0,1fr)_272px]"><Input defaultValue={isEdit ? "1802070711050001" : undefined} placeholder="Masukan NIK" className={fieldClass} /><Button type="button" className="h-8 bg-violet-600 text-[12px] hover:bg-violet-600">◉ Verifikasi KTP ✨</Button></div></Row>
       <Row label="Nama" required><Input name="name" value={name} onChange={(event) => onNameChange(event.target.value)} className={fieldClass} /></Row>
-      <Row label="Kategori" required><SelectField placeholder="Pilih Kategori Anggota"><SelectItem value="anggota">Anggota</SelectItem><SelectItem value="calon">Calon Anggota</SelectItem></SelectField></Row>
-      <Row label="Jenis Kelamin" required><div className="flex gap-5 text-[13px]"><label><input type="radio" name="gender" defaultChecked className="mr-1 accent-blue-600" />Perempuan</label><label><input type="radio" name="gender" className="mr-1 accent-blue-600" />Laki - Laki</label></div></Row>
-      <Row label="Tempat Lahir" required><Input className={fieldClass} /></Row>
-      <Row label="Tanggal Lahir" required><Input defaultValue={isEdit ? "08-09-2026" : undefined} placeholder="dd-mm-yyyy" className={fieldClass} /></Row>
-      <Row label="Pekerjaan" required><SelectField placeholder="Pilih Pekerjaan" defaultValue={isEdit ? "pegawai" : undefined}><SelectItem value="pegawai">PNS</SelectItem><SelectItem value="wiraswasta">Wiraswasta</SelectItem></SelectField></Row>
-      <Row label="Agama" required><SelectField placeholder="Pilih Agama" defaultValue={isEdit ? "protestan" : undefined}><SelectItem value="islam">Islam</SelectItem><SelectItem value="kristen">Kristen</SelectItem><SelectItem value="protestan">Protestan</SelectItem><SelectItem value="katolik">Katolik</SelectItem></SelectField></Row>
-      <Row label="Status Pernikahan" required><SelectField placeholder="Pilih Status Pernikahan" defaultValue={isEdit ? "menikah" : undefined}><SelectItem value="belum-menikah">Belum Menikah</SelectItem><SelectItem value="menikah">Kawin</SelectItem></SelectField></Row>
-      <Row label="Jenis Identitas" required><SelectField placeholder="Pilih Jenis Identitas" defaultValue={isEdit ? "sim" : undefined}><SelectItem value="ktp">KTP</SelectItem><SelectItem value="sim">SIM A</SelectItem></SelectField></Row>
+      <Row label="Kategori" required><SelectField name="category" placeholder="Pilih Kategori Anggota" defaultValue={isEdit ? "anggota" : undefined}><SelectItem value="anggota">Anggota</SelectItem><SelectItem value="calon">Calon Anggota</SelectItem></SelectField></Row>
+      <Row label="Jenis Kelamin" required><div className="flex gap-5 text-[13px]"><label><input type="radio" name="gender" value="perempuan" defaultChecked className="mr-1 accent-blue-600" />Perempuan</label><label><input type="radio" name="gender" value="laki-laki" className="mr-1 accent-blue-600" />Laki - Laki</label></div></Row>
+            <Row label="Tempat Lahir" required><Input name="birthPlace" defaultValue={isEdit ? "Tabanan" : undefined} className={fieldClass} /></Row>
+      <Row label="Tanggal Lahir" required><Input name="birthDate" defaultValue={isEdit ? "08-09-2026" : undefined} placeholder="dd-mm-yyyy" className={fieldClass} /></Row>
+      <Row label="Pekerjaan" required><SelectField name="occupation" placeholder="Pilih Pekerjaan" defaultValue={isEdit ? "pegawai" : undefined}><SelectItem value="pegawai">PNS</SelectItem><SelectItem value="wiraswasta">Wiraswasta</SelectItem></SelectField></Row>
+            <Row label="Agama" required><SelectField name="religion" placeholder="Pilih Agama" defaultValue={isEdit ? "protestan" : undefined}><SelectItem value="islam">Islam</SelectItem><SelectItem value="kristen">Kristen</SelectItem><SelectItem value="protestan">Protestan</SelectItem><SelectItem value="katolik">Katolik</SelectItem></SelectField></Row>
+            <Row label="Status Pernikahan" required><SelectField name="maritalStatus" placeholder="Pilih Status Pernikahan" defaultValue={isEdit ? "menikah" : undefined}><SelectItem value="belum-menikah">Belum Menikah</SelectItem><SelectItem value="menikah">Kawin</SelectItem></SelectField></Row>
+            <Row label="Jenis Identitas" required><SelectField name="identityType" placeholder="Pilih Jenis Identitas" defaultValue={isEdit ? "sim" : undefined}><SelectItem value="ktp">KTP</SelectItem><SelectItem value="sim">SIM A</SelectItem></SelectField></Row>
       <Row label="No. Identitas" required><Input name="identity" defaultValue={isEdit ? "1802070711050001" : undefined} className={fieldClass} /></Row>
       <Row label="No. Telp/Handphone (+62)" required><div className="flex"><span className="flex h-8 shrink-0 items-center whitespace-nowrap rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e1e6ef] px-3 text-[13px] text-[#536b91]">+62</span><Input name="phone" defaultValue={isEdit ? "81236641121" : undefined} placeholder="Contoh. 81123456789" className={`${fieldClass} min-w-0 rounded-l-none`} /></div></Row>
       <Row label="Nama Gadis Ibu Kandung" required><Input defaultValue={isEdit ? "NI WAYAN PEDEK" : undefined} className={fieldClass} /></Row>
       <Row label="Nama ahli waris" required><Input defaultValue={isEdit ? "Rama Adinata" : undefined} className={fieldClass} /></Row>
       <Row label="Email"><Input placeholder="Contoh. example@email.com" className={fieldClass} /></Row>
-      <Row label="Wilayah"><SelectField placeholder="Pilih Wilayah"><SelectItem value="jakarta-barat">Jakarta Barat</SelectItem><SelectItem value="jakarta-selatan">Jakarta Selatan</SelectItem></SelectField></Row>
+      <Row label="Wilayah"><SelectField name="region" placeholder="Pilih Wilayah"><SelectItem value="jakarta-barat">Jakarta Barat</SelectItem><SelectItem value="jakarta-selatan">Jakarta Selatan</SelectItem></SelectField></Row>
       <Row label="Alamat Domisili" required><Textarea name="address" defaultValue={isEdit ? "Tabanan" : undefined} className="min-h-[48px]" /></Row>
       <Row label="Alamat KTP" required><Textarea name="identityAddress" defaultValue={isEdit ? "Tabanan" : undefined} className="min-h-[48px]" /></Row>
       <Row label="Tag"><Input placeholder="Pilih tag" className={fieldClass} /></Row>
-      <Row label="Unit Anggota"><SelectField placeholder="Pilih Unit Anggota"><SelectItem value="unit-1">Unit Anggota 1</SelectItem><SelectItem value="unit-2">Unit Anggota 2</SelectItem></SelectField></Row>
+      <Row label="Unit Anggota"><SelectField name="memberUnit" placeholder="Pilih Unit Anggota"><SelectItem value="unit-1">Unit Anggota 1</SelectItem><SelectItem value="unit-2">Unit Anggota 2</SelectItem></SelectField></Row>
       <Row label="Status" required><Switch defaultChecked className="data-[state=checked]:bg-violet-600" /></Row>
     </div>
     <h2 className="mt-10 text-[22px] font-semibold">Tabungan <span className="font-normal">{isEdit ? "Ubah" : "Tambah"}</span></h2>
@@ -48,7 +51,7 @@ function GeneralInformation({ name = "", onNameChange = () => {}, isEdit = name 
       <Row label="Simpanan Pokok"><Input defaultValue="200.000,00" className={fieldClass} /></Row>
       <Row label="No Rekening" required><div className="flex"><Input defaultValue="P002260016" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row>
       <Row label="Simpanan Wajib"><Input defaultValue="50.000,00" className={fieldClass} /></Row>
-      <Row label="Kolektor" required><SelectField placeholder="Pilih Kolektor"><SelectItem value="kolektor-1">Kolektor 1</SelectItem><SelectItem value="kolektor-2">Kolektor 2</SelectItem></SelectField></Row>
+      <Row label="Kolektor" required><SelectField name="collector" placeholder="Pilih Kolektor"><SelectItem value="kolektor-1">Kolektor 1</SelectItem><SelectItem value="kolektor-2">Kolektor 2</SelectItem></SelectField></Row>
     </div>
   </>;
 }
@@ -103,7 +106,29 @@ export default function MitraKaryaPendaftaranAnggota() {
     const [ktpFileData, supportingFileData] = await Promise.all([readFile(ktpFile), readFile(supportingFile)]);
     const form = document.querySelector("form");
     const formData = form ? new FormData(form) : new FormData();
-    const newMember = { id: editId || "A2600016", name: name.trim() || "Anggota Baru", registeredAt: "09-09-2026", identity: String(formData.get("identity") || "-"), phone: String(formData.get("phone") || "-"), address: String(formData.get("address") || formData.get("identityAddress") || "-"), verified: false, ktpFile: ktpFileData || ktpExisting, supportingFile: supportingFileData || supportingExisting };
+    const newMember = {
+      id: editId || "A2600016",
+      name: name.trim() || "Anggota Baru",
+      registeredAt: String(formData.get("registeredAt") || "09-09-2026"),
+      identity: String(formData.get("identity") || "-"),
+      phone: String(formData.get("phone") || "-"),
+      address: String(formData.get("address") || formData.get("identityAddress") || "-"),
+      identityAddress: String(formData.get("identityAddress") || "-"),
+      birthPlace: String(formData.get("birthPlace") || "-"),
+      birthDate: String(formData.get("birthDate") || "-"),
+      gender: String(formData.get("gender") || "perempuan"),
+      category: String(formData.get("category") || "anggota"),
+      occupation: String(formData.get("occupation") || "-"),
+      religion: String(formData.get("religion") || "-"),
+      maritalStatus: String(formData.get("maritalStatus") || "-"),
+      identityType: String(formData.get("identityType") || "-"),
+      region: String(formData.get("region") || "-"),
+      memberUnit: String(formData.get("memberUnit") || "-"),
+      collector: String(formData.get("collector") || "-"),
+      verified: false,
+      ktpFile: ktpFileData || ktpExisting,
+      supportingFile: supportingFileData || supportingExisting,
+    };
     const savedMembers = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]");
     localStorage.setItem("mitra-karya-members", JSON.stringify([newMember, ...savedMembers.filter((member: { id: string }) => member.id !== newMember.id)]));
     setShowSaveConfirmation(false);
