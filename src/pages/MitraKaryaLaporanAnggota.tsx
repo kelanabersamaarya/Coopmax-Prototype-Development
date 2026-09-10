@@ -280,6 +280,7 @@ function SortableHeader({
 }
 
 function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedReport: string }) {
+  const [selectedKtpMember, setSelectedKtpMember] = React.useState<Member | null>(null);
   const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { title: string; columns?: { key: string; label: string }[] }[];
   const configuredReport = savedReports.find((report) => report.title === selectedReport);
   const configuredColumns = configuredReport?.columns || [];
@@ -305,7 +306,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
   ) : key === "preview-file-ktp" && member.ktpStatus === "Tersedia" ? (
     <button
       type="button"
-      onClick={() => toast("Preview KTP anggota (prototype)", { description: member.name })}
+      onClick={() => setSelectedKtpMember(member)}
       className="group relative inline-flex h-8 w-12 overflow-hidden rounded-[4px] border border-blue-100 bg-blue-50 transition hover:border-blue-400"
       aria-label={`Preview KTP ${member.name}`}
       title="Preview KTP"
@@ -434,6 +435,38 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
           </button>
         </div>
       </div>
+
+      {selectedKtpMember ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Pratinjau KTP ${selectedKtpMember.name}`}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#001b4e]/60 p-4"
+          onClick={() => setSelectedKtpMember(null)}
+        >
+          <div
+            className="relative max-h-[90vh] max-w-[min(760px,calc(100vw-2rem))] rounded-xl bg-white p-3 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedKtpMember(null)}
+              className="absolute right-2 top-2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#002060] text-white transition hover:bg-[#003580]"
+              aria-label="Tutup pratinjau KTP"
+            >
+              <X className="h-4 w-4" strokeWidth={3} />
+            </button>
+            <img
+              src="/image 4.png"
+              alt={`Foto KTP ${selectedKtpMember.name}`}
+              className="max-h-[calc(90vh-1.5rem)] w-auto max-w-full rounded-lg object-contain"
+              onError={(event) => {
+                event.currentTarget.src = "/imagektpblur.png";
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
