@@ -223,13 +223,20 @@ section.default-member-report-section {
 .mitra-karya-member-report table.default-report-table th:nth-child(9),
 .mitra-karya-member-report table.default-report-table td:nth-child(9),
 .mitra-karya-member-report table.default-report-table th:nth-child(10),
-.mitra-karya-member-report table.default-report-table td:nth-child(10),
+.mitra-karya-member-report table.default-report-table td:nth-child(10) { width: 115px; }
 .mitra-karya-member-report table.default-report-table th:nth-child(11),
 .mitra-karya-member-report table.default-report-table td:nth-child(11),
 .mitra-karya-member-report table.default-report-table th:nth-child(12),
-.mitra-karya-member-report table.default-report-table td:nth-child(12) { width: 115px; }
+.mitra-karya-member-report table.default-report-table td:nth-child(12) { width: 145px; }
 .mitra-karya-member-report table.default-report-table th:nth-child(13),
-.mitra-karya-member-report table.default-report-table td:nth-child(13) { width: 85px; }
+.mitra-karya-member-report table.default-report-table td:nth-child(13) { width: 95px; }
+
+.mitra-karya-member-report table.default-report-table th:nth-child(11),
+.mitra-karya-member-report table.default-report-table th:nth-child(12),
+.mitra-karya-member-report table.default-report-table th:nth-child(13) {
+  padding-left: 12px;
+  padding-right: 12px;
+}
 
 section.default-member-report-section .mitra-karya-member-report {
   width: 100%;
