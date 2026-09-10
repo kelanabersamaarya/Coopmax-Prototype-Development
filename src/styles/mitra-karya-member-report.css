@@ -1,11 +1,15 @@
 section:has(.mitra-karya-member-report) {
-  width: 100%;
+  width: fit-content;
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 10px !important;
   padding: 16px;
   background: #ffffff;
+}
+
+section.default-member-report-section {
+  width: 100%;
 }
 
 .mitra-karya-member-report {
@@ -190,7 +194,7 @@ section:has(.mitra-karya-member-report) {
 }
 
 .mitra-karya-member-report table.default-report-table {
-  width: 1450px !important;
+  width: 100% !important;
   min-width: 1450px !important;
 }
 
@@ -226,6 +230,10 @@ section:has(.mitra-karya-member-report) {
 .mitra-karya-member-report table.default-report-table td:nth-child(12) { width: 115px; }
 .mitra-karya-member-report table.default-report-table th:nth-child(13),
 .mitra-karya-member-report table.default-report-table td:nth-child(13) { width: 85px; }
+
+section.default-member-report-section .mitra-karya-member-report {
+  width: 100%;
+}
 
 @media (max-width: 640px) {
   section:has(.mitra-karya-member-report) {

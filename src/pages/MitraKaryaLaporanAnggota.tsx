@@ -356,7 +356,10 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
     totals.simpananPenyertaan;
 
   return (
-    <section className="print-report-area mt-7 overflow-hidden rounded-[10px] border border-slate-200 bg-white p-4 shadow-sm">
+    <section className={cn(
+      "print-report-area mt-7 overflow-hidden rounded-[10px] border border-slate-200 bg-white p-4 shadow-sm",
+      !configuredReport && "default-member-report-section",
+    )}>
       <ReportPrintHeader title={selectedReport} printedAt={new Date().toLocaleDateString("id-ID")} />
       <MemberReportEntriesPicker className="print-hide mb-4" />
 
