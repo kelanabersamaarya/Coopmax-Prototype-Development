@@ -745,7 +745,7 @@ export default function MitraKaryaLaporanAnggota() {
               </span>
               <div className="min-w-0">
                 <h2 className="text-[14px] font-extrabold leading-snug">
-                  Fitur <span className="text-violet-600">Penyesuaian Laporan</span>
+                  <span className="text-[#00a8c6]">Fitur Penyesuaian Laporan</span>
                 </h2>
                 <p className="mt-2 max-w-[440px] text-[13px] font-normal leading-relaxed">
                   Anda dapat melakukan kustomisasi tampilan laporan (pengaturan
