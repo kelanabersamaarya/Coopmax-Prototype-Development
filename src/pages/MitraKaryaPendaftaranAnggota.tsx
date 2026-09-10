@@ -30,14 +30,14 @@ function GeneralInformation({ name = "", onNameChange = () => {}, isEdit = name 
       <Row label="Agama" required><SelectField placeholder="Pilih Agama" defaultValue={isEdit ? "protestan" : undefined}><SelectItem value="islam">Islam</SelectItem><SelectItem value="kristen">Kristen</SelectItem><SelectItem value="protestan">Protestan</SelectItem><SelectItem value="katolik">Katolik</SelectItem></SelectField></Row>
       <Row label="Status Pernikahan" required><SelectField placeholder="Pilih Status Pernikahan" defaultValue={isEdit ? "menikah" : undefined}><SelectItem value="belum-menikah">Belum Menikah</SelectItem><SelectItem value="menikah">Kawin</SelectItem></SelectField></Row>
       <Row label="Jenis Identitas" required><SelectField placeholder="Pilih Jenis Identitas" defaultValue={isEdit ? "sim" : undefined}><SelectItem value="ktp">KTP</SelectItem><SelectItem value="sim">SIM A</SelectItem></SelectField></Row>
-      <Row label="No. Identitas" required><Input defaultValue={isEdit ? "1802070711050001" : undefined} className={fieldClass} /></Row>
-      <Row label="No. Telp/Handphone (+62)" required><div className="flex"><span className="flex h-8 shrink-0 items-center whitespace-nowrap rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e1e6ef] px-3 text-[13px] text-[#536b91]">+62</span><Input defaultValue={isEdit ? "81236641121" : undefined} placeholder="Contoh. 81123456789" className={`${fieldClass} min-w-0 rounded-l-none`} /></div></Row>
+      <Row label="No. Identitas" required><Input name="identity" defaultValue={isEdit ? "1802070711050001" : undefined} className={fieldClass} /></Row>
+      <Row label="No. Telp/Handphone (+62)" required><div className="flex"><span className="flex h-8 shrink-0 items-center whitespace-nowrap rounded-l-[5px] border border-r-0 border-[#c8d2e3] bg-[#e1e6ef] px-3 text-[13px] text-[#536b91]">+62</span><Input name="phone" defaultValue={isEdit ? "81236641121" : undefined} placeholder="Contoh. 81123456789" className={`${fieldClass} min-w-0 rounded-l-none`} /></div></Row>
       <Row label="Nama Gadis Ibu Kandung" required><Input defaultValue={isEdit ? "NI WAYAN PEDEK" : undefined} className={fieldClass} /></Row>
       <Row label="Nama ahli waris" required><Input defaultValue={isEdit ? "Rama Adinata" : undefined} className={fieldClass} /></Row>
       <Row label="Email"><Input placeholder="Contoh. example@email.com" className={fieldClass} /></Row>
       <Row label="Wilayah"><SelectField placeholder="Pilih Wilayah"><SelectItem value="jakarta-barat">Jakarta Barat</SelectItem><SelectItem value="jakarta-selatan">Jakarta Selatan</SelectItem></SelectField></Row>
-      <Row label="Alamat Domisili" required><Textarea defaultValue={isEdit ? "Tabanan" : undefined} className="min-h-[48px]" /></Row>
-      <Row label="Alamat KTP" required><Textarea defaultValue={isEdit ? "Tabanan" : undefined} className="min-h-[48px]" /></Row>
+      <Row label="Alamat Domisili" required><Textarea name="address" defaultValue={isEdit ? "Tabanan" : undefined} className="min-h-[48px]" /></Row>
+      <Row label="Alamat KTP" required><Textarea name="identityAddress" defaultValue={isEdit ? "Tabanan" : undefined} className="min-h-[48px]" /></Row>
       <Row label="Tag"><Input placeholder="Pilih tag" className={fieldClass} /></Row>
       <Row label="Unit Anggota"><SelectField placeholder="Pilih Unit Anggota"><SelectItem value="unit-1">Unit Anggota 1</SelectItem><SelectItem value="unit-2">Unit Anggota 2</SelectItem></SelectField></Row>
       <Row label="Status" required><Switch defaultChecked className="data-[state=checked]:bg-violet-600" /></Row>
@@ -88,7 +88,8 @@ export default function MitraKaryaPendaftaranAnggota() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const submittedName = new FormData(event.currentTarget).get("name");
+    const formData = new FormData(event.currentTarget);
+    const submittedName = formData.get("name");
     if (typeof submittedName === "string") setName(submittedName);
     if (!ktpFile && !ktpExisting) {
       setShowKtpAlert(true);
@@ -100,7 +101,9 @@ export default function MitraKaryaPendaftaranAnggota() {
   async function confirmSave() {
     const readFile = (file: File | null) => file ? new Promise<{ name: string; type: string; dataUrl: string }>((resolve) => { const reader = new FileReader(); reader.onload = () => resolve({ name: file.name, type: file.type, dataUrl: String(reader.result) }); reader.readAsDataURL(file); }) : Promise.resolve(null);
     const [ktpFileData, supportingFileData] = await Promise.all([readFile(ktpFile), readFile(supportingFile)]);
-    const newMember = { id: editId || "A2600016", name: name.trim() || "Anggota Baru", registeredAt: "09-09-2026", identity: "-", phone: "-", address: "-", verified: false, ktpFile: ktpFileData || ktpExisting, supportingFile: supportingFileData || supportingExisting };
+    const form = document.querySelector("form");
+    const formData = form ? new FormData(form) : new FormData();
+    const newMember = { id: editId || "A2600016", name: name.trim() || "Anggota Baru", registeredAt: "09-09-2026", identity: String(formData.get("identity") || "-"), phone: String(formData.get("phone") || "-"), address: String(formData.get("address") || formData.get("identityAddress") || "-"), verified: false, ktpFile: ktpFileData || ktpExisting, supportingFile: supportingFileData || supportingExisting };
     const savedMembers = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]");
     localStorage.setItem("mitra-karya-members", JSON.stringify([newMember, ...savedMembers.filter((member: { id: string }) => member.id !== newMember.id)]));
     setShowSaveConfirmation(false);
