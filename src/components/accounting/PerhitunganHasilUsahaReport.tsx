@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CalendarDays, ChevronDown, Download } from "lucide-react";
+import { CalendarDays, ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -68,8 +68,8 @@ export default function PerhitunganHasilUsahaReport() {
           <h2 className="mt-5 text-center text-[18px] font-semibold">Laporan Perhitungan Hasil Usaha per {shownDate}</h2>
           <div className="mt-2 overflow-x-auto border border-[#c8d3e5]">
             <div className="flex min-w-[760px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
-              <Button onClick={() => toast.success("Laporan siap diekspor ke Excel")} className="h-9 rounded-[7px] bg-green-600 text-xs hover:bg-green-700"><Download className="mr-1 h-3.5 w-3.5" />Export Excel</Button>
-              <Button onClick={() => toast.success("Laporan siap diekspor ke PDF")} className="h-9 rounded-[7px] bg-rose-600 text-xs hover:bg-rose-700"><Download className="mr-1 h-3.5 w-3.5" />Export PDF</Button>
+              <Button onClick={() => toast.success("Laporan siap diekspor ke Excel")} className="h-9 rounded-[7px] bg-green-600 text-xs hover:bg-green-700">Export Excel<ChevronRight className="ml-2 h-3.5 w-3.5" /></Button>
+              <Button onClick={() => toast.success("Laporan siap diekspor ke PDF")} className="h-9 rounded-[7px] bg-rose-600 text-xs hover:bg-rose-700">Export PDF<ChevronRight className="ml-2 h-3.5 w-3.5" /></Button>
             </div>
         <table className="min-w-[760px] w-full border-collapse text-[12px]">
           <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2">Jumlah</th></tr></thead>
