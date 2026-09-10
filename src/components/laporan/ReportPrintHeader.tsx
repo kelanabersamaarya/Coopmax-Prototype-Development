@@ -5,9 +5,13 @@ import * as React from "react";
 export default function ReportPrintHeader({
   title,
   printedAt,
+  reportBasis,
+  reportType,
 }: {
   title: string;
   printedAt: string;
+  reportBasis?: string;
+  reportType?: string;
 }) {
   return (
     <div
@@ -49,18 +53,40 @@ export default function ReportPrintHeader({
         {title}
       </div>
 
-      <div
-        style={{
-          width: "100%",
-          textAlign: "center",
-          marginTop: "4px",
-          fontSize: "10px",
-          fontWeight: 500,
-          color: "#475569",
-        }}
-      >
-        Dicetak pada {printedAt}
-      </div>
+      {reportBasis ? (
+        <div
+          style={{
+            width: "100%",
+            marginTop: "22px",
+            textAlign: "left",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#111827",
+          }}
+        >
+          Laporan Berdasarkan:
+          {reportType ? (
+            <div style={{ marginTop: "4px", fontWeight: 400 }}>
+              Jenis Laporan : {reportType}
+            </div>
+          ) : (
+            <div style={{ marginTop: "4px", fontWeight: 400 }}>{reportBasis}</div>
+          )}
+        </div>
+      ) : (
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginTop: "4px",
+            fontSize: "10px",
+            fontWeight: 500,
+            color: "#475569",
+          }}
+        >
+          Dicetak pada {printedAt}
+        </div>
+      )}
 
       <div
         className="report-header-line-thick"

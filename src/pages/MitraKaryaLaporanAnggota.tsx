@@ -360,7 +360,12 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
       "print-report-area mt-7 overflow-hidden rounded-[10px] border border-slate-200 bg-white p-4 shadow-sm",
       !configuredReport && "default-member-report-section",
     )}>
-      <ReportPrintHeader title={selectedReport} printedAt={new Date().toLocaleDateString("id-ID")} />
+      <ReportPrintHeader
+        title={selectedReportHasKtpFields ? "Laporan KTP Anggota" : selectedReport}
+        printedAt={new Date().toLocaleDateString("id-ID")}
+        reportBasis={selectedReportHasKtpFields ? "Laporan Anggota" : undefined}
+        reportType={selectedReportHasKtpFields ? "Berdasarkan Simpanan Anggota" : undefined}
+      />
       <MemberReportEntriesPicker className="print-hide mb-4" />
 
       <div className="mitra-karya-member-report">
