@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { AccountingMenuItem } from "@/components/accounting/AccountingSidebar";
 import AccountingDashboardLanding from "@/components/accounting/AccountingDashboardLanding";
 import PerhitunganHasilUsahaReport from "@/components/accounting/PerhitunganHasilUsahaReport";
+import NeracaSaldoReport from "@/components/accounting/NeracaSaldoReport";
 
 export default function AccountingContentPanel({
   active,
@@ -21,9 +22,15 @@ export default function AccountingContentPanel({
 
   const isPerhitunganHasilUsaha =
     active.groupId === "laporan" && active.itemLabel === "Perhitungan Hasil Usaha";
+  const isNeracaSaldo =
+    active.groupId === "laporan" && active.itemLabel === "Neraca Saldo";
 
   if (isPerhitunganHasilUsaha) {
     return <PerhitunganHasilUsahaReport />;
+  }
+
+  if (isNeracaSaldo) {
+    return <NeracaSaldoReport />;
   }
 
   return (
