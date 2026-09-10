@@ -26,6 +26,9 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import MemberReportEntriesPicker from "@/components/mitra-karya/MemberReportEntriesPicker";
+import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
+import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
+import { openReportPrintPreview } from "@/utils/print-report";
 import { useNavigate } from "react-router-dom";
 
 type Category = "Semua" | "Anggota" | "Calon Anggota";
@@ -352,8 +355,9 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
     totals.simpananPenyertaan;
 
   return (
-    <section className="mt-7 overflow-hidden rounded-[10px] border border-slate-200 bg-white p-4 shadow-sm">
-      <MemberReportEntriesPicker className="mb-4" />
+    <section className="print-report-area mt-7 overflow-hidden rounded-[10px] border border-slate-200 bg-white p-4 shadow-sm">
+      <ReportPrintHeader title={selectedReport} printedAt={new Date().toLocaleDateString("id-ID")} />
+      <MemberReportEntriesPicker className="print-hide mb-4" />
 
       <div className="mitra-karya-member-report">
         <table className={`min-w-[1720px] w-full ${configuredReport ? "custom-report-table" : "default-report-table"}`}>
@@ -411,7 +415,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
         </table>
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="print-hide flex flex-col gap-3 border-t border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-[12px] text-[#002060]">
           Menampilkan 1 sampai {rows.length} dari {rows.length} entri
         </div>
@@ -578,6 +582,21 @@ export default function MitraKaryaLaporanAnggota() {
   );
 
   function exportReport(label: string) {
+    if (label === "Export PDF") {
+      const previewWindow = openBlankReportPdfPreview("export");
+      setSearched(true);
+      window.setTimeout(() => {
+        openReportPdfPreview({ title: "export", targetWindow: previewWindow });
+      }, 80);
+      return;
+    }
+
+    if (label === "Cetak") {
+      setSearched(true);
+      window.setTimeout(() => openReportPrintPreview(), 80);
+      return;
+    }
+
     toast.success(`${label} (prototype)`, {
       description: `${filteredMembers.length} data anggota siap diekspor.`,
     });
