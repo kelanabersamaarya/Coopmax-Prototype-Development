@@ -423,7 +423,7 @@ function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedRepor
           >
             Sebelumnya
           </button>
-          <span className="grid h-9 w-9 place-items-center bg-violet-600 text-[12px] font-bold text-white">
+          <span className="grid h-9 w-9 place-items-center bg-[#5B47FB] text-[12px] font-bold text-white">
             1
           </span>
           <button
@@ -813,7 +813,7 @@ export default function MitraKaryaLaporanAnggota() {
                   <button
                     type="button"
                     onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
-                    className="font-semibold text-violet-600 underline-offset-2 hover:underline"
+                    className="font-semibold text-[#5B47FB] underline-offset-2 hover:underline"
                   >
                     Penyesuaian Laporan
                   </button>{" "}
@@ -823,7 +823,7 @@ export default function MitraKaryaLaporanAnggota() {
                   <DropdownMenuTrigger asChild>
                     <button
                       type="button"
-                      className="mt-5 inline-flex h-[42px] items-center gap-2 rounded-[5px] bg-[#7C3AED] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6D28D9]"
+                      className="mt-5 inline-flex h-[42px] items-center gap-2 rounded-[5px] bg-[#5B47FB] px-5 text-[13px] font-semibold text-white transition hover:bg-[#4d3de0]"
                     >
                       Pilih Laporan
                       <ChevronDown className="h-4 w-4" />
