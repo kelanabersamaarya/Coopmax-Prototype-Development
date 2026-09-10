@@ -42,7 +42,7 @@ function GeneralInformation({ name = "", onNameChange = () => {}, isEdit = name 
       <Row label="Unit Anggota"><SelectField placeholder="Pilih Unit Anggota"><SelectItem value="unit-1">Unit Anggota 1</SelectItem><SelectItem value="unit-2">Unit Anggota 2</SelectItem></SelectField></Row>
       <Row label="Status" required><Switch defaultChecked className="data-[state=checked]:bg-violet-600" /></Row>
     </div>
-    <h2 className="mt-10 text-[22px] font-semibold">Tabungan <span className="font-normal">Tambah</span></h2>
+    <h2 className="mt-10 text-[22px] font-semibold">Tabungan <span className="font-normal">{isEdit ? "Ubah" : "Tambah"}</span></h2>
     <div className="mt-7 grid gap-[10px]">
       <Row label="No Rekening" required><div className="flex"><Input defaultValue="P001260017" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row>
       <Row label="Simpanan Pokok"><Input defaultValue="200.000,00" className={fieldClass} /></Row>
@@ -66,7 +66,16 @@ export default function MitraKaryaPendaftaranAnggota() {
   const navigate = useNavigate();
   const { id: editId } = useParams();
   const isEdit = Boolean(editId);
-  const existingMember = React.useMemo(() => JSON.parse(localStorage.getItem("mitra-karya-members") || "[]").find((member: { id: string }) => member.id === editId), [editId]);
+  const existingMember = React.useMemo(() => {
+    const savedMember = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]").find((member: { id: string }) => member.id === editId);
+    if (savedMember || !isEdit) return savedMember;
+    return {
+      id: editId,
+      name: "Made Jaya",
+      ktpFile: { name: "ktp-a2600016.png", type: "image/png", dataUrl: "/imagektpblur.png" },
+      supportingFile: { name: "dokumen-pendukung-a2600016.pdf", type: "application/pdf" },
+    };
+  }, [editId, isEdit]);
   const [name, setName] = React.useState(existingMember?.name ?? "");
   const ktpExisting = isEdit ? existingMember?.ktpFile : null;
   const supportingExisting = isEdit ? existingMember?.supportingFile : null;
