@@ -825,7 +825,7 @@ export default function MitraKaryaLaporanAnggota() {
                       type="button"
                       className="mt-5 inline-flex h-[42px] items-center gap-2 rounded-[5px] bg-[#7C3AED] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6D28D9]"
                     >
-                      {selectedReport}
+                      Pilih Laporan
                       <ChevronDown className="h-4 w-4" />
                     </button>
                   </DropdownMenuTrigger>
