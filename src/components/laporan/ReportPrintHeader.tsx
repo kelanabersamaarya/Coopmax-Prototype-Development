@@ -53,27 +53,7 @@ export default function ReportPrintHeader({
         {title}
       </div>
 
-      {reportBasis ? (
-        <div
-          style={{
-            width: "100%",
-            marginTop: "22px",
-            textAlign: "left",
-            fontSize: "13px",
-            fontWeight: 700,
-            color: "#111827",
-          }}
-        >
-          Laporan Berdasarkan:
-          {reportType ? (
-            <div style={{ marginTop: "4px", fontWeight: 400 }}>
-              Jenis Laporan : {reportType}
-            </div>
-          ) : (
-            <div style={{ marginTop: "4px", fontWeight: 400 }}>{reportBasis}</div>
-          )}
-        </div>
-      ) : (
+      {!reportBasis ? (
         <div
           style={{
             width: "100%",
@@ -86,7 +66,7 @@ export default function ReportPrintHeader({
         >
           Dicetak pada {printedAt}
         </div>
-      )}
+      ) : null}
 
       <div
         className="report-header-line-thick"
@@ -110,6 +90,28 @@ export default function ReportPrintHeader({
           background: "transparent",
         }}
       />
+
+      {reportBasis ? (
+        <div
+          style={{
+            width: "100%",
+            marginTop: "10px",
+            textAlign: "left",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "#111827",
+          }}
+        >
+          Laporan Berdasarkan:
+          {reportType ? (
+            <div style={{ marginTop: "4px", fontWeight: 400 }}>
+              Jenis Laporan : {reportType}
+            </div>
+          ) : (
+            <div style={{ marginTop: "4px", fontWeight: 400 }}>{reportBasis}</div>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
