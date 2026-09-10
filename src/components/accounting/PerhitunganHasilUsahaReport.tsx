@@ -79,22 +79,36 @@ export default function PerhitunganHasilUsahaReport() {
               <Button onClick={() => toast.success("Laporan siap diekspor ke Excel")} className="h-9 rounded-[7px] bg-green-600 text-xs hover:bg-green-700">Export Excel<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
               <Button onClick={() => toast.success("Laporan siap diekspor ke PDF")} className="h-9 rounded-[7px] bg-rose-600 text-xs hover:bg-rose-700">Export PDF<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
             </div>
-        <table className="min-w-[760px] w-full border-collapse text-[12px]">
-          <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2">Jumlah</th></tr></thead>
-          <tbody>
+        {reportType === "Laporan Rekap" ? (
+          <RecapTable />
+        ) : (
+          <table className="min-w-[760px] w-full border-collapse text-[12px]">
+            <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2">Jumlah</th></tr></thead>
+            <tbody>
             <tr className="bg-[#dfe6eb] font-semibold"><td colSpan={4} className="border-b border-[#c8d3e5] px-3 py-1 text-center">Pendapatan</td></tr>
             <tr className="font-bold"><td colSpan={4} className="border-b border-[#c8d3e5] px-8 py-1">PARTISIPASI BRUTO ANGGOTA</td></tr>
             {rows.slice(0, 5).map((row) => <ReportRow key={row[0]} row={row} />)}
             <tr className="bg-[#dfe6eb] font-semibold"><td colSpan={4} className="border-b border-[#c8d3e5] px-3 py-1 text-center">Biaya</td></tr>
             <tr className="font-bold"><td colSpan={4} className="border-b border-[#c8d3e5] px-8 py-1">BEBAN POKOK</td></tr>
             {rows.slice(5).map((row) => <ReportRow key={row[0]} row={row} />)}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        )}
           </div>
         </>
       ) : null}
     </div>
   );
+}
+
+const recapSections = [
+  { title: "ASET", rows: [["Kas dan Setara Kas", "29,819,609,327", "29,036,059,385"], ["Piutang Bunga", "-", "-"], ["Pinjaman Anggota", "29,803,570,000", "29,894,208,000"], ["Penyisihan Piutang Anggota", "(572,544,000)", "(572,544,000)"], ["Aset Tetap", "2,005,441,458", "2,525,441,458"], ["Aset Lain-Lain", "-", "-"]], total: ["TOTAL ASET", "61,056,076,785", "60,883,164,843"] },
+  { title: "LIABILITAS", rows: [["Simp. Sukarela Anggota", "27,262,566,288", "27,003,854,387"], ["Simp. Berjangka Anggota", "21,107,000,000", "21,157,000,000"], ["Simp. Berencana/SIMADRI", "342,290,966", "324,481,844"], ["Simp. Jasa Anggota", "2,092,543,852", "2,092,543,852"], ["Dana Titipan", "699,639,840", "699,639,840"], ["Liabilitas Imbalan Kerja", "227,000,000", "227,000,000"], ["Liabilitas Lain", "58,329,765", "58,935,765"]], total: ["TOTAL LIABILITAS", "51,890,120,711", "51,664,405,688"] },
+  { title: "EKUITAS", rows: [["Simp. Pokok / Modal Tetap", "217,300,000", "217,300,000"], ["Simp. Wajib / Modal Tambahan", "2,184,625,000", "2,191,628,000"], ["Cadangan Umum", "3,039,964,625", "3,039,964,625"], ["Cadangan Risiko", "534,078,851", "534,078,851"], ["SHU Periode Berjalan", "240,987,598", "286,787,679"], ["Simp. Khusus", "2,949,000,000", "2,949,000,000"]], total: ["TOTAL EKUITAS", "9,165,956,074", "9,218,759,155"] },
+] as const;
+
+function RecapTable() {
+  return <table className="min-w-[760px] w-full border-collapse text-[12px]"><thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Perkiraan</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-[#c8d3e5] px-3 py-2">Bulan Ini</th></tr></thead><tbody>{recapSections.map((section) => <React.Fragment key={section.title}><tr className="bg-[#dfe6eb] font-bold"><td colSpan={3} className="border-b border-[#c8d3e5] px-3 py-1">{section.title}</td></tr>{section.rows.map((row) => <tr key={row[0]}><td className="border-b border-r border-[#c8d3e5] px-8 py-1">{row[0]}</td><td className="border-b border-r border-[#c8d3e5] px-2 py-1 text-right">{row[1]}</td><td className="border-b border-[#c8d3e5] px-2 py-1 text-right">{row[2]}</td></tr>)}<tr className="font-bold"><td className="border-b border-r border-[#c8d3e5] px-3 py-1">{section.total[0]}</td><td className="border-b border-r border-[#c8d3e5] px-2 py-1 text-right">{section.total[1]}</td><td className="border-b border-[#c8d3e5] px-2 py-1 text-right">{section.total[2]}</td></tr></React.Fragment>)}</tbody></table>;
 }
 
 function ReportRow({ row }: { row: readonly [string, string, string, string, boolean?] }) {
