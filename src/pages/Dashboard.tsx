@@ -170,7 +170,7 @@ export default function Dashboard() {
             subtitle="Akses kebutuhan operasional Koperasi Astiti Dana Lestari."
             icon={Handshake}
             accent="violet"
-            onClick={() => navigate("/astiti-dana-lestari/dashboard")}
+            onClick={() => navigate("/astiti-dana-lestari/akunting")}
           />
         </div>
       </div>
