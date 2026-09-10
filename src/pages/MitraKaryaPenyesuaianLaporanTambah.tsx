@@ -43,7 +43,7 @@ function Options({ value, onChange }: { value: string; onChange: (value: string)
             onChange={(event) => setSearch(event.target.value)}
             onKeyDown={(event) => event.stopPropagation()}
             onPointerDown={(event) => event.stopPropagation()}
-            placeholder="Cari field..."
+            placeholder=""
             className="h-8 rounded-[4px] border-slate-300 text-[12px] shadow-none focus-visible:ring-0"
             aria-label="Cari field key"
           />
