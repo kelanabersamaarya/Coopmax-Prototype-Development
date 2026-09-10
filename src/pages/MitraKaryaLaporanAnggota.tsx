@@ -273,7 +273,15 @@ function SortableHeader({
   return <span className="leading-[1.2]">{children}</span>;
 }
 
-function ReportResults({ rows, selectedReport }: { rows: Member[]; selectedReport: string }) {
+function ReportResults({
+  rows,
+  selectedReport,
+  selectedReportHasKtpFields,
+}: {
+  rows: Member[];
+  selectedReport: string;
+  selectedReportHasKtpFields: boolean;
+}) {
   const [selectedKtpMember, setSelectedKtpMember] = React.useState<Member | null>(null);
   const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { title: string; columns?: { key: string; label: string }[] }[];
   const configuredReport = savedReports.find((report) => report.title === selectedReport);
@@ -874,7 +882,13 @@ export default function MitraKaryaLaporanAnggota() {
           </section>
         </div>
 
-        {searched ? <ReportResults rows={filteredMembers} selectedReport={selectedReport} /> : null}
+        {searched ? (
+          <ReportResults
+            rows={filteredMembers}
+            selectedReport={selectedReport}
+            selectedReportHasKtpFields={selectedReportHasKtpFields}
+          />
+        ) : null}
       </div>
     </div>
   );
