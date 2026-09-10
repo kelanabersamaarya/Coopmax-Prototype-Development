@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import DashboardSimpanan from "./pages/DashboardSimpanan";
+import AstitiDanaLestariDashboard from "./pages/AstitiDanaLestariDashboard";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaAnggota from "./pages/MitraKaryaAnggota";
 import MitraKaryaAnggotaDetail from "./pages/MitraKaryaAnggotaDetail";
@@ -73,6 +74,8 @@ const App = () => (
 
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
+            <Route path="astiti-dana-lestari/dashboard" element={<AstitiDanaLestariDashboard />} />
+            <Route path="astiti-dana-lestari/akunting" element={<SakAkunting />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />
             <Route path="mitra-karya/anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />

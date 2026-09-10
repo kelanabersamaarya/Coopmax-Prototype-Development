@@ -16,6 +16,7 @@ import SidebarDjoinpayMenu from "@/components/SidebarDjoinpayMenu";
 import SidebarDashboardMenu from "@/components/SidebarDashboardMenu";
 import SidebarMBankingMenu from "@/components/SidebarMBankingMenu";
 import SidebarMitraKaryaMenu from "@/components/SidebarMitraKaryaMenu";
+import SidebarAstitiDanaLestariMenu from "@/components/SidebarAstitiDanaLestariMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -125,6 +126,7 @@ export default function Index() {
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
+  const isAstitiDanaLestariArea = location.pathname.startsWith("/astiti-dana-lestari");
 
   const isPinjamanArea =
     location.pathname.startsWith("/payment-link") ||
@@ -173,6 +175,10 @@ export default function Index() {
                     {isMitraKaryaArea ? (
                       <div className="px-2">
                         <SidebarMitraKaryaMenu />
+                      </div>
+                    ) : isAstitiDanaLestariArea ? (
+                      <div className="px-2">
+                        <SidebarAstitiDanaLestariMenu />
                       </div>
                     ) : (
                       nav.map((g, idx) => (
