@@ -75,6 +75,7 @@ const App = () => (
             <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />
+            <Route path="mitra-karya/anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id" element={<MitraKaryaAnggotaDetail />} />
             <Route path="mitra-karya/anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/akunting" element={<SakAkunting />} />
