@@ -33,10 +33,12 @@ export default function PerhitunganHasilUsahaReport() {
   const [period, setPeriod] = React.useState("Perbulan");
   const [date, setDate] = React.useState("2026-09-10");
   const [shownDate, setShownDate] = React.useState("10 September 2026");
+  const [isReportVisible, setIsReportVisible] = React.useState(false);
 
   const showReport = () => {
     const nextDate = new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric" }).format(new Date(`${date}T00:00:00`));
     setShownDate(nextDate);
+    setIsReportVisible(true);
   };
 
   return (
@@ -61,12 +63,14 @@ export default function PerhitunganHasilUsahaReport() {
         <Button onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
       </div>
 
-      <h2 className="mt-5 text-center text-[18px] font-semibold">Laporan Perhitungan Hasil Usaha per {shownDate}</h2>
-      <div className="mt-2 overflow-x-auto border border-[#c8d3e5]">
-        <div className="flex min-w-[760px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
-          <Button onClick={() => toast.success("Laporan siap diekspor ke Excel")} className="h-9 rounded-[7px] bg-green-600 text-xs hover:bg-green-700"><Download className="mr-1 h-3.5 w-3.5" />Export Excel</Button>
-          <Button onClick={() => toast.success("Laporan siap diekspor ke PDF")} className="h-9 rounded-[7px] bg-rose-600 text-xs hover:bg-rose-700"><Download className="mr-1 h-3.5 w-3.5" />Export PDF</Button>
-        </div>
+      {isReportVisible ? (
+        <>
+          <h2 className="mt-5 text-center text-[18px] font-semibold">Laporan Perhitungan Hasil Usaha per {shownDate}</h2>
+          <div className="mt-2 overflow-x-auto border border-[#c8d3e5]">
+            <div className="flex min-w-[760px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
+              <Button onClick={() => toast.success("Laporan siap diekspor ke Excel")} className="h-9 rounded-[7px] bg-green-600 text-xs hover:bg-green-700"><Download className="mr-1 h-3.5 w-3.5" />Export Excel</Button>
+              <Button onClick={() => toast.success("Laporan siap diekspor ke PDF")} className="h-9 rounded-[7px] bg-rose-600 text-xs hover:bg-rose-700"><Download className="mr-1 h-3.5 w-3.5" />Export PDF</Button>
+            </div>
         <table className="min-w-[760px] w-full border-collapse text-[12px]">
           <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2">Jumlah</th></tr></thead>
           <tbody>
@@ -78,7 +82,9 @@ export default function PerhitunganHasilUsahaReport() {
             {rows.slice(5).map((row) => <ReportRow key={row[0]} row={row} />)}
           </tbody>
         </table>
-      </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
