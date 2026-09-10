@@ -9,12 +9,12 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
 const fieldClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text-[#536b91] shadow-none focus-visible:ring-1 focus-visible:ring-violet-400";
-const selectClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text-black shadow-none focus:ring-0 [&>span]:text-black [&>span[data-placeholder]]:text-[#7890b2]";
+const selectClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text-[#536b91] shadow-none focus:ring-0 [&>span]:text-[#536b91] [&>span[data-placeholder]]:text-[#7890b2]";
 function Label({ children, required = false }: { children: React.ReactNode; required?: boolean }) { return <label className="text-[13px] font-medium text-[#002060]">{children}{required && <span className="text-red-500">*</span>}</label>; }
 function Row({ label, required, children, note }: { label: string; required?: boolean; children: React.ReactNode; note?: string }) { return <div className="grid gap-2 md:grid-cols-[190px_minmax(0,1fr)] md:items-start"><Label required={required}>{label}</Label><div className="min-w-0">{children}{note && <p className="mt-1 text-[11px] text-[#7890b2]">{note}</p>}</div></div>; }
 function SelectField({ placeholder, children, defaultValue, name = placeholder }: { placeholder: string; children: React.ReactNode; defaultValue?: string; name?: string }) {
   const [value, setValue] = React.useState(defaultValue ?? "");
-  return <><Select value={value} onValueChange={setValue}><SelectTrigger className={selectClass}><SelectValue className="text-black data-[placeholder]:text-[#7890b2]" placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select><input type="hidden" name={name} value={value} /></>;
+  return <><Select value={value} onValueChange={setValue}><SelectTrigger className={selectClass}><SelectValue className="text-[#536b91] data-[placeholder]:text-[#7890b2]" placeholder={placeholder} /></SelectTrigger><SelectContent>{children}</SelectContent></Select><input type="hidden" name={name} value={value} /></>;
 }
 function GeneralInformation({ name = "", onNameChange = () => {}, isEdit = name !== "" }: { name?: string; onNameChange?: (name: string) => void; isEdit?: boolean } = {}) {
   return <>
