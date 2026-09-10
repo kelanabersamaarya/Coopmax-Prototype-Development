@@ -36,8 +36,8 @@ function Options({ value, onChange }: { value: string; onChange: (value: string)
       }}
     >
       <SelectTrigger className="h-8 rounded-[5px] border-slate-300 text-[13px]"><SelectValue /></SelectTrigger>
-      <SelectContent>
-        <div className="border-b border-slate-200 p-2">
+      <SelectContent className="max-h-[320px] overflow-hidden p-0">
+        <div className="sticky top-0 z-10 border-b border-slate-200 bg-white p-2">
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -48,8 +48,10 @@ function Options({ value, onChange }: { value: string; onChange: (value: string)
             aria-label="Cari field key"
           />
         </div>
-        <SelectItem className="focus:bg-[#2563eb] focus:text-white" value="__empty__"><span className="sr-only">Kosongkan Field Key</span>&nbsp;</SelectItem>
-        {filteredOptions.map(([key, label]) => <SelectItem key={key} className="focus:bg-[#2563eb] focus:text-white" value={key}>{label}</SelectItem>)}
+        <div className="max-h-[272px] overflow-y-auto px-1 py-1">
+          <SelectItem className="focus:bg-[#2563eb] focus:text-white" value="__empty__"><span className="sr-only">Kosongkan Field Key</span>&nbsp;</SelectItem>
+          {filteredOptions.map(([key, label]) => <SelectItem key={key} className="focus:bg-[#2563eb] focus:text-white" value={key}>{label}</SelectItem>)}
+        </div>
       </SelectContent>
     </Select>
   );
