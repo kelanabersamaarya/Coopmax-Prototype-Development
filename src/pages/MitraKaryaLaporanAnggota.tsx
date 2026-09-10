@@ -455,6 +455,20 @@ export default function MitraKaryaLaporanAnggota() {
     ])];
   }, [reportRefreshKey]);
 
+  const selectedReportHasKtpFields = React.useMemo(() => {
+    if (selectedReport === "Laporan Anggota (Default)") return false;
+    const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as {
+      title: string;
+      basis: string;
+      columns?: { key: string }[];
+    }[];
+    const report = savedReports.find(
+      (item) => item.basis === "Laporan Anggota" && item.title === selectedReport,
+    );
+    const fieldKeys = new Set((report?.columns || []).map((column) => column.key));
+    return fieldKeys.has("ketersediaan-file-ktp") && fieldKeys.has("preview-file-ktp");
+  }, [reportRefreshKey, selectedReport]);
+
   React.useEffect(() => {
     const refreshReports = () => setReportRefreshKey((key) => key + 1);
     window.addEventListener("storage", refreshReports);
@@ -485,7 +499,7 @@ export default function MitraKaryaLaporanAnggota() {
         (!nameQuery ||
           `${member.name} ${member.id}`.toLowerCase().includes(nameQuery)) &&
         (category === "Semua" || member.category === category) &&
-        (ktpStatus === "Semua" || member.ktpStatus === ktpStatus) &&
+        (!selectedReportHasKtpFields || ktpStatus === "Semua" || member.ktpStatus === ktpStatus) &&
         (product === "Semua" || member.product === product) &&
         (wilayah === "Semua" || member.wilayah === wilayah) &&
         (tag === "Semua" || member.tag === tag) &&
@@ -493,7 +507,7 @@ export default function MitraKaryaLaporanAnggota() {
         totalBalance <= max
       );
     });
-  }, [category, ktpStatus, maxBalance, minBalance, name, product, tag, wilayah]);
+  }, [category, ktpStatus, maxBalance, minBalance, name, product, selectedReportHasKtpFields, tag, wilayah]);
 
   const inputClassName = cn(
     "h-[32px] rounded-[5px] border-slate-300 bg-white px-3",
@@ -695,7 +709,7 @@ export default function MitraKaryaLaporanAnggota() {
               </FilterSelect>
             </FormRow>
 
-            {selectedReport === "Laporan_KTP_Anggota_Test" ? <FormRow label="Ketersediaan File KTP">
+            {selectedReportHasKtpFields ? <FormRow label="Ketersediaan File KTP">
               <FilterSelect
                 value={ktpStatus}
                 onChange={(value) => setKtpStatus(value as KtpStatus)}
