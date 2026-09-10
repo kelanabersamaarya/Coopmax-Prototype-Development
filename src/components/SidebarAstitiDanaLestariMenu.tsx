@@ -8,7 +8,7 @@ export default function SidebarAstitiDanaLestariMenu() {
   return (
     <div className="space-y-1">
       <NavLink
-        to="/astiti-dana-lestari/dashboard"
+        to="/dashboard"
         className={({ isActive }) =>
           cn(
             "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left text-[13px] font-semibold transition",
