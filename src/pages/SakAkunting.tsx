@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import AccountingSidebar, { type AccountingMenuItem } from "@/components/accounting/AccountingSidebar";
 import AccountingCodeAccountsView from "@/components/accounting/AccountingCodeAccountsView";
 import GeneralJournalReport from "@/components/accounting/GeneralJournalReport";
+import PerhitunganHasilUsahaReport from "@/components/accounting/PerhitunganHasilUsahaReport";
 
 export default function SakAkunting() {
   const [active, setActive] = React.useState<AccountingMenuItem>({
@@ -13,6 +14,7 @@ export default function SakAkunting() {
 
   const isKodeAkun = active.groupId === "pengaturan" && active.itemLabel === "Kode Akun";
   const isGeneralJournal = active.groupId === "laporan" && active.itemLabel === "Jurnal Umum";
+  const isPerhitunganHasilUsaha = active.groupId === "laporan" && active.itemLabel === "Perhitungan Hasil Usaha";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -22,6 +24,8 @@ export default function SakAkunting() {
           <Card className="rounded-[5px] border-slate-200/70 bg-white p-5 shadow-sm md:p-6">
             {isGeneralJournal ? (
               <GeneralJournalReport />
+            ) : isPerhitunganHasilUsaha ? (
+              <PerhitunganHasilUsahaReport />
             ) : isKodeAkun ? (
               <>
                 <div className="flex items-baseline gap-2">

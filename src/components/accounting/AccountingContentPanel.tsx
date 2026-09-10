@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { AccountingMenuItem } from "@/components/accounting/AccountingSidebar";
 import AccountingDashboardLanding from "@/components/accounting/AccountingDashboardLanding";
+import PerhitunganHasilUsahaReport from "@/components/accounting/PerhitunganHasilUsahaReport";
 
 export default function AccountingContentPanel({
   active,
@@ -16,6 +17,13 @@ export default function AccountingContentPanel({
 
   if (isDashboard) {
     return <AccountingDashboardLanding />;
+  }
+
+  const isPerhitunganHasilUsaha =
+    active.groupId === "laporan" && active.itemLabel === "Perhitungan Hasil Usaha";
+
+  if (isPerhitunganHasilUsaha) {
+    return <PerhitunganHasilUsahaReport />;
   }
 
   return (
