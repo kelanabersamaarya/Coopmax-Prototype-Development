@@ -294,6 +294,45 @@ export function openReportPdfPreview({
 
           .export-only-journal-header {
             display: block !important;
+            position: relative;
+            min-height: 146px;
+            padding: 13px 24px 0;
+            text-align: center;
+            font-weight: 700;
+          }
+
+          .export-only-journal-header .journal-pdf-logo {
+            position: absolute;
+            left: 24px;
+            top: 13px;
+            width: 94px;
+            height: 94px;
+            object-fit: contain;
+          }
+
+          .export-only-journal-header .journal-pdf-title {
+            padding-bottom: 18px;
+            font-size: 16px;
+            line-height: 1.45;
+          }
+
+          .export-only-journal-header .journal-pdf-title > div:first-child {
+            font-size: 18px;
+          }
+
+          .export-only-journal-header .journal-pdf-rule {
+            border-bottom: 4px double #111827;
+          }
+
+          .export-only-journal-header .journal-pdf-report-title {
+            padding: 20px 0 14px;
+            font-size: 16px;
+            line-height: 1.2;
+            text-align: center;
+          }
+
+          .export-only-journal-header .journal-pdf-report-title > div:first-child {
+            font-size: 17px;
           }
 
           .print-hide,
