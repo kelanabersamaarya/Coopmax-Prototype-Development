@@ -11,7 +11,7 @@ type SubItem = {
 };
 
 const items: SubItem[] = [
-  { label: "Pendaftaran Online", to: "/obs-samudra-harta" },
+  { label: "Kebutuhan Koperasi Samudra Harta", to: "/obs-samudra-harta" },
   { label: "OBS Web", to: "/obs-web" },
 ];
 
@@ -47,7 +47,7 @@ export default function SidebarObsMenu() {
         </span>
 
         <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
-          Online Banking
+          Kebutuhan Koperasi Samudra Harta
         </span>
 
         <ChevronDown

@@ -126,8 +126,8 @@ export default function Dashboard() {
           />
 
           <DevMenuCard
-            title="OBS Samudra Harta"
-            subtitle="Menu OBS untuk monitoring & aktivitas operasional (prototype)."
+            title="Kebutuhan Koperasi Samudra Harta"
+            subtitle="Menu kebutuhan koperasi untuk monitoring & aktivitas operasional (prototype)."
             icon={Landmark}
             accent="emerald"
             onClick={() => navigate("/obs-samudra-harta")}

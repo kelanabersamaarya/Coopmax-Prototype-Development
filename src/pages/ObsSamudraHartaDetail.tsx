@@ -466,7 +466,7 @@ export default function ObsSamudraHartaDetail() {
         <div className="mx-auto w-full max-w-[1680px]">
           <div className="flex items-baseline gap-2">
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Pendaftaran Online
+              Kebutuhan Koperasi Samudra Harta
             </h1>
             <div className="text-base font-semibold text-slate-600">
               Detail Pendaftar
@@ -496,10 +496,10 @@ export default function ObsSamudraHartaDetail() {
                 label="Buat Pengajuan Pinjaman"
                 onClick={() => {
                   toast.success("Membuka form Pengajuan Pinjaman", {
-                    description:
-                      "Form akan dibuka dalam modul OBS Samudra Harta.",
-                  });
-                  navigate("/obs-samudra-harta/loans/applications/new?prefill=empty");
+                        description:
+                          "Form akan dibuka dalam modul Kebutuhan Koperasi Samudra Harta.",
+                      });
+                      navigate("/obs-samudra-harta/loans/applications/new?prefill=empty");
                 }}
                 className="w-[240px]"
               />

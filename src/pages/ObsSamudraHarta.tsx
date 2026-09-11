@@ -407,7 +407,7 @@ export default function ObsSamudraHarta() {
         <div>
           <div className="flex items-baseline gap-2">
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Pendaftaran Online
+              Kebutuhan Koperasi Samudra Harta
             </h1>
             <div className="text-base font-semibold text-slate-600">Daftar</div>
           </div>
