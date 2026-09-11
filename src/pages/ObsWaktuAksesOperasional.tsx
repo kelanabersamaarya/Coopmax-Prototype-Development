@@ -93,85 +93,85 @@ export default function ObsWaktuAksesOperasional() {
                 </h2>
               </div>
 
-            <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-              <span className="font-normal text-black">Waktu Mulai Operasional</span>
-              <Input
-                type="time"
-                value={startTime}
-                onChange={(event) => setStartTime(event.target.value)}
-                className="h-9 rounded-[6px] border-slate-300 text-[13px] font-normal shadow-none focus-visible:ring-0"
-              />
-            </div>
-
-            <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-              <span className="font-normal text-black">Waktu Selesai Operasional</span>
-              <Input
-                type="time"
-                value={endTime}
-                onChange={(event) => setEndTime(event.target.value)}
-                className="h-9 rounded-[6px] border-slate-300 text-[13px] font-normal shadow-none focus-visible:ring-0"
-              />
-            </div>
-
-            <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-              <div>
-                <span className="font-normal text-black">
-                  User yang dapat mengakses sistem di luar jam operasional
-                </span>
-                <p className="mt-1 text-[11px] text-slate-500">
-                  Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
-                </p>
+              <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
+                <span className="font-normal text-black">Waktu Mulai Operasional</span>
+                <Input
+                  type="time"
+                  value={startTime}
+                  onChange={(event) => setStartTime(event.target.value)}
+                  className="h-9 rounded-[6px] border-slate-300 text-[13px] font-normal shadow-none focus-visible:ring-0"
+                />
               </div>
 
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div className="flex min-h-9 w-full cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 shadow-none focus-within:ring-2 focus-within:ring-violet-200">
-                    <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                      {selectedUsers.length === 0 ? (
-                        <span className="px-1 text-[13px] text-slate-500">
-                          Pilih user
-                        </span>
-                      ) : (
-                        selectedUsers.map((id) => {
-                          const user = accessUsers.find((item) => item.id === id);
-                          if (!user) return null;
+              <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
+                <span className="font-normal text-black">Waktu Selesai Operasional</span>
+                <Input
+                  type="time"
+                  value={endTime}
+                  onChange={(event) => setEndTime(event.target.value)}
+                  className="h-9 rounded-[6px] border-slate-300 text-[13px] font-normal shadow-none focus-visible:ring-0"
+                />
+              </div>
 
-                          return (
-                            <span
-                              key={user.id}
-                              className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"
-                            >
-                              <button
-                                type="button"
-                                aria-label={`Hapus ${user.name}`}
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  toggleUser(user.id);
-                                }}
-                                className="text-[14px] font-semibold leading-none text-white/70 hover:text-white"
+              <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
+                <div>
+                  <span className="font-normal text-black">
+                    User yang dapat mengakses sistem di luar jam operasional
+                  </span>
+                  <p className="mt-1 text-[11px] text-slate-500">
+                    Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
+                  </p>
+                </div>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex min-h-9 w-full cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 shadow-none focus-within:ring-2 focus-within:ring-violet-200">
+                      <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                        {selectedUsers.length === 0 ? (
+                          <span className="px-1 text-[13px] text-slate-500">Pilih user</span>
+                        ) : (
+                          selectedUsers.map((id) => {
+                            const user = accessUsers.find((item) => item.id === id);
+                            if (!user) return null;
+
+                            return (
+                              <span
+                                key={user.id}
+                                className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"
                               >
-                                ×
-                              </button>
-                              {user.name}
-                            </span>
-                          );
-                        })
-                      )}
+                                <button
+                                  type="button"
+                                  aria-label={`Hapus ${user.name}`}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    toggleUser(user.id);
+                                  }}
+                                  className="text-[14px] font-semibold leading-none text-white/70 hover:text-white"
+                                >
+                                  ×
+                                </button>
+                                {user.name}
+                              </span>
+                            );
+                          })
+                        )}
+                      </div>
+                      {selectedUsers.length > 0 ? (
+                        <button
+                          type="button"
+                          aria-label="Hapus semua user"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelectedUsers([]);
+                          }}
+                          className="ml-auto shrink-0 px-2 text-slate-900 hover:text-violet-700"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      ) : null}
                     </div>
-                    {selectedUsers.length > 0 ? (
-                      <button
-                        type="button"
-                        aria-label="Hapus semua user"
-                        onClick={() => setSelectedUsers([])}
-                        className="ml-auto shrink-0 px-2 text-slate-900 hover:text-violet-700"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    ) : null}
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
-                  <div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
                     {accessUsers.map((user) => (
                       <button
                         key={user.id}
@@ -182,24 +182,22 @@ export default function ObsWaktuAksesOperasional() {
                         {user.name}
                       </button>
                     ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
 
+            <div className="flex justify-end pt-4">
+              <button
+                type="button"
+                onClick={saveAccessSettings}
+                className="inline-flex h-[62px] items-center justify-center gap-2 rounded-[15px] border-2 border-[#8bd66b] bg-[#20bd00] px-9 text-[20px] font-bold text-white shadow-sm transition hover:bg-[#1baa00] focus:outline-none focus:ring-4 focus:ring-[#20bd00]/25"
+              >
+                <CheckSquare className="h-8 w-8" strokeWidth={3} />
+                Simpan
+              </button>
             </div>
           </div>
-          <div className="flex justify-end pt-4">
-            <button
-              type="button"
-              onClick={saveAccessSettings}
-              className="inline-flex h-[62px] items-center justify-center gap-2 rounded-[15px] border-2 border-[#8bd66b] bg-[#20bd00] px-9 text-[20px] font-bold text-white shadow-sm transition hover:bg-[#1baa00] focus:outline-none focus:ring-4 focus:ring-[#20bd00]/25"
-            >
-              <CheckSquare className="h-8 w-8" strokeWidth={3} />
-              Simpan
-            </button>
-          </div>
-        </div>
         ) : (
           <div className="mt-8 overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white shadow-sm">
             <div className="flex min-h-[69px] items-center border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
