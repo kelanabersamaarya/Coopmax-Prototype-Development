@@ -7,7 +7,7 @@ function CoopmaxLogo() {
       <img
         src="/publiccoopmax-logo.png.png"
         alt="Coopmax"
-        className="h-auto w-[105px] object-contain"
+        className="h-auto w-[190px] object-contain"
       />
     </div>
   );
@@ -19,12 +19,11 @@ export default function LoginSimulasi() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-4 py-8 font-sans">
       <div className="w-full max-w-[440px] border border-[#ccd5e4] bg-white px-[38px] pb-8 pt-12 sm:px-[38px]">
-        <div className="mt-2 flex items-center justify-center gap-3">
-          <CoopmaxLogo />
-          <h1 className="text-[26px] font-extrabold tracking-[-1.5px] text-[#3262f2]">
-            Demo Koperasi
-          </h1>
-        </div>
+        <CoopmaxLogo />
+
+        <h1 className="mt-14 text-center text-[30px] font-extrabold tracking-[-1.5px] text-[#3262f2]">
+          Demo Koperasi
+        </h1>
 
         <div className="mt-14 text-center text-[#001d58]">
           <h2 className="text-[27px] font-normal leading-tight">Selamat Datang</h2>
