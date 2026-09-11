@@ -418,22 +418,6 @@ export function openReportPdfPreview({
             break-after: auto;
           }
 
-          .pdf-page .accounting-pdf-report tr,
-          .thumb-page .accounting-pdf-report tr {
-            border-bottom: 0 !important;
-          }
-
-          .pdf-page .accounting-pdf-report tbody tr td,
-          .thumb-page .accounting-pdf-report tbody tr td {
-            border-top: 0 !important;
-            border-bottom: 0 !important;
-          }
-
-          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n),
-          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) {
-            border-bottom: 1px solid #94a3b8 !important;
-          }
-
           .pdf-page th,
           .pdf-page td,
           .thumb-page th,
@@ -466,9 +450,9 @@ export function openReportPdfPreview({
             border-top: 1px solid #94a3b8 !important;
           }
 
-          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
-          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) td {
-            border-bottom: 1px solid #94a3b8 !important;
+          .pdf-page .accounting-pdf-report tbody tr:first-child td,
+          .thumb-page .accounting-pdf-report tbody tr:first-child td {
+            border-top: 1px solid #94a3b8 !important;
           }
 
           .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
@@ -489,6 +473,24 @@ export function openReportPdfPreview({
           .thumb-page thead th {
             text-align: center !important;
             vertical-align: middle !important;
+          }
+
+          .pdf-page .accounting-pdf-report thead th,
+          .thumb-page .accounting-pdf-report thead th {
+            background-color: #ffffff !important;
+            border-top: 1px solid #94a3b8 !important;
+            border-bottom: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page .accounting-pdf-report tbody tr td,
+          .thumb-page .accounting-pdf-report tbody tr td {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+          }
+
+          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
+          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) td {
+            border-bottom: 1px solid #94a3b8 !important;
           }
 
           .pdf-page td,
