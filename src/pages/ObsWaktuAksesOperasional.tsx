@@ -132,25 +132,16 @@ export default function ObsWaktuAksesOperasional() {
                   </PopoverTrigger>
                   <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
                     <div>
-                      {accessUsers.map((user) => {
-                        const selected = selectedUsers.includes(user.id);
-
-                        return (
-                          <button
-                            key={user.id}
-                            type="button"
-                            onClick={() => toggleUser(user.id)}
-                            className={cn(
-                              "flex min-h-9 w-full items-center px-2.5 py-2 text-left text-[13px] font-normal transition",
-                              selected
-                                ? "bg-[#2563eb] text-white"
-                                : "bg-white text-slate-900 hover:bg-slate-100",
-                            )}
-                          >
-                            {user.name}
-                          </button>
-                        );
-                      })}
+                      {accessUsers.map((user) => (
+                        <button
+                          key={user.id}
+                          type="button"
+                          onClick={() => toggleUser(user.id)}
+                          className="flex min-h-9 w-full items-center bg-white px-2.5 py-2 text-left text-[13px] font-normal text-slate-900 transition hover:bg-[#2563eb] hover:text-white"
+                        >
+                          {user.name}
+                        </button>
+                      ))}
                     </div>
                   </PopoverContent>
                 </Popover>
