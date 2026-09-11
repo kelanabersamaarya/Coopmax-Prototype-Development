@@ -23,11 +23,11 @@
   min-height: 2rem;
 }
 
-.mitra-karya-report-select-trigger + [data-radix-popper-content-wrapper] .select-item-indicator {
-  display: none !important;
-}
-
-.mitra-karya-report-select-trigger + [data-radix-popper-content-wrapper] [data-radix-select-item-indicator],
-.mitra-karya-report-select-trigger + [data-radix-popper-content-wrapper] [data-radix-select-item-indicator] svg {
+.mitra-karya-report-select-content [data-radix-select-scroll-down-button],
+.mitra-karya-report-select-content [data-radix-select-scroll-up-button],
+.mitra-karya-report-select-content > svg,
+.mitra-karya-report-select-content .select-item-indicator,
+.mitra-karya-report-select-content [data-radix-select-item-indicator],
+.mitra-karya-report-select-content [data-radix-select-item-indicator] svg {
   display: none !important;
 }
