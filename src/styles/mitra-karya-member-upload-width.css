@@ -1,0 +1,27 @@
+/* Keep the KTP and supporting-file upload fields stable when a file is selected. */
+form > div.grid.grid-cols-1.gap-5 > div {
+  width: 100%;
+  min-width: 0;
+}
+
+form > div.grid.grid-cols-1.gap-5 > div > div.grid {
+  width: 100%;
+  min-width: 0;
+}
+
+form > div.grid.grid-cols-1.gap-5 > div > div.grid > div,
+form > div.grid.grid-cols-1.gap-5 > div > div.rounded-\[9px\] {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+form > div.grid.grid-cols-1.gap-5 > div p,
+form > div.grid.grid-cols-1.gap-5 > div button {
+  max-width: 100%;
+}
+
+form > div.grid.grid-cols-1.gap-5 > div img,
+form > div.grid.grid-cols-1.gap-5 > div svg {
+  flex-shrink: 0;
+}
