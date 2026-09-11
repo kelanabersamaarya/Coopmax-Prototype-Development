@@ -284,9 +284,22 @@ function ReportResults({
 }) {
   const [selectedKtpMember, setSelectedKtpMember] = React.useState<Member | null>(null);
   const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { title: string; columns?: { key: string; label: string }[] }[];
-  const configuredReport = savedReports.find((report) => report.title === selectedReport);
+  const configuredReport = selectedReport === "Laporan Ketersediaan KTP Anggota"
+    ? undefined
+    : savedReports.find((report) => report.title === selectedReport);
   const configuredColumns = configuredReport?.columns || [];
-  const defaultColumns = [
+  const defaultColumns = selectedReport === "Laporan Ketersediaan KTP Anggota"
+    ? [
+        { key: "no-anggota", label: "No. Anggota" },
+        { key: "nama", label: "Nama" },
+        { key: "tanggal-daftar", label: "Tanggal Daftar" },
+        { key: "kategori", label: "Kategori" },
+        { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" },
+        { key: "preview-file-ktp", label: "Pratinjau File KTP" },
+        { key: "no-handphone", label: "No. Handphone" },
+        { key: "alamat", label: "Alamat" },
+      ]
+    : [
     { key: "no-anggota", label: "No. Anggota" },
     { key: "nama", label: "Nama" },
     { key: "tanggal-daftar", label: "Tanggal Daftar" },
@@ -369,10 +382,10 @@ function ReportResults({
       !configuredReport && "default-member-report-section",
     )}>
       <ReportPrintHeader
-        title={selectedReportHasKtpFields ? "Laporan KTP Anggota" : selectedReport}
+        title={selectedReportHasKtpFields ? "Laporan Ketersediaan KTP Anggota" : selectedReport}
         printedAt={new Date().toLocaleDateString("id-ID")}
         reportBasis={selectedReportHasKtpFields ? "Laporan Anggota" : undefined}
-        reportType={selectedReportHasKtpFields ? "Berdasarkan Simpanan Anggota" : undefined}
+        reportType={selectedReportHasKtpFields ? "Ketersediaan File KTP" : undefined}
       />
       <MemberReportEntriesPicker className="print-hide mb-4" />
 
@@ -524,7 +537,7 @@ export default function MitraKaryaLaporanAnggota() {
   const [reportType, setReportType] = React.useState(
     "Berdasarkan Simpanan Anggota",
   );
-  const [selectedReport, setSelectedReport] = React.useState("Laporan Anggota (Default)");
+  const [selectedReport, setSelectedReport] = React.useState("Laporan Ketersediaan KTP Anggota");
   const [reportRefreshKey, setReportRefreshKey] = React.useState(0);
   const [ktpStatus, setKtpStatus] = React.useState<KtpStatus>("Semua");
   const [searched, setSearched] = React.useState(false);
@@ -533,11 +546,13 @@ export default function MitraKaryaLaporanAnggota() {
     const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { basis: string; title: string }[];
     return [...new Set([
       "Laporan Anggota (Default)",
+      "Laporan Ketersediaan KTP Anggota",
       ...savedReports.filter((report) => report.basis === "Laporan Anggota").map((report) => report.title),
     ])];
   }, [reportRefreshKey]);
 
   const selectedReportHasKtpFields = React.useMemo(() => {
+    if (selectedReport === "Laporan Ketersediaan KTP Anggota") return true;
     if (selectedReport === "Laporan Anggota (Default)") return false;
     const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as {
       title: string;
@@ -840,20 +855,12 @@ export default function MitraKaryaLaporanAnggota() {
               </span>
               <div className="min-w-0">
                 <h2 className="text-[14px] font-extrabold leading-snug">
-                  <span className="text-[#00a8c6]">Fitur Penyesuaian Laporan</span>
+                  <span className="text-[#00a8c6]">Laporan Siap Presentasi</span>
                 </h2>
                 <p className="mt-2 max-w-[440px] text-[13px] font-normal leading-relaxed">
-                  Anda dapat melakukan kustomisasi tampilan laporan (pengaturan
-                  kolom dan urutan data) pada laporan ini dengan menggunakan fitur
-                  penyesuaian laporan. Silahkan klik menu{" "}
-                  <button
-                    type="button"
-                    onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
-                    className="font-semibold text-[#5B47FB] underline-offset-2 hover:underline"
-                  >
-                    Penyesuaian Laporan
-                  </button>{" "}
-                  untuk dapat melakukan pengaturan.
+                  Laporan Ketersediaan KTP Anggota sudah tersedia secara langsung.
+                  Pilih laporan di bawah untuk menampilkan status file KTP dan
+                  pratinjau dokumen tanpa perlu melakukan setup pada Penyesuaian Laporan.
                 </p>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
