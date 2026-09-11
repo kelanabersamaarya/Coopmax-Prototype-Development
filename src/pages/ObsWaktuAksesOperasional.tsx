@@ -85,7 +85,7 @@ export default function ObsWaktuAksesOperasional() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">
-          Waktu Akses Operasional
+          Pengaturan Waktu Operasional
         </h1>
 
         <div className="mt-8 overflow-x-auto">
