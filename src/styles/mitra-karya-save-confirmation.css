@@ -18,7 +18,7 @@ form .mt-4.w-full > div > div { width: 100%; padding: 9px 0 0; }
 form .mt-4.w-full p:first-child { min-height: 40px; display: flex; align-items: center; padding: 0 12px; padding-right: 76px; border: 1px solid #d5ddeb; border-radius: 4px; background: #fff; color: #16458d; font-size: 16px; font-weight: 400; }
 form .mt-4.w-full p:nth-child(2) { margin-top: 2px; color: #7890b2; font-size: 11px; }
 form .mt-4.w-full button { position: absolute; top: 10px; right: 10px; z-index: 1; display: inline-flex; align-items: center; height: 38px; border-radius: 4px; background: #f04444; padding: 0 14px; font-size: 14px; font-weight: 600; }
-form .mt-4.w-full button::before { content: "🗑"; margin-right: 7px; font-size: 17px; line-height: 1; }
+form .mt-4.w-full button::before { content: "🗑"; margin-right: 8px; font-size: 18px; line-height: 1; filter: grayscale(1) brightness(0) invert(1); }
 form .flex.min-h-\[266px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[266px\]:has(.mt-4.w-full) > .mt-2, form .flex.min-h-\[180px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[180px\]:has(.mt-4.w-full) > .mt-2 { display: none; }
 form .flex.min-h-\[266px\] > svg, form .flex.min-h-\[180px\] > svg { display: none; }
 @media (max-width: 560px) { #root .fixed.z-50:not(:has(h2 + button)) h2, #root .fixed.z-50:has(h2 + button) h2 { font-size: 23px; } #root .fixed.z-50:not(:has(h2 + button)) > div > div button { min-width: 112px; } form .mt-4.w-full img { max-height: 260px; } }
