@@ -15,8 +15,8 @@ form .grid.items-stretch { grid-template-columns: minmax(0, 1fr); min-width: 0; 
 form .grid.items-stretch > div { min-width: 0; width: 100%; max-width: 100%; overflow: hidden; }
 form .grid.items-stretch > div:first-child, form .grid.items-stretch > div:nth-child(2) { min-inline-size: 0; }
 form .grid.items-stretch > div:nth-child(2) > .flex { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; }
-@media (min-width: 1024px) { form .grid.items-stretch { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; grid-auto-columns: minmax(0, 1fr); } }
-form .grid.items-stretch > * { grid-column: auto; width: auto !important; min-width: 0 !important; max-width: none !important; }
+@media (min-width: 1024px) { form .grid.items-stretch { grid-template-columns: calc((100% - 20px) / 2) calc((100% - 20px) / 2) !important; grid-auto-columns: auto; } }
+form .grid.items-stretch > * { grid-column: auto; width: 100% !important; min-width: 0 !important; max-width: 100% !important; box-sizing: border-box; }
 form .grid.items-stretch > div:nth-child(2) { overflow: hidden; }
 form .grid.items-stretch > div:nth-child(2) > .flex { width: 100% !important; }
 form .mt-4.w-full { position: relative; flex: 0 0 100%; width: 100% !important; min-width: 0 !important; max-width: 100% !important; box-sizing: border-box; align-self: stretch; margin-top: 10px; border: 1px dashed #b9cbe1; border-radius: 9px; background: #fff; padding: 10px; overflow: hidden; }
