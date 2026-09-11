@@ -19,6 +19,7 @@ type AccessUser = {
 type ChangeHistory = {
   id: number;
   user: string;
+  changedAt: string;
   operationalHoursBefore: string;
   operationalHoursAfter: string;
   excludedUsersBefore: string;
@@ -40,6 +41,7 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 1,
     user: "Admin",
+    changedAt: "20 Juni 2024, 09:15",
     operationalHoursBefore: "08:00 - 16:00",
     operationalHoursAfter: "08:00 - 17:00",
     excludedUsersBefore: "Admin",
@@ -48,6 +50,7 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 2,
     user: "Manager Operasional",
+    changedAt: "19 Juni 2024, 16:40",
     operationalHoursBefore: "07:30 - 16:00",
     operationalHoursAfter: "08:00 - 16:00",
     excludedUsersBefore: "Admin, Supervisor",
@@ -56,6 +59,7 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 3,
     user: "Admin",
+    changedAt: "18 Juni 2024, 08:05",
     operationalHoursBefore: "08:00 - 15:30",
     operationalHoursAfter: "07:30 - 16:00",
     excludedUsersBefore: "Admin, Manager Operasional",
@@ -271,6 +275,7 @@ export default function ObsWaktuAksesOperasional() {
                     <tr className="bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
                       <th className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
+                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Tanggal dan Waktu Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sebelum Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sesudah Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User yang Dikecualikan Sebelum Perubahan</th>
@@ -282,6 +287,7 @@ export default function ObsWaktuAksesOperasional() {
                       <tr key={change.id} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
                         <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
+                        <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.operationalHoursBefore}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.operationalHoursAfter}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersBefore}</td>
