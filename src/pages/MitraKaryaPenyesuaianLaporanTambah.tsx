@@ -30,7 +30,7 @@ function Options({ value, onChange }: { value: string; onChange: (value: string)
   return (
     <Select
       value={value}
-      onValueChange={(nextValue) => onChange(nextValue === "__empty__" ? "__empty__" : nextValue)}
+      onValueChange={onChange}
       onOpenChange={(open) => {
         if (!open) setSearch("");
       }}
