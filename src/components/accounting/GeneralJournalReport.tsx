@@ -143,7 +143,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
                   </tr>
                 </thead>
                 <tbody>
-                  {journalRows.map((row) => (
+                  {journalRows.map((row, rowIndex) => (
                     <tr key={row.no}>
                       <td className="journal-cell text-center align-top">{row.no}</td>
                       {!isV2 && <td className="journal-cell align-top">{row.member}</td>}
@@ -155,7 +155,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
                       <td className="journal-cell align-top">{row.debitCode}</td>
                       <td className="journal-cell text-right align-top">{row.credit}</td>
                       <td className="journal-cell align-top">{row.creditCode}</td>
-                      <td className="journal-cell align-top">{isV2 ? row.detail : row.note}</td>
+                      <td className="journal-cell align-top">{isV2 ? (rowIndex === 0 ? row.detail : "") : row.note}</td>
                     </tr>
                   ))}
                 </tbody>
