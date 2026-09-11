@@ -1,22 +1,86 @@
-import { LogIn } from "lucide-react";
+import * as React from "react";
+import { Eye, EyeOff } from "lucide-react";
+
+function CoopmaxLogo() {
+  return (
+    <div className="flex items-center justify-center gap-2.5">
+      <span className="relative block h-12 w-12">
+        <span className="absolute left-1 top-1 h-7 w-4 rotate-[42deg] rounded-full bg-[#a92cff]" />
+        <span className="absolute left-5 top-0 h-7 w-4 rotate-[42deg] rounded-full bg-[#58c8f3]" />
+        <span className="absolute left-5 top-5 h-7 w-4 rotate-[42deg] rounded-full bg-[#3879f5]" />
+        <span className="absolute left-1 top-5 h-7 w-4 rotate-[42deg] rounded-full bg-[#ee32be]" />
+      </span>
+      <span className="text-[40px] font-bold leading-none tracking-[-2px] text-[#3487f2]">
+        Coop<span className="font-normal text-[#f02bbd]">max</span>
+      </span>
+    </div>
+  );
+}
 
 export default function LoginSimulasi() {
+  const [showPassword, setShowPassword] = React.useState(false);
+
   return (
-    <div className="min-h-screen bg-[hsl(var(--app-bg))] p-4 md:p-8">
-      <div className="rounded-[5px] bg-white p-6 shadow-sm ring-1 ring-[#E4E9F2] md:p-8">
-        <div className="flex items-center gap-4">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#4169f5] text-white">
-            <LogIn className="h-5 w-5" />
-          </span>
-          <div>
-            <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">
-              Simulasi Login
-            </h1>
-            <p className="mt-1 text-[13px] text-slate-500">
-              Halaman simulasi login untuk kebutuhan pengujian aplikasi.
-            </p>
-          </div>
+    <div className="flex min-h-screen items-center justify-center bg-white px-4 py-8 font-sans">
+      <div className="w-full max-w-[440px] border border-[#ccd5e4] bg-white px-[38px] pb-8 pt-12 sm:px-[38px]">
+        <CoopmaxLogo />
+
+        <h1 className="mt-14 text-center text-[30px] font-extrabold tracking-[-1.5px] text-[#3262f2]">
+          Demo Koperasi
+        </h1>
+
+        <div className="mt-14 text-center text-[#001d58]">
+          <h2 className="text-[27px] font-normal leading-tight">Selamat Datang</h2>
+          <p className="mt-2 text-[19px] font-semibold">Masuk untuk melanjutkan</p>
         </div>
+
+        <form
+          className="mt-3"
+          onSubmit={(event) => event.preventDefault()}
+        >
+          <label className="block text-[14px] text-[#7688aa]" htmlFor="username">
+            Nama Pengguna
+          </label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Masukan Nama Pengguna"
+            className="mt-1 h-[33px] w-full border border-[#bdc9db] px-2.5 text-[14px] text-[#001d58] outline-none placeholder:text-[#9caac0] focus:border-[#3262f2]"
+          />
+
+          <label className="mt-2 block text-[14px] text-[#7688aa]" htmlFor="password">
+            Kata Sandi
+          </label>
+          <div className="mt-1 flex h-[34px] border border-[#bdc9db] focus-within:border-[#3262f2]">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Masukan Kata Sandi"
+              className="min-w-0 flex-1 px-2.5 text-[14px] text-[#001d58] outline-none placeholder:text-[#9caac0]"
+            />
+            <button
+              type="button"
+              aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+              onClick={() => setShowPassword((value) => !value)}
+              className="flex w-[46px] items-center justify-center border-l border-[#bdc9db] bg-[#e3e8f0] text-[#58708f]"
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            className="mt-7 h-[34px] w-full rounded-[3px] bg-[#3262f2] text-[14px] font-semibold text-white transition hover:bg-[#2852d7]"
+          >
+            Masuk
+          </button>
+        </form>
+
+        <p className="mt-11 text-center text-[19px] font-bold text-[#7185a6]">
+          PT. Solusi Anak Sakti
+        </p>
       </div>
     </div>
   );
