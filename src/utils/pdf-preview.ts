@@ -505,6 +505,24 @@ export function openReportPdfPreview({
             border-bottom: 1px solid #94a3b8 !important;
           }
 
+          .pdf-page table.accounting-pdf-table tbody td,
+          .thumb-page table.accounting-pdf-table tbody td {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+            border-left: 1px solid #94a3b8 !important;
+            border-right: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page table.accounting-pdf-table tbody tr:first-child td,
+          .thumb-page table.accounting-pdf-table tbody tr:first-child td {
+            border-top: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page table.accounting-pdf-table tbody tr:nth-child(2n) td,
+          .thumb-page table.accounting-pdf-table tbody tr:nth-child(2n) td {
+            border-bottom: 1px solid #94a3b8 !important;
+          }
+
           .pdf-page .truncate,
           .thumb-page .truncate {
             overflow: visible !important;
