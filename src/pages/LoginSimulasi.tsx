@@ -24,11 +24,11 @@ export default function LoginSimulasi() {
       <div className="w-full max-w-[440px] border border-[#ccd5e4] bg-white px-[38px] pb-8 pt-12 sm:px-[38px]">
         <CoopmaxLogo />
 
-        <h1 className="mt-14 text-center text-[30px] font-extrabold tracking-[-1.5px] text-[#3262f2]">
+        <h1 className="mt-8 text-center text-[30px] font-extrabold tracking-[-1.5px] text-[#3262f2]">
           Demo Koperasi
         </h1>
 
-        <div className="mt-14 text-center text-[#001d58]">
+        <div className="mt-8 text-center text-[#001d58]">
           <h2 className="text-[27px] font-normal leading-tight">Selamat Datang</h2>
           <p className="mt-2 text-[19px] font-semibold">Masuk untuk melanjutkan</p>
         </div>
