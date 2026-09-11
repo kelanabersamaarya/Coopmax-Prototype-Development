@@ -418,7 +418,7 @@ export function openReportPdfPreview({
             min-width: 0 !important;
             max-width: none !important;
             padding: 1px 2px !important;
-            font-size: 6px !important;
+            font-size: 12px !important;
             line-height: 1.08 !important;
             white-space: normal !important;
             overflow: visible !important;
