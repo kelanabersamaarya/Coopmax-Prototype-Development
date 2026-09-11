@@ -35,4 +35,11 @@ form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:first-of-type::before { c
 form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:first-of-type::after { content: "Unggah foto KTP Nasabah. Pastikan terlihat jelas untuk validasi identitas."; display: block; margin-top: 12px; color: #111827; font-size: 12px; font-weight: 400; }
 form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:nth-of-type(2) { display: block; margin: 6px 0 0; color: #7890b2; font-size: 12px; }
 form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > label { height: 30px; margin-top: 14px; border-radius: 4px; background: #3567f5; padding: 0 14px; font-size: 12px; }
+form > .grid > div:nth-child(2) > div.mt-5 { margin-top: 10px; padding: 0; }
+form > .grid > div:nth-child(2) > div.mt-5 > div { min-height: 194px; padding: 18px 16px; }
+form > .grid > div:nth-child(2) > div.mt-5 > div > svg { width: 32px; height: 32px; margin-bottom: 8px; color: #111827; stroke: #111827; stroke-width: 1.8; }
+form > .grid > div:nth-child(2) > div.mt-5 > div > p:first-of-type { margin: 0; font-size: 14px; line-height: 1.3; }
+form > .grid > div:nth-child(2) > div.mt-5 > div > p:nth-of-type(2) { margin-top: 12px; font-size: 12px; }
+form > .grid > div:nth-child(2) > div.mt-5 > div > p:nth-of-type(3) { margin-top: 6px; font-size: 12px; }
+form > .grid > div:nth-child(2) > div.mt-5 > div > label { height: 30px; margin-top: 14px; border-radius: 4px; padding: 0 14px; font-size: 12px; }
 @media (max-width: 560px) { #root .fixed.z-50:not(:has(h2 + button)) h2, #root .fixed.z-50:has(h2 + button) h2 { font-size: 23px; } #root .fixed.z-50:not(:has(h2 + button)) > div > div button { min-width: 112px; } form .mt-4.w-full img { max-height: 260px; } }
