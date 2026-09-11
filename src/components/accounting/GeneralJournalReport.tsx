@@ -120,7 +120,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
             <p className="text-[18px] font-extrabold leading-tight">{formattedDate}</p>
           </div>
 
-          <div className={`${isV2 ? "print-report-area" : ""} overflow-hidden rounded-none border border-slate-300`}>
+          <div className="print-report-area overflow-hidden rounded-none border border-slate-300">
           <div className="print-hide flex min-h-[48px] justify-end gap-2 border-b border-slate-300 px-5 py-3">
             <Button className="h-[25px] w-[95px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
               Export Excel
@@ -129,21 +129,19 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
               Export PDF
             </Button>
           </div>
-          {isV2 && (
-            <div className="journal-pdf-header export-only-journal-header">
-              <img src="/publiccoopmax-logo.png.png" alt="Logo Koperasi Coopmax" className="journal-pdf-logo" />
-              <div className="journal-pdf-title">
-                <div>Koperasi Coopmax</div>
-                <div>Nomor BH : 21/KC/04-2025</div>
-                <div>Email: coopmax@kop.com</div>
-              </div>
-              <div className="journal-pdf-rule" />
-              <div className="journal-pdf-report-title">
-                <div>Jurnal Umum</div>
-                <div>{formattedDate}</div>
-              </div>
+          <div className="journal-pdf-header export-only-journal-header">
+            <img src="/publiccoopmax-logo.png.png" alt="Logo Koperasi Coopmax" className="journal-pdf-logo" />
+            <div className="journal-pdf-title">
+              <div>Koperasi Coopmax</div>
+              <div>Nomor BH : 21/KC/04-2025</div>
+              <div>Email: coopmax@kop.com</div>
             </div>
-          )}
+            <div className="journal-pdf-rule" />
+            <div className="journal-pdf-report-title">
+              <div>Jurnal Umum</div>
+              <div>{formattedDate}</div>
+            </div>
+          </div>
 
           <div className="overflow-x-auto">
               <table className={`journal-table ${isV2 ? "min-w-[900px]" : "min-w-[1500px]"} w-full border-collapse text-[12px]`}>
