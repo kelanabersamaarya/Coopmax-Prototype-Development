@@ -1,6 +1,6 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -130,8 +130,8 @@ export default function ObsWaktuAksesOperasional() {
                       <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-slate-400" />
                     </button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-xl border-slate-200 bg-white p-2 shadow-lg">
-                    <div className="space-y-1">
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
+                    <div>
                       {accessUsers.map((user) => {
                         const selected = selectedUsers.includes(user.id);
 
@@ -140,26 +140,14 @@ export default function ObsWaktuAksesOperasional() {
                             key={user.id}
                             type="button"
                             onClick={() => toggleUser(user.id)}
-                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition hover:bg-violet-50"
+                            className={cn(
+                              "flex min-h-9 w-full items-center px-2.5 py-2 text-left text-[13px] font-normal transition",
+                              selected
+                                ? "bg-[#2563eb] text-white"
+                                : "bg-white text-slate-900 hover:bg-slate-100",
+                            )}
                           >
-                            <span
-                              className={cn(
-                                "flex h-4 w-4 items-center justify-center rounded border",
-                                selected
-                                  ? "border-violet-600 bg-violet-600 text-white"
-                                  : "border-slate-300 bg-white",
-                              )}
-                            >
-                              {selected ? <Check className="h-3 w-3" /> : null}
-                            </span>
-                            <span className="min-w-0">
-                              <span className="block text-[13px] font-semibold text-slate-900">
-                                {user.name}
-                              </span>
-                              <span className="block text-[11px] text-slate-500">
-                                {user.role}
-                              </span>
-                            </span>
+                            {user.name}
                           </button>
                         );
                       })}
