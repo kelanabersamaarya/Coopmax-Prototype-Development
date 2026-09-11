@@ -34,6 +34,15 @@ export default function LoginSimulasi() {
           <p className="mt-2 text-[19px] font-semibold">Masuk untuk melanjutkan</p>
         </div>
 
+        {showAccessNotice ? (
+          <div className="mt-4 rounded-[3px] border border-solid border-red-500 bg-red-100/70 px-3 py-2.5 text-left text-red-700">
+            <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
+            <p className="mt-1 text-[12px] leading-[1.45]">
+              Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan coba masuk kembali pada jam operasional.
+            </p>
+          </div>
+        ) : null}
+
         <form
           className="mt-3"
           onSubmit={(event) => event.preventDefault()}
@@ -78,15 +87,6 @@ export default function LoginSimulasi() {
             Masuk
           </button>
         </form>
-
-        {showAccessNotice ? (
-          <div className="mt-4 rounded-[3px] border border-solid border-red-500 bg-red-100/70 px-3 py-2.5 text-left text-red-700">
-            <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
-            <p className="mt-1 text-[12px] leading-[1.45]">
-              Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan coba masuk kembali pada jam operasional.
-            </p>
-          </div>
-        ) : null}
 
         <p className="mt-11 text-center text-[19px] font-bold text-[#7185a6]">
           PT. Solusi Anak Sakti
