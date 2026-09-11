@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Clock3, X } from "lucide-react";
+import { CheckSquare, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import {
@@ -187,17 +187,19 @@ export default function ObsWaktuAksesOperasional() {
               </Popover>
             </div>
 
-            <div className="flex justify-end px-5 py-4">
-              <button
-                type="button"
-                onClick={saveAccessSettings}
-                className="inline-flex h-9 items-center justify-center rounded-[6px] bg-[#2fb300] px-4 text-[12px] font-bold text-white ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]"
-              >
-                Simpan Pengaturan
-              </button>
-            </div>
             </div>
           </div>
+          <div className="flex justify-end pt-4">
+            <button
+              type="button"
+              onClick={saveAccessSettings}
+              className="inline-flex h-[62px] items-center justify-center gap-2 rounded-[15px] border-2 border-[#8bd66b] bg-[#20bd00] px-9 text-[20px] font-bold text-white shadow-sm transition hover:bg-[#1baa00] focus:outline-none focus:ring-4 focus:ring-[#20bd00]/25"
+            >
+              <CheckSquare className="h-8 w-8" strokeWidth={3} />
+              Simpan
+            </button>
+          </div>
+        </div>
         ) : (
           <div className="mt-8 overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white shadow-sm">
             <div className="flex min-h-[69px] items-center border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
