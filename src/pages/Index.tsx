@@ -216,7 +216,7 @@ export default function Index() {
                                 {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarObsMenu />
                                 ) : null}
-                                {!isObsArea && !isPinjamanArea && !isMobileArea ? (
+                                {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarLoginMenu />
                                 ) : null}
                                 {isObsArea ? <SidebarObsSettingsMenu /> : null}
