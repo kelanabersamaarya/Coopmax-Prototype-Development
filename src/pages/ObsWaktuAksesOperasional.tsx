@@ -110,10 +110,6 @@ export default function ObsWaktuAksesOperasional() {
                 <h3 className="text-[13px] font-bold text-slate-900">
                   User yang dapat mengakses sistem di luar jam operasional
                 </h3>
-                <p className="mt-1 text-[12px] text-slate-600">
-                  Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
-                </p>
-
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
@@ -170,6 +166,9 @@ export default function ObsWaktuAksesOperasional() {
                     </div>
                   </PopoverContent>
                 </Popover>
+                <p className="mt-2 text-[12px] text-slate-600">
+                  Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
+                </p>
               </div>
 
               <div className="mt-6 flex justify-end">
