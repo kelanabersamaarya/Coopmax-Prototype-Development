@@ -27,3 +27,7 @@
 button.h-8.rounded-\[5px\].border-slate-300.text-\[13px\]:not(.w-full) > svg {
   display: none !important;
 }
+
+.mitra-karya-report-select-trigger + [data-radix-popper-content-wrapper] .select-item-indicator {
+  display: none !important;
+}
