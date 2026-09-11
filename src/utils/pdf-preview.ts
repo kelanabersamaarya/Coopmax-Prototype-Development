@@ -416,6 +416,12 @@ export function openReportPdfPreview({
           .thumb-page tr {
             break-inside: avoid;
             break-after: auto;
+            border-bottom: 0 !important;
+          }
+
+          .pdf-page tbody tr:nth-child(2n),
+          .thumb-page tbody tr:nth-child(2n) {
+            border-bottom: 1px solid #94a3b8 !important;
           }
 
           .pdf-page th,
@@ -433,9 +439,17 @@ export function openReportPdfPreview({
             text-overflow: clip !important;
             word-break: normal !important;
             overflow-wrap: anywhere !important;
-            border: 1px solid #94a3b8 !important;
+            border-left: 1px solid #94a3b8 !important;
+            border-right: 1px solid #94a3b8 !important;
+            border-top: 0 !important;
+            border-bottom: 0 !important;
             background-color: #ffffff !important;
             color: #111827 !important;
+          }
+
+          .pdf-page tbody tr:nth-child(2n) td,
+          .thumb-page tbody tr:nth-child(2n) td {
+            border-bottom: 1px solid #94a3b8 !important;
           }
 
           .pdf-page th,
