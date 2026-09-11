@@ -423,6 +423,12 @@ export function openReportPdfPreview({
             border-bottom: 0 !important;
           }
 
+          .pdf-page .accounting-pdf-report tbody tr td,
+          .thumb-page .accounting-pdf-report tbody tr td {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+          }
+
           .pdf-page .accounting-pdf-report tbody tr:nth-child(2n),
           .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) {
             border-bottom: 1px solid #94a3b8 !important;
@@ -443,10 +449,7 @@ export function openReportPdfPreview({
             text-overflow: clip !important;
             word-break: normal !important;
             overflow-wrap: anywhere !important;
-            border-left: 1px solid #94a3b8 !important;
-            border-right: 1px solid #94a3b8 !important;
-            border-top: 0 !important;
-            border-bottom: 0 !important;
+            border: 1px solid #94a3b8 !important;
             background-color: #ffffff !important;
             color: #111827 !important;
           }
@@ -461,6 +464,11 @@ export function openReportPdfPreview({
           .pdf-page .accounting-pdf-report tbody tr:first-child td,
           .thumb-page .accounting-pdf-report tbody tr:first-child td {
             border-top: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
+          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) td {
+            border-bottom: 1px solid #94a3b8 !important;
           }
 
           .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
