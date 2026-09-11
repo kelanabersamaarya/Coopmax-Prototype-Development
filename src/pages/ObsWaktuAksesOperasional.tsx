@@ -263,7 +263,7 @@ export default function ObsWaktuAksesOperasional() {
                 </span>
                 <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-[4px] border border-[#C9D3E3] bg-white">
                 <table className="w-full min-w-[900px] border-collapse text-left text-[11px]">
                   <thead>
                     <tr className="border border-[#C9D3E3] bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
