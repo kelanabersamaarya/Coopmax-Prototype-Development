@@ -95,22 +95,30 @@ export default function ObsWaktuAksesOperasional() {
 
               <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
                 <span className="font-normal text-black">Waktu Mulai Operasional</span>
-                <Input
-                  type="time"
-                  value={startTime}
-                  onChange={(event) => setStartTime(event.target.value)}
-                  className="h-9 rounded-[6px] border-slate-300 text-[13px] font-normal shadow-none focus-visible:ring-0"
-                />
+                <div className="relative">
+                  <Input
+                    type="time"
+                    step="60"
+                    value={startTime}
+                    onChange={(event) => setStartTime(event.target.value)}
+                    className="h-9 appearance-none rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none [color-scheme:light] focus-visible:ring-0 [&::-webkit-calendar-picker-indicator]:opacity-0"
+                  />
+                  <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                </div>
               </div>
 
               <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
                 <span className="font-normal text-black">Waktu Selesai Operasional</span>
-                <Input
-                  type="time"
-                  value={endTime}
-                  onChange={(event) => setEndTime(event.target.value)}
-                  className="h-9 rounded-[6px] border-slate-300 text-[13px] font-normal shadow-none focus-visible:ring-0"
-                />
+                <div className="relative">
+                  <Input
+                    type="time"
+                    step="60"
+                    value={endTime}
+                    onChange={(event) => setEndTime(event.target.value)}
+                    className="h-9 appearance-none rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none [color-scheme:light] focus-visible:ring-0 [&::-webkit-calendar-picker-indicator]:opacity-0"
+                  />
+                  <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                </div>
               </div>
 
               <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
