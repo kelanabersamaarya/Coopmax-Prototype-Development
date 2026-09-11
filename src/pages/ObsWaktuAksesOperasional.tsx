@@ -267,7 +267,7 @@ export default function ObsWaktuAksesOperasional() {
                 <table className="w-full min-w-[1120px] border-collapse text-left text-[12px]">
                 <thead>
                   <tr className="border-b border-[#D7DEE9] bg-[#F7F8FC] text-[#53657d]">
-                    <th className="px-5 py-4 font-bold">No.</th>
+                    <th className="whitespace-nowrap px-5 py-4 font-bold">No.</th>
                     <th className="px-5 py-4 font-bold">User</th>
                     <th className="px-5 py-4 font-bold">Jam Operasional Sebelum Perubahan</th>
                     <th className="px-5 py-4 font-bold">Jam Operasional Sesudah Perubahan</th>
