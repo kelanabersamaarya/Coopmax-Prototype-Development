@@ -82,15 +82,16 @@ export default function ObsWaktuAksesOperasional() {
         </div>
 
         {activeTab === "Pengaturan Waktu Akses" ? (
-          <div className="mt-8 overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white shadow-sm">
-            <div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
-                <Clock3 className="h-5 w-5" />
-              </span>
-              <h2 className="text-[15px] font-bold text-black">
-                Pengaturan Waktu Akses
-              </h2>
-            </div>
+          <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
+            <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
+              <div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
+                  <Clock3 className="h-5 w-5" />
+                </span>
+                <h2 className="text-[15px] font-bold text-black">
+                  Pengaturan Waktu Akses
+                </h2>
+              </div>
 
             <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
               <span className="font-normal text-black">Waktu Mulai Operasional</span>
@@ -194,6 +195,7 @@ export default function ObsWaktuAksesOperasional() {
               >
                 Simpan Pengaturan
               </button>
+            </div>
             </div>
           </div>
         ) : (
