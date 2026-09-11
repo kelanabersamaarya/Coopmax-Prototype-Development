@@ -7,7 +7,7 @@ function CoopmaxLogo() {
       <img
         src="/publiccoopmax-logo.png.png"
         alt="Coopmax"
-        className="h-auto w-[265px] object-contain"
+        className="h-auto w-[190px] object-contain"
       />
     </div>
   );
