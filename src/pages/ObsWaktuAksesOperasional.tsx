@@ -1,7 +1,6 @@
 import * as React from "react";
 import { CheckSquare, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -17,6 +16,14 @@ type AccessUser = {
   role: string;
 };
 
+type ChangeHistory = {
+  id: number;
+  user: string;
+  changedAt: string;
+  before: string;
+  after: string;
+};
+
 const tabs: AccessTab[] = [
   "Pengaturan Waktu Operasional",
   "Riwayat Perubahan",
@@ -26,6 +33,30 @@ const accessUsers: AccessUser[] = [
   { id: "admin", name: "Admin", role: "Administrator" },
   { id: "manager", name: "Manager Operasional", role: "Manager" },
   { id: "supervisor", name: "Supervisor", role: "Supervisor" },
+];
+
+const changeHistory: ChangeHistory[] = [
+  {
+    id: 1,
+    user: "Admin",
+    changedAt: "12 Juni 2024, 09:15",
+    before: "08:00 - 16:00",
+    after: "08:00 - 17:00",
+  },
+  {
+    id: 2,
+    user: "Manager Operasional",
+    changedAt: "10 Juni 2024, 14:32",
+    before: "07:30 - 16:00",
+    after: "08:00 - 16:00",
+  },
+  {
+    id: 3,
+    user: "Admin",
+    changedAt: "3 Juni 2024, 08:45",
+    before: "08:00 - 15:30",
+    after: "07:30 - 16:00",
+  },
 ];
 
 const timeOptions = Array.from({ length: 48 }, (_, index) => {
@@ -224,8 +255,27 @@ export default function ObsWaktuAksesOperasional() {
             <div className="flex min-h-[69px] items-center border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
               <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
             </div>
-            <div className="px-5 py-6 text-[12px] text-slate-600">
-              Riwayat perubahan waktu akses operasional akan ditampilkan di sini.
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[680px] border-collapse text-left text-[12px]">
+                <thead>
+                  <tr className="border-b border-[#D7DEE9] bg-[#F7F8FC] text-[#53657d]">
+                    <th className="px-5 py-4 font-bold">User yang Melakukan Perubahan</th>
+                    <th className="px-5 py-4 font-bold">Waktu Perubahan</th>
+                    <th className="px-5 py-4 font-bold">Nilai Sebelum Perubahan</th>
+                    <th className="px-5 py-4 font-bold">Nilai Sesudah Perubahan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {changeHistory.map((change) => (
+                    <tr key={change.id} className="border-b border-[#E7EBF2] last:border-b-0 hover:bg-[#FAFBFF]">
+                      <td className="px-5 py-4 font-semibold text-[#002060]">{change.user}</td>
+                      <td className="px-5 py-4 text-slate-600">{change.changedAt}</td>
+                      <td className="px-5 py-4 text-slate-700">{change.before}</td>
+                      <td className="px-5 py-4 font-semibold text-[#2f9e44]">{change.after}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
