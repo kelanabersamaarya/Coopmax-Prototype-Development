@@ -23,8 +23,8 @@
   min-height: 2rem;
 }
 
-.mitra-karya-report-select-content [data-radix-select-scroll-down-button],
-.mitra-karya-report-select-content [data-radix-select-scroll-up-button],
+[data-radix-select-scroll-up-button],
+[data-radix-select-scroll-down-button],
 .mitra-karya-report-select-content > button,
 .mitra-karya-report-select-content > svg,
 .mitra-karya-report-select-content .select-item-indicator,
@@ -33,6 +33,6 @@
   display: none !important;
 }
 
-.mitra-karya-report-select-content > [data-radix-select-viewport] {
+.mitra-karya-report-select-content [data-radix-select-viewport] {
   max-height: 320px !important;
 }
