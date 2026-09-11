@@ -183,7 +183,11 @@ function TogglePill({
   );
 }
 
-export default function PengaturanPinjamanTab() {
+export default function PengaturanPinjamanTab({
+  storageScope,
+}: {
+  storageScope?: string;
+}) {
   const [toggleValues, setToggleValues] = React.useState<Record<string, boolean>>(
     () =>
       Object.fromEntries(
@@ -192,7 +196,7 @@ export default function PengaturanPinjamanTab() {
           .map((item) => [
             item.id,
             item.id === SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN
-              ? getGeneralSetting(item.id, item.defaultValue ?? false)
+              ? getGeneralSetting(item.id, item.defaultValue ?? false, storageScope)
               : item.defaultValue ?? false,
           ]),
       ),
@@ -229,7 +233,7 @@ export default function PengaturanPinjamanTab() {
     }));
 
     if (id === SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN) {
-      setGeneralSetting(id, value);
+      setGeneralSetting(id, value, storageScope);
     }
   }
 

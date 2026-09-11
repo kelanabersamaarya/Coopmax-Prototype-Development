@@ -45,6 +45,7 @@ import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 import PengaturanUmum from "./pages/PengaturanUmum";
 import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
+import ObsPengaturanUmum from "./pages/ObsPengaturanUmum";
 import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileEKolektorFace from "./pages/MobileEKolektorFace";
@@ -268,6 +269,10 @@ const App = () => (
             <Route path="mobile/new-mbanking" element={<NewMBanking />} />
 
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
+            <Route
+              path="obs-samudra-harta/pengaturan-umum"
+              element={<ObsPengaturanUmum />}
+            />
             <Route
               path="obs-samudra-harta/loan-products"
               element={<LoanProducts />}

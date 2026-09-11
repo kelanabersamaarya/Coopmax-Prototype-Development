@@ -9,7 +9,11 @@ import PengaturanMobileTab from "@/components/settings/PengaturanMobileTab";
 import PengaturanTambahanTab from "@/components/settings/PengaturanTambahanTab";
 import "../styles/settings-spacing.css";
 
-export default function PengaturanUmum() {
+export default function PengaturanUmum({
+  storageScope,
+}: {
+  storageScope?: string;
+}) {
   const [activeTab, setActiveTab] = React.useState<PengaturanTab>("Pinjaman");
 
   return (
@@ -20,7 +24,9 @@ export default function PengaturanUmum() {
         <div className="settings-comfortable-spacing">
           {activeTab === "Sinkronisasi" ? <PengaturanSinkronisasiTab /> : null}
           {activeTab === "Simpanan" ? <PengaturanSimpananTab /> : null}
-          {activeTab === "Pinjaman" ? <PengaturanPinjamanTab /> : null}
+          {activeTab === "Pinjaman" ? (
+            <PengaturanPinjamanTab storageScope={storageScope} />
+          ) : null}
           {activeTab === "Mobile" ? <PengaturanMobileTab /> : null}
           {activeTab === "Pengaturan Tambahan" ? (
             <PengaturanTambahanTab />
