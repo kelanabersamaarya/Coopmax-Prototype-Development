@@ -191,9 +191,9 @@ export default function ObsWaktuAksesOperasional() {
               <button
                 type="button"
                 onClick={saveAccessSettings}
-                className="inline-flex h-[62px] items-center justify-center gap-2 rounded-[15px] border-2 border-[#8bd66b] bg-[#20bd00] px-9 text-[20px] font-bold text-white shadow-sm transition hover:bg-[#1baa00] focus:outline-none focus:ring-4 focus:ring-[#20bd00]/25"
+                className="inline-flex h-7 w-[90px] items-center justify-center gap-1.5 rounded-[6px] border border-[#2fb300] bg-[#2fb300] px-2 text-[11px] font-bold tracking-tight text-white shadow-sm transition hover:bg-[#279800] focus:outline-none focus:ring-4 focus:ring-[#2fb300]/25"
               >
-                <CheckSquare className="h-8 w-8" strokeWidth={3} />
+                <CheckSquare className="h-4 w-4" strokeWidth={3} />
                 Simpan
               </button>
             </div>
