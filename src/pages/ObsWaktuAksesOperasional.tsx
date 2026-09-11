@@ -28,6 +28,37 @@ const accessUsers: AccessUser[] = [
   { id: "supervisor", name: "Supervisor", role: "Supervisor" },
 ];
 
+const timeOptions = Array.from({ length: 48 }, (_, index) => {
+  const hour = String(Math.floor(index / 2)).padStart(2, "0");
+  const minute = index % 2 === 0 ? "00" : "30";
+  return `${hour}:${minute}`;
+});
+
+function TimeSelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="relative">
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-10 text-[13px] font-normal text-slate-900 shadow-none outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+      >
+        {timeOptions.map((time) => (
+          <option key={time} value={time}>
+            {time}
+          </option>
+        ))}
+      </select>
+      <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+    </div>
+  );
+}
+
 export default function ObsWaktuAksesOperasional() {
   const [activeTab, setActiveTab] = React.useState<AccessTab>(
     "Pengaturan Waktu Akses",
@@ -95,42 +126,12 @@ export default function ObsWaktuAksesOperasional() {
 
               <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
                 <span className="font-normal text-black">Waktu Mulai Operasional</span>
-                <div className="relative">
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={5}
-                    placeholder="HH:MM"
-                    value={startTime}
-                    onChange={(event) =>
-                      setStartTime(
-                        event.target.value.replace(/[^\d:]/g, "").slice(0, 5),
-                      )
-                    }
-                    className="h-9 rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none focus-visible:ring-0"
-                  />
-                  <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-                </div>
+                <TimeSelect value={startTime} onChange={setStartTime} />
               </div>
 
               <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
                 <span className="font-normal text-black">Waktu Selesai Operasional</span>
-                <div className="relative">
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={5}
-                    placeholder="HH:MM"
-                    value={endTime}
-                    onChange={(event) =>
-                      setEndTime(
-                        event.target.value.replace(/[^\d:]/g, "").slice(0, 5),
-                      )
-                    }
-                    className="h-9 rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none focus-visible:ring-0"
-                  />
-                  <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-                </div>
+                <TimeSelect value={endTime} onChange={setEndTime} />
               </div>
 
               <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
