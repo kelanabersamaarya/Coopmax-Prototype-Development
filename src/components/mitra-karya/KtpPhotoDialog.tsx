@@ -126,15 +126,15 @@ function UploadKtpDialog({
         </header>
 
         <main className="max-h-[calc(92vh-160px)] overflow-auto px-6 py-8">
-          <div className="grid gap-8 lg:grid-cols-[1.08fr_1fr]">
-            <section>
+          <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            <section className="min-w-0">
               <h3 className="text-[18px] font-bold text-slate-800">
                 Contoh Foto KTP
               </h3>
 
-              <div className="mt-5 grid h-[225px] gap-6 sm:grid-cols-2">
-                <div className="flex min-h-0 flex-col">
-                  <div className="flex items-center gap-2 text-[14px] font-semibold text-slate-700">
+              <div className="mt-5 grid h-[225px] min-w-0 gap-6 sm:grid-cols-2">
+                <div className="flex min-h-0 min-w-0 flex-col">
+                  <div className="flex min-w-0 items-center gap-2 text-[14px] font-semibold text-slate-700">
                     <CheckCircle2 className="h-5 w-5 text-[#20b342]" />
                     Contoh foto KTP yang benar
                   </div>
@@ -143,9 +143,9 @@ function UploadKtpDialog({
                   </div>
                 </div>
 
-                <div className="flex min-h-0 flex-col">
-                  <div className="flex items-center gap-2 text-[14px] font-semibold text-slate-700">
-                    <X className="h-5 w-5 rounded-full bg-rose-500 p-0.5 text-white" />
+                <div className="flex min-h-0 min-w-0 flex-col">
+                  <div className="flex min-w-0 items-center gap-2 text-[14px] font-semibold text-slate-700">
+                    <X className="h-5 w-5 shrink-0 rounded-full bg-rose-500 p-0.5 text-white" />
                     Contoh foto KTP yang salah
                   </div>
                   <div className="mt-3 min-h-0 flex-1">
@@ -155,15 +155,15 @@ function UploadKtpDialog({
               </div>
             </section>
 
-            <section className="pt-[40px]">
+            <section className="min-w-0 pt-[40px]">
               <h3 className="text-[18px] font-bold text-slate-800">Foto KTP</h3>
 
-              <div className="mt-3 flex h-[192px] flex-col items-center justify-center rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
+              <div className="mt-3 flex h-[192px] min-w-0 flex-col items-center justify-center overflow-hidden rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
                 {uploadedImageUrl ? (
                   <img
                     src={uploadedImageUrl}
                     alt="Preview KTP yang diunggah"
-                    className="max-h-[120px] max-w-full rounded-[6px] object-contain shadow-sm"
+                    className="block h-[120px] w-full min-w-0 rounded-[6px] object-contain shadow-sm"
                   />
                 ) : (
                   <>
