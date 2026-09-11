@@ -126,8 +126,8 @@ function UploadKtpDialog({
           </header>
 
           <main className="max-h-[calc(92vh-140px)] overflow-auto px-6 py-7">
-            <div className="grid gap-7 lg:grid-cols-[1.1fr_1fr]">
-              <section>
+            <div className="grid w-full min-w-0 gap-7 lg:grid-cols-2">
+              <section className="min-w-0 w-full">
                 <h3 className="text-[17px] font-bold text-[#26364f]">
                   Contoh Foto KTP
                 </h3>
@@ -138,36 +138,36 @@ function UploadKtpDialog({
                       <CheckCircle2 className="h-5 w-5 text-[#20b342]" />
                       Contoh foto KTP yang benar
                     </div>
-                    <div className="mt-3">
+                    <div className="mt-3 min-w-0">
                       <KtpExample type="valid" />
                     </div>
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2 text-[12px] font-semibold text-[#40506a]">
                       <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-white">
                         <X className="h-3.5 w-3.5" strokeWidth={3} />
                       </span>
                       Contoh foto KTP yang salah
                     </div>
-                    <div className="mt-3">
+                    <div className="mt-3 min-w-0">
                       <KtpExample type="invalid" />
                     </div>
                   </div>
                 </div>
               </section>
 
-              <section>
+              <section className="min-w-0 w-full">
                 <h3 className="text-[17px] font-bold text-[#26364f]">
                   Foto KTP
                 </h3>
 
-                <div className="mt-5 flex h-[178px] flex-col items-center justify-center rounded-[9px] border-2 border-dashed border-slate-300 px-5 text-center">
+                <div className="mt-5 flex h-[178px] w-full min-w-0 flex-col items-center justify-center overflow-hidden rounded-[9px] border-2 border-dashed border-slate-300 px-5 text-center">
                   {uploadedImageUrl ? (
                     <img
                       src={uploadedImageUrl}
                       alt="Preview KTP yang diunggah"
-                      className="max-h-[112px] max-w-full rounded-[6px] object-contain"
+                      className="block h-[112px] w-full min-w-0 rounded-[6px] object-contain"
                     />
                   ) : (
                     <>

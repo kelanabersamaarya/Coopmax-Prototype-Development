@@ -1,32 +1,38 @@
-.ktp-upload-dialog {
+[data-radix-dialog-content].max-w-\[1000px\] {
   width: min(1000px, calc(100vw - 1rem)) !important;
   max-width: min(1000px, calc(100vw - 1rem)) !important;
   box-sizing: border-box !important;
 }
 
-.ktp-upload-dialog main > div.grid {
+[data-radix-dialog-content].max-w-\[1000px\] main > div.grid {
   width: 100% !important;
   min-width: 0 !important;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
 
-.ktp-upload-dialog main > div.grid > section,
-.ktp-upload-dialog .ktp-upload-field {
+[data-radix-dialog-content].max-w-\[1000px\] main > div.grid > section {
   width: 100% !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
 
-.ktp-upload-dialog .ktp-upload-field img {
+[data-radix-dialog-content].max-w-\[1000px\] main > div.grid > section:nth-child(2) > div.flex {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 178px !important;
+  box-sizing: border-box !important;
+}
+
+[data-radix-dialog-content].max-w-\[1000px\] main > div.grid > section:nth-child(2) img {
   display: block !important;
   width: 100% !important;
-  height: 120px !important;
+  height: 112px !important;
   max-width: 100% !important;
   object-fit: contain !important;
 }
 
 @media (max-width: 1023px) {
-  .ktp-upload-dialog main > div.grid {
+  [data-radix-dialog-content].max-w-\[1000px\] main > div.grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
