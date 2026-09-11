@@ -416,11 +416,15 @@ export function openReportPdfPreview({
           .thumb-page tr {
             break-inside: avoid;
             break-after: auto;
+          }
+
+          .pdf-page .accounting-pdf-report tr,
+          .thumb-page .accounting-pdf-report tr {
             border-bottom: 0 !important;
           }
 
-          .pdf-page tbody tr:nth-child(2n),
-          .thumb-page tbody tr:nth-child(2n) {
+          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n),
+          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) {
             border-bottom: 1px solid #94a3b8 !important;
           }
 
@@ -454,13 +458,13 @@ export function openReportPdfPreview({
             border-bottom: 1px solid #94a3b8 !important;
           }
 
-          .pdf-page tbody tr:first-child td,
-          .thumb-page tbody tr:first-child td {
+          .pdf-page .accounting-pdf-report tbody tr:first-child td,
+          .thumb-page .accounting-pdf-report tbody tr:first-child td {
             border-top: 1px solid #94a3b8 !important;
           }
 
-          .pdf-page tbody tr:nth-child(2n) td,
-          .thumb-page tbody tr:nth-child(2n) td {
+          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
+          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) td {
             border-bottom: 1px solid #94a3b8 !important;
           }
 
