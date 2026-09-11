@@ -26,4 +26,6 @@ form .mt-4.w-full button::before { content: "🗑"; margin-right: 6px; font-size
 form .flex.min-h-\[266px\]:has(.mt-4.w-full), form .flex.min-h-\[180px\]:has(.mt-4.w-full) { border: 0; }
 form .flex.min-h-\[266px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[266px\]:has(.mt-4.w-full) > .mt-2, form .flex.min-h-\[180px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[180px\]:has(.mt-4.w-full) > .mt-2 { display: none; }
 form .flex.min-h-\[266px\] > svg, form .flex.min-h-\[180px\] > svg { display: none; }
+form div[class*="border-[#f1d28a]"] { font-size: 12px; }
+form div[class*="border-[#f1d28a]"] > p { font-size: 14px; }
 @media (max-width: 560px) { #root .fixed.z-50:not(:has(h2 + button)) h2, #root .fixed.z-50:has(h2 + button) h2 { font-size: 23px; } #root .fixed.z-50:not(:has(h2 + button)) > div > div button { min-width: 112px; } form .mt-4.w-full img { max-height: 260px; } }
