@@ -3,7 +3,6 @@ import { CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
-import coopmaxLogo from "@/assets/dashboard-logo.png";
 
 const journalRows = [
   {
@@ -132,11 +131,11 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
           </div>
           {isV2 && (
             <div className="journal-pdf-header">
-              <img src={coopmaxLogo} alt="Logo koperasi" className="journal-pdf-logo" />
+              <img src="/publiccoopmax-logo.png.png" alt="Logo Koperasi Coopmax" className="journal-pdf-logo" />
               <div className="journal-pdf-title">
-                <div>Koperasi Mitra Karya</div>
+                <div>Koperasi Coopmax</div>
                 <div>Nomor BH : 21/KC/04-2025</div>
-                <div>Email: mitrakarya@kop.com</div>
+                <div>Email: coopmax@kop.com</div>
               </div>
               <div className="journal-pdf-rule" />
               <div className="journal-pdf-report-title">

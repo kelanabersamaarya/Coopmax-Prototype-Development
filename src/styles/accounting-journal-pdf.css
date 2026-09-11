@@ -1,7 +1,7 @@
 .journal-pdf-header {
   position: relative;
-  min-height: 112px;
-  padding: 18px 24px 0;
+  min-height: 146px;
+  padding: 13px 24px 0;
   text-align: center;
   font-weight: 700;
 }
@@ -9,15 +9,15 @@
 .journal-pdf-logo {
   position: absolute;
   left: 24px;
-  top: 18px;
-  width: 76px;
-  height: 76px;
+  top: 13px;
+  width: 94px;
+  height: 94px;
   object-fit: contain;
 }
 
 .journal-pdf-title {
-  padding-bottom: 16px;
-  font-size: 15px;
+  padding-bottom: 18px;
+  font-size: 16px;
   line-height: 1.45;
 }
 
@@ -26,11 +26,12 @@
 }
 
 .journal-pdf-rule {
+  margin-top: 0;
   border-bottom: 4px double #111827;
 }
 
 .journal-pdf-report-title {
-  padding: 18px 0 14px;
+  padding: 20px 0 14px;
   font-size: 16px;
   line-height: 1.2;
   text-align: center;
