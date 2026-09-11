@@ -855,12 +855,19 @@ export default function MitraKaryaLaporanAnggota() {
               </span>
               <div className="min-w-0">
                 <h2 className="text-[14px] font-extrabold leading-snug">
-                  <span className="text-[#00a8c6]">Laporan Siap Presentasi</span>
+                  <span className="text-[#00a8c6]">Fitur Penyesuaian Laporan</span>
                 </h2>
                 <p className="mt-2 max-w-[440px] text-[13px] font-normal leading-relaxed">
-                  Laporan Ketersediaan KTP Anggota sudah tersedia secara langsung.
-                  Pilih laporan di bawah untuk menampilkan status file KTP dan
-                  pratinjau dokumen tanpa perlu melakukan setup pada Penyesuaian Laporan.
+                  Laporan Ketersediaan KTP Anggota sudah tersedia secara langsung untuk
+                  mempermudah presentasi. Anda juga dapat melakukan kustomisasi tampilan
+                  laporan (pengaturan kolom dan urutan data) melalui menu{" "}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
+                    className="font-semibold text-[#5B47FB] underline-offset-2 hover:underline"
+                  >
+                    Penyesuaian Laporan
+                  </button>.
                 </p>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
