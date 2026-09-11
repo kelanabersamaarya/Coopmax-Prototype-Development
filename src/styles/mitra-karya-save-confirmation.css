@@ -180,6 +180,20 @@ form .mt-4.w-full button::before {
   line-height: 1;
 }
 
+form .flex.min-h-\[266px\]:has(.mt-4.w-full) > p,
+form .flex.min-h-\[266px\]:has(.mt-4.w-full) > .mt-2 {
+  display: none;
+}
+
+form .flex.min-h-\[180px\]:has(.mt-4.w-full) > p,
+form .flex.min-h-\[180px\]:has(.mt-4.w-full) > .mt-2 {
+  display: none;
+}
+
+form .mt-4.w-full:has(img) p:first-child {
+  cursor: text;
+}
+
 @media (max-width: 560px) {
   #root .fixed.z-50:not(:has(h2 + button)) h2,
   #root .fixed.z-50:has(h2 + button) h2 {
