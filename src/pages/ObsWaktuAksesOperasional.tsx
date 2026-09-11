@@ -1,12 +1,11 @@
 import * as React from "react";
-import { Clock3, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Akses" | "Riwayat Perubahan";
 
-const tabs: Array<{ value: AccessTab; icon: typeof Clock3 }> = [
-  { value: "Pengaturan Waktu Akses", icon: Clock3 },
-  { value: "Riwayat Perubahan", icon: History },
+const tabs: AccessTab[] = [
+  "Pengaturan Waktu Akses",
+  "Riwayat Perubahan",
 ];
 
 export default function ObsWaktuAksesOperasional() {
@@ -25,7 +24,7 @@ export default function ObsWaktuAksesOperasional() {
 
         <div className="mt-8 overflow-x-auto">
           <div className="flex min-w-max items-center gap-4 pb-1 pl-1 md:gap-6">
-            {tabs.map(({ value, icon: Icon }) => {
+            {tabs.map((value) => {
               const active = value === activeTab;
 
               return (
@@ -34,13 +33,12 @@ export default function ObsWaktuAksesOperasional() {
                   type="button"
                   onClick={() => setActiveTab(value)}
                   className={cn(
-                    "inline-flex h-[49px] items-center gap-2 rounded-full px-5 text-[12px] font-semibold transition",
+                    "inline-flex h-[49px] items-center rounded-full px-5 text-[12px] font-semibold transition",
                     active
                       ? "bg-[#635BFF] text-white"
                       : "bg-transparent text-[#53657d] hover:text-[#002060]",
                   )}
                 >
-                  <Icon className="h-4 w-4" />
                   {value}
                 </button>
               );
