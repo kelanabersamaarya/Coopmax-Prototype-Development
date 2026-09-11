@@ -18,6 +18,7 @@ function CoopmaxLogo() {
 
 export default function LoginSimulasi() {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [showAccessNotice, setShowAccessNotice] = React.useState(false);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-4 py-8 font-sans">
@@ -71,11 +72,21 @@ export default function LoginSimulasi() {
 
           <button
             type="submit"
+            onClick={() => setShowAccessNotice(true)}
             className="mt-7 h-[34px] w-full rounded-[3px] bg-[#3262f2] text-[14px] font-semibold text-white transition hover:bg-[#2852d7]"
           >
             Masuk
           </button>
         </form>
+
+        {showAccessNotice ? (
+          <div className="mt-4 rounded-[3px] border border-solid border-red-500 bg-red-100/70 px-3 py-2.5 text-left text-red-700">
+            <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
+            <p className="mt-1 text-[12px] leading-[1.45]">
+              Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan coba masuk kembali pada jam operasional.
+            </p>
+          </div>
+        ) : null
 
         <p className="mt-11 text-center text-[19px] font-bold text-[#7185a6]">
           PT. Solusi Anak Sakti
