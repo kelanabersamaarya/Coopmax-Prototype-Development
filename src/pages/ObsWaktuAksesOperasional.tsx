@@ -107,10 +107,7 @@ export default function ObsWaktuAksesOperasional() {
               </div>
 
               <div className="pt-5">
-                <h3 className="text-[13px] font-bold text-slate-900">
-                  User yang dapat mengakses sistem di luar jam operasional
-                </h3>
-                <p className="mt-1 text-[12px] text-slate-600">
+                <p className="text-[12px] text-slate-600">
                   Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
                 </p>
 
