@@ -871,9 +871,7 @@ export default function LoanAccountDetailSections({
                   </div>
                 </div>
                 <h2 className="mt-5 text-center text-xl font-bold leading-tight text-black">
-                  Perubahan Status Pinjaman Berhasil
-                  <br />
-                  Dilakukan
+                  Berhasil Menghapus Status
                 </h2>
                 <div className="mt-5 flex justify-center">
                   <button
