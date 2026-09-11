@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-type AccessTab = "Pengaturan Waktu Akses" | "Riwayat Perubahan";
+type AccessTab = "Pengaturan Waktu Operasional" | "Riwayat Perubahan";
 
 type AccessUser = {
   id: string;
@@ -18,7 +18,7 @@ type AccessUser = {
 };
 
 const tabs: AccessTab[] = [
-  "Pengaturan Waktu Akses",
+  "Pengaturan Waktu Operasional",
   "Riwayat Perubahan",
 ];
 
@@ -61,7 +61,7 @@ function TimeSelect({
 
 export default function ObsWaktuAksesOperasional() {
   const [activeTab, setActiveTab] = React.useState<AccessTab>(
-    "Pengaturan Waktu Akses",
+    "Pengaturan Waktu Operasional",
   );
   const [startTime, setStartTime] = React.useState("08:00");
   const [endTime, setEndTime] = React.useState("16:00");
@@ -112,7 +112,7 @@ export default function ObsWaktuAksesOperasional() {
           </div>
         </div>
 
-        {activeTab === "Pengaturan Waktu Akses" ? (
+        {activeTab === "Pengaturan Waktu Operasional" ? (
           <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
             <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
               <div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
@@ -120,7 +120,7 @@ export default function ObsWaktuAksesOperasional() {
                   <Clock3 className="h-5 w-5" />
                 </span>
                 <h2 className="text-[15px] font-bold text-black">
-                  Pengaturan Waktu Akses
+                  Pengaturan Waktu Operasional
                 </h2>
               </div>
 
