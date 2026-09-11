@@ -63,7 +63,7 @@ export default function SidebarObsSuperAdminMenu() {
                   )
                 }
               >
-                Waktu Akses Operasional
+                Waktu Operasional
               </NavLink>
             </div>
           </div>
