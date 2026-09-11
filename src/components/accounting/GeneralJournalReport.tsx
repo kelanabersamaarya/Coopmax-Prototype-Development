@@ -121,7 +121,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
               <table className={`journal-table ${isV2 ? "min-w-[900px]" : "min-w-[1500px]"} w-full border-collapse text-[12px]`}>
                 <thead className="font-bold">
                   <tr>
-                    <th rowSpan={2} className={`journal-cell ${isV2 ? "w-[45px]" : "w-[70px]"}`}>NO</th>
+                    <th rowSpan={2} className={`journal-cell whitespace-nowrap ${isV2 ? "w-[55px]" : "w-[70px]"}`}>NO</th>
                     {!isV2 && <th rowSpan={2} className="journal-cell w-[250px]">NAMA ANGGOTA</th>}
                     {!isV2 && <th rowSpan={2} className="journal-cell w-[190px]">NO. REKENING</th>}
                     {!isV2 && <th rowSpan={2} className="journal-cell w-[220px]">JENIS<br />TRANSAKSI</th>}
