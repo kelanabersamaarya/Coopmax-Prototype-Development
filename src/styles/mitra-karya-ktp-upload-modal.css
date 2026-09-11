@@ -1,34 +1,24 @@
-/* Keep both upload states inside the same fixed dialog and grid tracks. */
-[role="dialog"][class*="max-w-[1000px]"],
-[data-radix-dialog-content][class*="max-w-[1000px]"] {
+.ktp-upload-dialog {
   width: min(1000px, calc(100vw - 1rem)) !important;
   max-width: min(1000px, calc(100vw - 1rem)) !important;
   box-sizing: border-box !important;
 }
 
-[role="dialog"][class*="max-w-[1000px"] main > div.grid,
-[data-radix-dialog-content][class*="max-w-[1000px"]] main > div.grid {
+.ktp-upload-dialog main > div.grid {
   width: 100% !important;
   min-width: 0 !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
 }
 
-[role="dialog"][class*="max-w-[1000px"] main > div.grid > section,
-[data-radix-dialog-content][class*="max-w-[1000px"]] main > div.grid > section {
-  width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-
-[role="dialog"][class*="max-w-[1000px"] main > div.grid > section:nth-child(2) > div.flex,
-[data-radix-dialog-content][class*="max-w-[1000px"]] main > div.grid > section:nth-child(2) > div.flex {
+.ktp-upload-dialog main > div.grid > section,
+.ktp-upload-dialog .ktp-upload-field {
   width: 100% !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
 
-[role="dialog"][class*="max-w-[1000px"] main > div.grid > section:nth-child(2) img,
-[data-radix-dialog-content][class*="max-w-[1000px"]] main > div.grid > section:nth-child(2) img {
+.ktp-upload-dialog .ktp-upload-field img {
+  display: block !important;
   width: 100% !important;
   height: 120px !important;
   max-width: 100% !important;
@@ -36,8 +26,7 @@
 }
 
 @media (max-width: 1023px) {
-  [role="dialog"][class*="max-w-[1000px"] main > div.grid,
-  [data-radix-dialog-content][class*="max-w-[1000px"]] main > div.grid {
+  .ktp-upload-dialog main > div.grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }

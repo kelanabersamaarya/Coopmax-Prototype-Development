@@ -105,7 +105,7 @@ function UploadKtpDialog({
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[1000px]",
           "max-w-[1000px] max-h-[92vh] overflow-hidden",
-          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl ktp-upload-dialog",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -158,7 +158,7 @@ function UploadKtpDialog({
             <section className="min-w-0 w-full pt-[40px]">
               <h3 className="text-[18px] font-bold text-slate-800">Foto KTP</h3>
 
-              <div className="mt-3 flex h-[192px] w-full min-w-0 flex-col items-center justify-center overflow-hidden rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
+              <div className="ktp-upload-field mt-3 flex h-[192px] w-full min-w-0 flex-col items-center justify-center overflow-hidden rounded-[10px] border-2 border-dashed border-slate-300 px-5 py-5 text-center">
                 {uploadedImageUrl ? (
                   <img
                     src={uploadedImageUrl}
