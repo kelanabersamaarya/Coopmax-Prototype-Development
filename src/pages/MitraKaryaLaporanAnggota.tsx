@@ -388,7 +388,7 @@ function ReportResults({
       <MemberReportEntriesPicker className="print-hide mb-4" />
 
       <div className="mitra-karya-member-report">
-        <table className={`min-w-[1720px] w-full ${configuredReport ? "custom-report-table" : "default-report-table"}`}>
+        <table className={`w-full ${selectedReport === "Laporan Ketersediaan KTP Anggota" ? "ktp-report-table" : configuredReport ? "custom-report-table" : "default-report-table"}`}>
           <thead>
             <tr>
               <th>No.</th>

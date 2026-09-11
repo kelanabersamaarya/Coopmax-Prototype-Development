@@ -1,0 +1,51 @@
+.mitra-karya-member-report table.ktp-report-table {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: fixed;
+  font-size: 10px;
+}
+
+.mitra-karya-member-report table.ktp-report-table th,
+.mitra-karya-member-report table.ktp-report-table td {
+  padding: 5px 6px;
+}
+
+.mitra-karya-member-report table.ktp-report-table th {
+  height: 48px;
+  white-space: normal;
+}
+
+.mitra-karya-member-report table.ktp-report-table th:nth-child(1),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(1) { width: 5%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(2),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(2) { width: 13%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(3),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(3) { width: 22%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(4),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(4) { width: 13%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(5),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(5) { width: 17%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(6),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(6) { width: 14%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(7),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(7) { width: 16%; }
+
+.mitra-karya-member-report table.ktp-report-table td:nth-child(2),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(3),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(4),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(7) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.mitra-karya-member-report table.ktp-report-table td:nth-child(5),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(6) {
+  white-space: nowrap;
+  text-align: center;
+}
+
+.mitra-karya-member-report table.ktp-report-table td:nth-child(1) {
+  white-space: nowrap;
+  text-align: center;
+}
