@@ -265,28 +265,28 @@ export default function ObsWaktuAksesOperasional() {
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[1120px] border-collapse text-left text-[12px]">
-                <thead>
-                  <tr className="border-b border-[#D7DEE9] bg-[#F7F8FC] text-[#53657d]">
-                    <th className="whitespace-nowrap px-5 py-4 font-bold">No.</th>
-                    <th className="px-5 py-4 font-bold">User</th>
-                    <th className="px-5 py-4 font-bold">Jam Operasional Sebelum Perubahan</th>
-                    <th className="px-5 py-4 font-bold">Jam Operasional Sesudah Perubahan</th>
-                    <th className="px-5 py-4 font-bold">User yang Dikecualikan Sebelum Perubahan</th>
-                    <th className="px-5 py-4 font-bold">User yang Dikecualikan Sesudah Perubahan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {changeHistory.map((change) => (
-                    <tr key={change.id} className="border-b border-[#E7EBF2] last:border-b-0 hover:bg-[#FAFBFF]">
-                      <td className="px-5 py-4 text-slate-600">{change.id}</td>
-                      <td className="px-5 py-4 font-semibold text-[#002060]">{change.user}</td>
-                      <td className="px-5 py-4 text-slate-700">{change.operationalHoursBefore}</td>
-                      <td className="px-5 py-4 font-semibold text-[#2f9e44]">{change.operationalHoursAfter}</td>
-                      <td className="px-5 py-4 text-slate-700">{change.excludedUsersBefore}</td>
-                      <td className="px-5 py-4 font-semibold text-[#2f9e44]">{change.excludedUsersAfter}</td>
+                  <thead>
+                    <tr className="border border-[#C9D3E3] bg-[#F7F8FC] text-[10px] uppercase tracking-[0.12em] text-[#61728c]">
+                      <th className="whitespace-nowrap border border-[#C9D3E3] px-2 py-2 font-semibold">No.</th>
+                      <th className="border border-[#C9D3E3] px-3 py-2 font-semibold">User</th>
+                      <th className="border border-[#C9D3E3] px-3 py-2 font-semibold">Jam Operasional Sebelum Perubahan</th>
+                      <th className="border border-[#C9D3E3] px-3 py-2 font-semibold">Jam Operasional Sesudah Perubahan</th>
+                      <th className="border border-[#C9D3E3] px-3 py-2 font-semibold">User yang Dikecualikan Sebelum Perubahan</th>
+                      <th className="border border-[#C9D3E3] px-3 py-2 font-semibold">User yang Dikecualikan Sesudah Perubahan</th>
                     </tr>
-                  ))}
-                </tbody>
+                  </thead>
+                  <tbody className="text-[#17345f]">
+                    {changeHistory.map((change) => (
+                      <tr key={change.id} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
+                        <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-2">{change.id}</td>
+                        <td className="border border-[#C9D3E3] px-3 py-2 font-medium">{change.user}</td>
+                        <td className="border border-[#C9D3E3] px-3 py-2">{change.operationalHoursBefore}</td>
+                        <td className="border border-[#C9D3E3] px-3 py-2">{change.operationalHoursAfter}</td>
+                        <td className="border border-[#C9D3E3] px-3 py-2">{change.excludedUsersBefore}</td>
+                        <td className="border border-[#C9D3E3] px-3 py-2">{change.excludedUsersAfter}</td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>
