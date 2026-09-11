@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { AlertTriangle, Eye, EyeOff } from "lucide-react";
 
 function CoopmaxLogo() {
   return (
@@ -36,7 +36,10 @@ export default function LoginSimulasi() {
 
         {showAccessNotice ? (
           <div className="mt-4 rounded-[3px] border border-solid border-red-500 bg-red-100/70 px-3 py-2.5 text-left text-red-700">
-            <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
+            <div className="flex items-center gap-1.5">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
+            </div>
             <p className="mt-1 text-[12px] leading-[1.45]">
               Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan coba masuk kembali pada jam operasional.
             </p>
