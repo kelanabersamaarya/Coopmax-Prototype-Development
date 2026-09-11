@@ -46,6 +46,7 @@ import PengaturanUmum from "./pages/PengaturanUmum";
 import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsPengaturanUmum from "./pages/ObsPengaturanUmum";
+import ObsWaktuAksesOperasional from "./pages/ObsWaktuAksesOperasional";
 import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileEKolektorFace from "./pages/MobileEKolektorFace";
@@ -272,6 +273,10 @@ const App = () => (
             <Route
               path="obs-samudra-harta/pengaturan-umum"
               element={<ObsPengaturanUmum />}
+            />
+            <Route
+              path="obs-samudra-harta/waktu-akses-operasional"
+              element={<ObsWaktuAksesOperasional />}
             />
             <Route
               path="obs-samudra-harta/loan-products"

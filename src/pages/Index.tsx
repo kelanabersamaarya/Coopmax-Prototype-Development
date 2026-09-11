@@ -8,6 +8,7 @@ import SidebarSimpananMenu from "@/components/SidebarSimpananMenu";
 import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import SidebarObsMenu from "@/components/SidebarObsMenu";
 import SidebarObsSettingsMenu from "@/components/SidebarObsSettingsMenu";
+import SidebarObsSuperAdminMenu from "@/components/SidebarObsSuperAdminMenu";
 import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
 import SidebarMobileMenu from "@/components/SidebarMobileMenu";
 import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
@@ -215,6 +216,7 @@ export default function Index() {
                                   <SidebarObsMenu />
                                 ) : null}
                                 {isObsArea ? <SidebarObsSettingsMenu /> : null}
+                                {isObsArea ? <SidebarObsSuperAdminMenu /> : null}
                                 {!isObsArea ? <SidebarLaporanMenu /> : null}
                                 {!isObsArea ? (
                                   <SidebarPengaturanUmumMenu />
