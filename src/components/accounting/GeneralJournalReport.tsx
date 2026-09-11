@@ -157,7 +157,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
                       <td className="journal-cell align-top">{row.creditCode}</td>
                       {isV2 ? (
                         rowIndex % 2 === 0 ? (
-                          <td rowSpan={2} className="journal-cell align-top">
+                          <td rowSpan={2} className="journal-cell journal-group-cell align-top">
                             {row.detail}
                           </td>
                         ) : null
