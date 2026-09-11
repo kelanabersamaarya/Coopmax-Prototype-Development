@@ -447,6 +447,18 @@ export function openReportPdfPreview({
             color: #111827 !important;
           }
 
+          .pdf-page thead th,
+          .thumb-page thead th {
+            background-color: #ffffff !important;
+            border-top: 1px solid #94a3b8 !important;
+            border-bottom: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page tbody tr:first-child td,
+          .thumb-page tbody tr:first-child td {
+            border-top: 1px solid #94a3b8 !important;
+          }
+
           .pdf-page tbody tr:nth-child(2n) td,
           .thumb-page tbody tr:nth-child(2n) td {
             border-bottom: 1px solid #94a3b8 !important;
