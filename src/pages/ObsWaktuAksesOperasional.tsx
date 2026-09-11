@@ -256,15 +256,15 @@ export default function ObsWaktuAksesOperasional() {
           </div>
         ) : (
           <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
-            <div className="overflow-hidden rounded-[5px] bg-white">
-              <div className="flex min-h-[69px] items-center gap-4 border border-[#D7DEE9] bg-[#F7F8FC] px-5">
+            <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
+              <div className="flex min-h-[69px] items-center gap-4 bg-[#F7F8FC] px-5">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
                   <Clock3 className="h-5 w-5" />
                 </span>
                 <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
               </div>
               <div className="overflow-x-auto bg-white p-[5px]">
-                <table className="w-full min-w-[900px] border-collapse text-left text-[11px]">
+                <table className="w-full min-w-[900px] border-separate border-spacing-0 text-left text-[11px]">
                   <thead>
                     <tr className="bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
                       <th className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
