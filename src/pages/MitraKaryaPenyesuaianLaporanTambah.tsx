@@ -35,7 +35,7 @@ function Options({ value, onChange }: { value: string; onChange: (value: string)
         if (!open) setSearch("");
       }}
     >
-      <SelectTrigger className="mitra-karya-report-select-trigger h-8 rounded-[5px] border-slate-300 text-[13px] [&>svg]:hidden"><SelectValue /></SelectTrigger>
+      <SelectTrigger className="mitra-karya-report-select-trigger h-8 rounded-[5px] border-slate-300 text-[13px]"><SelectValue /></SelectTrigger>
       <SelectContent className="max-h-[320px] overflow-hidden p-0 [&_[data-highlighted]]:bg-[#2563eb] [&_[data-highlighted]]:text-white [&_[data-state=checked]]:bg-[#2563eb] [&_[data-state=checked]]:pl-2 [&_.select-item-indicator]:hidden">
         <div className="sticky top-0 z-10 border-b border-slate-200 bg-white p-2">
           <Input
