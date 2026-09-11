@@ -41,7 +41,7 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 1,
     user: "Admin",
-    changedAt: "20 Juni 2024, 09:15",
+    changedAt: "11-09-2026 09:47:00",
     operationalHoursBefore: "08:00 - 16:00",
     operationalHoursAfter: "08:00 - 17:00",
     excludedUsersBefore: "Admin",
@@ -50,7 +50,7 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 2,
     user: "Manager Operasional",
-    changedAt: "19 Juni 2024, 16:40",
+    changedAt: "10-09-2026 16:40:00",
     operationalHoursBefore: "07:30 - 16:00",
     operationalHoursAfter: "08:00 - 16:00",
     excludedUsersBefore: "Admin, Supervisor",
@@ -59,7 +59,7 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 3,
     user: "Admin",
-    changedAt: "18 Juni 2024, 08:05",
+    changedAt: "09-09-2026 08:05:00",
     operationalHoursBefore: "08:00 - 15:30",
     operationalHoursAfter: "07:30 - 16:00",
     excludedUsersBefore: "Admin, Manager Operasional",
