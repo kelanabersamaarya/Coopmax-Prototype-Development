@@ -144,7 +144,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
           </div>
 
           <div className="overflow-x-auto">
-              <table className={`journal-table ${isV2 ? "min-w-[900px]" : "min-w-[1500px]"} w-full border-collapse text-[12px]`}>
+              <table className={`journal-table accounting-pdf-table ${isV2 ? "min-w-[900px]" : "min-w-[1500px]"} w-full border-collapse text-[12px]`}>
                 <thead className="font-bold">
                   <tr>
                     <th rowSpan={2} className={`journal-cell whitespace-nowrap ${isV2 ? "w-[55px]" : "w-[70px]"}`}>NO</th>
