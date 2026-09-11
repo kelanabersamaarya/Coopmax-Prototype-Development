@@ -142,7 +142,8 @@ export default function Index() {
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
-    location.pathname.startsWith("/obs-web");
+    location.pathname.startsWith("/obs-web") ||
+    location.pathname.startsWith("/login");
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
