@@ -399,6 +399,14 @@ export function openReportPdfPreview({
             border: 1px solid #94a3b8 !important;
           }
 
+          .pdf-page th:first-child,
+          .pdf-page td:first-child,
+          .thumb-page th:first-child,
+          .thumb-page td:first-child {
+            width: 34px !important;
+            max-width: 34px !important;
+          }
+
           .pdf-page thead,
           .thumb-page thead {
             display: table-header-group !important;
