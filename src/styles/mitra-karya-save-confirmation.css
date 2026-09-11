@@ -11,8 +11,8 @@
 #root .fixed.z-50:has(h2 + button) > div::before { content: "✓"; display: flex; align-items: center; justify-content: center; width: 92px; height: 92px; margin: 0 auto 28px; border: 4px solid #dff0d7; border-radius: 9999px; color: #9bd77d; font-size: 64px; line-height: 1; }
 #root .fixed.z-50:has(h2 + button) h2 { margin: 0; color: #5b5b5b; font-size: 30px; font-weight: 700; line-height: 1.2; }
 #root .fixed.z-50:has(h2 + button) > div > button { height: 52px; min-width: 102px; margin-top: 32px; border-radius: 5px; background: #328bd5; border: 2px solid #b9d0e4; box-shadow: 0 0 0 2px #328bd5; color: white; font-size: 17px; font-weight: 600; }
-form .mt-4.w-full { position: relative; margin-top: 10px; border: 1px dashed #b9cbe1; border-radius: 9px; background: #fff; padding: 10px; }
-form .mt-4.w-full > div { position: relative; display: block; }
+form .mt-4.w-full { position: relative; width: 100%; min-width: 0; box-sizing: border-box; align-self: stretch; margin-top: 10px; border: 1px dashed #b9cbe1; border-radius: 9px; background: #fff; padding: 10px; }
+form .mt-4.w-full > div { position: relative; display: block; width: 100%; }
 form .mt-4.w-full img { display: block; width: 100%; height: auto; max-height: 380px; min-height: 160px; border: 1px solid #d5ddeb; border-radius: 4px; object-fit: contain; background: #fff; }
 form .mt-4.w-full > div > div { width: 100%; padding: 7px 0 0; }
 form .mt-4.w-full p:first-child { min-height: 30px; height: 30px; display: flex; align-items: center; padding: 0 10px; padding-right: 76px; border: 1px solid #d5ddeb; border-radius: 4px; background: #fff; color: #16458d; font-size: 14px; font-weight: 400; line-height: 1.2; }
