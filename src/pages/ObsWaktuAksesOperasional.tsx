@@ -97,11 +97,17 @@ export default function ObsWaktuAksesOperasional() {
                 <span className="font-normal text-black">Waktu Mulai Operasional</span>
                 <div className="relative">
                   <Input
-                    type="time"
-                    step="60"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    placeholder="HH:MM"
                     value={startTime}
-                    onChange={(event) => setStartTime(event.target.value)}
-                    className="h-9 appearance-none rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none [color-scheme:light] focus-visible:ring-0 [&::-webkit-calendar-picker-indicator]:opacity-0"
+                    onChange={(event) =>
+                      setStartTime(
+                        event.target.value.replace(/[^\d:]/g, "").slice(0, 5),
+                      )
+                    }
+                    className="h-9 rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none focus-visible:ring-0"
                   />
                   <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 </div>
@@ -111,11 +117,17 @@ export default function ObsWaktuAksesOperasional() {
                 <span className="font-normal text-black">Waktu Selesai Operasional</span>
                 <div className="relative">
                   <Input
-                    type="time"
-                    step="60"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    placeholder="HH:MM"
                     value={endTime}
-                    onChange={(event) => setEndTime(event.target.value)}
-                    className="h-9 appearance-none rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none [color-scheme:light] focus-visible:ring-0 [&::-webkit-calendar-picker-indicator]:opacity-0"
+                    onChange={(event) =>
+                      setEndTime(
+                        event.target.value.replace(/[^\d:]/g, "").slice(0, 5),
+                      )
+                    }
+                    className="h-9 rounded-[6px] border-slate-300 pr-10 text-[13px] font-normal shadow-none focus-visible:ring-0"
                   />
                   <Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 </div>
