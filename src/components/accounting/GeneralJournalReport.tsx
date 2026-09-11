@@ -118,24 +118,24 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
             </div>
 
             <div className="overflow-x-auto">
-              <table className="journal-table min-w-[1500px] w-full border-collapse text-[12px]">
+              <table className={`journal-table ${isV2 ? "min-w-[900px]" : "min-w-[1500px]"} w-full border-collapse text-[12px]`}>
                 <thead className="font-bold">
                   <tr>
-                    <th rowSpan={2} className="journal-cell w-[70px]">NO</th>
+                    <th rowSpan={2} className={`journal-cell ${isV2 ? "w-[45px]" : "w-[70px]"}`}>NO</th>
                     {!isV2 && <th rowSpan={2} className="journal-cell w-[250px]">NAMA ANGGOTA</th>}
                     {!isV2 && <th rowSpan={2} className="journal-cell w-[190px]">NO. REKENING</th>}
                     {!isV2 && <th rowSpan={2} className="journal-cell w-[220px]">JENIS<br />TRANSAKSI</th>}
-                    <th rowSpan={2} className="journal-cell w-[300px]">REF</th>
-                    <th rowSpan={2} className="journal-cell w-[270px]">NAMA AKUN DAN<br />KETERANGAN</th>
+                    <th rowSpan={2} className={`journal-cell ${isV2 ? "w-[180px]" : "w-[300px]"}`}>REF</th>
+                    <th rowSpan={2} className={`journal-cell ${isV2 ? "w-[210px]" : "w-[270px]"}`}>NAMA AKUN DAN<br />KETERANGAN</th>
                     <th colSpan={2} className="journal-cell h-[72px]">DEBET</th>
                     <th colSpan={2} className="journal-cell">KREDIT</th>
-                    <th rowSpan={2} className="journal-cell w-[250px]">KETERANGAN</th>
+                    <th rowSpan={2} className={`journal-cell ${isV2 ? "w-[190px]" : "w-[250px]"}`}>{isV2 ? "DETAIL TRANSAKSI" : "KETERANGAN"}</th>
                   </tr>
                   <tr>
-                    <th className="journal-cell w-[170px]">JUMLAH</th>
-                    <th className="journal-cell w-[150px]">KODE AKUN</th>
-                    <th className="journal-cell w-[170px]">JUMLAH</th>
-                    <th className="journal-cell w-[150px]">KODE AKUN</th>
+                    <th className={`journal-cell ${isV2 ? "w-[115px]" : "w-[170px]"}`}>JUMLAH</th>
+                    <th className={`journal-cell ${isV2 ? "w-[105px]" : "w-[150px]"}`}>KODE AKUN</th>
+                    <th className={`journal-cell ${isV2 ? "w-[115px]" : "w-[170px]"}`}>JUMLAH</th>
+                    <th className={`journal-cell ${isV2 ? "w-[105px]" : "w-[150px]"}`}>KODE AKUN</th>
                   </tr>
                 </thead>
                 <tbody>
