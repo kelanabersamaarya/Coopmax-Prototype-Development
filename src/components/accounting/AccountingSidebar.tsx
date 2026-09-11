@@ -41,6 +41,7 @@ const groups: AccountingGroup[] = [
     label: "LAPORAN",
     items: [
       "Jurnal Umum",
+      "Laporan Jurnal Umum V2",
       "Buku Kas Harian",
       "Buku Besar",
       "Neraca Harian",
