@@ -3,16 +3,12 @@ import { Eye, EyeOff } from "lucide-react";
 
 function CoopmaxLogo() {
   return (
-    <div className="flex items-center justify-center gap-2.5">
-      <span className="relative block h-12 w-12">
-        <span className="absolute left-1 top-1 h-7 w-4 rotate-[42deg] rounded-full bg-[#a92cff]" />
-        <span className="absolute left-5 top-0 h-7 w-4 rotate-[42deg] rounded-full bg-[#58c8f3]" />
-        <span className="absolute left-5 top-5 h-7 w-4 rotate-[42deg] rounded-full bg-[#3879f5]" />
-        <span className="absolute left-1 top-5 h-7 w-4 rotate-[42deg] rounded-full bg-[#ee32be]" />
-      </span>
-      <span className="text-[40px] font-bold leading-none tracking-[-2px] text-[#3487f2]">
-        Coop<span className="font-normal text-[#f02bbd]">max</span>
-      </span>
+    <div className="flex items-center justify-center">
+      <img
+        src="/publiccoopmax-logo.png.png"
+        alt="Coopmax"
+        className="h-auto w-[265px] object-contain"
+      />
     </div>
   );
 }
