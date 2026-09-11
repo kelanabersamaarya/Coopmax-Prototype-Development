@@ -86,7 +86,7 @@ export default function LoginSimulasi() {
               Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan coba masuk kembali pada jam operasional.
             </p>
           </div>
-        ) : null
+        ) : null}
 
         <p className="mt-11 text-center text-[19px] font-bold text-[#7185a6]">
           PT. Solusi Anak Sakti
