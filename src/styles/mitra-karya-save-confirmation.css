@@ -1,6 +1,6 @@
 #root .fixed.z-50:not(:has(h2 + button)) { background: rgb(0 0 0 / 0.38); }
 #root .fixed.z-50:not(:has(h2 + button)) > div { width: min(100%, 530px); min-height: 302px; border-radius: 5px; padding: 36px 28px 20px; color: #45556b; }
-#root .fixed.z-50:not(:has(h2 + button)) > div::before { content: "!"; display: flex; align-items: center; justify-content: center; width: 92px; height: 92px; margin: 0 auto 28px; border: 4px solid #f8cda9; border-radius: 9999px; color: #f6b47d; font-size: 57px; font-weight: 400; line-height: 1; }
+#root .fixed.z-50:not(:has(h2 + button)) > div::before { content: "!"; display: flex; align-items: center; justify-content: center; width: 92px; height: 92px; margin: 0 auto 28px; border: 4px solid #f8cda9; border-radius: 9999px; color: #f6b47d; font-size: 57px; line-height: 1; }
 #root .fixed.z-50:not(:has(h2 + button)) h2 { margin: 0; color: #45556b; font-size: 30px; font-weight: 700; line-height: 1.2; }
 #root .fixed.z-50:not(:has(h2 + button)) > div > div { margin-top: 32px; gap: 8px; }
 #root .fixed.z-50:not(:has(h2 + button)) > div > div button { height: 48px; min-width: 126px; border-radius: 5px; font-size: 16px; font-weight: 600; }
@@ -8,7 +8,7 @@
 #root .fixed.z-50:not(:has(h2 + button)) > div > div button:last-child { background: #aaa; color: white; }
 #root .fixed.z-50:has(h2 + button) { background: rgb(0 0 0 / 0.38); }
 #root .fixed.z-50:has(h2 + button) > div { width: min(100%, 528px); min-height: 302px; border-radius: 5px; padding: 40px 28px 20px; color: #5b5b5b; }
-#root .fixed.z-50:has(h2 + button) > div::before { content: "✓"; display: flex; align-items: center; justify-content: center; width: 92px; height: 92px; margin: 0 auto 28px; border: 4px solid #dff0d7; border-radius: 9999px; color: #9bd77d; font-size: 64px; font-weight: 400; line-height: 1; }
+#root .fixed.z-50:has(h2 + button) > div::before { content: "✓"; display: flex; align-items: center; justify-content: center; width: 92px; height: 92px; margin: 0 auto 28px; border: 4px solid #dff0d7; border-radius: 9999px; color: #9bd77d; font-size: 64px; line-height: 1; }
 #root .fixed.z-50:has(h2 + button) h2 { margin: 0; color: #5b5b5b; font-size: 30px; font-weight: 700; line-height: 1.2; }
 #root .fixed.z-50:has(h2 + button) > div > button { height: 52px; min-width: 102px; margin-top: 32px; border-radius: 5px; background: #328bd5; border: 2px solid #b9d0e4; box-shadow: 0 0 0 2px #328bd5; color: white; font-size: 17px; font-weight: 600; }
 form .mt-4.w-full { position: relative; margin-top: 10px; border: 1px dashed #b9cbe1; border-radius: 9px; background: #fff; padding: 10px; }
@@ -19,8 +19,6 @@ form .mt-4.w-full p:first-child { min-height: 40px; display: flex; align-items: 
 form .mt-4.w-full p:nth-child(2) { margin-top: 2px; color: #7890b2; font-size: 11px; }
 form .mt-4.w-full button { position: absolute; top: 10px; right: 10px; z-index: 1; display: inline-flex; align-items: center; height: 38px; border-radius: 4px; background: #f04444; padding: 0 14px; font-size: 14px; font-weight: 600; }
 form .mt-4.w-full button::before { content: "🗑"; margin-right: 7px; font-size: 17px; line-height: 1; }
-form .flex.min-h-\[266px\] > svg,
-form .flex.min-h-\[180px\] > svg { display: none; }
 form .flex.min-h-\[266px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[266px\]:has(.mt-4.w-full) > .mt-2, form .flex.min-h-\[180px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[180px\]:has(.mt-4.w-full) > .mt-2 { display: none; }
-form .mt-4.w-full:has(img) p:first-child { cursor: text; }
+form .flex.min-h-\[266px\] > svg, form .flex.min-h-\[180px\] > svg { display: none; }
 @media (max-width: 560px) { #root .fixed.z-50:not(:has(h2 + button)) h2, #root .fixed.z-50:has(h2 + button) h2 { font-size: 23px; } #root .fixed.z-50:not(:has(h2 + button)) > div > div button { min-width: 112px; } form .mt-4.w-full img { max-height: 260px; } }
