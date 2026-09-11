@@ -17,7 +17,9 @@ const items: SubItem[] = [
 
 export default function SidebarObsMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/obs");
+  const isActive =
+    location.pathname.startsWith("/obs") &&
+    !location.pathname.startsWith("/obs-samudra-harta/pengaturan-umum");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
