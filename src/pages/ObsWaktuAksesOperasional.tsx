@@ -263,10 +263,10 @@ export default function ObsWaktuAksesOperasional() {
                 </span>
                 <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
               </div>
-              <div className="overflow-x-auto rounded-[4px] border border-[#C9D3E3] bg-white p-[5px]">
+              <div className="overflow-x-auto bg-white p-[5px]">
                 <table className="w-full min-w-[900px] border-collapse text-left text-[11px]">
                   <thead>
-                    <tr className="border border-[#C9D3E3] bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
+                    <tr className="bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
                       <th className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sebelum Perubahan</th>
