@@ -19,9 +19,10 @@ type AccessUser = {
 type ChangeHistory = {
   id: number;
   user: string;
-  changedAt: string;
-  before: string;
-  after: string;
+  operationalHoursBefore: string;
+  operationalHoursAfter: string;
+  excludedUsersBefore: string;
+  excludedUsersAfter: string;
 };
 
 const tabs: AccessTab[] = [
@@ -39,23 +40,26 @@ const changeHistory: ChangeHistory[] = [
   {
     id: 1,
     user: "Admin",
-    changedAt: "12 Juni 2024, 09:15",
-    before: "08:00 - 16:00",
-    after: "08:00 - 17:00",
+    operationalHoursBefore: "08:00 - 16:00",
+    operationalHoursAfter: "08:00 - 17:00",
+    excludedUsersBefore: "Admin",
+    excludedUsersAfter: "Admin, Manager Operasional",
   },
   {
     id: 2,
     user: "Manager Operasional",
-    changedAt: "10 Juni 2024, 14:32",
-    before: "07:30 - 16:00",
-    after: "08:00 - 16:00",
+    operationalHoursBefore: "07:30 - 16:00",
+    operationalHoursAfter: "08:00 - 16:00",
+    excludedUsersBefore: "Admin, Supervisor",
+    excludedUsersAfter: "Admin",
   },
   {
     id: 3,
     user: "Admin",
-    changedAt: "3 Juni 2024, 08:45",
-    before: "08:00 - 15:30",
-    after: "07:30 - 16:00",
+    operationalHoursBefore: "08:00 - 15:30",
+    operationalHoursAfter: "07:30 - 16:00",
+    excludedUsersBefore: "Admin, Manager Operasional",
+    excludedUsersAfter: "Admin, Supervisor",
   },
 ];
 
@@ -260,22 +264,26 @@ export default function ObsWaktuAksesOperasional() {
                 <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[680px] border-collapse text-left text-[12px]">
+                <table className="w-full min-w-[1120px] border-collapse text-left text-[12px]">
                 <thead>
                   <tr className="border-b border-[#D7DEE9] bg-[#F7F8FC] text-[#53657d]">
-                    <th className="px-5 py-4 font-bold">User yang Melakukan Perubahan</th>
-                    <th className="px-5 py-4 font-bold">Waktu Perubahan</th>
-                    <th className="px-5 py-4 font-bold">Nilai Sebelum Perubahan</th>
-                    <th className="px-5 py-4 font-bold">Nilai Sesudah Perubahan</th>
+                    <th className="px-5 py-4 font-bold">No.</th>
+                    <th className="px-5 py-4 font-bold">User</th>
+                    <th className="px-5 py-4 font-bold">Jam Operasional Sebelum Perubahan</th>
+                    <th className="px-5 py-4 font-bold">Jam Operasional Sesudah Perubahan</th>
+                    <th className="px-5 py-4 font-bold">User yang Dikecualikan Sebelum Perubahan</th>
+                    <th className="px-5 py-4 font-bold">User yang Dikecualikan Sesudah Perubahan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {changeHistory.map((change) => (
                     <tr key={change.id} className="border-b border-[#E7EBF2] last:border-b-0 hover:bg-[#FAFBFF]">
+                      <td className="px-5 py-4 text-slate-600">{change.id}</td>
                       <td className="px-5 py-4 font-semibold text-[#002060]">{change.user}</td>
-                      <td className="px-5 py-4 text-slate-600">{change.changedAt}</td>
-                      <td className="px-5 py-4 text-slate-700">{change.before}</td>
-                      <td className="px-5 py-4 font-semibold text-[#2f9e44]">{change.after}</td>
+                      <td className="px-5 py-4 text-slate-700">{change.operationalHoursBefore}</td>
+                      <td className="px-5 py-4 font-semibold text-[#2f9e44]">{change.operationalHoursAfter}</td>
+                      <td className="px-5 py-4 text-slate-700">{change.excludedUsersBefore}</td>
+                      <td className="px-5 py-4 font-semibold text-[#2f9e44]">{change.excludedUsersAfter}</td>
                     </tr>
                   ))}
                 </tbody>
