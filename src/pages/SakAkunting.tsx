@@ -27,7 +27,7 @@ export default function SakAkunting() {
           <AccountingSidebar active={active} onChange={setActive} />
           <Card className="rounded-[5px] border-slate-200/70 bg-white p-5 shadow-sm md:p-6">
             {isGeneralJournal ? (
-              <GeneralJournalReport />
+              <GeneralJournalReport isV2={active.itemLabel === "Laporan Jurnal Umum V2"} />
             ) : isPerhitunganHasilUsaha ? (
               <PerhitunganHasilUsahaReport />
             ) : isNeracaSaldo ? (

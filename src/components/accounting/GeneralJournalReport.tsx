@@ -58,7 +58,7 @@ const journalRows = [
   },
 ];
 
-export default function GeneralJournalReport() {
+export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean }) {
   const [date, setDate] = React.useState("2025-11-05");
   const [visible, setVisible] = React.useState(false);
 
@@ -122,9 +122,9 @@ export default function GeneralJournalReport() {
                 <thead className="font-bold">
                   <tr>
                     <th rowSpan={2} className="journal-cell w-[70px]">NO</th>
-                    <th rowSpan={2} className="journal-cell w-[250px]">NAMA ANGGOTA</th>
-                    <th rowSpan={2} className="journal-cell w-[190px]">NO. REKENING</th>
-                    <th rowSpan={2} className="journal-cell w-[220px]">JENIS<br />TRANSAKSI</th>
+                    {!isV2 && <th rowSpan={2} className="journal-cell w-[250px]">NAMA ANGGOTA</th>}
+                    {!isV2 && <th rowSpan={2} className="journal-cell w-[190px]">NO. REKENING</th>}
+                    {!isV2 && <th rowSpan={2} className="journal-cell w-[220px]">JENIS<br />TRANSAKSI</th>}
                     <th rowSpan={2} className="journal-cell w-[300px]">REF</th>
                     <th rowSpan={2} className="journal-cell w-[270px]">NAMA AKUN DAN<br />KETERANGAN</th>
                     <th colSpan={2} className="journal-cell h-[72px]">DEBET</th>
@@ -142,9 +142,9 @@ export default function GeneralJournalReport() {
                   {journalRows.map((row) => (
                     <tr key={row.no}>
                       <td className="journal-cell text-center align-top">{row.no}</td>
-                      <td className="journal-cell align-top">{row.member}</td>
-                      <td className="journal-cell align-top">{row.accountNo}</td>
-                      <td className="journal-cell align-top uppercase">{row.transaction}</td>
+                      {!isV2 && <td className="journal-cell align-top">{row.member}</td>}
+                      {!isV2 && <td className="journal-cell align-top">{row.accountNo}</td>}
+                      {!isV2 && <td className="journal-cell align-top uppercase">{row.transaction}</td>}
                       <td className="journal-cell align-top">{row.ref}</td>
                       <td className="journal-cell align-top">{row.account}</td>
                       <td className="journal-cell text-right align-top">{row.debit}</td>
