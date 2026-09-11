@@ -48,15 +48,15 @@ form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] img {
 form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] button.mt-2.rounded-\[4px\] {
   display: inline-flex !important;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
 }
 
 form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] button.mt-2.rounded-\[4px\]::before {
   content: "";
-  width: 13px;
-  height: 13px;
-  flex: 0 0 13px;
-  background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3Cpath d='M10 11v5'/%3E%3Cpath d='M14 11v5'/%3E%3C/svg%3E");
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4h8v2'/%3E%3Cpath d='M19 6l-1 14H6L5 6'/%3E%3Cpath d='M10 11v5'/%3E%3Cpath d='M14 11v5'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 1023px) {
