@@ -1,6 +1,6 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { ChevronDown } from "lucide-react";
+import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -112,23 +112,50 @@ export default function ObsWaktuAksesOperasional() {
                 </h3>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <button
-                      type="button"
-                      className="mt-4 flex h-10 w-full items-center justify-between rounded-[6px] border border-slate-300 bg-white px-3 text-left text-[13px] font-normal text-slate-800 shadow-none transition hover:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-200"
-                    >
-                      <span className="truncate">
-                        {selectedUsers.length === 0
-                          ? "Pilih user"
-                          : selectedUsers
-                              .map(
-                                (id) =>
-                                  accessUsers.find((user) => user.id === id)?.name,
-                              )
-                              .filter(Boolean)
-                              .join(", ")}
-                      </span>
-                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-slate-400" />
-                    </button>
+                    <div className="mt-4 flex min-h-10 w-full items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 shadow-none focus-within:ring-2 focus-within:ring-violet-200">
+                      <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                        {selectedUsers.length === 0 ? (
+                          <span className="px-1 text-[13px] text-slate-500">
+                            Pilih user
+                          </span>
+                        ) : (
+                          selectedUsers.map((id) => {
+                            const user = accessUsers.find((item) => item.id === id);
+                            if (!user) return null;
+
+                            return (
+                              <span
+                                key={user.id}
+                                className="inline-flex h-8 items-center gap-2 bg-[#5543f5] px-3 text-[13px] font-normal text-white"
+                              >
+                                <button
+                                  type="button"
+                                  aria-label={`Hapus ${user.name}`}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    toggleUser(user.id);
+                                  }}
+                                  className="text-[15px] font-semibold leading-none text-white/70 hover:text-white"
+                                >
+                                  ×
+                                </button>
+                                {user.name}
+                              </span>
+                            );
+                          })
+                        )}
+                      </div>
+                      {selectedUsers.length > 0 ? (
+                        <button
+                          type="button"
+                          aria-label="Hapus semua user"
+                          onClick={() => setSelectedUsers([])}
+                          className="ml-auto shrink-0 px-2 text-slate-900 hover:text-violet-700"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      ) : null}
+                    </div>
                   </PopoverTrigger>
                   <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
                     <div>
