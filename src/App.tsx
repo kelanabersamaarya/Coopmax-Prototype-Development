@@ -47,6 +47,7 @@ import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsPengaturanUmum from "./pages/ObsPengaturanUmum";
 import ObsWaktuAksesOperasional from "./pages/ObsWaktuAksesOperasional";
+import LoginSimulasi from "./pages/LoginSimulasi";
 import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileEKolektorFace from "./pages/MobileEKolektorFace";
@@ -278,6 +279,7 @@ const App = () => (
               path="obs-samudra-harta/waktu-akses-operasional"
               element={<ObsWaktuAksesOperasional />}
             />
+            <Route path="login/simulasi" element={<LoginSimulasi />} />
             <Route
               path="obs-samudra-harta/loan-products"
               element={<LoanProducts />}

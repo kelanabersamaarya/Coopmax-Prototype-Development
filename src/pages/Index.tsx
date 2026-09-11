@@ -19,6 +19,7 @@ import SidebarDashboardMenu from "@/components/SidebarDashboardMenu";
 import SidebarMBankingMenu from "@/components/SidebarMBankingMenu";
 import SidebarMitraKaryaMenu from "@/components/SidebarMitraKaryaMenu";
 import SidebarAstitiDanaLestariMenu from "@/components/SidebarAstitiDanaLestariMenu";
+import SidebarLoginMenu from "@/components/SidebarLoginMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -214,6 +215,9 @@ export default function Index() {
                                 {!isObsArea ? <SidebarMBankingMenu /> : null}
                                 {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarObsMenu />
+                                ) : null}
+                                {!isObsArea && !isPinjamanArea && !isMobileArea ? (
+                                  <SidebarLoginMenu />
                                 ) : null}
                                 {isObsArea ? <SidebarObsSettingsMenu /> : null}
                                 {isObsArea ? <SidebarObsSuperAdminMenu /> : null}
