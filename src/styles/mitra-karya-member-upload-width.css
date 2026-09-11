@@ -1,27 +1,53 @@
-/* Keep the KTP and supporting-file upload fields stable when a file is selected. */
-form > div.grid.grid-cols-1.gap-5 > div {
-  width: 100%;
-  min-width: 0;
+/* Form upload anggota memakai satu kolom penuh agar ukuran kartu tidak mengikuti isi file. */
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
-form > div.grid.grid-cols-1.gap-5 > div > div.grid {
-  width: 100%;
-  min-width: 0;
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
 }
 
-form > div.grid.grid-cols-1.gap-5 > div > div.grid > div,
-form > div.grid.grid-cols-1.gap-5 > div > div.rounded-\[9px\] {
-  width: 100%;
-  min-width: 0;
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div:last-child {
+  margin-bottom: 0;
+}
+
+/* Area contoh dan area upload KTP membagi lebar kartu secara tetap. */
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div > div[class~="grid"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div > div[class~="grid"] > div {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden;
+}
+
+/* Slot upload kosong dan kartu preview file memiliki ukuran horizontal identik. */
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div > div[class~="flex"],
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div > div > div[class~="w-full"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] img {
+  display: block;
   max-width: 100%;
 }
 
-form > div.grid.grid-cols-1.gap-5 > div p,
-form > div.grid.grid-cols-1.gap-5 > div button {
-  max-width: 100%;
-}
-
-form > div.grid.grid-cols-1.gap-5 > div img,
-form > div.grid.grid-cols-1.gap-5 > div svg {
-  flex-shrink: 0;
+@media (max-width: 1023px) {
+  form > div[class~="grid"][class~="grid-cols-1"][class~="gap-5"] > div > div[class~="grid"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
 }
