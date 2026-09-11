@@ -85,8 +85,14 @@ function FileCard({ title, file, onChange }: { title: string; file: File | null;
           </div>
         </>
       ) : (
-        <div className="mt-5 flex min-h-[180px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] bg-white px-4 py-5 text-center">
-          {uploadedContent}
+        <div className="mt-5 rounded-[9px] border border-dashed border-[#c8d2e3] bg-white p-6">
+          <div className="flex min-h-[180px] flex-col items-center justify-center text-center">
+            <FileUp className="mb-2 h-7 w-7 text-[#7890b2]" />
+            <p className="text-[14px] font-semibold text-black">File Pendukung</p>
+            <p className="mt-2 text-[12px] text-black">Unggah file pendukung untuk melengkapi data Nasabah.</p>
+            <p className="mt-2 text-[12px] text-[#7b7b7b]">JPG, JPEG, PNG. Maksimal 1 MB.</p>
+            {file ? <div className="mt-3 flex items-center gap-2"><span className="max-w-[240px] truncate text-[12px]">{file.name}</span><button type="button" onClick={() => onChange(null)} className="inline-flex h-[30px] items-center gap-1 rounded-[4px] bg-red-500 px-3 text-[12px] text-white"><Trash2 className="h-4 w-4" />Hapus</button></div> : <label className="mt-3 inline-flex h-[30px] cursor-pointer items-center justify-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah File{input}</label>}
+          </div>
         </div>
       )}
     </div>
