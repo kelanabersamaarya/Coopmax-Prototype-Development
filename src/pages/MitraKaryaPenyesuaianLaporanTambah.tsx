@@ -49,8 +49,8 @@ function Options({ value, onChange }: { value: string; onChange: (value: string)
           />
         </div>
         <div className="max-h-[272px] overflow-y-auto px-1 py-1">
-          <SelectItem className="focus:bg-[#2563eb] focus:text-white" value="__empty__"><span className="sr-only">Kosongkan Field Key</span>&nbsp;</SelectItem>
-          {filteredOptions.map(([key, label]) => <SelectItem key={key} className="focus:bg-[#2563eb] focus:text-white" value={key}>{label}</SelectItem>)}
+          <SelectItem className="pl-2 focus:bg-[#2563eb] focus:text-white" value="__empty__"><span className="sr-only">Kosongkan Field Key</span>&nbsp;</SelectItem>
+          {filteredOptions.map(([key, label]) => <SelectItem key={key} className="pl-2 focus:bg-[#2563eb] focus:text-white" value={key}>{label}</SelectItem>)}
         </div>
       </SelectContent>
     </Select>
