@@ -25,10 +25,14 @@
 
 .mitra-karya-report-select-content [data-radix-select-scroll-down-button],
 .mitra-karya-report-select-content [data-radix-select-scroll-up-button],
-.mitra-karya-report-select-content > button:last-child,
+.mitra-karya-report-select-content > button,
 .mitra-karya-report-select-content > svg,
 .mitra-karya-report-select-content .select-item-indicator,
 .mitra-karya-report-select-content [data-radix-select-item-indicator],
 .mitra-karya-report-select-content [data-radix-select-item-indicator] svg {
   display: none !important;
+}
+
+.mitra-karya-report-select-content > [data-radix-select-viewport] {
+  max-height: 320px !important;
 }
