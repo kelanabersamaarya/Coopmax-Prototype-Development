@@ -3,12 +3,15 @@ import { Eye, EyeOff } from "lucide-react";
 
 function CoopmaxLogo() {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center gap-2">
       <img
         src="/publiccoopmax-logo.png.png"
-        alt="Coopmax"
-        className="h-auto w-[190px] object-contain"
+        alt="Logo Coopmax"
+        className="h-[48px] w-[58px] object-contain"
       />
+      <span className="text-[39px] font-bold leading-none tracking-[-2px] text-[#3487f2]">
+        Coop<span className="font-normal text-[#f02bbd]">max</span>
+      </span>
     </div>
   );
 }
