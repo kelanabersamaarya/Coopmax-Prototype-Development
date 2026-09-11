@@ -14,7 +14,9 @@ export default function SakAkunting() {
   });
 
   const isKodeAkun = active.groupId === "pengaturan" && active.itemLabel === "Kode Akun";
-  const isGeneralJournal = active.groupId === "laporan" && active.itemLabel === "Jurnal Umum";
+  const isGeneralJournal =
+    active.groupId === "laporan" &&
+    ["Jurnal Umum", "Laporan Jurnal Umum V2"].includes(active.itemLabel);
   const isPerhitunganHasilUsaha = active.groupId === "laporan" && active.itemLabel === "Perhitungan Hasil Usaha";
   const isNeracaSaldo = active.groupId === "laporan" && active.itemLabel === "Neraca Saldo";
 
