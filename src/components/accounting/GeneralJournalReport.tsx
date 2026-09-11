@@ -16,6 +16,7 @@ const journalRows = [
     credit: "",
     creditCode: "",
     note: "Penarikan tabungan untuk keperluan anggota",
+    detail: "Setoran Tabungan untuk No. Rekening P001260013 atas nama Neri Susilawati [No. Transaksi : STR/110926/0001] [Keterangan : Keperluan Sehari - Hari]",
   },
   {
     no: "2",
@@ -29,6 +30,7 @@ const journalRows = [
     credit: "50.000,00",
     creditCode: "2.1.3",
     note: "",
+    detail: "Setoran Tabungan untuk No. Rekening P001260013 atas nama Neri Susilawati [No. Transaksi : STR/110926/0001] [Keterangan : Keperluan Sehari - Hari]",
   },
   {
     no: "3",
@@ -42,6 +44,7 @@ const journalRows = [
     credit: "",
     creditCode: "",
     note: "Penarikan simpanan anggota",
+    detail: "Setoran Tabungan untuk No. Rekening P001260013 atas nama Neri Susilawati [No. Transaksi : STR/110926/0001] [Keterangan : Keperluan Sehari - Hari]",
   },
   {
     no: "4",
@@ -55,6 +58,7 @@ const journalRows = [
     credit: "25.000,00",
     creditCode: "1.1.1.1",
     note: "",
+    detail: "Setoran Tabungan untuk No. Rekening P001260013 atas nama Neri Susilawati [No. Transaksi : STR/110926/0001] [Keterangan : Keperluan Sehari - Hari]",
   },
 ];
 
@@ -151,7 +155,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
                       <td className="journal-cell align-top">{row.debitCode}</td>
                       <td className="journal-cell text-right align-top">{row.credit}</td>
                       <td className="journal-cell align-top">{row.creditCode}</td>
-                      <td className="journal-cell align-top">{row.note}</td>
+                      <td className="journal-cell align-top">{isV2 ? row.detail : row.note}</td>
                     </tr>
                   ))}
                 </tbody>
