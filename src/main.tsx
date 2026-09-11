@@ -2,6 +2,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./globals.css";
 import "./App.css";
+import "./styles/accounting-journal-pdf.css";
 import "./styles/placeholders.css";
 import "./styles/report-date-input.css";
 import "./styles/mitra-karya-member-report.css";

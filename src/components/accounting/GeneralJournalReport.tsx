@@ -2,6 +2,8 @@ import * as React from "react";
 import { CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
+import coopmaxLogo from "@/assets/dashboard-logo.png";
 
 const journalRows = [
   {
@@ -72,6 +74,14 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
     year: "numeric",
   }).format(new Date(`${date}T00:00:00`));
 
+  const exportPdf = () => {
+    const previewWindow = openBlankReportPdfPreview("Jurnal Umum");
+    if (!previewWindow) return;
+    requestAnimationFrame(() => {
+      openReportPdfPreview({ title: "Jurnal Umum", targetWindow: previewWindow });
+    });
+  };
+
   return (
     <div className="rounded-[5px] bg-white px-1 py-2 text-slate-950 md:px-4 md:py-4">
       <div className="flex items-baseline gap-3">
@@ -111,17 +121,32 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
             <p className="text-[18px] font-extrabold leading-tight">{formattedDate}</p>
           </div>
 
-          <div className="overflow-hidden rounded-none border border-slate-300">
-            <div className="flex min-h-[48px] justify-end gap-2 border-b border-slate-300 px-5 py-3">
-              <Button className="h-[25px] w-[95px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
-                Export Excel
-              </Button>
-              <Button className="h-[25px] w-[95px] rounded-[5px] bg-rose-600 px-2 text-[12px] font-normal hover:bg-rose-700">
-                Export PDF
-              </Button>
+          <div className={`${isV2 ? "print-report-area" : ""} overflow-hidden rounded-none border border-slate-300`}>
+          <div className="print-hide flex min-h-[48px] justify-end gap-2 border-b border-slate-300 px-5 py-3">
+            <Button className="h-[25px] w-[95px] rounded-[5px] bg-green-600 px-2 text-[12px] font-normal hover:bg-green-700">
+              Export Excel
+            </Button>
+            <Button onClick={exportPdf} className="h-[25px] w-[95px] rounded-[5px] bg-rose-600 px-2 text-[12px] font-normal hover:bg-rose-700">
+              Export PDF
+            </Button>
+          </div>
+          {isV2 && (
+            <div className="journal-pdf-header">
+              <img src={coopmaxLogo} alt="Logo koperasi" className="journal-pdf-logo" />
+              <div className="journal-pdf-title">
+                <div>Koperasi Mitra Karya</div>
+                <div>Nomor BH : 21/KC/04-2025</div>
+                <div>Email: mitrakarya@kop.com</div>
+              </div>
+              <div className="journal-pdf-rule" />
+              <div className="journal-pdf-report-title">
+                <div>Jurnal Umum</div>
+                <div>{formattedDate}</div>
+              </div>
             </div>
+          )}
 
-            <div className="overflow-x-auto">
+          <div className="overflow-x-auto">
               <table className={`journal-table ${isV2 ? "min-w-[900px]" : "min-w-[1500px]"} w-full border-collapse text-[12px]`}>
                 <thead className="font-bold">
                   <tr>
