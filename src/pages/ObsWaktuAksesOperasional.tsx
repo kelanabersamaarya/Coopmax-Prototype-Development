@@ -1,7 +1,12 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Check, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Akses" | "Riwayat Perubahan";
@@ -109,27 +114,62 @@ export default function ObsWaktuAksesOperasional() {
                   Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
                 </p>
 
-                <div className="mt-4 grid gap-2 md:grid-cols-2">
-                  {accessUsers.map((user) => (
-                    <label
-                      key={user.id}
-                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 transition hover:border-violet-300 hover:bg-violet-50/50"
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button
+                      type="button"
+                      className="mt-4 flex h-10 w-full items-center justify-between rounded-[6px] border border-slate-300 bg-white px-3 text-left text-[13px] font-normal text-slate-800 shadow-none transition hover:border-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-200"
                     >
-                      <Checkbox
-                        checked={selectedUsers.includes(user.id)}
-                        onCheckedChange={() => toggleUser(user.id)}
-                      />
-                      <span className="min-w-0">
-                        <span className="block text-[13px] font-semibold text-slate-900">
-                          {user.name}
-                        </span>
-                        <span className="block text-[11px] text-slate-500">
-                          {user.role}
-                        </span>
+                      <span className="truncate">
+                        {selectedUsers.length === 0
+                          ? "Pilih user"
+                          : selectedUsers
+                              .map(
+                                (id) =>
+                                  accessUsers.find((user) => user.id === id)?.name,
+                              )
+                              .filter(Boolean)
+                              .join(", ")}
                       </span>
-                    </label>
-                  ))}
-                </div>
+                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-slate-400" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-xl border-slate-200 bg-white p-2 shadow-lg">
+                    <div className="space-y-1">
+                      {accessUsers.map((user) => {
+                        const selected = selectedUsers.includes(user.id);
+
+                        return (
+                          <button
+                            key={user.id}
+                            type="button"
+                            onClick={() => toggleUser(user.id)}
+                            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition hover:bg-violet-50"
+                          >
+                            <span
+                              className={cn(
+                                "flex h-4 w-4 items-center justify-center rounded border",
+                                selected
+                                  ? "border-violet-600 bg-violet-600 text-white"
+                                  : "border-slate-300 bg-white",
+                              )}
+                            >
+                              {selected ? <Check className="h-3 w-3" /> : null}
+                            </span>
+                            <span className="min-w-0">
+                              <span className="block text-[13px] font-semibold text-slate-900">
+                                {user.name}
+                              </span>
+                              <span className="block text-[11px] text-slate-500">
+                                {user.role}
+                              </span>
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="mt-6 flex justify-end">
