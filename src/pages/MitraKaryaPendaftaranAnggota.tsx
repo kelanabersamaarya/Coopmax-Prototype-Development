@@ -7,16 +7,127 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const fieldClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text-[#536b91] shadow-none focus-visible:ring-1 focus-visible:ring-violet-400";
-function Row({ label, children }: { label: string; children: React.ReactNode }) { return <div className="grid gap-2 md:grid-cols-[190px_minmax(0,1fr)] md:items-start"><label className="text-[13px] font-medium text-[#002060]">{label}</label><div className="min-w-0">{children}</div></div>; }
+
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="grid gap-2 md:grid-cols-[190px_minmax(0,1fr)] md:items-start">
+      <label className="text-[13px] font-medium text-[#002060]">{label}</label>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
 function FileCard({ title, file, onChange }: { title: string; file: File | null; onChange: (file: File | null) => void }) {
   const isKtp = title === "Upload KTP";
-  const input = <input type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" className="hidden" onChange={(event) => { const selected = event.target.files?.[0] ?? null; if (selected && selected.size > 1024 * 1024) { toast.error("Ukuran file maksimal 1 MB"); return; } onChange(selected); }} />;
-  return <div className="rounded-[14px] border border-[#d5ddeb] bg-white p-5 text-[#002060]"><h3 className="text-[16px] font-semibold">{title}</h3>{isKtp ? <><div className="mt-4 grid items-stretch gap-5 lg:grid-cols-2"><div className="rounded-[9px] border border-[#e6eaf0] bg-white p-3"><p className="text-[13px] font-semibold">Contoh Foto KTP</p><div className="mt-3 grid grid-cols-2 gap-3"><div><div className="mb-1 flex items-center gap-1 text-[11px]"><CheckCircle2 className="h-3.5 w-3.5 text-green-600" />Contoh foto KTP yang benar</div><div className="flex min-h-[180px] items-center justify-center overflow-hidden rounded-[7px] border border-dashed border-green-500 bg-white"><img src="/image 4.png" alt="Contoh foto KTP yang benar" className="max-h-[180px] w-full object-contain" /></div></div><div><div className="mb-1 flex items-center gap-1 text-[11px]"><AlertTriangle className="h-3.5 w-3.5 text-red-500" />Contoh foto KTP yang salah</div><div className="flex min-h-[180px] items-center justify-center overflow-hidden rounded-[7px] border border-dashed border-red-400 bg-white"><img src="/imagektpblur.png" alt="Contoh foto KTP yang salah" className="max-h-[180px] w-full object-contain blur-[2px]" /></div></div></div></div><div className="flex min-h-[266px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] bg-white px-4 py-5 text-center"><Camera className="mb-2 h-8 w-8 text-black" /><p className="text-[12px] text-black">Unggah foto KTP Nasabah. Pastikan terlihat jelas untuk validasi identitas.</p><p className="mt-2 text-[12px] text-[#7b7b7b]">JPG, JPEG, PNG. Maksimal 1 MB.</p><label className="mt-3 inline-flex h-[30px] cursor-pointer items-center justify-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah KTP{input}</label></div></div><div className="mt-4 rounded-[9px] border border-[#f1d28a] bg-[#fff7dd] p-3 text-[11px] text-[#4d3b13]"><p className="flex items-center gap-1 font-semibold"><AlertTriangle className="h-3.5 w-3.5" />Perhatikan Foto KTP yang Anda Unggah</p><ol className="mt-2 list-decimal space-y-0.5 pl-5"><li>KTP harus identitas asli untuk validasi identitas.</li><li>Informasi dalam KTP harus terlihat jelas.</li><li>Pastikan KTP tidak buram dan background foto polos.</li><li>Format file JPG, JPEG, PNG, atau PDF.</li><li>Maksimal ukuran file 1 MB.</li></ol></div></> : <div className="mt-5 flex min-h-[180px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] bg-white px-4 py-5 text-center">{file ? <><FileText className="mb-2 h-8 w-8 text-[#7890b2]" /><p className="max-w-full truncate text-[13px]">{file.name}</p><button type="button" onClick={() => onChange(null)} className="mt-3 inline-flex h-[30px] items-center gap-1 rounded-[4px] bg-red-500 px-3 text-[12px] text-white"><Trash2 className="h-4 w-4" />Hapus</button></> : <><FileUp className="mb-2 h-7 w-7 text-[#7890b2]" /><p className="text-[12px] text-black">Unggah file untuk melengkapi data Nasabah.</p><label className="mt-3 inline-flex h-[30px] w-[112px] cursor-pointer items-center justify-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah File{input}</label></>}</div></div>;
+  const input = (
+    <input
+      type="file"
+      accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+      className="hidden"
+      onChange={(event) => {
+        const selected = event.target.files?.[0] ?? null;
+        if (selected && selected.size > 1024 * 1024) {
+          toast.error("Ukuran file maksimal 1 MB");
+          return;
+        }
+        onChange(selected);
+      }}
+    />
+  );
+
+  const uploadedContent = file ? (
+    <>
+      <FileText className="mb-2 h-8 w-8 text-[#7890b2]" />
+      <p className="max-w-full truncate text-[13px]">{file.name}</p>
+      <button type="button" onClick={() => onChange(null)} className="mt-3 inline-flex h-[30px] items-center gap-1 rounded-[4px] bg-red-500 px-3 text-[12px] text-white">
+        <Trash2 className="h-4 w-4" />Hapus
+      </button>
+    </>
+  ) : (
+    <>
+      <FileUp className="mb-2 h-7 w-7 text-[#7890b2]" />
+      <p className="text-[12px] text-black">Unggah file untuk melengkapi data Nasabah.</p>
+      <label className="mt-3 inline-flex h-[30px] w-[112px] cursor-pointer items-center justify-center gap-1 rounded-[4px] bg-[#3567f5] text-[12px] font-medium text-white">
+        <FileUp className="h-4 w-4" />Unggah File{input}
+      </label>
+    </>
+  );
+
+  return (
+    <div className="rounded-[14px] border border-[#d5ddeb] bg-white p-5 text-[#002060]">
+      <h3 className="text-[16px] font-semibold">{title}</h3>
+      {isKtp ? (
+        <>
+          <div className="mt-4 grid items-stretch gap-5 lg:grid-cols-2">
+            <div className="rounded-[9px] border border-[#e6eaf0] bg-white p-3">
+              <p className="text-[13px] font-semibold">Contoh Foto KTP</p>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div>
+                  <div className="mb-1 flex items-center gap-1 text-[11px]"><CheckCircle2 className="h-3.5 w-3.5 text-green-600" />Contoh foto KTP yang benar</div>
+                  <div className="flex min-h-[180px] items-center justify-center overflow-hidden rounded-[7px] border border-dashed border-green-500 bg-white"><img src="/image 4.png" alt="Contoh foto KTP yang benar" className="max-h-[180px] w-full object-contain" /></div>
+                </div>
+                <div>
+                  <div className="mb-1 flex items-center gap-1 text-[11px]"><AlertTriangle className="h-3.5 w-3.5 text-red-500" />Contoh foto KTP yang salah</div>
+                  <div className="flex min-h-[180px] items-center justify-center overflow-hidden rounded-[7px] border border-dashed border-red-400 bg-white"><img src="/imagektpblur.png" alt="Contoh foto KTP yang salah" className="max-h-[180px] w-full object-contain blur-[2px]" /></div>
+                </div>
+              </div>
+            </div>
+            <div className="flex min-h-[266px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] bg-white px-4 py-5 text-center">
+              <Camera className="mb-2 h-8 w-8 text-black" />
+              <p className="text-[12px] text-black">Unggah foto KTP Nasabah. Pastikan terlihat jelas untuk validasi identitas.</p>
+              <p className="mt-2 text-[12px] text-[#7b7b7b]">JPG, JPEG, PNG. Maksimal 1 MB.</p>
+              <label className="mt-3 inline-flex h-[30px] cursor-pointer items-center justify-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah KTP{input}</label>
+            </div>
+          </div>
+          <div className="mt-4 rounded-[9px] border border-[#f1d28a] bg-[#fff7dd] p-3 text-[11px] text-[#4d3b13]">
+            <p className="flex items-center gap-1 font-semibold"><AlertTriangle className="h-3.5 w-3.5" />Perhatikan Foto KTP yang Anda Unggah</p>
+            <ol className="mt-2 list-decimal space-y-0.5 pl-5"><li>KTP harus identitas asli untuk validasi identitas.</li><li>Informasi dalam KTP harus terlihat jelas.</li><li>Pastikan KTP tidak buram dan background foto polos.</li><li>Format file JPG, JPEG, PNG, atau PDF.</li><li>Maksimal ukuran file 1 MB.</li></ol>
+          </div>
+        </>
+      ) : (
+        <div className="mt-5 flex min-h-[180px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] bg-white px-4 py-5 text-center">
+          {uploadedContent}
+        </div>
+      )}
+    </div>
+  );
 }
+
 export default function MitraKaryaPendaftaranAnggota() {
-  const navigate = useNavigate(); const { id } = useParams(); const isEdit = Boolean(id);
-  const [activeTab, setActiveTab] = React.useState<"general" | "upload">("general"); const [ktpFile, setKtpFile] = React.useState<File | null>(null); const [supportingFile, setSupportingFile] = React.useState<File | null>(null); const [showConfirmation, setShowConfirmation] = React.useState(false); const [showSuccess, setShowSuccess] = React.useState(false);
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) { event.preventDefault(); setShowConfirmation(true); }
-  function confirmSave() { const members = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]"); const member = { id: id || "A2600016", name: "Anggota Baru", ktpFile: ktpFile ? { name: ktpFile.name, type: ktpFile.type } : null, supportingFile: supportingFile ? { name: supportingFile.name, type: supportingFile.type } : null }; localStorage.setItem("mitra-karya-members", JSON.stringify([member, ...members.filter((item: { id: string }) => item.id !== member.id)])); setShowConfirmation(false); setShowSuccess(true); }
-  return <><div className="min-h-screen px-3 py-5 text-[#002060] sm:px-6 md:px-8"><div><h1 className="text-[22px] font-semibold">Anggota <span className="font-normal">{isEdit ? "Ubah" : "Tambah"}</span></h1></div><div className="mt-8 flex items-center gap-3 text-[13px]"><button type="button" onClick={() => setActiveTab("general")} className={`rounded-full px-4 py-3 ${activeTab === "general" ? "bg-violet-600 text-white" : "text-[#536b91] hover:bg-violet-50"}`}>General Information</button><button type="button" onClick={() => setActiveTab("upload")} className={`rounded-full px-4 py-3 ${activeTab === "upload" ? "bg-violet-600 text-white" : "text-[#536b91] hover:bg-violet-50"}`}>Upload File</button></div><form onSubmit={handleSubmit} className="mt-10 rounded-[20px] bg-white px-5 py-7 shadow-[0_4px_20px_rgba(45,68,110,0.04)] sm:px-8 md:px-12">{activeTab === "general" ? <div className="grid gap-[10px]"><Row label="ID Anggota"><div className="flex"><Input defaultValue="A2600016" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row><Row label="ID Nasabah"><div className="flex"><Input defaultValue="N2600020" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-none bg-[#7d8eaa] px-2"><Search className="h-4 w-4" /></Button></div></Row>{["Tanggal Daftar","NIK","Nama","Kategori","Jenis Kelamin","Tempat Lahir","Tanggal Lahir","Pekerjaan","Agama","Status Pernikahan","Jenis Identitas","No. Identitas","No. Telp/Handphone (+62)","Nama Gadis Ibu Kandung","Nama ahli waris","Email","Wilayah","Alamat Domisili","Alamat KTP","Tag","Unit Anggota","Status"].map((label) => <Row key={label} label={label}>{label.includes("Alamat") ? <Textarea className="min-h-[48px]" /> : <Input className={fieldClass} />}</Row>)}</div> : <div className="grid grid-cols-1 gap-5"><FileCard title="Upload KTP" file={ktpFile} onChange={setKtpFile} /><FileCard title="Upload File Pendukung" file={supportingFile} onChange={setSupportingFile} /></div>}<div className="mt-10 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="h-8 rounded-[5px] bg-[#7d8eaa] px-3 text-[13px]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button type="submit" className="h-8 rounded-[5px] bg-[#2db900] px-3 text-[13px]"><Check className="mr-1.5 h-4 w-4" />Simpan</Button></div></form></div>{showConfirmation && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><h2 className="text-[25px] font-semibold text-[#45556b]">Yakin untuk menyimpan data?</h2><div className="mt-8 flex justify-center gap-2"><Button type="button" onClick={confirmSave}>Yes</Button><Button type="button" onClick={() => setShowConfirmation(false)} variant="secondary">Cancel</Button></div></div></div>}{showSuccess && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><h2 className="text-[25px] font-semibold text-[#45556b]">Berhasil menyimpan data</h2><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="mt-8">OK</Button></div></div>}</>;
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const isEdit = Boolean(id);
+  const [activeTab, setActiveTab] = React.useState<"general" | "upload">("general");
+  const [ktpFile, setKtpFile] = React.useState<File | null>(null);
+  const [supportingFile, setSupportingFile] = React.useState<File | null>(null);
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setShowConfirmation(true);
+  }
+
+  function confirmSave() {
+    const members = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]");
+    const member = { id: id || "A2600016", name: "Anggota Baru", ktpFile: ktpFile ? { name: ktpFile.name, type: ktpFile.type } : null, supportingFile: supportingFile ? { name: supportingFile.name, type: supportingFile.type } : null };
+    localStorage.setItem("mitra-karya-members", JSON.stringify([member, ...members.filter((item: { id: string }) => item.id !== member.id)]));
+    setShowConfirmation(false);
+    setShowSuccess(true);
+  }
+
+  return (
+    <>
+      <div className="min-h-screen px-3 py-5 text-[#002060] sm:px-6 md:px-8">
+        <div><h1 className="text-[22px] font-semibold">Anggota <span className="font-normal">{isEdit ? "Ubah" : "Tambah"}</span></h1></div>
+        <div className="mt-8 flex items-center gap-3 text-[13px]"><button type="button" onClick={() => setActiveTab("general")} className={`rounded-full px-4 py-3 ${activeTab === "general" ? "bg-violet-600 text-white" : "text-[#536b91] hover:bg-violet-50"}`}>General Information</button><button type="button" onClick={() => setActiveTab("upload")} className={`rounded-full px-4 py-3 ${activeTab === "upload" ? "bg-violet-600 text-white" : "text-[#536b91] hover:bg-violet-50"}`}>Upload File</button></div>
+        <form onSubmit={handleSubmit} className="mt-10 rounded-[20px] bg-white px-5 py-7 shadow-[0_4px_20px_rgba(45,68,110,0.04)] sm:px-8 md:px-12">
+          {activeTab === "general" ? <div className="grid gap-[10px]"><Row label="ID Anggota"><div className="flex"><Input defaultValue="A2600016" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-l-none bg-[#7d8eaa] px-2"><RefreshCw className="h-4 w-4" /></Button></div></Row><Row label="ID Nasabah"><div className="flex"><Input defaultValue="N2600020" readOnly className={`${fieldClass} rounded-r-none bg-[#e1e6ef]`} /><Button type="button" className="h-8 rounded-none bg-[#7d8eaa] px-2"><Search className="h-4 w-4" /></Button></div></Row>{["Tanggal Daftar","NIK","Nama","Kategori","Jenis Kelamin","Tempat Lahir","Tanggal Lahir","Pekerjaan","Agama","Status Pernikahan","Jenis Identitas","No. Identitas","No. Telp/Handphone (+62)","Nama Gadis Ibu Kandung","Nama ahli waris","Email","Wilayah","Alamat Domisili","Alamat KTP","Tag","Unit Anggota","Status"].map((label) => <Row key={label} label={label}>{label.includes("Alamat") ? <Textarea className="min-h-[48px]" /> : <Input className={fieldClass} />}</Row>)}</div> : <div className="grid grid-cols-1 gap-5"><FileCard title="Upload KTP" file={ktpFile} onChange={setKtpFile} /><FileCard title="Upload File Pendukung" file={supportingFile} onChange={setSupportingFile} /></div>}
+          <div className="mt-10 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="h-8 rounded-[5px] bg-[#7d8eaa] px-3 text-[13px]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button type="submit" className="h-8 rounded-[5px] bg-[#2db900] px-3 text-[13px]"><Check className="mr-1.5 h-4 w-4" />Simpan</Button></div>
+        </form>
+      </div>
+      {showConfirmation && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><h2 className="text-[25px] font-semibold text-[#45556b]">Yakin untuk menyimpan data?</h2><div className="mt-8 flex justify-center gap-2"><Button type="button" onClick={confirmSave}>Yes</Button><Button type="button" onClick={() => setShowConfirmation(false)} variant="secondary">Cancel</Button></div></div></div>}
+      {showSuccess && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-5"><div className="w-full max-w-[528px] rounded-[6px] bg-white px-6 py-10 text-center shadow-2xl"><h2 className="text-[25px] font-semibold text-[#45556b]">Berhasil menyimpan data</h2><Button type="button" onClick={() => navigate("/mitra-karya/anggota")} className="mt-8">OK</Button></div></div>}
+    </>
+  );
 }
