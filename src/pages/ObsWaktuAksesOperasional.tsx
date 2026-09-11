@@ -79,15 +79,6 @@ export default function ObsWaktuAksesOperasional() {
         <div className="mt-8 rounded-[5px] border border-[#D7DEE9] bg-white p-4 shadow-sm md:p-6">
           {activeTab === "Pengaturan Waktu Akses" ? (
             <div>
-              <div className="border-b border-[#D7DEE9] pb-5">
-                <h2 className="text-[15px] font-bold text-black">
-                  Pengaturan Waktu Akses
-                </h2>
-                <p className="mt-2 text-[12px] text-slate-600">
-                  Tentukan jam operasional sistem dan user yang tetap dapat mengakses sistem di luar jam tersebut.
-                </p>
-              </div>
-
               <div className="grid gap-5 border-b border-[#D7DEE9] py-5 md:grid-cols-2">
                 <label className="space-y-2 text-[12px] font-semibold text-slate-800">
                   <span>Waktu Mulai Operasional</span>
