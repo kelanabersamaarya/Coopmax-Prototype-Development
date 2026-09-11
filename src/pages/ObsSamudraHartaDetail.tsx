@@ -496,10 +496,10 @@ export default function ObsSamudraHartaDetail() {
                 label="Buat Pengajuan Pinjaman"
                 onClick={() => {
                   toast.success("Membuka form Pengajuan Pinjaman", {
-                        description:
-                          "Form akan dibuka dalam modul Kebutuhan Koperasi Samudra Harta.",
-                      });
-                      navigate("/obs-samudra-harta/loans/applications/new?prefill=empty");
+                    description:
+                      "Form akan dibuka dalam modul Kebutuhan Koperasi Samudra Harta.",
+                  });
+                  navigate("/obs-samudra-harta/loans/applications/new?prefill=empty");
                 }}
                 className="w-[240px]"
               />
