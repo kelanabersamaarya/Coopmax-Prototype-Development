@@ -498,6 +498,18 @@ export function openReportPdfPreview({
             font-weight: 500 !important;
           }
 
+          .pdf-page .accounting-pdf-report tbody td,
+          .thumb-page .accounting-pdf-report tbody td {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+            border-color: transparent !important;
+          }
+
+          .pdf-page .accounting-pdf-report tbody tr:nth-child(2n) td,
+          .thumb-page .accounting-pdf-report tbody tr:nth-child(2n) td {
+            border-bottom: 1px solid #94a3b8 !important;
+          }
+
           .pdf-page .truncate,
           .thumb-page .truncate {
             overflow: visible !important;
