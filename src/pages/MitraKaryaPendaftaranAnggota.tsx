@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, Camera, Check, CheckCircle2, FileText, FileUp, RefreshCw, Search, Trash2, X } from "lucide-react";
+import { AlertTriangle, Check, CheckCircle2, Contact, FileText, FileUp, RefreshCw, Search, Trash2, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -73,8 +73,8 @@ function FileCard({ title, file, onChange }: { title: string; file: File | null;
               </div>
             </div>
             <div className="flex min-h-[266px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] bg-white px-4 py-5 text-center">
-              <Camera className="mb-2 h-8 w-8 text-black" />
-              <p className="text-[12px] text-black">Unggah foto KTP Nasabah. Pastikan terlihat jelas untuk validasi identitas.</p>
+              <Contact className="mb-2 h-8 w-8 text-black" />
+                            <p className="text-[12px] text-black">Unggah foto KTP Nasabah. Pastikan terlihat jelas untuk validasi identitas.</p>
               <p className="mt-2 text-[12px] text-[#7b7b7b]">JPG, JPEG, PNG. Maksimal 1 MB.</p>
               <label className="mt-3 inline-flex h-[30px] cursor-pointer items-center justify-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah KTP{input}</label>
             </div>
