@@ -292,6 +292,10 @@ export function openReportPdfPreview({
             display: block !important;
           }
 
+          .export-only-journal-header {
+            display: block !important;
+          }
+
           .print-hide,
           .print-hide * {
             display: none !important;

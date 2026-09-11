@@ -130,7 +130,7 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
             </Button>
           </div>
           {isV2 && (
-            <div className="journal-pdf-header">
+            <div className="journal-pdf-header export-only-journal-header">
               <img src="/publiccoopmax-logo.png.png" alt="Logo Koperasi Coopmax" className="journal-pdf-logo" />
               <div className="journal-pdf-title">
                 <div>Koperasi Coopmax</div>

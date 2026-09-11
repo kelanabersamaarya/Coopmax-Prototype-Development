@@ -1,3 +1,7 @@
+.export-only-journal-header {
+  display: none;
+}
+
 .journal-pdf-header {
   position: relative;
   min-height: 146px;
@@ -42,7 +46,7 @@
 }
 
 @media print {
-  .journal-pdf-header {
+  .export-only-journal-header {
     display: block;
   }
 }
