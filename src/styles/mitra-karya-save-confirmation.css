@@ -28,4 +28,7 @@ form .flex.min-h-\[266px\]:has(.mt-4.w-full) > p, form .flex.min-h-\[266px\]:has
 form .flex.min-h-\[266px\] > svg, form .flex.min-h-\[180px\] > svg { display: none; }
 form div[class*="border-[#f1d28a]"] { font-size: 12px; }
 form div[class*="border-[#f1d28a]"] > p { font-size: 14px; }
+form > div.grid.grid-cols-1 > div:first-child > h3 { display: flex; align-items: center; gap: 8px; color: #111827; font-size: 0; font-weight: 700; }
+form > div.grid.grid-cols-1 > div:first-child > h3::before { content: "🪪"; font-size: 18px; line-height: 1; }
+form > div.grid.grid-cols-1 > div:first-child > h3::after { content: "File KTP"; font-size: 16px; }
 @media (max-width: 560px) { #root .fixed.z-50:not(:has(h2 + button)) h2, #root .fixed.z-50:has(h2 + button) h2 { font-size: 23px; } #root .fixed.z-50:not(:has(h2 + button)) > div > div button { min-width: 112px; } form .mt-4.w-full img { max-height: 260px; } }
