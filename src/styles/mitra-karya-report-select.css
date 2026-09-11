@@ -6,7 +6,8 @@
 }
 
 .report-basis-select-item .select-item-indicator,
-[data-value="__empty__"] .select-item-indicator {
+[data-value="__empty__"] .select-item-indicator,
+.select-item-indicator {
   display: none !important;
 }
 
@@ -20,4 +21,9 @@
 .report-basis-select-empty,
 [data-value="__empty__"] {
   min-height: 2rem;
+}
+
+.mitra-karya-report-select-trigger > svg,
+button.h-8.rounded-\[5px\].border-slate-300.text-\[13px\]:not(.w-full) > svg {
+  display: none !important;
 }
