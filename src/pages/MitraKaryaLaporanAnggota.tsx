@@ -846,7 +846,7 @@ export default function MitraKaryaLaporanAnggota() {
             </div>
           </div>
 
-          <section className="rounded-[5px] border border-[#0EA5E9] bg-white px-5 py-4 text-[#0098CD]">
+          <section className="rounded-[5px] border border-[#0EA5E9] bg-[hsl(var(--app-bg))] px-5 py-4 text-[#0098CD]">
             <div className="flex items-start gap-3">
               <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0EA5C6] text-white">
                 <Info className="h-4 w-4" />
@@ -856,16 +856,17 @@ export default function MitraKaryaLaporanAnggota() {
                   <span className="text-[#00a8c6]">Fitur Penyesuaian Laporan</span>
                 </h2>
                 <p className="mt-2 max-w-[440px] text-[13px] font-normal leading-relaxed">
-                  Laporan Ketersediaan KTP Anggota sudah tersedia secara langsung untuk
-                  mempermudah presentasi. Anda juga dapat melakukan kustomisasi tampilan
-                  laporan (pengaturan kolom dan urutan data) melalui menu{" "}
+                  Anda dapat melakukan kustomisasi tampilan laporan (pengaturan kolom dan
+                  urutan data) pada laporan ini dengan menggunakan fitur penyesuaian laporan.
+                  Silahkan klik menu{" "}
                   <button
                     type="button"
                     onClick={() => navigate("/mitra-karya/laporan/penyesuaian")}
                     className="font-semibold text-[#5B47FB] underline-offset-2 hover:underline"
                   >
                     Penyesuaian Laporan
-                  </button>.
+                  </button>{" "}
+                  untuk dapat melakukan pengaturan.
                 </p>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
