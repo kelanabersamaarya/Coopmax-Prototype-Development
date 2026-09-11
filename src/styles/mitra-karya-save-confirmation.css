@@ -107,6 +107,63 @@
   font-weight: 600;
 }
 
+form .mt-4.w-full {
+  position: relative;
+  margin-top: 10px;
+  border: 1px dashed #b9cbe1;
+  border-radius: 9px;
+  background: #fff;
+  padding: 10px;
+}
+
+form .mt-4.w-full > div {
+  position: relative;
+  display: block;
+}
+
+form .mt-4.w-full img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 380px;
+  min-height: 160px;
+  border: 1px solid #d5ddeb;
+  border-radius: 4px;
+  object-fit: contain;
+  background: #fff;
+}
+
+form .mt-4.w-full > div > div {
+  width: 100%;
+  padding: 9px 0 0;
+}
+
+form .mt-4.w-full p:first-child {
+  padding-right: 76px;
+  color: #16458d;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+form .mt-4.w-full p:nth-child(2) {
+  margin-top: 2px;
+  color: #7890b2;
+  font-size: 11px;
+}
+
+form .mt-4.w-full button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  height: 30px;
+  border-radius: 4px;
+  background: #f04444;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 @media (max-width: 560px) {
   #root .fixed.z-50:not(:has(h2 + button)) h2,
   #root .fixed.z-50:has(h2 + button) h2 {
@@ -115,5 +172,9 @@
 
   #root .fixed.z-50:not(:has(h2 + button)) > div > div button {
     min-width: 112px;
+  }
+
+  form .mt-4.w-full img {
+    max-height: 260px;
   }
 }
