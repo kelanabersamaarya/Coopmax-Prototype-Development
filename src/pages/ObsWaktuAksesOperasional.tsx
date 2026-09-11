@@ -114,16 +114,12 @@ export default function ObsWaktuAksesOperasional() {
               </div>
 
               <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-                <div>
-                  <span className="font-normal text-black">
-                    User yang dapat mengakses sistem di luar jam operasional
-                  </span>
-                  <p className="mt-1 text-[11px] text-slate-500">
-                    Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
-                  </p>
-                </div>
+                <span className="font-normal text-black">
+                  User yang dapat mengakses sistem di luar jam operasional
+                </span>
 
-                <Popover>
+                <div>
+                  <Popover>
                   <PopoverTrigger asChild>
                     <div className="flex min-h-9 w-full cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 shadow-none focus-within:ring-2 focus-within:ring-violet-200">
                       <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
@@ -183,7 +179,11 @@ export default function ObsWaktuAksesOperasional() {
                       </button>
                     ))}
                   </PopoverContent>
-                </Popover>
+                  </Popover>
+                  <p className="mt-1 text-[11px] text-slate-500">
+                    Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
+                  </p>
+                </div>
               </div>
             </div>
 
