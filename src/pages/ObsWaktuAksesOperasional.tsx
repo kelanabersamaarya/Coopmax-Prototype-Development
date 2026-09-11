@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, Clock3, X } from "lucide-react";
+import { CheckSquare, ChevronDown, Clock3, X } from "lucide-react";
 import { toast } from "sonner";
 import {
   Popover,
@@ -220,7 +220,9 @@ export default function ObsWaktuAksesOperasional() {
                         >
                           <X className="h-4 w-4" />
                         </button>
-                      ) : null}
+                      ) : (
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-slate-500" />
+                      )}
                     </div>
                   </PopoverTrigger>
                   <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
