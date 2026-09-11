@@ -1,0 +1,23 @@
+.report-basis-select-item,
+.report-basis-select-item[data-highlighted],
+.report-basis-select-item:focus,
+[data-value="__empty__"] {
+  padding-left: 0.5rem !important;
+}
+
+.report-basis-select-item .select-item-indicator,
+[data-value="__empty__"] .select-item-indicator {
+  display: none !important;
+}
+
+.report-basis-select-item[data-highlighted],
+.report-basis-select-item:focus,
+[data-value="__empty__"][data-highlighted] {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.report-basis-select-empty,
+[data-value="__empty__"] {
+  min-height: 2rem;
+}

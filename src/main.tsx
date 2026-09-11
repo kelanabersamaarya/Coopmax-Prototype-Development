@@ -6,6 +6,7 @@ import "./styles/placeholders.css";
 import "./styles/report-date-input.css";
 import "./styles/mitra-karya-member-report.css";
 import "./styles/mitra-karya-ktp-report.css";
+import "./styles/mitra-karya-report-select.css";
 import "./styles/loan-account-info-toggle.css";
 import "./styles/loan-interest-wizard-step-two.css";
 import "./styles/loan-interest-reason-field.css";
