@@ -155,7 +155,15 @@ export default function GeneralJournalReport({ isV2 = false }: { isV2?: boolean 
                       <td className="journal-cell align-top">{row.debitCode}</td>
                       <td className="journal-cell text-right align-top">{row.credit}</td>
                       <td className="journal-cell align-top">{row.creditCode}</td>
-                      <td className="journal-cell align-top">{isV2 ? (rowIndex === 0 ? row.detail : "") : row.note}</td>
+                      {isV2 ? (
+                        rowIndex % 2 === 0 ? (
+                          <td rowSpan={2} className="journal-cell align-top">
+                            {row.detail}
+                          </td>
+                        ) : null
+                      ) : (
+                        <td className="journal-cell align-top">{row.note}</td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
