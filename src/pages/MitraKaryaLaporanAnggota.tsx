@@ -296,8 +296,6 @@ function ReportResults({
         { key: "kategori", label: "Kategori" },
         { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" },
         { key: "preview-file-ktp", label: "Pratinjau File KTP" },
-        { key: "no-handphone", label: "No. Handphone" },
-        { key: "alamat", label: "Alamat" },
       ]
     : [
     { key: "no-anggota", label: "No. Anggota" },
@@ -419,28 +417,28 @@ function ReportResults({
               </tr>
             )}
 
-            {rows.length > 0 && !configuredReport ? (
-              <>
-                <tr className="mitra-karya-total-row mitra-karya-total-page-row">
-                  <td colSpan={7}>Total per Halaman</td>
-                  <td>{formatMoney(totals.simpananPokok)}</td>
-                  <td>{formatMoney(totals.simpananWajib)}</td>
-                  <td>{formatMoney(totals.simpananKhusus)}</td>
-                  <td>{formatMoney(totals.simpananPenyertaan)}</td>
-                  <td>{formatMoney(totalSimpanan)}</td>
-                  <td />
-                </tr>
-                <tr className="mitra-karya-total-row mitra-karya-total-all-row">
-                  <td colSpan={7}>Total</td>
-                  <td>{formatMoney(totals.simpananPokok)}</td>
-                  <td>{formatMoney(totals.simpananWajib)}</td>
-                  <td>{formatMoney(totals.simpananKhusus)}</td>
-                  <td>{formatMoney(totals.simpananPenyertaan)}</td>
-                  <td>{formatMoney(totalSimpanan)}</td>
-                  <td />
-                </tr>
-              </>
-            ) : null}
+                {rows.length > 0 && !configuredReport && selectedReport !== "Laporan Ketersediaan KTP Anggota" ? (
+                  <>
+                    <tr className="mitra-karya-total-row mitra-karya-total-page-row">
+                      <td colSpan={7}>Total per Halaman</td>
+                      <td>{formatMoney(totals.simpananPokok)}</td>
+                      <td>{formatMoney(totals.simpananWajib)}</td>
+                      <td>{formatMoney(totals.simpananKhusus)}</td>
+                      <td>{formatMoney(totals.simpananPenyertaan)}</td>
+                      <td>{formatMoney(totalSimpanan)}</td>
+                      <td />
+                    </tr>
+                    <tr className="mitra-karya-total-row mitra-karya-total-all-row">
+                      <td colSpan={7}>Total</td>
+                      <td>{formatMoney(totals.simpananPokok)}</td>
+                      <td>{formatMoney(totals.simpananWajib)}</td>
+                      <td>{formatMoney(totals.simpananKhusus)}</td>
+                      <td>{formatMoney(totals.simpananPenyertaan)}</td>
+                      <td>{formatMoney(totalSimpanan)}</td>
+                      <td />
+                    </tr>
+                  </>
+                ) : null}
           </tbody>
         </table>
       </div>
