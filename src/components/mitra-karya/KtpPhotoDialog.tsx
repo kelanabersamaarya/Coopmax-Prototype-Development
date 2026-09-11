@@ -126,8 +126,8 @@ function UploadKtpDialog({
         </header>
 
         <main className="max-h-[calc(92vh-160px)] overflow-auto px-6 py-8">
-          <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-            <section className="min-w-0">
+          <div className="grid w-full min-w-0 grid-cols-1 gap-8 lg:grid-cols-2">
+            <section className="min-w-0 w-full">
               <h3 className="text-[18px] font-bold text-slate-800">
                 Contoh Foto KTP
               </h3>
