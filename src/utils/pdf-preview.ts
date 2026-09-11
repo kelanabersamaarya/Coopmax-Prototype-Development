@@ -417,8 +417,8 @@ export function openReportPdfPreview({
             width: auto !important;
             min-width: 0 !important;
             max-width: none !important;
-            padding: 2px 3px !important;
-            font-size: 7px !important;
+            padding: 1px 2px !important;
+            font-size: 6px !important;
             line-height: 1.08 !important;
             white-space: normal !important;
             overflow: visible !important;
@@ -433,7 +433,7 @@ export function openReportPdfPreview({
           .pdf-page th,
           .thumb-page th {
             font-weight: 700 !important;
-            letter-spacing: 0 !important;
+            letter-spacing: -0.1px !important;
             background-color: #f8fafc !important;
             text-align: center !important;
             vertical-align: middle !important;
