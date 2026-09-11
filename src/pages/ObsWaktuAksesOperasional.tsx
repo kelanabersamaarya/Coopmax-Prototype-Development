@@ -251,12 +251,16 @@ export default function ObsWaktuAksesOperasional() {
             </div>
           </div>
         ) : (
-          <div className="mt-8 overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white shadow-sm">
-            <div className="flex min-h-[69px] items-center border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
-              <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[680px] border-collapse text-left text-[12px]">
+          <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
+            <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
+              <div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
+                  <Clock3 className="h-5 w-5" />
+                </span>
+                <h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[680px] border-collapse text-left text-[12px]">
                 <thead>
                   <tr className="border-b border-[#D7DEE9] bg-[#F7F8FC] text-[#53657d]">
                     <th className="px-5 py-4 font-bold">User yang Melakukan Perubahan</th>
@@ -275,7 +279,8 @@ export default function ObsWaktuAksesOperasional() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+                </table>
+              </div>
             </div>
           </div>
         )}
