@@ -145,36 +145,36 @@ export default function LoanTransactionHistoryDialog({
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
   const headerTh =
-    "px-[5px] py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700";
-  const tdBase = "px-[5px] py-2.5 text-[13px] font-normal text-slate-900";
+    "px-[8px] py-2.5 text-left text-[11px] font-extrabold uppercase tracking-wide text-[#263957]";
+  const tdBase = "px-[8px] py-2.5 text-[12px] font-normal text-[#173b70]";
 
   const selectTriggerCls = cn(
     H,
-    "w-[96px] border-slate-200 bg-white",
+    "w-[96px] border-[#cbd5e1] bg-white text-[#173b70]",
     R,
     "shadow-none",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "focus-visible:ring-1 focus-visible:ring-[#8aa0c0] focus-visible:ring-offset-0",
   );
 
   const inputCls = cn(
     H,
-    "border-slate-200 bg-white",
+    "border-[#cbd5e1] bg-white text-[#173b70] placeholder:text-[#94a3b8]",
     R,
     "shadow-none",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "focus-visible:ring-1 focus-visible:ring-[#8aa0c0] focus-visible:ring-offset-0",
   );
 
   const btnCariCls = cn(
     H,
     "px-4",
     R,
-    "bg-slate-700 text-white hover:bg-slate-800",
+    "bg-[#7e93b3] text-white hover:bg-[#6f84a5]",
   );
 
   const btnTutupFooterCls = cn(
     H,
     "w-[80px] px-0",
-    "bg-slate-600 text-white hover:bg-slate-700",
+    "bg-[#7e93b3] text-white hover:bg-[#6f84a5]",
     R,
   );
 
@@ -183,8 +183,8 @@ export default function LoanTransactionHistoryDialog({
       <DialogContent
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
-          "max-w-[1240px]",
-          "max-h-[85vh]",
+          "max-w-[1120px]",
+          "max-h-[92vh]",
           "overflow-hidden",
           R,
           "border-slate-200 p-0 shadow-2xl",
@@ -195,9 +195,9 @@ export default function LoanTransactionHistoryDialog({
         )}
       >
         <div className="bg-white">
-          <div className="flex items-center justify-between gap-3 px-5 py-4 sm:px-6">
+          <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="min-w-0">
-              <div className="text-xl font-extrabold tracking-tight text-slate-900">
+              <div className="text-[18px] font-bold tracking-tight text-slate-800">
                 Riwayat Transaksi
               </div>
               <div className="sr-only">{accountNo}</div>
@@ -209,23 +209,23 @@ export default function LoanTransactionHistoryDialog({
               className={cn(
                 "inline-flex h-9 w-9 items-center justify-center",
                 R,
-                "text-slate-700 transition hover:bg-slate-100",
+                "text-slate-500 transition hover:bg-slate-100 hover:text-slate-700",
               )}
               aria-label="Tutup"
               title="Tutup"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5 stroke-[3]" />
             </button>
           </div>
 
           <Separator className="bg-slate-200" />
 
           <div
-            className="overflow-auto px-5 py-4 sm:px-6"
-            style={{ maxHeight: "calc(85vh - 64px - 84px)" }}
+            className="overflow-auto px-6 py-8"
+            style={{ maxHeight: "calc(92vh - 64px - 84px)" }}
           >
             <div className="grid gap-3">
-              <div className="text-sm font-semibold text-slate-900">
+              <div className="text-[13px] font-medium text-[#173b70]">
                 Tanggal Transaksi
               </div>
 
@@ -258,7 +258,7 @@ export default function LoanTransactionHistoryDialog({
               </div>
 
               <div className="mt-2 flex flex-wrap items-center gap-2">
-                <div className="text-sm text-slate-700">Show</div>
+                <div className="text-[13px] text-slate-700">Show</div>
                 <Select
                   value={String(pageSize)}
                   onValueChange={(v) => setPageSize(Number(v))}
@@ -274,14 +274,14 @@ export default function LoanTransactionHistoryDialog({
                     ))}
                   </SelectContent>
                 </Select>
-                <div className="text-sm text-slate-700">entries</div>
+                <div className="text-[13px] text-slate-700">entries</div>
               </div>
 
               <div className={cn("mt-2 overflow-hidden ring-1 ring-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[1220px] border-collapse">
-                    <thead className="bg-white">
-                      <tr className="border-b border-slate-200">
+                    <thead className="bg-[#f1f4f9]">
+                      <tr className="border-b border-[#d5dce7]">
                         <th className={cn(headerTh, "w-[58px]")}>No.</th>
 
                         <th className={cn(headerTh, "w-[120px]")}>
@@ -360,7 +360,7 @@ export default function LoanTransactionHistoryDialog({
                               key={`${r.tanggal}-${derivedNo}`}
                               className={cn(
                                 "border-t border-slate-100",
-                                idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
+                                idx % 2 === 0 ? "bg-[#f8fafc]" : "bg-white",
                               )}
                             >
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
@@ -480,7 +480,7 @@ export default function LoanTransactionHistoryDialog({
                   <Button
                     variant="outline"
                     className={cn(
-                      "h-10 border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50",
+                      "h-9 border-[#dce3ed] bg-[#f1f4f9] px-3 text-[#a7b3c5] hover:bg-[#e8edf4]",
                       R,
                     )}
                     disabled={page === 1}
@@ -492,7 +492,7 @@ export default function LoanTransactionHistoryDialog({
 
                   <div
                     className={cn(
-                      "inline-flex h-10 min-w-10 items-center justify-center bg-violet-600 px-4 text-sm font-extrabold text-white",
+                      "inline-flex h-9 min-w-9 items-center justify-center bg-violet-600 px-4 text-sm font-extrabold text-white",
                       R,
                     )}
                   >
@@ -502,7 +502,7 @@ export default function LoanTransactionHistoryDialog({
                   <Button
                     variant="outline"
                     className={cn(
-                      "h-10 border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50",
+                      "h-9 border-[#dce3ed] bg-[#f1f4f9] px-3 text-[#a7b3c5] hover:bg-[#e8edf4]",
                       R,
                     )}
                     disabled={page === pageCount}
