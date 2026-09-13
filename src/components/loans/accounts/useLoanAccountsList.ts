@@ -13,8 +13,8 @@ export function useLoanAccountsList() {
   const [qProduk, setQProduk] = React.useState<string>("Semua");
   const [qIdNasabah, setQIdNasabah] = React.useState("");
   const [qNamaNasabah, setQNamaNasabah] = React.useState("");
-  const [qNominal, setQNominal] = React.useState("0,00");
-  const [qSisa, setQSisa] = React.useState("0,00");
+  const [qNominal, setQNominal] = React.useState("");
+  const [qSisa, setQSisa] = React.useState("");
   const [qBunga, setQBunga] = React.useState("");
   const [qStatus, setQStatus] = React.useState<StatusFilter>("Semua");
 
@@ -42,9 +42,12 @@ export function useLoanAccountsList() {
       const okNama = namaQ ? r.namaNasabah.toLowerCase().includes(namaQ) : true;
       const okBunga = bungaQ ? r.bungaPerTahun.toLowerCase().includes(bungaQ) : true;
       const okStatus = statusQ === "Semua" ? true : r.status === statusQ;
-
-      const okNominal = true;
-      const okSisa = true;
+      const okNominal = qNominal.trim()
+        ? r.nominal.toLowerCase().includes(qNominal.trim().toLowerCase())
+        : true;
+      const okSisa = qSisa.trim()
+        ? r.sisaPinjaman.toLowerCase().includes(qSisa.trim().toLowerCase())
+        : true;
 
       return (
         okNoRek &&

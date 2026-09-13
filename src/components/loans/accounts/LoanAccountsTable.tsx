@@ -67,7 +67,7 @@ export default function LoanAccountsTable({
   const bungaColW = "w-[100px] min-w-[100px] max-w-[100px]";
 
   return (
-    <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+    <Card className="rounded-[22px] border-slate-200/70 bg-white p-4 shadow-sm md:p-5">
       <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
         <span>Tampilkan</span>
         <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>

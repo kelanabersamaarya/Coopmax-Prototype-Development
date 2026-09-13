@@ -116,8 +116,11 @@ export default function SidebarAstitiDanaLestariMenu() {
       <MenuSection
         label="Pinjaman"
         icon={HandCoins}
-        active={location.pathname === "/astiti-dana-lestari/pinjaman/transaksi"}
-        items={[{ label: "Transaksi Pinjaman", to: "/astiti-dana-lestari/pinjaman/transaksi" }]}
+        active={location.pathname.startsWith("/astiti-dana-lestari/pinjaman")}
+        items={[
+          { label: "Transaksi Pinjaman", to: "/astiti-dana-lestari/pinjaman/transaksi" },
+          { label: "Rekening Pinjaman", to: "/astiti-dana-lestari/pinjaman/rekening" },
+        ]}
       />
       <MenuSection
         label="Simpanan Berjangka"
