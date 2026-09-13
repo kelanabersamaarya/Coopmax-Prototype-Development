@@ -57,7 +57,7 @@ export default function AstitiTarikanBungaDeposito() {
             <p className="mb-8 text-[30px] font-semibold tracking-tight text-[#595959]">Berhasil menambahkan transaksi</p>
             <div className="flex w-full items-center justify-center gap-2">
               <Button onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/transaksi")} className="h-12 min-w-[223px] rounded-md bg-[#aaa] text-base font-semibold text-white shadow-none hover:bg-[#929292]">Kembali ke Daftar</Button>
-              <Button onClick={() => setSuccessOpen(false)} className="h-12 min-w-[228px] rounded-md border-2 border-[#b9d3ea] bg-[#328bd2] text-base font-semibold text-white shadow-none hover:bg-[#287abd]">Lihat Detail</Button>
+              <Button onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/transaksi/PBD%2F130926%2F0001")} className="h-12 min-w-[228px] rounded-md border-2 border-[#b9d3ea] bg-[#328bd2] text-base font-semibold text-white shadow-none hover:bg-[#287abd]">Lihat Detail</Button>
             </div>
           </div>
         </DialogContent>

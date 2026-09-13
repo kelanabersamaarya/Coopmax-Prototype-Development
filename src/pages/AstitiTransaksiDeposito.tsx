@@ -125,7 +125,7 @@ export default function AstitiTransaksiDeposito() {
             </thead>
             <tbody>
               {transactions.slice(0, Number(pageSize)).map((row) => (
-                <tr key={row.id} className="border-b border-slate-200">
+                <tr key={row.id} onClick={() => navigate(`/astiti-dana-lestari/simpanan-berjangka/transaksi/${encodeURIComponent(row.id)}`)} className="cursor-pointer border-b border-slate-200 hover:bg-blue-50">
                   <td className="px-1.5 py-2">{row.no}</td><td className="px-1.5 py-2 text-blue-700">{row.id}</td><td className="px-1.5 py-2">{row.deposito}</td><td className="px-1.5 py-2">{row.tabungan}</td><td className="px-1.5 py-2">{row.nasabah}</td><td className="px-1.5 py-2 leading-tight">{row.nama}</td><td className="px-1.5 py-2">{row.kolektor}</td><td className="px-1.5 py-2">{row.produk}</td><td className="bg-slate-100 px-1.5 py-2">{row.tanggal}</td><td className="px-1.5 py-2 leading-tight">{row.jenis}</td><td className="whitespace-nowrap px-1.5 py-2 text-right text-red-500">{row.nominal}</td>
                 </tr>
               ))}
