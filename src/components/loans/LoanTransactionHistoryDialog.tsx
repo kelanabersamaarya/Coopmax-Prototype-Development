@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Search, X, ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { Search, X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import {
   Select,
@@ -455,11 +455,11 @@ export default function LoanTransactionHistoryDialog({
                                       `/loans/transactions/${encodeURIComponent(trxNo)}`,
                                     );
                                   }}
-                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-50 text-violet-700 ring-1 ring-violet-200 transition hover:bg-violet-100"
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-slate-500 ring-0 transition hover:bg-slate-100 hover:text-slate-700"
                                   aria-label="Lihat detail transaksi"
                                   title="Lihat detail transaksi"
                                 >
-                                  <Eye className="h-4 w-4" />
+                                  <ExternalLink className="h-5 w-5" />
                                 </button>
                               </td>
                             </tr>
