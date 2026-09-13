@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import AstitiRekeningTabunganDetail from "@/pages/AstitiRekeningTabunganDetail";
 
 type AccountRow = {
   accountNo: string;
@@ -41,10 +42,20 @@ const rows: AccountRow[] = [
 const headers = ["NO. REKENING", "TANGGAL DAFTAR", "PRODUK TABUNGAN", "ID NASABAH", "NASABAH", "SALDO", "STATUS"];
 
 export default function AstitiRekeningTabungan() {
+  const [selectedAccount, setSelectedAccount] = React.useState<AccountRow | null>(null);
   const [search, setSearch] = React.useState("");
   const [registeredAt, setRegisteredAt] = React.useState("");
   const [product, setProduct] = React.useState("Semua");
   const [status, setStatus] = React.useState("Semua");
+
+  if (selectedAccount) {
+    return (
+      <AstitiRekeningTabunganDetail
+        account={selectedAccount}
+        onBack={() => setSelectedAccount(null)}
+      />
+    );
+  }
 
   const filtered = rows.filter((row) => {
     const query = search.toLowerCase();
@@ -68,7 +79,7 @@ export default function AstitiRekeningTabungan() {
           <thead><tr className="border-b border-slate-300 text-[11px] font-bold uppercase"><th className="px-1.5 py-3">No.</th>{headers.map((header) => <th key={header} className="px-1.5 py-3"><span className="flex items-center justify-between gap-1">{header}<ChevronsUpDown className="h-3 w-3 shrink-0" /></span></th>)}</tr>
             <tr className="border-b border-slate-200"><th /><th className="px-1.5 py-2"><Input value={search} onChange={(e) => setSearch(e.target.value)} className="h-8 px-2 text-[11px]" /></th><th className="px-1.5 py-2"><div className="flex h-8 w-full overflow-hidden rounded border border-slate-300 bg-white"><Input value={registeredAt} onChange={(e) => setRegisteredAt(e.target.value)} className="h-full min-w-0 flex-1 rounded-none border-0 px-2 text-[11px] shadow-none focus-visible:ring-0" /><button type="button" onClick={() => setRegisteredAt("")} aria-label="Hapus filter tanggal daftar" className="flex w-9 shrink-0 items-center justify-center bg-[#7c8ca9] text-white transition hover:bg-[#697b9b]"><X className="h-5 w-5 stroke-[3]" /></button></div></th><th className="px-1.5 py-2"><select value={product} onChange={(e) => setProduct(e.target.value)} className="h-8 w-full rounded border border-slate-300 bg-white px-1 text-[11px]"><option>Semua</option>{[...new Set(rows.map((row) => row.product))].map((item) => <option key={item}>{item}</option>)}</select></th><th className="px-1.5 py-2"><Input className="h-8 px-2 text-[11px]" /></th><th className="px-1.5 py-2"><Input className="h-8 px-2 text-[11px]" /></th><th className="px-1.5 py-2"><Input placeholder="0,00" className="h-8 px-2 text-[11px]" /></th><th className="px-1.5 py-2"><select value={status} onChange={(e) => setStatus(e.target.value)} className="h-8 w-full rounded border border-slate-300 bg-white px-1 text-[11px]"><option>Semua</option><option>Aktif</option></select></th></tr>
           </thead>
-          <tbody>{filtered.map((row, index) => <tr key={row.accountNo} className="border-b border-slate-200 hover:bg-violet-50"><td className="px-1.5 py-1.5">{index + 1}</td><td className="truncate px-1.5 py-1.5 font-medium text-blue-600">{row.accountNo}</td><td className="bg-[#f1f3f7] px-1.5 py-1.5">{row.registeredAt}</td><td className="truncate px-1.5 py-1.5">{row.product}</td><td className="truncate px-1.5 py-1.5">{row.customerId}</td><td className="truncate px-1.5 py-1.5">{row.customerName}</td><td className="truncate px-1.5 py-1.5 text-right">{row.balance}</td><td className="px-1.5 py-1.5"><span className="rounded-[3px] bg-[#42bd00] px-1.5 py-0.5 text-[10px] font-bold text-white">Aktif</span></td></tr>)}</tbody>
+          <tbody>{filtered.map((row, index) => <tr key={row.accountNo} onClick={() => setSelectedAccount(row)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedAccount(row); } }} role="link" tabIndex={0} className="cursor-pointer border-b border-slate-200 hover:bg-violet-50"><td className="px-1.5 py-1.5">{index + 1}</td><td className="truncate px-1.5 py-1.5 font-medium text-blue-600">{row.accountNo}</td><td className="bg-[#f1f3f7] px-1.5 py-1.5">{row.registeredAt}</td><td className="truncate px-1.5 py-1.5">{row.product}</td><td className="truncate px-1.5 py-1.5">{row.customerId}</td><td className="truncate px-1.5 py-1.5">{row.customerName}</td><td className="truncate px-1.5 py-1.5 text-right">{row.balance}</td><td className="px-1.5 py-1.5"><span className="rounded-[3px] bg-[#42bd00] px-1.5 py-0.5 text-[10px] font-bold text-white">Aktif</span></td></tr>)}</tbody>
         </table></div>
         <div className="mt-4 flex items-center justify-between text-[13px]"><span>Menampilkan 1 sampai {filtered.length} dari 199 entri (disaring dari 201 entri keseluruhan)</span><div className="flex gap-1"><Button variant="ghost" disabled className="h-8 rounded-none bg-slate-100 text-slate-300">Sebelumnya</Button>{[1, 2, 3, 4, 5].map((page) => <Button key={page} variant="ghost" className={cn("h-8 w-8 rounded-none bg-slate-200 p-0", page === 1 && "bg-violet-600 text-white")}>{page}</Button>)}<span className="px-2 py-1">...</span><Button variant="ghost" className="h-8 rounded-none bg-slate-200">10</Button><Button variant="ghost" className="h-8 rounded-none bg-slate-200">Selanjutnya</Button></div></div>
       </Card>
