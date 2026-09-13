@@ -20,7 +20,7 @@ const actionItems = [
   { label: "Transaksi dari Kolektor", icon: Users },
   { label: "Transaksi Terhapus", icon: Trash2 },
   { label: "Debet Setoran Bulanan ke Tabungan Berjangka", icon: CalendarDays },
-  { label: "Debet Setoran ke Tabungan Wajib", icon: CalendarDays, active: true },
+  { label: "Debet Setoran ke Tabungan Wajib", icon: CalendarDays },
   { label: "Biaya Admin", icon: Tag },
   { label: "Bunga", icon: Percent },
   { label: "Setoran", icon: ArrowDownToLine },
