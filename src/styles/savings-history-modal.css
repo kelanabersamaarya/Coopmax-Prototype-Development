@@ -18,9 +18,19 @@
   overflow-wrap: anywhere;
 }
 
-#root [role="dialog"]:not(:has(.save-confirmation-modal)) th:has(svg) {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) th {
   position: relative;
   padding-right: 30px;
+  text-align: center !important;
+  vertical-align: middle;
+}
+
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) th:first-child,
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) td:first-child {
+  width: 42px;
+  padding-left: 4px;
+  padding-right: 4px;
+  text-align: center !important;
 }
 
 #root [role="dialog"]:not(:has(.save-confirmation-modal)) th:has(svg) svg {
