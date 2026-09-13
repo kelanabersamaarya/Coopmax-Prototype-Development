@@ -1,0 +1,75 @@
+import * as React from "react";
+import { ChevronDown, ChevronUp, ExternalLink, Search, X } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
+type HistoryRow = {
+  tanggal: string;
+  tipe: string;
+  nominal: string;
+  nominalClass: "positive" | "negative";
+  keterangan: string;
+};
+
+const historyRows: HistoryRow[] = [
+  { tanggal: "13-09-2026", tipe: "Penarikan Bunga SIJAKOP", nominal: "- 16.600,00", nominalClass: "negative", keterangan: "-- penarikan bunga sijakop" },
+  { tanggal: "30-09-2023", tipe: "Bunga SIJAKOP", nominal: "+ 8.300,00", nominalClass: "positive", keterangan: "-- test" },
+  { tanggal: "31-08-2023", tipe: "Bunga SIJAKOP", nominal: "+ 8.300,00", nominalClass: "positive", keterangan: "-- Test" },
+  { tanggal: "16-06-2023", tipe: "Pembukaan Rekening Sijakop", nominal: "+ 1.000.000,00", nominalClass: "positive", keterangan: "--" },
+];
+
+function SortIcon({ active = false }: { active?: boolean }) {
+  return <span className="ml-1 inline-flex flex-col align-middle leading-[7px] text-[#17315b]"><ChevronUp className={cn("h-3 w-3", active && "text-[#5745f6]")} /><ChevronDown className="h-3 w-3" /></span>;
+}
+
+export default function DepositTransactionHistoryDialog({ open, onOpenChange, accountNo }: { open: boolean; onOpenChange: (open: boolean) => void; accountNo: string }) {
+  const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
+  const [pageSize, setPageSize] = React.useState("20");
+
+  React.useEffect(() => {
+    if (!open) return;
+    setStartDate("");
+    setEndDate("");
+    setPageSize("20");
+  }, [open]);
+
+  const filteredRows = historyRows.filter((row) => (!startDate || row.tanggal.includes(startDate)) && (!endDate || row.tanggal.includes(endDate)));
+  const shownRows = filteredRows.slice(0, Number(pageSize));
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-[calc(100vw-24px)] max-w-[826px] overflow-hidden rounded-[16px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden">
+        <div className="flex items-center justify-between border-b border-[#d3dae7] px-6 py-4">
+          <h2 className="text-[18px] font-bold text-[#202b3d]">Riwayat Transaksi</h2>
+          <button type="button" onClick={() => onOpenChange(false)} aria-label="Tutup" className="rounded-md p-1 text-[#858585] transition hover:bg-slate-100 hover:text-slate-600"><X className="h-5 w-5 stroke-[4]" /></button>
+        </div>
+
+        <div className="max-h-[calc(100vh-130px)] overflow-y-auto px-6 py-6">
+          <div className="text-[13px] font-medium text-[#173b70]">Tanggal Transaksi</div>
+          <div className="mt-2 grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-center">
+            <div className="relative"><Input value={startDate} onChange={(event) => setStartDate(event.target.value)} placeholder="Tanggal awal" className="h-8 rounded-md border-[#cfd7e5] pr-9 text-[13px] shadow-none placeholder:text-[#8293b2]" />{startDate && <button type="button" onClick={() => setStartDate("")} className="absolute right-0 top-0 grid h-8 w-8 place-items-center rounded-r-md bg-[#7d8fac] text-white"><X className="h-4 w-4 stroke-[4]" /></button>}</div>
+            <div className="relative"><Input value={endDate} onChange={(event) => setEndDate(event.target.value)} placeholder="Tanggal akhir" className="h-8 rounded-md border-[#cfd7e5] pr-9 text-[13px] shadow-none placeholder:text-[#8293b2]" />{endDate && <button type="button" onClick={() => setEndDate("")} className="absolute right-0 top-0 grid h-8 w-8 place-items-center rounded-r-md bg-[#7d8fac] text-white"><X className="h-4 w-4 stroke-[4]" /></button>}</div>
+            <Button type="button" onClick={() => toast.success(`Menampilkan riwayat ${accountNo}`)} className="h-8 rounded-md bg-[#7d8fac] px-4 text-[13px] font-semibold text-white hover:bg-[#687b9c]"><Search className="mr-1 h-4 w-4" />Cari</Button>
+          </div>
+
+          <div className="mt-4 flex items-center gap-1 text-[13px] text-[#333]"><span>Show</span><Select value={pageSize} onValueChange={setPageSize}><SelectTrigger className="h-6 w-[45px] rounded-sm border-[#9fa8b7] px-1.5 text-[12px] shadow-none"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="10">10</SelectItem><SelectItem value="20">20</SelectItem><SelectItem value="50">50</SelectItem></SelectContent></Select><span>entries</span></div>
+
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[700px] border-collapse text-[12px] text-[#263d66]">
+              <thead><tr className="border-b border-[#c9d3e2] text-left font-bold uppercase tracking-wide text-[#202c42]"><th className="w-[9%] px-2 py-2">No.</th><th className="w-[18%] bg-[#eef1f6] px-2 py-2">Tanggal <SortIcon active /></th><th className="w-[21%] px-2 py-2">Tipe Transaksi <SortIcon /></th><th className="w-[18%] px-2 py-2 leading-3">Jumlah<br />Transaksi <SortIcon /></th><th className="w-[28%] px-2 py-2">Keterangan <SortIcon /></th><th className="w-[8%] px-2 py-2 leading-3">Detail<br />Transaksi</th></tr></thead>
+              <tbody>{shownRows.map((row, index) => <tr key={`${row.tanggal}-${index}`} className="border-b border-[#c9d3e2]"><td className="px-2 py-1.5">{index + 1}</td><td className="bg-[#eef1f6] px-2 py-1.5">{row.tanggal}</td><td className="px-2 py-1.5 leading-3">{row.tipe}</td><td className={cn("px-2 py-1.5 text-right tabular-nums", row.nominalClass === "positive" ? "text-[#00a91b]" : "text-[#ff3030]")}>{row.nominal}</td><td className="px-2 py-1.5 leading-3">{row.keterangan}</td><td className="px-2 py-1.5 text-center"><button type="button" onClick={() => toast("Detail transaksi (prototype)")} aria-label="Lihat detail transaksi" className="text-[#7185a5] hover:text-[#5745f6]"><ExternalLink className="h-4 w-4" /></button></td></tr>)}</tbody>
+            </table>
+          </div>
+
+          <div className="mt-5 flex flex-col items-start justify-between gap-3 text-[13px] text-[#333] sm:flex-row sm:items-center"><span>Showing {shownRows.length ? 1 : 0} to {shownRows.length} of {filteredRows.length} entries</span><div className="inline-flex rounded-sm"><button type="button" disabled className="h-8 bg-[#eef1f6] px-3 text-[#cbd2dd]">Previous</button><span className="grid h-8 w-8 place-items-center bg-[#5745f6] font-semibold text-white">1</span><button type="button" disabled className="h-8 bg-[#eef1f6] px-3 text-[#cbd2dd]">Next</button></div></div>
+        </div>
+        <div className="flex justify-end border-t border-[#d3dae7] px-6 py-4"><Button type="button" onClick={() => onOpenChange(false)} className="h-8 rounded-md bg-[#7d8fac] px-4 text-[13px] font-semibold text-white hover:bg-[#687b9c]"><X className="mr-1 h-4 w-4 stroke-[4]" />Tutup</Button></div>
+      </DialogContent>
+    </Dialog>
+  );
+}
