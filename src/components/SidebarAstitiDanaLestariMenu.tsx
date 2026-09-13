@@ -96,7 +96,7 @@ export default function SidebarAstitiDanaLestariMenu() {
 
   return (
     <div className="space-y-1">
-      <NavLink to="/astiti-dana-lestari/dashboard" className={linkClass}>
+      <NavLink to="/dashboard" className={linkClass}>
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
           <Home className="h-4.5 w-4.5" />
         </span>
