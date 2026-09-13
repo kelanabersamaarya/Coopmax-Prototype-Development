@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { getDepositTransactions } from "@/lib/depositTransactionsStore";
 
 type HistoryRow = {
   tanggal: string;
@@ -15,7 +16,7 @@ type HistoryRow = {
   keterangan: string;
 };
 
-const historyRows: HistoryRow[] = [
+const defaultHistoryRows: HistoryRow[] = [
   { tanggal: "13-09-2026", tipe: "Penarikan Bunga SIJAKOP", nominal: "- 16.600,00", nominalClass: "negative", keterangan: "-- penarikan bunga sijakop" },
   { tanggal: "30-09-2023", tipe: "Bunga SIJAKOP", nominal: "+ 8.300,00", nominalClass: "positive", keterangan: "-- test" },
   { tanggal: "31-08-2023", tipe: "Bunga SIJAKOP", nominal: "+ 8.300,00", nominalClass: "positive", keterangan: "-- Test" },
@@ -42,7 +43,27 @@ export default function DepositTransactionHistoryDialog({ open, onOpenChange, ac
     setPageSize("20");
   }, [open]);
 
-  const filteredRows = historyRows.filter((row) => (!startDate || row.tanggal.includes(startDate)) && (!endDate || row.tanggal.includes(endDate)));
+  const [storedRows, setStoredRows] = React.useState(() => getDepositTransactions());
+
+  React.useEffect(() => {
+    if (!open) return;
+    const syncRows = () => setStoredRows(getDepositTransactions());
+    syncRows();
+    window.addEventListener("deposit-transactions-updated", syncRows);
+    return () => window.removeEventListener("deposit-transactions-updated", syncRows);
+  }, [open]);
+
+  const historyRows = storedRows
+    .filter((transaction) => transaction.deposito === accountNo)
+    .map((transaction) => ({
+      tanggal: transaction.tanggal,
+      tipe: transaction.jenis,
+      nominal: transaction.nominal,
+      nominalClass: transaction.nominal.trim().startsWith("-") ? "negative" as const : "positive" as const,
+      keterangan: transaction.keterangan ? `-- ${transaction.keterangan}` : "--",
+    }));
+  const rows = historyRows.length ? historyRows : defaultHistoryRows;
+  const filteredRows = rows.filter((row) => (!startDate || row.tanggal.includes(startDate)) && (!endDate || row.tanggal.includes(endDate)));
   const shownRows = filteredRows.slice(0, Number(pageSize));
 
   return (
