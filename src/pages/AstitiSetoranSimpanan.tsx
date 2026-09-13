@@ -45,8 +45,8 @@ export default function AstitiSetoranSimpanan() {
           <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dff0d7] text-[62px] font-semibold leading-none text-[#9bd681]">✓</div>
           <p className="mt-8 text-[30px] font-semibold text-[#5b5b5b]">Berhasil menambahkan transaksi</p>
           <div className="mt-8 flex justify-center gap-2">
-            <Button type="button" onClick={() => setSaveSuccess(false)} className="h-12 w-[216px] rounded-[5px] bg-[#aaa] text-[16px] font-semibold text-white hover:bg-[#999]">Kembali ke Daftar</Button>
-            <Button type="button" onClick={() => setSaveSuccess(false)} className="h-12 w-[216px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Lihat Detail</Button>
+            <Button type="button" onClick={() => window.location.assign("/astiti-dana-lestari/simpanan/transaksi")} className="h-12 w-[216px] rounded-[5px] bg-[#aaa] text-[16px] font-semibold text-white hover:bg-[#999]">Kembali ke Daftar</Button>
+            <Button type="button" onClick={() => window.location.assign("/astiti-dana-lestari/simpanan/transaksi/detail")} className="h-12 w-[216px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Lihat Detail</Button>
           </div>
         </div>
       </DialogContent>
