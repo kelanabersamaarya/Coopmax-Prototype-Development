@@ -110,7 +110,19 @@ export default function AstitiSimpananTransaksi() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-slate-100 align-top">
+                <tr
+                  className="cursor-pointer border-b border-slate-100 align-top transition-colors hover:bg-[#f8f7ff]"
+                  onClick={() => navigate("/astiti-dana-lestari/simpanan/transaksi/detail")}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      navigate("/astiti-dana-lestari/simpanan/transaksi/detail");
+                    }
+                  }}
+                  role="link"
+                  tabIndex={0}
+                  aria-label="Lihat detail transaksi STR/130926/0001"
+                >
                   <td className="px-2 py-3 text-[13px]">1</td>
                   <td className="px-2 py-3 font-medium text-blue-600">STR/130926/0001</td>
                   <td className="px-2 py-3">SK01260009</td>
