@@ -28,7 +28,7 @@ const actionItems = [
 ];
 
 function FilterInput({ placeholder, className }: { placeholder?: string; className?: string }) {
-  return <Input placeholder={placeholder} className={cn("h-9 rounded-md border-slate-300 bg-white text-[12px] shadow-none", className)} />;
+  return <Input placeholder={placeholder} className={cn("h-9 rounded-[5px] border-slate-300 bg-white text-[12px] shadow-none", className)} />;
 }
 
 function SortableHeader({ label, className }: { label: string; className?: string }) {
@@ -102,7 +102,7 @@ export default function AstitiSimpananTransaksi() {
                   <th className="px-2 py-3"><FilterInput /></th>
                   <th className="px-2 py-3"><div className="relative"><FilterInput /><ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3.5 w-3.5 text-slate-500" /></div></th>
                   <th className="px-2 py-3"><div className="relative"><FilterInput placeholder="-- Semua" /><ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3.5 w-3.5 text-slate-500" /></div></th>
-                  <th className="bg-[hsl(var(--app-bg))] px-2 py-3"><Input value={date} onChange={(event) => setDate(event.target.value)} className="h-9 rounded-md border-slate-300 bg-white text-[12px]" /></th>
+                  <th className="bg-[hsl(var(--app-bg))] px-2 py-3"><Input value={date} onChange={(event) => setDate(event.target.value)} className="h-9 rounded-[5px] border-slate-300 bg-white text-[12px]" /></th>
                   <th className="px-2 py-3"><div className="relative"><FilterInput placeholder="-- Semua" /><ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3.5 w-3.5 text-slate-500" /></div></th>
                   <th className="px-2 py-3"><FilterInput placeholder="0,00" /></th>
                 </tr>
