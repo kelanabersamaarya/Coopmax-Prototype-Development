@@ -337,10 +337,7 @@ export default function LoanTransactionHistoryDialog({
                           return (
                             <tr
                               key={`${r.tanggal}-${derivedNo}`}
-                              className={cn(
-                                "border-t border-slate-100",
-                                idx % 2 === 0 ? "bg-[#f8fafc]" : "bg-white",
-                              )}
+                              className="border-t border-[#d5dce7] bg-white"
                             >
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
                                 {derivedNo}
