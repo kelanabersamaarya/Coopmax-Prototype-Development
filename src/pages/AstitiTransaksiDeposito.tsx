@@ -51,7 +51,7 @@ function Sort({ children, plain = false }: { children: React.ReactNode; plain?: 
 }
 
 function FilterInput({ placeholder }: { placeholder: string }) {
-  return <Input placeholder={placeholder} className="h-8 rounded-md border-slate-300 px-2 text-[11px] shadow-none" />;
+  return <Input placeholder={placeholder} className="h-8 rounded-md border-slate-300 px-2 text-[10px] shadow-none" />;
 }
 
 function Action({ icon: Icon, children, onClick }: { icon: React.ElementType; children: React.ReactNode; onClick: () => void }) {
@@ -115,9 +115,9 @@ export default function AstitiTransaksiDeposito() {
                 <th className="px-1 py-1.5"><FilterInput placeholder="ID Nasabah" /></th>
                 <th className="px-1 py-1.5"><FilterInput placeholder="Nama Nasabah" /></th>
                 <th className="px-1 py-1.5"><FilterInput placeholder="Nama Kolektor" /></th>
-                <th className="px-1 py-1.5"><Select defaultValue="Semua"><SelectTrigger className="h-8 rounded-md border-slate-300 text-[11px] shadow-none"><SelectValue placeholder="-- Semua" /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua</SelectItem><SelectItem value="SIJAKOP">SIJAKOP</SelectItem></SelectContent></Select></th>
-                <th className="bg-slate-100 px-1 py-1.5"><Input value={tanggal} onChange={(event) => setTanggal(event.target.value)} className="h-8 rounded-md border-slate-300 text-[11px] shadow-none" /></th>
-                <th className="px-1 py-1.5"><Select defaultValue="Semua"><SelectTrigger className="h-8 rounded-md border-slate-300 text-[11px] shadow-none"><SelectValue placeholder="-- Semua" /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua</SelectItem><SelectItem value="Penarikan">Penarikan Bunga</SelectItem></SelectContent></Select></th>
+                <th className="px-1 py-1.5"><Select defaultValue="Semua"><SelectTrigger className="h-8 rounded-md border-slate-300 text-[10px] shadow-none"><SelectValue placeholder="-- Semua" /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua</SelectItem><SelectItem value="SIJAKOP">SIJAKOP</SelectItem></SelectContent></Select></th>
+                <th className="bg-slate-100 px-1 py-1.5"><Input value={tanggal} onChange={(event) => setTanggal(event.target.value)} className="h-8 rounded-md border-slate-300 text-[10px] shadow-none" /></th>
+                <th className="px-1 py-1.5"><Select defaultValue="Semua"><SelectTrigger className="h-8 rounded-md border-slate-300 text-[10px] shadow-none"><SelectValue placeholder="-- Semua" /></SelectTrigger><SelectContent><SelectItem value="Semua">-- Semua</SelectItem><SelectItem value="Penarikan">Penarikan Bunga</SelectItem></SelectContent></Select></th>
                 <th className="px-1 py-1.5"><FilterInput placeholder="Nominal" /></th>
               </tr>
             </thead>
