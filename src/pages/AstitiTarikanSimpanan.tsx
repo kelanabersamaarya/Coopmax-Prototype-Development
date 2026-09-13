@@ -90,7 +90,7 @@ export default function AstitiTarikanSimpanan() {
       </Dialog>
 
       <Dialog open={saveSuccess} onOpenChange={setSaveSuccess}>
-        <DialogContent className="max-w-[528px] rounded-[5px] border-0 bg-white p-0 text-center shadow-2xl [&>button]:hidden">
+        <DialogContent className="save-confirmation-modal max-w-[528px] rounded-[5px] border-0 bg-white p-0 text-center shadow-2xl [&>button]:hidden">
           <div className="px-5 pb-5 pt-10">
             <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dff0d7] text-[62px] font-semibold leading-none text-[#9bd681]">✓</div>
             <p className="mt-8 text-[30px] font-semibold text-[#5b5b5b]">Berhasil menambahkan transaksi</p>

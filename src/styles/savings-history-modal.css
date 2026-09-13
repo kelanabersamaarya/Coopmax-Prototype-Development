@@ -1,18 +1,23 @@
-[role="dialog"] .overflow-x-auto {
+#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) > div::before {
+  content: none !important;
+  display: none !important;
+}
+
+#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) .overflow-x-auto {
   overflow-x: hidden !important;
 }
 
-[role="dialog"] table {
+#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) table {
   min-width: 0 !important;
   table-layout: fixed;
 }
 
-[role="dialog"] th,
-[role="dialog"] td {
+#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) th,
+#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) td {
   overflow-wrap: anywhere;
 }
 
-[role="dialog"] h2 {
+#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) h2 {
   font-size: 18px !important;
   line-height: 1.5;
 }
