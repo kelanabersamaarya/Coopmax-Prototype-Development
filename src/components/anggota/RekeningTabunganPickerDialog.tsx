@@ -39,12 +39,12 @@ const rows: RekeningTabungan[] = [
   ["11111260005", "28-08-2026", "tabungan", "A2600008", "ardina yanti", "1.000.000,00"],
   ["SK01260007", "14-08-2026", "Simpanan Sukarela", "A2600007", "bmt al fath ikmi", "160.000,00"],
   ["P001260007", "14-08-2026", "Simpanan Pokok", "A2600007", "bmt al fath ikmi", "200.000,00"],
-].map(([noRekening, tanggal, produk, nasabahId, nasabah, saldo], i) => ({ id: String(i + 1), noRekening, tanggal, produk, nasabahId, nasabah, saldo }));
+].map(([noRekening, tanggal, produk, nasabahId, nasabah, saldo], i) => ({ id: String(i + 1), noRekening, tanggal, produk, nasabahId, nasabah, saldo })).slice(0, 10);
 
 const R = "rounded-[5px]";
 
 export default function RekeningTabunganPickerDialog({ open, onOpenChange, onPick }: { open: boolean; onOpenChange: (open: boolean) => void; onPick: (rekening: RekeningTabungan) => void }) {
-  const [pageSize, setPageSize] = React.useState("20");
+  const [pageSize, setPageSize] = React.useState("10");
   const [query, setQuery] = React.useState("");
   const filtered = rows.filter((row) => `${row.noRekening} ${row.nasabah} ${row.nasabahId}`.toLowerCase().includes(query.toLowerCase()));
 
@@ -56,7 +56,7 @@ export default function RekeningTabunganPickerDialog({ open, onOpenChange, onPic
           <button type="button" onClick={() => onOpenChange(false)} className="text-slate-500 hover:text-slate-800" aria-label="Tutup"><X className="h-5 w-5" /></button>
         </header>
         <div className="max-h-[calc(100vh-150px)] overflow-auto px-6 py-6">
-          <div className="mb-4 flex items-center gap-1 text-[13px] text-slate-700">Tampilkan <Select value={pageSize} onValueChange={setPageSize}><SelectTrigger className={cn("h-8 w-[44px] px-2", R)}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="20">20</SelectItem><SelectItem value="10">10</SelectItem><SelectItem value="5">5</SelectItem></SelectContent></Select> entri</div>
+          <div className="mb-4 flex items-center gap-1 text-[13px] text-slate-700">Tampilkan <Select value={pageSize} onValueChange={setPageSize}><SelectTrigger className={cn("h-8 w-[44px] px-2", R)}><SelectValue /></SelectTrigger><SelectContent><SelectItem value="10">10</SelectItem></SelectContent></Select> entri</div>
           <div className="overflow-hidden border border-slate-200">
             <table className="w-full table-fixed border-collapse text-[12px] text-[#304568]">
               <thead>
