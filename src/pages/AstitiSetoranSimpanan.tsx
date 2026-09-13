@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import RekeningTabunganPickerDialog, { type RekeningTabungan } from "@/components/anggota/RekeningTabunganPickerDialog";
 
@@ -21,9 +22,22 @@ export default function AstitiSetoranSimpanan() {
   const [amount, setAmount] = React.useState("0,00");
   const [note, setNote] = React.useState("");
   const [serial, setSerial] = React.useState("");
+  const [confirmSave, setConfirmSave] = React.useState(false);
 
   return <div className="min-h-[calc(100vh-2rem)] bg-[hsl(var(--app-bg))] px-4 py-4 text-[#08285f] md:px-8">
     <RekeningTabunganPickerDialog open={openRekening} onOpenChange={setOpenRekening} onPick={setRekening} />
+    <Dialog open={confirmSave} onOpenChange={setConfirmSave}>
+      <DialogContent className="max-w-[528px] rounded-[5px] border-0 bg-white p-0 text-center shadow-2xl [&>button]:hidden">
+        <div className="px-8 pb-5 pt-10">
+          <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f7c79f] text-[58px] font-semibold leading-none text-[#f4b77f]">!</div>
+          <p className="mt-8 text-[30px] font-semibold text-[#405772]">Yakin untuk menyimpan data ?</p>
+          <div className="mt-8 flex justify-center gap-2">
+            <Button type="button" onClick={() => setConfirmSave(false)} className="h-12 w-[104px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Yes</Button>
+            <Button type="button" onClick={() => setConfirmSave(false)} className="h-12 w-[126px] rounded-[5px] bg-[#aaa] text-[16px] font-semibold text-white hover:bg-[#999]">Cancel</Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
     <h1 className="text-[22px] font-semibold tracking-tight">Transaksi Tabungan <span className="font-normal">Setoran</span></h1>
 
     <Card className="mt-11 min-h-[600px] rounded-[20px] border-0 bg-white px-6 py-8 shadow-none md:px-12 md:py-9">
@@ -54,7 +68,7 @@ export default function AstitiSetoranSimpanan() {
         </div>
       </div>
 
-      <div className="mt-16 flex justify-end"><div className="w-[270px]"><div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-2 text-[16px]"><span>Total :</span><span>{amount}</span></div><div className="flex justify-end gap-1"><Button type="button" className="h-10 rounded-[5px] bg-[#7b8ca9] px-5 hover:bg-[#687b9b]">× Batalkan</Button><Button type="button" className="h-10 rounded-[5px] bg-[#2eb400] px-5 hover:bg-[#249500]"><Check className="mr-1 h-3.5 w-3.5" /> Simpan</Button></div></div></div>
+      <div className="mt-16 flex justify-end"><div className="w-[270px]"><div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-2 text-[16px]"><span>Total :</span><span>{amount}</span></div><div className="flex justify-end gap-1"><Button type="button" className="h-10 rounded-[5px] bg-[#7b8ca9] px-5 hover:bg-[#687b9b]">× Batalkan</Button><Button type="button" onClick={() => setConfirmSave(true)} className="h-10 rounded-[5px] bg-[#2eb400] px-5 hover:bg-[#249500]"><Check className="mr-1 h-3.5 w-3.5" /> Simpan</Button></div></div></div>
     </Card>
   </div>;
 }
