@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 const actionItems = [
   { label: "Import Setoran", icon: ArrowDownToLine },
@@ -41,6 +42,7 @@ function SortableHeader({ label, className }: { label: string; className?: strin
 }
 
 export default function AstitiSimpananTransaksi() {
+  const navigate = useNavigate();
   const [pageSize, setPageSize] = React.useState("20");
   const [date, setDate] = React.useState("13-09-2026");
 
@@ -58,7 +60,7 @@ export default function AstitiSimpananTransaksi() {
               key={label}
               type="button"
               variant="ghost"
-              onClick={() => undefined}
+              onClick={() => label === "Setoran" && navigate("/astiti-dana-lestari/simpanan/setoran")}
               className={cn(
                 "h-[42px] rounded-full bg-white px-4 text-[14px] font-normal text-[#526784] shadow-sm hover:bg-[#eef0ff]",
                 active && "bg-[#eeebff] text-[#526784]",
