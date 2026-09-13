@@ -1,6 +1,6 @@
-import { CalendarDays, ExternalLink, History, List, PenLine, Printer, XSquare } from "lucide-react";
+import { CalendarDays, ExternalLink, History, List, PenLine, Printer, Search, X, XSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 type Account = {
   accountNo: string;
@@ -24,12 +24,14 @@ function QrPreview() {
 }
 
 export default function AstitiRekeningTabunganDetail({ account, onBack }: { account: Account; onBack: () => void }) {
+  const [showHistory, setShowHistory] = useState(false);
+
   return <div className="min-h-screen bg-[#f5f7fc] px-4 pb-8 pt-5 text-[#08285f] md:px-8 lg:px-10">
     <div className="px-1 sm:px-2">
       <h1 className="text-[21px] font-semibold">Rekening Tabungan <span className="font-normal">Detail</span></h1>
       <div className="mt-4 flex flex-wrap justify-end gap-2">
         <Action icon={CalendarDays}>Riwayat Transaksi Autodebet</Action>
-        <Action icon={History}>Riwayat Transaksi</Action>
+        <Action icon={History} onClick={() => setShowHistory(true)}>Riwayat Transaksi</Action>
         <Action icon={XSquare}>Tutup Rekening</Action>
         <Action icon={Printer}>Dokumen⌄</Action>
         <Action icon={List} onClick={onBack}>Kembali ke Daftar</Action>
@@ -37,5 +39,6 @@ export default function AstitiRekeningTabunganDetail({ account, onBack }: { acco
       </div>
     </div>
     <main className="mt-6 rounded-[20px] bg-white px-5 py-7 shadow-[0_12px_35px_rgba(40,70,120,0.04)] md:px-5 lg:px-5"><h2 className="text-[14px] font-bold uppercase">Informasi Rekening</h2><div className="mt-5 grid gap-8 lg:grid-cols-[185px_1fr] lg:items-center"><div><QrPreview /><div className="mt-3 flex gap-2"><Button className="h-8 rounded-[4px] bg-[#3267ee] px-3 text-[12px] hover:bg-[#2858d4]">▤ Preview</Button><Button className="h-8 rounded-[4px] bg-[#3267ee] px-3 text-[12px] hover:bg-[#2858d4]"><Printer className="mr-1 h-3.5 w-3.5" />Cetak</Button></div></div><div className="rounded-[11px] bg-[#7140c5] px-5 py-5 text-white"><p className="text-[13px] font-bold uppercase">{account.product}</p><div className="mt-3 grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4"><div><p className="text-[12px] text-white/75">Kode Tabungan</p><p className="font-bold">{account.accountNo}</p></div><div><p className="text-[12px] text-white/75">Kolektor</p><p className="font-bold">kopkardbs_kolektor</p></div><div><p className="text-[12px] text-white/75">Tanggal Dibuat</p><p className="font-bold">{account.registeredAt}</p></div><div><p className="text-[12px] text-white/75">Saldo</p><p className="font-bold">{account.balance}</p></div><div><p className="text-[12px] text-white/75">Bunga Per Tahun (%)</p><p className="font-bold">0,00 %</p></div><div><p className="text-[12px] text-white/75">Tabungan Berjangka</p><span className="rounded-[3px] bg-[#e93455] px-4 text-[12px] font-bold">Tidak</span></div><div><p className="text-[12px] text-white/75">Status</p><span className="rounded-[3px] bg-[#4bc800] px-4 text-[12px] font-bold">Aktif</span></div><div><p className="text-[12px] text-white/75">Label</p><p className="font-bold">-</p></div></div></div></div><section className="mt-8 border-t border-[#dfe3e9] pt-4"><h2 className="text-[14px] font-bold uppercase">Informasi Nasabah</h2><div className="mt-4 grid gap-x-12 lg:grid-cols-2"><div><Row label="ID"><span className="inline-flex items-center gap-1 text-[#245be9]">{account.customerId}<ExternalLink className="h-4 w-4" /></span></Row><Row label="NIP">-</Row><Row label="Nama">{account.customerName}</Row><Row label="Tanggal Lahir">1956-11-10</Row><Row label="Kategori Nasabah">Anggota</Row><Row label="Jenis Kelamin">Laki - Laki</Row><Row label="Alamat">Jalan</Row><Row label="Hubungan dengan Koperasi">Anggota</Row><Row label="Tanggal Daftar">2026-09-11</Row><Row label="Tag">-</Row><Row label="Unit">-</Row><Row label="Status Verifikasi KTP"><span className="inline-flex items-center gap-2 rounded-[4px] bg-[#ffe5e5] px-3 py-1 text-red-600"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white">×</span>BELUM TERVERIFIKASI</span></Row><Row label="Status"><span className="rounded-[3px] bg-[#4bc800] px-1.5 py-0.5 text-[12px] font-bold text-white">Aktif</span></Row></div><div><Row label="Agama">Islam</Row><Row label="Profesi">SWASTA</Row><Row label="Jenis Identitas">KTP</Row><Row label="No. Identitas">373020088840006</Row><Row label="No. Telp/Handphone">81284116604</Row><Row label="Alamat Email">djoko.manggolo@gmail.com</Row></div></div></section></main>
+    {showHistory && <TransactionHistoryModal onClose={() => setShowHistory(false)} />}
   </div>;
 }
