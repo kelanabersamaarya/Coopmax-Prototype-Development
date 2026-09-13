@@ -68,6 +68,7 @@ export function setSelectedSavingsTransaction(id: string) {
 }
 
 export function getSelectedSavingsTransaction() {
+  const transactions = getSavingsTransactions();
   const selectedId = window.localStorage.getItem(SELECTED_KEY);
-  return getSavingsTransactions().find((transaction) => transaction.id === selectedId) ?? getSavingsTransactions().at(-1);
+  return transactions.find((transaction) => transaction.id === selectedId) ?? transactions[transactions.length - 1];
 }
