@@ -78,27 +78,6 @@ const seed: Row[] = [
 const R = "rounded-[5px]";
 const H = "h-[30px]";
 
-function DetailActionButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "inline-flex h-8 w-8 items-center justify-center",
-        R,
-        "bg-transparent text-slate-700",
-        "ring-0 shadow-none border-0",
-        "transition hover:bg-slate-900/5 hover:text-slate-900",
-        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-      )}
-      aria-label="Detail transaksi"
-      title="Detail transaksi"
-    >
-      <span className="sr-only">Detail</span>
-    </button>
-  );
-}
-
 export default function LoanTransactionHistoryDialog({
   open,
   onOpenChange,
