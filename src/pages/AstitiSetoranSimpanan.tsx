@@ -11,7 +11,7 @@ function Field({ label, required, children, className }: { label: string; requir
   return <div className={cn("grid grid-cols-[185px_minmax(0,1fr)] items-center gap-2", className)}><Label className="text-[14px] font-normal text-[#08285f]">{label}{required ? <span className="text-red-500">*</span> : null}</Label>{children}</div>;
 }
 
-const inputClass = "h-9 rounded-[5px] border-[#c6d2e5] bg-white text-[14px] text-[#526784] shadow-none";
+const inputClass = "h-9 rounded-[5px] border border-[#c6d2e5] bg-white text-[14px] text-[#526784] shadow-none";
 
 export default function AstitiSetoranSimpanan() {
   const [date, setDate] = React.useState("13-09-2026");
