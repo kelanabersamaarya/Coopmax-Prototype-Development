@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ArrowUp, Percent, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -64,6 +65,7 @@ function Action({ icon: Icon, children, onClick }: { icon: React.ElementType; ch
 }
 
 export default function AstitiTransaksiDeposito() {
+  const navigate = useNavigate();
   const [pageSize, setPageSize] = React.useState("20");
   const [tanggal, setTanggal] = React.useState("13-09-2026");
 
@@ -77,7 +79,7 @@ export default function AstitiTransaksiDeposito() {
         <div className="flex flex-wrap justify-end gap-2">
           <Action icon={Trash2} onClick={() => toast("Transaksi Terhapus")}>Transaksi Terhapus</Action>
           <Action icon={Percent} onClick={() => toast("Bunga")}>Bunga</Action>
-          <Action icon={ArrowUp} onClick={() => toast("Penarikan Bunga")}>Penarikan Bunga</Action>
+          <Action icon={ArrowUp} onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/tarikan")}>Penarikan Bunga</Action>
         </div>
       </div>
 
