@@ -23,6 +23,7 @@ export default function AstitiSetoranSimpanan() {
   const [note, setNote] = React.useState("");
   const [serial, setSerial] = React.useState("");
   const [confirmSave, setConfirmSave] = React.useState(false);
+  const [saveSuccess, setSaveSuccess] = React.useState(false);
 
   return <div className="min-h-[calc(100vh-2rem)] bg-[hsl(var(--app-bg))] px-4 py-4 text-[#08285f] md:px-8">
     <RekeningTabunganPickerDialog open={openRekening} onOpenChange={setOpenRekening} onPick={setRekening} />
@@ -32,8 +33,20 @@ export default function AstitiSetoranSimpanan() {
           <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f7c79f] text-[58px] font-semibold leading-none text-[#f4b77f]">!</div>
           <p className="mt-8 text-[30px] font-semibold text-[#405772]">Yakin untuk menyimpan data ?</p>
           <div className="mt-8 flex justify-center gap-2">
-            <Button type="button" onClick={() => setConfirmSave(false)} className="h-12 w-[104px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Yes</Button>
+            <Button type="button" onClick={() => { setConfirmSave(false); setSaveSuccess(true); }} className="h-12 w-[104px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Yes</Button>
             <Button type="button" onClick={() => setConfirmSave(false)} className="h-12 w-[126px] rounded-[5px] bg-[#aaa] text-[16px] font-semibold text-white hover:bg-[#999]">Cancel</Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+    <Dialog open={saveSuccess} onOpenChange={setSaveSuccess}>
+      <DialogContent className="max-w-[528px] rounded-[5px] border-0 bg-white p-0 text-center shadow-2xl [&>button]:hidden">
+        <div className="px-5 pb-5 pt-10">
+          <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dff0d7] text-[62px] font-semibold leading-none text-[#9bd681]">✓</div>
+          <p className="mt-8 text-[30px] font-semibold text-[#5b5b5b]">Berhasil menambahkan transaksi</p>
+          <div className="mt-8 flex justify-center gap-2">
+            <Button type="button" onClick={() => setSaveSuccess(false)} className="h-12 w-[216px] rounded-[5px] bg-[#aaa] text-[16px] font-semibold text-white hover:bg-[#999]">Kembali ke Daftar</Button>
+            <Button type="button" onClick={() => setSaveSuccess(false)} className="h-12 w-[216px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Lihat Detail</Button>
           </div>
         </div>
       </DialogContent>
