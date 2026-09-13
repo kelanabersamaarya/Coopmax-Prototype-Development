@@ -1,6 +1,7 @@
 import { ArrowDownUp, CalendarDays, ExternalLink, History, List, PenLine, Printer, Search, X, XSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, type ReactNode } from "react";
+import "@/styles/savings-history-modal.css";
 
 type Account = {
   accountNo: string;
