@@ -122,11 +122,15 @@ export default function SidebarAstitiDanaLestariMenu() {
       <MenuSection
         label="Simpanan Berjangka"
         icon={CreditCard}
-        active={location.pathname === "/astiti-dana-lestari/simpanan-berjangka/transaksi"}
+        active={location.pathname.startsWith("/astiti-dana-lestari/simpanan-berjangka")}
         items={[
           {
             label: "Transaksi Simpanan Berjangka",
             to: "/astiti-dana-lestari/simpanan-berjangka/transaksi",
+          },
+          {
+            label: "Rekening Deposito",
+            to: "/astiti-dana-lestari/simpanan-berjangka/rekening",
           },
         ]}
       />
