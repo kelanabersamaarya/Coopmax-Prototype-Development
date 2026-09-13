@@ -4,7 +4,7 @@ import {
   ArrowUpToLine,
   CalendarDays,
   ChevronDown,
-  ChevronUp,
+  ChevronsUpDown,
   Percent,
   Tag,
   Trash2,
@@ -29,6 +29,15 @@ const actionItems = [
 
 function FilterInput({ placeholder, className }: { placeholder?: string; className?: string }) {
   return <Input placeholder={placeholder} className={cn("h-9 rounded-md border-slate-300 bg-white text-[12px] shadow-none", className)} />;
+}
+
+function SortableHeader({ label, className }: { label: string; className?: string }) {
+  return (
+    <span className={cn("inline-flex items-center gap-2 whitespace-nowrap", className)}>
+      {label}
+      <ChevronsUpDown className="h-3.5 w-3.5 shrink-0" />
+    </span>
+  );
 }
 
 export default function AstitiSimpananTransaksi() {
@@ -74,16 +83,16 @@ export default function AstitiSimpananTransaksi() {
             <table className="w-full min-w-[1120px] border-collapse text-left text-[12px] text-slate-700">
               <thead>
                 <tr className="border-b border-slate-200 text-[12px] font-bold uppercase tracking-wide text-[#102b5e]">
-                  <th className="w-14 px-2 py-3">No.</th>
-                  <th className="w-[150px] px-2 py-3">No. Transaksi <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[110px] px-2 py-3">No.<br />Rekening <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[120px] px-2 py-3">ID<br />Nasabah <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[170px] px-2 py-3">Nama Nasabah <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[150px] px-2 py-3">Nama<br />Kolektor <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[130px] px-2 py-3">Tabungan <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[120px] bg-[hsl(var(--app-bg))] px-2 py-3">Tanggal <ChevronDown className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[145px] px-2 py-3">Transaksi <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[110px] px-2 py-3">Nominal <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
+                  <th className="w-14 whitespace-nowrap px-2 py-3">NO.</th>
+                  <th className="w-[150px] whitespace-nowrap px-2 py-3"><SortableHeader label="NO. TRANSAKSI" /></th>
+                  <th className="w-[110px] whitespace-nowrap px-2 py-3"><SortableHeader label="NO. REKENING" /></th>
+                  <th className="w-[120px] whitespace-nowrap px-2 py-3"><SortableHeader label="ID NASABAH" /></th>
+                  <th className="w-[170px] whitespace-nowrap px-2 py-3"><SortableHeader label="NAMA NASABAH" /></th>
+                  <th className="w-[150px] whitespace-nowrap px-2 py-3"><SortableHeader label="NAMA KOLEKTOR" /></th>
+                  <th className="w-[130px] whitespace-nowrap px-2 py-3"><SortableHeader label="TABUNGAN" /></th>
+                  <th className="w-[120px] whitespace-nowrap bg-[hsl(var(--app-bg))] px-2 py-3"><SortableHeader label="TANGGAL" /></th>
+                  <th className="w-[145px] whitespace-nowrap px-2 py-3"><SortableHeader label="TRANSAKSI" /></th>
+                  <th className="w-[110px] whitespace-nowrap px-2 py-3"><SortableHeader label="NOMINAL" /></th>
                 </tr>
                 <tr className="border-b border-slate-200">
                   <th />
