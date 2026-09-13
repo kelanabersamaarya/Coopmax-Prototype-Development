@@ -43,7 +43,7 @@ export default function DepositTransactionHistoryDialog({ open, onOpenChange, ac
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[calc(100vw-24px)] max-w-[826px] overflow-hidden rounded-[16px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden">
+      <DialogContent className="w-[calc(100vw-24px)] max-w-[1080px] overflow-hidden rounded-[16px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden">
         <div className="flex items-center justify-between border-b border-[#d3dae7] px-6 py-4">
           <h2 className="text-[18px] font-bold text-[#202b3d]">Riwayat Transaksi</h2>
           <button type="button" onClick={() => onOpenChange(false)} aria-label="Tutup" className="rounded-md p-1 text-[#858585] transition hover:bg-slate-100 hover:text-slate-600"><X className="h-5 w-5 stroke-[4]" /></button>
