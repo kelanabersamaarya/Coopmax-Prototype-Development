@@ -2,7 +2,7 @@ import type { LoanAccountRow } from "./loan-account-types";
 
 const active = "Aktif / Sudah Dicairkan" as const;
 
-export const loanAccountRowsSeed: LoanAccountRow[] = [
+const loanAccountData = [
   ["09260003", "03-09-2026", "Pinjaman bulanan", "N2400033", "Rika Wastuti", "5.000.000,00", "4.900.000,00", "24.00"],
   ["09260002", "08-06-2026", "Pinjaman bulanan", "A2600003", "arya", "10.000.000,00", "8.666.666,68", "24.00"],
   ["12250002", "11-06-2025", "Pinjaman Bulanan", "A2300013", "Yulia Farida", "24.000.000,00", "4.240.000,00", "12.00"],
@@ -13,31 +13,19 @@ export const loanAccountRowsSeed: LoanAccountRow[] = [
   ["09240017", "12-12-2024", "Pinjaman bulanan", "N2400033", "Rika Wastuti", "10.000.000,00", "8.900.000,00", "24.00"],
   ["09240016", "21-10-2024", "Pinjaman bulanan", "A2400004", "Safina Kuswandari", "1.000.000,00", "504.166,67", "5.00"],
   ["09240014", "26-06-2024", "Pinjaman bulanan", "N2400029", "Pangeran Sirait", "12.000.000,00", "12.000.000,00", "24.00"],
-  ["09240013", "03-06-2024", "Pinjaman bulanan", "N2400029", "Pangeran Sirait", "100.000.000,00", "100.000.000,00", "24.00"],
-  ["KLP05.08240001", "26-06-2024", "Kredit Usaha Rakyat (KUR) - Bank BPD Bali", "N2400004", "Irfan Hutasoit", "75.000.000,00", "75.000.000,00", "6.00"],
-  ["09240008", "29-04-2024", "Pinjaman bulanan", "N2400024", "Kuncara Budiyanto", "1.000.000,00", "1.000.000,00", "24.00"],
-  ["09240007", "29-04-2024", "Pinjaman bulanan", "N2400010", "Ikhsan Siregar S.E.", "1.000.000,00", "1.000.000,00", "2.00"],
-  ["09240006", "29-04-2024", "Pinjaman bulanan", "N2400011", "Maimunah Julia Astuti", "1.000.000,00", "1.000.000,00", "24.00"],
-  ["09240005", "29-04-2024", "Pinjaman bulanan", "N2400023", "Vanya Farida S.Sos", "2.000.000,00", "2.000.000,00", "24.00"],
-  ["SMG240001", "29-04-2024", "Simpanan Multiguna", "N2400008", "Hasna Kusmawati", "1.000.000,00", "1.000.000,00", "24.00"],
-  ["09240004", "29-04-2024", "Pinjaman bulanan", "N2400026", "Nova Amalia Mayasari S.E.I", "1.000.000,00", "940.000,00", "24.00"],
-  ["09240003", "29-04-2024", "Pinjaman bulanan", "N2400028", "Rahmi Melani", "1.000.000,00", "1.000.000,00", "24.00"],
-  ["072230002", "21-10-2023", "Pinjaman Harian", "A2300011", "Eka Calista Kusmawati", "3.000.000,00", "2.900.600,00", "2.00"],
-  ["072230001", "20-10-2023", "Pinjaman Harian", "A2300012", "Dewi Lestari", "4.000.000,00", "3.250.000,00", "2.00"],
-  ["09230002", "15-08-2023", "Pinjaman bulanan", "N2300015", "Made Arya", "8.000.000,00", "2.000.000,00", "18.00"],
-  ["09230001", "12-05-2023", "Pinjaman bulanan", "N2300018", "Sari Dewi", "15.000.000,00", "0,00", "12.00"],
-  ["SMG230001", "10-04-2023", "Simpanan Multiguna", "N2300007", "Wayan Sudarta", "6.000.000,00", "1.500.000,00", "12.00"],
-  ["072220004", "22-11-2022", "Pinjaman Harian", "A2200019", "Komang Sari", "2.500.000,00", "0,00", "2.00"],
-  ["09220001", "03-02-2022", "Pinjaman bulanan", "N2200003", "Ketut Sujana", "20.000.000,00", "0,00", "12.00"],
-].map(([noRekening, tanggalDaftar, produkPinjaman, idNasabah, namaNasabah, nominal, sisaPinjaman, bungaPerTahun], index) => ({
-  id: `RP-${index + 1}`,
-  noRekening,
-  tanggalDaftar,
-  produkPinjaman,
-  idNasabah,
-  namaNasabah,
-  nominal,
-  sisaPinjaman,
-  bungaPerTahun,
-  status: active,
-}));
+] satisfies Array<[string, string, string, string, string, string, string, string]>;
+
+export const loanAccountRowsSeed: LoanAccountRow[] = loanAccountData.map(
+  ([noRekening, tanggalDaftar, produkPinjaman, idNasabah, namaNasabah, nominal, sisaPinjaman, bungaPerTahun], index) => ({
+    id: `RP-${index + 1}`,
+    noRekening,
+    tanggalDaftar,
+    produkPinjaman,
+    idNasabah,
+    namaNasabah,
+    nominal,
+    sisaPinjaman,
+    bungaPerTahun,
+    status: active,
+  }),
+);
