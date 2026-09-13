@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Search, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, X, ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import { toast } from "sonner";
 import {
   Select,
@@ -279,7 +279,7 @@ export default function LoanTransactionHistoryDialog({
 
               <div className={cn("mt-2 overflow-hidden ring-1 ring-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[980px] border-collapse">
+                  <table className="w-full min-w-[1220px] border-collapse">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-200">
                         <th className={cn(headerTh, "w-[58px]")}>No.</th>
@@ -329,6 +329,12 @@ export default function LoanTransactionHistoryDialog({
                           <br />
                           Akhir
                         </th>
+
+                        <th className={cn(headerTh, "w-[220px]")}>Keterangan</th>
+
+                        <th className={cn(headerTh, "w-[90px] text-center")}>
+                          Detail
+                        </th>
                       </tr>
                     </thead>
 
@@ -336,7 +342,7 @@ export default function LoanTransactionHistoryDialog({
                       {paged.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={10}
+                            colSpan={12}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada transaksi.
@@ -434,15 +440,27 @@ export default function LoanTransactionHistoryDialog({
                                 {r.sisaPinjamanAkhir}
                               </td>
 
-                              <td className="sr-only">
-                                <DetailActionButton
+                              <td className={cn(tdBase, "max-w-[220px] text-slate-700")}>
+                                <div className="whitespace-normal leading-snug">
+                                  {r.keterangan || "-"}
+                                </div>
+                              </td>
+
+                              <td className={cn(tdBase, "text-center")}>
+                                <button
+                                  type="button"
                                   onClick={() => {
                                     onOpenChange(false);
                                     navigate(
                                       `/loans/transactions/${encodeURIComponent(trxNo)}`,
                                     );
                                   }}
-                                />
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-50 text-violet-700 ring-1 ring-violet-200 transition hover:bg-violet-100"
+                                  aria-label="Lihat detail transaksi"
+                                  title="Lihat detail transaksi"
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </button>
                               </td>
                             </tr>
                           );
