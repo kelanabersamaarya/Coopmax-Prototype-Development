@@ -54,7 +54,7 @@ export default function AstitiSetoranSimpanan() {
         </div>
       </div>
 
-      <div className="mt-16 flex justify-end"><div className="w-[270px]"><div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-2 text-[18px]"><span>Total :</span><span>{amount}</span></div><div className="flex justify-end gap-1"><Button type="button" className="h-10 rounded-[5px] bg-[#7b8ca9] px-5 hover:bg-[#687b9b]">× Batalkan</Button><Button type="button" className="h-10 rounded-[5px] bg-[#2eb400] px-5 hover:bg-[#249500]"><Check className="mr-1 h-3.5 w-3.5" /> Simpan</Button></div></div></div>
+      <div className="mt-16 flex justify-end"><div className="w-[270px]"><div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-2 text-[16px]"><span>Total :</span><span>{amount}</span></div><div className="flex justify-end gap-1"><Button type="button" className="h-10 rounded-[5px] bg-[#7b8ca9] px-5 hover:bg-[#687b9b]">× Batalkan</Button><Button type="button" className="h-10 rounded-[5px] bg-[#2eb400] px-5 hover:bg-[#249500]"><Check className="mr-1 h-3.5 w-3.5" /> Simpan</Button></div></div></div>
     </Card>
   </div>;
 }
