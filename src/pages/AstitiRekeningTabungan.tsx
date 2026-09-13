@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plus, Search, ChevronsUpDown, X } from "lucide-react";
+import { Plus, ChevronsUpDown, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
