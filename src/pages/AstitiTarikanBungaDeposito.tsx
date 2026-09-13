@@ -34,7 +34,7 @@ export default function AstitiTarikanBungaDeposito() {
           <div className="font-semibold uppercase tracking-wider text-[#64799a]">Nasabah<span className="text-red-500">*</span></div>
           <div className="font-semibold uppercase tracking-wider text-[#64799a]">Saldo</div>
           <div className="font-semibold uppercase tracking-wider text-[#64799a]">Transaksi<span className="text-red-500">*</span></div>
-          <div className="col-span-4 border-b border-slate-200" />
+          <div className="col-span-4 -mt-3 border-b border-slate-200" />
 
           <div className="pt-3 text-center">1.</div>
           <div className="space-y-3 pt-2">
