@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import DepositAccountDetail from "@/components/savings/DepositAccountDetail";
 
 type DepositRow = {
   no: number;
@@ -43,7 +44,19 @@ function SortLabel({ children, sortable = true }: { children: React.ReactNode; s
 }
 
 export default function AstitiRekeningDeposito() {
+  const [selectedAccount, setSelectedAccount] = React.useState<DepositRow | null>(null);
   const [pageSize, setPageSize] = React.useState("20");
+
+  React.useEffect(() => {
+    const handleAccountClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const account = rows.find((item) => item.rekening === target.textContent?.trim());
+      if (account) setSelectedAccount(account);
+    };
+    document.addEventListener("click", handleAccountClick);
+    return () => document.removeEventListener("click", handleAccountClick);
+  }, []);
   const [filters, setFilters] = React.useState({ rekening: "", tanggal: "", produk: "Semua", idNasabah: "", nama: "", saldo: "", saldoBunga: "", bungaTahun: "", status: "Semua" });
   const setFilter = (key: keyof typeof filters, value: string) => setFilters((current) => ({ ...current, [key]: value }));
   const filtered = rows.filter((row) =>
@@ -57,6 +70,10 @@ export default function AstitiRekeningDeposito() {
   const select = (key: keyof typeof filters, options: string[]) => <Select value={filters[key]} onValueChange={(value) => setFilter(key, value)}><SelectTrigger className="h-8 rounded-md border-slate-300 text-[12px] shadow-none"><SelectValue /></SelectTrigger><SelectContent>{options.map((option) => <SelectItem key={option} value={option}>{option === "Semua" ? "-- Semua" : option}</SelectItem>)}</SelectContent></Select>;
   const th = "px-2 py-2.5";
   const td = "px-2 py-2";
+
+  if (selectedAccount) {
+    return <DepositAccountDetail account={selectedAccount} onBack={() => setSelectedAccount(null)} />;
+  }
 
   return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
     <div className="flex items-center justify-between gap-4"><div className="flex items-baseline gap-2"><h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">Rekening Deposito</h1><span className="text-sm font-semibold text-slate-600">Daftar</span></div><Button onClick={() => toast.success("Tambah rekening deposito", { description: "Form penambahan rekening siap digunakan." })} className="h-10 rounded-full bg-white px-5 text-sm font-medium text-slate-700 shadow-sm hover:bg-violet-50"><Plus className="mr-2 h-4 w-4 text-violet-700" />Tambah</Button></div>
