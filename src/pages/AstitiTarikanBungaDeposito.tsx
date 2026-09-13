@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, Clipboard, Plus, Search, Trash2, X } from "lucide-react";
+import { CheckCircle2, CheckSquare, Clipboard, Plus, Search, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,6 +14,7 @@ export default function AstitiTarikanBungaDeposito() {
   const [rekeningTabungan, setRekeningTabungan] = React.useState("-");
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
   const [selectedAccount, setSelectedAccount] = React.useState<DepositAccount | null>(null);
 
   return (
@@ -43,8 +44,20 @@ export default function AstitiTarikanBungaDeposito() {
             <div className="mb-8 flex h-[92px] w-[92px] items-center justify-center rounded-full border-4 border-[#ffcca8] text-[58px] font-light leading-none text-[#ffb47c]">!</div>
             <p className="mb-8 text-[30px] font-semibold tracking-tight text-[#405774]">Yakin untuk menyimpan data ?</p>
             <div className="flex items-center gap-2">
-              <Button onClick={() => setConfirmOpen(false)} className="h-12 min-w-[104px] rounded-md border-2 border-[#b9d3ea] bg-[#328bd2] text-base font-semibold text-white shadow-none hover:bg-[#287abd]">Yes</Button>
+              <Button onClick={() => { setConfirmOpen(false); setSuccessOpen(true); }} className="h-12 min-w-[104px] rounded-md border-2 border-[#b9d3ea] bg-[#328bd2] text-base font-semibold text-white shadow-none hover:bg-[#287abd]">Yes</Button>
               <Button onClick={() => setConfirmOpen(false)} className="h-12 min-w-[126px] rounded-md bg-[#aaa] text-base font-semibold text-white shadow-none hover:bg-[#929292]">Cancel</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={successOpen} onOpenChange={setSuccessOpen}>
+        <DialogContent className="w-[calc(100vw-2rem)] max-w-[545px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden">
+          <div className="flex flex-col items-center px-6 pb-5 pt-10 text-center">
+            <CheckCircle2 className="mb-8 h-[96px] w-[96px] stroke-[1.8] text-[#91d37d]" />
+            <p className="mb-8 text-[30px] font-semibold tracking-tight text-[#595959]">Berhasil menambahkan transaksi</p>
+            <div className="flex w-full items-center justify-center gap-2">
+              <Button onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/transaksi")} className="h-12 min-w-[223px] rounded-md bg-[#aaa] text-base font-semibold text-white shadow-none hover:bg-[#929292]">Kembali ke Daftar</Button>
+              <Button onClick={() => setSuccessOpen(false)} className="h-12 min-w-[228px] rounded-md border-2 border-[#b9d3ea] bg-[#328bd2] text-base font-semibold text-white shadow-none hover:bg-[#287abd]">Lihat Detail</Button>
             </div>
           </div>
         </DialogContent>
