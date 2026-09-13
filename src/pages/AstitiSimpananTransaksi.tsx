@@ -60,7 +60,10 @@ export default function AstitiSimpananTransaksi() {
               key={label}
               type="button"
               variant="ghost"
-              onClick={() => label === "Setoran" && navigate("/astiti-dana-lestari/simpanan/setoran")}
+              onClick={() => {
+                if (label === "Setoran") navigate("/astiti-dana-lestari/simpanan/setoran");
+                if (label === "Tarikan") navigate("/astiti-dana-lestari/simpanan/tarikan");
+              }}
               className={cn(
                 "h-[42px] rounded-full bg-white px-4 text-[14px] font-normal text-[#526784] shadow-sm hover:bg-[#eef0ff]",
                 active && "bg-[#eeebff] text-[#526784]",

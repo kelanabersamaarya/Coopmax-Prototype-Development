@@ -13,6 +13,7 @@ import DashboardSimpanan from "./pages/DashboardSimpanan";
 import AstitiDanaLestariDashboard from "./pages/AstitiDanaLestariDashboard";
 import AstitiSimpananTransaksi from "./pages/AstitiSimpananTransaksi";
 import AstitiSetoranSimpanan from "./pages/AstitiSetoranSimpanan";
+import AstitiTarikanSimpanan from "./pages/AstitiTarikanSimpanan";
 import AstitiTransaksiTabunganDetail from "./pages/AstitiTransaksiTabunganDetail";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaAnggota from "./pages/MitraKaryaAnggota";
@@ -83,6 +84,7 @@ const App = () => (
             <Route path="astiti-dana-lestari/dashboard" element={<AstitiDanaLestariDashboard />} />
             <Route path="astiti-dana-lestari/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />
             <Route path="astiti-dana-lestari/simpanan/setoran" element={<AstitiSetoranSimpanan />} />
+            <Route path="astiti-dana-lestari/simpanan/tarikan" element={<AstitiTarikanSimpanan />} />
             <Route path="astiti-dana-lestari/simpanan/transaksi/detail" element={<AstitiTransaksiTabunganDetail />} />
             <Route path="astiti-dana-lestari/pinjaman/transaksi" element={<LoanTransactions />} />
             <Route path="astiti-dana-lestari/simpanan-berjangka/transaksi" element={<RekeningSimpanan />} />
