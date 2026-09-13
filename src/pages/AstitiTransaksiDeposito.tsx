@@ -69,12 +69,12 @@ export default function AstitiTransaksiDeposito() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] px-3 py-6 md:px-5 md:py-8">
-      <div className="flex flex-col items-start gap-3">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-baseline gap-2">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">Transaksi Deposito</h1>
           <span className="text-sm font-semibold text-slate-600">Daftar</span>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-end gap-2 self-end md:self-auto">
           <Action icon={Trash2} onClick={() => toast("Transaksi Terhapus")}>Transaksi Terhapus</Action>
           <Action icon={Percent} onClick={() => toast("Bunga")}>Bunga</Action>
           <Action icon={ArrowUp} onClick={() => toast("Penarikan Bunga")}>Penarikan Bunga</Action>
