@@ -523,6 +523,11 @@ export function openReportPdfPreview({
             border-bottom: 1px solid #94a3b8 !important;
           }
 
+          .pdf-page table.accounting-pdf-table tbody td.journal-group-end,
+          .thumb-page table.accounting-pdf-table tbody td.journal-group-end {
+            border-bottom: 1px solid #94a3b8 !important;
+          }
+
           .pdf-page .truncate,
           .thumb-page .truncate {
             overflow: visible !important;
