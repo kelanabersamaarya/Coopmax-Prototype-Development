@@ -36,7 +36,7 @@ export default function AstitiSimpananTransaksi() {
   const [date, setDate] = React.useState("13-09-2026");
 
   return (
-    <div className="min-h-[calc(100vh-2rem)] bg-[#f7f8fd] px-0 py-1 text-[#0c2a62] md:px-0">
+    <div className="min-h-[calc(100vh-2rem)] bg-[hsl(var(--app-bg))] px-0 py-1 text-[#0c2a62] md:px-0">
       <div className="px-4 pb-5 pt-2 md:px-8 md:pt-2">
         <div className="flex items-center gap-2">
           <h1 className="text-[22px] font-semibold tracking-tight text-[#08285f]">Transaksi Tabungan</h1>
@@ -81,7 +81,7 @@ export default function AstitiSimpananTransaksi() {
                   <th className="w-[170px] px-2 py-3">Nama Nasabah <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
                   <th className="w-[150px] px-2 py-3">Nama<br />Kolektor <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
                   <th className="w-[130px] px-2 py-3">Tabungan <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
-                  <th className="w-[120px] bg-[#edf0f5] px-2 py-3">Tanggal <ChevronDown className="ml-2 inline h-3.5 w-3.5" /></th>
+                  <th className="w-[120px] bg-[hsl(var(--app-bg))] px-2 py-3">Tanggal <ChevronDown className="ml-2 inline h-3.5 w-3.5" /></th>
                   <th className="w-[145px] px-2 py-3">Transaksi <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
                   <th className="w-[110px] px-2 py-3">Nominal <ChevronUp className="ml-2 inline h-3.5 w-3.5" /></th>
                 </tr>
@@ -93,7 +93,7 @@ export default function AstitiSimpananTransaksi() {
                   <th className="px-2 py-3"><FilterInput /></th>
                   <th className="px-2 py-3"><div className="relative"><FilterInput /><ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3.5 w-3.5 text-slate-500" /></div></th>
                   <th className="px-2 py-3"><div className="relative"><FilterInput placeholder="-- Semua" /><ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3.5 w-3.5 text-slate-500" /></div></th>
-                  <th className="bg-[#edf0f5] px-2 py-3"><Input value={date} onChange={(event) => setDate(event.target.value)} className="h-9 rounded-md border-slate-300 bg-white text-[12px]" /></th>
+                  <th className="bg-[hsl(var(--app-bg))] px-2 py-3"><Input value={date} onChange={(event) => setDate(event.target.value)} className="h-9 rounded-md border-slate-300 bg-white text-[12px]" /></th>
                   <th className="px-2 py-3"><div className="relative"><FilterInput placeholder="-- Semua" /><ChevronDown className="pointer-events-none absolute right-2 top-2.5 h-3.5 w-3.5 text-slate-500" /></div></th>
                   <th className="px-2 py-3"><FilterInput placeholder="0,00" /></th>
                 </tr>
@@ -107,7 +107,7 @@ export default function AstitiSimpananTransaksi() {
                   <td className="px-2 py-3">Sinergi Sukses Sentosa</td>
                   <td className="px-2 py-3">Dinda Sudiati</td>
                   <td className="px-2 py-3 leading-tight">Simpanan<br />Sukarela</td>
-                  <td className="bg-[#f1f2f6] px-2 py-3">{date}</td>
+                  <td className="bg-[hsl(var(--app-bg))] px-2 py-3">{date}</td>
                   <td className="px-2 py-3 leading-tight">Transaksi Setoran<br />Simpanan</td>
                   <td className="px-2 py-3 font-medium text-lime-600">+ 50.000,00</td>
                 </tr>
