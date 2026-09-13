@@ -21,9 +21,8 @@ export default function AstitiTarikanBungaDeposito() {
   const [savedTransactionId, setSavedTransactionId] = React.useState("");
 
   const handleSave = () => {
-    const transactionId = `PBD/${tanggal.replaceAll("-", "")}/${String(Date.now()).slice(-4)}`;
-    setSavedTransactionId(transactionId);
-    saveDepositTransaction({
+    const transactionId = `PBD/${tanggal.replace(/-/g, "")}/${String(Date.now()).slice(-4)}`;
+    const savedTransaction = saveDepositTransaction({
       id: transactionId,
       deposito: selectedAccount?.noRekening ?? "-",
       tabungan: rekeningTabungan,
@@ -38,6 +37,7 @@ export default function AstitiTarikanBungaDeposito() {
       saldoAwal: selectedAccount?.saldoBunga ?? "0,00",
       saldoAkhir: "0,00",
     });
+    setSavedTransactionId(savedTransaction.id);
     setConfirmOpen(false);
     setSuccessOpen(true);
   };
