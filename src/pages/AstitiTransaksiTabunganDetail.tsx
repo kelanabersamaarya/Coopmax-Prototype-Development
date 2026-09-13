@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { getSelectedSavingsTransaction } from "@/lib/savingsTransactionsStore";
 
 const DetailRow = ({
   label,
@@ -44,6 +45,7 @@ const InfoCell = ({ label, value }: { label: string; value: string }) => (
 
 export default function AstitiTransaksiTabunganDetail() {
   const navigate = useNavigate();
+  const transaction = getSelectedSavingsTransaction();
 
   return (
     <div className="min-h-screen bg-[#f5f7fc] px-4 pb-6 pt-5 text-[#08285f] md:px-8 md:pt-6 lg:px-10">
@@ -137,18 +139,18 @@ export default function AstitiTransaksiTabunganDetail() {
           <h2 className="mb-4 text-[14px] font-bold uppercase text-[#092c62]">Informasi Transaksi</h2>
           <div className="grid gap-x-12 lg:grid-cols-2">
             <div>
-              <DetailRow label="No. Transaksi" value="STR/130926/0002" />
-              <DetailRow label="Tanggal Transaksi" value="13-09-2026" />
-              <DetailRow label="Jenis Transaksi" value="Transaksi Setoran Simpanan" />
-              <DetailRow label="Saldo Awal" value="60.000,00" />
-              <DetailRow label="Tanggal Dibuat" value="13-09-2026 14:54:31" />
+              <DetailRow label="No. Transaksi" value={transaction?.id ?? "-"} />
+              <DetailRow label="Tanggal Transaksi" value={transaction?.tanggal ?? "-"} />
+              <DetailRow label="Jenis Transaksi" value={transaction?.jenis ?? "-"} />
+              <DetailRow label="Saldo Awal" value={transaction?.saldoAwal ?? "-"} />
+              <DetailRow label="Tanggal Dibuat" value={transaction?.tanggalDibuat ?? "-"} />
               <DetailRow label="Waktu Transaksi" value="14:54:31" />
             </div>
             <div>
-              <DetailRow label="Jumlah Transaksi"><span className="text-[#39b500]">+ 50.000,00</span></DetailRow>
-              <DetailRow label="Saldo Akhir" value="110.000,00" />
+              <DetailRow label="Jumlah Transaksi"><span className={transaction?.nominal.startsWith("-") ? "text-red-500" : "text-[#39b500]"}>{transaction?.nominal ?? "-"}</span></DetailRow>
+              <DetailRow label="Saldo Akhir" value={transaction?.saldoAkhir ?? "-"} />
               <DetailRow label="Deskripsi" value="-" />
-              <DetailRow label="Keterangan" value="Tambah tabungan" />
+              <DetailRow label="Keterangan" value={transaction?.keterangan || "-"} />
               <DetailRow label="Dibuat Oleh" value="Arya" />
             </div>
           </div>

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import RekeningTabunganPickerDialog, {
   type RekeningTabungan,
 } from "@/components/anggota/RekeningTabunganPickerDialog";
+import { saveSavingsTransaction } from "@/lib/savingsTransactionsStore";
 
 function Field({
   label,
@@ -46,6 +47,26 @@ export default function AstitiTarikanSimpanan() {
   const [confirmSave, setConfirmSave] = React.useState(false);
   const [saveSuccess, setSaveSuccess] = React.useState(false);
 
+  const handleConfirmSave = () => {
+    const saldoAwal = rekening?.saldo ?? "0,00";
+    saveSavingsTransaction({
+      rekening: rekening?.noRekening ?? "-",
+      nasabah: rekening?.nasabahId ?? "-",
+      nama: rekening?.nasabah ?? "-",
+      kolektor: collector === "Pilih Kolektor" ? "-" : collector,
+      tabungan: rekening?.produk ?? "Simpanan Sukarela",
+      tanggal: date,
+      jenis: "Transaksi Tarikan Simpanan",
+      nominal: `- ${amount}`,
+      keterangan: note,
+      saldoAwal,
+      saldoAkhir: amount,
+      produk: rekening?.produk ?? "Simpanan Sukarela",
+    });
+    setConfirmSave(false);
+    setSaveSuccess(true);
+  };
+
   return (
     <div className="min-h-[calc(100vh-2rem)] bg-[hsl(var(--app-bg))] px-4 py-4 text-[#08285f] md:px-8">
       <RekeningTabunganPickerDialog
@@ -60,7 +81,7 @@ export default function AstitiTarikanSimpanan() {
             <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f7c79f] text-[58px] font-semibold leading-none text-[#f4b77f]">!</div>
             <p className="mt-8 text-[30px] font-semibold text-[#405772]">Yakin untuk menyimpan data ?</p>
             <div className="mt-8 flex justify-center gap-2">
-              <Button type="button" onClick={() => { setConfirmSave(false); setSaveSuccess(true); }} className="h-12 w-[104px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Yes</Button>
+              <Button type="button" onClick={handleConfirmSave} className="h-12 w-[104px] rounded-[5px] bg-[#348bd1] text-[16px] font-semibold text-white ring-2 ring-[#b9d1e7] ring-offset-2 hover:bg-[#287abf]">Yes</Button>
               <Button type="button" onClick={() => setConfirmSave(false)} className="h-12 w-[126px] rounded-[5px] bg-[#aaa] text-[16px] font-semibold text-white hover:bg-[#999]">Cancel</Button>
             </div>
           </div>

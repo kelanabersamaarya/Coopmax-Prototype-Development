@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { getSavingsTransactions, type SavingsTransaction } from "@/lib/savingsTransactionsStore";
 
 const actionItems = [
   { label: "Import Setoran", icon: ArrowDownToLine },
@@ -45,6 +46,13 @@ export default function AstitiSimpananTransaksi() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = React.useState("20");
   const [date, setDate] = React.useState("13-09-2026");
+  const [transactions, setTransactions] = React.useState<SavingsTransaction[]>(() => getSavingsTransactions());
+
+  React.useEffect(() => {
+    const refresh = () => setTransactions(getSavingsTransactions());
+    window.addEventListener("savings-transactions-updated", refresh);
+    return () => window.removeEventListener("savings-transactions-updated", refresh);
+  }, []);
 
   return (
     <div className="min-h-[calc(100vh-2rem)] bg-[hsl(var(--app-bg))] px-0 py-1 text-[#0c2a62] md:px-0">
@@ -113,36 +121,15 @@ export default function AstitiSimpananTransaksi() {
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  className="cursor-pointer border-b border-slate-100 align-top transition-colors hover:bg-[#f8f7ff]"
-                  onClick={() => navigate("/astiti-dana-lestari/simpanan/transaksi/detail")}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      navigate("/astiti-dana-lestari/simpanan/transaksi/detail");
-                    }
-                  }}
-                  role="link"
-                  tabIndex={0}
-                  aria-label="Lihat detail transaksi STR/130926/0001"
-                >
-                  <td className="px-2 py-3 text-[13px]">1</td>
-                  <td className="px-2 py-3 font-medium text-blue-600">STR/130926/0001</td>
-                  <td className="px-2 py-3">SK01260009</td>
-                  <td className="px-2 py-3">A2600010</td>
-                  <td className="px-2 py-3">Sinergi Sukses Sentosa</td>
-                  <td className="px-2 py-3">Dinda Sudiati</td>
-                  <td className="px-2 py-3 leading-tight">Simpanan<br />Sukarela</td>
-                  <td className="bg-[hsl(var(--app-bg))] px-2 py-3">{date}</td>
-                  <td className="px-2 py-3 leading-tight">Transaksi Setoran<br />Simpanan</td>
-                  <td className="px-2 py-3 font-medium text-lime-600">+ 50.000,00</td>
-                </tr>
+                {transactions.map((transaction) => <tr key={transaction.id} className="cursor-pointer border-b border-slate-100 align-top transition-colors hover:bg-[#f8f7ff]" onClick={() => navigate("/astiti-dana-lestari/simpanan/transaksi/detail")}>
+                  <td className="px-2 py-3 text-[13px]">{transaction.no}</td><td className="px-2 py-3 font-medium text-blue-600">{transaction.id}</td><td className="px-2 py-3">{transaction.rekening}</td><td className="px-2 py-3">{transaction.nasabah}</td><td className="px-2 py-3">{transaction.nama}</td><td className="px-2 py-3">{transaction.kolektor}</td><td className="px-2 py-3 leading-tight">{transaction.tabungan}</td><td className="bg-[hsl(var(--app-bg))] px-2 py-3">{transaction.tanggal}</td><td className="px-2 py-3 leading-tight">{transaction.jenis}</td><td className={cn("px-2 py-3 font-medium", transaction.nominal.startsWith("-") ? "text-red-500" : "text-lime-600")}>{transaction.nominal}</td>
+                </tr>)}
               </tbody>
             </table>
           </div>
 
           <div className="mt-5 flex items-center justify-between gap-4 text-[13px] text-slate-800">
-            <span>Menampilkan 1 sampai 1 dari 1 entri</span>
+            <span>Menampilkan 1 sampai {transactions.length} dari {transactions.length} entri</span>
             <div className="flex gap-2">
               <Button variant="ghost" disabled className="h-9 rounded-none bg-[#f0f2f6] px-3 text-slate-300">Sebelumnya</Button>
               <Button variant="ghost" disabled className="h-9 rounded-none bg-[#f0f2f6] px-3 text-slate-300">Selanjutnya</Button>
