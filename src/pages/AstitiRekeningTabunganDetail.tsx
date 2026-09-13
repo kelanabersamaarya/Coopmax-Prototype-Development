@@ -16,7 +16,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function Action({ icon: Icon, children, onClick }: { icon: typeof History; children: ReactNode; onClick?: () => void }) {
-  return <Button variant="ghost" onClick={onClick} className="h-10 rounded-full bg-white px-3.5 text-[13px] font-normal text-[#526784] shadow-sm hover:bg-slate-50"><Icon className="mr-2 h-[17px] w-[17px]" />{children}</Button>;
+  return <Button variant="ghost" onClick={onClick} className="h-10 rounded-full bg-white px-3.5 text-[13px] font-normal text-[#526784] shadow-sm transition-colors hover:bg-[#5b45f5] hover:text-white"><Icon className="mr-2 h-[17px] w-[17px]" />{children}</Button>;
 }
 
 function QrPreview() {
