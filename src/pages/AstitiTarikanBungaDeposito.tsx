@@ -3,6 +3,7 @@ import { CheckSquare, Clipboard, Plus, Search, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import DepositAccountPickerDialog, { type DepositAccount } from "@/components/savings/DepositAccountPickerDialog";
@@ -12,6 +13,7 @@ export default function AstitiTarikanBungaDeposito() {
   const [tanggal, setTanggal] = React.useState("13-09-2026");
   const [rekeningTabungan, setRekeningTabungan] = React.useState("-");
   const [pickerOpen, setPickerOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [selectedAccount, setSelectedAccount] = React.useState<DepositAccount | null>(null);
 
   return (
@@ -32,9 +34,21 @@ export default function AstitiTarikanBungaDeposito() {
           <div className="space-y-0 pt-2"><div className="flex justify-between border-b border-slate-200 pb-5"><span>Saldo :</span><span>{selectedAccount?.saldoDeposito ?? "0,00"}</span></div><div className="flex justify-between pt-5"><span>Saldo Bunga :</span><span>{selectedAccount?.saldoBunga ?? "0,00"}</span></div></div>
           <div className="space-y-2 pt-2"><div className="flex items-center gap-3"><span className="w-[98px]">Rekening<br />Tabungan :</span><Select value={rekeningTabungan} onValueChange={setRekeningTabungan}><SelectTrigger className="h-8 flex-1 rounded-md border-slate-300 text-[12px] shadow-none"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="-">-</SelectItem><SelectItem value="55230003">55230003</SelectItem></SelectContent></Select><Button className="h-8 w-11 bg-[#7890b1] px-0 hover:bg-[#64799a]"><Plus className="h-5 w-5" /></Button></div><div className="flex items-center gap-3"><span className="w-[98px]">Keterangan :</span><div className="flex flex-1"><Input className="h-8 rounded-r-none border-slate-300 text-[12px] shadow-none" /><Button className="h-8 w-9 rounded-l-none bg-[#7890b1] px-0 hover:bg-[#64799a]"><Clipboard className="h-4 w-4" /></Button></div><Button className="h-8 w-11 bg-[#df3147] px-0 hover:bg-red-700"><Trash2 className="h-4 w-4" /></Button></div><div className="flex justify-end pt-3"><span className="rounded bg-[#df3147] px-2 py-1 text-[10px] font-semibold text-white">Belum diproses</span></div></div>
         </div>
-        <div className="mt-8 flex items-center justify-end gap-3 text-base"><span>Total :</span><span className="w-[215px] bg-slate-50 px-2 py-1 text-right">0,00</span></div><div className="mt-5 flex justify-end gap-1"><Button onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/transaksi")} className="h-10 rounded-md bg-[#7d8eac] px-5 text-[13px] hover:bg-[#657895]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button className="h-10 rounded-md bg-[#26b500] px-5 text-[13px] hover:bg-green-700"><CheckSquare className="mr-2 h-6 w-6 stroke-[2.5]" />Simpan</Button></div>
+        <div className="mt-8 flex items-center justify-end gap-3 text-base"><span>Total :</span><span className="w-[215px] bg-slate-50 px-2 py-1 text-right">0,00</span></div><div className="mt-5 flex justify-end gap-1"><Button onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/transaksi")} className="h-10 rounded-md bg-[#7d8eac] px-5 text-[13px] hover:bg-[#657895]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button onClick={() => setConfirmOpen(true)} className="h-10 rounded-md bg-[#26b500] px-5 text-[13px] hover:bg-green-700"><CheckSquare className="mr-2 h-6 w-6 stroke-[2.5]" />Simpan</Button></div>
       </Card>
       <DepositAccountPickerDialog open={pickerOpen} onOpenChange={setPickerOpen} onPick={setSelectedAccount} />
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden">
+          <div className="flex flex-col items-center px-6 pb-5 pt-10 text-center">
+            <div className="mb-8 flex h-[92px] w-[92px] items-center justify-center rounded-full border-4 border-[#ffcca8] text-[58px] font-light leading-none text-[#ffb47c]">!</div>
+            <p className="mb-8 text-[30px] font-semibold tracking-tight text-[#405774]">Yakin untuk menyimpan data ?</p>
+            <div className="flex items-center gap-2">
+              <Button onClick={() => setConfirmOpen(false)} className="h-12 min-w-[104px] rounded-md border-2 border-[#b9d3ea] bg-[#328bd2] text-base font-semibold text-white shadow-none hover:bg-[#287abd]">Yes</Button>
+              <Button onClick={() => setConfirmOpen(false)} className="h-12 min-w-[126px] rounded-md bg-[#aaa] text-base font-semibold text-white shadow-none hover:bg-[#929292]">Cancel</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
