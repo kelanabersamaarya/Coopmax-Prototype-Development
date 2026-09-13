@@ -5,9 +5,11 @@ import LoanAccountDetailSections from "@/components/loans/LoanAccountDetailSecti
 export default function LoanAccountDetailView({
   accountNo,
   onBack,
+  showBillingSection = true,
 }: {
   accountNo: string;
   onBack: () => void;
+  showBillingSection?: boolean;
 }) {
   return (
     <>
@@ -23,6 +25,7 @@ export default function LoanAccountDetailView({
 
       <LoanAccountDetailSections
         accountNo={accountNo}
+        showBillingSection={showBillingSection}
         meta={{
           skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
           satuanGracePeriod: "Bulan",

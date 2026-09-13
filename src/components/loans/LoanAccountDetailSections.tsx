@@ -147,6 +147,7 @@ const statusHistorySeed: StatusHistoryRow[] = [
 export default function LoanAccountDetailSections({
   accountNo,
   meta,
+  showBillingSection = true,
 }: {
   accountNo: string;
   meta?: {
@@ -154,6 +155,7 @@ export default function LoanAccountDetailSections({
     satuanGracePeriod?: string;
     durasiGracePeriod?: string;
   };
+  showBillingSection?: boolean;
 }) {
   const [history, setHistory] = React.useState<StatusHistoryRow[]>(
     () => statusHistorySeed,
@@ -283,7 +285,7 @@ export default function LoanAccountDetailSections({
         </div>
       </div>
 
-      {accountNo !== "SMG260004" && (
+      {showBillingSection && accountNo !== "SMG260004" && (
         <>
           <Separator className="my-6 bg-slate-200/70" />
           <SubSectionHeader title="INFORMASI TAGIHAN DAN DENDA" />
