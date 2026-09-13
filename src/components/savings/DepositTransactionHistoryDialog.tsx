@@ -23,7 +23,11 @@ const historyRows: HistoryRow[] = [
 ];
 
 function SortIcon({ active = false }: { active?: boolean }) {
-  return <span className="ml-1 inline-flex flex-col align-middle leading-[7px] text-[#17315b]"><ChevronUp className={cn("h-3 w-3", active && "text-[#5745f6]")} /><ChevronDown className="h-3 w-3" /></span>;
+  return <span className="ml-auto inline-flex shrink-0 flex-col align-middle leading-[7px] text-[#17315b]"><ChevronUp className={cn("h-3 w-3", active && "text-[#5745f6]")} /><ChevronDown className="h-3 w-3" /></span>;
+}
+
+function SortHeader({ children, active = false, className = "" }: { children: React.ReactNode; active?: boolean; className?: string }) {
+  return <div className={cn("flex items-center justify-between gap-1", className)}>{children}<SortIcon active={active} /></div>;
 }
 
 export default function DepositTransactionHistoryDialog({ open, onOpenChange, accountNo }: { open: boolean; onOpenChange: (open: boolean) => void; accountNo: string }) {
@@ -61,7 +65,7 @@ export default function DepositTransactionHistoryDialog({ open, onOpenChange, ac
 
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[700px] border-collapse text-[12px] text-[#263d66]">
-              <thead><tr className="border-b border-[#c9d3e2] text-left font-bold uppercase tracking-wide text-[#202c42]"><th className="w-[9%] px-2 py-2">No.</th><th className="w-[18%] bg-[#eef1f6] px-2 py-2">Tanggal <SortIcon active /></th><th className="w-[21%] px-2 py-2">Tipe Transaksi <SortIcon /></th><th className="w-[18%] px-2 py-2 leading-3">Jumlah<br />Transaksi <SortIcon /></th><th className="w-[24%] px-2 py-2">Keterangan <SortIcon /></th><th className="w-[10%] px-2 py-2 text-left leading-3">Detail<br />Transaksi</th></tr></thead>
+              <thead><tr className="border-b border-[#c9d3e2] text-left font-bold uppercase tracking-wide text-[#202c42]"><th className="w-[6%] px-2 py-2">No.</th><th className="w-[18%] bg-[#eef1f6] px-2 py-2"><SortHeader active>Tanggal</SortHeader></th><th className="w-[21%] px-2 py-2"><SortHeader>Tipe Transaksi</SortHeader></th><th className="w-[18%] px-2 py-2 leading-3"><SortHeader>Jumlah<br />Transaksi</SortHeader></th><th className="w-[18%] px-2 py-2"><SortHeader>Keterangan</SortHeader></th><th className="w-[10%] px-2 py-2 text-left leading-3">Detail<br />Transaksi</th></tr></thead>
               <tbody>{shownRows.map((row, index) => <tr key={`${row.tanggal}-${index}`} className="border-b border-[#c9d3e2]"><td className="px-2 py-1.5">{index + 1}</td><td className="bg-[#eef1f6] px-2 py-1.5">{row.tanggal}</td><td className="px-2 py-1.5 leading-3">{row.tipe}</td><td className={cn("px-2 py-1.5 text-right tabular-nums", row.nominalClass === "positive" ? "text-[#00a91b]" : "text-[#ff3030]")}>{row.nominal}</td><td className="px-2 py-1.5 leading-3">{row.keterangan}</td><td className="px-2 py-1.5 text-left"><button type="button" onClick={() => toast("Detail transaksi (prototype)")} aria-label="Lihat detail transaksi" className="text-[#7185a5] hover:text-[#5745f6]"><ExternalLink className="h-4 w-4" /></button></td></tr>)}</tbody>
             </table>
           </div>
