@@ -49,7 +49,11 @@ function FieldRow({
   );
 }
 
-export default function LoanInstallmentPaymentV2() {
+export default function LoanInstallmentPaymentV2({
+  hideBillingDetails = false,
+}: {
+  hideBillingDetails?: boolean;
+}) {
   const [tanggal, setTanggal] = React.useState(() => {
     const todayIso = new Date().toISOString().slice(0, 10);
     return toDmyFromIso(todayIso) || "07-05-2026";
@@ -130,7 +134,7 @@ export default function LoanInstallmentPaymentV2() {
                   </Select>
                 </FieldRow>
 
-                <LoanInstallmentPaymentV2Table />
+                <LoanInstallmentPaymentV2Table hideBillingDetails={hideBillingDetails} />
               </div>
             </div>
           </div>

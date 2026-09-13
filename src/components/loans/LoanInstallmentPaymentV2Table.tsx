@@ -588,10 +588,12 @@ function SelectedPinjamanInfo({
   accountNo,
   disabled,
   onOpenHistory,
+  hideBillingDetails = false,
 }: {
   accountNo: string;
   disabled: boolean;
   onOpenHistory: () => void;
+  hideBillingDetails?: boolean;
 }) {
   const isEmptyInitialLayout = accountNo.trim().length === 0;
   const info = React.useMemo(() => getLoanInfoByAccountNo(accountNo), [accountNo]);
@@ -630,7 +632,18 @@ function SelectedPinjamanInfo({
 
   const beforeFirstDivider = (
     <InfoGroup
-      items={displayInfo.beforeFirstDividerItems}
+      items={
+        hideBillingDetails
+          ? displayInfo.beforeFirstDividerItems.filter(
+              (item) =>
+                ![
+                  "Skema Tagihan",
+                  "Satuan Grace Period",
+                  "Durasi Grace Period",
+                ].includes(item.label),
+            )
+          : displayInfo.beforeFirstDividerItems
+      }
       empty={isEmptyInitialLayout}
       layout="inline"
     />
@@ -1304,8 +1317,10 @@ function showAccountPickedToast() {
 
 export default function LoanInstallmentPaymentV2Table({
   className,
+  hideBillingDetails = false,
 }: {
   className?: string;
+  hideBillingDetails?: boolean;
 }) {
   const navigate = useNavigate();
   const fixedPx = 56 + 280;
@@ -1487,6 +1502,7 @@ export default function LoanInstallmentPaymentV2Table({
                   <SelectedPinjamanInfo
                     accountNo={row.accountNo}
                     disabled={lockRowUi}
+                    hideBillingDetails={hideBillingDetails}
                     onOpenHistory={() => {
                       if (!accountNo) return;
                       setHistoryAccountNo(accountNo);
@@ -1496,7 +1512,7 @@ export default function LoanInstallmentPaymentV2Table({
                 </Td>
 
                 <Td className="bg-white">
-                  {!isPinjamanBulanan ? (
+                  {!isPinjamanBulanan && !hideBillingDetails ? (
                     <>
                       <DaftarTagihanDialog
                         open={row.daftarTagihanOpen}
