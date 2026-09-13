@@ -148,7 +148,7 @@ export default function AstitiTransaksiTabunganDetail() {
               <DetailRow label="Jumlah Transaksi"><span className="text-[#39b500]">+ 50.000,00</span></DetailRow>
               <DetailRow label="Saldo Akhir" value="110.000,00" />
               <DetailRow label="Deskripsi" value="-" />
-              <DetailRow label="Catatan" value="Tambah tabungan" />
+              <DetailRow label="Keterangan" value="Tambah tabungan" />
               <DetailRow label="Dibuat Oleh" value="Arya" />
             </div>
           </div>
