@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import NasabahPickerDialog, { type Nasabah } from "@/components/anggota/NasabahPickerDialog";
+import RekeningTabunganPickerDialog, { type RekeningTabungan } from "@/components/anggota/RekeningTabunganPickerDialog";
 
 function Field({ label, required, children, className }: { label: string; required?: boolean; children: React.ReactNode; className?: string }) {
   return <div className={cn("grid grid-cols-[185px_minmax(0,1fr)] items-center gap-2", className)}><Label className="text-[14px] font-normal text-[#08285f]">{label}{required ? <span className="text-red-500">*</span> : null}</Label>{children}</div>;
@@ -16,14 +16,14 @@ const inputClass = "h-9 rounded-[5px] border border-[#c6d2e5] bg-white text-[14p
 export default function AstitiSetoranSimpanan() {
   const [date, setDate] = React.useState("13-09-2026");
   const [collector, setCollector] = React.useState("Pilih Kolektor");
-  const [openNasabah, setOpenNasabah] = React.useState(false);
-  const [customer, setCustomer] = React.useState<Nasabah | null>(null);
+  const [openRekening, setOpenRekening] = React.useState(false);
+  const [rekening, setRekening] = React.useState<RekeningTabungan | null>(null);
   const [amount, setAmount] = React.useState("0,00");
   const [note, setNote] = React.useState("");
   const [serial, setSerial] = React.useState("");
 
   return <div className="min-h-[calc(100vh-2rem)] bg-[hsl(var(--app-bg))] px-4 py-4 text-[#08285f] md:px-8">
-    <NasabahPickerDialog open={openNasabah} onOpenChange={setOpenNasabah} onPick={setCustomer} />
+    <RekeningTabunganPickerDialog open={openRekening} onOpenChange={setOpenRekening} onPick={setRekening} />
     <h1 className="text-[22px] font-semibold tracking-tight">Transaksi Tabungan <span className="font-normal">Setoran</span></h1>
 
     <Card className="mt-11 min-h-[600px] rounded-[20px] border-0 bg-white px-6 py-8 shadow-none md:px-12 md:py-9">
@@ -41,12 +41,12 @@ export default function AstitiSetoranSimpanan() {
 
         <div className="pt-3 text-center">1.</div>
         <div className="space-y-5 pt-2">
-          <div className="flex items-center"><span className="w-[122px]">No Rekening :</span><div className="flex min-w-0 flex-1"><Input value={customer ? "SK01260009" : ""} placeholder="Cari nasabah" readOnly className={cn(inputClass, "rounded-r-none")} /><Button type="button" onClick={() => setOpenNasabah(true)} className="h-9 w-9 rounded-l-none bg-[#7b8ca9] p-0 hover:bg-[#687b9b]"><Search className="h-4 w-4" /></Button></div></div>
-          <div><span className="inline-block w-[122px]">Nama :</span>{customer?.nama ?? ""}</div>
-          <div><span className="inline-block w-[122px]">Alamat :</span>{customer?.alamat ?? ""}</div>
-          <div><span className="inline-block w-[122px]">Produk :</span>{customer ? "Simpanan Sukarela" : ""}</div>
+          <div className="flex items-center"><span className="w-[122px]">No Rekening :</span><div className="flex min-w-0 flex-1"><Input value={rekening?.noRekening ?? ""} placeholder="Cari rekening" readOnly className={cn(inputClass, "rounded-r-none")} /><Button type="button" onClick={() => setOpenRekening(true)} className="h-9 w-9 rounded-l-none bg-[#7b8ca9] p-0 hover:bg-[#687b9b]"><Search className="h-4 w-4" /></Button></div></div>
+          <div><span className="inline-block w-[122px]">Nama :</span>{rekening?.nasabah ?? ""}</div>
+          <div><span className="inline-block w-[122px]">Alamat :</span>{rekening ? "-" : ""}</div>
+          <div><span className="inline-block w-[122px]">Produk :</span>{rekening?.produk ?? ""}</div>
         </div>
-        <div className="space-y-4 pt-2"><div className="grid grid-cols-[125px_1fr]">Tanggal Daftar :<span>{customer ? "10-06-2026" : ""}</span></div><div className="grid grid-cols-[125px_1fr]">Saldo Awal :<span>{customer ? "0,00" : ""}</span></div><div className="grid grid-cols-[125px_1fr]">Saldo Akhir :<span>{customer ? "0,00" : ""}</span></div></div>
+        <div className="space-y-4 pt-2"><div className="grid grid-cols-[125px_1fr]">Tanggal Daftar :<span>{rekening?.tanggal ?? ""}</span></div><div className="grid grid-cols-[125px_1fr]">Saldo Awal :<span>{rekening?.saldo ?? "0,00"}</span></div><div className="grid grid-cols-[125px_1fr]">Saldo Akhir :<span>{rekening?.saldo ?? "0,00"}</span></div></div>
         <div className="space-y-2 pt-2">
           <div className="flex items-center gap-2"><span className="w-[100px]">Nominal :</span><Input value={amount} onChange={(e) => setAmount(e.target.value)} className={cn(inputClass, "text-right")} /><Button type="button" className="h-9 w-9 shrink-0 rounded-[5px] bg-[#7b8ca9] p-0 hover:bg-[#687b9b]"><Plus className="h-4 w-4" /></Button></div>
           <div className="flex items-center gap-2"><span className="w-[100px]">Keterangan :</span><Input value={note} onChange={(e) => setNote(e.target.value)} className={cn(inputClass, "rounded-r-none")} /><Button type="button" className="h-9 w-9 shrink-0 rounded-l-none bg-[#7b8ca9] p-0 hover:bg-[#687b9b]"><Copy className="h-4 w-4" /></Button><Button type="button" onClick={() => setNote("")} className="h-9 w-9 shrink-0 rounded-[5px] bg-[#e3394d] p-0 hover:bg-[#c82f41]"><Trash2 className="h-4 w-4" /></Button></div>
