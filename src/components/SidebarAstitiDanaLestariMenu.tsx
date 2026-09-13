@@ -120,6 +120,7 @@ export default function SidebarAstitiDanaLestariMenu() {
         items={[
           { label: "Transaksi Pinjaman", to: "/astiti-dana-lestari/pinjaman/transaksi" },
           { label: "Rekening Pinjaman", to: "/astiti-dana-lestari/pinjaman/rekening" },
+          { label: "Pembayaran Angsuran", to: "/astiti-dana-lestari/pinjaman/pembayaran-angsuran" },
         ]}
       />
       <MenuSection

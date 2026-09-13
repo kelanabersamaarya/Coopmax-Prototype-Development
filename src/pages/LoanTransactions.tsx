@@ -122,7 +122,12 @@ export default function LoanTransactions() {
     {
       label: "Pembayaran Angsuran",
       icon: Banknote,
-      onClick: () => navigate("/loans/transactions/installment-payment-v2"),
+      onClick: () =>
+        navigate(
+          location.pathname.startsWith("/astiti-dana-lestari")
+            ? "/astiti-dana-lestari/pinjaman/pembayaran-angsuran"
+            : "/loans/transactions/installment-payment-v2",
+        ),
     },
   ];
 
