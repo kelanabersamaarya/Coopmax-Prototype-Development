@@ -199,6 +199,14 @@
 
 /* Utility class for "safe table scrolling" */
 @layer utilities {
+  [class~="bg-[#5745f6]"] > div span {
+    font-size: 12px;
+  }
+
+  [class~="bg-[#5745f6]"] > div b {
+    font-size: 14px;
+  }
+
   .safe-x-scroll {
     overflow-x: auto;
     overscroll-behavior-x: contain;
