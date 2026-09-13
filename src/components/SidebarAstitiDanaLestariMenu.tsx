@@ -17,10 +17,10 @@ type MenuSectionProps = {
   label: string;
   icon: React.ElementType;
   active: boolean;
-  item: { label: string; to: string };
+  items: Array<{ label: string; to: string }>;
 };
 
-function MenuSection({ label, icon: Icon, active, item }: MenuSectionProps) {
+function MenuSection({ label, icon: Icon, active, items }: MenuSectionProps) {
   const [open, setOpen] = React.useState(active);
 
   React.useEffect(() => {
@@ -60,19 +60,22 @@ function MenuSection({ label, icon: Icon, active, item }: MenuSectionProps) {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="rounded-2xl bg-white px-2 py-2">
-              <NavLink
-                to={item.to}
-                className={({ isActive }) =>
-                  cn(
-                    "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                    isActive
-                      ? "bg-violet-600 text-white"
-                      : "text-slate-800 hover:bg-slate-50",
-                  )
-                }
-              >
-                {item.label}
-              </NavLink>
+              {items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    cn(
+                      "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                      isActive
+                        ? "bg-violet-600 text-white"
+                        : "text-slate-800 hover:bg-slate-50",
+                    )
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ))}
             </div>
           </div>
         </div>
@@ -104,23 +107,28 @@ export default function SidebarAstitiDanaLestariMenu() {
       <MenuSection
         label="Simpanan"
         icon={WalletCards}
-        active={location.pathname === "/astiti-dana-lestari/simpanan/transaksi"}
-        item={{ label: "Transaksi Simpanan", to: "/astiti-dana-lestari/simpanan/transaksi" }}
+        active={location.pathname.startsWith("/astiti-dana-lestari/simpanan")}
+        items={[
+          { label: "Transaksi Simpanan", to: "/astiti-dana-lestari/simpanan/transaksi" },
+          { label: "Daftar Rekening", to: "/astiti-dana-lestari/simpanan/rekening" },
+        ]}
       />
       <MenuSection
         label="Pinjaman"
         icon={HandCoins}
         active={location.pathname === "/astiti-dana-lestari/pinjaman/transaksi"}
-        item={{ label: "Transaksi Pinjaman", to: "/astiti-dana-lestari/pinjaman/transaksi" }}
+        items={[{ label: "Transaksi Pinjaman", to: "/astiti-dana-lestari/pinjaman/transaksi" }]}
       />
       <MenuSection
         label="Simpanan Berjangka"
         icon={CreditCard}
         active={location.pathname === "/astiti-dana-lestari/simpanan-berjangka/transaksi"}
-        item={{
-          label: "Transaksi Simpanan Berjangka",
-          to: "/astiti-dana-lestari/simpanan-berjangka/transaksi",
-        }}
+        items={[
+          {
+            label: "Transaksi Simpanan Berjangka",
+            to: "/astiti-dana-lestari/simpanan-berjangka/transaksi",
+          },
+        ]}
       />
 
       <NavLink to="/astiti-dana-lestari/akunting" className={linkClass}>
