@@ -1,28 +1,29 @@
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) > div::before {
+/* Riwayat transaksi: selector sengaja memakai atribut stabil agar tidak bergantung pada struktur class Tailwind. */
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) > div::before {
   content: none !important;
   display: none !important;
 }
 
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) .overflow-x-auto {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) .overflow-x-auto {
   overflow-x: hidden !important;
 }
 
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) table {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) table {
   min-width: 0 !important;
   table-layout: fixed;
 }
 
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) th,
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) td {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) th,
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) td {
   overflow-wrap: anywhere;
 }
 
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) th:has(svg) {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) th:has(svg) {
   position: relative;
   padding-right: 30px;
 }
 
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) th:has(svg) svg {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) th:has(svg) svg {
   position: absolute;
   top: 50%;
   right: 8px;
@@ -31,10 +32,9 @@
   margin: 0;
   transform: translateY(-50%);
   stroke-width: 1.8;
-  vertical-align: middle;
 }
 
-#root .fixed.z-50:not(:has(.save-confirmation-modal)):has(h2 + button) h2 {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) h2 {
   font-size: 18px !important;
   line-height: 1.5;
 }
