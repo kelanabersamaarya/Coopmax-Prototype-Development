@@ -27,7 +27,7 @@ export default function AstitiRekeningTabunganDetail({ account, onBack }: { acco
   return <div className="min-h-screen bg-[#f5f7fc] px-4 pb-8 pt-5 text-[#08285f] md:px-8 lg:px-10">
     <div className="px-1 sm:px-2">
       <h1 className="text-[21px] font-semibold">Rekening Tabungan <span className="font-normal">Detail</span></h1>
-      <div className="mt-4 flex flex-wrap justify-start gap-2">
+      <div className="mt-4 flex flex-wrap justify-end gap-2">
         <Action icon={CalendarDays}>Riwayat Transaksi Autodebet</Action>
         <Action icon={History}>Riwayat Transaksi</Action>
         <Action icon={XSquare}>Tutup Rekening</Action>
