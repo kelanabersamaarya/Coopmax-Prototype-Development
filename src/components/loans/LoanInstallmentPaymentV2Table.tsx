@@ -12,7 +12,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import {
@@ -1324,6 +1324,7 @@ export default function LoanInstallmentPaymentV2Table({
   hideBillingDetails?: boolean;
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const fixedPx = 56 + 280;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -1431,9 +1432,14 @@ export default function LoanInstallmentPaymentV2Table({
           toast.success("Transaksi tersimpan (prototype)", {
             description: `No. Transaksi: ${transactionNo}`,
           });
-          navigate("/loans/transactions", {
-            state: { openDetailTransactionNo: transactionNo },
-          });
+          navigate(
+            location.pathname.startsWith("/astiti-dana-lestari")
+              ? "/astiti-dana-lestari/pinjaman/transaksi"
+              : "/loans/transactions",
+            {
+              state: { openDetailTransactionNo: transactionNo },
+            },
+          );
         }}
       />
 
