@@ -52,7 +52,7 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
   };
 
   const filePreview = (alt: string) => (
-    <div className="relative w-full rounded-[9px] border border-[#d5ddeb] bg-white p-3 pt-5 text-left">
+    <div className="relative w-full rounded-[9px] border-0 bg-transparent p-3 pt-5 text-left">
       <button
         type="button"
         onClick={() => onChange(null)}
