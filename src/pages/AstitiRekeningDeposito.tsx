@@ -24,8 +24,8 @@ export default function AstitiRekeningDeposito() {
   const filtered = rows.filter((row) => row.rekening.includes(filters.rekening) && row.tanggal.includes(filters.tanggal) && (filters.produk === "Semua" || row.produk === filters.produk) && row.idNasabah.toLowerCase().includes(filters.idNasabah.toLowerCase()) && row.nama.toLowerCase().includes(filters.nama.toLowerCase()) && row.saldo.includes(filters.saldo) && row.bunga.includes(filters.saldoBunga) && row.bungaTahun.includes(filters.bungaTahun) && (filters.status === "Semua" || row.status === filters.status));
   const input = (key: keyof typeof filters, placeholder = "") => <Input value={filters[key]} onChange={(event) => updateFilter(key, event.target.value)} placeholder={placeholder} className="h-8 rounded-md border-slate-300 text-[12px] shadow-none" />;
   const select = (key: keyof typeof filters, options: string[]) => <Select value={filters[key]} onValueChange={(value) => updateFilter(key, value)}><SelectTrigger className="h-8 rounded-md border-slate-300 text-[12px] shadow-none"><SelectValue /></SelectTrigger><SelectContent>{options.map((option) => <SelectItem key={option} value={option}>{option === "Semua" ? "-- Semua" : option}</SelectItem>)}</SelectContent></Select>;
-  const th = "px-2 py-2.5";
-  const td = "px-2 py-2";
+  const th = "px-1.5 py-1.5";
+  const td = "px-1.5 py-1.5";
   if (selected) return <DepositAccountDetail account={selected} onBack={() => setSelected(null)} />;
 
   return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8"><div className="flex items-center justify-between gap-4"><div className="flex items-baseline gap-2"><h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">Rekening Deposito</h1><span className="text-sm font-semibold text-slate-600">Daftar</span></div><Button onClick={() => toast.success("Tambah rekening deposito")} className="h-10 rounded-full bg-white px-5 text-sm font-medium text-slate-700 shadow-sm hover:bg-violet-50"><Plus className="mr-2 h-4 w-4 text-violet-700" />Tambah</Button></div>
