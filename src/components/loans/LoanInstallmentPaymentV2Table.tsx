@@ -616,6 +616,7 @@ function SelectedPinjamanInfo({
         { label: "Nominal Pelunasan", value: "20.400.000,00" },
       ],
     } satisfies LoanInfo);
+  const isBilling = !hideBillingDetails && displayInfo.isBilling;
 
   const [interestArrears, setInterestArrears] = React.useState("0,00");
 
@@ -654,13 +655,13 @@ function SelectedPinjamanInfo({
     <div
       className={cn(
         "bg-white",
-        displayInfo.isBilling
+        isBilling
           ? "loan-installment-v2-pinjaman-billing"
           : "loan-installment-v2-pinjaman-monthly",
         isEmptyInitialLayout ? "loan-installment-v2-empty" : "",
       )}
     >
-      {displayInfo.isBilling ? (
+      {isBilling ? (
         <div className="loan-installment-v2-billing-top">
           {beforeFirstDivider}
         </div>
@@ -1409,7 +1410,11 @@ export default function LoanInstallmentPaymentV2Table({
         onBackToList={() => {
           setSuccessOpen(false);
           showPaymentInstallmentSavedToast();
-          navigate("/loans/transactions");
+          navigate(
+            location.pathname.startsWith("/astiti-dana-lestari")
+              ? "/astiti-dana-lestari/pinjaman/transaksi"
+              : "/loans/transactions",
+          );
         }}
         onViewDetail={() => {
           setSuccessOpen(false);
@@ -1629,9 +1634,15 @@ export default function LoanInstallmentPaymentV2Table({
 
                   {row.id === lastRowId ? (
                     <SummaryBlock
-                      onCancel={() => navigate("/loans/transactions")}
-                      onSave={() => setConfirmOpen(true)}
-                    />
+                        onCancel={() =>
+                          navigate(
+                            location.pathname.startsWith("/astiti-dana-lestari")
+                              ? "/astiti-dana-lestari/pinjaman/transaksi"
+                              : "/loans/transactions",
+                          )
+                        }
+                        onSave={() => setConfirmOpen(true)}
+                      />
                   ) : null}
                 </Td>
 
