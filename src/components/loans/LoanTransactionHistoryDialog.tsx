@@ -16,6 +16,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import {
+  getLoanTransactionsForAccount,
+  LOAN_TRANSACTIONS_UPDATED_EVENT,
+} from "@/lib/loanTransactionStore";
 
 type Row = {
   angsuranKe: string;
@@ -92,6 +96,16 @@ export default function LoanTransactionHistoryDialog({
   const [dateEnd, setDateEnd] = React.useState("");
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState(1);
+  const [savedRows, setSavedRows] = React.useState(() =>
+    getLoanTransactionsForAccount(accountNo),
+  );
+
+  React.useEffect(() => {
+    const refresh = () => setSavedRows(getLoanTransactionsForAccount(accountNo));
+    refresh();
+    window.addEventListener(LOAN_TRANSACTIONS_UPDATED_EVENT, refresh);
+    return () => window.removeEventListener(LOAN_TRANSACTIONS_UPDATED_EVENT, refresh);
+  }, [accountNo]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -101,16 +115,27 @@ export default function LoanTransactionHistoryDialog({
     setPage(1);
   }, [open]);
 
+  const transactionRows = React.useMemo(
+    () =>
+      savedRows.map((saved) => ({
+        ...seed[1],
+        tanggal: saved.transactionNo.slice(3, 9).replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-20$3"),
+        tipe: "Pembayaran Angsuran",
+        keterangan: saved.keterangan,
+      })),
+    [savedRows],
+  );
+
   const filtered = React.useMemo(() => {
     const s = dateStart.trim();
     const e = dateEnd.trim();
 
-    return seed.filter((r) => {
+    return [...transactionRows, ...seed].filter((r) => {
       const okStart = s ? r.tanggal.includes(s) : true;
       const okEnd = e ? r.tanggal.includes(e) : true;
       return okStart && okEnd;
     });
-  }, [dateEnd, dateStart]);
+  }, [dateEnd, dateStart, transactionRows]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   React.useEffect(() => setPage(1), [pageSize, dateStart, dateEnd]);

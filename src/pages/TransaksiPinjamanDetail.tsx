@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { ExternalLink, FileText, ReceiptText, ArrowLeft, Trash2 } from "lucide-react";
+import { getLoanTransaction } from "@/lib/loanTransactionStore";
 
 function ActionButton({
   icon: Icon,
@@ -118,6 +119,7 @@ export default function TransaksiPinjamanDetail() {
   // Prototype data mengikuti screenshot
   const rekPinjaman = "12260002";
   const kolektor = "Hilda Usamah";
+  const savedTransaction = getLoanTransaction(trxNo);
 
   return (
     <div className="min-h-screen bg-[#f5f7fc] px-4 pb-6 pt-5 text-[#08285f] md:px-8 md:pt-6 lg:px-10">
@@ -277,7 +279,7 @@ export default function TransaksiPinjamanDetail() {
               <KVRow label="Angsuran Hutang Pokok" value="0,00" right />
               <KVRow label="Angsuran Hutang Bunga" value="0,00" right />
               <KVRow label="Deskripsi" value="-" right />
-              <KVRow label="Keterangan" value="-" right />
+              <KVRow label="Keterangan" value={savedTransaction?.keterangan || "-"} right />
               <KVRow label="Dibuat Oleh" value="Arya Dharma" right />
             </div>
           </div>

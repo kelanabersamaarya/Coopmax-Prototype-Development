@@ -35,6 +35,7 @@ import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSucce
 import PinjamanBulananTransactionFields from "@/components/loans/PinjamanBulananTransactionFields";
 import BorrowerMandatorySavingsInfo from "@/components/loans/BorrowerMandatorySavingsInfo";
 import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
+import { saveLoanTransactions } from "@/lib/loanTransactionStore";
 
 const PAYMENT_METHODS = [
   "Pembayaran Reguler",
@@ -1411,6 +1412,22 @@ export default function LoanInstallmentPaymentV2Table({
         }}
         onViewDetail={() => {
           setSuccessOpen(false);
+          saveLoanTransactions(
+            rows
+              .filter((row) => row.accountNo)
+              .map((row) => ({
+                transactionNo,
+                accountNo: row.accountNo,
+                keterangan:
+                  row.paymentMethod === "Pembayaran Khusus"
+                    ? row.keteranganKhusus
+                    : row.paymentMethod === "Pembayaran Penurunan Baki Debet"
+                      ? row.keteranganBakiDebet
+                      : row.paymentMethod === "Pelunasan"
+                        ? row.keteranganPelunasan
+                        : row.keteranganReguler,
+              })),
+          );
           toast.success("Transaksi tersimpan (prototype)", {
             description: `No. Transaksi: ${transactionNo}`,
           });

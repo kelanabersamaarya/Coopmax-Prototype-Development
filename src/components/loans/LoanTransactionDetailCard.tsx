@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ExternalLink } from "lucide-react";
+import { getLoanTransaction } from "@/lib/loanTransactionStore";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -96,6 +97,7 @@ export default function LoanTransactionDetailCard({
   // Prototype static data mengikuti screenshot
   const rekPinjaman = "12260006";
   const kolektor = "Dinda Sudiati";
+  const transaction = getLoanTransaction(transactionNo);
 
   return (
     <Card
@@ -222,7 +224,7 @@ export default function LoanTransactionDetailCard({
           <KVRow label="Angsuran Hutang Pokok" value="0,00" right />
           <KVRow label="Angsuran Hutang Bunga" value="0,00" right />
           <KVRow label="Deskripsi" value="-" right />
-          <KVRow label="Keterangan" value="-" right />
+          <KVRow label="Keterangan" value={transaction?.keterangan || "-"} right />
           <KVRow label="Dibuat Oleh" value="Arya Dharma" right />
         </div>
       </div>
