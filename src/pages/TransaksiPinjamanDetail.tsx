@@ -283,7 +283,6 @@ export default function TransaksiPinjamanDetail() {
           </div>
           </section>
         </main>
-      </div>
     </div>
   );
 }
