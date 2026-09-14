@@ -19,8 +19,8 @@ function ActionButton({
       type="button"
       className={cn(
         "inline-flex h-10 items-center gap-2 rounded-full px-4 text-[13px] font-semibold transition",
-        "bg-transparent text-slate-700 ring-0 shadow-none",
-        "hover:bg-slate-100/60",
+        "bg-white text-slate-700 shadow-sm ring-1 ring-slate-200/70",
+        "hover:bg-slate-50",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
       )}
       onClick={onClick}
@@ -42,7 +42,7 @@ export default function LoanTransactionsDetailHeader({
 }) {
   return (
     <div className={cn("bg-transparent p-0 ring-0 shadow-none", className)}>
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div className="min-w-0">
           <h1 className="flex items-baseline gap-1.5 tracking-tight text-slate-900">
             <span className="text-[21px] font-bold">Transaksi Pinjaman</span>
