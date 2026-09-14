@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, FileText, RefreshCw, Search, X } from "lucide-react";
+import { Check, RefreshCw, Search, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
