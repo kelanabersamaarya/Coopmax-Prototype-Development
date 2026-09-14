@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { FileText, ReceiptText, ArrowLeft, Trash2 } from "lucide-react";
+import { List, Printer, Trash2 } from "lucide-react";
 
 function ActionButton({
   icon: Icon,
@@ -25,7 +25,7 @@ function ActionButton({
       )}
       onClick={onClick}
     >
-      <Icon className="h-4.5 w-4.5 text-slate-600" />
+      <Icon className="h-6 w-6 text-[#536987]" strokeWidth={2.5} />
       <span className="whitespace-nowrap">{label}</span>
     </button>
   );
@@ -55,7 +55,7 @@ export default function LoanTransactionsDetailHeader({
 
         <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
           <ActionButton
-            icon={ReceiptText}
+            icon={Printer}
             label="Kwitansi"
             onClick={() =>
               toast("Kwitansi (prototype)", {
@@ -64,7 +64,7 @@ export default function LoanTransactionsDetailHeader({
             }
           />
           <ActionButton
-            icon={FileText}
+            icon={Printer}
             label="Kwitansi Kas"
             onClick={() =>
               toast("Kwitansi Kas (prototype)", {
@@ -73,7 +73,7 @@ export default function LoanTransactionsDetailHeader({
             }
           />
           <ActionButton
-            icon={ArrowLeft}
+            icon={List}
             label="Kembali ke Daftar"
             onClick={onBack}
           />
