@@ -157,8 +157,8 @@ function SavingsBarChart({
   const keys = variant === "mbanking"
     ? [
         ["transfer", "#5612cf"],
-        ["transferOut", "#ef476f"],
         ["topUp", "#09c3c7"],
+        ["transferOut", "#ef476f"],
         ["pembelianPpob", "#1687ef"],
         ["angsuran", "#48b900"],
         ["iuran", "#f59e0b"],
