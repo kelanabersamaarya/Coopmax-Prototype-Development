@@ -124,8 +124,8 @@ function Th({
   return (
     <th
       className={cn(
-        "px-1.5 py-2 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-        "border-b-0",
+        "px-2 py-3 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]",
+        "border-b border-slate-200",
         "align-middle whitespace-nowrap",
         className,
       )}
@@ -147,8 +147,8 @@ function Td({
   return (
     <td
       className={cn(
-        "px-1.5 py-2.5 text-[13px] font-medium text-slate-900",
-        "border-t border-slate-200",
+        "px-2 py-3 text-[12px] font-normal text-slate-700",
+        "border-b border-slate-100",
         align === "right"
           ? "text-right tabular-nums"
           : align === "center"
@@ -163,9 +163,9 @@ function Td({
 }
 
 const filterInputCls =
-  "h-9 rounded-[8px] border-slate-300 bg-white text-[13px] font-medium shadow-none";
+  "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none";
 const filterSelectTriggerCls =
-  "h-9 rounded-[8px] border-slate-300 bg-white text-[13px] font-medium shadow-none";
+  "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none";
 
 function EntriesPicker({
   pageSize,
@@ -180,7 +180,7 @@ function EntriesPicker({
     "h-[34px] w-[76px] rounded-[10px] border-slate-200 bg-white px-2.5 text-[13px] font-semibold text-slate-900 shadow-sm";
   return (
     <div className={cn("flex items-center gap-3 text-[13px] text-slate-900", className)}>
-      <span className="font-medium">Tampilkan</span>
+      <span className="font-normal">Tampilkan</span>
       <Select
         value={String(pageSize)}
         onValueChange={(v) => onPageSizeChange(Number(v))}
@@ -619,14 +619,14 @@ export default function LoanTransactionsTable({
 
   return (
     <div className={cn("mt-6", className)}>
-      <div className="overflow-hidden rounded-2xl bg-white">
-        <div className="px-3 pt-3">
+      <div className="overflow-hidden rounded-[20px] bg-white shadow-[0_4px_16px_rgba(53,75,120,0.03)]">
+        <div className="px-5 pt-5">
           <EntriesPicker pageSize={pageSize} onPageSizeChange={setPageSize} />
         </div>
 
-        <div className="px-4 sm:px-5">
+        <div className="mt-4 px-5">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[980px] border-collapse bg-white">
+            <table className="w-full min-w-[1120px] border-collapse bg-white text-[12px]">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className={colW.no}>
@@ -837,7 +837,7 @@ export default function LoanTransactionsTable({
                         </div>
                       </Td>
 
-                      <Td align="right" className="font-semibold text-emerald-700">
+                      <Td align="right" className="font-medium text-lime-600">
                         {r.nominal}
                       </Td>
 
