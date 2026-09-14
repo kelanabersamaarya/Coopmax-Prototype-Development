@@ -42,7 +42,7 @@ export default function LoanTransactionsDetailHeader({
 }) {
   return (
     <div className={cn("bg-transparent p-0 ring-0 shadow-none", className)}>
-      <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+      <div className="flex flex-col gap-5">
         <div className="min-w-0">
           <h1 className="flex items-baseline gap-1.5 tracking-tight text-slate-900">
             <span className="text-[21px] font-bold">Transaksi Pinjaman</span>
@@ -53,7 +53,7 @@ export default function LoanTransactionsDetailHeader({
           <div className="sr-only">{accountNo}</div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
+        <div className="flex flex-wrap items-center justify-start gap-2">
           <ActionButton
             icon={Printer}
             label="Kwitansi"
