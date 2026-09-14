@@ -392,7 +392,7 @@ function ReportResults({
           <thead>
             <tr>
               <th>No.</th>
-              {columns.map((column) => <th key={column.key}><SortableHeader>{column.label}</SortableHeader></th>)}
+              {columns.map((column) => <th key={column.key} className={column.key === "preview-file-ktp" ? "export-hide" : undefined}><SortableHeader>{column.label}</SortableHeader></th>)}
             </tr>
           </thead>
 
@@ -402,7 +402,7 @@ function ReportResults({
                 return (
                   <tr key={member.id}>
                     <td>{index + 1}</td>
-                    {columns.map((column) => <td key={column.key}>{renderCell(member, column.key)}</td>)}
+                    {columns.map((column) => <td key={column.key} className={column.key === "preview-file-ktp" ? "export-hide" : undefined}>{renderCell(member, column.key)}</td>)}
                   </tr>
                 );
               })

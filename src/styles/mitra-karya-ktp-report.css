@@ -33,8 +33,7 @@
 
 .mitra-karya-member-report table.ktp-report-table td:nth-child(2),
 .mitra-karya-member-report table.ktp-report-table td:nth-child(3),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(4),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(7) {
+.mitra-karya-member-report table.ktp-report-table td:nth-child(4) {
   white-space: normal;
   overflow-wrap: anywhere;
 }

@@ -349,6 +349,7 @@ export function openReportPdfPreview({
 
           .export-hide {
             display: none !important;
+            visibility: hidden !important;
           }
 
           .safe-x-scroll,

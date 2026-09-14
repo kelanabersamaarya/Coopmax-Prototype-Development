@@ -88,8 +88,8 @@ export function openReportPrintPreview() {
 
       body.dyad-print-report .export-hide,
       body.dyad-print-report .export-hide * {
-        display: inline-flex !important;
-        visibility: visible !important;
+        display: none !important;
+        visibility: hidden !important;
       }
 
       body.dyad-print-report .safe-x-scroll,
