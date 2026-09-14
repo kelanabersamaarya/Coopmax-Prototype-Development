@@ -13,6 +13,10 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
   const isFamilyCard = title === "Upload Foto Kartu Keluarga";
   const isDocumentUpload = isKtp || isFamilyCard;
   const documentLabel = isFamilyCard ? "Kartu Keluarga" : "KTP";
+  const cardTitle = isFamilyCard ? "Foto Kartu Keluarga" : title;
+  const uploadDescription = isFamilyCard
+    ? "Unggah foto kartu keluarga anggota. Pastikan terlihat jelas untuk melengkapi data anggota"
+    : "Unggah foto KTP anggota. Pastikan terlihat jelas untuk melengkapi data anggota";
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
   const [fileName, setFileName] = React.useState(file?.name ?? "");
 
@@ -84,7 +88,7 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
 
   return (
     <div className="rounded-[14px] border border-[#d5ddeb] bg-white p-5 text-[#002060]">
-      <h3 className="text-[16px] font-semibold">{title}</h3>
+      <h3 className="text-[16px] font-semibold">{cardTitle}</h3>
       {isDocumentUpload ? (
         <>
           <div className="mt-4 grid items-stretch gap-5 lg:grid-cols-2">
@@ -96,7 +100,7 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
               </div>
             </div>
             <div className="flex min-h-[266px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] px-4 py-5 text-center">
-              {file ? filePreview(`Preview ${documentLabel}`) : <><Contact className="mb-2 h-8 w-8 text-black" /><p className="text-[12px] text-black">Unggah foto {documentLabel}. Pastikan terlihat jelas untuk melengkapi data anggota.</p><p className="mt-2 text-[12px] text-[#7b7b7b]">JPG, JPEG, PNG. Maksimal 1 MB.</p><label className="mt-3 inline-flex h-[30px] cursor-pointer items-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah {documentLabel}{input}</label></>}
+              {file ? filePreview(`Preview ${documentLabel}`) : <><Contact className="mb-2 h-8 w-8 text-black" /><p className="text-[12px] text-black">{uploadDescription}</p><p className="mt-2 text-[12px] text-[#7b7b7b]">JPG, JPEG, PNG. Maksimal 1 MB.</p><label className="mt-3 inline-flex h-[30px] cursor-pointer items-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />{isFamilyCard ? "Unggah Kartu Keluarga" : "Unggah KTP"}{input}</label></>}
             </div>
           </div>
           <div className="mt-4 rounded-[9px] border border-[#f1d28a] bg-[#fff7dd] p-3 text-[11px] text-[#4d3b13]"><p className="flex items-center gap-1 font-semibold"><AlertTriangle className="h-3.5 w-3.5" />Perhatikan Foto {documentLabel} yang Anda Unggah</p><ol className="mt-2 list-decimal pl-5"><li>{documentLabel} harus merupakan dokumen asli.</li><li>Informasi dalam {documentLabel} harus terlihat jelas.</li><li>Pastikan foto tidak buram dan seluruh dokumen terlihat.</li><li>Format file JPG, JPEG, PNG, atau PDF.</li><li>Maksimal ukuran file 1 MB.</li></ol></div>
