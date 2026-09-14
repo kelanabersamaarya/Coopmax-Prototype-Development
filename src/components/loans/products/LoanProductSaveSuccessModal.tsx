@@ -21,8 +21,8 @@ export default function LoanProductSaveSuccessModal({
         className={cn(
           "w-[calc(100vw-2rem)] sm:w-[519px]",
           "max-w-[519px]",
-          "h-[300px]",
-          "rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+          "h-[302px]",
+          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
           "overflow-hidden",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
@@ -31,20 +31,20 @@ export default function LoanProductSaveSuccessModal({
         )}
       >
         <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
-            <Check className="h-12 w-12 text-[#33aa00]" strokeWidth={3} />
+          <div className="flex h-[92px] w-[92px] items-center justify-center rounded-full bg-white ring-4 ring-[#dff2d5]">
+            <Check className="h-[58px] w-[58px] text-[#9bd77e]" strokeWidth={2.5} />
           </div>
 
-          <div className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
+          <div className="mt-7 text-[30px] font-semibold leading-tight tracking-tight text-[#595959]">
             {message}
           </div>
 
-          <div className="mt-7">
+          <div className="mt-8">
             <button
               type="button"
               onClick={onOk}
               className={cn(
-                "h-[60px] w-[190px] rounded-[10px] text-[16px] font-semibold transition",
+                "h-[48px] w-[104px] rounded-[5px] text-[16px] font-semibold transition",
                 "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]",
                 "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25",
               )}
