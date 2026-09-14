@@ -53,7 +53,7 @@ export default function LoanTransactionsDetailHeader({
           <div className="sr-only">{accountNo}</div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-start gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2">
           <ActionButton
             icon={Printer}
             label="Kwitansi"
