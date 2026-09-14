@@ -124,7 +124,7 @@ function Th({
   return (
     <th
       className={cn(
-        "px-2 py-3 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]",
+        "px-1.5 py-1.5 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]",
         "border-b border-slate-200",
         "align-middle whitespace-nowrap",
         className,
@@ -147,8 +147,8 @@ function Td({
   return (
     <td
       className={cn(
-        "px-2 py-3 text-[12px] font-normal text-slate-700",
-        "border-b border-slate-100",
+        "px-1.5 py-1.5 text-[12px] font-normal text-slate-700",
+        "border-b border-slate-200",
         align === "right"
           ? "text-right tabular-nums"
           : align === "center"

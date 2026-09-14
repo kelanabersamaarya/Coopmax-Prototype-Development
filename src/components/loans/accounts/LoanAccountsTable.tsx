@@ -51,7 +51,7 @@ export default function LoanAccountsTable({
 }) {
   const th = "px-2 py-3";
   const filterCell = "px-2 py-3";
-  const td = "px-2 py-3";
+  const td = "px-1.5 py-1.5";
 
   const filterInputCls =
     "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
@@ -260,7 +260,7 @@ export default function LoanAccountsTable({
                   <tr
                     key={r.id}
                     className={cn(
-                      "border-b border-slate-100 text-[12px]",
+                      "border-b border-slate-200 text-[12px]",
                       "bg-white",
                     )}
                   >
