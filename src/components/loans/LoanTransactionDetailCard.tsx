@@ -9,7 +9,7 @@ import { getLoanTransaction } from "@/lib/loanTransactionStore";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
+    <div className="text-[14px] font-bold uppercase tracking-wide text-slate-700">
       {children}
     </div>
   );
