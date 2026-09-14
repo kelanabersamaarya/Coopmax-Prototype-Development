@@ -35,10 +35,9 @@ form div[class*="border-[#f1d28a]"] { font-size: 12px; }
 form div[class*="border-[#f1d28a]"] > p { font-size: 14px; }
 form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) { min-height: 266px; gap: 0; border: 1px dashed #c8d2e3; border-radius: 9px; padding: 18px 16px; }
 form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > svg { display: block; width: 36px; height: 36px; margin: 0 0 8px; color: #111827; stroke-width: 1.8; }
-form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:first-of-type { margin: 0; color: #111827; font-size: 0; font-weight: 600; line-height: 1.3; }
-form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:first-of-type::before { content: "Foto KTP"; display: block; font-size: 14px; }
-form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:first-of-type::after { content: "Unggah foto KTP anggota. Pastikan terlihat jelas untuk melengkapi data anggota"; display: block; margin-top: 12px; color: #111827; font-size: 12px; font-weight: 400; }
-form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:nth-of-type(2) { display: block; margin: 6px 0 0; color: #7890b2; font-size: 12px; }
+form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:first-of-type { margin: 0; color: #111827; font-size: 14px; font-weight: 600; line-height: 1.3; }
+form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:nth-of-type(2) { display: block; margin: 12px 0 0; color: #111827; font-size: 12px; font-weight: 400; line-height: 1.3; }
+form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > p:nth-of-type(3) { display: block; margin: 6px 0 0; color: #7890b2; font-size: 12px; }
 form .flex.min-h-\[266px\]:not(:has(.mt-4.w-full)) > label { height: 30px; margin-top: 14px; border-radius: 4px; background: #3567f5; padding: 0 14px; font-size: 12px; }
 form > .grid > div:nth-child(2) > div.mt-5 { margin-top: 10px; padding: 0; }
 form > .grid > div:nth-child(2) > div.mt-5 > div { min-height: 194px; padding: 18px 16px; }
