@@ -543,11 +543,15 @@ function NasabahRow({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
+  const displayAccountNo = accountNo || "12260006";
   const account = React.useMemo(
-    () => loanAccountRowsSeed.find((row) => row.noRekening === accountNo),
-    [accountNo],
+    () => loanAccountRowsSeed.find((row) => row.noRekening === displayAccountNo),
+    [displayAccountNo],
   );
-  const info = React.useMemo(() => getLoanInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getLoanInfoByAccountNo(displayAccountNo),
+    [displayAccountNo],
+  );
   const addressByAccount: Record<string, string> = {
     "09260003": "Jl. Sri Rama No. 49",
     "09260002": "Jl. Sri Rama No. 49",
@@ -556,21 +560,23 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
     "12250004": "Gg. Basudewo No. 230",
   };
 
-  if (!account) return null;
-
   return (
     <div className="mt-3 grid gap-1 bg-white text-[12px] text-[#002060]">
       <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
         <span>Nama :</span>
-        <span className="min-w-0 break-words">{account.namaNasabah}</span>
+        <span className="min-w-0 break-words">{account?.namaNasabah || info?.nama || "-"}</span>
       </div>
       <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
         <span>Alamat :</span>
-        <span className="min-w-0 break-words">{addressByAccount[accountNo] || info?.alamat || "-"}</span>
+        <span className="min-w-0 break-words">
+          {addressByAccount[displayAccountNo] || info?.alamat || "-"}
+        </span>
       </div>
       <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
         <span>Produk :</span>
-        <span className="min-w-0 break-words">{account.produkPinjaman}</span>
+        <span className="min-w-0 break-words">
+          {account?.produkPinjaman || info?.produk || "Pinjaman Bulanan"}
+        </span>
       </div>
     </div>
   );
