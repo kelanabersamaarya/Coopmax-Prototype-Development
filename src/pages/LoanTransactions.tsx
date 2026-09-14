@@ -159,7 +159,7 @@ export default function LoanTransactions() {
           <div className="text-base font-semibold text-slate-600">Daftar</div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-8">
           <div className="flex flex-wrap items-center gap-3">
             {actions.map((a) => (
               <ActionPill
