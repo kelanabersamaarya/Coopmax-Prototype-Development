@@ -49,17 +49,17 @@ export default function LoanAccountsTable({
   onPage: (page: number) => void;
   onSelectAccount: (accountNo: string) => void;
 }) {
-  const th = "px-1.5 py-2";
-  const filterCell = "px-1.5 py-1";
-  const td = "px-1.5 py-1.5";
+  const th = "px-2 py-3";
+  const filterCell = "px-2 py-3";
+  const td = "px-2 py-3";
 
   const filterInputCls =
-    "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls =
-    "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
+    "h-7 w-[68px] rounded-[5px] border-slate-300 bg-white px-2 text-[13px] font-normal text-slate-900 shadow-none";
 
   const noColW = "w-[40px] min-w-[40px] max-w-[40px]";
   const tanggalDaftarColW = "w-[100px] min-w-[100px] max-w-[100px]";
@@ -67,8 +67,8 @@ export default function LoanAccountsTable({
   const bungaColW = "w-[100px] min-w-[100px] max-w-[100px]";
 
   return (
-    <Card className="rounded-[22px] border-slate-200/70 bg-white p-4 shadow-sm md:p-5">
-      <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
+    <Card className="rounded-[20px] border-slate-200/70 bg-white p-5 shadow-[0_4px_16px_rgba(53,75,120,0.03)]">
+      <div className="flex items-center gap-1 pb-1 text-[13px] font-normal text-slate-800">
         <span>Tampilkan</span>
         <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
           <SelectTrigger className={pageSizeTriggerCls}>
@@ -87,9 +87,9 @@ export default function LoanAccountsTable({
 
       <div className="overflow-hidden bg-white">
         <div className="safe-x-scroll">
-          <table className="w-full min-w-[1020px] border-collapse">
+          <table className="w-full min-w-[1120px] border-collapse text-[12px]">
             <thead className="bg-white">
-              <tr className="border-b border-slate-300/70 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+              <tr className="border-b border-slate-200 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]">
                 <th className={cn(noColW, "whitespace-nowrap", th)}>
                   <ThLabel sortable={false}>No.</ThLabel>
                 </th>
@@ -260,8 +260,8 @@ export default function LoanAccountsTable({
                   <tr
                     key={r.id}
                     className={cn(
-                      "border-b border-slate-200 text-[13px]",
-                      idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                      "border-b border-slate-100 text-[12px]",
+                      "bg-white",
                     )}
                   >
                     <td className={cn(td, noColW, "text-left text-slate-900 tabular-nums")}>
@@ -342,8 +342,8 @@ export default function LoanAccountsTable({
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="text-[14px] text-slate-900">
+      <div className="mt-5 flex flex-col gap-3 text-[13px] md:flex-row md:items-center md:justify-between">
+        <div className="text-[13px] text-slate-800">
           Menampilkan {showingStart} sampai {showingEnd} dari {filteredCount} entri{" "}
           <span className="text-slate-600">
             (disaring dari {rows.length} entri keseluruhan)
