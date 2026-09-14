@@ -17,6 +17,7 @@ import {
   getLoanTransactions,
   LOAN_TRANSACTIONS_UPDATED_EVENT,
 } from "@/lib/loanTransactionStore";
+import { loanAccountRowsSeed } from "@/components/loans/accounts/loan-account-mock";
 
 type Row = {
   noTransaksi: string;
@@ -446,8 +447,6 @@ export default function LoanTransactionsTable({
             transaction.transactionNo,
             transaction.accountNo,
             transaction.rekTabungan,
-            transaction.idNasabah,
-            transaction.namaNasabah,
             transaction.namaKolektor,
             transaction.tanggal,
             transaction.jenisTransaksi,
@@ -455,19 +454,25 @@ export default function LoanTransactionsTable({
             transaction.denda,
           ].every((value) => typeof value === "string" && value.trim().length > 0),
         )
-        .map((transaction) => ({
-          noTransaksi: transaction.transactionNo,
-          rekPinjaman: transaction.accountNo,
-          rekTabungan: transaction.rekTabungan,
-          idNasabah: transaction.idNasabah,
-          namaNasabah: transaction.namaNasabah,
-          namaKolektor: transaction.namaKolektor,
-          produkPinjaman: "Pinjaman Bulanan",
-          tanggal: transaction.tanggal,
-          jenisTransaksi: transaction.jenisTransaksi,
-          nominal: transaction.nominal,
-          denda: transaction.denda,
-        })),
+        .map((transaction) => {
+          const account = loanAccountRowsSeed.find(
+            (item) => item.noRekening === transaction.accountNo,
+          );
+
+          return {
+            noTransaksi: transaction.transactionNo,
+            rekPinjaman: transaction.accountNo,
+            rekTabungan: transaction.rekTabungan,
+            idNasabah: transaction.idNasabah === "-" ? account?.idNasabah || "-" : transaction.idNasabah,
+            namaNasabah: transaction.namaNasabah === "-" ? account?.namaNasabah || "-" : transaction.namaNasabah,
+            namaKolektor: transaction.namaKolektor,
+            produkPinjaman: "Pinjaman Bulanan",
+            tanggal: transaction.tanggal,
+            jenisTransaksi: transaction.jenisTransaksi,
+            nominal: transaction.nominal,
+            denda: transaction.denda,
+          };
+        }),
       ...seed,
     ],
     [savedRows],

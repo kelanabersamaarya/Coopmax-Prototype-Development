@@ -1372,12 +1372,18 @@ export default function LoanInstallmentPaymentV2Table({
   function persistTransactions() {
     const validRows = rows.filter((row) => row.accountNo.trim());
     saveLoanTransactions(
-      validRows.map((row, index) => ({
+      validRows.map((row, index) => {
+        const loanInfo = getLoanInfoByAccountNo(row.accountNo);
+        const account =
+          loanAccountRowsSeed.find((item) => item.noRekening === row.accountNo) ||
+          loanAccountRowsSeed.find((item) => item.namaNasabah === loanInfo?.nama);
+
+        return {
           transactionNo: validRows.length > 1 ? `${transactionNo}-${index + 1}` : transactionNo,
           accountNo: row.accountNo,
           rekTabungan: "-",
-          idNasabah: getLoanInfoByAccountNo(row.accountNo)?.nama === "Pangeran Sirait" ? "N2400029" : row.accountNo === "12260002" ? "N2500010" : row.accountNo === "12260001" ? "A100001" : row.accountNo === "210260001" ? "A2600005" : row.accountNo === "072260001" ? "A100001" : "-",
-          namaNasabah: getLoanInfoByAccountNo(row.accountNo)?.nama || "-",
+          idNasabah: account?.idNasabah || "-",
+          namaNasabah: account?.namaNasabah || loanInfo?.nama || "-",
           namaKolektor,
           tanggal,
           jenisTransaksi,
