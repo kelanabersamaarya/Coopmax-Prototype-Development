@@ -13,7 +13,7 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
   const isFamilyCard = title === "Upload Foto Kartu Keluarga" || title === "Upload KK";
   const isDocumentUpload = isKtp || isFamilyCard;
   const documentLabel = isFamilyCard ? "Kartu Keluarga" : "KTP";
-  const sectionTitle = isKtp ? "Unggah Kartu Tanda Penduduk (KTP)" : isFamilyCard ? "Unggah KK" : "Unggah File Pendukung";
+  const sectionTitle = isKtp ? "Unggah Kartu Tanda Penduduk (KTP)" : isFamilyCard ? "Unggah Kartu Keluarga (KK)" : "Unggah File Pendukung";
   const uploadFieldTitle = isFamilyCard ? "Foto Kartu Keluarga" : "Foto KTP";
   const uploadDescription = isFamilyCard
     ? "Unggah foto kartu keluarga anggota. Pastikan terlihat jelas untuk melengkapi data anggota"
