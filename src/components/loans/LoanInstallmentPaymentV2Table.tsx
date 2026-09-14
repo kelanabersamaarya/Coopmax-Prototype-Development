@@ -1400,12 +1400,13 @@ export default function LoanInstallmentPaymentV2Table({
                 ? row.keteranganBakiDebet
                 : row.paymentMethod === "Pelunasan"
                   ? row.keteranganPelunasan
-                  : row.keteranganReguler,
-        })),
-    );
-  }
-
-  function patchRow(rowId: string, patch: Partial<TransactionRowState>) {
+                    : row.keteranganReguler,
+          };
+        }),
+      );
+    }
+  
+    function patchRow(rowId: string, patch: Partial<TransactionRowState>) {
     setRows((prev) =>
       prev.map((row) => (row.id === rowId ? { ...row, ...patch } : row)),
     );
