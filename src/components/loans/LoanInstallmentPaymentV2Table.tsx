@@ -1339,7 +1339,34 @@ export default function LoanInstallmentPaymentV2Table({
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
   const lastRowId = rows[rows.length - 1]?.id;
-  const transactionNo = "BA/050526/0001";
+  const transactionNo = `BA/${new Date().toLocaleDateString("id-ID").replace(/\//g, "").slice(0, 6)}/0001`;
+
+  function persistTransactions() {
+    saveLoanTransactions(
+      rows
+        .filter((row) => row.accountNo.trim())
+        .map((row) => ({
+          transactionNo,
+          accountNo: row.accountNo,
+          tanggal: new Date().toLocaleDateString("id-ID").replace(/\//g, "-"),
+          jenisTransaksi: "Bayar Angsuran",
+          nominal:
+            row.nominalReguler ||
+            row.nominalPokokBakiDebet ||
+            row.nominalPokokKhusus ||
+            "0,00",
+          denda: row.nominalDendaKhusus || "0,00",
+          keterangan:
+            row.paymentMethod === "Pembayaran Khusus"
+              ? row.keteranganKhusus
+              : row.paymentMethod === "Pembayaran Penurunan Baki Debet"
+                ? row.keteranganBakiDebet
+                : row.paymentMethod === "Pelunasan"
+                  ? row.keteranganPelunasan
+                  : row.keteranganReguler,
+        })),
+    );
+  }
 
   function patchRow(rowId: string, patch: Partial<TransactionRowState>) {
     setRows((prev) =>
@@ -1399,6 +1426,7 @@ export default function LoanInstallmentPaymentV2Table({
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
         onYes={() => {
+          persistTransactions();
           setConfirmOpen(false);
           setSuccessOpen(true);
         }}
@@ -1417,27 +1445,8 @@ export default function LoanInstallmentPaymentV2Table({
           );
         }}
         onViewDetail={() => {
+          persistTransactions();
           setSuccessOpen(false);
-          saveLoanTransactions(
-            rows
-              .filter((row) => row.accountNo)
-              .map((row) => ({
-                transactionNo,
-                accountNo: row.accountNo,
-                tanggal: new Date().toLocaleDateString("id-ID").replace(/\//g, "-"),
-                jenisTransaksi: "Bayar Angsuran",
-                nominal: row.nominalReguler || row.nominalPokokBakiDebet || row.nominalPokokKhusus || "0,00",
-                denda: row.nominalDendaKhusus || "0,00",
-                keterangan:
-                  row.paymentMethod === "Pembayaran Khusus"
-                    ? row.keteranganKhusus
-                    : row.paymentMethod === "Pembayaran Penurunan Baki Debet"
-                      ? row.keteranganBakiDebet
-                      : row.paymentMethod === "Pelunasan"
-                        ? row.keteranganPelunasan
-                        : row.keteranganReguler,
-              })),
-          );
           toast.success("Transaksi tersimpan (prototype)", {
             description: `No. Transaksi: ${transactionNo}`,
           });
