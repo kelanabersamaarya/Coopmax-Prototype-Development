@@ -773,6 +773,8 @@ function SelectedPinjamanInfo({
               layout="inline"
             />
 
+            {(displayInfo.monthlySettlementItems ?? []).length > 0 ? <BaseDivider /> : null}
+
             {(displayInfo.monthlySettlementItems ?? []).map((item) => (
               <InfoStack
                 key={item.label}
