@@ -440,19 +440,34 @@ export default function LoanTransactionsTable({
 
   const rows = React.useMemo<Row[]>(
     () => [
-      ...savedRows.map((transaction) => ({
-        noTransaksi: transaction.transactionNo,
-        rekPinjaman: transaction.accountNo,
-        rekTabungan: transaction.rekTabungan,
-        idNasabah: transaction.idNasabah,
-        namaNasabah: transaction.namaNasabah,
-        namaKolektor: transaction.namaKolektor,
-        produkPinjaman: "Pinjaman Bulanan",
-        tanggal: transaction.tanggal,
-        jenisTransaksi: transaction.jenisTransaksi,
-        nominal: transaction.nominal,
-        denda: transaction.denda,
-      })),
+      ...savedRows
+        .filter((transaction) =>
+          [
+            transaction.transactionNo,
+            transaction.accountNo,
+            transaction.rekTabungan,
+            transaction.idNasabah,
+            transaction.namaNasabah,
+            transaction.namaKolektor,
+            transaction.tanggal,
+            transaction.jenisTransaksi,
+            transaction.nominal,
+            transaction.denda,
+          ].every((value) => typeof value === "string" && value.trim().length > 0),
+        )
+        .map((transaction) => ({
+          noTransaksi: transaction.transactionNo,
+          rekPinjaman: transaction.accountNo,
+          rekTabungan: transaction.rekTabungan,
+          idNasabah: transaction.idNasabah,
+          namaNasabah: transaction.namaNasabah,
+          namaKolektor: transaction.namaKolektor,
+          produkPinjaman: "Pinjaman Bulanan",
+          tanggal: transaction.tanggal,
+          jenisTransaksi: transaction.jenisTransaksi,
+          nominal: transaction.nominal,
+          denda: transaction.denda,
+        })),
       ...seed,
     ],
     [savedRows],
