@@ -13,6 +13,10 @@ import {
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { createPortal } from "react-dom";
+import {
+  getLoanTransactions,
+  LOAN_TRANSACTIONS_UPDATED_EVENT,
+} from "@/lib/loanTransactionStore";
 
 type Row = {
   noTransaksi: string;
@@ -426,7 +430,33 @@ export default function LoanTransactionsTable({
   className?: string;
   onPickTransaction?: (transactionNo: string) => void;
 }) {
-  const rows = React.useMemo(() => seed, []);
+  const [savedRows, setSavedRows] = React.useState(() => getLoanTransactions());
+
+  React.useEffect(() => {
+    const refresh = () => setSavedRows(getLoanTransactions());
+    window.addEventListener(LOAN_TRANSACTIONS_UPDATED_EVENT, refresh);
+    return () => window.removeEventListener(LOAN_TRANSACTIONS_UPDATED_EVENT, refresh);
+  }, []);
+
+  const rows = React.useMemo<Row[]>(
+    () => [
+      ...savedRows.map((transaction) => ({
+        noTransaksi: transaction.transactionNo,
+        rekPinjaman: transaction.accountNo,
+        rekTabungan: "-",
+        idNasabah: "-",
+        namaNasabah: "-",
+        namaKolektor: "-",
+        produkPinjaman: "Pinjaman Bulanan",
+        tanggal: transaction.tanggal,
+        jenisTransaksi: transaction.jenisTransaksi,
+        nominal: transaction.nominal,
+        denda: transaction.denda,
+      })),
+      ...seed,
+    ],
+    [savedRows],
+  );
 
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -438,7 +468,7 @@ export default function LoanTransactionsTable({
   const [qNamaNasabah, setQNamaNasabah] = React.useState("");
   const [qNamaKolektor, setQNamaKolektor] = React.useState("");
   const [qProduk, setQProduk] = React.useState<string>("Semua");
-  const [qTanggal, setQTanggal] = React.useState("05-05-2026");
+  const [qTanggal, setQTanggal] = React.useState("");
   const [qJenis, setQJenis] = React.useState<string>("Semua");
   const [qNominal, setQNominal] = React.useState("");
   const [qDenda, setQDenda] = React.useState("");

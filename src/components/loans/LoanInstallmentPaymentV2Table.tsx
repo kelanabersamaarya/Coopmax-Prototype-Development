@@ -1419,6 +1419,10 @@ export default function LoanInstallmentPaymentV2Table({
               .map((row) => ({
                 transactionNo,
                 accountNo: row.accountNo,
+                tanggal: new Date().toLocaleDateString("id-ID").replace(/\//g, "-"),
+                jenisTransaksi: "Bayar Angsuran",
+                nominal: row.nominalReguler || row.nominalPokokBakiDebet || row.nominalPokokKhusus || "0,00",
+                denda: row.nominalDendaKhusus || "0,00",
                 keterangan:
                   row.paymentMethod === "Pembayaran Khusus"
                     ? row.keteranganKhusus

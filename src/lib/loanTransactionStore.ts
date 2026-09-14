@@ -2,6 +2,10 @@ export type SavedLoanTransaction = {
   transactionNo: string;
   accountNo: string;
   keterangan: string;
+  tanggal: string;
+  jenisTransaksi: string;
+  nominal: string;
+  denda: string;
 };
 
 const STORAGE_KEY = "astiti-loan-transactions";
@@ -32,6 +36,10 @@ export function saveLoanTransactions(transactions: SavedLoanTransaction[]) {
 
 export function getLoanTransaction(transactionNo: string) {
   return readTransactions().find((item) => item.transactionNo === transactionNo) ?? null;
+}
+
+export function getLoanTransactions() {
+  return readTransactions();
 }
 
 export function getLoanTransactionsForAccount(accountNo: string) {
