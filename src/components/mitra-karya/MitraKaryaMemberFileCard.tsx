@@ -10,9 +10,10 @@ type Props = {
 
 export default function MitraKaryaMemberFileCard({ title, file, onChange }: Props) {
   const isKtp = title === "Upload KTP";
-  const isFamilyCard = title === "Upload Foto Kartu Keluarga";
+  const isFamilyCard = title === "Upload Foto Kartu Keluarga" || title === "Upload KK";
   const isDocumentUpload = isKtp || isFamilyCard;
   const documentLabel = isFamilyCard ? "Kartu Keluarga" : "KTP";
+  const sectionTitle = isFamilyCard ? "Upload KK" : title;
   const uploadFieldTitle = isFamilyCard ? "Foto Kartu Keluarga" : "Foto KTP";
   const uploadDescription = isFamilyCard
     ? "Unggah foto kartu keluarga anggota. Pastikan terlihat jelas untuk melengkapi data anggota"
@@ -88,7 +89,7 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
 
   return (
     <div className="rounded-[14px] border border-[#d5ddeb] bg-white p-5 text-[#002060]">
-      <h3 className="text-[16px] font-semibold">{title}</h3>
+      <h3 className="text-[16px] font-semibold">{sectionTitle}</h3>
       {isDocumentUpload ? (
         <>
           <div className="mt-4 grid items-stretch gap-5 lg:grid-cols-2">
