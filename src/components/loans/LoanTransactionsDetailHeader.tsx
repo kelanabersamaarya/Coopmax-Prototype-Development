@@ -44,8 +44,9 @@ export default function LoanTransactionsDetailHeader({
     <div className={cn("bg-transparent p-0 ring-0 shadow-none", className)}>
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0">
-          <h1 className="text-xl font-extrabold tracking-tight text-slate-900 md:text-2xl">
-            Transaksi Pinjaman Detail
+          <h1 className="flex items-baseline gap-1.5 tracking-tight text-slate-900">
+            <span className="text-[21px] font-bold">Transaksi Pinjaman</span>
+            <span className="text-[16px] font-normal">Detail</span>
           </h1>
 
           {/* keep prop used so TS doesn't complain */}
