@@ -134,7 +134,12 @@ export default function LoanInstallmentPaymentV2({
                   </Select>
                 </FieldRow>
 
-                <LoanInstallmentPaymentV2Table hideBillingDetails={hideBillingDetails} />
+                <LoanInstallmentPaymentV2Table
+                  hideBillingDetails={hideBillingDetails}
+                  tanggal={tanggal}
+                  jenisTransaksi={jenis}
+                  namaKolektor={kolektor === "Pilih Kolektor" ? "-" : kolektor}
+                />
               </div>
             </div>
           </div>

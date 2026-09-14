@@ -1,6 +1,10 @@
 export type SavedLoanTransaction = {
   transactionNo: string;
   accountNo: string;
+  rekTabungan: string;
+  idNasabah: string;
+  namaNasabah: string;
+  namaKolektor: string;
   keterangan: string;
   tanggal: string;
   jenisTransaksi: string;

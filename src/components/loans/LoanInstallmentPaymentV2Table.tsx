@@ -1320,9 +1320,15 @@ function showAccountPickedToast() {
 export default function LoanInstallmentPaymentV2Table({
   className,
   hideBillingDetails = false,
+  tanggal,
+  jenisTransaksi,
+  namaKolektor,
 }: {
   className?: string;
   hideBillingDetails?: boolean;
+  tanggal: string;
+  jenisTransaksi: string;
+  namaKolektor: string;
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1348,8 +1354,12 @@ export default function LoanInstallmentPaymentV2Table({
         .map((row) => ({
           transactionNo,
           accountNo: row.accountNo,
-          tanggal: new Date().toLocaleDateString("id-ID").replace(/\//g, "-"),
-          jenisTransaksi: "Bayar Angsuran",
+          rekTabungan: "-",
+          idNasabah: getLoanInfoByAccountNo(row.accountNo)?.nama === "Pangeran Sirait" ? "N2400029" : row.accountNo === "12260002" ? "N2500010" : row.accountNo === "12260001" ? "A100001" : row.accountNo === "210260001" ? "A2600005" : row.accountNo === "072260001" ? "A100001" : "-",
+          namaNasabah: getLoanInfoByAccountNo(row.accountNo)?.nama || "-",
+          namaKolektor,
+          tanggal,
+          jenisTransaksi,
           nominal:
             row.nominalReguler ||
             row.nominalPokokBakiDebet ||
