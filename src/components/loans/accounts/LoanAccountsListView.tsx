@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import LoanAccountsTable from "./LoanAccountsTable";
 import { useLoanAccountsList } from "./useLoanAccountsList";
 
@@ -21,8 +20,6 @@ export default function LoanAccountsListView({
           </div>
         </div>
       </div>
-
-      <Separator className="my-6 bg-slate-200/70" />
 
       <LoanAccountsTable
         rows={list.rows}
