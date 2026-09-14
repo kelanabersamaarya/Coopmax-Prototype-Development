@@ -9,6 +9,7 @@ type Props = {
 };
 
 export default function MitraKaryaMemberFileCard({ title, file, onChange }: Props) {
+  const isKtp = title === "Upload KTP";
   const isFamilyCard = title === "Upload Foto Kartu Keluarga";
   const isDocumentUpload = isKtp || isFamilyCard;
   const documentLabel = isFamilyCard ? "Kartu Keluarga" : "KTP";
