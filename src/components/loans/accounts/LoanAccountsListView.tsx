@@ -27,17 +27,18 @@ export default function LoanAccountsListView({
           paged={list.paged}
           filters={list.filters}
           filterHandlers={list.filterHandlers}
-        productOptions={list.productOptions}
-        pageSize={list.pageSize}
-        page={list.page}
-        pageCount={list.pageCount}
-        showingStart={list.showingStart}
-        showingEnd={list.showingEnd}
-        filteredCount={list.filtered.length}
-        onPageSizeChange={list.setPageSize}
-        onPage={list.setPage}
-        onSelectAccount={onSelectAccount}
-      />
+          productOptions={list.productOptions}
+          pageSize={list.pageSize}
+          page={list.page}
+          pageCount={list.pageCount}
+          showingStart={list.showingStart}
+          showingEnd={list.showingEnd}
+          filteredCount={list.filtered.length}
+          onPageSizeChange={list.setPageSize}
+          onPage={list.setPage}
+          onSelectAccount={onSelectAccount}
+        />
+      </div>
     </div>
   );
 }
