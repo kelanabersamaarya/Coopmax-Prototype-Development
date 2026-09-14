@@ -149,7 +149,7 @@ export default function LoanTransactionDetailCard({
           <InfoHeaderField
             label="Status"
             value={
-              <span className="inline-flex rounded-[3px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-slate-900">
+              <span className="inline-flex rounded-[3px] bg-lime-400 px-2 py-1 text-[11px] font-extrabold leading-none text-white">
                 Aktif / Sudah Dicairkan
               </span>
             }
