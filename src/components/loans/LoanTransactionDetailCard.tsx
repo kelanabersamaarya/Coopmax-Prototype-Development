@@ -53,10 +53,10 @@ function KVRow({
       )}
     >
       <div className="text-[12.5px] text-slate-600">{label}</div>
-      <div className="text-center text-[12.5px] font-semibold text-slate-300">
+      <div className="text-center text-[12.5px] font-normal text-slate-300">
         :
       </div>
-      <div className="text-[12.5px] font-semibold text-slate-900">{value}</div>
+      <div className="text-[12.5px] font-normal text-slate-900">{value}</div>
     </div>
   );
 }
