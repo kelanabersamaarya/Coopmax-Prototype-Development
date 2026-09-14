@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -266,6 +267,7 @@ function KtpSaveSuccessModal({
 }
 
 export default function KtpUploadDeleteEnhancer() {
+  const navigate = useNavigate();
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const pendingSaveButtonRef = React.useRef<HTMLButtonElement | null>(null);
@@ -324,7 +326,10 @@ export default function KtpUploadDeleteEnhancer() {
     setSuccessOpen(false);
     pendingSaveButtonRef.current = null;
 
-    if (!button) return;
+    if (!button) {
+      navigate("/mitra-karya/anggota");
+      return;
+    }
 
     bypassRef.current = true;
 
@@ -333,6 +338,7 @@ export default function KtpUploadDeleteEnhancer() {
 
       window.setTimeout(() => {
         bypassRef.current = false;
+        navigate("/mitra-karya/anggota");
       }, 0);
     });
   }
