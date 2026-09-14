@@ -660,18 +660,24 @@ function SelectedPinjamanInfo({
 
   const beforeFirstDivider = (
     <InfoGroup
-      items={
-        hideBillingDetails
-          ? displayInfo.beforeFirstDividerItems.filter(
-              (item) =>
-                ![
-                  "Skema Tagihan",
-                  "Satuan Grace Period",
-                  "Durasi Grace Period",
-                ].includes(item.label),
-            )
-          : displayInfo.beforeFirstDividerItems
-      }
+      items={displayInfo.beforeFirstDividerItems.filter((item) => {
+        if (["Produk", "Produk Pinjaman", "Angsuran Lunas", "Angsuran Seharusnya"].includes(item.label)) {
+          return false;
+        }
+
+        if (
+          hideBillingDetails &&
+          [
+            "Skema Tagihan",
+            "Satuan Grace Period",
+            "Durasi Grace Period",
+          ].includes(item.label)
+        ) {
+          return false;
+        }
+
+        return true;
+      })}
       empty={isEmptyInitialLayout}
       layout="inline"
     />
