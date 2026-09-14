@@ -728,6 +728,21 @@ function SelectedPinjamanInfo({
           <BaseDivider />
 
           <div className="grid gap-4">
+            {["Tunggakan Pokok", "Jumlah Tunggakan Pokok"].map((label) => (
+              <InfoStack
+                key={label}
+                label={label}
+                value={
+                  isEmptyInitialLayout ? (
+                    <EmptyInfoValue label={label} />
+                  ) : (
+                    "0,00"
+                  )
+                }
+                layout="inline"
+              />
+            ))}
+
             {displayInfo.showMonthlyInterestArrears ? (
               <div className="grid grid-cols-[minmax(0,1fr)_minmax(116px,150px)] items-center gap-3">
                 <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
@@ -745,6 +760,18 @@ function SelectedPinjamanInfo({
                 />
               </div>
             ) : null}
+
+            <InfoStack
+              label="Tunggakan Angsuran"
+              value={
+                isEmptyInitialLayout ? (
+                  <EmptyInfoValue label="Tunggakan Angsuran" />
+                ) : (
+                  "0,00"
+                )
+              }
+              layout="inline"
+            />
 
             {(displayInfo.monthlySettlementItems ?? []).map((item) => (
               <InfoStack
