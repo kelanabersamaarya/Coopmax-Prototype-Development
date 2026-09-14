@@ -14,98 +14,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type LoanAccountRow = {
-  noRekening: string;
-  tanggalDaftar: string; // dd-mm-yyyy
-  produkPinjaman: string;
-  idNasabah: string;
-  namaNasabah: string;
-  nominal: string;
-  sisaPinjaman: string;
-  bungaPerTahun: string;
-};
+import { loanAccountRowsSeed } from "@/components/loans/accounts/loan-account-mock";
+import type { LoanAccountRow } from "@/components/loans/accounts/loan-account-types";
 
-const seed5: LoanAccountRow[] = [
-  {
-    noRekening: "12260006",
-    tanggalDaftar: "30-04-2026",
-    produkPinjaman: "Pinjaman Bulanan",
-    idNasabah: "N2400029",
-    namaNasabah: "Pangeran Sirait",
-    nominal: "2.000.000,00",
-    sisaPinjaman: "1.040.000,00",
-    bungaPerTahun: "24.00",
-  },
-  {
-    noRekening: "12260002",
-    tanggalDaftar: "26-04-2026",
-    produkPinjaman: "Pinjaman Bulanan",
-    idNasabah: "N2500010",
-    namaNasabah: "gaby",
-    nominal: "2.000.000,00",
-    sisaPinjaman: "1.833.300,00",
-    bungaPerTahun: "30.00",
-  },
-  {
-    noRekening: "12260001",
-    tanggalDaftar: "23-04-2026",
-    produkPinjaman: "Pinjaman Bulanan",
-    idNasabah: "A100001",
-    namaNasabah: "Rika Wastuti",
-    nominal: "18.000.000,00",
-    sisaPinjaman: "17.360.000,00",
-    bungaPerTahun: "24.00",
-  },
-  {
-    noRekening: "210260001",
-    tanggalDaftar: "23-04-2026",
-    produkPinjaman: "Pinjaman RC",
-    idNasabah: "A2600005",
-    namaNasabah: "Jenan Aditama",
-    nominal: "700.000.000,00",
-    sisaPinjaman: "1.000.000.000,00",
-    bungaPerTahun: "18.00",
-  },
-  {
-    noRekening: "072260001",
-    tanggalDaftar: "31-03-2026",
-    produkPinjaman: "Pinjaman Harian",
-    idNasabah: "A100001",
-    namaNasabah: "Rika Wastuti",
-    nominal: "22.000.000,00",
-    sisaPinjaman: "22.000.000,00",
-    bungaPerTahun: "20.00",
-  },
-];
-
-const seed: LoanAccountRow[] = [
-  ...seed5,
-  ...Array.from({ length: 20 }).map((_, i) => {
-    const n = i + 1;
-    const noRekening = `1226${String(10 + n).padStart(4, "0")}`;
-    const namaNasabah =
-      n % 5 === 0
-        ? "Komang Dewa"
-        : n % 5 === 1
-          ? "Nyoman Ariana"
-          : n % 5 === 2
-            ? "Gaby"
-            : n % 5 === 3
-              ? "Rika Wastuti"
-              : "Pangeran Sirait";
-
-    return {
-      noRekening,
-      tanggalDaftar: "30-04-2026",
-      produkPinjaman: n % 3 === 0 ? "Pinjaman Billing" : "Pinjaman Bulanan",
-      idNasabah: `N26${String(1000 + n).padStart(4, "0")}`,
-      namaNasabah,
-      nominal: `${(2_000_000 + n * 150_000).toLocaleString("id-ID")},00`,
-      sisaPinjaman: `${(1_500_000 + n * 120_000).toLocaleString("id-ID")},00`,
-      bungaPerTahun: n % 2 === 0 ? "24.00" : "18.00",
-    };
-  }),
-];
+const seed = loanAccountRowsSeed;
 
 function ThLabel({
   children,
@@ -166,7 +78,7 @@ export default function LoanAccountPickerDialog({
     });
   }, [q]);
 
-  const totalEntries: number = 47;
+  const totalEntries = filtered.length;
   const pageCount = Math.max(1, Math.ceil(totalEntries / pageSize));
 
   React.useEffect(() => {
