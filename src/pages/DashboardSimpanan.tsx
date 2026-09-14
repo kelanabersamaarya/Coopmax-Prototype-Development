@@ -90,6 +90,7 @@ const totalChartData = chartData.map((item, index) => ({
 const mbankingData = chartData.map((item, index) => ({
   day: item.day,
   transfer: [0.72, 0.9, 0.55, 1, 0.78, 0.95][index % 6],
+  transferOut: [0.48, 0.62, 0.38, 0.72, 0.54, 0.66][index % 6],
   topUp: [0.58, 0.75, 0.48, 0.84, 0.62, 0.7][index % 6],
   pembelianPpob: [0.42, 0.62, 0.5, 0.72, 0.55, 0.66][index % 6],
   angsuran: [0.36, 0.52, 0.42, 0.6, 0.47, 0.56][index % 6],
@@ -156,6 +157,7 @@ function SavingsBarChart({
   const keys = variant === "mbanking"
     ? [
         ["transfer", "#5612cf"],
+        ["transferOut", "#ef476f"],
         ["topUp", "#09c3c7"],
         ["pembelianPpob", "#1687ef"],
         ["angsuran", "#48b900"],
@@ -176,6 +178,7 @@ function SavingsBarChart({
       : [];
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
+    transferOut: "Transfer Out",
     topUp: "Transfer In / Top Up",
     pembelianPpob: "Pembelian & Pembayaran PPOB",
     angsuran: "Pembayaran Angsuran",
@@ -225,6 +228,7 @@ function SavingsBarChart({
                   style={{ top: "8px" }}
                 >
                   <div className="text-[#5612cf]">Transfer antar nasabah : {formatMbankingValue(item.transfer)}</div>
+                  <div className="text-[#ef476f]">Transfer Out : {formatMbankingValue(item.transferOut)}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {formatMbankingValue(item.topUp)}</div>
                   <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {formatMbankingValue(item.pembelianPpob)}</div>
                   <div className="text-[#48b900]">Pembayaran Angsuran : {formatMbankingValue(item.angsuran)}</div>
