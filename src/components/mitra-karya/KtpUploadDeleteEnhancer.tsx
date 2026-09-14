@@ -239,12 +239,12 @@ function KtpSaveSuccessModal({
       onPointerDown={(event) => event.stopPropagation()}
       onClick={(event) => event.stopPropagation()}
     >
-      <div className="relative z-10 w-full max-w-[460px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white ring-2 ring-[#b9dfa2]">
-          <Check className="h-11 w-11 text-[#33aa00]" strokeWidth={3} />
+      <div className="relative z-10 w-full max-w-[528px] rounded-[5px] bg-white px-6 py-10 text-center shadow-2xl sm:px-10">
+        <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full bg-white ring-4 ring-[#dff2d5]">
+          <Check className="h-[58px] w-[58px] text-[#9bd77e]" strokeWidth={2.5} />
         </div>
 
-        <h2 className="mt-6 text-[22px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+        <h2 className="mt-8 text-[30px] font-semibold leading-tight tracking-tight text-[#595959]">
           Berhasil mengunggah foto KTP anggota
         </h2>
 
@@ -255,7 +255,7 @@ function KtpSaveSuccessModal({
             stopModalEvent(event);
             onOk();
           }}
-          className="relative z-20 mt-7 inline-flex h-11 min-w-[110px] items-center justify-center rounded-[5px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]"
+          className="relative z-20 mt-8 inline-flex h-[48px] min-w-[104px] items-center justify-center rounded-[5px] bg-[#2f80ed] px-5 text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0]"
         >
           OK
         </button>
