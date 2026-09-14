@@ -1365,14 +1365,15 @@ export default function LoanInstallmentPaymentV2Table({
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
   const lastRowId = rows[rows.length - 1]?.id;
-  const transactionNo = `BA/${new Date().toLocaleDateString("id-ID").replace(/\//g, "").slice(0, 6)}/0001`;
+  const [transactionNo] = React.useState(
+    () => `BA/${new Date().toLocaleDateString("id-ID").replace(/\//g, "").slice(0, 6)}/${Date.now().toString().slice(-6)}`,
+  );
 
   function persistTransactions() {
+    const validRows = rows.filter((row) => row.accountNo.trim());
     saveLoanTransactions(
-      rows
-        .filter((row) => row.accountNo.trim())
-        .map((row) => ({
-          transactionNo,
+      validRows.map((row, index) => ({
+          transactionNo: validRows.length > 1 ? `${transactionNo}-${index + 1}` : transactionNo,
           accountNo: row.accountNo,
           rekTabungan: "-",
           idNasabah: getLoanInfoByAccountNo(row.accountNo)?.nama === "Pangeran Sirait" ? "N2400029" : row.accountNo === "12260002" ? "N2500010" : row.accountNo === "12260001" ? "A100001" : row.accountNo === "210260001" ? "A2600005" : row.accountNo === "072260001" ? "A100001" : "-",
