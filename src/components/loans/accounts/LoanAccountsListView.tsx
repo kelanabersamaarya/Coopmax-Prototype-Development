@@ -21,11 +21,12 @@ export default function LoanAccountsListView({
         </div>
       </div>
 
-      <LoanAccountsTable
-        rows={list.rows}
-        paged={list.paged}
-        filters={list.filters}
-        filterHandlers={list.filterHandlers}
+      <div className="mt-8">
+        <LoanAccountsTable
+          rows={list.rows}
+          paged={list.paged}
+          filters={list.filters}
+          filterHandlers={list.filterHandlers}
         productOptions={list.productOptions}
         pageSize={list.pageSize}
         page={list.page}
