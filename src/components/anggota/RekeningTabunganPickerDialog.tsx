@@ -28,7 +28,7 @@ const rows: RekeningTabungan[] = [
   ["P001260012", "08-09-2026", "Simpanan Pokok", "A2600012", "M.JOHAN PAKPAHAN, SIPMA", "100.000,00"],
   ["P001260011", "07-09-2026", "Simpanan Pokok", "A2600011", "Neri Susilawati", "150.000,00"],
   ["P002260011", "07-09-2026", "Simpanan Wajib", "A2600011", "Neri Susilawati", "50.000,00"],
-  ["SK01260009", "07-09-2026", "Simpanan Sukarela", "A2600010", "Sinergi Sukses Sentosa", "60.000,00"],
+  ["SK01260009", "07-09-2026", "Simpanan Sukarela", "A2600010", "Sinergi Sukses Sentosa", "110.000,00"],
   ["P001260010", "07-09-2026", "Simpanan Pokok", "A2600010", "Sinergi Sukses Sentosa", "200.000,00"],
   ["P002260010", "07-09-2026", "Simpanan Wajib", "A2600010", "Sinergi Sukses Sentosa", "50.000,00"],
   ["SK01260008", "03-09-2026", "Simpanan Sukarela", "A2600009", "Sumber Rejeki", "10.000,00"],
