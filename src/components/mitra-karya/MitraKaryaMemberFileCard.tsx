@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, CheckCircle2, Contact, FileText, FileUp } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Contact, FileText, FileUp, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 type Props = {
@@ -52,29 +52,29 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
   };
 
   const filePreview = (alt: string) => (
-    <div className="relative w-full rounded-[9px] border border-[#d5ddeb] bg-[#f8faff] p-4 pt-5 text-left">
+    <div className="relative w-full rounded-[9px] border border-[#d5ddeb] bg-white p-3 pt-5 text-left">
       <button
         type="button"
         onClick={() => onChange(null)}
-        className="absolute right-3 top-3 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"
+        aria-label="Hapus file"
+        className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"
       >
+        <Trash2 className="h-3.5 w-3.5" />
         Hapus
       </button>
       <div className="flex flex-col items-center">
         {previewUrl ? (
-          <img src={previewUrl} alt={alt} className="h-36 w-56 rounded-[7px] border border-[#c8d2e3] object-contain sm:h-44 sm:w-72" />
+          <img src={previewUrl} alt={alt} className="h-auto max-h-[250px] w-full rounded-[7px] object-contain sm:max-h-[310px]" />
         ) : (
           <FileText className="h-20 w-20 text-[#3567f5]" />
         )}
-        <label className="mt-3 w-full text-left text-[11px] font-semibold text-[#536b91]">
-          Nama file KTP
-          <input
-            type="text"
-            value={fileName}
-            onChange={(event) => renameFile(event.target.value)}
-            className="mt-1 h-9 w-full rounded-[5px] border border-[#c8d2e3] bg-white px-3 text-[12px] font-normal text-[#002060] outline-none transition focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15"
-          />
-        </label>
+        <input
+          type="text"
+          aria-label="Nama file"
+          value={fileName}
+          onChange={(event) => renameFile(event.target.value)}
+          className="mt-3 h-9 w-full rounded-[5px] border border-[#c8d2e3] bg-white px-3 text-[12px] text-[#002060] outline-none transition focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15"
+        />
       </div>
     </div>
   );
