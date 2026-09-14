@@ -509,36 +509,33 @@ function NasabahRow({
   onSearchClick: () => void;
 }) {
   return (
-    <div className="grid grid-cols-[28px_minmax(0,1fr)] gap-2">
-      <div className="pt-1 text-[12px] font-normal leading-[18px] text-[#002060]">1.</div>
-      <div className="grid gap-1.5">
-        <div className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3">
-          <div className="text-[12px] font-normal leading-[18px] text-[#002060]">No Rek :</div>
-          <div className="flex min-w-0 items-stretch">
-            <Input
+    <div className="grid gap-1.5">
+      <div className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3">
+        <div className="text-[12px] font-normal leading-[18px] text-[#002060]">No Rek :</div>
+        <div className="flex min-w-0 items-stretch">
+          <Input
               value={accountNo}
               onChange={(e) => onAccountNoChange(e.target.value)}
               placeholder="Cari nasabah"
-              className={cn(
-                "h-[30px] min-w-0 rounded-l-[5px] rounded-r-none border-slate-300",
-                "bg-white text-[14px] font-medium text-slate-900 shadow-none",
-                "placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0",
-              )}
-            />
-            <button
-              type="button"
-              onClick={onSearchClick}
-              className={cn(
-                "inline-flex h-[30px] w-10 shrink-0 items-center justify-center",
-                "rounded-l-none rounded-r-[5px] bg-[#6B7A90] text-white",
-                "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-              )}
-              aria-label="Cari"
-              title="Cari"
-            >
-              <Search className="h-4.5 w-4.5" />
-            </button>
-          </div>
+            className={cn(
+              "h-[30px] min-w-0 rounded-l-[5px] rounded-r-none border-slate-300",
+              "bg-white text-[14px] font-medium text-slate-900 shadow-none",
+              "placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0",
+            )}
+          />
+          <button
+            type="button"
+            onClick={onSearchClick}
+            className={cn(
+              "inline-flex h-[30px] w-10 shrink-0 items-center justify-center",
+              "rounded-l-none rounded-r-[5px] bg-[#6B7A90] text-white",
+              "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+            )}
+            aria-label="Cari"
+            title="Cari"
+          >
+            <Search className="h-4.5 w-4.5" />
+          </button>
         </div>
       </div>
     </div>
