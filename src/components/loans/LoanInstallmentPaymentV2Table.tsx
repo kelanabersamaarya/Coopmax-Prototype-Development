@@ -1580,7 +1580,7 @@ export default function LoanInstallmentPaymentV2Table({
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
-                  {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
+                  <SelectedNasabahInfo accountNo={row.accountNo} />
                 </Td>
 
                 <Td className="bg-white">
