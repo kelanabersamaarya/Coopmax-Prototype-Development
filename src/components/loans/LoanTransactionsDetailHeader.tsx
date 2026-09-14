@@ -25,7 +25,7 @@ function ActionButton({
       )}
       onClick={onClick}
     >
-      <Icon className="h-6 w-6 text-[#536987]" strokeWidth={2.5} />
+      <Icon className="h-6 w-6 text-[#536987]" strokeWidth={1.75} />
       <span className="whitespace-nowrap">{label}</span>
     </button>
   );
