@@ -228,8 +228,8 @@ function SavingsBarChart({
                   style={{ top: "8px" }}
                 >
                   <div className="text-[#5612cf]">Transfer antar nasabah : {formatMbankingValue(item.transfer)}</div>
-                  <div className="text-[#ef476f]">Transfer Out : {formatMbankingValue(item.transferOut)}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {formatMbankingValue(item.topUp)}</div>
+                  <div className="text-[#ef476f]">Transfer Out : {formatMbankingValue(item.transferOut)}</div>
                   <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {formatMbankingValue(item.pembelianPpob)}</div>
                   <div className="text-[#48b900]">Pembayaran Angsuran : {formatMbankingValue(item.angsuran)}</div>
                   <div className="text-[#f59e0b]">Iuran Simpanan Wajib & Program : {formatMbankingValue(item.iuran)}</div>
