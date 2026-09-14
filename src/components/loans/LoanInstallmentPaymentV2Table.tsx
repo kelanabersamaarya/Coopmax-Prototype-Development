@@ -575,7 +575,7 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
       <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
         <span>Produk :</span>
         <span className="min-w-0 break-words">
-          {account?.produkPinjaman || info?.produk || "Pinjaman Bulanan"}
+          {account?.produkPinjaman || info?.produk || "-"}
         </span>
       </div>
     </div>
