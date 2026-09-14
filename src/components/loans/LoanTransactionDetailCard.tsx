@@ -222,7 +222,7 @@ export default function LoanTransactionDetailCard({
           <KVRow label="Angsuran Hutang Pokok" value="0,00" right />
           <KVRow label="Angsuran Hutang Bunga" value="0,00" right />
           <KVRow label="Deskripsi" value="-" right />
-          <KVRow label="Catatan" value="-" right />
+          <KVRow label="Keterangan" value="-" right />
           <KVRow label="Dibuat Oleh" value="Arya Dharma" right />
         </div>
       </div>
