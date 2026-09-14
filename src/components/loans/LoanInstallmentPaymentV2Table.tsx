@@ -472,8 +472,8 @@ function InfoStack({
   );
 }
 
-function BaseDivider() {
-  return <div className="my-4 h-px w-full bg-slate-200" />;
+function BaseDivider({ className }: { className?: string }) {
+  return <div className={cn("my-4 h-px w-full bg-slate-200", className)} />;
 }
 
 function InfoGroup({
@@ -773,7 +773,9 @@ function SelectedPinjamanInfo({
               layout="inline"
             />
 
-            {(displayInfo.monthlySettlementItems ?? []).length > 0 ? <BaseDivider /> : null}
+            {(displayInfo.monthlySettlementItems ?? []).length > 0 ? (
+              <BaseDivider className="mb-1 mt-2" />
+            ) : null}
 
             {(displayInfo.monthlySettlementItems ?? []).map((item) => (
               <InfoStack
