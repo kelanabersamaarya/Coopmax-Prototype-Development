@@ -259,7 +259,7 @@ export default function LoanTransactionHistoryDialog({
               <div className={cn("mt-2 overflow-hidden ring-1 ring-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[1220px] border-collapse">
-                    <thead className="bg-[#f1f4f9]">
+                    <thead className="bg-white">
                       <tr className="border-b border-[#d5dce7]">
                         <th className={cn(headerTh, "w-[58px]")}>No.</th>
 
