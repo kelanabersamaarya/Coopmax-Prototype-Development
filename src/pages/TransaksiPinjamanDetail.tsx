@@ -18,10 +18,10 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 items-center gap-2 rounded-full px-4",
-        "bg-transparent text-[13px] font-semibold text-slate-700",
-        "ring-0 shadow-none border-0",
-        "transition hover:bg-slate-50",
+        "inline-flex h-9 items-center gap-2 rounded-[5px] px-2.5",
+        "bg-transparent text-[13px] font-normal text-[#5d7092]",
+        "border-0 shadow-none",
+        "transition hover:bg-white",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
     >
@@ -33,7 +33,7 @@ function ActionButton({
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-700">
+    <div className="text-[14px] font-bold uppercase text-[#092c62]">
       {children}
     </div>
   );
@@ -70,15 +70,14 @@ function KVRow({
   return (
     <div
       className={cn(
-        "grid items-baseline gap-x-3 gap-y-1 py-1.5",
+        "grid gap-2 text-[13px] leading-8",
         right
-          ? "[grid-template-columns:minmax(0,180px)_14px_minmax(0,1fr)]"
-          : "[grid-template-columns:minmax(0,220px)_14px_minmax(0,1fr)]",
+          ? "grid-cols-[minmax(150px,185px)_1fr] sm:grid-cols-[200px_1fr]"
+          : "grid-cols-[minmax(150px,185px)_1fr] sm:grid-cols-[200px_1fr]",
       )}
     >
-      <div className="text-[14px] font-normal text-[#7987A1]">{label}</div>
-      <div className="text-center text-[14px] font-normal text-[#7987A1]">:</div>
-      <div className="text-[14px] font-normal text-slate-900">{value}</div>
+      <span className="text-[#7186a8]">{label}</span>
+      <span className="text-[#14284b]">: {value}</span>
     </div>
   );
 }
@@ -121,17 +120,13 @@ export default function TransaksiPinjamanDetail() {
   const kolektor = "Hilda Usamah";
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div className="min-h-screen bg-[#f5f7fc] px-4 pb-6 pt-5 text-[#08285f] md:px-8 md:pt-6 lg:px-10">
+      <div className="flex flex-col gap-4 px-1 sm:px-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
             <div className="flex items-baseline gap-2">
-              <h1 className="text-[21px] font-extrabold tracking-tight text-black">
-                Transaksi Pinjaman
+              <h1 className="text-[21px] font-semibold tracking-[-0.02em] text-[#08285f]">
+                Transaksi Pinjaman <span className="font-normal">Detail</span>
               </h1>
-              <span className="text-[16px] font-normal tracking-tight text-black">
-                Detail
-              </span>
             </div>
 
             <div className="sr-only">{trxNo}</div>
@@ -169,7 +164,8 @@ export default function TransaksiPinjamanDetail() {
           </div>
         </div>
 
-        <div className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+        <main className="mt-6 rounded-[20px] border-0 bg-white px-5 py-7 shadow-[0_12px_35px_rgba(40,70,120,0.04)] md:mt-7 md:px-8 lg:px-5 lg:py-7">
+          <section>
           <SectionTitle>INFORMASI REKENING</SectionTitle>
 
           <div className="mt-4 overflow-hidden rounded-2xl bg-[#17a2b8] p-5 text-white ring-1 ring-white/10 md:p-6">
@@ -213,12 +209,12 @@ export default function TransaksiPinjamanDetail() {
               <InfoHeaderField label="Status" value={<Pill tone="lunas">Lunas</Pill>} />
             </div>
           </div>
+          </section>
 
-          <div className="my-6 h-px w-full bg-slate-200/70" />
-
+          <section className="mt-8 border-t border-[#dfe3e9] pt-3">
           <SectionTitle>INFORMASI NASABAH</SectionTitle>
 
-          <div className="mt-4 grid gap-6 lg:grid-cols-2">
+          <div className="mt-4 grid gap-x-12 lg:grid-cols-2">
             <div>
               <KVRow
                 label="ID"
@@ -254,12 +250,12 @@ export default function TransaksiPinjamanDetail() {
               <KVRow label="Alamat Email" value="gaby@gmail.com" right />
             </div>
           </div>
+          </section>
 
-          <div className="my-6 h-px w-full bg-slate-200/70" />
-
+          <section className="mt-7 border-t border-[#dfe3e9] pt-3">
           <SectionTitle>INFORMASI TRANSAKSI</SectionTitle>
 
-          <div className="mt-4 grid gap-6 lg:grid-cols-2">
+          <div className="mt-4 grid gap-x-12 lg:grid-cols-2">
             <div>
               <KVRow label="No Transaksi" value={trxNo || "BA/080526/0003"} />
               <KVRow label="Rek. Tabungan" value="-" />
@@ -281,11 +277,12 @@ export default function TransaksiPinjamanDetail() {
               <KVRow label="Angsuran Hutang Pokok" value="0,00" right />
               <KVRow label="Angsuran Hutang Bunga" value="0,00" right />
               <KVRow label="Deskripsi" value="-" right />
-              <KVRow label="Catatan" value="-" right />
+              <KVRow label="Keterangan" value="-" right />
               <KVRow label="Dibuat Oleh" value="Arya Dharma" right />
             </div>
           </div>
-        </div>
+          </section>
+        </main>
       </div>
     </div>
   );
