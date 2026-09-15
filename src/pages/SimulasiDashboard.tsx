@@ -7,25 +7,15 @@ const OPERATIONAL_END_HOUR = 16;
 
 function OperationalTimeCounter() {
   const [isVisible, setIsVisible] = useState(true);
-  const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [remainingSeconds, setRemainingSeconds] = useState(
+    (OPERATIONAL_END_HOUR - OPERATIONAL_START_HOUR) * 60 * 60,
+  );
 
   useEffect(() => {
-    const updateCounter = () => {
-      const now = new Date();
-      const opening = new Date(now);
-      const closing = new Date(now);
-      opening.setHours(OPERATIONAL_START_HOUR, 0, 0, 0);
-      closing.setHours(OPERATIONAL_END_HOUR, 0, 0, 0);
+    const interval = window.setInterval(() => {
+      setRemainingSeconds((current) => Math.max(current - 1, 0));
+    }, 1000);
 
-      setRemainingSeconds(
-        now >= opening && now < closing
-          ? Math.floor((closing.getTime() - now.getTime()) / 1000)
-          : 0,
-      );
-    };
-
-    const interval = window.setInterval(updateCounter, 1000);
-    updateCounter();
     return () => window.clearInterval(interval);
   }, []);
 
