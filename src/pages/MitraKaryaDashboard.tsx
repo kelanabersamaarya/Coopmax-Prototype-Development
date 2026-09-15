@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Calculator, Handshake, UsersRound } from "lucide-react";
+import { ArrowRight, Calculator, HandCoins, Handshake, UsersRound } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ export default function MitraKaryaDashboard() {
         </p>
       </div>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
+      <div className="mt-6 grid gap-4 md:grid-cols-3">
         <Card className="rounded-[12px] border-emerald-200 bg-white p-5 shadow-sm">
           <div className="flex items-start gap-4">
             <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-emerald-100 text-emerald-700">
@@ -31,15 +31,32 @@ export default function MitraKaryaDashboard() {
             </span>
 
             <div className="min-w-0">
-              <h2 className="text-[16px] font-extrabold text-slate-900">
-                Data Anggota
-              </h2>
+              <h2 className="text-[16px] font-extrabold text-slate-900">Data Anggota</h2>
               <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
                 Akses kebutuhan data dan informasi anggota Koperasi Mitra Karya.
               </p>
             </div>
           </div>
         </Card>
+
+        <button
+          type="button"
+          onClick={() => navigate("/mitra-karya/pinjaman/rekening")}
+          className={cn("group rounded-[12px] border border-amber-200 bg-white p-5 text-left shadow-sm transition hover:bg-amber-50")}
+        >
+          <div className="flex items-start gap-4">
+            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-amber-100 text-amber-700">
+              <HandCoins className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[16px] font-extrabold text-slate-900">Pinjaman</h2>
+              <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
+                Kelola dan lihat rekening pinjaman anggota koperasi.
+              </p>
+            </div>
+            <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-amber-600 transition group-hover:translate-x-1" />
+          </div>
+        </button>
 
         <button
           type="button"

@@ -6,6 +6,7 @@ import {
   Calculator,
   ChevronDown,
   ChevronRight,
+  HandCoins,
   Home,
   UsersRound,
 } from "lucide-react";
@@ -25,14 +26,17 @@ export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
   const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname === "/anggota/transaksi";
   const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran";
+  const loanActive = location.pathname.startsWith("/mitra-karya/pinjaman");
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
   const [memberOpen, setMemberOpen] = React.useState(memberActive);
+  const [loanOpen, setLoanOpen] = React.useState(loanActive);
   const [reportOpen, setReportOpen] = React.useState(reportActive);
 
   React.useEffect(() => {
     if (memberActive) setMemberOpen(true);
+    if (loanActive) setLoanOpen(true);
     if (reportActive) setReportOpen(true);
-  }, [memberActive, reportActive]);
+  }, [memberActive, loanActive, reportActive]);
 
   const accountingActive = location.pathname.startsWith("/mitra-karya/akunting");
 
@@ -80,6 +84,40 @@ export default function SidebarMitraKaryaMenu() {
                   {item.label}
                 </NavLink>
               ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-white">
+        <button
+          type="button"
+          onClick={() => setLoanOpen((current) => !current)}
+          className={cn(
+            "flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left text-[13px] font-semibold transition",
+            loanActive ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200" : "text-slate-800 hover:bg-slate-50",
+          )}
+          aria-expanded={loanOpen}
+        >
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+            <HandCoins className="h-4.5 w-4.5" />
+          </span>
+          <span className="min-w-0 flex-1">Pinjaman</span>
+          <ChevronDown className={cn("h-4 w-4 text-slate-400 transition", loanOpen ? "rotate-180" : "")} />
+        </button>
+
+        <div className={cn("grid overflow-hidden transition-[grid-template-rows,opacity] duration-200", loanOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+          <div className="min-h-0">
+            <div className="space-y-1 px-2.5 pb-2 pt-2">
+              <NavLink
+                to="/mitra-karya/pinjaman/rekening"
+                className={({ isActive }) => cn(
+                  "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                  isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                )}
+              >
+                Rekening Pinjaman
+              </NavLink>
             </div>
           </div>
         </div>
