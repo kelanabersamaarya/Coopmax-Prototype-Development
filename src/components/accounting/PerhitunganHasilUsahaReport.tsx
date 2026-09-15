@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
+import { PerhitunganHasilUsahaRecapTable } from "@/components/accounting/AccountingRecapTables";
 
 const rows = [
   ["4.1.1 - Pendapatan Jasa Simpanan Anggota", "100,724,998,582,550.00", "0.00", "100,724,998,582,550.00"],
@@ -119,7 +120,7 @@ export default function PerhitunganHasilUsahaReport() {
               </DropdownMenu>
             </div>
         {reportType === "Laporan Rekap" ? (
-          <RecapTable />
+          <PerhitunganHasilUsahaRecapTable />
         ) : (
           <table className="min-w-[760px] w-full border-collapse text-[12px]">
             <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2">Jumlah</th></tr></thead>

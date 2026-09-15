@@ -10,6 +10,7 @@ import {
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
+import { NeracaSaldoRecapTable } from "@/components/accounting/AccountingRecapTables";
 
 const detailedRows = [
   ["Aktiva", "", "", "section"],
@@ -143,7 +144,7 @@ export default function NeracaSaldoReport() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          {reportType === "Laporan Rekap" ? <SimpleRecapTable /> : <DetailedTable />}
+          {reportType === "Laporan Rekap" ? <NeracaSaldoRecapTable /> : <DetailedTable />}
           </div>
         </>
       ) : null}
