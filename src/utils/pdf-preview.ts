@@ -350,6 +350,42 @@ export function openReportPdfPreview({
             font-size: 14px;
           }
 
+          .neraca-export-header {
+            margin: 0 0 18px;
+            padding-bottom: 12px;
+            border-bottom: 3px double #111827;
+            color: #111827;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+          }
+
+          .neraca-export-header strong,
+          .neraca-export-header span {
+            display: block;
+          }
+
+          .neraca-export-header strong {
+            font-size: 18px;
+          }
+
+          .neraca-export-header span {
+            margin-top: 3px;
+            font-size: 13px;
+            font-weight: 600;
+          }
+
+          .neraca-scontro table,
+          .neraca-staffel table {
+            width: 100% !important;
+          }
+
+          .neraca-scontro table th:first-child,
+          .neraca-scontro table td:first-child,
+          .neraca-staffel table th:first-child,
+          .neraca-staffel table td:first-child {
+            width: 52% !important;
+          }
+
           .shu-letterhead {
             position: relative;
             min-height: 74px;

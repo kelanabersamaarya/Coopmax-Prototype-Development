@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
 
 const detailedRows = [
   ["Aktiva", "", "", "section"],
@@ -93,6 +94,20 @@ export default function NeracaSaldoReport() {
     setIsReportVisible(true);
   };
 
+  const exportPdf = (layout: "Scontro" | "Staffel") => {
+    const reportArea = document.querySelector(".neraca-saldo-pdf-report");
+    if (!reportArea) return;
+    const previewWindow = openBlankReportPdfPreview(`Neraca Saldo - ${layout}`);
+    if (!previewWindow) return;
+    requestAnimationFrame(() => {
+      openReportPdfPreview({
+        title: `Neraca Saldo - ${layout}`,
+        targetWindow: previewWindow,
+        reportHtml: `<div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${reportType} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportArea.innerHTML}</div>`,
+      });
+    });
+  };
+
   return (
     <div className="overflow-hidden rounded-[10px] bg-white text-[#08265a]">
       <div className="p-1 md:p-0">
@@ -107,8 +122,8 @@ export default function NeracaSaldoReport() {
       {isReportVisible ? (
         <>
           <h2 className="mt-5 text-center text-[18px] font-semibold">Laporan Neraca Saldo per {shownDate}</h2>
-          <div className="mt-2 overflow-x-auto border border-[#c8d3e5]">
-          <div className="flex min-w-[680px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
+          <div className="neraca-saldo-pdf-report mt-2 overflow-x-auto border border-[#c8d3e5]">
+          <div className="print-hide flex min-w-[680px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button type="button" className="h-9 rounded-[7px] bg-green-600 px-4 text-xs hover:bg-green-700">Export Excel<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
@@ -123,8 +138,8 @@ export default function NeracaSaldoReport() {
                 <Button type="button" className="h-9 rounded-[7px] bg-rose-600 px-4 text-xs hover:bg-rose-700">Export PDF<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-[165px] rounded-[5px] border-slate-200 bg-white p-1 text-slate-700 shadow-lg">
-                <DropdownMenuItem onSelect={() => toast.success("Export PDF bentuk Scontro dipilih")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Scontro</DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => toast.success("Export PDF bentuk Staffel dipilih")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Staffel</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => exportPdf("Scontro")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Scontro</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => exportPdf("Staffel")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Staffel</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
