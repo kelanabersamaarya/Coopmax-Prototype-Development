@@ -110,6 +110,15 @@ export default function SidebarMitraKaryaMenu() {
           <div className="min-h-0">
             <div className="space-y-1 px-2.5 pb-2 pt-2">
               <NavLink
+                to="/mitra-karya/pinjaman/pengajuan"
+                className={({ isActive }) => cn(
+                  "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                  isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                )}
+              >
+                Daftar Pengajuan Pinjaman
+              </NavLink>
+              <NavLink
                 to="/mitra-karya/pinjaman/rekening"
                 className={({ isActive }) => cn(
                   "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
