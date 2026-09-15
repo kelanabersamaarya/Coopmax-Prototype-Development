@@ -365,6 +365,33 @@ export function openReportPdfPreview({
             color: #526786;
           }
 
+          .shu-staffel table {
+            width: 100% !important;
+          }
+
+          .shu-scontro {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 4px;
+            align-items: start;
+          }
+
+          .shu-scontro-column {
+            min-width: 0;
+          }
+
+          .shu-scontro table {
+            width: 100% !important;
+            min-width: 0 !important;
+            table-layout: fixed;
+          }
+
+          .shu-scontro th,
+          .shu-scontro td {
+            font-size: 8px !important;
+            padding: 2px !important;
+          }
+
           .export-only {
             display: inline !important;
             color: #1d4ed8 !important;

@@ -56,10 +56,11 @@ export default function PerhitunganHasilUsahaReport() {
       const reportArea = document.querySelector(".shu-report-area");
       if (!reportArea) return;
       const formatLabel = format === "scontro" ? "Bentuk Scontro" : "Bentuk Staffel";
+      const exportBody = buildShuExportBody(format, reportType);
       openReportPdfPreview({
         title: `Perhitungan Hasil Usaha - ${formatLabel}`,
         targetWindow: previewWindow,
-        reportHtml: `<div class="shu-export-header"><strong>Laporan Perhitungan Hasil Usaha</strong><span>${shownDate}</span><small>${formatLabel} • ${reportType}</small></div>${reportArea.innerHTML}`,
+        reportHtml: `<div class="shu-export-header"><strong>Laporan Perhitungan Hasil Usaha</strong><span>${shownDate}</span><small>${formatLabel} • ${reportType}</small></div>${exportBody}`,
       });
     });
   };
@@ -137,6 +138,33 @@ export default function PerhitunganHasilUsahaReport() {
       ) : null}
     </div>
   );
+}
+
+function buildShuExportBody(format: "scontro" | "staffel", reportType: string) {
+  const reportArea = document.querySelector(".shu-report-area");
+  const tables = reportArea ? Array.from(reportArea.querySelectorAll("table")) : [];
+
+  if (format === "staffel") {
+    return `<div class="shu-staffel">${tables.map((table) => table.outerHTML).join("")}</div>`;
+  }
+
+  if (reportType === "Laporan Rekap" && tables.length >= 2) {
+    return `<div class="shu-scontro">${tables.slice(0, 2).map((table) => `<div class="shu-scontro-column">${table.outerHTML}</div>`).join("")}</div>`;
+  }
+
+  const sourceTable = tables[0];
+  if (!sourceTable) return "";
+  const leftTable = sourceTable.cloneNode(true) as HTMLTableElement;
+  const rightTable = sourceTable.cloneNode(true) as HTMLTableElement;
+  const rows = Array.from(sourceTable.querySelectorAll("tbody tr"));
+  const splitIndex = rows.findIndex((row) => row.textContent?.trim() === "Biaya");
+
+  if (splitIndex >= 0) {
+    leftTable.querySelector("tbody")?.replaceChildren(...rows.slice(0, splitIndex).map((row) => row.cloneNode(true)));
+    rightTable.querySelector("tbody")?.replaceChildren(...rows.slice(splitIndex).map((row) => row.cloneNode(true)));
+  }
+
+  return `<div class="shu-scontro"><div class="shu-scontro-column">${leftTable.outerHTML}</div><div class="shu-scontro-column">${rightTable.outerHTML}</div></div>`;
 }
 
 const recapSections = [
