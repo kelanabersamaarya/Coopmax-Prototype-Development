@@ -161,7 +161,7 @@ function SavingsBarChart({
         ["transfer", "#5612cf"],
         ["topUp", "#09c3c7"],
         ["transferOut", "#ef476f"],
-        ["refundTransferOut", "#f59e0b"],
+        ["refundTransferOut", "#DB2777"],
         ["pembelianPpob", "#1687ef"],
         ["refundPpob", "#7c3aed"],
         ["angsuran", "#48b900"],
@@ -233,7 +233,7 @@ function SavingsBarChart({
                   <div className="text-[#5612cf]">Transfer antar nasabah : {formatMbankingValue(item.transfer)}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {formatMbankingValue(item.topUp)}</div>
                   <div className="text-[#ef476f]">Transfer Out : {formatMbankingValue(item.transferOut)}</div>
-                  <div className="text-[#f59e0b]">Refund transfer out : {formatMbankingValue(item.refundTransferOut)}</div>
+                  <div className="text-[#DB2777]">Refund transfer out : {formatMbankingValue(item.refundTransferOut)}</div>
                   <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {formatMbankingValue(item.pembelianPpob)}</div>
                   <div className="text-[#7c3aed]">Refund PPOB : {formatMbankingValue(item.refundPpob)}</div>
                   <div className="text-[#48b900]">Pembayaran Angsuran : {formatMbankingValue(item.angsuran)}</div>
