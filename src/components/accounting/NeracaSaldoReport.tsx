@@ -111,9 +111,19 @@ export default function NeracaSaldoReport() {
         const rightBody = rightTable.querySelector("tbody");
         const sourceRows = Array.from(table.querySelectorAll("tbody tr"));
         const splitAt = Math.ceil(sourceRows.length / 2);
+        const boldUncodedDescriptions = (targetTable: HTMLTableElement) => {
+          targetTable.querySelectorAll("tbody tr").forEach((row) => {
+            const description = row.querySelector("td:first-child");
+            if (description && !/^\d+(?:\.\d+)+\s*-/.test(description.textContent?.trim() ?? "")) {
+              description.style.fontWeight = "700";
+            }
+          });
+        };
 
         leftBody?.replaceChildren(...sourceRows.slice(0, splitAt).map((row) => row.cloneNode(true)));
         rightBody?.replaceChildren(...sourceRows.slice(splitAt).map((row) => row.cloneNode(true)));
+        boldUncodedDescriptions(leftTable);
+        boldUncodedDescriptions(rightTable);
         reportContent = `<div class="neraca-scontro-columns"><div>${leftTable.outerHTML}</div><div>${rightTable.outerHTML}</div></div>`;
       }
 
