@@ -38,39 +38,39 @@ function OperationalTimeCounter() {
   const displayTime = (value: number) => String(value).padStart(2, "0");
 
   return (
-    <aside className="fixed right-3 top-3 z-30 w-[min(430px,calc(100vw-1.5rem))] rounded-[20px] bg-white p-5 shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:right-6 sm:top-6 sm:p-8">
+    <aside className="fixed right-3 top-3 z-30 w-[min(394px,calc(100vw-1.5rem))] rounded-[20px] bg-white p-5 shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:right-6 sm:top-6 sm:p-7">
       <button
         type="button"
         aria-label="Tutup informasi waktu operasional"
         onClick={() => setIsVisible(false)}
-        className="absolute right-4 top-4 rounded-full p-1 text-slate-900 transition hover:bg-slate-100 sm:right-6 sm:top-6"
+        className="absolute right-4 top-4 rounded-full p-1 text-slate-900 transition hover:bg-slate-100 sm:right-5 sm:top-5"
       >
-        <X className="h-8 w-8" strokeWidth={2.2} />
+        <X className="h-7 w-7" strokeWidth={2.2} />
       </button>
 
-      <div className="flex items-center gap-4 pr-10 sm:gap-6 sm:pr-12">
-        <span className="flex h-[88px] w-[88px] shrink-0 items-center justify-center rounded-full bg-[#2864e8] text-white sm:h-[112px] sm:w-[112px]">
-          <Clock3 className="h-12 w-12 sm:h-16 sm:w-16" strokeWidth={1.6} />
+      <div className="flex min-w-0 items-center gap-4 pr-9 sm:gap-5 sm:pr-10">
+        <span className="flex h-[88px] w-[88px] shrink-0 items-center justify-center rounded-full bg-[#2864e8] text-white">
+          <Clock3 className="h-12 w-12" strokeWidth={1.6} />
         </span>
-        <div>
-          <p className="text-[19px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[25px]">Jam Operasional Koperasi</p>
-          <p className="mt-2 whitespace-nowrap text-[32px] font-bold leading-none tracking-tight text-black sm:text-[48px]">08.00 - 16.00</p>
+        <div className="min-w-0 flex-1">
+          <p className="text-[18px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[21px]">Jam Operasional Koperasi</p>
+          <p className="mt-2 whitespace-nowrap text-[34px] font-bold leading-none tracking-tight text-black sm:text-[39px]">08.00 - 16.00</p>
         </div>
       </div>
 
-      <div className="mt-5 rounded-[9px] border border-slate-200 bg-[#f5f6f8] px-4 py-4 sm:mt-6 sm:px-6 sm:py-5">
-        <p className="text-[18px] font-medium tracking-tight text-slate-950 sm:text-[24px]">Sisa Waktu Operasional Koperasi</p>
+      <div className="mt-5 rounded-[9px] border border-slate-200 bg-[#f5f6f8] px-4 py-4 sm:mt-6 sm:px-5 sm:py-5">
+        <p className="text-[18px] font-medium leading-snug tracking-tight text-slate-950 sm:text-[21px]">Sisa Waktu Operasional Koperasi</p>
         <div className="mt-4 flex items-center justify-around">
           {[
             [isOpen ? hours : 0, "Jam"],
             [isOpen ? minutes : 0, "Menit"],
             [isOpen ? seconds : 0, "Detik"],
           ].map(([value, label], index) => (
-            <div key={label} className="flex flex-1 items-center justify-center gap-3 sm:gap-5">
-              {index > 0 ? <span className="h-14 w-1 bg-slate-300 sm:h-24" /> : null}
-              <div className="text-center">
-                <p className="font-mono text-[38px] font-bold leading-none tracking-tight text-black sm:text-[58px]">{displayTime(value as number)}</p>
-                <p className="mt-2 text-[15px] font-medium text-stone-500 sm:text-[20px]">{label}</p>
+            <div key={label} className="flex flex-1 items-center justify-center gap-2 sm:gap-4">
+              {index > 0 ? <span className="h-14 w-[3px] bg-slate-300 sm:h-20" /> : null}
+              <div className="min-w-0 text-center">
+                <p className="font-mono text-[38px] font-bold leading-none tracking-tight text-black sm:text-[48px]">{displayTime(value as number)}</p>
+                <p className="mt-2 text-[15px] font-medium text-stone-500 sm:text-[17px]">{label}</p>
               </div>
             </div>
           ))}
