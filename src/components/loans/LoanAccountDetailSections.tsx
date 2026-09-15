@@ -22,7 +22,6 @@ import {
 import { toast } from "sonner";
 import { useLoanInterestRate } from "@/lib/loanInterestStore";
 import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
-import LoanBillingTablePreview from "@/components/loans/LoanBillingTablePreview";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -286,16 +285,6 @@ export default function LoanAccountDetailSections({
           />
         </div>
       </div>
-
-      {showBillingSection && accountNo !== "SMG260004" && (
-        <>
-          <Separator className="my-6 bg-slate-200/70" />
-          <SubSectionHeader title="INFORMASI TAGIHAN DAN DENDA" />
-          <div className="mt-4">
-            <LoanBillingTablePreview accountNo={accountNo} />
-          </div>
-        </>
-      )}
 
       <Separator className="my-6 bg-slate-200/70" />
 
