@@ -8,7 +8,7 @@
 
 .mitra-karya-member-report table.ktp-report-table th,
 .mitra-karya-member-report table.ktp-report-table td {
-  padding: 5px 6px;
+  padding: 5px 5px;
 }
 
 .mitra-karya-member-report table.ktp-report-table th {
@@ -16,20 +16,25 @@
   white-space: normal;
 }
 
+/* Keep the compact KTP/KK report balanced on the available table width. */
 .mitra-karya-member-report table.ktp-report-table th:nth-child(1),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(1) { width: 5%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(1) { width: 4%; }
 .mitra-karya-member-report table.ktp-report-table th:nth-child(2),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(2) { width: 13%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(2) { width: 11%; }
 .mitra-karya-member-report table.ktp-report-table th:nth-child(3),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(3) { width: 22%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(3) { width: 17%; }
 .mitra-karya-member-report table.ktp-report-table th:nth-child(4),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(4) { width: 13%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(4) { width: 11%; }
 .mitra-karya-member-report table.ktp-report-table th:nth-child(5),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(5) { width: 17%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(5) { width: 13%; }
 .mitra-karya-member-report table.ktp-report-table th:nth-child(6),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(6) { width: 14%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(6) { width: 13%; }
 .mitra-karya-member-report table.ktp-report-table th:nth-child(7),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(7) { width: 16%; }
+.mitra-karya-member-report table.ktp-report-table td:nth-child(7) { width: 9%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(8),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(8) { width: 13%; }
+.mitra-karya-member-report table.ktp-report-table th:nth-child(9),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(9) { width: 9%; }
 
 .mitra-karya-member-report table.ktp-report-table td:nth-child(2),
 .mitra-karya-member-report table.ktp-report-table td:nth-child(3),
@@ -42,11 +47,13 @@
 .mitra-karya-member-report table.ktp-report-table td,
 .mitra-karya-member-report table.ktp-report-table td:nth-child(1),
 .mitra-karya-member-report table.ktp-report-table td:nth-child(5),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(6) {
+.mitra-karya-member-report table.ktp-report-table td:nth-child(6),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(8) {
   text-align: left !important;
 }
 
 .mitra-karya-member-report table.ktp-report-table td:nth-child(5),
-.mitra-karya-member-report table.ktp-report-table td:nth-child(6) {
+.mitra-karya-member-report table.ktp-report-table td:nth-child(6),
+.mitra-karya-member-report table.ktp-report-table td:nth-child(8) {
   white-space: nowrap;
 }
