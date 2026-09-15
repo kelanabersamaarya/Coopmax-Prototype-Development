@@ -25,10 +25,7 @@ export default function RekeningPinjaman() {
             onBack={() => setSelectedAccountNo(null)}
           />
         ) : (
-          <LoanAccountsListView
-            onSelectAccount={setSelectedAccountNo}
-            createPath="/mitra-karya/pinjaman/rekening/baru"
-          />
+          <LoanAccountsListView onSelectAccount={setSelectedAccountNo} />
         )}
       </div>
     </div>
