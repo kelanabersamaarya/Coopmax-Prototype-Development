@@ -91,8 +91,10 @@ const mbankingData = chartData.map((item, index) => ({
   day: item.day,
   transfer: [0.72, 0.9, 0.55, 1, 0.78, 0.95][index % 6],
   transferOut: [0.48, 0.62, 0.38, 0.72, 0.54, 0.66][index % 6],
+  refundTransferOut: [0.08, 0.12, 0.06, 0.14, 0.1, 0.13][index % 6],
   topUp: [0.58, 0.75, 0.48, 0.84, 0.62, 0.7][index % 6],
   pembelianPpob: [0.42, 0.62, 0.5, 0.72, 0.55, 0.66][index % 6],
+  refundPpob: [0.07, 0.1, 0.05, 0.12, 0.08, 0.11][index % 6],
   angsuran: [0.36, 0.52, 0.42, 0.6, 0.47, 0.56][index % 6],
   iuran: [0.25, 0.4, 0.3, 0.48, 0.36, 0.44][index % 6],
 }));
@@ -159,7 +161,9 @@ function SavingsBarChart({
         ["transfer", "#5612cf"],
         ["topUp", "#09c3c7"],
         ["transferOut", "#ef476f"],
+        ["refundTransferOut", "#f59e0b"],
         ["pembelianPpob", "#1687ef"],
+        ["refundPpob", "#7c3aed"],
         ["angsuran", "#48b900"],
         ["iuran", "#f59e0b"],
       ]
@@ -175,8 +179,10 @@ function SavingsBarChart({
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
     transferOut: "Transfer Out",
+    refundTransferOut: "Refund transfer out",
     topUp: "Transfer In / Top Up",
     pembelianPpob: "Pembelian & Pembayaran PPOB",
+    refundPpob: "Refund PPOB",
     angsuran: "Pembayaran Angsuran",
     iuran: "Pembayaran Iuran Simpanan Wajib & Program",
     core: "Core Banking",
@@ -227,7 +233,9 @@ function SavingsBarChart({
                   <div className="text-[#5612cf]">Transfer antar nasabah : {formatMbankingValue(item.transfer)}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {formatMbankingValue(item.topUp)}</div>
                   <div className="text-[#ef476f]">Transfer Out : {formatMbankingValue(item.transferOut)}</div>
+                  <div className="text-[#f59e0b]">Refund transfer out : {formatMbankingValue(item.refundTransferOut)}</div>
                   <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {formatMbankingValue(item.pembelianPpob)}</div>
+                  <div className="text-[#7c3aed]">Refund PPOB : {formatMbankingValue(item.refundPpob)}</div>
                   <div className="text-[#48b900]">Pembayaran Angsuran : {formatMbankingValue(item.angsuran)}</div>
                   <div className="text-[#f59e0b]">Iuran Simpanan Wajib & Program : {formatMbankingValue(item.iuran)}</div>
                 </div>
