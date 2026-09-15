@@ -458,7 +458,8 @@ export function openReportPdfPreview({
           .shu-scontro {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 4px;
+            column-gap: 18px;
+            row-gap: 0;
             align-items: start;
           }
 
