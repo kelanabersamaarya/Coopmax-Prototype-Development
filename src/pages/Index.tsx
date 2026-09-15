@@ -7,7 +7,6 @@ import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
 import SidebarSimpananMenu from "@/components/SidebarSimpananMenu";
 import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import SidebarObsMenu from "@/components/SidebarObsMenu";
-import SidebarObsSettingsMenu from "@/components/SidebarObsSettingsMenu";
 import SidebarObsSuperAdminMenu from "@/components/SidebarObsSuperAdminMenu";
 import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
 import SidebarMobileMenu from "@/components/SidebarMobileMenu";
@@ -220,10 +219,9 @@ export default function Index() {
                                 {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarLoginMenu />
                                 ) : null}
-                                {isObsArea ? <SidebarObsSettingsMenu /> : null}
                                 {isObsArea ? <SidebarObsSuperAdminMenu /> : null}
                                 {!isObsArea ? <SidebarLaporanMenu /> : null}
-                                {!isObsArea ? (
+                                {!isObsArea && !location.pathname.startsWith("/obs-samudra-harta") ? (
                                   <SidebarPengaturanUmumMenu />
                                 ) : null}
                                 {g.items
