@@ -66,8 +66,8 @@ function OperationalTimeCounter() {
             [isOpen ? minutes : 0, "Menit"],
             [isOpen ? seconds : 0, "Detik"],
           ].map(([value, label], index) => (
-            <div key={label} className="flex flex-1 items-center justify-center gap-1.5 sm:gap-3">
-              {index > 0 ? <span className="h-11 w-[2px] bg-slate-300 sm:h-16" /> : null}
+            <div key={label} className="relative flex flex-1 items-center justify-center">
+              {index < 2 ? <span className="absolute right-0 top-1/2 h-11 w-[2px] -translate-y-1/2 bg-slate-300 sm:h-16" /> : null}
               <div className="min-w-0 text-center">
                 <p className="font-mono text-[30px] font-bold leading-none tracking-tight text-black sm:text-[38px]">{displayTime(value as number)}</p>
                 <p className="mt-1.5 text-[13px] font-medium text-stone-500 sm:text-[15px]">{label}</p>
