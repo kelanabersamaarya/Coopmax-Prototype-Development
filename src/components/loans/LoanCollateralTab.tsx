@@ -66,14 +66,17 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
           {collaterals.map((row) => (
             <div key={row.id} className="border-b border-slate-300 pb-1">
               <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-1 lg:w-[calc(100%-19rem)]">
-                <select className={`${inputClass} appearance-none bg-[linear-gradient(45deg,transparent_50%,#94a3b8_50%),linear-gradient(135deg,#94a3b8_50%,transparent_50%)] bg-[length:5px_5px,5px_5px] bg-[position:calc(100%-14px)_15px,calc(100%-9px)_15px] bg-no-repeat pr-8 text-slate-500`} value={row.name} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))}>
-                  <option value="">Pilih Agunan</option>
-                  <option value="Sepeda Motor">Sepeda Motor</option>
-                  <option value="Deposito">Deposito</option>
-                  <option value="(SHM) Sertifikat Hak Milik / Tanah dan Bangunan">(SHM) Sertifikat Hak Milik / Tanah dan Bangunan</option>
-                  <option value="Mobil">Mobil</option>
-                  <option value="Tabungan">Tabungan</option>
-                </select>
+                <div className="relative">
+                  {row.name && <button type="button" onClick={() => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: "" } : item))} aria-label="Hapus pilihan agunan" className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-lg font-bold leading-none text-red-600 hover:text-red-700">×</button>}
+                  <select className={`${inputClass} appearance-none bg-[linear-gradient(45deg,transparent_50%,#94a3b8_50%),linear-gradient(135deg,#94a3b8_50%,transparent_50%)] bg-[length:5px_5px,5px_5px] bg-[position:calc(100%-14px)_15px,calc(100%-9px)_15px] bg-no-repeat pr-8 ${row.name ? "pl-12 text-[#49698f]" : "text-slate-500"}`} value={row.name} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))}>
+                    <option value="">Pilih Agunan</option>
+                    <option value="Sepeda Motor">Sepeda Motor</option>
+                    <option value="Deposito">Deposito</option>
+                    <option value="(SHM) Sertifikat Hak Milik / Tanah dan Bangunan">(SHM) Sertifikat Hak Milik / Tanah dan Bangunan</option>
+                    <option value="Mobil">Mobil</option>
+                    <option value="Tabungan">Tabungan</option>
+                  </select>
+                </div>
                 <input className={inputClass} value={row.nominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, nominal: e.target.value } : item))} />
                 <input className={inputClass} value={row.percentage} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, percentage: e.target.value } : item))} />
                 <input className={inputClass} value={row.claimedNominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, claimedNominal: e.target.value } : item))} />
