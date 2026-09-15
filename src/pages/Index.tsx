@@ -123,7 +123,7 @@ export default function Index() {
   const isMitraKaryaDashboard =
     location.pathname === "/mitra-karya/dashboard";
   const isDashboardDevelopment = location.pathname === "/dashboard";
-  const hideSidebar = isMitraKaryaDashboard;
+  const hideSidebar = isMitraKaryaDashboard || isDashboardDevelopment;
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
