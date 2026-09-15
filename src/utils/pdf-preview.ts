@@ -474,6 +474,13 @@ export function openReportPdfPreview({
             text-align: center !important;
           }
 
+          .shu-staffel table tbody tr.font-bold td,
+          .shu-staffel table tbody tr.font-semibold td,
+          .shu-scontro table tbody tr.font-bold td,
+          .shu-scontro table tbody tr.font-semibold td {
+            font-weight: 700 !important;
+          }
+
           .export-only {
             display: inline !important;
             color: #1d4ed8 !important;
