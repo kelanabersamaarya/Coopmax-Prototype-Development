@@ -70,29 +70,32 @@ type Props = {
 
 const currentBill: BillingRow = {
   jatuhTempo: "25-01-2026",
-  totalBelumDibayar: "916.667",
+  totalBelumDibayar: "0,00",
   tagihanPokok: "833.333",
   tagihanBunga: "83.333",
-  sisaPokok: "783.333",
-  sisaBunga: "26.389",
+  sisaPokok: "0,00",
+  sisaBunga: "0,00",
+  statusTagihan: "Lunas",
 };
 
 const pelunasanRowsLikeView1: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
-    totalBelumDibayar: "916.667",
+    totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
+    sisaPokok: "0,00",
+    sisaBunga: "0,00",
+    statusTagihan: "Lunas",
   },
   {
     jatuhTempo: "25-01-2026",
-    totalBelumDibayar: "916.667",
+    totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
+    sisaPokok: "0,00",
+    sisaBunga: "0,00",
+    statusTagihan: "Lunas",
   },
   ...Array.from({ length: 8 }).map((_, i) => ({
     jatuhTempo: `25-0${(i % 7) + 2}-2026`,
@@ -107,19 +110,21 @@ const pelunasanRowsLikeView1: BillingRow[] = [
 const upcomingRows: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
-    totalBelumDibayar: "916.667",
+    totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
+    sisaPokok: "0,00",
+    sisaBunga: "0,00",
+    statusTagihan: "Lunas",
   },
   {
     jatuhTempo: "25-02-2026",
-    totalBelumDibayar: "916.667",
+    totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
+    sisaPokok: "0,00",
+    sisaBunga: "0,00",
+    statusTagihan: "Lunas",
   },
   {
     jatuhTempo: "25-03-2026",
