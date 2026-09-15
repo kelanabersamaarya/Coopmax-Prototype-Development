@@ -103,28 +103,34 @@ export default function NeracaSaldoReport() {
     requestAnimationFrame(() => {
       const table = reportArea.querySelector("table");
       let reportContent = reportArea.innerHTML;
+      const boldUncodedDescriptions = (targetTable: HTMLTableElement) => {
+        targetTable.querySelectorAll("tbody tr").forEach((row) => {
+          const description = row.querySelector("td:first-child");
+          if (description && !/^\d+(?:\.\d+)+\s*-/.test(description.textContent?.trim() ?? "")) {
+            description.style.fontWeight = "700";
+          }
+        });
+      };
 
-      if (layout === "Scontro" && reportType === "Laporan Terperinci" && table) {
-        const leftTable = table.cloneNode(true) as HTMLTableElement;
-        const rightTable = table.cloneNode(true) as HTMLTableElement;
-        const leftBody = leftTable.querySelector("tbody");
-        const rightBody = rightTable.querySelector("tbody");
-        const sourceRows = Array.from(table.querySelectorAll("tbody tr"));
-        const splitAt = Math.ceil(sourceRows.length / 2);
-        const boldUncodedDescriptions = (targetTable: HTMLTableElement) => {
-          targetTable.querySelectorAll("tbody tr").forEach((row) => {
-            const description = row.querySelector("td:first-child");
-            if (description && !/^\d+(?:\.\d+)+\s*-/.test(description.textContent?.trim() ?? "")) {
-              description.style.fontWeight = "700";
-            }
-          });
-        };
+      if (reportType === "Laporan Terperinci" && table) {
+        if (layout === "Scontro") {
+          const leftTable = table.cloneNode(true) as HTMLTableElement;
+          const rightTable = table.cloneNode(true) as HTMLTableElement;
+          const leftBody = leftTable.querySelector("tbody");
+          const rightBody = rightTable.querySelector("tbody");
+          const sourceRows = Array.from(table.querySelectorAll("tbody tr"));
+          const splitAt = Math.ceil(sourceRows.length / 2);
 
-        leftBody?.replaceChildren(...sourceRows.slice(0, splitAt).map((row) => row.cloneNode(true)));
-        rightBody?.replaceChildren(...sourceRows.slice(splitAt).map((row) => row.cloneNode(true)));
-        boldUncodedDescriptions(leftTable);
-        boldUncodedDescriptions(rightTable);
-        reportContent = `<div class="neraca-scontro-columns"><div>${leftTable.outerHTML}</div><div>${rightTable.outerHTML}</div></div>`;
+          leftBody?.replaceChildren(...sourceRows.slice(0, splitAt).map((row) => row.cloneNode(true)));
+          rightBody?.replaceChildren(...sourceRows.slice(splitAt).map((row) => row.cloneNode(true)));
+          boldUncodedDescriptions(leftTable);
+          boldUncodedDescriptions(rightTable);
+          reportContent = `<div class="neraca-scontro-columns"><div>${leftTable.outerHTML}</div><div>${rightTable.outerHTML}</div></div>`;
+        } else {
+          const staffelTable = table.cloneNode(true) as HTMLTableElement;
+          boldUncodedDescriptions(staffelTable);
+          reportContent = staffelTable.outerHTML;
+        }
       }
 
       openReportPdfPreview({
