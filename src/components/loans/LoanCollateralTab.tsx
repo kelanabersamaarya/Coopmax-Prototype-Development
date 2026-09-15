@@ -47,6 +47,7 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
   const [attribute, setAttribute] = React.useState("");
   const [activeAttributeTab, setActiveAttributeTab] = React.useState<"attribute" | "document">("attribute");
   const [attributeValues, setAttributeValues] = React.useState<Record<string, string>>({});
+  const [documents, setDocuments] = React.useState<Record<string, File | null>>({});
 
   function addCollateral() {
     setCollaterals((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", percentage: "0", claimedNominal: "0,00", description: "" }]);
@@ -130,7 +131,11 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
               {attribute === "SHM" && [["Nama", "name"], ["Alamat", "address"], ["No. SHM", "shmNumber"], ["Surat Ukur", "surveyLetter"], ["Luas", "area"], ["NIB", "nib"]].map(([label, key]) => <React.Fragment key={key}><label htmlFor={`attribute-${key}`} className="text-xs text-[#25334a]">{label}</label><input id={`attribute-${key}`} className="h-8 w-full rounded-md border border-[#c6d2e4] bg-white px-3 text-sm text-[#49698f] outline-none focus:ring-2 focus:ring-blue-500" value={attributeValues[key] || ""} onChange={(e) => setAttributeValues((current) => ({ ...current, [key]: e.target.value }))} /></React.Fragment>)}
               {(attribute === "Deposito" || attribute === "Tabungan") && [["Nama", "name"], ["Alamat", "address"], [attribute === "Deposito" ? "No. Rekening Deposito" : "No. Rekening Tabungan", "accountNumber"], [attribute === "Deposito" ? "Nominal Deposito" : "Nominal Tabungan", "nominal"]].map(([label, key]) => <React.Fragment key={key}><label htmlFor={`attribute-${key}`} className="text-xs text-[#25334a]">{label}</label><input id={`attribute-${key}`} className="h-8 w-full rounded-md border border-[#c6d2e4] bg-white px-3 text-sm text-[#49698f] outline-none focus:ring-2 focus:ring-blue-500" value={attributeValues[key] || ""} onChange={(e) => setAttributeValues((current) => ({ ...current, [key]: e.target.value }))} /></React.Fragment>)}
               </div>}
-              {activeAttributeTab === "document" && <div className="col-span-full mt-4 rounded-md border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">Belum ada dokumen agunan.</div>}
+              {activeAttributeTab === "document" && <div className="col-span-full mt-4 grid gap-4 md:grid-cols-[120px_1fr] md:items-center">
+                {(attribute === "Sepeda Motor" || attribute === "Mobil") && ["BPKB", "STNK", "Foto agunan"].map((documentName) => <React.Fragment key={documentName}><label htmlFor={`document-${documentName}`} className="text-xs text-[#25334a]">{documentName}</label><input id={`document-${documentName}`} type="file" accept="image/*,.pdf" onChange={(e) => setDocuments((current) => ({ ...current, [documentName]: e.target.files?.[0] || null }))} className="h-9 w-full rounded-md border border-[#c6d2e4] bg-white px-2 py-1 text-xs text-[#49698f] file:mr-3 file:rounded file:border-0 file:bg-[#8192ad] file:px-3 file:py-1 file:text-xs file:font-semibold file:text-white hover:file:bg-[#6d7e99]" />
+                )}
+                {attribute !== "Sepeda Motor" && attribute !== "Mobil" && <div className="rounded-md border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">Belum ada dokumen agunan.</div>}
+              </div>}
             </>}
           </div>
           <div className="flex justify-end px-6 py-4"><Button type="button" onClick={() => setAttributeModalRow(null)} className="h-8 rounded-md bg-[#8192ad] px-4 text-xs font-semibold text-white hover:bg-[#6d7e99]"><X className="mr-1 h-4 w-4" />Tutup</Button></div>
