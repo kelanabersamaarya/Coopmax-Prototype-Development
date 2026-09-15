@@ -274,12 +274,12 @@ export default function BillingTableView2({
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
-  const gridTemplate = (() => {
+  const gridTemplateColumns = (() => {
     const columns = hideSelection ? [] : ["44px"];
     columns.push("minmax(0,1fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
     if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
     if (showStatusColumn) columns.push("minmax(0,1.1fr)");
-    return `[grid-template-columns:${columns.join("_")}]`;
+    return columns.join(" ");
   })();
 
   const isCompact = hideSelection;
@@ -653,7 +653,10 @@ export default function BillingTableView2({
                                 density={rowShellDensity}
                                 compact={isCompact}
                               >
-                                <div className={cn("grid items-center gap-0", gridTemplate)}>
+                                <div
+                                  className="grid items-center gap-0"
+                                  style={{ gridTemplateColumns: gridTemplateColumns }}
+                                >
                                   {!hideSelection ? (
                                     <div
                                       className={cn(
@@ -748,7 +751,10 @@ export default function BillingTableView2({
                           density={rowShellDensity}
                           compact={isCompact}
                         >
-                          <div className={cn("grid items-center gap-0", gridTemplate)}>
+                          <div
+                            className="grid items-center gap-0"
+                            style={{ gridTemplateColumns: gridTemplateColumns }}
+                          >
                             {!hideSelection ? (
                               <div
                                 className={cn(
@@ -845,7 +851,10 @@ export default function BillingTableView2({
                             density={rowShellDensity}
                             compact={isCompact}
                           >
-                            <div className={cn("grid items-center gap-0", gridTemplate)}>
+                            <div
+                              className="grid items-center gap-0"
+                              style={{ gridTemplateColumns: gridTemplateColumns }}
+                            >
                               {!hideSelection ? (
                                 <div className={cn("flex items-center justify-center px-4", cellY)}>
                                   <input
