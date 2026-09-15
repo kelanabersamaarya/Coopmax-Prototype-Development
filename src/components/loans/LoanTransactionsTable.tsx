@@ -488,7 +488,7 @@ export default function LoanTransactionsTable({
   const [qNamaNasabah, setQNamaNasabah] = React.useState("");
   const [qNamaKolektor, setQNamaKolektor] = React.useState("");
   const [qProduk, setQProduk] = React.useState<string>("Semua");
-  const [qTanggal, setQTanggal] = React.useState("");
+  const [qTanggal, setQTanggal] = React.useState("05-05-2026");
   const [qJenis, setQJenis] = React.useState<string>("Semua");
   const [qNominal, setQNominal] = React.useState("");
   const [qDenda, setQDenda] = React.useState("");
