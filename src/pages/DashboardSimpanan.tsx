@@ -209,9 +209,9 @@ function SavingsBarChart({
             )}
           </div>
         ))}
-        <div className="absolute bottom-0 left-[4.5rem] top-0 z-0 grid w-[calc(100%-4.5rem)] grid-cols-[repeat(30,minmax(0,1fr))] gap-x-6 items-end">
+        <div className="absolute bottom-0 left-[4.5rem] top-0 z-0 grid min-w-[2400px] grid-cols-[repeat(30,56px)] gap-x-5 items-end">
           {data.map((item) => (
-            <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-0.5 px-2 hover:z-[100]">
+            <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-0.5 hover:z-[100]">
               {keys.map(([key, color]) => {
                 const rawValue = Number(item[key]) || 0;
                 const value = variant === "mbanking" ? rawValue * 200000 : rawValue;
@@ -244,7 +244,7 @@ function SavingsBarChart({
           ))}
         </div>
       </div>
-      <div className="ml-[4.5rem] mt-1 grid w-[calc(100%-4.5rem)] grid-cols-[repeat(30,minmax(0,1fr))] gap-x-6 text-center text-[11px] text-slate-900">
+      <div className="ml-[4.5rem] mt-1 grid min-w-[2400px] grid-cols-[repeat(30,56px)] gap-x-5 text-center text-[11px] text-slate-900">
         {data.map((item) => <span key={String(item.day)}>{item.day}</span>)}
       </div>
     </div>
