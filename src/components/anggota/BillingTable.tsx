@@ -338,7 +338,7 @@ export default function BillingTable({
 
                               {graceRows.map((bill, idx) => {
                                 const rowIndex = idx;
-                                const showPenaltyValue = rowIndex < 6;
+                                const showPenaltyValue = rowIndex < 4;
 
                                 return (
                                   <tr
@@ -437,7 +437,7 @@ export default function BillingTable({
 
                 {nonGraceRows.map((bill, idx) => {
                   const rowIndex = graceEnabled ? graceCount + idx : idx;
-                  const showPenaltyValue = rowIndex < 6;
+                  const showPenaltyValue = rowIndex < 4;
 
                   return (
                     <tr
