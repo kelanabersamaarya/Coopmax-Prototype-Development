@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 
 export default function SidebarLoginMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/login");
+  const isActive =
+    location.pathname === "/dashboard" || location.pathname.startsWith("/login");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {

@@ -128,6 +128,8 @@ export default function Index() {
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
   const isAstitiDanaLestariArea = location.pathname.startsWith("/astiti-dana-lestari");
+  const isSamudraHartaArea =
+    location.pathname === "/dashboard" || location.pathname.startsWith("/login");
 
   const isPinjamanArea =
     location.pathname.startsWith("/payment-link") ||
@@ -181,6 +183,10 @@ export default function Index() {
                     ) : isAstitiDanaLestariArea ? (
                       <div className="px-2">
                         <SidebarAstitiDanaLestariMenu />
+                      </div>
+                    ) : isSamudraHartaArea ? (
+                      <div className="space-y-1 px-2">
+                        <SidebarLoginMenu />
                       </div>
                     ) : (
                       nav.map((g, idx) => (
