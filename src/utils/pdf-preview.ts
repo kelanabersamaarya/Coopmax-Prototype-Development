@@ -446,7 +446,7 @@ export function openReportPdfPreview({
           .shu-staffel table td:first-child,
           .shu-scontro table th:first-child,
           .shu-scontro table td:first-child {
-            width: 46% !important;
+            width: 40% !important;
             max-width: none !important;
           }
 
@@ -454,8 +454,18 @@ export function openReportPdfPreview({
           .shu-staffel table td:nth-child(n+2),
           .shu-scontro table th:nth-child(n+2),
           .shu-scontro table td:nth-child(n+2) {
-            width: 18% !important;
+            width: 20% !important;
             max-width: none !important;
+          }
+
+          .shu-staffel table tbody td:not(:first-child),
+          .shu-scontro table tbody td:not(:first-child) {
+            text-align: left !important;
+          }
+
+          .shu-staffel table thead th,
+          .shu-scontro table thead th {
+            text-align: center !important;
           }
 
           .export-only {
@@ -526,8 +536,22 @@ export function openReportPdfPreview({
           .pdf-page .shu-scontro table td:first-child,
           .thumb-page .shu-scontro table th:first-child,
           .thumb-page .shu-scontro table td:first-child {
-            width: 46% !important;
+            width: 40% !important;
             max-width: none !important;
+          }
+
+          .pdf-page .shu-staffel table tbody td:not(:first-child),
+          .thumb-page .shu-staffel table tbody td:not(:first-child),
+          .pdf-page .shu-scontro table tbody td:not(:first-child),
+          .thumb-page .shu-scontro table tbody td:not(:first-child) {
+            text-align: left !important;
+          }
+
+          .pdf-page .shu-staffel table thead th,
+          .thumb-page .shu-staffel table thead th,
+          .pdf-page .shu-scontro table thead th,
+          .thumb-page .shu-scontro table thead th {
+            text-align: center !important;
           }
 
           .pdf-page th:first-child,
