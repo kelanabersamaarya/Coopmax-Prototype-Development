@@ -103,10 +103,35 @@ export default function NeracaSaldoReport() {
     requestAnimationFrame(() => {
       const table = reportArea.querySelector("table");
       let reportContent = reportArea.innerHTML;
-      const boldUncodedDescriptions = (targetTable: HTMLTableElement) => {
+      const boldDescriptions = new Set([
+        "Aktiva",
+        "AKTIVA LANCAR",
+        "KAS DAN BANK",
+        "KAS",
+        "TOTAL KAS",
+        "TABUNGAN DI BANK",
+        "TOTAL TABUNGAN DI BANK",
+        "TABUNGAN DI LEMBAGA NON BANK",
+        "TOTAL TABUNGAN DI LEMBAGA NON BANK",
+        "DEPOSITO DI BANK",
+        "TOTAL DEPOSITO DI BANK",
+        "TOTAL KAS DAN BANK",
+        "PIUTANG",
+        "PINJAMAN YANG DIBERIKAN",
+        "TOTAL PINJAMAN YANG DIBERIKAN",
+        "TOTAL AKTIVA LANCAR",
+        "AKTIVA TETAP",
+        "TOTAL AKTIVA",
+        "TOTAL AKTIVA TETAP",
+        "AKUMULASI PENYUSUTAN AKTIVA TETAP",
+        "TOTAL KEWAJIBAN + EKUITAS",
+      ]);
+      const boldDescriptionsInTable = (targetTable: HTMLTableElement) => {
         targetTable.querySelectorAll("tbody tr").forEach((row) => {
           const description = row.querySelector("td:first-child");
-          if (description && !/^\d+(?:\.\d+)+\s*-/.test(description.textContent?.trim() ?? "")) {
+          const text = description?.textContent?.trim() ?? "";
+          if (description && (boldDescriptions.has(text) || !/^\d+(?:\.\d+)+\s*-/.test(text))) {
+            description.classList.add("neraca-bold-description");
             description.style.fontWeight = "700";
           }
         });
@@ -123,12 +148,12 @@ export default function NeracaSaldoReport() {
 
           leftBody?.replaceChildren(...sourceRows.slice(0, splitAt).map((row) => row.cloneNode(true)));
           rightBody?.replaceChildren(...sourceRows.slice(splitAt).map((row) => row.cloneNode(true)));
-          boldUncodedDescriptions(leftTable);
-          boldUncodedDescriptions(rightTable);
+          boldDescriptionsInTable(leftTable);
+          boldDescriptionsInTable(rightTable);
           reportContent = `<div class="neraca-scontro-columns"><div>${leftTable.outerHTML}</div><div>${rightTable.outerHTML}</div></div>`;
         } else {
           const staffelTable = table.cloneNode(true) as HTMLTableElement;
-          boldUncodedDescriptions(staffelTable);
+          boldDescriptionsInTable(staffelTable);
           reportContent = staffelTable.outerHTML;
         }
       }
