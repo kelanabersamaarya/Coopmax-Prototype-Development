@@ -59,13 +59,13 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
     <div className="rounded-[20px] bg-white p-6 text-[#06255a] md:p-12">
       <section>
         <SectionHeader title="Agunan" onAdd={addCollateral} />
-        <div className="mt-8 grid w-full grid-cols-1 gap-2 border-b border-slate-300 px-1 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5] sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-4 sm:px-1 lg:w-[calc(100%-23rem)]">
+        <div className="mt-8 grid w-full grid-cols-1 gap-2 border-b border-slate-300 px-1 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5] sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-4 sm:px-1 lg:w-[calc(100%-19rem)]">
           <span>Agunan</span><span>Nominal</span><span>Pengakuan %</span><span>Nominal Pengakuan</span>
         </div>
         <div className="space-y-2 py-2">
           {collaterals.map((row) => (
             <div key={row.id} className="border-b border-slate-300 pb-1">
-              <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-1 lg:w-[calc(100%-23rem)]">
+              <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-1 lg:w-[calc(100%-19rem)]">
                 <select className={`${inputClass} appearance-none bg-[linear-gradient(45deg,transparent_50%,#94a3b8_50%),linear-gradient(135deg,#94a3b8_50%,transparent_50%)] bg-[length:5px_5px,5px_5px] bg-[position:calc(100%-14px)_15px,calc(100%-9px)_15px] bg-no-repeat pr-8 text-slate-500`} value={row.name} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))}>
                   <option value="">Pilih Agunan</option>
                   <option value="Sertifikat Rumah">Sertifikat Rumah</option>
