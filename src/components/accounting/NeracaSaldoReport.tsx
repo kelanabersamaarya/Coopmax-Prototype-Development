@@ -173,7 +173,17 @@ export default function NeracaSaldoReport() {
       } else if (reportType === "Laporan Rekap") {
         const recapTables = Array.from(reportArea.querySelectorAll("table")) as HTMLTableElement[];
         recapTables.forEach(boldRecapRows);
-        reportContent = reportArea.innerHTML;
+        if (layout === "Staffel" && recapTables.length > 1) {
+          const staffelTable = recapTables[0].cloneNode(true) as HTMLTableElement;
+          const staffelBody = staffelTable.querySelector("tbody");
+          const additionalRows = recapTables.slice(1).flatMap((recapTable) =>
+            Array.from(recapTable.querySelectorAll("tbody tr")).map((row) => row.cloneNode(true)),
+          );
+          staffelBody?.append(...additionalRows);
+          reportContent = staffelTable.outerHTML;
+        } else {
+          reportContent = reportArea.innerHTML;
+        }
       }
 
       openReportPdfPreview({
