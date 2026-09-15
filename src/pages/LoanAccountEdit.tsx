@@ -30,6 +30,7 @@ import { seedByAccountNo } from "@/components/loans/accounts/edit/loan-account-e
 import { getTodayDmy, isDefaultMoney, isPlaceholderValue } from "@/components/loans/accounts/edit/loan-account-edit-utils";
 import type { LoanProductOption, TabId } from "@/components/loans/accounts/edit/loan-account-edit-types";
 import LoanAccountEditActionIconButton from "@/components/loans/accounts/edit/LoanAccountEditActionIconButton";
+import LoanCollateralTab from "@/components/loans/LoanCollateralTab";
 import LoanAccountEditFieldRow from "@/components/loans/accounts/edit/LoanAccountEditFieldRow";
 import LoanAccountEditTabs from "@/components/loans/accounts/edit/LoanAccountEditTabs";
 import LoanAccountProductCombobox from "@/components/loans/accounts/edit/LoanAccountProductCombobox";
@@ -491,6 +492,11 @@ export default function LoanAccountEdit() {
                   />
                 </div>
               </div>
+            ) : tab === "agunan" ? (
+              <LoanCollateralTab
+                onCancel={() => navigateToDetail(false)}
+                onSave={save}
+              />
             ) : tab === "jadwal" ? (
               <div className="no-purple-select grid gap-10">
                 <div className="space-y-5">

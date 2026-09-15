@@ -38,6 +38,7 @@ import PenaltyScheduleForm, {
   type PenaltyScheduleDraft,
 } from "@/components/loans/PenaltyScheduleForm";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
+import LoanCollateralTab from "@/components/loans/LoanCollateralTab";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import NasabahPickerModal, {
@@ -717,6 +718,11 @@ export default function LoanApplicationCreate() {
                   />
                 </div>
               </div>
+            ) : tab === "agunan" ? (
+              <LoanCollateralTab
+                onCancel={() => navigate("/loans/applications")}
+                onSave={save}
+              />
             ) : tab === "jadwal" ? (
               <div className="no-purple-select grid gap-10">
                 <div className="space-y-5">

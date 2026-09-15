@@ -1,0 +1,83 @@
+import * as React from "react";
+import { Plus, Save, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+
+type CollateralRow = {
+  id: number;
+  name: string;
+  nominal: string;
+  percentage: string;
+  claimedNominal: string;
+};
+
+type SavingsRow = {
+  id: number;
+  name: string;
+  nominal: string;
+  description: string;
+};
+
+const inputClass = "h-9 w-full rounded-[5px] border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none ring-offset-white placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-blue-500";
+
+function SectionHeader({ title, onAdd }: { title: string; onAdd: () => void }) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <h2 className="text-xl font-semibold tracking-tight text-[#06255a]">{title} <span className="font-normal">Daftar</span></h2>
+      <Button type="button" onClick={onAdd} className="h-8 rounded-[5px] bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700">
+        <Plus className="mr-1 h-4 w-4" />Tambah
+      </Button>
+    </div>
+  );
+}
+
+function TotalRow({ value }: { value: string }) {
+  return <div className="flex justify-end border-t border-slate-200 pt-4 text-base text-[#06255a]"><span className="mr-2 font-medium">Total:</span><span className="min-w-[180px] bg-slate-50 px-2 text-right">{value}</span></div>;
+}
+
+export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () => void; onSave: () => void }) {
+  const [collaterals, setCollaterals] = React.useState<CollateralRow[]>([]);
+  const [savings, setSavings] = React.useState<SavingsRow[]>([]);
+  const [deposits, setDeposits] = React.useState<SavingsRow[]>([]);
+  const [useSavings, setUseSavings] = React.useState(false);
+  const [useDeposits, setUseDeposits] = React.useState(false);
+
+  function addCollateral() {
+    setCollaterals((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", percentage: "0", claimedNominal: "0,00" }]);
+  }
+
+  function addSavings(setRows: React.Dispatch<React.SetStateAction<SavingsRow[]>>) {
+    setRows((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", description: "" }]);
+  }
+
+  return (
+    <div className="rounded-[20px] bg-white p-6 text-[#06255a] md:p-12">
+      <section>
+        <SectionHeader title="Agunan" onAdd={addCollateral} />
+        <div className="mt-8 grid grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] gap-4 border-b border-slate-300 px-4 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5]">
+          <span>Agunan</span><span>Nominal</span><span>Pengakuan %</span><span>Nominal Pengakuan</span>
+        </div>
+        <div className="space-y-3 px-4 py-3">
+          {collaterals.map((row) => <div key={row.id} className="grid grid-cols-4 gap-4"><input className={inputClass} value={row.name} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))} placeholder="Nama agunan" /><input className={inputClass} value={row.nominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, nominal: e.target.value } : item))} /><input className={inputClass} value={row.percentage} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, percentage: e.target.value } : item))} /><input className={inputClass} value={row.claimedNominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, claimedNominal: e.target.value } : item))} /></div>)}
+        </div>
+        <TotalRow value="0,00" />
+      </section>
+
+      <section className="mt-14">
+        <div className="flex flex-wrap items-center justify-between gap-4"><h2 className="text-xl font-semibold tracking-tight text-[#06255a]">Tabungan <span className="font-normal">Daftar</span></h2><div className="flex items-center gap-8"><label className="flex items-center gap-3 text-sm text-[#06255a]"><Switch checked={useSavings} onCheckedChange={setUseSavings} />Rekening Anggota/Nasabah Lain</label><Button type="button" onClick={() => addSavings(setSavings)} className="h-8 rounded-[5px] bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700"><Plus className="mr-1 h-4 w-4" />Tambah</Button></div></div>
+        <div className="mt-8 grid grid-cols-[minmax(220px,1fr)_minmax(150px,1fr)_minmax(180px,1fr)] gap-4 border-b border-slate-300 px-4 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5]"><span>Tabungan</span><span>Nominal</span><span>Keterangan</span></div>
+        <div className="space-y-3 px-4 py-3">{savings.map((row) => <div key={row.id} className="grid grid-cols-3 gap-4"><input className={inputClass} value={row.name} onChange={(e) => setSavings((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))} placeholder="Rekening tabungan" /><input className={inputClass} value={row.nominal} onChange={(e) => setSavings((items) => items.map((item) => item.id === row.id ? { ...item, nominal: e.target.value } : item))} /><input className={inputClass} value={row.description} onChange={(e) => setSavings((items) => items.map((item) => item.id === row.id ? { ...item, description: e.target.value } : item))} /></div>)}</div>
+        <TotalRow value="0,00" />
+      </section>
+
+      <section className="mt-14">
+        <div className="flex flex-wrap items-center justify-between gap-4"><h2 className="text-xl font-semibold tracking-tight text-[#06255a]">Deposit <span className="font-normal">Daftar</span></h2><div className="flex items-center gap-8"><label className="flex items-center gap-3 text-sm text-[#06255a]"><Switch checked={useDeposits} onCheckedChange={setUseDeposits} />Rekening Anggota/Nasabah Lain</label><Button type="button" onClick={() => addSavings(setDeposits)} className="h-8 rounded-[5px] bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700"><Plus className="mr-1 h-4 w-4" />Tambah</Button></div></div>
+        <div className="mt-8 grid grid-cols-[minmax(220px,1fr)_minmax(150px,1fr)_minmax(180px,1fr)] gap-4 border-b border-slate-300 px-4 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5]"><span>Deposito</span><span>Nominal</span><span>Keterangan</span></div>
+        <div className="space-y-3 px-4 py-3">{deposits.map((row) => <div key={row.id} className="grid grid-cols-3 gap-4"><input className={inputClass} value={row.name} onChange={(e) => setDeposits((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))} placeholder="Rekening deposito" /><input className={inputClass} value={row.nominal} onChange={(e) => setDeposits((items) => items.map((item) => item.id === row.id ? { ...item, nominal: e.target.value } : item))} /><input className={inputClass} value={row.description} onChange={(e) => setDeposits((items) => items.map((item) => item.id === row.id ? { ...item, description: e.target.value } : item))} /></div>)}</div>
+        <TotalRow value="0,00" />
+      </section>
+
+      <div className="mt-8 flex justify-end gap-2"><Button type="button" onClick={onCancel} className="h-10 rounded-[7px] bg-slate-500 px-4 text-sm font-semibold text-white hover:bg-slate-600"><X className="mr-1 h-4 w-4" />Batalkan</Button><Button type="button" onClick={onSave} className="h-10 rounded-[7px] bg-green-600 px-4 text-sm font-semibold text-white hover:bg-green-700"><Save className="mr-1 h-4 w-4" />Simpan</Button></div>
+    </div>
+  );
+}
