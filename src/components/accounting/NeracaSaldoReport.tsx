@@ -140,6 +140,17 @@ export default function NeracaSaldoReport() {
         });
       };
 
+      const boldRecapRows = (targetTable: HTMLTableElement) => {
+        targetTable.querySelectorAll("tbody tr.font-bold").forEach((row) => {
+          const description = row.querySelector("td:first-child");
+          if (!description || description.querySelector("strong")) return;
+          const strong = document.createElement("strong");
+          strong.textContent = description.textContent?.trim() ?? "";
+          description.replaceChildren(strong);
+          description.style.setProperty("font-weight", "700", "important");
+        });
+      };
+
       if (reportType === "Laporan Terperinci" && table) {
         if (layout === "Scontro") {
           const leftTable = table.cloneNode(true) as HTMLTableElement;
@@ -159,6 +170,10 @@ export default function NeracaSaldoReport() {
           boldDescriptionsInTable(staffelTable);
           reportContent = staffelTable.outerHTML;
         }
+      } else if (reportType === "Laporan Rekap") {
+        const recapTables = Array.from(reportArea.querySelectorAll("table")) as HTMLTableElement[];
+        recapTables.forEach(boldRecapRows);
+        reportContent = reportArea.innerHTML;
       }
 
       openReportPdfPreview({
