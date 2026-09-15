@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Copy, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -111,13 +112,13 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
 
       <div className="mt-8 flex justify-end gap-2"><Button type="button" onClick={onCancel} className="h-10 rounded-[7px] bg-slate-500 px-4 text-sm font-semibold text-white hover:bg-slate-600"><X className="mr-1 h-4 w-4" />Batalkan</Button><Button type="button" onClick={onSave} className="h-10 rounded-[7px] bg-green-600 px-4 text-sm font-semibold text-white hover:bg-green-700"><Save className="mr-1 h-4 w-4" />Simpan</Button></div>
 
-      {attributeModalRow !== null && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-2" role="dialog" aria-modal="true" aria-labelledby="attribute-modal-title">
+      {attributeModalRow !== null && createPortal(<div className="fixed inset-0 z-[9999] flex h-screen w-screen items-center justify-center bg-slate-950/75 p-2" role="dialog" aria-modal="true" aria-labelledby="attribute-modal-title">
         <div className="w-full max-w-[825px] overflow-hidden rounded-2xl bg-white text-[#25334a] shadow-2xl">
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4"><h2 id="attribute-modal-title" className="text-xl font-bold">Atribut Agunan</h2><button type="button" onClick={() => setAttributeModalRow(null)} aria-label="Tutup modal" className="text-2xl font-bold text-slate-500 hover:text-slate-800">×</button></div>
           <div className="grid gap-3 border-b border-slate-200 px-6 py-6 md:grid-cols-[120px_1fr] md:items-center"><label htmlFor="collateral-attribute" className="text-xs text-[#25334a]">Attribute</label><select id="collateral-attribute" value={attribute} onChange={(e) => setAttribute(e.target.value)} className="h-8 w-full rounded-md border border-[#c6d2e4] bg-white px-3 text-sm text-[#7b8da8] outline-none focus:ring-2 focus:ring-blue-500"><option value="">Pilih Attributes</option><option value="Sepeda Motor">Sepeda Motor</option><option value="Mobil">Mobil</option><option value="SHM">SHM ( Sertifikat Hak Milik / Tanah dan Bangunan )</option><option value="Deposito">Deposito</option><option value="Tabungan">Tabungan</option></select></div>
           <div className="flex justify-end px-6 py-4"><Button type="button" onClick={() => setAttributeModalRow(null)} className="h-8 rounded-md bg-[#8192ad] px-4 text-xs font-semibold text-white hover:bg-[#6d7e99]"><X className="mr-1 h-4 w-4" />Tutup</Button></div>
         </div>
-      </div>}
+      </div>, document.body)}
     </div>
   );
 }
