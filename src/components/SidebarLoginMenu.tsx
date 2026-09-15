@@ -7,8 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function SidebarLoginMenu() {
   const location = useLocation();
-  const isActive =
-    location.pathname === "/dashboard" || location.pathname.startsWith("/login");
+  const isActive = location.pathname.startsWith("/login");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
@@ -55,9 +54,6 @@ export default function SidebarLoginMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
-              <NavLink to="/dashboard" className={linkClass}>
-                Dashboard
-              </NavLink>
               <NavLink to="/login/simulasi" className={linkClass}>
                 Simulasi Login
               </NavLink>

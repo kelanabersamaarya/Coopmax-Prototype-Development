@@ -129,7 +129,10 @@ export default function Index() {
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
   const isAstitiDanaLestariArea = location.pathname.startsWith("/astiti-dana-lestari");
   const isSamudraHartaArea =
-    location.pathname === "/dashboard" || location.pathname.startsWith("/login");
+    location.pathname === "/dashboard" ||
+    location.pathname.startsWith("/login") ||
+    location.pathname.startsWith("/obs-samudra-harta") ||
+    location.pathname.startsWith("/obs-web");
 
   const isPinjamanArea =
     location.pathname.startsWith("/payment-link") ||
@@ -186,7 +189,11 @@ export default function Index() {
                       </div>
                     ) : isSamudraHartaArea ? (
                       <div className="space-y-1 px-2">
+                        <SidebarNavItem item={g.items[0]!} />
+                        <SidebarPinjamanMenu />
+                        <SidebarObsMenu />
                         <SidebarLoginMenu />
+                        <SidebarObsSuperAdminMenu />
                       </div>
                     ) : (
                       nav.map((g, idx) => (
