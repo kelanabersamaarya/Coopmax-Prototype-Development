@@ -320,7 +320,7 @@ function ReportResults({
     { key: "total-simpanan", label: "Total Simpanan" },
     { key: "status", label: "Status" },
   ];
-  const fieldLabels: Record<string, string> = Object.fromEntries([...defaultColumns, { key: "nomor-identitas", label: "Nomor Identitas" }, { key: "tanggal-lahir", label: "Tanggal Lahir" }, { key: "jenis-kelamin", label: "Jenis Kelamin" }, { key: "tempat-lahir", label: "Tempat Lahir" }, { key: "simpanan-khusus", label: "Simpanan Khusus" }, { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" }, { key: "total-simpanan", label: "Total Simpanan" }, { key: "status", label: "Status" }, { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" }, { key: "preview-file-ktp", label: "Pratinjau File KTP" }].map((field) => [field.key, field.label]));
+  const fieldLabels: Record<string, string> = Object.fromEntries([...defaultColumns, { key: "nomor-identitas", label: "Nomor Identitas" }, { key: "tanggal-lahir", label: "Tanggal Lahir" }, { key: "jenis-kelamin", label: "Jenis Kelamin" }, { key: "tempat-lahir", label: "Tempat Lahir" }, { key: "simpanan-khusus", label: "Simpanan Khusus" }, { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" }, { key: "total-simpanan", label: "Total Simpanan" }, { key: "status", label: "Status" }, { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" }, { key: "preview-file-ktp", label: "Pratinjau File KTP" }, { key: "ketersediaan-file-kk", label: "Ketersediaan File KK" }, { key: "preview-file-kk", label: "Pratinjau File KK" }].map((field) => [field.key, field.label]));
   const columns = (configuredReport ? configuredColumns : defaultColumns).map((column) => ({ ...column, label: column.label || fieldLabels[column.key] || column.key }));
   const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus, "ketersediaan-file-kk": getKkStatus(member) }[key] || "");
   const renderCell = (member: Member, key: string) => key === "ketersediaan-file-ktp" ? (
@@ -416,7 +416,7 @@ function ReportResults({
           <thead>
             <tr>
               <th>No.</th>
-              {columns.map((column) => <th key={column.key} className={column.key === "preview-file-ktp" ? "export-hide" : undefined}><SortableHeader>{column.label}</SortableHeader></th>)}
+              {columns.map((column) => <th key={column.key} className={column.key === "preview-file-ktp" || column.key === "preview-file-kk" ? "export-hide" : undefined}><SortableHeader>{column.label}</SortableHeader></th>)}
             </tr>
           </thead>
 
@@ -426,7 +426,7 @@ function ReportResults({
                 return (
                   <tr key={member.id}>
                     <td>{index + 1}</td>
-                    {columns.map((column) => <td key={column.key} className={column.key === "preview-file-ktp" ? "export-hide" : undefined}>{renderCell(member, column.key)}</td>)}
+                    {columns.map((column) => <td key={column.key} className={column.key === "preview-file-ktp" || column.key === "preview-file-kk" ? "export-hide" : undefined}>{renderCell(member, column.key)}</td>)}
                   </tr>
                 );
               })
@@ -510,7 +510,7 @@ function ReportResults({
                 type="button"
                 onClick={() => setSelectedKtpMember(null)}
                 className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#111111] transition hover:bg-slate-100"
-                aria-label="Tutup pratinjau KTP"
+                aria-label={`Tutup pratinjau ${selectedPreviewType}`}
               >
                 <X className="h-5 w-5" strokeWidth={2.5} />
               </button>
@@ -519,7 +519,7 @@ function ReportResults({
               <div className="flex max-h-full w-full items-center justify-center rounded-[4px] border border-[#cbd5e1] p-3 sm:p-[15px]">
                 <img
                   src={selectedPreviewType === "KK" ? "/KK_new.jpg" : "/image 4.png"}
-                                    alt={`Foto ${selectedPreviewType} ${selectedKtpMember.name}`}
+                  alt={`Foto ${selectedPreviewType} ${selectedKtpMember.name}`}
                   className="max-h-[56vh] w-auto max-w-full object-contain sm:max-h-[390px]"
                   onError={(event) => {
                     event.currentTarget.src = selectedPreviewType === "KK" ? "/KK_new.jpg" : "/imagektpblur.png";
