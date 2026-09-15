@@ -145,11 +145,11 @@ function buildShuExportBody(format: "scontro" | "staffel", reportType: string) {
   const tables = reportArea ? Array.from(reportArea.querySelectorAll("table")) : [];
 
   if (format === "staffel") {
-    return `<div class="shu-staffel">${tables.map((table) => table.outerHTML).join("")}</div>`;
+    return `<div class="shu-staffel shu-staffel-${reportType === "Laporan Rekap" ? "rekap" : "terperinci"}">${tables.map((table) => table.outerHTML).join("")}</div>`;
   }
 
   if (reportType === "Laporan Rekap" && tables.length >= 2) {
-    return `<div class="shu-scontro">${tables.slice(0, 2).map((table) => `<div class="shu-scontro-column">${table.outerHTML}</div>`).join("")}</div>`;
+    return `<div class="shu-scontro shu-scontro-rekap">${tables.slice(0, 2).map((table) => `<div class="shu-scontro-column">${table.outerHTML}</div>`).join("")}</div>`;
   }
 
   const sourceTable = tables[0];

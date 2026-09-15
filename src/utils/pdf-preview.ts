@@ -392,6 +392,30 @@ export function openReportPdfPreview({
             padding: 2px !important;
           }
 
+          .shu-staffel table th:first-child,
+          .shu-staffel table td:first-child {
+            width: 52% !important;
+            max-width: none !important;
+          }
+
+          .shu-staffel table th:nth-child(n+2),
+          .shu-staffel table td:nth-child(n+2) {
+            width: 16% !important;
+            max-width: none !important;
+          }
+
+          .shu-scontro table th:first-child,
+          .shu-scontro table td:first-child {
+            width: 52% !important;
+            max-width: none !important;
+          }
+
+          .shu-scontro table th:nth-child(n+2),
+          .shu-scontro table td:nth-child(n+2) {
+            width: 16% !important;
+            max-width: none !important;
+          }
+
           .export-only {
             display: inline !important;
             color: #1d4ed8 !important;
@@ -450,6 +474,18 @@ export function openReportPdfPreview({
             table-layout: fixed !important;
             border-collapse: collapse !important;
             border: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page .shu-staffel table th:first-child,
+          .pdf-page .shu-staffel table td:first-child,
+          .thumb-page .shu-staffel table th:first-child,
+          .thumb-page .shu-staffel table td:first-child,
+          .pdf-page .shu-scontro table th:first-child,
+          .pdf-page .shu-scontro table td:first-child,
+          .thumb-page .shu-scontro table th:first-child,
+          .thumb-page .shu-scontro table td:first-child {
+            width: 52% !important;
+            max-width: none !important;
           }
 
           .pdf-page th:first-child,
