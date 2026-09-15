@@ -514,7 +514,7 @@ export default function BillingTableView2({
   }
 
   function statusForRow(row: BillingRow, rowIndex: number) {
-    return row.statusTagihan ?? (["Belum Dibayar", "Terlambat", "Dibayar Sebagian", "Lunas"] as const)[rowIndex % 4];
+    return row.statusTagihan ?? (["Lunas", "Lunas", "Dibayar Sebagian", "Terlambat", "Belum Dibayar", "Belum Dibayar"] as const)[rowIndex] ?? "Belum Dibayar";
   }
 
   const renderGraceShell = highlightGraceBlock && graceRows.length > 0;
