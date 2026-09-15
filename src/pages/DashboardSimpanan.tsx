@@ -177,9 +177,9 @@ function SavingsBarChart({
     ? [200000, 150000, 100000, 50000, 0]
     : [];
   const labelMap: Record<string, string> = {
-    transfer: "Transfer antar nasabah",
+    transfer: "Transfer Antar Nasabah",
     transferOut: "Transfer Out",
-    refundTransferOut: "Refund transfer out",
+    refundTransferOut: "Refund Transfer Out",
     topUp: "Transfer In / Top Up",
     pembelianPpob: "Pembelian & Pembayaran PPOB",
     refundPpob: "Refund PPOB",
@@ -230,10 +230,10 @@ function SavingsBarChart({
                   className="pointer-events-none absolute left-1/2 z-[200] hidden -translate-x-1/2 whitespace-nowrap bg-white px-3 py-2 text-[14px] leading-7 shadow-sm ring-1 ring-slate-200 group-hover:block"
                   style={{ top: "8px" }}
                 >
-                  <div className="text-[#5612cf]">Transfer antar nasabah : {formatMbankingValue(item.transfer)}</div>
+                  <div className="text-[#5612cf]">Transfer Antar Nasabah : {formatMbankingValue(item.transfer)}</div>
                   <div className="text-[#09c3c7]">Transfer In / Top Up : {formatMbankingValue(item.topUp)}</div>
                   <div className="text-[#ef476f]">Transfer Out : {formatMbankingValue(item.transferOut)}</div>
-                  <div className="text-[#475569]">Refund transfer out : {formatMbankingValue(item.refundTransferOut)}</div>
+                  <div className="text-[#475569]">Refund Transfer Out : {formatMbankingValue(item.refundTransferOut)}</div>
                   <div className="text-[#1687ef]">Pembelian & Pembayaran PPOB : {formatMbankingValue(item.pembelianPpob)}</div>
                   <div className="text-[#7c3aed]">Refund PPOB : {formatMbankingValue(item.refundPpob)}</div>
                   <div className="text-[#48b900]">Pembayaran Angsuran : {formatMbankingValue(item.angsuran)}</div>
