@@ -544,8 +544,8 @@ export default function BillingTableView2({
     return toIdr00(raw);
   }
 
-  function statusForRow(row: BillingRow, rowIndex: number) {
-    return row.statusTagihan ?? (["Lunas", "Lunas", "Dibayar Sebagian", "Terlambat", "Belum Dibayar", "Belum Dibayar"] as const)[rowIndex] ?? "Belum Dibayar";
+  function statusForRow(row: BillingRow) {
+    return row.statusTagihan ?? "Belum Dibayar";
   }
 
   const renderGraceShell = highlightGraceBlock && graceRows.length > 0;
@@ -719,7 +719,7 @@ export default function BillingTableView2({
 
                                   {showStatusColumn ? (
                                     <div className={cn("pl-4 pr-8", cellY)}>
-                                      <BillingStatusBadge status={statusForRow(r, rowIndex)} />
+                                      <BillingStatusBadge status={statusForRow(r)} />
                                     </div>
                                   ) : null}
                                 </div>
@@ -806,7 +806,7 @@ export default function BillingTableView2({
 
                             {showStatusColumn ? (
                               <div className={cn("pl-4 pr-8", cellY)}>
-                                <BillingStatusBadge status={statusForRow(r, rowIndex)} />
+                                <BillingStatusBadge status={statusForRow(r)} />
                               </div>
                             ) : null}
                           </div>
@@ -898,7 +898,7 @@ export default function BillingTableView2({
 
                               {showStatusColumn ? (
                                 <div className={cn("pl-4 pr-8", cellY)}>
-                                  <BillingStatusBadge status={statusForRow(r, idx)} />
+                                  <BillingStatusBadge status={statusForRow(r)} />
                                 </div>
                               ) : null}
                             </div>
