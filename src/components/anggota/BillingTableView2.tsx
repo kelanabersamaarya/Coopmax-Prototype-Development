@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Eye, Plus } from "lucide-react";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
+import BillingStatusBadge from "@/components/anggota/BillingStatusBadge";
 import PenaltyDetailDialog, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialog";
@@ -205,6 +206,7 @@ export default function BillingTableView2({
   keepGraceShellWithoutInfo = false,
   hideSelection = false,
   showPenaltyColumn = false,
+  showStatusColumn = false,
   penaltyContentEnabled = true,
   penaltyIndexOffset = 0,
   penaltyDialogVariant = "default",
@@ -226,6 +228,7 @@ export default function BillingTableView2({
   keepGraceShellWithoutInfo?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
+  showStatusColumn?: boolean;
   penaltyContentEnabled?: boolean;
   penaltyIndexOffset?: number;
   penaltyDialogVariant?: "default" | "read-only";
@@ -253,13 +256,13 @@ export default function BillingTableView2({
   const [refreshTick, setRefreshTick] = React.useState(0);
   const currentUserName = "Arya Dharma";
 
-  const colCount = hideSelection
+  const colCount = (hideSelection
     ? showPenaltyColumn
       ? 7
       : 6
     : showPenaltyColumn
       ? 8
-      : 7;
+      : 7) + (showStatusColumn ? 1 : 0);
 
   React.useEffect(() => {
     if (selected.length === rows.length) return;
@@ -272,15 +275,11 @@ export default function BillingTableView2({
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
   const gridTemplate = (() => {
-    if (hideSelection) {
-      return showPenaltyColumn
-        ? "[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)]"
-        : "[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
-    }
-
-    return showPenaltyColumn
-      ? "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)]"
-      : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
+    const columns = hideSelection ? [] : ["44px"];
+    columns.push("minmax(0,1fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
+    if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
+    if (showStatusColumn) columns.push("minmax(0,1.1fr)");
+    return `[grid-template-columns:${columns.join("_")}]`;
   })();
 
   const isCompact = hideSelection;
@@ -497,6 +496,10 @@ export default function BillingTableView2({
     return toIdr00(raw);
   }
 
+  function statusForRow(row: BillingRow, rowIndex: number) {
+    return row.statusTagihan ?? (["Belum Dibayar", "Terlambat", "Dibayar Sebagian", "Lunas"] as const)[rowIndex % 4];
+  }
+
   const renderGraceShell = highlightGraceBlock && graceRows.length > 0;
   const shouldShowGraceInfoRow =
     renderGraceShell && (showGraceInfo || keepGraceShellWithoutInfo);
@@ -562,6 +565,7 @@ export default function BillingTableView2({
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
+            showStatusColumn={showStatusColumn}
           />
 
           <tbody className="bg-white">
@@ -664,6 +668,12 @@ export default function BillingTableView2({
                                       dueDateDmy={r.jatuhTempo}
                                     />
                                   ) : null}
+
+                                  {showStatusColumn ? (
+                                    <div className={cn("px-4", cellY)}>
+                                      <BillingStatusBadge status={statusForRow(r, rowIndex)} />
+                                    </div>
+                                  ) : null}
                                 </div>
                               </RowShell>
                             </div>
@@ -744,6 +754,12 @@ export default function BillingTableView2({
                                 localIdx={rowIndex}
                                 dueDateDmy={r.jatuhTempo}
                               />
+                            ) : null}
+
+                            {showStatusColumn ? (
+                              <div className={cn("px-4", cellY)}>
+                                <BillingStatusBadge status={statusForRow(r, rowIndex)} />
+                              </div>
                             ) : null}
                           </div>
                         </RowShell>
@@ -830,6 +846,12 @@ export default function BillingTableView2({
                                   localIdx={idx}
                                   dueDateDmy={r.jatuhTempo}
                                 />
+                              ) : null}
+
+                              {showStatusColumn ? (
+                                <div className={cn("px-4", cellY)}>
+                                  <BillingStatusBadge status={statusForRow(r, idx)} />
+                                </div>
                               ) : null}
                             </div>
                           </RowShell>

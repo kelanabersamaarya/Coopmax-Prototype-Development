@@ -1,3 +1,9 @@
+export type BillingStatus =
+  | "Belum Dibayar"
+  | "Lunas"
+  | "Terlambat"
+  | "Dibayar Sebagian";
+
 export type BillingRow = {
   jatuhTempo: string;
   totalBelumDibayar: string;
@@ -5,6 +11,7 @@ export type BillingRow = {
   tagihanBunga: string;
   sisaPokok: string;
   sisaBunga: string;
+  statusTagihan?: BillingStatus;
 };
 
 export type BillingCalculationRow = Partial<BillingRow>;

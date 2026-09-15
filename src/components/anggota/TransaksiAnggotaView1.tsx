@@ -316,6 +316,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     highlightGraceBlock={page === 1}
                     hideSelection
                     showPenaltyColumn={false}
+                    showStatusColumn
                     disableRowRings
                     disableRowActiveRing
                     rowDensity="default"
@@ -333,6 +334,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     highlightGraceBlock={page === 1}
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
+                    showStatusColumn
                     penaltyContentEnabled={page === 1}
                     disableRowRings
                     rowDensity="default"

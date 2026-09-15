@@ -6,10 +6,12 @@ import { cn } from "@/lib/utils";
 export default function BillingTableHeader({
   hideSelection,
   showPenaltyColumn,
+  showStatusColumn = false,
   className,
 }: {
   hideSelection: boolean;
   showPenaltyColumn: boolean;
+  showStatusColumn?: boolean;
   className?: string;
 }) {
   const thBase =
@@ -68,6 +70,10 @@ export default function BillingTableHeader({
             <br />
             Denda
           </th>
+        ) : null}
+
+        {showStatusColumn ? (
+          <th className={cn(thBase, "w-[145px]")}>Status Tagihan</th>
         ) : null}
       </tr>
     </thead>
