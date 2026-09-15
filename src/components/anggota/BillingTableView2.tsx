@@ -333,7 +333,7 @@ export default function BillingTableView2({
   }
 
   function hasActiveManualPenaltyForRow(globalIdx: number, dueDateDmy: string) {
-    if (globalIdx < 2) return false;
+    if (globalIdx < 6) return false;
     if (!canPersist) return false;
 
     const adds = getAddsForRow(globalIdx, dueDateDmy);
@@ -358,7 +358,7 @@ export default function BillingTableView2({
     dueDateDmy: string,
     localIdx: number,
   ) {
-    if (localIdx < 2) return { total: 0, hasAdded: false };
+    if (localIdx < 6) return { total: 0, hasAdded: false };
 
     if (!canPersist) {
       if (localIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
@@ -430,7 +430,7 @@ export default function BillingTableView2({
     localIdx: number;
     dueDateDmy: string;
   }) {
-    if (localIdx < 2) {
+    if (localIdx < 6) {
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
