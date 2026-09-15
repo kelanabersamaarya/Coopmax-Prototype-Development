@@ -338,7 +338,7 @@ export default function BillingTable({
 
                               {graceRows.map((bill, idx) => {
                                 const rowIndex = idx;
-                                const showPenaltyValue = rowIndex < PENALTY_ROWS && rowIndex >= 2;
+                                const showPenaltyValue = rowIndex < PENALTY_ROWS;
 
                                 return (
                                   <tr
@@ -411,7 +411,7 @@ export default function BillingTable({
                                         {showPenaltyValue ? (
                                           <div className="flex items-center justify-end gap-2">
                                             <span className={penaltyValueClass}>
-                                              {formatIdrLike(PENALTY_AMOUNT)}
+                                              {formatIdrLike(rowIndex < 2 ? 0 : PENALTY_AMOUNT)}
                                             </span>
                                             <PenaltyInfoButton
                                               onClick={() =>
@@ -437,7 +437,7 @@ export default function BillingTable({
 
                 {nonGraceRows.map((bill, idx) => {
                   const rowIndex = graceEnabled ? graceCount + idx : idx;
-                  const showPenaltyValue = rowIndex < PENALTY_ROWS && rowIndex >= 2;
+                  const showPenaltyValue = rowIndex < PENALTY_ROWS;
 
                   return (
                     <tr

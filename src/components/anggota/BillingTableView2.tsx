@@ -433,7 +433,13 @@ export default function BillingTableView2({
     if (localIdx < 2) {
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
-          <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
+          <div className="flex items-center justify-end gap-2">
+            <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
+            <PenaltyIconButton
+              icon="eye"
+              onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
+            />
+          </div>
         </div>
       );
     }
