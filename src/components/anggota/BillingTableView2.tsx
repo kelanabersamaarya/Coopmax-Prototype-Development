@@ -436,7 +436,7 @@ export default function BillingTableView2({
       const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
       return (
-        <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+        <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
             {hasManualActive && total > 0 ? (
               <span className="tabular-nums whitespace-nowrap num-sans-tabular">
@@ -465,7 +465,7 @@ export default function BillingTableView2({
     const total = info.total;
 
     return (
-      <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+      <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-2">
           {total > 0 ? (
             <span className="tabular-nums whitespace-nowrap num-sans-tabular">
