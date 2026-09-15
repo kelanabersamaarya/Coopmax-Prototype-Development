@@ -194,7 +194,7 @@ function SavingsBarChart({
     (Number(value || 0) * 200_000).toLocaleString("id-ID");
 
   return (
-    <div className="h-full w-full overflow-visible">
+    <div className="h-full min-w-[2400px] w-full overflow-visible">
       <div className="relative h-[290px] w-full pt-4">
         {[0, 25, 50, 75, 100].map((level, index) => (
           <div key={level} className="absolute left-[4.5rem] right-0 border-t border-slate-200" style={{ bottom: `${level}%` }}>
