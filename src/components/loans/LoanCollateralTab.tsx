@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plus, Save, X } from "lucide-react";
+import { Copy, Plus, Save, Search, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
@@ -9,6 +9,7 @@ type CollateralRow = {
   nominal: string;
   percentage: string;
   claimedNominal: string;
+  description: string;
 };
 
 type SavingsRow = {
@@ -18,7 +19,7 @@ type SavingsRow = {
   description: string;
 };
 
-const inputClass = "h-9 w-full rounded-[5px] border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none ring-offset-white placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-blue-500";
+const inputClass = "h-9 w-full rounded-[5px] border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none ring-offset-white placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-blue-500";
 
 function SectionHeader({ title, onAdd }: { title: string; onAdd: () => void }) {
   return (
@@ -43,7 +44,11 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
   const [useDeposits, setUseDeposits] = React.useState(false);
 
   function addCollateral() {
-    setCollaterals((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", percentage: "0", claimedNominal: "0,00" }]);
+    setCollaterals((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", percentage: "0", claimedNominal: "0,00", description: "" }]);
+  }
+
+  function duplicateCollateral(row: CollateralRow) {
+    setCollaterals((rows) => [...rows, { ...row, id: Date.now() }]);
   }
 
   function addSavings(setRows: React.Dispatch<React.SetStateAction<SavingsRow[]>>) {
@@ -54,11 +59,31 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
     <div className="rounded-[20px] bg-white p-6 text-[#06255a] md:p-12">
       <section>
         <SectionHeader title="Agunan" onAdd={addCollateral} />
-        <div className="mt-8 grid grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] gap-4 border-b border-slate-300 px-4 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5]">
+        <div className="mt-8 grid grid-cols-1 gap-2 border-b border-slate-300 px-1 pb-2 text-[11px] font-semibold uppercase tracking-wide text-[#7184a5] sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-4 sm:px-1">
           <span>Agunan</span><span>Nominal</span><span>Pengakuan %</span><span>Nominal Pengakuan</span>
         </div>
-        <div className="space-y-3 px-4 py-3">
-          {collaterals.map((row) => <div key={row.id} className="grid grid-cols-4 gap-4"><input className={inputClass} value={row.name} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))} placeholder="Nama agunan" /><input className={inputClass} value={row.nominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, nominal: e.target.value } : item))} /><input className={inputClass} value={row.percentage} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, percentage: e.target.value } : item))} /><input className={inputClass} value={row.claimedNominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, claimedNominal: e.target.value } : item))} /></div>)}
+        <div className="space-y-2 py-2">
+          {collaterals.map((row) => (
+            <div key={row.id} className="border-b border-slate-300 pb-1">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-[minmax(180px,1fr)_minmax(130px,1fr)_minmax(130px,1fr)_minmax(160px,1fr)] sm:gap-1">
+                <select className={`${inputClass} appearance-none bg-[linear-gradient(45deg,transparent_50%,#94a3b8_50%),linear-gradient(135deg,#94a3b8_50%,transparent_50%)] bg-[length:5px_5px,5px_5px] bg-[position:calc(100%-14px)_15px,calc(100%-9px)_15px] bg-no-repeat pr-8 text-slate-500`} value={row.name} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, name: e.target.value } : item))}>
+                  <option value="">Pilih Agunan</option>
+                  <option value="Sertifikat Rumah">Sertifikat Rumah</option>
+                  <option value="BPKB Kendaraan">BPKB Kendaraan</option>
+                  <option value="Deposito">Deposito</option>
+                </select>
+                <input className={inputClass} value={row.nominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, nominal: e.target.value } : item))} />
+                <input className={inputClass} value={row.percentage} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, percentage: e.target.value } : item))} />
+                <input className={inputClass} value={row.claimedNominal} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, claimedNominal: e.target.value } : item))} />
+              </div>
+              <div className="mt-1 flex flex-col gap-1 sm:flex-row">
+                <input className={`${inputClass} sm:flex-1`} value={row.description} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, description: e.target.value } : item))} placeholder="Masukkan keterangan agunan" />
+                <Button type="button" onClick={() => duplicateCollateral(row)} aria-label="Salin agunan" className="h-8 rounded-none bg-slate-500 px-3 text-white hover:bg-slate-600"><Copy className="h-4 w-4" /></Button>
+                <Button type="button" aria-label="Atribut agunan" className="h-8 rounded-[5px] bg-blue-600 px-5 text-xs font-semibold text-white hover:bg-blue-700"><Search className="mr-1 h-4 w-4" />Atribut Agunan</Button>
+                <Button type="button" onClick={() => setCollaterals((items) => items.filter((item) => item.id !== row.id))} className="h-8 rounded-[5px] bg-rose-600 px-5 text-xs font-semibold text-white hover:bg-rose-700"><Trash2 className="mr-1 h-4 w-4" />Hapus Agunan</Button>
+              </div>
+            </div>
+          ))}
         </div>
         <TotalRow value="0,00" />
       </section>
