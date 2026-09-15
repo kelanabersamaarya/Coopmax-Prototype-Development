@@ -5,21 +5,9 @@ import { useNavigate } from "react-router-dom";
 const OPERATIONAL_START_HOUR = 8;
 const OPERATIONAL_END_HOUR = 16;
 
-function formatRemainingTime(totalSeconds: number) {
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  return [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
-}
-
 function OperationalTimeCounter() {
   const [isVisible, setIsVisible] = useState(true);
-  const [remainingSeconds, setRemainingSeconds] = useState(() => {
-    const now = new Date();
-    const closing = new Date(now);
-    closing.setHours(OPERATIONAL_END_HOUR, 0, 0, 0);
-    return Math.max(0, Math.floor((closing.getTime() - now.getTime()) / 1000));
-  });
+  const [remainingSeconds, setRemainingSeconds] = useState(0);
 
   useEffect(() => {
     const updateCounter = () => {
@@ -44,31 +32,49 @@ function OperationalTimeCounter() {
   if (!isVisible) return null;
 
   const isOpen = remainingSeconds > 0;
+  const hours = Math.floor(remainingSeconds / 3600);
+  const minutes = Math.floor((remainingSeconds % 3600) / 60);
+  const seconds = remainingSeconds % 60;
+  const displayTime = (value: number) => String(value).padStart(2, "0");
 
   return (
-    <aside className="fixed right-4 top-4 z-30 w-[205px] rounded-2xl border border-blue-100 bg-white p-3.5 shadow-[0_16px_40px_rgba(22,72,153,0.16)] sm:right-6 sm:top-6">
+    <aside className="fixed right-3 top-3 z-30 w-[min(430px,calc(100vw-1.5rem))] rounded-[20px] bg-white p-5 shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:right-6 sm:top-6 sm:p-8">
       <button
         type="button"
         aria-label="Tutup informasi waktu operasional"
         onClick={() => setIsVisible(false)}
-        className="absolute right-2.5 top-2.5 rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+        className="absolute right-4 top-4 rounded-full p-1 text-slate-900 transition hover:bg-slate-100 sm:right-6 sm:top-6"
       >
-        <X className="h-3.5 w-3.5" />
+        <X className="h-8 w-8" strokeWidth={2.2} />
       </button>
-      <div className="flex items-center gap-2 pr-5">
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-          <Clock3 className="h-3.5 w-3.5" />
+
+      <div className="flex items-center gap-4 pr-10 sm:gap-6 sm:pr-12">
+        <span className="flex h-[88px] w-[88px] shrink-0 items-center justify-center rounded-full bg-[#2864e8] text-white sm:h-[112px] sm:w-[112px]">
+          <Clock3 className="h-12 w-12 sm:h-16 sm:w-16" strokeWidth={1.6} />
         </span>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">Jam operasional</p>
-          <p className="text-[11px] font-medium text-slate-700">08:00 — 16:00 WIB</p>
+          <p className="text-[19px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[25px]">Jam Operasional Koperasi</p>
+          <p className="mt-2 whitespace-nowrap text-[32px] font-bold leading-none tracking-tight text-black sm:text-[48px]">08.00 - 16.00</p>
         </div>
       </div>
-      <div className="mt-3 rounded-xl bg-[#eef5ff] px-3 py-2.5">
-        <p className="text-[10px] font-semibold text-blue-700">{isOpen ? "Sisa waktu hari ini" : "Operasional telah selesai"}</p>
-        <p className="mt-0.5 font-mono text-[20px] font-bold tracking-tight text-[#082b67]">
-          {isOpen ? formatRemainingTime(remainingSeconds) : "00:00:00"}
-        </p>
+
+      <div className="mt-5 rounded-[9px] border border-slate-200 bg-[#f5f6f8] px-4 py-4 sm:mt-6 sm:px-6 sm:py-5">
+        <p className="text-[18px] font-medium tracking-tight text-slate-950 sm:text-[24px]">Sisa Waktu Operasional Koperasi</p>
+        <div className="mt-4 flex items-center justify-around">
+          {[
+            [isOpen ? hours : 0, "Jam"],
+            [isOpen ? minutes : 0, "Menit"],
+            [isOpen ? seconds : 0, "Detik"],
+          ].map(([value, label], index) => (
+            <div key={label} className="flex flex-1 items-center justify-center gap-3 sm:gap-5">
+              {index > 0 ? <span className="h-14 w-1 bg-slate-300 sm:h-24" /> : null}
+              <div className="text-center">
+                <p className="font-mono text-[38px] font-bold leading-none tracking-tight text-black sm:text-[58px]">{displayTime(value as number)}</p>
+                <p className="mt-2 text-[15px] font-medium text-stone-500 sm:text-[20px]">{label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </aside>
   );
