@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, LogIn } from "lucide-react";
+import { ChevronDown, Clock3 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +36,7 @@ export default function SidebarLoginMenu() {
         )}
       >
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 ring-1 ring-slate-200">
-          <LogIn className="h-4.5 w-4.5" />
+          <Clock3 className="h-4.5 w-4.5" />
         </span>
         <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">Simulasi</span>
         <ChevronDown
