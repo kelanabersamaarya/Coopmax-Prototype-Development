@@ -14,6 +14,12 @@ export default function SidebarLoginMenu() {
     if (isActive) setOpen(true);
   }, [isActive]);
 
+  const linkClass = ({ isActive: linkActive }: { isActive: boolean }) =>
+    cn(
+      "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+      linkActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+    );
+
   return (
     <div className="rounded-2xl bg-white">
       <button
@@ -47,18 +53,11 @@ export default function SidebarLoginMenu() {
       >
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
-            <div className="rounded-2xl bg-white px-2 py-2">
-              <NavLink
-                to="/login/simulasi"
-                className={({ isActive: linkActive }) =>
-                  cn(
-                    "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                    linkActive
-                      ? "bg-violet-600 text-white"
-                      : "text-slate-800 hover:bg-slate-50",
-                  )
-                }
-              >
+            <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
+              <NavLink to="/dashboard" className={linkClass}>
+                Dashboard
+              </NavLink>
+              <NavLink to="/login/simulasi" className={linkClass}>
                 Simulasi Login
               </NavLink>
             </div>
