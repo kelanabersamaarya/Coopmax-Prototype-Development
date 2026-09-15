@@ -60,7 +60,7 @@ export default function PerhitunganHasilUsahaReport() {
       openReportPdfPreview({
         title: `Perhitungan Hasil Usaha - ${formatLabel}`,
         targetWindow: previewWindow,
-        reportHtml: `<div class="shu-export-header"><strong>Laporan Perhitungan Hasil Usaha</strong><span>${shownDate}</span><small>${formatLabel} • ${reportType}</small></div>${exportBody}`,
+        reportHtml: `<div class="shu-export-header"><div class="shu-letterhead"><img src="/publiccoopmax-logo.png" alt="Logo Koperasi Coopmax" /><div class="shu-letterhead-info"><strong>Koperasi Coopmax</strong><span>Nomor BH : 21/KC/04-2025</span><span>Email: coopmax@kop.com</span></div></div><div class="shu-letterhead-rule"></div><div class="shu-report-title">Laporan Perhitungan Hasil Usaha per ${shownDate}</div><small>${formatLabel} • ${reportType}</small></div>${exportBody}`,
       });
     });
   };

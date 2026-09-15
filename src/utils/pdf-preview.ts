@@ -344,25 +344,72 @@ export function openReportPdfPreview({
           }
 
           .shu-export-header {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
             margin: 0 0 14px;
-            padding: 0 0 10px;
-            border-bottom: 2px solid #0f2b63;
-            color: #08265a;
+            color: #111827;
             text-align: center;
-            font-size: 18px;
+            font-size: 14px;
           }
 
-          .shu-export-header span {
-            font-size: 15px;
+          .shu-letterhead {
+            position: relative;
+            min-height: 74px;
+            padding: 3px 0 0;
+            font-weight: 700;
+          }
+
+          .shu-letterhead img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+          }
+
+          .shu-letterhead-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            line-height: 1.2;
+          }
+
+          .shu-letterhead-info strong {
+            font-size: 16px;
+          }
+
+          .shu-letterhead-info span {
+            font-size: 13px;
+          }
+
+          .shu-letterhead-rule {
+            height: 6px;
+            margin: 0 0 22px;
+            border-top: 3px solid #111827;
+            border-bottom: 1px solid #111827;
+          }
+
+          .shu-report-title {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 700;
           }
 
           .shu-export-header small {
-            font-size: 12px;
+            display: none;
+            font-size: 11px;
             font-weight: 600;
             color: #526786;
+          }
+
+          .pdf-page .shu-export-header,
+          .thumb-page .shu-export-header {
+            color: #111827 !important;
+          }
+
+          .pdf-page .shu-letterhead img,
+          .thumb-page .shu-letterhead img {
+            width: 58px !important;
+            height: 58px !important;
           }
 
           .shu-staffel table {
