@@ -310,6 +310,7 @@ const App = () => (
               element={<ObsWaktuAksesOperasional />}
             />
             <Route path="login/simulasi" element={<LoginSimulasi />} />
+            <Route path="login/simulasi-dashboard" element={<Dashboard />} />
             <Route
               path="obs-samudra-harta/loan-products"
               element={<LoanProducts />}
