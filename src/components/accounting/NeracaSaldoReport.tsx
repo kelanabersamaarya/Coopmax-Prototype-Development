@@ -104,7 +104,7 @@ export default function NeracaSaldoReport() {
       openReportPdfPreview({
         title: `Neraca Saldo - ${layout}`,
         targetWindow: previewWindow,
-        reportHtml: `<div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${reportType} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportArea.innerHTML}</div>`,
+        reportHtml: `<style>.neraca-${layout.toLowerCase()} table thead th { text-align: inherit; }.neraca-${layout.toLowerCase()} table tbody td:not(:first-child) { text-align: right !important; }</style><div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${reportType} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportArea.innerHTML}</div>`,
       });
     });
   };
