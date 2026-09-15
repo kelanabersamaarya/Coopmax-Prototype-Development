@@ -1,6 +1,7 @@
 type PdfPreviewOptions = {
   title?: string;
   targetWindow?: Window | null;
+  reportHtml?: string;
 };
 
 function escapeHtml(value: string) {
@@ -60,6 +61,7 @@ export function openBlankReportPdfPreview(title = "export") {
 export function openReportPdfPreview({
   title = "export",
   targetWindow,
+  reportHtml: providedReportHtml,
 }: PdfPreviewOptions = {}) {
   if (typeof window === "undefined" || typeof document === "undefined") return;
 
@@ -68,6 +70,7 @@ export function openReportPdfPreview({
 
   const reportArea = document.querySelector(".print-report-area");
   const reportHtml =
+    providedReportHtml ??
     reportArea?.innerHTML ??
     `<div class="empty-state">Laporan belum tersedia. Klik Cari terlebih dahulu.</div>`;
 
@@ -338,6 +341,28 @@ export function openReportPdfPreview({
           .print-hide,
           .print-hide * {
             display: none !important;
+          }
+
+          .shu-export-header {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin: 0 0 14px;
+            padding: 0 0 10px;
+            border-bottom: 2px solid #0f2b63;
+            color: #08265a;
+            text-align: center;
+            font-size: 18px;
+          }
+
+          .shu-export-header span {
+            font-size: 15px;
+          }
+
+          .shu-export-header small {
+            font-size: 12px;
+            font-weight: 600;
+            color: #526786;
           }
 
           .export-only {

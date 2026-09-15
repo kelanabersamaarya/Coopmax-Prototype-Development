@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
 
 const rows = [
   ["4.1.1 - Pendapatan Jasa Simpanan Anggota", "100,724,998,582,550.00", "0.00", "100,724,998,582,550.00"],
@@ -48,6 +49,21 @@ export default function PerhitunganHasilUsahaReport() {
     setIsReportVisible(true);
   };
 
+  const exportPdf = (format: "scontro" | "staffel") => {
+    const previewWindow = openBlankReportPdfPreview(`Perhitungan Hasil Usaha - ${format === "scontro" ? "Scontro" : "Staffel"}`);
+    if (!previewWindow) return;
+    requestAnimationFrame(() => {
+      const reportArea = document.querySelector(".shu-report-area");
+      if (!reportArea) return;
+      const formatLabel = format === "scontro" ? "Bentuk Scontro" : "Bentuk Staffel";
+      openReportPdfPreview({
+        title: `Perhitungan Hasil Usaha - ${formatLabel}`,
+        targetWindow: previewWindow,
+        reportHtml: `<div class="shu-export-header"><strong>Laporan Perhitungan Hasil Usaha</strong><span>${shownDate}</span><small>${formatLabel} • ${reportType}</small></div>${reportArea.innerHTML}`,
+      });
+    });
+  };
+
   return (
     <div className="overflow-hidden rounded-[10px] bg-white text-[#08265a]">
       <div className="p-1 md:p-0">
@@ -80,8 +96,8 @@ export default function PerhitunganHasilUsahaReport() {
       {isReportVisible ? (
         <>
           <h2 className="mt-5 text-center text-[18px] font-semibold">Laporan Perhitungan Hasil Usaha per {shownDate}</h2>
-          <div className="mt-2 overflow-x-auto border border-[#c8d3e5]">
-            <div className="flex min-w-[760px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
+          <div className="shu-report-area mt-2 overflow-x-auto border border-[#c8d3e5]">
+            <div className="print-hide flex min-w-[760px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className="h-9 rounded-[7px] bg-green-600 px-3 text-xs hover:bg-green-700">Export Excel<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
@@ -96,8 +112,8 @@ export default function PerhitunganHasilUsahaReport() {
                   <Button className="h-9 rounded-[7px] bg-rose-600 px-3 text-xs hover:bg-rose-700">Export PDF<ChevronDown className="ml-2 h-3.5 w-3.5" /></Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="min-w-[165px] rounded-[5px] border-slate-200 bg-white p-1 text-slate-700 shadow-lg">
-                  <DropdownMenuItem onSelect={() => toast.success("Export PDF bentuk Scontro dipilih")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Scontro</DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => toast.success("Export PDF bentuk Staffel dipilih")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Staffel</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => exportPdf("scontro")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Scontro</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => exportPdf("staffel")} className="cursor-pointer rounded-[4px] px-3 py-2 text-[13px] focus:bg-slate-100">Bentuk Staffel</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
