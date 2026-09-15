@@ -7,9 +7,7 @@ const OPERATIONAL_END_HOUR = 16;
 
 function OperationalTimeCounter() {
   const [isVisible, setIsVisible] = useState(true);
-  const [remainingSeconds, setRemainingSeconds] = useState(
-    (OPERATIONAL_END_HOUR - OPERATIONAL_START_HOUR) * 60 * 60,
-  );
+  const [remainingSeconds, setRemainingSeconds] = useState(60 * 60);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
