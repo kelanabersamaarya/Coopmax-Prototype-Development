@@ -244,6 +244,12 @@ function KtpBadge({ status }: { status: Member["ktpStatus"] }) {
   );
 }
 
+function getKkStatus(member: Member): KtpStatus {
+  return ["A2300001", "A2300003", "A2300005"].includes(member.id)
+    ? "Tersedia"
+    : "Belum Tersedia";
+}
+
 function ReportActionButton({
   icon: Icon,
   label,
@@ -283,6 +289,7 @@ function ReportResults({
   selectedReportHasKtpFields: boolean;
 }) {
   const [selectedKtpMember, setSelectedKtpMember] = React.useState<Member | null>(null);
+  const [selectedPreviewType, setSelectedPreviewType] = React.useState<"KTP" | "KK">("KTP");
   const savedReports = JSON.parse(localStorage.getItem("mitra-karya-penyesuaian-laporan") || "[]") as { title: string; columns?: { key: string; label: string }[] }[];
   const configuredReport = selectedReport === "Laporan Ketersediaan KTP Anggota"
     ? undefined
@@ -296,6 +303,8 @@ function ReportResults({
         { key: "kategori", label: "Kategori" },
         { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" },
         { key: "preview-file-ktp", label: "Pratinjau File KTP" },
+        { key: "ketersediaan-file-kk", label: "Ketersediaan File KK" },
+        { key: "preview-file-kk", label: "Pratinjau File KK" },
       ]
     : [
     { key: "no-anggota", label: "No. Anggota" },
@@ -313,14 +322,16 @@ function ReportResults({
   ];
   const fieldLabels: Record<string, string> = Object.fromEntries([...defaultColumns, { key: "nomor-identitas", label: "Nomor Identitas" }, { key: "tanggal-lahir", label: "Tanggal Lahir" }, { key: "jenis-kelamin", label: "Jenis Kelamin" }, { key: "tempat-lahir", label: "Tempat Lahir" }, { key: "simpanan-khusus", label: "Simpanan Khusus" }, { key: "simpanan-penyertaan", label: "Simpanan Penyertaan" }, { key: "total-simpanan", label: "Total Simpanan" }, { key: "status", label: "Status" }, { key: "ketersediaan-file-ktp", label: "Ketersediaan File KTP" }, { key: "preview-file-ktp", label: "Pratinjau File KTP" }].map((field) => [field.key, field.label]));
   const columns = (configuredReport ? configuredColumns : defaultColumns).map((column) => ({ ...column, label: column.label || fieldLabels[column.key] || column.key }));
-  const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus }[key] || "");
+  const getValue = (member: Member, key: string) => ({ "no-anggota": member.id, nama: member.name, "tanggal-daftar": member.registeredAt, "nomor-identitas": "-", "tanggal-lahir": "-", "jenis-kelamin": "-", "tempat-lahir": "-", alamat: member.address, "no-handphone": member.phone, kategori: member.category, "simpanan-pokok": formatMoney(member.simpananPokok), "simpanan-wajib": formatMoney(member.simpananWajib), "simpanan-khusus": formatMoney(member.simpananKhusus), "simpanan-penyertaan": formatMoney(member.simpananPenyertaan), "total-simpanan": formatMoney(member.simpananPokok + member.simpananWajib + member.simpananKhusus + member.simpananPenyertaan), status: member.status, "ketersediaan-file-ktp": member.ktpStatus, "ketersediaan-file-kk": getKkStatus(member) }[key] || "");
   const renderCell = (member: Member, key: string) => key === "ketersediaan-file-ktp" ? (
     <KtpBadge status={member.ktpStatus} />
+  ) : key === "ketersediaan-file-kk" ? (
+    <KtpBadge status={getKkStatus(member)} />
   ) : key === "preview-file-ktp" && member.ktpStatus === "Tersedia" ? (
     <>
       <button
         type="button"
-        onClick={() => setSelectedKtpMember(member)}
+        onClick={() => { setSelectedPreviewType("KTP"); setSelectedKtpMember(member); }}
         className="export-hide group relative inline-flex h-8 w-12 overflow-hidden rounded-[4px] border border-blue-100 bg-blue-50 transition hover:border-blue-400"
         aria-label={`Preview KTP ${member.name}`}
         title="Preview KTP"
@@ -346,7 +357,20 @@ function ReportResults({
         Lihat File KTP
       </a>
     </>
-  ) : key === "preview-file-ktp" ? "-" : getValue(member, key);
+  ) : key === "preview-file-ktp" ? "-" : key === "preview-file-kk" && getKkStatus(member) === "Tersedia" ? (
+    <button
+      type="button"
+      onClick={() => { setSelectedPreviewType("KK"); setSelectedKtpMember(member); }}
+      className="export-hide group relative inline-flex h-8 w-12 overflow-hidden rounded-[4px] border border-blue-100 bg-blue-50 transition hover:border-blue-400"
+      aria-label={`Preview KK ${member.name}`}
+      title="Preview KK"
+    >
+      <img src="/KK_new.jpg" alt={`Pratinjau KK ${member.name}`} className="h-full w-full object-cover" />
+      <span className="absolute inset-0 grid place-items-center bg-[#002060]/35 opacity-0 transition group-hover:opacity-100">
+        <Eye className="h-4 w-4 text-white" strokeWidth={2.5} />
+      </span>
+    </button>
+  ) : key === "preview-file-kk" ? "-" : getValue(member, key);
 
   const totals = React.useMemo(
     () =>
@@ -472,7 +496,7 @@ function ReportResults({
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={`Foto KTP Anggota ${selectedKtpMember.name}`}
+          aria-label={`Foto ${selectedPreviewType} Anggota ${selectedKtpMember.name}`}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 sm:p-6"
           onClick={() => setSelectedKtpMember(null)}
         >
@@ -481,7 +505,7 @@ function ReportResults({
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex h-[63px] shrink-0 items-center justify-between border-b border-slate-200 px-6 sm:px-9">
-              <h2 className="text-[17px] font-bold text-[#101010]">File KTP Anggota</h2>
+              <h2 className="text-[17px] font-bold text-[#101010]">File {selectedPreviewType} Anggota</h2>
               <button
                 type="button"
                 onClick={() => setSelectedKtpMember(null)}
@@ -494,11 +518,11 @@ function ReportResults({
             <div className="flex min-h-0 flex-1 items-center justify-center border-b border-slate-200 px-6 py-5 sm:px-12 sm:py-5">
               <div className="flex max-h-full w-full items-center justify-center rounded-[4px] border border-[#cbd5e1] p-3 sm:p-[15px]">
                 <img
-                  src="/image 4.png"
-                  alt={`Foto KTP ${selectedKtpMember.name}`}
+                  src={selectedPreviewType === "KK" ? "/KK_new.jpg" : "/image 4.png"}
+                                    alt={`Foto ${selectedPreviewType} ${selectedKtpMember.name}`}
                   className="max-h-[56vh] w-auto max-w-full object-contain sm:max-h-[390px]"
                   onError={(event) => {
-                    event.currentTarget.src = "/imagektpblur.png";
+                    event.currentTarget.src = selectedPreviewType === "KK" ? "/KK_new.jpg" : "/imagektpblur.png";
                   }}
                 />
               </div>
@@ -538,6 +562,7 @@ export default function MitraKaryaLaporanAnggota() {
   const [selectedReport, setSelectedReport] = React.useState("Laporan Ketersediaan KTP Anggota");
   const [reportRefreshKey, setReportRefreshKey] = React.useState(0);
   const [ktpStatus, setKtpStatus] = React.useState<KtpStatus>("Semua");
+  const [kkStatus, setKkStatus] = React.useState<KtpStatus>("Semua");
   const [searched, setSearched] = React.useState(false);
 
   const memberReportOptions = React.useMemo(() => {
@@ -595,6 +620,7 @@ export default function MitraKaryaLaporanAnggota() {
           `${member.name} ${member.id}`.toLowerCase().includes(nameQuery)) &&
         (category === "Semua" || member.category === category) &&
         (!selectedReportHasKtpFields || ktpStatus === "Semua" || member.ktpStatus === ktpStatus) &&
+        (!selectedReportHasKtpFields || kkStatus === "Semua" || getKkStatus(member) === kkStatus) &&
         (product === "Semua" || member.product === product) &&
         (wilayah === "Semua" || member.wilayah === wilayah) &&
         (tag === "Semua" || member.tag === tag) &&
@@ -602,7 +628,7 @@ export default function MitraKaryaLaporanAnggota() {
         totalBalance <= max
       );
     });
-  }, [category, ktpStatus, maxBalance, minBalance, name, product, selectedReportHasKtpFields, tag, wilayah]);
+  }, [category, kkStatus, ktpStatus, maxBalance, minBalance, name, product, selectedReportHasKtpFields, tag, wilayah]);
 
   const inputClassName = cn(
     "h-[32px] rounded-[5px] border-slate-300 bg-white px-3",
@@ -819,17 +845,22 @@ export default function MitraKaryaLaporanAnggota() {
               </FilterSelect>
             </FormRow>
 
-            {selectedReportHasKtpFields ? <FormRow label="Ketersediaan File KTP">
-              <FilterSelect
-                value={ktpStatus}
-                onChange={(value) => setKtpStatus(value as KtpStatus)}
-                placeholder="Semua"
-              >
-                <SelectItem value="Semua">Semua</SelectItem>
-                <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
-                <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
-              </FilterSelect>
-            </FormRow> : null}
+            {selectedReportHasKtpFields ? <>
+              <FormRow label="Ketersediaan File KTP">
+                <FilterSelect value={ktpStatus} onChange={(value) => setKtpStatus(value as KtpStatus)} placeholder="Semua">
+                  <SelectItem value="Semua">Semua</SelectItem>
+                  <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
+                  <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
+                </FilterSelect>
+              </FormRow>
+              <FormRow label="Ketersediaan File KK">
+                <FilterSelect value={kkStatus} onChange={(value) => setKkStatus(value as KtpStatus)} placeholder="Semua">
+                  <SelectItem value="Semua">Semua</SelectItem>
+                  <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
+                  <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
+                </FilterSelect>
+              </FormRow>
+            </> : null}
 
             <div className="grid sm:grid-cols-[166px_minmax(0,1fr)]">
               <div />
