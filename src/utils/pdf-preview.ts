@@ -361,9 +361,12 @@ export function openReportPdfPreview({
             position: absolute;
             left: 0;
             top: 0;
+            display: block;
             width: 58px;
             height: 58px;
             object-fit: contain;
+            font-size: 0;
+            line-height: 0;
           }
 
           .shu-letterhead-info {
@@ -440,26 +443,18 @@ export function openReportPdfPreview({
           }
 
           .shu-staffel table th:first-child,
-          .shu-staffel table td:first-child {
-            width: 52% !important;
+          .shu-staffel table td:first-child,
+          .shu-scontro table th:first-child,
+          .shu-scontro table td:first-child {
+            width: 46% !important;
             max-width: none !important;
           }
 
           .shu-staffel table th:nth-child(n+2),
-          .shu-staffel table td:nth-child(n+2) {
-            width: 16% !important;
-            max-width: none !important;
-          }
-
-          .shu-scontro table th:first-child,
-          .shu-scontro table td:first-child {
-            width: 52% !important;
-            max-width: none !important;
-          }
-
+          .shu-staffel table td:nth-child(n+2),
           .shu-scontro table th:nth-child(n+2),
           .shu-scontro table td:nth-child(n+2) {
-            width: 16% !important;
+            width: 18% !important;
             max-width: none !important;
           }
 
@@ -531,7 +526,7 @@ export function openReportPdfPreview({
           .pdf-page .shu-scontro table td:first-child,
           .thumb-page .shu-scontro table th:first-child,
           .thumb-page .shu-scontro table td:first-child {
-            width: 52% !important;
+            width: 46% !important;
             max-width: none !important;
           }
 
