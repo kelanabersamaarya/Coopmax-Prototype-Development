@@ -101,10 +101,26 @@ export default function NeracaSaldoReport() {
     const previewWindow = openBlankReportPdfPreview(`Neraca Saldo - ${layout}`);
     if (!previewWindow) return;
     requestAnimationFrame(() => {
+      const table = reportArea.querySelector("table");
+      let reportContent = reportArea.innerHTML;
+
+      if (layout === "Scontro" && reportType === "Laporan Terperinci" && table) {
+        const leftTable = table.cloneNode(true) as HTMLTableElement;
+        const rightTable = table.cloneNode(true) as HTMLTableElement;
+        const leftBody = leftTable.querySelector("tbody");
+        const rightBody = rightTable.querySelector("tbody");
+        const sourceRows = Array.from(table.querySelectorAll("tbody tr"));
+        const splitAt = Math.ceil(sourceRows.length / 2);
+
+        leftBody?.replaceChildren(...sourceRows.slice(0, splitAt).map((row) => row.cloneNode(true)));
+        rightBody?.replaceChildren(...sourceRows.slice(splitAt).map((row) => row.cloneNode(true)));
+        reportContent = `<div class="neraca-scontro-columns"><div>${leftTable.outerHTML}</div><div>${rightTable.outerHTML}</div></div>`;
+      }
+
       openReportPdfPreview({
         title: `Neraca Saldo - ${layout}`,
         targetWindow: previewWindow,
-        reportHtml: `<style>.neraca-${layout.toLowerCase()} table thead th { text-align: inherit; }.neraca-${layout.toLowerCase()} table tbody td:not(:first-child) { text-align: right !important; }</style><div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${reportType} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportArea.innerHTML}</div>`,
+        reportHtml: `<style>.neraca-${layout.toLowerCase()} { width: 100%; }.neraca-${layout.toLowerCase()} table { border-collapse: collapse; }.neraca-${layout.toLowerCase()} table thead th { text-align: inherit; }.neraca-${layout.toLowerCase()} table tbody td:not(:first-child) { text-align: right !important; }.neraca-scontro .grid, .neraca-scontro-columns { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 0 !important; width: 100% !important; }.neraca-scontro .grid > table, .neraca-scontro-columns > div { width: 100% !important; min-width: 0 !important; }.neraca-scontro .grid > table th:first-child, .neraca-scontro .grid > table td:first-child, .neraca-scontro-columns table th:first-child, .neraca-scontro-columns table td:first-child { width: 60% !important; }.neraca-scontro .grid > table th, .neraca-scontro .grid > table td, .neraca-scontro-columns table th, .neraca-scontro-columns table td { border: 1px solid #777 !important; }.neraca-scontro .grid > table thead th, .neraca-scontro-columns table thead th { text-align: center !important; }.neraca-scontro .grid > table tbody td:first-child, .neraca-scontro-columns table tbody td:first-child { text-align: left !important; }.neraca-scontro .grid > table tbody td:not(:first-child), .neraca-scontro-columns table tbody td:not(:first-child) { text-align: right !important; }</style><div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${reportType} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportContent}</div>`,
       });
     });
   };
