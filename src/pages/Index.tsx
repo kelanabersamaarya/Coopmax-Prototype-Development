@@ -122,6 +122,7 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isMitraKaryaDashboard =
     location.pathname === "/mitra-karya/dashboard";
+  const isDashboardDevelopment = location.pathname === "/dashboard";
   const hideSidebar = isMitraKaryaDashboard;
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
@@ -129,7 +130,7 @@ export default function Index() {
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
   const isAstitiDanaLestariArea = location.pathname.startsWith("/astiti-dana-lestari");
   const isSamudraHartaArea =
-    location.pathname === "/dashboard" ||
+    isDashboardDevelopment ||
     location.pathname.startsWith("/login") ||
     location.pathname.startsWith("/obs-samudra-harta") ||
     location.pathname.startsWith("/obs-web");
