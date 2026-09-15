@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Copy, Plus, Save, Search, Trash2, X } from "lucide-react";
+import { Copy, FileUp, Plus, Save, Search, Trash2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
@@ -132,7 +132,10 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
               {(attribute === "Deposito" || attribute === "Tabungan") && [["Nama", "name"], ["Alamat", "address"], [attribute === "Deposito" ? "No. Rekening Deposito" : "No. Rekening Tabungan", "accountNumber"], [attribute === "Deposito" ? "Nominal Deposito" : "Nominal Tabungan", "nominal"]].map(([label, key]) => <React.Fragment key={key}><label htmlFor={`attribute-${key}`} className="text-xs text-[#25334a]">{label}</label><input id={`attribute-${key}`} className="h-8 w-full rounded-md border border-[#c6d2e4] bg-white px-3 text-sm text-[#49698f] outline-none focus:ring-2 focus:ring-blue-500" value={attributeValues[key] || ""} onChange={(e) => setAttributeValues((current) => ({ ...current, [key]: e.target.value }))} /></React.Fragment>)}
               </div>}
               {activeAttributeTab === "document" && <div className="col-span-full mt-4 grid gap-4 md:grid-cols-[120px_1fr] md:items-center">
-                {(attribute === "Sepeda Motor" || attribute === "Mobil") && ["BPKB", "STNK", "Foto agunan"].map((documentName) => <React.Fragment key={documentName}><label htmlFor={`document-${documentName}`} className="text-xs text-[#25334a]">{documentName}</label><input id={`document-${documentName}`} type="file" accept="image/*,.pdf" onChange={(e) => setDocuments((current) => ({ ...current, [documentName]: e.target.files?.[0] || null }))} className="h-9 w-full rounded-md border border-[#c6d2e4] bg-white px-2 py-1 text-xs text-[#49698f] file:mr-3 file:rounded file:border-0 file:bg-[#8192ad] file:px-3 file:py-1 file:text-xs file:font-semibold file:text-white hover:file:bg-[#6d7e99]" /></React.Fragment>)}
+                {(attribute === "Sepeda Motor" || attribute === "Mobil") && <div className="col-span-full rounded-xl border border-[#cbd8eb] p-4">
+                  <h3 className="mb-4 text-sm font-bold text-[#092d66]">Unggah File Pendukung</h3>
+                  <div className="grid gap-4 md:grid-cols-3">{["BPKB", "STNK", "Foto agunan"].map((documentName) => <div key={documentName} className="relative flex min-h-[150px] flex-col items-center justify-center rounded-lg border border-dashed border-[#b8c9e2] px-4 py-5 text-center"><FileUp className="mb-2 h-8 w-8 text-[#1f2937]" /><p className="text-sm font-bold text-[#111827]">{documentName}</p>{documents[documentName] ? <div className="mt-3 flex max-w-full items-center gap-2"><span className="max-w-[150px] truncate text-xs text-slate-500">{documents[documentName]?.name}</span><button type="button" onClick={() => setDocuments((current) => ({ ...current, [documentName]: null }))} aria-label={`Hapus file ${documentName}`} className="text-sm font-bold text-red-600 hover:text-red-700">×</button></div> : <label htmlFor={`document-${documentName}`} className="mt-3 inline-flex cursor-pointer items-center gap-1 rounded-md bg-[#3267f5] px-3 py-2 text-xs font-semibold text-white hover:bg-[#2456df]"><Upload className="h-3.5 w-3.5" />Unggah File<input id={`document-${documentName}`} type="file" accept="image/*,.pdf" onChange={(e) => setDocuments((current) => ({ ...current, [documentName]: e.target.files?.[0] || null }))} className="sr-only" /></label>}</div>)}</div>
+                </div>}
                 {attribute !== "Sepeda Motor" && attribute !== "Mobil" && <div className="rounded-md border border-dashed border-slate-300 px-4 py-6 text-sm text-slate-500">Belum ada dokumen agunan.</div>}
               </div>}
             </>}
