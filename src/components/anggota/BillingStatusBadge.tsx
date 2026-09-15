@@ -4,7 +4,7 @@ const statusStyles: Record<BillingStatus, string> = {
   "Belum Dibayar": "bg-[#FF4C4C] text-white",
   Lunas: "bg-[#4CAF50] text-white",
   Terlambat: "bg-[#FF9800] text-white",
-  "Dibayar Sebagian": "bg-[#FFC107] text-slate-900",
+  "Dibayar Sebagian": "bg-[#FFC107] text-white",
 };
 
 export default function BillingStatusBadge({ status }: { status: BillingStatus }) {
