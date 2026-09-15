@@ -460,13 +460,13 @@ export function openReportPdfPreview({
 
           .shu-staffel table tbody td:not(:first-child),
           .shu-scontro table tbody td:not(:first-child) {
-            text-align: left !important;
+            text-align: right !important;
             padding-left: 4px !important;
           }
 
           .shu-staffel table tbody td.text-right,
           .shu-scontro table tbody td.text-right {
-            text-align: left !important;
+            text-align: right !important;
           }
 
           .shu-staffel table thead th,
@@ -550,15 +550,17 @@ export function openReportPdfPreview({
           .thumb-page .shu-staffel table tbody td:not(:first-child),
           .pdf-page .shu-scontro table tbody td:not(:first-child),
           .thumb-page .shu-scontro table tbody td:not(:first-child) {
-            text-align: left !important;
+            text-align: right !important;
             padding-left: 4px !important;
           }
 
+          .pdf-page .shu-staffel table tbody td:not(:first-child),
+          .thumb-page .shu-staffel table tbody td:not(:first-child),
           .pdf-page .shu-staffel table tbody td.text-right,
           .thumb-page .shu-staffel table tbody td.text-right,
           .pdf-page .shu-scontro table tbody td.text-right,
           .thumb-page .shu-scontro table tbody td.text-right {
-            text-align: left !important;
+            text-align: right !important;
           }
 
           .pdf-page .shu-staffel table thead th,
