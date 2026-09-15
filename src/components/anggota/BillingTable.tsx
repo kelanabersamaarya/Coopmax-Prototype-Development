@@ -241,7 +241,7 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  const tdY = rowDensity === "roomy" ? "py-4" : "py-3";
+  const tdY = rowDensity === "roomy" ? "py-3" : "py-2";
   const tdBase = `px-3 ${tdY} text-[13px] text-slate-900`;
   const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
 

@@ -289,10 +289,10 @@ export default function BillingTableView2({
     : rowDensity;
 
   const cellY = isCompact
-    ? "py-2"
+    ? "py-1.5"
     : effectiveDensity === "roomy"
-      ? "py-8"
-      : "py-4";
+      ? "py-6"
+      : "py-2.5";
   const rowShellDensity: "default" | "roomy" = hideSelection
     ? "default"
     : effectiveDensity;
