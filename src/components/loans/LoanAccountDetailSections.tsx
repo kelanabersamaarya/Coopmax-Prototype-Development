@@ -237,7 +237,9 @@ export default function LoanAccountDetailSections({
           <InformasiRekeningHeader
             title="PINJAMAN BULANAN 9"
             items={[
-              { label: "Kode Pinjaman", value: accountNo },
+              { label: "ID Anggota", value: "N2400033" },
+              { label: "No. Rekening", value: accountNo },
+              { label: "No. SPK. Pinjaman", value: `SPK/${accountNo}/2026` },
               { label: "Sektor Pinjaman", value: "Umum" },
               { label: "Tujuan Pinjaman", value: "Konsumtif" },
               { label: "Kolektor", value: "Gina Farida M.M." },
