@@ -113,7 +113,7 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
         <TotalRow value="0,00" />
       </section>
 
-      <div className="mt-8 flex justify-end gap-2"><Button type="button" onClick={onCancel} className="h-10 rounded-[7px] bg-slate-500 px-4 text-sm font-semibold text-white hover:bg-slate-600"><X className="mr-1 h-4 w-4" />Batalkan</Button><Button type="button" onClick={onSave} className="h-10 rounded-[7px] bg-green-600 px-4 text-sm font-semibold text-white hover:bg-green-700"><Save className="mr-1 h-4 w-4" />Simpan</Button></div>
+      <div className="mt-8 flex justify-end gap-2"><Button type="button" onClick={onSave} className="h-10 rounded-[7px] bg-green-600 px-4 text-sm font-semibold text-white hover:bg-green-700"><Save className="mr-1 h-4 w-4" />Simpan</Button><Button type="button" onClick={onCancel} className="h-10 rounded-[7px] bg-slate-500 px-4 text-sm font-semibold text-white hover:bg-slate-600"><X className="mr-1 h-4 w-4" />Batal</Button></div>
 
       {attributeModalRow !== null && createPortal(<div className="fixed inset-0 z-[9999] flex h-screen w-screen items-center justify-center overflow-y-auto bg-slate-950/75 p-2" role="dialog" aria-modal="true" aria-labelledby="attribute-modal-title">
         <div className="max-h-[75vh] w-full max-w-[825px] overflow-y-auto rounded-2xl bg-white text-[#25334a] shadow-2xl">
