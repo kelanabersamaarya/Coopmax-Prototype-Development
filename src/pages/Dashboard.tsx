@@ -1,167 +1,90 @@
-import { ArrowRight, BarChart3, CircleDollarSign, Cog, CreditCard, Landmark, Users, UserRound } from "lucide-react";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import {
+  ReceiptText,
+  Landmark,
+  Building2,
+  Smartphone,
+  Link2,
+  Handshake,
+} from "lucide-react";
 
-const stats = [
-  {
-    label: "Nasabah",
-    value: "75",
-    details: ["0 Nasabah Tidak Aktif"],
-    icon: Users,
-    color: "bg-blue-600",
-  },
-  {
-    label: "Rekening Tabungan",
-    value: "201",
-    details: ["0 Tabungan Tidak Aktif", "2 Tabungan Tutup"],
-    icon: Landmark,
-    color: "bg-cyan-600",
-  },
-  {
-    label: "Deposito",
-    value: "14",
-    details: ["0 Deposito Tidak Aktif", "0 Deposito Tutup"],
-    icon: BarChart3,
-    color: "bg-violet-600",
-  },
-  {
-    label: "Pinjaman",
-    value: "26",
-    details: [
-      "6 Pinjaman Diajukan",
-      "1 Pinjaman Ditolak",
-      "13 Pinjaman Disetujui",
-      "11 Pinjaman Lunas",
-    ],
-    icon: CreditCard,
-    color: "bg-purple-700",
-  },
-  {
-    label: "Pegawai",
-    value: "13",
-    details: [],
-    icon: UserRound,
-    color: "bg-pink-600",
-  },
-  {
-    label: "Kolektor",
-    value: "16",
-    details: [],
-    icon: Users,
-    color: "bg-teal-500",
-  },
-];
-
-function StatCard({ stat }: { stat: (typeof stats)[number] }) {
-  const Icon = stat.icon;
+function DevMenuCard({
+  title,
+  subtitle,
+  icon: Icon,
+  onClick,
+  accent = "violet",
+}: {
+  title: string;
+  subtitle: string;
+  icon: React.ComponentType<{ className?: string }>;
+  onClick: () => void;
+  accent?: "violet" | "sky" | "emerald";
+}) {
+  const accentMap: Record<string, { bg: string; ring: string; text: string }> = {
+    violet: { bg: "bg-violet-100", ring: "ring-violet-200", text: "text-violet-700" },
+    sky: { bg: "bg-sky-100", ring: "ring-sky-200", text: "text-sky-700" },
+    emerald: { bg: "bg-emerald-100", ring: "ring-emerald-200", text: "text-emerald-700" },
+  };
+  const accentStyle = accentMap[accent];
 
   return (
-    <div className="min-h-[148px] rounded-xl bg-white p-5 shadow-[0_12px_32px_rgba(34,52,98,0.06)] ring-1 ring-slate-100 sm:p-5">
-      <div className="flex items-start gap-4">
-        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white ${stat.color}`}>
-          <Icon className="h-6 w-6" strokeWidth={2.2} />
+    <button
+      type="button"
+      onClick={onClick}
+      className="group w-full rounded-[5px] bg-white/90 p-3.5 text-left shadow-sm ring-1 ring-slate-200/70 backdrop-blur transition hover:bg-white"
+    >
+      <div className="flex items-start gap-3">
+        <div className={cn("inline-flex h-9 w-9 items-center justify-center rounded-[5px] ring-1", accentStyle.bg, accentStyle.ring)}>
+          <Icon className={cn("h-4.5 w-4.5", accentStyle.text)} />
         </div>
-        <div>
-          <div className="flex items-baseline gap-3">
-            <span className="text-[26px] font-bold leading-none tracking-tight text-[#082b67]">{stat.value}</span>
-            <span className="text-sm font-bold text-[#102342]">{stat.label}</span>
-          </div>
+        <div className="min-w-0">
+          <div className="text-[13px] font-extrabold tracking-tight text-slate-900">{title}</div>
+          <div className="mt-1 text-[11px] leading-relaxed text-slate-600">{subtitle}</div>
         </div>
       </div>
-      {stat.details.length > 0 ? (
-        <div className="mt-6 space-y-1 text-[12px] leading-tight text-slate-400">
-          {stat.details.map((detail) => <div key={detail}>{detail}</div>)}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function DueCard({ count, title, total, closed }: { count: string; title: string; total: string; closed: string }) {
-  return (
-    <div className="rounded-xl bg-white p-4 ring-1 ring-slate-200/80">
-      <div className="border-b border-slate-200 pb-3">
-        <div className="text-[25px] font-bold leading-none text-[#082b67]">{count}</div>
-        <div className="mt-1 text-sm font-bold text-[#16233a]">{title}</div>
-      </div>
-      <div className="mt-4 space-y-1 text-[13px] font-semibold">
-        <div className="text-[#082b67]">{total} {title === "Tabungan" ? "Simpanan Program" : "SIJAKOP"}</div>
-        <div className="text-lime-600">0 Diperpanjang</div>
-        <div className="text-red-500">{closed} Ditutup</div>
-        <div className="text-amber-500">{title === "Tabungan" ? "4" : "5"} Belum Di Proses</div>
-      </div>
-      <button type="button" className="mt-4 flex items-center gap-1 text-[13px] font-semibold text-blue-600 hover:text-blue-800">
-        Lihat Daftar Rekening <ArrowRight className="h-4 w-4" />
-      </button>
-    </div>
-  );
-}
-
-function WideSummaryCard({ count, title, description, action }: { count: string; title: string; description?: string; action?: string }) {
-  return (
-    <div className="min-h-[190px] rounded-xl bg-white p-7 shadow-[0_12px_32px_rgba(34,52,98,0.06)] ring-1 ring-slate-100">
-      <div className="text-[30px] font-bold leading-none text-[#082b67]">{count}</div>
-      <div className="mt-2 text-base font-bold text-[#16233a]">{title}</div>
-      {description ? <div className="mt-2 text-sm text-slate-500">{description}</div> : null}
-      {action ? (
-        <button type="button" className="mt-5 flex items-center gap-1 text-[13px] font-medium text-blue-600 hover:text-blue-800">
-          {action} <ArrowRight className="h-4 w-4" />
-        </button>
-      ) : null}
-    </div>
+    </button>
   );
 }
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [logoOk, setLogoOk] = React.useState(true);
 
   return (
-    <main className="min-h-[calc(100vh-2rem)] bg-[#f7f8fc] px-4 py-7 text-[#102342] sm:px-7 sm:py-8 lg:px-9">
-      <header className="mb-9 flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-[22px] font-bold leading-tight text-[#082b67] sm:text-[24px]">Hi, Arya!</h1>
-          <p className="mt-1 text-base text-[#082b67] sm:text-[17px]">Selamat datang kembali di KOPERASI COOPMAX</p>
-        </div>
-        <button type="button" onClick={() => navigate("/pengaturan-umum")} className="flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-3 text-xs text-slate-500 shadow-sm ring-1 ring-slate-100 hover:text-[#082b67]">
-          <Cog className="h-3.5 w-3.5" /> Atur Tampilan
-        </button>
-      </header>
-
-      <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {stats.map((stat) => <StatCard key={stat.label} stat={stat} />)}
-      </section>
-
-      <section className="mt-5 grid gap-5 lg:grid-cols-2">
-        <div className="rounded-xl bg-white p-5 shadow-[0_12px_32px_rgba(34,52,98,0.06)] ring-1 ring-slate-100 sm:p-6">
-          <h2 className="mb-7 text-xl font-bold text-[#16233a]">JATUH TEMPO SAMPAI HARI INI</h2>
-          <div className="grid gap-5 sm:grid-cols-2">
-            <DueCard count="4" title="Tabungan" total="4" closed="0" />
-            <DueCard count="5" title="Deposito" total="5" closed="0" />
+    <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-[5px] bg-white/70 p-3 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-3.5">
+      <div className="mb-3 rounded-[5px] bg-white/90 p-3.5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-3.5">
+        <div className="flex items-center gap-3">
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-[5px] bg-white ring-1 ring-slate-200">
+            {logoOk ? (
+              <img src="/publiccoopmax-logo.png.png" alt="Coopmax" className="h-6 w-6 object-contain" draggable={false} onError={() => setLogoOk(false)} />
+            ) : (
+              <div className="text-[10px] font-bold text-slate-600">Logo</div>
+            )}
+          </div>
+          <div className="min-w-0">
+            <div className="text-base font-extrabold tracking-tight text-slate-900 md:text-lg">Hi, Admin</div>
+            <div className="mt-0.5 text-[13px] font-semibold tracking-tight text-slate-700">
+              Selamat datang di dashboard pengembangan <span className="text-violet-700">Coopmax</span>
+            </div>
           </div>
         </div>
-        <div className="rounded-xl bg-white p-5 shadow-[0_12px_32px_rgba(34,52,98,0.06)] ring-1 ring-slate-100 sm:p-6">
-          <h2 className="mb-7 text-xl font-bold text-[#16233a]">JATUH TEMPO DALAM 7 HARI KEDEPAN</h2>
-          <div className="grid gap-5 sm:grid-cols-2">
-            <WideSummaryCard count="0 Rekening" title="Tabungan" />
-            <WideSummaryCard count="0 Rekening" title="Deposito" />
-          </div>
-        </div>
-      </section>
+      </div>
 
-      <section className="mt-12">
-        <h2 className="mb-7 text-xl font-bold text-[#16233a]">BELUM PROSES BUNGA SAMPAI HARI INI</h2>
-        <div className="grid gap-5 lg:grid-cols-2">
-          <WideSummaryCard count="1" title="Rekening Tabungan" description="1 Bunga Rekening Simpanan Program" action="Klik untuk menuju halaman transaksi bunga" />
-          <WideSummaryCard count="2" title="Rekening Deposito" description="2 Bunga Rekening SIJAKOP" action="Klik untuk menuju halaman transaksi bunga" />
+      <div className="rounded-[5px] bg-slate-50/70 p-3 ring-1 ring-slate-200 md:p-3.5">
+        <div className="grid gap-2.5 md:grid-cols-2">
+          <DevMenuCard title="Pinjaman Billing" subtitle="Alur pinjaman dengan penjadwalan billing & pembayaran angsuran." icon={ReceiptText} accent="sky" onClick={() => { toast("Membuka Pinjaman Billing", { description: "Diarahkan ke Anggota → Transaksi (prototype)." }); navigate("/anggota/transaksi"); }} />
+          <DevMenuCard title="Kebutuhan Koperasi Samudra Harta" subtitle="Menu kebutuhan koperasi untuk monitoring & aktivitas operasional (prototype)." icon={Landmark} accent="emerald" onClick={() => navigate("/obs-samudra-harta")} />
+          <DevMenuCard title="Coopmax - SAK EP Cabang" subtitle="Modul cabang untuk operasional SAK EP Coopmax (prototype)." icon={Building2} accent="emerald" onClick={() => navigate("/sak-ep-cabang/loan-products")} />
+          <DevMenuCard title="New_Mbanking" subtitle="Akses cepat ke prototype aplikasi M-Banking terbaru." icon={Smartphone} accent="sky" onClick={() => navigate("/mobile/new-mbanking")} />
+          <DevMenuCard title="Payment Link" subtitle="Buat dan kelola link pembayaran untuk dibagikan ke anggota." icon={Link2} accent="violet" onClick={() => navigate("/payment-link/loan-products")} />
+          <DevMenuCard title="Kebutuhan Koperasi Mitra Karya" subtitle="Langsung membuka laporan anggota untuk kebutuhan Koperasi Mitra Karya." icon={Handshake} accent="emerald" onClick={() => navigate("/mitra-karya/laporan/anggota")} />
+          <DevMenuCard title="Kebutuhan Koperasi Astiti Dana Lestari" subtitle="Akses kebutuhan operasional Koperasi Astiti Dana Lestari." icon={Handshake} accent="violet" onClick={() => navigate("/astiti-dana-lestari/akunting")} />
         </div>
-      </section>
-
-      <section className="mt-12 pb-4">
-        <h2 className="mb-7 text-xl font-bold text-[#16233a]">SUDAH PROSES BUNGA HARI INI</h2>
-        <div className="grid gap-5 lg:grid-cols-2">
-          <WideSummaryCard count="0" title="Rekening Tabungan" />
-          <WideSummaryCard count="0" title="Rekening Deposito" />
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }

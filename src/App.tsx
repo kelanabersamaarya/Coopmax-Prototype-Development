@@ -9,6 +9,7 @@ import TermSavingsProductsListPage from "./components/savings/term-products/Term
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import SimulasiDashboard from "./pages/SimulasiDashboard";
 import DashboardSimpanan from "./pages/DashboardSimpanan";
 import AstitiDanaLestariDashboard from "./pages/AstitiDanaLestariDashboard";
 import AstitiSimpananTransaksi from "./pages/AstitiSimpananTransaksi";
@@ -310,7 +311,7 @@ const App = () => (
               element={<ObsWaktuAksesOperasional />}
             />
             <Route path="login/simulasi" element={<LoginSimulasi />} />
-            <Route path="login/simulasi-dashboard" element={<Dashboard />} />
+            <Route path="login/simulasi-dashboard" element={<SimulasiDashboard />} />
             <Route
               path="obs-samudra-harta/loan-products"
               element={<LoanProducts />}
