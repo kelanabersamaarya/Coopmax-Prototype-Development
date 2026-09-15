@@ -510,7 +510,7 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const totalColPad = "px-4";
+  const totalColPad = "pl-4 pr-8";
 
   return (
     <div className={cn("mt-3", className)}>
