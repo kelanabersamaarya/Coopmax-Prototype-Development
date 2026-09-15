@@ -359,6 +359,7 @@ export default function BillingTableView2({
     localIdx: number,
   ) {
     if (localIdx < 2) return { total: 0, hasAdded: false };
+    if (localIdx === 3) return { total: PENALTY_DETAIL_DAYS * PENALTY_PER_DAY, hasAdded: false };
 
     if (!canPersist) {
       if (localIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
@@ -448,7 +449,7 @@ export default function BillingTableView2({
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
-            <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
+            <span className="tabular-nums whitespace-nowrap num-sans-tabular">75.000</span>
             <PenaltyIconButton
               icon="eye"
               onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}

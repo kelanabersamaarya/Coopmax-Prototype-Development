@@ -411,7 +411,7 @@ export default function BillingTable({
                                         {showPenaltyValue ? (
                                           <div className="flex items-center justify-end gap-2">
                                             <span className={penaltyValueClass}>
-                                              {formatIdrLike(rowIndex === 2 ? PENALTY_AMOUNT : 0)}
+                                              {formatIdrLike(rowIndex === 2 || rowIndex === 3 ? PENALTY_AMOUNT : 0)}
                                             </span>
                                             <PenaltyInfoButton
                                               onClick={() =>
@@ -494,7 +494,7 @@ export default function BillingTable({
                           {showPenaltyValue ? (
                             <div className="flex items-center justify-end gap-2">
                               <span className={penaltyValueClass}>
-                                {formatIdrLike(rowIndex === 2 ? PENALTY_AMOUNT : 0)}
+                                {formatIdrLike(rowIndex === 2 || rowIndex === 3 ? PENALTY_AMOUNT : 0)}
                               </span>
                               <PenaltyInfoButton
                                 onClick={() => openPenaltyDetailForRow(rowIndex)}
