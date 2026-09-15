@@ -84,7 +84,14 @@ export default function NeracaSaldoReport() {
   const [period, setPeriod] = React.useState("Perbulan");
   const [date, setDate] = React.useState("2026-09-10");
   const [reportType, setReportType] = React.useState("Laporan Terperinci");
+  const [shownDate, setShownDate] = React.useState("10 September 2026");
   const [isReportVisible, setIsReportVisible] = React.useState(false);
+
+  const showReport = () => {
+    const nextDate = new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric" }).format(new Date(`${date}T00:00:00`));
+    setShownDate(nextDate);
+    setIsReportVisible(true);
+  };
 
   return (
     <div className="overflow-hidden rounded-[10px] bg-white text-[#08265a]">
@@ -95,10 +102,12 @@ export default function NeracaSaldoReport() {
           <label className="w-full text-[13px] md:max-w-[245px]">Tanggal Laporan<div className="mt-1.5 flex h-[31px] overflow-hidden rounded-[5px] border border-[#c8d3e5]"><span className="inline-flex w-12 items-center justify-center bg-slate-100 text-slate-400"><CalendarDays className="h-5 w-5" /></span><Input type="date" value={date} onChange={(event) => { setDate(event.target.value); setIsReportVisible(false); }} className="date-report-input h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" /></div></label>
           <ReportSelect label="Jenis Laporan" value={reportType} options={["Laporan Terperinci", "Laporan Rekap"]} onChange={(value) => { setReportType(value); setIsReportVisible(false); }} />
         </div>
-        <Button type="button" onClick={() => setIsReportVisible(true)} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
+        <Button type="button" onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
       </div>
       {isReportVisible ? (
-        <div className="mt-6 overflow-x-auto border border-[#c8d3e5]">
+        <>
+          <h2 className="mt-5 text-center text-[18px] font-semibold">Laporan Neraca Saldo per {shownDate}</h2>
+          <div className="mt-2 overflow-x-auto border border-[#c8d3e5]">
           <div className="flex min-w-[680px] justify-end gap-2 border-b border-[#c8d3e5] p-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -120,7 +129,8 @@ export default function NeracaSaldoReport() {
             </DropdownMenu>
           </div>
           {reportType === "Laporan Rekap" ? <SimpleRecapTable /> : <DetailedTable />}
-        </div>
+          </div>
+        </>
       ) : null}
     </div>
   );
