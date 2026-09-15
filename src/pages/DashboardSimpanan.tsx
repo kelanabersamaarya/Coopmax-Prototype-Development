@@ -166,16 +166,12 @@ function SavingsBarChart({
     : variant === "total" || variant === "core"
       ? [["setoran", "#5612cf"], ["tarikan", "#09c3c7"]]
       : [["core", "#5612cf"], ["mbanking", "#09c3c7"]];
-  const maxValue = variant === "core"
+  const maxValue = variant === "core" || variant === "mbanking"
     ? 200000
-    : variant === "mbanking"
-      ? 1
-      : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
-  const axisLabels = variant === "core" || variant === "total"
+    : Math.max(...data.flatMap((item) => keys.map(([key]) => Number(item[key]) || 0)), 1);
+  const axisLabels = variant === "core" || variant === "total" || variant === "mbanking"
     ? [200000, 150000, 100000, 50000, 0]
-    : variant === "mbanking"
-      ? [1, 0.75, 0.5, 0.25, 0]
-      : [];
+    : [];
   const labelMap: Record<string, string> = {
     transfer: "Transfer antar nasabah",
     transferOut: "Transfer Out",
@@ -189,7 +185,7 @@ function SavingsBarChart({
     tarikan: "Tarikan",
   };
   const formatMbankingValue = (value: unknown) =>
-    (Number(value || 0) * 1_000_000).toLocaleString("id-ID");
+    (Number(value || 0) * 200_000).toLocaleString("id-ID");
 
   return (
     <div className="h-full w-full overflow-visible">
@@ -211,7 +207,8 @@ function SavingsBarChart({
           {data.map((item) => (
             <div key={String(item.day)} className="group relative z-10 flex h-full min-w-0 items-end justify-center gap-0.5 hover:z-[100]">
               {keys.map(([key, color]) => {
-                const value = Number(item[key]) || 0;
+                const rawValue = Number(item[key]) || 0;
+                const value = variant === "mbanking" ? rawValue * 200000 : rawValue;
                 return <div key={key} className="w-2 shrink-0 rounded-t-sm" style={{ height: `${Math.max((value / maxValue) * 100, value > 0 ? 1.5 : 0)}%`, backgroundColor: color }} />;
               })}
               {(variant === "total" || variant === "core") ? (
