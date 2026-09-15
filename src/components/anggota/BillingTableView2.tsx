@@ -670,7 +670,7 @@ export default function BillingTableView2({
                                   ) : null}
 
                                   {showStatusColumn ? (
-                                    <div className={cn("px-4", cellY)}>
+                                    <div className={cn("pl-4 pr-8", cellY)}>
                                       <BillingStatusBadge status={statusForRow(r, rowIndex)} />
                                     </div>
                                   ) : null}
@@ -757,7 +757,7 @@ export default function BillingTableView2({
                             ) : null}
 
                             {showStatusColumn ? (
-                              <div className={cn("px-4", cellY)}>
+                              <div className={cn("pl-4 pr-8", cellY)}>
                                 <BillingStatusBadge status={statusForRow(r, rowIndex)} />
                               </div>
                             ) : null}
@@ -849,7 +849,7 @@ export default function BillingTableView2({
                               ) : null}
 
                               {showStatusColumn ? (
-                                <div className={cn("px-4", cellY)}>
+                                <div className={cn("pl-4 pr-8", cellY)}>
                                   <BillingStatusBadge status={statusForRow(r, idx)} />
                                 </div>
                               ) : null}
