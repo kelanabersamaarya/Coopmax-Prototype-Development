@@ -3,8 +3,8 @@ import type { BillingStatus } from "@/domain/loans/types/billing";
 const statusStyles: Record<BillingStatus, string> = {
   "Belum Dibayar": "bg-[#FF4C4C] text-white",
   Lunas: "bg-[#4CAF50] text-white",
-  Terlambat: "bg-[#FF9800] text-white",
-  "Dibayar Sebagian": "bg-[#BA7517] text-white",
+  Terlambat: "bg-[#BA7517] text-white",
+  "Dibayar Sebagian": "bg-[#FF9800] text-white",
 };
 
 export default function BillingStatusBadge({ status }: { status: BillingStatus }) {
