@@ -336,7 +336,9 @@ export default function LoanAccountDetailSections({
 
           <div>
             <KeyValueRow label="Agama" value="Hindu" right />
-            <KeyValueRow label="Profesi" value="SWASTA" right />
+            <KeyValueRow label="Pekerjaan" value="SWASTA" right />
+            <KeyValueRow label="Perusahaan Tempat Bekerja" value="-" right />
+            <KeyValueRow label="Alamat Perusahaan Tempat Bekerja" value="-" right />
             <KeyValueRow label="Jenis Identitas" value="KTP" right />
             <KeyValueRow label="No. Identitas" value="6203617005258715" right />
             <KeyValueRow label="No. Telp/Handphone" value="023 5822 6972" right />
