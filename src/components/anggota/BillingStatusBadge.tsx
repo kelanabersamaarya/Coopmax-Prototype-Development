@@ -1,9 +1,9 @@
 import type { BillingStatus } from "@/domain/loans/types/billing";
 
 const statusStyles: Record<BillingStatus, string> = {
-  "Belum Dibayar": "bg-[#FF4C4C] text-white",
+  "Belum Dibayar": "bg-[#BA7517] text-white",
   Lunas: "bg-[#4CAF50] text-white",
-  Terlambat: "bg-[#BA7517] text-white",
+  Terlambat: "bg-[#FF4C4C] text-white",
   "Dibayar Sebagian": "bg-[#FF9800] text-white",
 };
 
