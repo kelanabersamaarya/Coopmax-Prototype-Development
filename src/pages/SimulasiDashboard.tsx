@@ -38,7 +38,7 @@ function OperationalTimeCounter() {
   const displayTime = (value: number) => String(value).padStart(2, "0");
 
   return (
-    <aside className="fixed right-3 top-3 z-30 w-[min(340px,calc(100vw-1.5rem))] rounded-[18px] bg-white p-4 shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:right-6 sm:top-6 sm:p-5">
+    <aside className="fixed right-3 top-3 z-30 w-[min(390px,calc(100vw-1.5rem))] rounded-[18px] bg-white p-4 shadow-[0_18px_45px_rgba(15,23,42,0.18)] sm:right-6 sm:top-6 sm:p-5">
       <button
         type="button"
         aria-label="Tutup informasi waktu operasional"
@@ -53,7 +53,7 @@ function OperationalTimeCounter() {
           <Clock3 className="h-9 w-9 sm:h-10 sm:w-10" strokeWidth={1.6} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[15px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[17px]">Jam Operasional Koperasi</p>
+          <p className="whitespace-nowrap text-[15px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[17px]">Jam Operasional Koperasi</p>
           <p className="mt-1.5 whitespace-nowrap text-[27px] font-bold leading-none tracking-tight text-black sm:text-[31px]">08.00 - 16.00</p>
         </div>
       </div>
