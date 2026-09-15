@@ -89,7 +89,7 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
               <div className="mt-1 flex flex-col gap-1 sm:flex-row">
                 <input className={`${inputClass} sm:flex-1`} value={row.description} onChange={(e) => setCollaterals((items) => items.map((item) => item.id === row.id ? { ...item, description: e.target.value } : item))} placeholder="Masukkan keterangan agunan" />
                 <Button type="button" onClick={() => duplicateCollateral(row)} aria-label="Salin agunan" className="h-8 rounded-none bg-slate-500 px-3 text-white hover:bg-slate-600"><Copy className="h-4 w-4" /></Button>
-                <Button type="button" onClick={() => { setAttributeModalRow(row.id); setAttribute(row.name); }} aria-label="Atribut agunan" className="h-8 rounded-[5px] bg-blue-600 px-5 text-xs font-semibold text-white hover:bg-blue-700"><Search className="mr-1 h-4 w-4" />Atribut Agunan</Button>
+                <Button type="button" onClick={() => { setAttributeModalRow(row.id); setAttribute(row.name.includes("SHM") ? "SHM" : row.name); setActiveAttributeTab("attribute"); }} aria-label="Atribut agunan" className="h-8 rounded-[5px] bg-blue-600 px-5 text-xs font-semibold text-white hover:bg-blue-700"><Search className="mr-1 h-4 w-4" />Atribut Agunan</Button>
                 <Button type="button" onClick={() => setCollaterals((items) => items.filter((item) => item.id !== row.id))} className="h-8 rounded-[5px] bg-rose-600 px-5 text-xs font-semibold text-white hover:bg-rose-700"><Trash2 className="mr-1 h-4 w-4" />Hapus Agunan</Button>
               </div>
             </div>
