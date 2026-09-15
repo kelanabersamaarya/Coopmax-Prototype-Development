@@ -139,7 +139,7 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
               </div>}
             </>}
           </div>
-          <div className="sticky bottom-0 z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-6 py-4"><Button type="button" onClick={() => setAttributeModalRow(null)} className="h-8 rounded-md bg-slate-500 px-4 text-xs font-semibold text-white hover:bg-slate-600">Batal</Button><Button type="button" onClick={() => setAttributeModalRow(null)} className="h-8 rounded-md bg-green-600 px-4 text-xs font-semibold text-white hover:bg-green-700"><Save className="mr-1 h-4 w-4" />Simpan</Button></div>
+          <div className="sticky bottom-0 z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-6 py-4"><Button type="button" onClick={() => setAttributeModalRow(null)} className="h-8 rounded-md bg-slate-500 px-4 text-xs font-semibold text-white hover:bg-slate-600"><X className="mr-1 h-4 w-4" />Batal</Button><Button type="button" onClick={() => setAttributeModalRow(null)} className="h-8 rounded-md bg-green-600 px-4 text-xs font-semibold text-white hover:bg-green-700"><span className="mr-1 text-base leading-none">✓</span>Simpan</Button></div>
         </div>
       </div>, document.body)}
     </div>
