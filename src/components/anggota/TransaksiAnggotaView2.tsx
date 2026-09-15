@@ -472,6 +472,7 @@ export default function TransaksiAnggotaView2({
                   keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                   hideSelection={isPenurunanBakiDebetMode}
                   showPenaltyColumn={!isPenurunanBakiDebetMode}
+                  showStatusColumn
                   disableRowActiveRing={true}
                   disableRowRings={disableRowChrome}
                   penaltyIndexOffset={penaltyIndexOffset}
