@@ -120,10 +120,9 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 export default function Index() {
   const location = useLocation();
   const isHome = location.pathname === "/";
-  const isDashboard = location.pathname === "/dashboard";
   const isMitraKaryaDashboard =
     location.pathname === "/mitra-karya/dashboard";
-  const hideSidebar = isDashboard || isMitraKaryaDashboard;
+  const hideSidebar = isMitraKaryaDashboard;
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
