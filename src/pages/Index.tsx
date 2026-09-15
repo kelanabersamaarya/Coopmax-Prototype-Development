@@ -189,7 +189,7 @@ export default function Index() {
                       </div>
                     ) : isSamudraHartaArea ? (
                       <div className="space-y-1 px-2">
-                        <SidebarNavItem item={g.items[0]!} />
+                        <SidebarNavItem item={nav[0].items[0]!} />
                         <SidebarPinjamanMenu />
                         <SidebarObsMenu />
                         <SidebarLoginMenu />
