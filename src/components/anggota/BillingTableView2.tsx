@@ -333,6 +333,7 @@ export default function BillingTableView2({
   }
 
   function hasActiveManualPenaltyForRow(globalIdx: number, dueDateDmy: string) {
+    if (globalIdx < 2) return false;
     if (!canPersist) return false;
 
     const adds = getAddsForRow(globalIdx, dueDateDmy);
@@ -357,6 +358,8 @@ export default function BillingTableView2({
     dueDateDmy: string,
     localIdx: number,
   ) {
+    if (localIdx < 2) return { total: 0, hasAdded: false };
+
     if (!canPersist) {
       if (localIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
@@ -427,6 +430,14 @@ export default function BillingTableView2({
     localIdx: number;
     dueDateDmy: string;
   }) {
+    if (localIdx < 2) {
+      return (
+        <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
+          <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
+        </div>
+      );
+    }
+
     // Seed penalty hanya berlaku untuk 3 baris pertama per halaman.
     const isNoSeedPenaltyRow = localIdx >= PENALTY_ROWS;
 
