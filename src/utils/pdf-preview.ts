@@ -474,11 +474,18 @@ export function openReportPdfPreview({
             text-align: center !important;
           }
 
-          .shu-staffel table tbody tr.font-bold td,
-          .shu-staffel table tbody tr.font-semibold td,
-          .shu-scontro table tbody tr.font-bold td,
-          .shu-scontro table tbody tr.font-semibold td {
+          .shu-staffel table tbody tr.font-bold td:first-child,
+          .shu-staffel table tbody tr.font-semibold td:first-child,
+          .shu-scontro table tbody tr.font-bold td:first-child,
+          .shu-scontro table tbody tr.font-semibold td:first-child {
             font-weight: 700 !important;
+          }
+
+          .shu-staffel table tbody tr.font-bold td:not(:first-child),
+          .shu-staffel table tbody tr.font-semibold td:not(:first-child),
+          .shu-scontro table tbody tr.font-bold td:not(:first-child),
+          .shu-scontro table tbody tr.font-semibold td:not(:first-child) {
+            font-weight: 500 !important;
           }
 
           .export-only {
