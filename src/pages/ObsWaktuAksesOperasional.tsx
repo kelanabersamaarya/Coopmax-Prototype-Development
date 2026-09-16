@@ -331,26 +331,26 @@ export default function ObsWaktuAksesOperasional() {
                       </>
                     ) : (
                       <div className="flex items-start gap-0">
-                        <label htmlFor="day-change-reason" className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Alasan Perubahan</label>
+                        <label htmlFor="day-change-reason" className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Alasan Perubahan <span className="text-red-500">*</span></label>
                         <textarea
                           id="day-change-reason"
+                          required
                           value={dayChangeReason}
                           onChange={(event) => setDayChangeReason(event.target.value)}
                           placeholder="Masukkan alasan perubahan"
                           className="min-h-[120px] min-w-0 flex-1 resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
-                        />
                       </div>
                     )}
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
                     {editStep === 2 ? (
-                      <button type="button" onClick={() => setEditStep(1)} className="inline-flex h-[32px] w-[100px] items-center justify-center rounded-[6px] bg-[#8291ad] px-2 text-[12px] font-semibold text-white transition hover:bg-[#71819d]">Kembali</button>
+                      <button type="button" onClick={() => setEditStep(1)} className="mr-auto inline-flex h-[32px] w-[100px] items-center justify-center rounded-[6px] border border-[#8291ad] bg-transparent px-2 text-[12px] font-semibold text-[#8291ad] transition hover:bg-slate-50">Kembali</button>
                     ) : null}
                     <button type="button" onClick={() => setEditingDay(null)} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-2 text-[12px] font-semibold text-white transition hover:bg-[#71819d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8291ad]/40"><X className="h-[16px] w-[16px]" strokeWidth={4} />Batalkan</button>
                     {editStep === 1 ? (
                       <button type="button" onClick={() => setEditStep(2)} className="inline-flex h-[32px] min-w-[112px] items-center justify-center gap-1.5 rounded-[6px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]">Lanjutkan<ChevronRight className="h-4 w-4" /></button>
                     ) : (
-                      <button type="button" onClick={() => { setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
+                      <button type="button" disabled={!dayChangeReason.trim()} onClick={() => { setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
                     )}
                   </div>
                 </>
