@@ -8,93 +8,26 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { getDepositTransactions } from "@/lib/depositTransactionsStore";
 
-type HistoryRow = {
-  tanggal: string;
-  tipe: string;
-  nominal: string;
-  nominalClass: "positive" | "negative";
-  keterangan: string;
-};
-
+type HistoryRow = { tanggal: string; tipe: string; nominal: string; nominalClass: "positive" | "negative"; keterangan: string };
 const defaultHistoryRows: HistoryRow[] = [
   { tanggal: "13-09-2026", tipe: "Penarikan Bunga SIJAKOP", nominal: "- 16.600,00", nominalClass: "negative", keterangan: "-- penarikan bunga sijakop" },
   { tanggal: "30-09-2023", tipe: "Bunga SIJAKOP", nominal: "+ 8.300,00", nominalClass: "positive", keterangan: "-- test" },
   { tanggal: "31-08-2023", tipe: "Bunga SIJAKOP", nominal: "+ 8.300,00", nominalClass: "positive", keterangan: "-- Test" },
   { tanggal: "16-06-2023", tipe: "Pembukaan Rekening Sijakop", nominal: "+ 1.000.000,00", nominalClass: "positive", keterangan: "--" },
 ];
-
-function SortIcon({ active = false }: { active?: boolean }) {
-  return <span className="ml-auto inline-flex shrink-0 flex-col align-middle leading-[7px] text-[#17315b]"><ChevronUp className={cn("h-3 w-3", active && "text-[#5745f6]")} /><ChevronDown className="h-3 w-3" /></span>;
-}
-
-function SortHeader({ children, active = false, className = "" }: { children: React.ReactNode; active?: boolean; className?: string }) {
-  return <div className={cn("flex items-center justify-between gap-1", className)}>{children}<SortIcon active={active} /></div>;
-}
+function SortIcon({ active = false }: { active?: boolean }) { return <span className="ml-auto inline-flex shrink-0 flex-col align-middle leading-[7px] text-[#17315b]"><ChevronUp className={cn("h-3 w-3", active && "text-[#5745f6]")} /><ChevronDown className="h-3 w-3" /></span>; }
+function SortHeader({ children, active = false }: { children: React.ReactNode; active?: boolean }) { return <div className="flex items-center justify-between gap-1">{children}<SortIcon active={active} /></div>; }
 
 export default function DepositTransactionHistoryDialog({ open, onOpenChange, accountNo }: { open: boolean; onOpenChange: (open: boolean) => void; accountNo: string }) {
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
   const [pageSize, setPageSize] = React.useState("20");
-
-  React.useEffect(() => {
-    if (!open) return;
-    setStartDate("");
-    setEndDate("");
-    setPageSize("20");
-  }, [open]);
-
   const [storedRows, setStoredRows] = React.useState(() => getDepositTransactions());
-
-  React.useEffect(() => {
-    if (!open) return;
-    const syncRows = () => setStoredRows(getDepositTransactions());
-    syncRows();
-    window.addEventListener("deposit-transactions-updated", syncRows);
-    return () => window.removeEventListener("deposit-transactions-updated", syncRows);
-  }, [open]);
-
-  const historyRows = storedRows
-    .filter((transaction) => transaction.deposito === accountNo)
-    .map((transaction) => ({
-      tanggal: transaction.tanggal,
-      tipe: transaction.jenis,
-      nominal: transaction.nominal,
-      nominalClass: transaction.nominal.trim().startsWith("-") ? "negative" as const : "positive" as const,
-      keterangan: transaction.keterangan ? `-- ${transaction.keterangan}` : "--",
-    }));
+  React.useEffect(() => { if (!open) return; setStartDate(""); setEndDate(""); setPageSize("20"); }, [open]);
+  React.useEffect(() => { if (!open) return; const syncRows = () => setStoredRows(getDepositTransactions()); syncRows(); window.addEventListener("deposit-transactions-updated", syncRows); return () => window.removeEventListener("deposit-transactions-updated", syncRows); }, [open]);
+  const historyRows = storedRows.filter((transaction) => transaction.deposito === accountNo).map((transaction) => ({ tanggal: transaction.tanggal, tipe: transaction.jenis, nominal: transaction.nominal, nominalClass: transaction.nominal.trim().startsWith("-") ? "negative" as const : "positive" as const, keterangan: transaction.keterangan ? `-- ${transaction.keterangan}` : "--" }));
   const rows = historyRows.length ? historyRows : defaultHistoryRows;
   const filteredRows = rows.filter((row) => (!startDate || row.tanggal.includes(startDate)) && (!endDate || row.tanggal.includes(endDate)));
   const shownRows = filteredRows.slice(0, Number(pageSize));
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[calc(100vw-24px)] max-w-[1080px] overflow-hidden rounded-[16px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden">
-        <div className="flex items-center justify-between border-b border-[#d3dae7] px-6 py-4">
-          <h2 className="text-[18px] font-bold text-[#202b3d]">Riwayat Transaksi</h2>
-          <button type="button" onClick={() => onOpenChange(false)} aria-label="Tutup" className="rounded-md p-1 text-[#858585] transition hover:bg-slate-100 hover:text-slate-600"><X className="h-5 w-5 stroke-[4]" /></button>
-        </div>
-
-        <div className="max-h-[calc(100vh-130px)] overflow-y-auto px-6 py-6">
-          <div className="text-[13px] font-medium text-[#173b70]">Tanggal Transaksi</div>
-          <div className="mt-2 grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-center">
-            <div className="relative"><Input value={startDate} onChange={(event) => setStartDate(event.target.value)} placeholder="Tanggal awal" className="h-8 rounded-md border-[#cfd7e5] pr-9 text-[13px] shadow-none placeholder:text-[#8293b2]" />{startDate && <button type="button" onClick={() => setStartDate("")} className="absolute right-0 top-0 grid h-8 w-8 place-items-center rounded-r-md bg-[#7d8fac] text-white"><X className="h-4 w-4 stroke-[4]" /></button>}</div>
-            <div className="relative"><Input value={endDate} onChange={(event) => setEndDate(event.target.value)} placeholder="Tanggal akhir" className="h-8 rounded-md border-[#cfd7e5] pr-9 text-[13px] shadow-none placeholder:text-[#8293b2]" />{endDate && <button type="button" onClick={() => setEndDate("")} className="absolute right-0 top-0 grid h-8 w-8 place-items-center rounded-r-md bg-[#7d8fac] text-white"><X className="h-4 w-4 stroke-[4]" /></button>}</div>
-            <Button type="button" onClick={() => toast.success(`Menampilkan riwayat ${accountNo}`)} className="h-8 rounded-md bg-[#7d8fac] px-4 text-[13px] font-semibold text-white hover:bg-[#687b9c]"><Search className="mr-1 h-4 w-4" />Cari</Button>
-          </div>
-
-          <div className="mt-4 flex items-center gap-1 text-[13px] text-[#333]"><span>Show</span><Select value={pageSize} onValueChange={setPageSize}><SelectTrigger className="h-6 w-[45px] rounded-sm border-[#9fa8b7] px-1.5 text-[12px] shadow-none"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="10">10</SelectItem><SelectItem value="20">20</SelectItem><SelectItem value="50">50</SelectItem></SelectContent></Select><span>entries</span></div>
-
-          <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[700px] border-collapse text-[12px] text-[#263d66]">
-              <thead><tr className="border-b border-[#c9d3e2] text-left font-bold uppercase tracking-wide text-[#202c42]"><th className="w-[6%] px-2 py-2">No.</th><th className="w-[18%] bg-[#eef1f6] px-2 py-2"><SortHeader active>Tanggal</SortHeader></th><th className="w-[21%] px-2 py-2"><SortHeader>Tipe Transaksi</SortHeader></th><th className="w-[18%] px-2 py-2 leading-3"><SortHeader>Jumlah<br />Transaksi</SortHeader></th><th className="w-[18%] px-2 py-2"><SortHeader>Catatan</SortHeader></th><th className="w-[10%] px-2 py-2 text-left leading-3">Detail<br />Transaksi</th></tr></thead>
-              <tbody>{shownRows.map((row, index) => <tr key={`${row.tanggal}-${index}`} className="border-b border-[#c9d3e2]"><td className="px-2 py-1.5">{index + 1}</td><td className="bg-[#eef1f6] px-2 py-1.5">{row.tanggal}</td><td className="px-2 py-1.5 leading-3">{row.tipe}</td><td className={cn("px-2 py-1.5 text-right tabular-nums", row.nominalClass === "positive" ? "text-[#00a91b]" : "text-[#ff3030]")}>{row.nominal}</td><td className="px-2 py-1.5 leading-3">{row.keterangan}</td><td className="px-2 py-1.5 text-left"><button type="button" onClick={() => toast("Detail transaksi (prototype)")} aria-label="Lihat detail transaksi" className="text-[#7185a5] hover:text-[#5745f6]"><ExternalLink className="h-4 w-4" /></button></td></tr>)}</tbody>
-            </table>
-          </div>
-
-          <div className="mt-5 flex flex-col items-start justify-between gap-3 text-[13px] text-[#333] sm:flex-row sm:items-center"><span>Showing {shownRows.length ? 1 : 0} to {shownRows.length} of {filteredRows.length} entries</span><div className="inline-flex rounded-sm"><button type="button" disabled className="h-8 bg-[#eef1f6] px-3 text-[#cbd2dd]">Previous</button><span className="grid h-8 w-8 place-items-center bg-[#5745f6] font-semibold text-white">1</span><button type="button" disabled className="h-8 bg-[#eef1f6] px-3 text-[#cbd2dd]">Next</button></div></div>
-        </div>
-        <div className="flex justify-end border-t border-[#d3dae7] px-6 py-4"><Button type="button" onClick={() => onOpenChange(false)} className="h-8 rounded-md bg-[#7d8fac] px-4 text-[13px] font-semibold text-white hover:bg-[#687b9c]"><X className="mr-1 h-4 w-4 stroke-[4]" />Tutup</Button></div>
-      </DialogContent>
-    </Dialog>
-  );
+  return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="w-[calc(100vw-24px)] max-w-[1160px] overflow-hidden rounded-[16px] border-0 bg-white p-0 shadow-2xl [&>button]:hidden"><div className="flex items-center justify-between border-b border-[#d3dae7] px-6 py-4"><h2 className="text-[18px] font-bold text-[#202b3d]">Riwayat Transaksi</h2><button type="button" onClick={() => onOpenChange(false)} aria-label="Tutup" className="rounded-md p-1 text-[#858585] transition hover:bg-slate-100 hover:text-slate-600"><X className="h-5 w-5 stroke-[4]" /></button></div><div className="max-h-[calc(100vh-130px)] overflow-y-auto px-6 py-6"><div className="text-[13px] font-medium text-[#173b70]">Tanggal Transaksi</div><div className="mt-2 grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-center"><Input value={startDate} onChange={(event) => setStartDate(event.target.value)} placeholder="Tanggal awal" className="h-8 rounded-md border-[#cfd7e5] text-[13px] shadow-none" /><Input value={endDate} onChange={(event) => setEndDate(event.target.value)} placeholder="Tanggal akhir" className="h-8 rounded-md border-[#cfd7e5] text-[13px] shadow-none" /><Button type="button" onClick={() => toast.success(`Menampilkan riwayat ${accountNo}`)} className="h-8 rounded-md bg-[#7d8fac] px-4 text-[13px] font-semibold text-white hover:bg-[#687b9c]"><Search className="mr-1 h-4 w-4" />Cari</Button></div><div className="mt-4 flex items-center gap-1 text-[13px] text-[#333]"><span>Show</span><Select value={pageSize} onValueChange={setPageSize}><SelectTrigger className="h-6 w-[45px] rounded-sm border-[#9fa8b7] px-1.5 text-[12px] shadow-none"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="10">10</SelectItem><SelectItem value="20">20</SelectItem><SelectItem value="50">50</SelectItem></SelectContent></Select><span>entries</span></div><div className="mt-3 overflow-x-auto"><table className="w-full min-w-[920px] border-collapse text-[12px] text-[#263d66]"><thead><tr className="border-b border-[#c9d3e2] text-left font-bold uppercase tracking-wide text-[#202c42]"><th className="w-[5%] px-2 py-2">No.</th><th className="w-[15%] bg-[#eef1f6] px-2 py-2"><SortHeader active>Tanggal</SortHeader></th><th className="w-[18%] px-2 py-2"><SortHeader>Tipe Transaksi</SortHeader></th><th className="w-[14%] px-2 py-2 leading-3"><SortHeader>Jumlah<br />Transaksi</SortHeader></th><th className="w-[17%] px-2 py-2"><SortHeader>Keterangan</SortHeader></th><th className="w-[17%] px-2 py-2"><SortHeader>Catatan</SortHeader></th><th className="w-[10%] px-2 py-2 text-left leading-3">Detail<br />Transaksi</th></tr></thead><tbody>{shownRows.map((row, index) => <tr key={`${row.tanggal}-${index}`} className="border-b border-[#c9d3e2]"><td className="px-2 py-1.5">{index + 1}</td><td className="bg-[#eef1f6] px-2 py-1.5">{row.tanggal}</td><td className="px-2 py-1.5 leading-3">{row.tipe}</td><td className={cn("px-2 py-1.5 text-right tabular-nums", row.nominalClass === "positive" ? "text-[#00a91b]" : "text-[#ff3030]")}>{row.nominal}</td><td className="px-2 py-1.5 leading-3">{row.keterangan}</td><td className="px-2 py-1.5 leading-3">{row.keterangan}</td><td className="px-2 py-1.5 text-left"><button type="button" onClick={() => toast("Detail transaksi (prototype)")} aria-label="Lihat detail transaksi" className="text-[#7185a5] hover:text-[#5745f6]"><ExternalLink className="h-4 w-4" /></button></td></tr>)}</tbody></table></div><div className="mt-5 flex flex-col items-start justify-between gap-3 text-[13px] text-[#333] sm:flex-row sm:items-center"><span>Showing {shownRows.length ? 1 : 0} to {shownRows.length} of {filteredRows.length} entries</span><div className="inline-flex rounded-sm"><button type="button" disabled className="h-8 bg-[#eef1f6] px-3 text-[#cbd2dd]">Previous</button><span className="grid h-8 w-8 place-items-center bg-[#5745f6] font-semibold text-white">1</span><button type="button" disabled className="h-8 bg-[#eef1f6] px-3 text-[#cbd2dd]">Next</button></div></div></div><div className="flex justify-end border-t border-[#d3dae7] px-6 py-4"><Button type="button" onClick={() => onOpenChange(false)} className="h-8 rounded-md bg-[#7d8fac] px-4 text-[13px] font-semibold text-white hover:bg-[#687b9c]"><X className="mr-1 h-4 w-4 stroke-[4]" />Tutup</Button></div></DialogContent></Dialog>;
 }

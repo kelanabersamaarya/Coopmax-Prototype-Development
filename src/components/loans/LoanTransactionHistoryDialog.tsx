@@ -334,6 +334,8 @@ export default function LoanTransactionHistoryDialog({
                           Akhir
                         </th>
 
+                        <th className={cn(headerTh, "w-[220px]")}>Keterangan</th>
+
                         <th className={cn(headerTh, "w-[220px]")}>Catatan</th>
 
                         <th className={cn(headerTh, "w-[90px] text-center")}>
@@ -346,7 +348,7 @@ export default function LoanTransactionHistoryDialog({
                       {paged.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={12}
+                            colSpan={13}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada transaksi.
@@ -439,6 +441,12 @@ export default function LoanTransactionHistoryDialog({
                                 )}
                               >
                                 {r.sisaPinjamanAkhir}
+                              </td>
+
+                              <td className={cn(tdBase, "max-w-[220px] text-slate-700")}>
+                                <div className="whitespace-normal leading-snug">
+                                  {r.keterangan || "-"}
+                                </div>
                               </td>
 
                               <td className={cn(tdBase, "max-w-[220px] text-slate-700")}>
