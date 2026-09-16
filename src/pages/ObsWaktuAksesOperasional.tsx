@@ -623,7 +623,7 @@ export default function ObsWaktuAksesOperasional() {
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Alasan Perubahan</th>
                     </tr>
                   </thead>
-                  <tbody className="text-[#17345f]">
+                  <tbody className="text-[12px] text-[#17345f]">
                     {visibleHistory.map(({ change, day }, index) => (
                         <tr key={`${change.id}-${day}`} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
                           <td className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{(historyPage - 1) * historyPageSize + index + 1}</td>
