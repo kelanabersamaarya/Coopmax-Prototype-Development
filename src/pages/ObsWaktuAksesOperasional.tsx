@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Operasional" | "Riwayat Perubahan";
@@ -107,6 +108,7 @@ export default function ObsWaktuAksesOperasional() {
   const [endTime, setEndTime] = React.useState("16:00");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   function toggleUser(id: string) {
     setSelectedUsers((current) =>
@@ -122,6 +124,11 @@ export default function ObsWaktuAksesOperasional() {
 
   function confirmSaveAccessSettings() {
     setConfirmOpen(false);
+    setSuccessOpen(true);
+  }
+
+  function finishSaveAccessSettings() {
+    setSuccessOpen(false);
     toast.success("Berhasil menyimpan pengaturan waktu operasional", {
       description: `Operasional aktif pukul ${startTime} sampai ${endTime}.`,
     });
@@ -297,6 +304,13 @@ export default function ObsWaktuAksesOperasional() {
               </div>
             </DialogContent>
           </Dialog>
+
+          <LoanProductSaveSuccessModal
+            open={successOpen}
+            onOpenChange={setSuccessOpen}
+            onOk={finishSaveAccessSettings}
+            message="Berhasil Menyimpan Waktu Operasional"
+          />
           </>
         ) : (
           <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
