@@ -19,9 +19,9 @@ export default function LoanProductSaveSuccessModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[519px]",
-          "max-w-[519px]",
-          "h-[340px]",
+          "w-[calc(100vw-2rem)] sm:w-[460px]",
+          "max-w-[460px]",
+          "h-[300px]",
           "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
           "overflow-hidden",
           "[&>button[aria-label=Close]]:hidden",
@@ -31,15 +31,15 @@ export default function LoanProductSaveSuccessModal({
         )}
       >
         <div className="flex h-full flex-col items-center justify-center px-6 py-8 text-center">
-          <div className="flex h-[92px] w-[92px] items-center justify-center rounded-full bg-white ring-4 ring-[#dff2d5]">
-            <Check className="h-[58px] w-[58px] text-[#9bd77e]" strokeWidth={2.5} />
+          <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full bg-white ring-4 ring-[#dff2d5]">
+            <Check className="h-[52px] w-[52px] text-[#9bd77e]" strokeWidth={2.5} />
           </div>
 
-          <div className="mt-7 text-[22px] font-semibold leading-tight tracking-tight text-[#595959]">
+          <div className="mt-5 text-[22px] font-semibold leading-tight tracking-tight text-[#595959]">
             {message}
           </div>
 
-          <div className="mt-8">
+          <div className="mt-6">
             <button
               type="button"
               onClick={onOk}
