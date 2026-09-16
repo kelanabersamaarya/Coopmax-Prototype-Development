@@ -280,17 +280,7 @@ export default function ObsWaktuAksesOperasional() {
               </div>
 
               <div className="border-b border-[#D7DEE9] px-4 py-5 md:px-5">
-                <div className="flex flex-col justify-end gap-4 md:flex-row md:items-start">
-                  <button
-                    type="button"
-                    onClick={() => setScheduleOpen(true)}
-                    className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-[7px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]"
-                  >
-                    <Pencil className="h-4 w-4" />
-                    Ubah Waktu Operasional Harian
-                  </button>
-                </div>
-                <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
                   {operationalDays.map((day) => (
                     <div key={day} className="rounded-[8px] border border-[#D7DEE9] bg-[#F8FAFD] px-3 py-2.5">
                       <div className="flex items-center justify-between gap-2">
