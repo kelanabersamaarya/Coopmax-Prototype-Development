@@ -150,7 +150,7 @@ export default function AstitiTransaksiTabunganDetail() {
               <DetailRow label="Jumlah Transaksi"><span className={transaction?.nominal.startsWith("-") ? "text-red-500" : "text-[#39b500]"}>{transaction?.nominal ?? "-"}</span></DetailRow>
               <DetailRow label="Saldo Akhir" value={transaction?.saldoAkhir ?? "-"} />
               <DetailRow label="Deskripsi" value="-" />
-              <DetailRow label="Keterangan" value={transaction?.keterangan || "-"} />
+              <DetailRow label="Catatan" value={transaction?.keterangan || "-"} />
               <DetailRow label="Dibuat Oleh" value="Arya" />
             </div>
           </div>
