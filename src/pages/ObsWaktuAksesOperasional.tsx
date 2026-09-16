@@ -382,7 +382,7 @@ export default function ObsWaktuAksesOperasional() {
                     <label className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User yang dapat mengakses sistem di luar jam operasional</label>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <button type="button" className="flex min-h-9 min-w-0 flex-1 items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 text-left outline-none focus:ring-2 focus:ring-violet-200">
+                        <div role="button" tabIndex={0} className="flex min-h-9 min-w-0 flex-1 items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 text-left outline-none focus:ring-2 focus:ring-violet-200">
                           <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
                             {selectedUsers.length > 0 ? selectedUsers.map((id) => {
                               const user = accessUsers.find((item) => item.id === id);
@@ -405,7 +405,7 @@ export default function ObsWaktuAksesOperasional() {
                             }) : <span className="px-1 text-[12px] text-slate-400">Pilih user</span>}
                           </span>
                           {selectedUsers.length > 0 ? <X className="h-4 w-4 shrink-0 text-slate-900" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />}
-                        </button>
+                        </div>
                       </PopoverTrigger>
                       <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
                         {accessUsers.map((user) => (
@@ -421,7 +421,7 @@ export default function ObsWaktuAksesOperasional() {
                     <label className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <button type="button" className="flex min-h-9 min-w-0 flex-1 items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 text-left outline-none focus:ring-2 focus:ring-violet-200">
+                        <div role="button" tabIndex={0} className="flex min-h-9 min-w-0 flex-1 items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 text-left outline-none focus:ring-2 focus:ring-violet-200">
                           <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
                             {defaultAccessUsers.length > 0 ? defaultAccessUsers.map((id) => {
                               const user = accessUsers.find((item) => item.id === id);
@@ -444,7 +444,7 @@ export default function ObsWaktuAksesOperasional() {
                             }) : <span className="px-1 text-[12px] text-slate-400">Pilih user default</span>}
                           </span>
                           {defaultAccessUsers.length > 0 ? <X className="h-4 w-4 shrink-0 text-slate-900" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />}
-                        </button>
+                        </div>
                       </PopoverTrigger>
                       <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
                         {accessUsers.map((user) => (
