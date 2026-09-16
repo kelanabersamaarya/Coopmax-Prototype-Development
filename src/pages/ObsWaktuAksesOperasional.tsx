@@ -109,6 +109,29 @@ const timeOptions = Array.from({ length: 48 }, (_, index) => {
   return `${hour}:${minute}`;
 });
 
+const operationalDays = [
+  "Senin",
+  "Selasa",
+  "Rabu",
+  "Kamis",
+  "Jumat",
+  "Sabtu",
+  "Minggu",
+] as const;
+
+type OperationalDay = (typeof operationalDays)[number];
+type DailySchedule = Record<OperationalDay, { start: string; end: string }>;
+
+const defaultDailySchedule: DailySchedule = {
+  Senin: { start: "08:00", end: "16:00" },
+  Selasa: { start: "08:00", end: "16:00" },
+  Rabu: { start: "08:00", end: "16:00" },
+  Kamis: { start: "08:00", end: "16:00" },
+  Jumat: { start: "08:00", end: "16:00" },
+  Sabtu: { start: "08:00", end: "13:00" },
+  Minggu: { start: "08:00", end: "13:00" },
+};
+
 function TimeSelect({
   value,
   onChange,
@@ -138,8 +161,7 @@ export default function ObsWaktuAksesOperasional() {
   const [activeTab, setActiveTab] = React.useState<AccessTab>(
     "Pengaturan Waktu Operasional",
   );
-  const [startTime, setStartTime] = React.useState("08:00");
-  const [endTime, setEndTime] = React.useState("16:00");
+  const [dailySchedule, setDailySchedule] = React.useState<DailySchedule>(defaultDailySchedule);
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -217,14 +239,41 @@ export default function ObsWaktuAksesOperasional() {
                 </h2>
               </div>
 
-              <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-                <span className="font-normal text-black">Waktu Mulai Operasional</span>
-                <TimeSelect value={startTime} onChange={setStartTime} />
-              </div>
-
-              <div className="grid min-h-[66px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-                <span className="font-normal text-black">Waktu Selesai Operasional</span>
-                <TimeSelect value={endTime} onChange={setEndTime} />
+              <div className="border-b border-[#D7DEE9] px-4 py-4 md:px-5">
+                <div className="mb-3">
+                  <span className="text-[12px] font-semibold text-black">Jadwal Operasional per Hari</span>
+                  <p className="mt-1 text-[11px] text-slate-500">Atur waktu mulai dan selesai secara terpisah untuk setiap hari.</p>
+                </div>
+                <div className="overflow-x-auto rounded-[6px] border border-[#D7DEE9]">
+                  <table className="w-full min-w-[620px] text-left text-[12px]">
+                    <thead className="bg-[#F7F8FC] text-[10px] uppercase tracking-[0.08em] text-[#61728c]">
+                      <tr>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Hari</th>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Mulai Operasional</th>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Selesai Operasional</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {operationalDays.map((day) => (
+                        <tr key={day} className="bg-white">
+                          <td className="border-b border-[#D7DEE9] px-3 py-2 font-medium text-black">{day}</td>
+                          <td className="border-b border-[#D7DEE9] px-3 py-2">
+                            <TimeSelect
+                              value={dailySchedule[day].start}
+                              onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], start: value } }))}
+                            />
+                          </td>
+                          <td className="border-b border-[#D7DEE9] px-3 py-2">
+                            <TimeSelect
+                              value={dailySchedule[day].end}
+                              onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], end: value } }))}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
