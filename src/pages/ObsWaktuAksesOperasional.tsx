@@ -624,8 +624,8 @@ export default function ObsWaktuAksesOperasional() {
                   <thead>
                     <tr className="bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
                       <th className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
-                      <th className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
-                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Tanggal dan Waktu Perubahan</th>
+                      <th className="w-[90px] border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
+                      <th className="w-[135px] border border-[#C9D3E3] px-2 py-1.5 font-semibold">Tanggal dan Waktu Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sebelum Perubahan per Hari</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sesudah Perubahan per Hari</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User yang Dikecualikan Sebelum Perubahan</th>
@@ -637,8 +637,8 @@ export default function ObsWaktuAksesOperasional() {
                     {visibleHistory.map(({ change, day }, index) => (
                         <tr key={`${change.id}-${day}`} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
                           <td className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{(historyPage - 1) * historyPageSize + index + 1}</td>
-                          <td className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
-                          <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
+                          <td className="w-[90px] border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
+                          <td className="w-[135px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
                           <td className="border border-[#C9D3E3] px-2 py-1.5 whitespace-nowrap"><span className="font-medium text-[#61728c]">{day}:</span> {change.operationalHoursBefore}</td>
                           <td className="border border-[#C9D3E3] px-2 py-1.5 whitespace-nowrap"><span className="font-medium text-[#61728c]">{day}:</span> {change.operationalHoursAfter}</td>
                           <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersBefore}</td>
