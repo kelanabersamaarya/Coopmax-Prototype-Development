@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/popover";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
-import { showSolidSuccess } from "@/utils/solid-toast";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Operasional" | "Riwayat Perubahan";
@@ -225,7 +224,6 @@ export default function ObsWaktuAksesOperasional() {
 
   function finishSaveAccessSettings() {
     setSuccessOpen(false);
-    showSolidSuccess("Berhasil Menyimpan Waktu Operasional");
   }
 
   return (
@@ -416,7 +414,7 @@ export default function ObsWaktuAksesOperasional() {
           <LoanProductSaveSuccessModal
             open={daySuccessOpen}
             onOpenChange={setDaySuccessOpen}
-            onOk={() => { setDaySuccessOpen(false); showSolidSuccess("Berhasil Menyimpan Data"); }}
+            onOk={() => setDaySuccessOpen(false)}
             message="Berhasil Menyimpan Data"
           />
 
