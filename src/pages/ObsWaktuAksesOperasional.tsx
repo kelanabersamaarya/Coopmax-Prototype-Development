@@ -189,6 +189,7 @@ export default function ObsWaktuAksesOperasional() {
   const [dailyStatus, setDailyStatus] = React.useState<DailyStatus>(defaultDailyStatus);
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
+  const [dayChangeReason, setDayChangeReason] = React.useState("");
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [defaultAccessUsers, setDefaultAccessUsers] = React.useState<string[]>(["supervisor"]);
@@ -296,7 +297,10 @@ export default function ObsWaktuAksesOperasional() {
                       </p>
                       <button
                         type="button"
-                        onClick={() => setEditingDay(day)}
+                        onClick={() => {
+                          setDayChangeReason("");
+                          setEditingDay(day);
+                        }}
                         className="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold text-[#635BFF] hover:text-[#5149df]"
                       >
                         <Pencil className="h-3 w-3" />
@@ -362,6 +366,16 @@ export default function ObsWaktuAksesOperasional() {
                     <div>
                       <label className="mb-1.5 block text-[12px] font-normal text-black">Waktu Selesai Operasional</label>
                       <TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} />
+                    </div>
+                    <div>
+                      <label htmlFor="day-change-reason" className="mb-1.5 block text-[12px] font-normal text-black">Alasan Perubahan</label>
+                      <textarea
+                        id="day-change-reason"
+                        value={dayChangeReason}
+                        onChange={(event) => setDayChangeReason(event.target.value)}
+                        placeholder="Masukkan alasan perubahan"
+                        className="min-h-[76px] w-full resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+                      />
                     </div>
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
