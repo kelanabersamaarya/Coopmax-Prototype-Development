@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, ChevronDown, Clock3, X } from "lucide-react";
+import { CheckSquare, ChevronDown, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -26,6 +26,7 @@ type ChangeHistory = {
   operationalHoursAfter: string;
   excludedUsersBefore: string;
   excludedUsersAfter: string;
+  reason: string;
 };
 
 const tabs: AccessTab[] = [
@@ -48,6 +49,7 @@ const changeHistory: ChangeHistory[] = [
     operationalHoursAfter: "08:00 - 17:00",
     excludedUsersBefore: "Admin",
     excludedUsersAfter: "Admin, Manager Operasional",
+    reason: "Penyesuaian jam layanan operasional",
   },
   {
     id: 2,
@@ -57,6 +59,7 @@ const changeHistory: ChangeHistory[] = [
     operationalHoursAfter: "08:00 - 16:00",
     excludedUsersBefore: "Admin, Supervisor",
     excludedUsersAfter: "Admin",
+    reason: "Mengikuti perubahan jadwal kerja cabang",
   },
   {
     id: 3,
@@ -66,6 +69,37 @@ const changeHistory: ChangeHistory[] = [
     operationalHoursAfter: "07:30 - 16:00",
     excludedUsersBefore: "Admin, Manager Operasional",
     excludedUsersAfter: "Admin, Supervisor",
+    reason: "Penyesuaian waktu layanan pagi",
+  },
+  {
+    id: 4,
+    user: "Supervisor",
+    changedAt: "08-09-2026 15:20:00",
+    operationalHoursBefore: "08:00 - 16:00",
+    operationalHoursAfter: "08:00 - 15:30",
+    excludedUsersBefore: "Admin",
+    excludedUsersAfter: "Admin, Supervisor",
+    reason: "Evaluasi kebutuhan operasional harian",
+  },
+  {
+    id: 5,
+    user: "Admin",
+    changedAt: "05-09-2026 08:15:00",
+    operationalHoursBefore: "07:30 - 16:00",
+    operationalHoursAfter: "08:00 - 16:00",
+    excludedUsersBefore: "Admin, Supervisor",
+    excludedUsersAfter: "Admin",
+    reason: "Standarisasi jam operasional koperasi",
+  },
+  {
+    id: 6,
+    user: "Manager Operasional",
+    changedAt: "01-09-2026 07:45:00",
+    operationalHoursBefore: "07:00 - 15:30",
+    operationalHoursAfter: "07:30 - 16:00",
+    excludedUsersBefore: "Admin",
+    excludedUsersAfter: "Admin, Manager Operasional",
+    reason: "Penyesuaian dengan jam layanan anggota",
   },
 ];
 
@@ -107,8 +141,15 @@ export default function ObsWaktuAksesOperasional() {
   const [startTime, setStartTime] = React.useState("08:00");
   const [endTime, setEndTime] = React.useState("16:00");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
+  const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
+  const historyPageSize = 3;
+  const historyPageCount = Math.ceil(changeHistory.length / historyPageSize);
+  const visibleHistory = changeHistory.slice(
+    (historyPage - 1) * historyPageSize,
+    historyPage * historyPageSize,
+  );
 
   function toggleUser(id: string) {
     setSelectedUsers((current) =>
@@ -332,10 +373,11 @@ export default function ObsWaktuAksesOperasional() {
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sesudah Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User yang Dikecualikan Sebelum Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User yang Dikecualikan Sesudah Perubahan</th>
+                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Alasan Perubahan</th>
                     </tr>
                   </thead>
                   <tbody className="text-[#17345f]">
-                    {changeHistory.map((change) => (
+                    {visibleHistory.map((change) => (
                       <tr key={change.id} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
                         <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
@@ -344,10 +386,51 @@ export default function ObsWaktuAksesOperasional() {
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.operationalHoursAfter}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersBefore}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersAfter}</td>
+                        <td className="border border-[#C9D3E3] px-2 py-1.5">{change.reason}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+              </div>
+              <div className="flex flex-col gap-3 border-t border-[#D7DEE9] px-4 py-3 text-[11px] text-[#61728c] sm:flex-row sm:items-center sm:justify-between">
+                <span>Menampilkan {(historyPage - 1) * historyPageSize + 1}-{Math.min(historyPage * historyPageSize, changeHistory.length)} dari {changeHistory.length} riwayat</span>
+                <div className="flex items-center justify-end gap-1.5">
+                  <button
+                    type="button"
+                    aria-label="Halaman sebelumnya"
+                    disabled={historyPage === 1}
+                    onClick={() => setHistoryPage((page) => Math.max(1, page - 1))}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#C9D3E3] bg-white text-[#53657d] transition hover:bg-[#F1F4FA] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  {Array.from({ length: historyPageCount }, (_, index) => index + 1).map((page) => (
+                    <button
+                      key={page}
+                      type="button"
+                      aria-label={`Halaman ${page}`}
+                      aria-current={historyPage === page ? "page" : undefined}
+                      onClick={() => setHistoryPage(page)}
+                      className={cn(
+                        "inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 font-semibold transition",
+                        historyPage === page
+                          ? "border-[#635BFF] bg-[#635BFF] text-white"
+                          : "border-[#C9D3E3] bg-white text-[#53657d] hover:bg-[#F1F4FA]",
+                      )}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    aria-label="Halaman berikutnya"
+                    disabled={historyPage === historyPageCount}
+                    onClick={() => setHistoryPage((page) => Math.min(historyPageCount, page + 1))}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#C9D3E3] bg-white text-[#53657d] transition hover:bg-[#F1F4FA] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
