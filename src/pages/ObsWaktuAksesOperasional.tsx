@@ -143,6 +143,19 @@ const defaultDailyStatus: DailyStatus = {
   Minggu: true,
 };
 
+function HistorySchedule({ value }: { value: string }) {
+  return (
+    <div className="min-w-[125px] space-y-1">
+      {operationalDays.map((day) => (
+        <div key={day} className="flex gap-2 whitespace-nowrap">
+          <span className="font-medium text-[#61728c]">{day}:</span>
+          <span>{value}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function TimeSelect({
   value,
   onChange,
@@ -531,8 +544,8 @@ export default function ObsWaktuAksesOperasional() {
                       <th className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Tanggal dan Waktu Perubahan</th>
-                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sebelum Perubahan</th>
-                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sesudah Perubahan</th>
+                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sebelum Perubahan per Hari</th>
+                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sesudah Perubahan per Hari</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User yang Dikecualikan Sebelum Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User yang Dikecualikan Sesudah Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Alasan Perubahan</th>
@@ -544,8 +557,8 @@ export default function ObsWaktuAksesOperasional() {
                         <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
                         <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
-                        <td className="border border-[#C9D3E3] px-2 py-1.5">{change.operationalHoursBefore}</td>
-                        <td className="border border-[#C9D3E3] px-2 py-1.5">{change.operationalHoursAfter}</td>
+                        <td className="border border-[#C9D3E3] px-2 py-1.5 align-top"><HistorySchedule value={change.operationalHoursBefore} /></td>
+                        <td className="border border-[#C9D3E3] px-2 py-1.5 align-top"><HistorySchedule value={change.operationalHoursAfter} /></td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersBefore}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersAfter}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5">{change.reason}</td>
