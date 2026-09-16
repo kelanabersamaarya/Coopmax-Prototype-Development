@@ -280,7 +280,7 @@ export default function ObsWaktuAksesOperasional() {
                   <button
                     type="button"
                     onClick={() => setScheduleOpen(true)}
-                    className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-[7px] bg-[#635BFF] px-3 text-[12px] font-semibold text-white transition hover:bg-[#5149df]"
+                    className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-[7px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]"
                   >
                     <Pencil className="h-4 w-4" />
                     Ubah Waktu Operasional Harian
