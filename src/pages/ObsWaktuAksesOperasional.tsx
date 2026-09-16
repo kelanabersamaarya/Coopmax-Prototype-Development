@@ -1,6 +1,5 @@
 import * as React from "react";
 import { CheckSquare, ChevronDown, Clock3, X } from "lucide-react";
-import { toast } from "sonner";
 import {
   Popover,
   PopoverContent,
@@ -8,6 +7,7 @@ import {
 } from "@/components/ui/popover";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
+import { showSolidSuccess } from "@/utils/solid-toast";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Operasional" | "Riwayat Perubahan";
@@ -129,7 +129,7 @@ export default function ObsWaktuAksesOperasional() {
 
   function finishSaveAccessSettings() {
     setSuccessOpen(false);
-    toast.success("Berhasil Menyimpan Waktu Operasional");
+    showSolidSuccess("Berhasil Menyimpan Waktu Operasional");
   }
 
   return (
