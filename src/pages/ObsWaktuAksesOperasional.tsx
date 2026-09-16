@@ -346,7 +346,7 @@ export default function ObsWaktuAksesOperasional() {
                           <X className="h-4 w-4 shrink-0 text-slate-900" />
                         </div>
                         {dayUserDropdown === "access" && <div className="absolute z-20 mt-1 w-full rounded-[6px] border border-slate-200 bg-white p-1.5 shadow-lg">
-                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => toggleUser(user.id)} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
+                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => { toggleUser(user.id); setDayUserDropdown(null); }} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
                         </div>}
                       </div>
                     </div>
@@ -363,7 +363,7 @@ export default function ObsWaktuAksesOperasional() {
                           <X className="h-4 w-4 shrink-0 text-slate-900" />
                         </div>
                         {dayUserDropdown === "default" && <div className="absolute z-20 mt-1 w-full rounded-[6px] border border-slate-200 bg-white p-1.5 shadow-lg">
-                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id])} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
+                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => { setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id]); setDayUserDropdown(null); }} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
                         </div>}
                       </div>
                     </div>
