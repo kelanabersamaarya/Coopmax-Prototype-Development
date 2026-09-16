@@ -647,7 +647,7 @@ export default function ObsWaktuAksesOperasional() {
                     aria-label="Halaman sebelumnya"
                     disabled={historyPage === 1}
                     onClick={() => setHistoryPage((page) => Math.max(1, page - 1))}
-                    className="inline-flex h-10 min-w-[150px] items-center justify-center rounded-[3px] bg-[#e9edf3] px-4 text-[17px] font-medium text-[#c5cedb] transition hover:bg-[#dde4ed] disabled:cursor-not-allowed disabled:opacity-100"
+                    className="inline-flex h-8 min-w-[120px] items-center justify-center rounded-[3px] bg-[#e9edf3] px-3 text-[14px] font-medium text-[#c5cedb] transition hover:bg-[#dde4ed] disabled:cursor-not-allowed disabled:opacity-100"
                   >
                     Sebelumnya
                   </button>
@@ -659,7 +659,7 @@ export default function ObsWaktuAksesOperasional() {
                       aria-current={historyPage === page ? "page" : undefined}
                       onClick={() => setHistoryPage(page)}
                       className={cn(
-                        "inline-flex h-10 min-w-[38px] items-center justify-center rounded-[2px] px-2.5 text-[17px] font-medium transition",
+                        "inline-flex h-8 min-w-[30px] items-center justify-center rounded-[2px] px-2 text-[14px] font-medium transition",
                         historyPage === page
                           ? "bg-[#5a46f5] text-white"
                           : "bg-[#e1e6ed] text-[#26364c] hover:bg-[#d5dce6]",
@@ -670,14 +670,14 @@ export default function ObsWaktuAksesOperasional() {
                   ))}
                   {historyPageCount > 6 ? (
                     <>
-                      <span className="inline-flex h-10 min-w-[38px] items-center justify-center text-[17px] text-[#26364c]">...</span>
+                      <span className="inline-flex h-8 min-w-[30px] items-center justify-center text-[14px] text-[#26364c]">...</span>
                       <button
                         type="button"
                         aria-label={`Halaman ${historyPageCount}`}
                         aria-current={historyPage === historyPageCount ? "page" : undefined}
                         onClick={() => setHistoryPage(historyPageCount)}
                         className={cn(
-                          "inline-flex h-10 min-w-[48px] items-center justify-center rounded-[2px] px-2.5 text-[17px] font-medium transition",
+                          "inline-flex h-8 min-w-[40px] items-center justify-center rounded-[2px] px-2 text-[14px] font-medium transition",
                           historyPage === historyPageCount ? "bg-[#5a46f5] text-white" : "bg-[#e1e6ed] text-[#26364c] hover:bg-[#d5dce6]",
                         )}
                       >
@@ -690,7 +690,7 @@ export default function ObsWaktuAksesOperasional() {
                     aria-label="Halaman berikutnya"
                     disabled={historyPage === historyPageCount}
                     onClick={() => setHistoryPage((page) => Math.min(historyPageCount, page + 1))}
-                    className="inline-flex h-10 min-w-[150px] items-center justify-center rounded-[3px] bg-[#e1e6ed] px-4 text-[17px] font-medium text-[#26364c] transition hover:bg-[#d5dce6] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-8 min-w-[120px] items-center justify-center rounded-[3px] bg-[#e1e6ed] px-3 text-[14px] font-medium text-[#26364c] transition hover:bg-[#d5dce6] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Selanjutnya
                   </button>
