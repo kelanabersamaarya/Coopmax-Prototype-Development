@@ -41,7 +41,7 @@ function OperationalTimeCounter() {
           <Clock3 className="h-9 w-9 sm:h-10 sm:w-10" strokeWidth={1.6} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="whitespace-nowrap text-[15px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[17px]">Jam Operasional Koperasi</p>
+          <p className="whitespace-nowrap text-[15px] font-medium leading-tight tracking-tight text-slate-950 sm:text-[17px]">Jam Operasional Koperasi Samudra Harta</p>
           <p className="mt-1.5 whitespace-nowrap text-[27px] font-bold leading-none tracking-tight text-black sm:text-[31px]">08.00 - 16.00</p>
         </div>
       </div>
