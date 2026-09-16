@@ -381,9 +381,23 @@ export default function ObsWaktuAksesOperasional() {
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4 sm:px-6">
-                <button type="button" onClick={() => setScheduleOpen(false)} className="h-9 rounded-[6px] border border-slate-300 bg-white px-4 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-50">Batal</button>
-                <button type="button" onClick={() => setScheduleOpen(false)} className="h-9 rounded-[6px] bg-[#2fb300] px-4 text-[12px] font-bold text-white transition hover:bg-[#279800]">Simpan Jadwal</button>
+              <div className="flex flex-col-reverse gap-3 border-t border-[#D7DEE9] px-5 py-4 sm:flex-row sm:justify-end sm:px-6">
+                <button
+                  type="button"
+                  onClick={() => setScheduleOpen(false)}
+                  className="inline-flex h-[72px] flex-1 items-center justify-center gap-2 rounded-[22px] bg-[#8291ad] px-6 text-[30px] font-normal text-white transition hover:bg-[#71819d] sm:max-w-[320px]"
+                >
+                  <X className="h-8 w-8" strokeWidth={4} />
+                  Batalkan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setScheduleOpen(false)}
+                  className="inline-flex h-[72px] flex-1 items-center justify-center gap-2 rounded-[22px] bg-[#28b900] px-6 text-[30px] font-normal text-white transition hover:bg-[#20a000] sm:max-w-[320px]"
+                >
+                  <CheckSquare className="h-8 w-8" strokeWidth={3} />
+                  Simpan
+                </button>
               </div>
             </DialogContent>
           </Dialog>
