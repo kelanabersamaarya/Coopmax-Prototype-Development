@@ -289,95 +289,41 @@ export default function ObsWaktuAksesOperasional() {
               <div className="grid gap-5 border-b border-[#D7DEE9] px-4 py-5 text-[12px] md:grid-cols-2 md:px-5">
                 <div>
                   <div className="font-normal text-black">User yang dapat mengakses sistem di luar jam operasional</div>
-
+                  <div className="mt-2 flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                    {selectedUsers.length === 0 ? (
+                      <span className="px-1 text-[13px] text-slate-500">Belum ada user</span>
+                    ) : (
+                      selectedUsers.map((id) => {
+                        const user = accessUsers.find((item) => item.id === id);
+                        return user ? (
+                          <span key={user.id} className="inline-flex h-7 items-center bg-[#5543f5] px-2.5 text-[12px] font-normal text-white">
+                            {user.name}
+                          </span>
+                        ) : null;
+                      })
+                    )}
+                  </div>
+                  <p className="mt-1 text-[11px] text-slate-500">User yang tetap diizinkan masuk ke sistem.</p>
+                </div>
                 <div>
-                  <Popover>
-                  <PopoverTrigger asChild>
-                    <div className="flex min-h-9 w-full cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 shadow-none focus-within:ring-2 focus-within:ring-violet-200">
-                      <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                        {selectedUsers.length === 0 ? (
-                          <span className="px-1 text-[13px] text-slate-500">Pilih user</span>
-                        ) : (
-                          selectedUsers.map((id) => {
-                            const user = accessUsers.find((item) => item.id === id);
-                            if (!user) return null;
-
-                            return (
-                              <span
-                                key={user.id}
-                                className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"
-                              >
-                                <button
-                                  type="button"
-                                  aria-label={`Hapus ${user.name}`}
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    toggleUser(user.id);
-                                  }}
-                                  className="text-[14px] font-semibold leading-none text-white/70 hover:text-white"
-                                >
-                                  ×
-                                </button>
-                                {user.name}
-                              </span>
-                            );
-                          })
-                        )}
-                      </div>
-                      {selectedUsers.length > 0 ? (
-                        <button
-                          type="button"
-                          aria-label="Hapus semua user"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            setSelectedUsers([]);
-                          }}
-                          className="ml-auto shrink-0 px-2 text-slate-900 hover:text-violet-700"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      ) : (
-                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 text-slate-500" />
-                      )}
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-none border-slate-200 bg-white p-1.5 shadow-lg">
-                    {accessUsers.map((user) => (
-                      <button
-                        key={user.id}
-                        type="button"
-                        onClick={() => toggleUser(user.id)}
-                        className="flex min-h-9 w-full items-center bg-white px-2.5 py-2 text-left text-[13px] font-normal text-slate-900 transition hover:bg-[#2563eb] hover:text-white"
-                      >
-                        {user.name}
-                      </button>
-                    ))}
-                  </PopoverContent>
-                  </Popover>
-                  <p className="mt-1 text-[11px] text-slate-500">
-                    Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
-                  </p>
+                  <div className="font-normal text-black">User default yang dapat mengakses di luar jam operasional</div>
+                  <div className="mt-2 flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                    {defaultAccessUsers.length === 0 ? (
+                      <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span>
+                    ) : (
+                      defaultAccessUsers.map((id) => {
+                        const user = accessUsers.find((item) => item.id === id);
+                        return user ? (
+                          <span key={user.id} className="inline-flex h-7 items-center bg-[#5543f5] px-2.5 text-[12px] font-normal text-white">
+                            {user.name}
+                          </span>
+                        ) : null;
+                      })
+                    )}
+                  </div>
+                  <p className="mt-1 text-[11px] text-slate-500">User default yang tetap diizinkan masuk ke sistem.</p>
                 </div>
               </div>
-              <div>
-                <div className="font-normal text-black">User default yang dapat mengakses di luar jam operasional</div>
-                <div className="mt-2 flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
-                  {defaultAccessUsers.length === 0 ? (
-                    <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span>
-                  ) : (
-                    defaultAccessUsers.map((id) => {
-                      const user = accessUsers.find((item) => item.id === id);
-                      return user ? (
-                        <span key={user.id} className="inline-flex h-7 items-center bg-[#5543f5] px-2.5 text-[12px] font-normal text-white">
-                          {user.name}
-                        </span>
-                      ) : null;
-                    })
-                  )}
-                </div>
-                <p className="mt-1 text-[11px] text-slate-500">User default yang tetap diizinkan masuk ke sistem.</p>
-              </div>
-            </div>
 
             <div className="flex justify-end pt-4">
               <button
