@@ -165,6 +165,7 @@ export default function ObsWaktuAksesOperasional() {
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
+  const [defaultAccessUser, setDefaultAccessUser] = React.useState("admin");
   const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -375,6 +376,41 @@ export default function ObsWaktuAksesOperasional() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+                <div className="mt-5 grid gap-4 border-t border-[#D7DEE9] pt-4 md:grid-cols-2">
+                  <div>
+                    <label className="text-[12px] font-semibold text-black">User yang dapat mengakses sistem di luar jam operasional</label>
+                    <div className="mt-2 flex min-h-9 flex-wrap gap-1.5 rounded-[6px] border border-slate-300 bg-white p-1.5">
+                      {accessUsers.map((user) => (
+                        <button
+                          key={user.id}
+                          type="button"
+                          onClick={() => toggleUser(user.id)}
+                          className={cn(
+                            "rounded-[5px] px-2.5 py-1.5 text-[11px] font-medium transition",
+                            selectedUsers.includes(user.id)
+                              ? "bg-[#5543f5] text-white"
+                              : "bg-[#F1F4FA] text-[#53657d] hover:bg-[#E5EAF4]",
+                          )}
+                        >
+                          {user.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="default-access-user" className="text-[12px] font-semibold text-black">User default yang dapat mengakses di luar jam operasional</label>
+                    <select
+                      id="default-access-user"
+                      value={defaultAccessUser}
+                      onChange={(event) => setDefaultAccessUser(event.target.value)}
+                      className="mt-2 h-9 w-full rounded-[6px] border border-slate-300 bg-white px-3 text-[12px] text-slate-900 outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+                    >
+                      {accessUsers.map((user) => (
+                        <option key={user.id} value={user.id}>{user.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
                 <div className="mt-4">
                   <label htmlFor="change-reason" className="text-[12px] font-semibold text-black">Alasan Perubahan Jam Operasional</label>
