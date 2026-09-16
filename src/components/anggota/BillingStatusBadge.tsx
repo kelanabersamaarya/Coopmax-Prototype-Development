@@ -12,7 +12,7 @@ export default function BillingStatusBadge({ status }: { status: BillingStatus }
     <span
       className={`mr-2 inline-flex min-h-7 items-center whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[11px] font-bold leading-[1.15] shadow-sm ${statusStyles[status]}`}
     >
-      {status}
+      {status.toUpperCase()}
     </span>
   );
 }
