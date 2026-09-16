@@ -401,7 +401,7 @@ export default function ObsWaktuAksesOperasional() {
           </Dialog>
 
           <Dialog open={dayConfirmOpen} onOpenChange={setDayConfirmOpen}>
-            <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] rounded-[8px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[460px] rounded-[8px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
               <div className="px-8 pb-6 pt-8 text-center">
                 <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-4 border-[#f7c8a6] text-[38px] font-light text-[#f2b98f]">!</div>
                 <h3 className="mt-5 text-[22px] font-extrabold text-[#3b4863]">Yakin menyimpan perubahan?</h3>
