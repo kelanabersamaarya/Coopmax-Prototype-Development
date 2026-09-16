@@ -144,9 +144,15 @@ const defaultDailyStatus: DailyStatus = {
 
 function HistorySchedule({ value }: { value: string }) {
   return (
-    <div className="min-w-[125px] space-y-1">
-      {operationalDays.map((day) => (
-        <div key={day} className="flex gap-2 whitespace-nowrap">
+    <div className="min-w-[145px]">
+      {operationalDays.map((day, index) => (
+        <div
+          key={day}
+          className={cn(
+            "flex min-h-[28px] items-center gap-2 whitespace-nowrap py-1",
+            index < operationalDays.length - 1 && "border-b border-[#E1E7F0]",
+          )}
+        >
           <span className="font-medium text-[#61728c]">{day}:</span>
           <span>{value}</span>
         </div>
