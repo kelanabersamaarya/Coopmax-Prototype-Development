@@ -346,16 +346,8 @@ export default function ObsWaktuAksesOperasional() {
 
           <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
-              <div className="border-b border-[#D7DEE9] bg-[#F7F8FC] px-5 py-4 sm:px-6">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
-                    <Clock3 className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h3 className="text-[16px] font-bold text-[#17345f]">Atur Waktu Operasional Harian</h3>
-                    <p className="mt-0.5 text-[11px] text-slate-500">Tentukan jam mulai dan selesai untuk setiap hari.</p>
-                  </div>
-                </div>
+              <div className="border-b border-[#D7DEE9] bg-white px-5 py-4 sm:px-6">
+                <h3 className="text-[16px] font-bold text-[#17345f]">Atur Waktu Operasional Harian</h3>
               </div>
               <div className="max-h-[65vh] overflow-y-auto px-5 py-4 sm:px-6">
                 <div className="overflow-x-auto rounded-[6px] border border-[#D7DEE9]">
