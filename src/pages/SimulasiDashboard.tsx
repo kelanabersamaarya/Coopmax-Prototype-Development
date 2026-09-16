@@ -183,7 +183,6 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-[calc(100vh-2rem)] bg-[#f7f8fc] px-4 py-7 text-[#102342] sm:px-7 sm:py-8 lg:px-9">
-      <OperationalTimeCounter />
       <header className="mb-9 flex items-start justify-between gap-4">
         <div>
           <h1 className="text-[22px] font-bold leading-tight text-[#082b67] sm:text-[24px]">Hi, Arya!</h1>
