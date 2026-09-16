@@ -365,7 +365,7 @@ export default function ObsWaktuAksesOperasional() {
                         </div>}
                       </div>
                     </div>
-                    <div className="flex items-start gap-0 px-3 py-2.5">
+                    <div className="flex items-start gap-0 py-2.5">
                       <span className="w-[200px] shrink-0 pt-1 text-[12px] font-normal text-black">Status operasional</span>
                       <button
                         type="button"
