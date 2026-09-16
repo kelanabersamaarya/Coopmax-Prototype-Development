@@ -1087,7 +1087,7 @@ function PaymentInputBlock({
         />
 
         <PaymentTextInput
-          label="Keterangan"
+          label="Catatan"
           value={row.keteranganPelunasan}
           onChange={(v) => onChange({ keteranganPelunasan: v })}
           className={inputCls}
@@ -1117,7 +1117,7 @@ function PaymentInputBlock({
         />
 
         <PaymentTextInput
-          label="Keterangan"
+          label="Catatan"
           value={row.keteranganBakiDebet}
           onChange={(v) => onChange({ keteranganBakiDebet: v })}
           className={inputCls}
@@ -1169,7 +1169,7 @@ function PaymentInputBlock({
         />
 
         <PaymentTextInput
-          label="Keterangan"
+          label="Catatan"
           value={row.keteranganKhusus}
           onChange={(v) => onChange({ keteranganKhusus: v })}
           className={inputCls}
@@ -1199,7 +1199,7 @@ function PaymentInputBlock({
       />
 
       <PaymentTextInput
-        label="Keterangan"
+        label="Catatan"
         value={row.keteranganReguler}
         onChange={(v) => onChange({ keteranganReguler: v })}
         className={inputCls}
