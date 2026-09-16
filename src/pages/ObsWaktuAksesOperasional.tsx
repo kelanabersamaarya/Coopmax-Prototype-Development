@@ -352,7 +352,7 @@ export default function ObsWaktuAksesOperasional() {
           </div>
 
           <Dialog open={editingDay !== null} onOpenChange={(open) => !open && setEditingDay(null)}>
-            <DialogContent className="w-[calc(100vw-2rem)] max-w-[420px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[620px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
               {editingDay && (
                 <>
                   <div className="border-b border-[#D7DEE9] px-5 py-4">
@@ -366,6 +366,24 @@ export default function ObsWaktuAksesOperasional() {
                     <div>
                       <label className="mb-1.5 block text-[12px] font-normal text-black">Waktu Selesai Operasional</label>
                       <TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-[12px] font-normal text-black">User yang dapat mengakses sistem di luar jam operasional</label>
+                      <div className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                        {selectedUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Belum ada user</span> : selectedUsers.map((id) => {
+                          const user = accessUsers.find((item) => item.id === id);
+                          return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><span>×</span>{user.name}</span> : null;
+                        })}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-[12px] font-normal text-black">User default yang dapat mengakses di luar jam operasional</label>
+                      <div className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                        {defaultAccessUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span> : defaultAccessUsers.map((id) => {
+                          const user = accessUsers.find((item) => item.id === id);
+                          return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><span>×</span>{user.name}</span> : null;
+                        })}
+                      </div>
                     </div>
                     <div>
                       <label htmlFor="day-change-reason" className="mb-1.5 block text-[12px] font-normal text-black">Alasan Perubahan</label>
