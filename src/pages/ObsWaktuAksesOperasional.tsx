@@ -377,7 +377,7 @@ export default function ObsWaktuAksesOperasional() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-5 grid gap-4 border-t border-[#D7DEE9] pt-4 md:grid-cols-2">
+                <div className="mt-5 border-t border-[#D7DEE9] pt-4">
                   <div className="flex items-center gap-3">
                     <label className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User yang dapat mengakses sistem di luar jam operasional</label>
                     <div className="flex min-h-9 min-w-0 flex-1 flex-wrap gap-1.5 rounded-[6px] border border-slate-300 bg-white p-1.5">
@@ -398,7 +398,7 @@ export default function ObsWaktuAksesOperasional() {
                       ))}
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="mt-4 flex items-center gap-3">
                     <label htmlFor="default-access-user" className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
                     <select
                       id="default-access-user"
