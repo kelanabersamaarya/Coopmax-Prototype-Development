@@ -242,7 +242,6 @@ export default function ObsWaktuAksesOperasional() {
               <div className="border-b border-[#D7DEE9] px-4 py-4 md:px-5">
                 <div className="mb-3">
                   <span className="text-[12px] font-semibold text-black">Jadwal Operasional per Hari</span>
-                  <p className="mt-1 text-[11px] text-slate-500">Atur waktu mulai dan selesai secara terpisah untuk setiap hari.</p>
                 </div>
                 <div className="overflow-x-auto rounded-[6px] border border-[#D7DEE9]">
                   <table className="w-full min-w-[620px] text-left text-[12px]">
