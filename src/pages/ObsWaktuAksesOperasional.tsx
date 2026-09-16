@@ -191,6 +191,8 @@ export default function ObsWaktuAksesOperasional() {
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [dayChangeReason, setDayChangeReason] = React.useState("");
   const [dayUserDropdown, setDayUserDropdown] = React.useState<"access" | "default" | null>(null);
+  const [dayConfirmOpen, setDayConfirmOpen] = React.useState(false);
+  const [daySuccessOpen, setDaySuccessOpen] = React.useState(false);
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [defaultAccessUsers, setDefaultAccessUsers] = React.useState<string[]>(["supervisor"]);
@@ -391,12 +393,32 @@ export default function ObsWaktuAksesOperasional() {
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
                     <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); }} className="h-8 rounded-[6px] bg-[#8291ad] px-3 text-[12px] text-white">Batal</button>
-                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); }} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
+                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); setDayConfirmOpen(true); }} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
                   </div>
                 </>
               )}
             </DialogContent>
           </Dialog>
+
+          <Dialog open={dayConfirmOpen} onOpenChange={setDayConfirmOpen}>
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] rounded-[8px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+              <div className="px-8 pb-6 pt-8 text-center">
+                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-4 border-[#f7c8a6] text-[38px] font-light text-[#f2b98f]">!</div>
+                <h3 className="mt-5 text-[22px] font-extrabold text-[#3b4863]">Yakin menyimpan perubahan?</h3>
+                <div className="mt-6 flex justify-center gap-2">
+                  <button type="button" onClick={() => { setDayConfirmOpen(false); setDaySuccessOpen(true); }} className="h-10 rounded-[6px] bg-[#2f80ed] px-5 text-[13px] font-semibold text-white">Yes</button>
+                  <button type="button" onClick={() => setDayConfirmOpen(false)} className="h-10 rounded-[6px] bg-[#8291ad] px-5 text-[13px] font-semibold text-white">Cancel</button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <LoanProductSaveSuccessModal
+            open={daySuccessOpen}
+            onOpenChange={setDaySuccessOpen}
+            onOk={() => { setDaySuccessOpen(false); showSolidSuccess("Berhasil Menyimpan Perubahan Operasional"); }}
+            message="Berhasil Menyimpan Perubahan Operasional"
+          />
 
           <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
