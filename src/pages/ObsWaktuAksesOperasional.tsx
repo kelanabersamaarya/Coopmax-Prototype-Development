@@ -634,18 +634,14 @@ export default function ObsWaktuAksesOperasional() {
                     {visibleHistory.map((change) => (
                       operationalDays.map((day, dayIndex) => (
                         <tr key={`${change.id}-${day}`} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
-                          {dayIndex === 0 && <>
-                            <td rowSpan={operationalDays.length} className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 align-middle">{change.id}</td>
-                            <td rowSpan={operationalDays.length} className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 align-middle font-medium">{change.user}</td>
-                            <td rowSpan={operationalDays.length} className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 align-middle">{change.changedAt}</td>
-                          </>}
+                          <td className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
+                          <td className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
+                          <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
                           <td className="border border-[#C9D3E3] px-2 py-1.5 whitespace-nowrap"><span className="font-medium text-[#61728c]">{day}:</span> {change.operationalHoursBefore}</td>
                           <td className="border border-[#C9D3E3] px-2 py-1.5 whitespace-nowrap"><span className="font-medium text-[#61728c]">{day}:</span> {change.operationalHoursAfter}</td>
-                          {dayIndex === 0 && <>
-                            <td rowSpan={operationalDays.length} className="border border-[#C9D3E3] px-2 py-1.5 align-middle">{change.excludedUsersBefore}</td>
-                            <td rowSpan={operationalDays.length} className="border border-[#C9D3E3] px-2 py-1.5 align-middle">{change.excludedUsersAfter}</td>
-                            <td rowSpan={operationalDays.length} className="border border-[#C9D3E3] px-2 py-1.5 align-middle">{change.reason}</td>
-                          </>}
+                          <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersBefore}</td>
+                          <td className="border border-[#C9D3E3] px-2 py-1.5">{change.excludedUsersAfter}</td>
+                          <td className="border border-[#C9D3E3] px-2 py-1.5">{change.reason}</td>
                         </tr>
                       ))
                     ))}
