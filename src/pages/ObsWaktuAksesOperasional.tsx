@@ -605,7 +605,7 @@ export default function ObsWaktuAksesOperasional() {
             open={successOpen}
             onOpenChange={setSuccessOpen}
             onOk={finishSaveAccessSettings}
-            message="Berhasil Menyimpan Waktu Operasional"
+            message="Berhasil Menyimpan Perubahan Waktu Operasional"
           />
           </>
         ) : (
