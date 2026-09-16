@@ -266,7 +266,7 @@ export default function ObsWaktuAksesOperasional() {
                   <Clock3 className="h-5 w-5" />
                 </span>
                 <h2 className="text-[15px] font-bold text-black">
-                  Pengaturan Waktu Operasional
+                  Waktu Operasional Harian
                 </h2>
               </div>
 
