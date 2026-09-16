@@ -278,7 +278,7 @@ export default function BillingTableView2({
     const columns = hideSelection ? [] : ["44px"];
     columns.push("minmax(0,1fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
     if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
-    if (showStatusColumn) columns.push("minmax(0,1.1fr)");
+    if (showStatusColumn) columns.push("minmax(170px,1.1fr)");
     return columns.join(" ");
   })();
 
@@ -721,7 +721,7 @@ export default function BillingTableView2({
                                   ) : null}
 
                                   {showStatusColumn ? (
-                                    <div className={cn("pl-4 pr-8", cellY)}>
+                                    <div className={cn("pl-2 pr-2", cellY)}>
                                       <BillingStatusBadge status={statusForRow(r)} />
                                     </div>
                                   ) : null}
@@ -811,7 +811,7 @@ export default function BillingTableView2({
                             ) : null}
 
                             {showStatusColumn ? (
-                              <div className={cn("pl-4 pr-8", cellY)}>
+                              <div className={cn("pl-2 pr-2", cellY)}>
                                 <BillingStatusBadge status={statusForRow(r)} />
                               </div>
                             ) : null}
@@ -906,7 +906,7 @@ export default function BillingTableView2({
                               ) : null}
 
                               {showStatusColumn ? (
-                                <div className={cn("pl-4 pr-8", cellY)}>
+                                <div className={cn("pl-2 pr-2", cellY)}>
                                   <BillingStatusBadge status={statusForRow(r)} />
                                 </div>
                               ) : null}
