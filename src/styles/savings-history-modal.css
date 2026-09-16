@@ -71,7 +71,7 @@
 
 #root [role="dialog"]:not(:has(.save-confirmation-modal)) > div {
   display: flex;
-  max-height: 75vh;
+  max-height: 75vh !important;
   flex-direction: column;
   overflow: hidden;
 }
