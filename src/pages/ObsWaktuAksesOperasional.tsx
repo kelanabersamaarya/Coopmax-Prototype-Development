@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Operasional" | "Riwayat Perubahan";
@@ -105,6 +106,7 @@ export default function ObsWaktuAksesOperasional() {
   const [startTime, setStartTime] = React.useState("08:00");
   const [endTime, setEndTime] = React.useState("16:00");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   function toggleUser(id: string) {
     setSelectedUsers((current) =>
@@ -115,6 +117,11 @@ export default function ObsWaktuAksesOperasional() {
   }
 
   function saveAccessSettings() {
+    setConfirmOpen(true);
+  }
+
+  function confirmSaveAccessSettings() {
+    setConfirmOpen(false);
     toast.success("Berhasil menyimpan pengaturan waktu operasional", {
       description: `Operasional aktif pukul ${startTime} sampai ${endTime}.`,
     });
@@ -260,6 +267,35 @@ export default function ObsWaktuAksesOperasional() {
               </button>
             </div>
           </div>
+
+          <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+              <div className="px-8 pb-5 pt-10 text-center sm:px-10">
+                <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6] bg-white">
+                  <div className="text-[54px] font-light leading-none text-[#f2b98f]">!</div>
+                </div>
+                <div className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
+                  Yakin menyimpan waktu operasional ?
+                </div>
+                <div className="mt-8 flex items-center justify-center gap-2">
+                  <button
+                    type="button"
+                    onClick={confirmSaveAccessSettings}
+                    className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmOpen(false)}
+                    className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#a6a6a6]/25"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         ) : (
           <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
             <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
