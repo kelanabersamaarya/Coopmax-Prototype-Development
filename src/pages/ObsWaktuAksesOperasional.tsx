@@ -309,15 +309,15 @@ export default function ObsWaktuAksesOperasional() {
                   <div className="border-b border-[#D7DEE9] px-5 py-4">
                     <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional Harian</h3>
                     <div className="mt-4 -mx-5 border-t border-[#D7DEE9] pt-4">
-                    <div className="flex items-start px-5 text-[10px] font-semibold">
-                      <div className="flex min-w-0 flex-1 flex-col items-center text-center">
+                    <div className="flex items-start gap-3 px-0 text-[10px] font-semibold">
+                      <div className="flex w-[140px] shrink-0 flex-col items-center text-center">
                         <span className={cn("flex h-9 w-9 items-center justify-center rounded-full text-[14px]", editStep === 1 ? "bg-[#2864e8] text-white" : "bg-[#eef2f7] text-[#63738c]")}>1</span>
-                        <span className={cn("mt-2", editStep === 1 ? "text-[#17345f]" : "text-[#63738c]")}>Waktu Operasional</span>
+                        <span className={cn("mt-2 whitespace-nowrap", editStep === 1 ? "text-[#17345f]" : "text-[#63738c]")}>Waktu Operasional</span>
                       </div>
-                      <div className="mt-[18px] h-[2px] flex-1 bg-[#e4eaf2]" />
-                      <div className="flex min-w-0 flex-1 flex-col items-center text-center">
+                      <div className="mt-[18px] h-[2px] min-w-0 flex-1 bg-[#e4eaf2]" />
+                      <div className="flex w-[140px] shrink-0 flex-col items-center text-center">
                         <span className={cn("flex h-9 w-9 items-center justify-center rounded-full text-[14px]", editStep === 2 ? "bg-[#2864e8] text-white" : "bg-[#eef2f7] text-[#63738c]")}>2</span>
-                        <span className={cn("mt-2", editStep === 2 ? "text-[#17345f]" : "text-[#63738c]")}>Alasan Perubahan</span>
+                        <span className={cn("mt-2 whitespace-nowrap", editStep === 2 ? "text-[#17345f]" : "text-[#63738c]")}>Alasan Perubahan</span>
                       </div>
                     </div>
                     </div>
