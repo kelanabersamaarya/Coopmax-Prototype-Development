@@ -312,43 +312,6 @@ export default function ObsWaktuAksesOperasional() {
                 </div>
               </div>
 
-              <div className="grid gap-5 border-b border-[#D7DEE9] px-4 py-5 text-[12px] md:grid-cols-2 md:px-5">
-                <div>
-                  <div className="font-normal text-black">User yang dapat mengakses sistem di luar jam operasional</div>
-                  <div className="mt-2 flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
-                    {selectedUsers.length === 0 ? (
-                      <span className="px-1 text-[13px] text-slate-500">Belum ada user</span>
-                    ) : (
-                      selectedUsers.map((id) => {
-                        const user = accessUsers.find((item) => item.id === id);
-                        return user ? (
-                          <span key={user.id} className="inline-flex h-7 items-center bg-[#5543f5] px-2.5 text-[12px] font-normal text-white">
-                            {user.name}
-                          </span>
-                        ) : null;
-                      })
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <div className="font-normal text-black">User default yang dapat mengakses di luar jam operasional</div>
-                  <div className="mt-2 flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
-                    {defaultAccessUsers.length === 0 ? (
-                      <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span>
-                    ) : (
-                      defaultAccessUsers.map((id) => {
-                        const user = accessUsers.find((item) => item.id === id);
-                        return user ? (
-                          <span key={user.id} className="inline-flex h-7 items-center bg-[#5543f5] px-2.5 text-[12px] font-normal text-white">
-                            {user.name}
-                          </span>
-                        ) : null;
-                      })
-                    )}
-                  </div>
-                </div>
-              </div>
-
           </div>
           </div>
 
