@@ -188,6 +188,7 @@ export default function ObsWaktuAksesOperasional() {
   const [dailySchedule, setDailySchedule] = React.useState<DailySchedule>(defaultDailySchedule);
   const [dailyStatus, setDailyStatus] = React.useState<DailyStatus>(defaultDailyStatus);
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
+  const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [defaultAccessUsers, setDefaultAccessUsers] = React.useState<string[]>(["supervisor"]);
@@ -293,6 +294,14 @@ export default function ObsWaktuAksesOperasional() {
                       <p className="mt-2 text-[12px] font-medium text-slate-700">
                         {dailySchedule[day].start} <span className="text-slate-400">—</span> {dailySchedule[day].end}
                       </p>
+                      <button
+                        type="button"
+                        onClick={() => setEditingDay(day)}
+                        className="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold text-[#635BFF] hover:text-[#5149df]"
+                      >
+                        <Pencil className="h-3 w-3" />
+                        Ubah
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -337,6 +346,32 @@ export default function ObsWaktuAksesOperasional() {
 
           </div>
           </div>
+
+          <Dialog open={editingDay !== null} onOpenChange={(open) => !open && setEditingDay(null)}>
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[420px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
+              {editingDay && (
+                <>
+                  <div className="border-b border-[#D7DEE9] px-5 py-4">
+                    <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional {editingDay}</h3>
+                  </div>
+                  <div className="grid gap-4 px-5 py-5">
+                    <div>
+                      <label className="mb-1.5 block text-[12px] font-normal text-black">Waktu Mulai Operasional</label>
+                      <TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-[12px] font-normal text-black">Waktu Selesai Operasional</label>
+                      <TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} />
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
+                    <button type="button" onClick={() => setEditingDay(null)} className="h-8 rounded-[6px] bg-[#8291ad] px-3 text-[12px] text-white">Batal</button>
+                    <button type="button" onClick={() => setEditingDay(null)} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
 
           <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
