@@ -334,7 +334,7 @@ export default function ObsWaktuAksesOperasional() {
                       <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <label className="w-[220px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">User yang dapat mengakses sistem di luar jam operasional</label>
+                      <label className="w-[220px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">User yang dapat mengakses<br />sistem di luar jam operasional</label>
                       <div className="relative min-w-0 flex-1">
                         <div className="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5" onClick={() => setDayUserDropdown(dayUserDropdown === "access" ? null : "access")}>
                           <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
@@ -351,7 +351,7 @@ export default function ObsWaktuAksesOperasional() {
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
-                      <label className="w-[220px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
+                      <label className="w-[220px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">User default yang dapat mengakses<br />di luar jam operasional</label>
                       <div className="relative min-w-0 flex-1">
                         <div className="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5" onClick={() => setDayUserDropdown(dayUserDropdown === "default" ? null : "default")}>
                           <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
