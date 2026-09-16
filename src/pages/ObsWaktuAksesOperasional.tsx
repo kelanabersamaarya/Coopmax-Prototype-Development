@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, ChevronDown, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
+import { CheckSquare, ChevronDown, ChevronLeft, ChevronRight, Clock3, Pencil, X } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -257,8 +257,8 @@ export default function ObsWaktuAksesOperasional() {
                   onClick={() => setScheduleOpen(true)}
                   className="inline-flex h-9 shrink-0 items-center gap-2 rounded-[6px] bg-[#635BFF] px-3 text-[12px] font-semibold text-white transition hover:bg-[#5149df]"
                 >
-                  <Clock3 className="h-4 w-4" />
-                  Atur Jadwal
+                  <Pencil className="h-4 w-4" />
+                  Ubah Waktu Operasional Harian
                 </button>
               </div>
 
