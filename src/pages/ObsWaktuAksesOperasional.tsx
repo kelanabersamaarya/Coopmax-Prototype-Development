@@ -258,7 +258,6 @@ export default function ObsWaktuAksesOperasional() {
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
                   <div>
                     <span className="text-[12px] font-semibold text-[#17345f]">Waktu Operasional Harian</span>
-                    <p className="mt-1 text-[11px] text-slate-500">Jadwal dan status operasional setiap hari</p>
                   </div>
                   <button
                     type="button"
@@ -303,7 +302,6 @@ export default function ObsWaktuAksesOperasional() {
                       })
                     )}
                   </div>
-                  <p className="mt-1 text-[11px] text-slate-500">User yang tetap diizinkan masuk ke sistem.</p>
                 </div>
                 <div>
                   <div className="font-normal text-black">User default yang dapat mengakses di luar jam operasional</div>
@@ -321,7 +319,6 @@ export default function ObsWaktuAksesOperasional() {
                       })
                     )}
                   </div>
-                  <p className="mt-1 text-[11px] text-slate-500">User default yang tetap diizinkan masuk ke sistem.</p>
                 </div>
               </div>
 
