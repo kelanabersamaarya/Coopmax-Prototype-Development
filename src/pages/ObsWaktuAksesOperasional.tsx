@@ -165,7 +165,7 @@ export default function ObsWaktuAksesOperasional() {
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
-  const [defaultAccessUser, setDefaultAccessUser] = React.useState("admin");
+  const [defaultAccessUsers, setDefaultAccessUsers] = React.useState<string[]>(["supervisor"]);
   const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -399,17 +399,24 @@ export default function ObsWaktuAksesOperasional() {
                     </div>
                   </div>
                   <div className="mt-4 flex items-center gap-3">
-                    <label htmlFor="default-access-user" className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
-                    <select
-                      id="default-access-user"
-                      value={defaultAccessUser}
-                      onChange={(event) => setDefaultAccessUser(event.target.value)}
-                      className="h-9 min-w-0 flex-1 rounded-[6px] border border-slate-300 bg-white px-3 text-[12px] text-slate-900 outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
-                    >
+                    <label className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
+                    <div className="flex min-h-9 min-w-0 flex-1 flex-wrap gap-1.5 rounded-[6px] border border-slate-300 bg-white p-1.5">
                       {accessUsers.map((user) => (
-                        <option key={user.id} value={user.id}>{user.name}</option>
+                        <button
+                          key={user.id}
+                          type="button"
+                          onClick={() => setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id])}
+                          className={cn(
+                            "rounded-[5px] px-2.5 py-1.5 text-[11px] font-medium transition",
+                            defaultAccessUsers.includes(user.id)
+                              ? "bg-[#5543f5] text-white"
+                              : "bg-[#F1F4FA] text-[#53657d] hover:bg-[#E5EAF4]",
+                          )}
+                        >
+                          {user.name}
+                        </button>
                       ))}
-                    </select>
+                    </div>
                   </div>
                 </div>
                 <div className="mt-4 flex items-start gap-3">
