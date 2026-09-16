@@ -189,8 +189,6 @@ export default function ObsWaktuAksesOperasional() {
   const [dailyStatus, setDailyStatus] = React.useState<DailyStatus>(defaultDailyStatus);
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
-  const [editingUsers, setEditingUsers] = React.useState<string[]>([]);
-  const [editingDefaultUsers, setEditingDefaultUsers] = React.useState<string[]>([]);
   const [dayChangeReason, setDayChangeReason] = React.useState("");
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
@@ -301,8 +299,6 @@ export default function ObsWaktuAksesOperasional() {
                         type="button"
                         onClick={() => {
                           setDayChangeReason("");
-                          setEditingUsers(selectedUsers);
-                          setEditingDefaultUsers(defaultAccessUsers);
                           setEditingDay(day);
                         }}
                         className="mt-2 inline-flex items-center gap-1 text-[10px] font-semibold text-[#635BFF] hover:text-[#5149df]"
@@ -373,24 +369,20 @@ export default function ObsWaktuAksesOperasional() {
                     </div>
                     <div>
                       <label className="mb-1.5 block text-[12px] font-normal text-black">User yang dapat mengakses sistem di luar jam operasional</label>
-                      <div className="rounded-[6px] border border-slate-300 bg-white p-1.5">
-                        {accessUsers.map((user) => (
-                          <button key={user.id} type="button" onClick={() => setEditingUsers((current) => current.includes(user.id) ? current.filter((id) => id !== user.id) : [...current, user.id])} className="flex w-full items-center justify-between rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
-                            {user.name}
-                            {editingUsers.includes(user.id) ? <span className="text-[#5543f5]">✓</span> : null}
-                          </button>
-                        ))}
+                      <div className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                        {selectedUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Belum ada user</span> : selectedUsers.map((id) => {
+                          const user = accessUsers.find((item) => item.id === id);
+                          return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><span>×</span>{user.name}</span> : null;
+                        })}
                       </div>
                     </div>
                     <div>
                       <label className="mb-1.5 block text-[12px] font-normal text-black">User default yang dapat mengakses di luar jam operasional</label>
-                      <div className="rounded-[6px] border border-slate-300 bg-white p-1.5">
-                        {accessUsers.map((user) => (
-                          <button key={user.id} type="button" onClick={() => setEditingDefaultUsers((current) => current.includes(user.id) ? current.filter((id) => id !== user.id) : [...current, user.id])} className="flex w-full items-center justify-between rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
-                            {user.name}
-                            {editingDefaultUsers.includes(user.id) ? <span className="text-[#5543f5]">✓</span> : null}
-                          </button>
-                        ))}
+                      <div className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                        {defaultAccessUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span> : defaultAccessUsers.map((id) => {
+                          const user = accessUsers.find((item) => item.id === id);
+                          return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><span>×</span>{user.name}</span> : null;
+                        })}
                       </div>
                     </div>
                     <div>
@@ -406,7 +398,7 @@ export default function ObsWaktuAksesOperasional() {
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
                     <button type="button" onClick={() => setEditingDay(null)} className="h-8 rounded-[6px] bg-[#8291ad] px-3 text-[12px] text-white">Batal</button>
-                    <button type="button" onClick={() => { setSelectedUsers(editingUsers); setDefaultAccessUsers(editingDefaultUsers); setEditingDay(null); }} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
+                    <button type="button" onClick={() => setEditingDay(null)} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
                   </div>
                 </>
               )}
