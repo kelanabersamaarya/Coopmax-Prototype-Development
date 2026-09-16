@@ -351,7 +351,7 @@ export default function ObsWaktuAksesOperasional() {
                     {editStep === 1 ? (
                       <button type="button" onClick={() => setEditStep(2)} className="inline-flex h-[32px] min-w-[112px] items-center justify-center gap-1.5 rounded-[6px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]">Lanjutkan<ChevronRight className="h-4 w-4" /></button>
                     ) : (
-                      <button type="button" disabled={!dayChangeReason.trim()} onClick={() => { setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
+                      <button type="button" disabled={!dayChangeReason.trim()} onClick={() => setDayConfirmOpen(true)} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
                     )}
                   </div>
                 </>
@@ -366,7 +366,7 @@ export default function ObsWaktuAksesOperasional() {
                 <h3 className="mt-5 text-[22px] font-extrabold leading-tight text-[#3b4863]">Yakin menyimpan perubahan?</h3>
                 <div className="mt-6 flex justify-center gap-2">
                   <button type="button" onClick={() => { setDayConfirmOpen(false); setDaySuccessOpen(true); }} className="h-[44px] min-w-[80px] rounded-[6px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]">Yes</button>
-                  <button type="button" onClick={() => setDayConfirmOpen(false)} className="h-[44px] min-w-[90px] rounded-[6px] bg-[#8291ad] px-5 text-[14px] font-semibold text-white transition hover:bg-[#71819d]">Cancel</button>
+                  <button type="button" onClick={() => { setDayConfirmOpen(false); setEditingDay(editingDay); setEditStep(2); }} className="h-[44px] min-w-[90px] rounded-[6px] bg-[#8291ad] px-5 text-[14px] font-semibold text-white transition hover:bg-[#71819d]">Cancel</button>
                 </div>
               </div>
             </DialogContent>
