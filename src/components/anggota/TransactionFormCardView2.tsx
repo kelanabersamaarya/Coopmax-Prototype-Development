@@ -466,7 +466,7 @@ export default function TransactionFormCardView2({
                   </div>
 
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Keterangan</Label>
+                    <Label className="text-xs text-slate-600">Catatan</Label>
                     <Input
                       value={keterangan}
                       onChange={(e) => setKeterangan(e.target.value)}
@@ -513,7 +513,7 @@ export default function TransactionFormCardView2({
                   </div>
 
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Keterangan</Label>
+                    <Label className="text-xs text-slate-600">Catatan</Label>
                     <Input
                       value={keterangan}
                       onChange={(e) => setKeterangan(e.target.value)}

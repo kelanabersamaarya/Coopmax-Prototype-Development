@@ -43,7 +43,7 @@ function PeriodInfoButton({ periode }: { periode: string }) {
     { label: "Tanggal Awal", value: "02-06-2026" },
     { label: "Tanggal Akhir", value: "30-06-2026" },
     { label: "Jatuh Tempo", value: "27-06-2026" },
-    { label: "Keterangan", value: "Periode pembayaran Pinjaman Bulanan" },
+    { label: "Catatan", value: "Periode pembayaran Pinjaman Bulanan" },
   ];
 
   return (
@@ -226,7 +226,7 @@ export default function PinjamanBulananTransactionFields({
         </Select>
       </FieldBlock>
 
-      <FieldBlock label="Keterangan">
+      <FieldBlock label="Catatan">
         <div className="flex min-w-0 items-stretch">
           <Input
             value={emptyWhenDisabled(keterangan)}
@@ -243,8 +243,8 @@ export default function PinjamanBulananTransactionFields({
               "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
               disabled ? "pointer-events-none opacity-60" : "",
             )}
-            aria-label="Keterangan"
-            title="Keterangan"
+            aria-label="Catatan"
+            title="Catatan"
           >
             <FileText className="h-4.5 w-4.5" />
           </button>
