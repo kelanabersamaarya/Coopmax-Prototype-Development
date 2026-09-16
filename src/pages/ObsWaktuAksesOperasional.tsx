@@ -416,8 +416,8 @@ export default function ObsWaktuAksesOperasional() {
           <LoanProductSaveSuccessModal
             open={daySuccessOpen}
             onOpenChange={setDaySuccessOpen}
-            onOk={() => { setDaySuccessOpen(false); showSolidSuccess("Berhasil Menyimpan Perubahan Waktu Operasional"); }}
-            message="Berhasil Menyimpan Perubahan Waktu Operasional"
+            onOk={() => { setDaySuccessOpen(false); showSolidSuccess("Berhasil Menyimpan Data"); }}
+            message="Berhasil Menyimpan Data"
           />
 
           <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
@@ -603,7 +603,7 @@ export default function ObsWaktuAksesOperasional() {
             open={successOpen}
             onOpenChange={setSuccessOpen}
             onOk={finishSaveAccessSettings}
-            message="Berhasil Menyimpan Perubahan Waktu Operasional"
+            message="Berhasil Menyimpan Data"
           />
           </>
         ) : (
