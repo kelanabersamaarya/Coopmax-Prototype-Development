@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, ChevronDown, Clock3, Pencil, X } from "lucide-react";
+import { CheckSquare, ChevronDown, ChevronRight, Clock3, Pencil, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
 import { cn } from "@/lib/utils";
@@ -348,7 +348,7 @@ export default function ObsWaktuAksesOperasional() {
                     ) : null}
                     <button type="button" onClick={() => setEditingDay(null)} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-2 text-[12px] font-semibold text-white transition hover:bg-[#71819d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8291ad]/40"><X className="h-[16px] w-[16px]" strokeWidth={4} />Batalkan</button>
                     {editStep === 1 ? (
-                      <button type="button" onClick={() => setEditStep(2)} className="inline-flex h-[32px] min-w-[100px] items-center justify-center rounded-[6px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]">Lanjut</button>
+                      <button type="button" onClick={() => setEditStep(2)} className="inline-flex h-[32px] min-w-[112px] items-center justify-center gap-1.5 rounded-[6px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]">Lanjutkan<ChevronRight className="h-4 w-4" /></button>
                     ) : (
                       <button type="button" onClick={() => { setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
                     )}
