@@ -194,7 +194,7 @@ function ServerClockFooter() {
   });
 
   return (
-    <footer className="fixed inset-x-0 bottom-0 z-20 flex min-h-[42px] flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-[#e6eaf1] bg-white px-4 py-2 text-[12px] text-[#61728c] shadow-[0_-2px_8px_rgba(15,23,42,0.04)] sm:px-6">
+    <footer className="fixed bottom-0 left-0 right-0 z-20 flex min-h-[42px] flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-[#e6eaf1] bg-white px-4 py-2 text-[12px] text-[#61728c] shadow-[0_-2px_8px_rgba(15,23,42,0.04)] md:left-[calc(var(--shell-gutter)+var(--sidebar-w)+var(--shell-gap))] sm:px-6">
       <span>© 2026 PT. Solusi Anak Sakti</span>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-medium">
         <span>Jam Server: {formattedServerTime}</span>
