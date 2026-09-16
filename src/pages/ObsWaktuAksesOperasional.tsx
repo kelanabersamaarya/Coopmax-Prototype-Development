@@ -218,6 +218,11 @@ export default function ObsWaktuAksesOperasional() {
 
   function finishSaveAccessSettings() {
     setSuccessOpen(false);
+    setScheduleOpen(false);
+    setEditingDay(null);
+    setEditStep(1);
+    setDayChangeReason("");
+    setActiveTab("Pengaturan Waktu Operasional");
   }
 
   return (
@@ -388,7 +393,12 @@ export default function ObsWaktuAksesOperasional() {
           <LoanProductSaveSuccessModal
             open={daySuccessOpen}
             onOpenChange={setDaySuccessOpen}
-            onOk={() => setDaySuccessOpen(false)}
+            onOk={() => {
+              setDaySuccessOpen(false);
+              setEditingDay(null);
+              setEditStep(1);
+              setDayChangeReason("");
+            }}
             message="Berhasil Menyimpan Data"
           />
 
