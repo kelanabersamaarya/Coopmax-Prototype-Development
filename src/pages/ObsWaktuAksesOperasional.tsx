@@ -244,7 +244,7 @@ export default function ObsWaktuAksesOperasional() {
         {activeTab === "Pengaturan Waktu Operasional" ? (
           <>
             <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
-            <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
+              <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
               <div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
                   <Clock3 className="h-5 w-5" />
@@ -389,6 +389,7 @@ export default function ObsWaktuAksesOperasional() {
                 Simpan
               </button>
             </div>
+          </div>
           </div>
 
           <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
