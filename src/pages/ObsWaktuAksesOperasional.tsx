@@ -304,7 +304,7 @@ export default function ObsWaktuAksesOperasional() {
                           setDayChangeReason("");
                           setEditingDay(day);
                         }}
-                        className="mt-2 inline-flex h-7 items-center gap-1 rounded-[5px] border border-[#635BFF] bg-white px-2.5 text-[10px] font-semibold text-[#635BFF] transition hover:bg-[#635BFF] hover:text-white"
+                        className="mt-2 inline-flex h-7 items-center gap-1 rounded-[5px] bg-[#4169f5] px-2.5 text-[10px] font-semibold text-white transition hover:bg-[#3157d8]"
                       >
                         <Pencil className="h-3 w-3" />
                         Ubah
