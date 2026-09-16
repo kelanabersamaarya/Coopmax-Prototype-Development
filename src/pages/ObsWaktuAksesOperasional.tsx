@@ -577,9 +577,7 @@ export default function ObsWaktuAksesOperasional() {
               <div className="flex h-full flex-col items-center justify-center px-6 text-center">
                 <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full border-4 border-[#f7c8a6] text-[40px] font-light leading-none text-[#f2b98f]">!</div>
                 <div className="mt-5 text-[22px] font-extrabold leading-tight text-[#3b4863]">
-                  <span>Yakin menyimpan waktu</span>
-                  <br />
-                  <span>operasional ?</span>
+                  Yakin Menyimpan Perubahan?
                 </div>
                 <div className="mt-6 flex items-center justify-center gap-2">
                   <button
