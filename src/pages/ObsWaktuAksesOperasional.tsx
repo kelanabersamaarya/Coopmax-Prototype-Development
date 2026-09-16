@@ -129,9 +129,7 @@ export default function ObsWaktuAksesOperasional() {
 
   function finishSaveAccessSettings() {
     setSuccessOpen(false);
-    toast.success("Berhasil menyimpan pengaturan waktu operasional", {
-      description: `Operasional aktif pukul ${startTime} sampai ${endTime}.`,
-    });
+    toast.success("Berhasil Menyimpan Waktu Operasional");
   }
 
   return (
