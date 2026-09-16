@@ -283,9 +283,9 @@ export default function ObsWaktuAksesOperasional() {
                   <div className="text-[54px] font-light leading-none text-[#f2b98f]">!</div>
                 </div>
                 <div className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
-                  <span>Yakin menyimpan waktu operasional</span>
+                  <span>Yakin menyimpan waktu</span>
                   <br />
-                  <span>?</span>
+                  <span>operasional ?</span>
                 </div>
                 <div className="mt-8 flex items-center justify-center gap-2">
                   <button
