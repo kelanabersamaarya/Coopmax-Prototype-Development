@@ -198,8 +198,8 @@ export default function LoanTransactionHistoryDialog({
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className="bg-white">
-          <div className="flex items-center justify-between gap-3 px-6 py-4">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-white">
+          <div className="sticky top-0 z-10 flex items-center justify-between gap-3 bg-white px-6 py-4">
             <div className="min-w-0">
               <div className="text-[18px] font-bold tracking-tight text-slate-800">
                 Riwayat Transaksi
