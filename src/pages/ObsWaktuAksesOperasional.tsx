@@ -303,6 +303,11 @@ export default function ObsWaktuAksesOperasional() {
                 <>
                   <div className="border-b border-[#D7DEE9] px-5 py-4">
                     <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional Harian</h3>
+                    <div className="mt-4 flex items-center gap-2 text-[11px] font-semibold">
+                      <span className={cn("rounded-full px-3 py-1", editStep === 1 ? "bg-[#4169f5] text-white" : "bg-slate-100 text-slate-500")}>1. Waktu Operasional</span>
+                      <span className="h-px w-8 bg-slate-200" />
+                      <span className={cn("rounded-full px-3 py-1", editStep === 2 ? "bg-[#4169f5] text-white" : "bg-slate-100 text-slate-500")}>2. Alasan Perubahan</span>
+                    </div>
                   </div>
                   <div className="grid gap-4 px-5 py-5">
                     {editStep === 1 ? (
