@@ -388,7 +388,17 @@ export default function ObsWaktuAksesOperasional() {
                               const user = accessUsers.find((item) => item.id === id);
                               return user ? (
                                 <span key={id} className="inline-flex items-center gap-2 rounded-none bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">
-                                  <span aria-hidden="true" className="text-[12px] font-bold leading-none">×</span>
+                                  <button
+                                    type="button"
+                                    aria-label={`Hapus ${user.name}`}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      toggleUser(user.id);
+                                    }}
+                                    className="text-[12px] font-bold leading-none text-white hover:text-white/70"
+                                  >
+                                    ×
+                                  </button>
                                   {user.name}
                                 </span>
                               ) : null;
@@ -417,7 +427,17 @@ export default function ObsWaktuAksesOperasional() {
                               const user = accessUsers.find((item) => item.id === id);
                               return user ? (
                                 <span key={id} className="inline-flex items-center gap-2 rounded-none bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">
-                                  <span aria-hidden="true" className="text-[12px] font-bold leading-none">×</span>
+                                  <button
+                                    type="button"
+                                    aria-label={`Hapus ${user.name}`}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setDefaultAccessUsers((current) => current.filter((userId) => userId !== user.id));
+                                    }}
+                                    className="text-[12px] font-bold leading-none text-white hover:text-white/70"
+                                  >
+                                    ×
+                                  </button>
                                   {user.name}
                                 </span>
                               ) : null;
