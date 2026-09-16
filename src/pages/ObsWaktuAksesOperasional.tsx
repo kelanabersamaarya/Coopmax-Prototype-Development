@@ -271,10 +271,7 @@ export default function ObsWaktuAksesOperasional() {
               </div>
 
               <div className="border-b border-[#D7DEE9] px-4 py-5 md:px-5">
-                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-                  <div>
-                    <span className="text-[12px] font-semibold text-[#17345f]">Waktu Operasional Harian</span>
-                  </div>
+                <div className="flex flex-col justify-end gap-4 md:flex-row md:items-start">
                   <button
                     type="button"
                     onClick={() => setScheduleOpen(true)}
