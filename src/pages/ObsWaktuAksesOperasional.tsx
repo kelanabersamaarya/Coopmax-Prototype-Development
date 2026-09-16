@@ -327,7 +327,7 @@ export default function ObsWaktuAksesOperasional() {
                   <div className="grid gap-4 px-5 py-5">
                     <div className="flex items-start gap-0">
                       <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Mulai Operasional</label>
-                      <TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} />
+                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} /></div>
                     </div>
                     <div className="flex items-start gap-0">
                       <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
