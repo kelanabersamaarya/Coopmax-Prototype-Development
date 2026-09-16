@@ -409,9 +409,8 @@ export default function ObsWaktuAksesOperasional() {
                       </PopoverTrigger>
                       <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
                         {accessUsers.map((user) => (
-                          <button key={user.id} type="button" onClick={() => toggleUser(user.id)} className="flex w-full items-center justify-between rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
+                          <button key={user.id} type="button" onClick={() => toggleUser(user.id)} className="flex w-full items-center rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
                             {user.name}
-                            {selectedUsers.includes(user.id) ? <CheckSquare className="h-4 w-4 text-[#5543f5]" /> : null}
                           </button>
                         ))}
                       </PopoverContent>
@@ -448,9 +447,8 @@ export default function ObsWaktuAksesOperasional() {
                       </PopoverTrigger>
                       <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
                         {accessUsers.map((user) => (
-                          <button key={user.id} type="button" onClick={() => setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id])} className="flex w-full items-center justify-between rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
+                          <button key={user.id} type="button" onClick={() => setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id])} className="flex w-full items-center rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
                             {user.name}
-                            {defaultAccessUsers.includes(user.id) ? <CheckSquare className="h-4 w-4 text-[#5543f5]" /> : null}
                           </button>
                         ))}
                       </PopoverContent>
