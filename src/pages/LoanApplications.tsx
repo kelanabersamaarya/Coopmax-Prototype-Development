@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -238,6 +238,8 @@ function PaginationBar({
 }
 
 export default function LoanApplications() {
+  const location = useLocation();
+  const isMitraKarya = location.pathname.startsWith("/mitra-karya/");
   const rows = React.useMemo(() => seed, []);
 
   const [qNoRek, setQNoRek] = React.useState("");
@@ -360,7 +362,7 @@ export default function LoanApplications() {
             variant="outline"
             className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
           >
-            <Link to="/loans/applications/new">
+            <Link to={isMitraKarya ? "/mitra-karya/pinjaman/pengajuan/tambah" : "/loans/applications/new"}>
               <Plus className="mr-2 h-4 w-4" />
               Tambah
             </Link>

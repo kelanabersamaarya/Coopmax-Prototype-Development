@@ -247,6 +247,9 @@ const RECURRING_TT =
 
 export default function LoanApplicationCreate() {
   const navigate = useNavigate();
+  const location = window.location;
+  const isMitraKarya = location.pathname.startsWith("/mitra-karya/");
+  const applicationsPath = isMitraKarya ? "/mitra-karya/pinjaman/pengajuan" : "/loans/applications";
   const [searchParams] = useSearchParams();
 
   const prefillMode = (searchParams.get("prefill") ?? "").trim().toLowerCase();
@@ -368,7 +371,7 @@ export default function LoanApplicationCreate() {
     toast.success("Tersimpan (prototype)", {
       description: "Data pengajuan pinjaman belum disimpan ke database.",
     });
-    navigate("/loans/applications");
+    navigate(applicationsPath);
   }
 
   function verifyKtp() {
@@ -710,7 +713,7 @@ export default function LoanApplicationCreate() {
                   </button>
 
                   <LoanFormActionButtons
-                    onCancel={() => navigate("/loans/applications")}
+                    onCancel={() => navigate(applicationsPath)}
                     onSave={save}
                     cancelLabel="Batalkan"
                     saveLabel="Simpan"
@@ -720,7 +723,7 @@ export default function LoanApplicationCreate() {
               </div>
             ) : tab === "agunan" ? (
               <LoanCollateralTab
-                onCancel={() => navigate("/loans/applications")}
+                onCancel={() => navigate(applicationsPath)}
                 onSave={save}
               />
             ) : tab === "jadwal" ? (
@@ -901,7 +904,7 @@ export default function LoanApplicationCreate() {
                   </button>
 
                   <LoanFormActionButtons
-                    onCancel={() => navigate("/loans/applications")}
+                    onCancel={() => navigate(applicationsPath)}
                     onSave={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
                         description: "Pengaturan jadwal belum disimpan permanen.",
