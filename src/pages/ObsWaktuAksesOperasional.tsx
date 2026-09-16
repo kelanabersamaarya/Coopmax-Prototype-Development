@@ -386,10 +386,15 @@ export default function ObsWaktuAksesOperasional() {
                           <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
                             {selectedUsers.length > 0 ? selectedUsers.map((id) => {
                               const user = accessUsers.find((item) => item.id === id);
-                              return user ? <span key={id} className="rounded-[5px] bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">{user.name}</span> : null;
+                              return user ? (
+                                <span key={id} className="inline-flex items-center gap-2 rounded-none bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">
+                                  <span aria-hidden="true" className="text-[12px] font-bold leading-none">×</span>
+                                  {user.name}
+                                </span>
+                              ) : null;
                             }) : <span className="px-1 text-[12px] text-slate-400">Pilih user</span>}
                           </span>
-                          <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
+                          {selectedUsers.length > 0 ? <X className="h-4 w-4 shrink-0 text-slate-900" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />}
                         </button>
                       </PopoverTrigger>
                       <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
@@ -410,10 +415,15 @@ export default function ObsWaktuAksesOperasional() {
                           <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
                             {defaultAccessUsers.length > 0 ? defaultAccessUsers.map((id) => {
                               const user = accessUsers.find((item) => item.id === id);
-                              return user ? <span key={id} className="rounded-[5px] bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">{user.name}</span> : null;
+                              return user ? (
+                                <span key={id} className="inline-flex items-center gap-2 rounded-none bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">
+                                  <span aria-hidden="true" className="text-[12px] font-bold leading-none">×</span>
+                                  {user.name}
+                                </span>
+                              ) : null;
                             }) : <span className="px-1 text-[12px] text-slate-400">Pilih user default</span>}
                           </span>
-                          <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
+                          {defaultAccessUsers.length > 0 ? <X className="h-4 w-4 shrink-0 text-slate-900" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />}
                         </button>
                       </PopoverTrigger>
                       <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
