@@ -303,14 +303,6 @@ export default function ObsWaktuAksesOperasional() {
                     <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional Harian</h3>
                   </div>
                   <div className="grid gap-4 px-5 py-5">
-                    <div className="flex items-start gap-0">
-                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Mulai Operasional</label>
-                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} /></div>
-                    </div>
-                    <div className="flex items-start gap-0">
-                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
-                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
-                    </div>
                     <div className="flex items-start gap-0 py-2.5">
                       <span className="w-[200px] shrink-0 pt-1 text-[12px] font-normal text-black">Status operasional</span>
                       <button
@@ -323,6 +315,14 @@ export default function ObsWaktuAksesOperasional() {
                       >
                         <span className={cn("inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform", dailyStatus[editingDay] ? "translate-x-4" : "translate-x-0.5")} />
                       </button>
+                    </div>
+                    <div className="flex items-start gap-0">
+                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Mulai Operasional</label>
+                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} /></div>
+                    </div>
+                    <div className="flex items-start gap-0">
+                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
+                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
                     </div>
                     <div className="flex items-start gap-0">
                       <label htmlFor="day-change-reason" className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Alasan Perubahan</label>
