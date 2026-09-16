@@ -541,8 +541,8 @@ export default function ObsWaktuAksesOperasional() {
                 <table className="w-full min-w-[900px] border-separate border-spacing-0 text-left text-[11px]">
                   <thead>
                     <tr className="bg-white text-[9px] uppercase leading-tight tracking-[0.1em] text-[#61728c]">
-                      <th className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
-                      <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
+                      <th className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5 font-semibold">No.</th>
+                      <th className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 font-semibold">User</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Tanggal dan Waktu Perubahan</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sebelum Perubahan per Hari</th>
                       <th className="border border-[#C9D3E3] px-2 py-1.5 font-semibold">Jam Operasional Sesudah Perubahan per Hari</th>
@@ -554,8 +554,8 @@ export default function ObsWaktuAksesOperasional() {
                   <tbody className="text-[#17345f]">
                     {visibleHistory.map((change) => (
                       <tr key={change.id} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
-                        <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
-                        <td className="border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
+                        <td className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
+                        <td className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
                         <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5 align-top"><HistorySchedule value={change.operationalHoursBefore} /></td>
                         <td className="border border-[#C9D3E3] px-2 py-1.5 align-top"><HistorySchedule value={change.operationalHoursAfter} /></td>
