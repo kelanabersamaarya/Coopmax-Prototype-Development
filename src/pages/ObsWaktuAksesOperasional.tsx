@@ -385,17 +385,17 @@ export default function ObsWaktuAksesOperasional() {
                 <button
                   type="button"
                   onClick={() => setScheduleOpen(false)}
-                  className="inline-flex h-[72px] flex-1 items-center justify-center gap-2 rounded-[22px] bg-[#8291ad] px-6 text-[30px] font-normal text-white transition hover:bg-[#71819d] sm:max-w-[320px]"
+                  className="inline-flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#8291ad] px-5 text-[20px] font-normal text-white transition hover:bg-[#71819d] sm:max-w-[240px]"
                 >
-                  <X className="h-8 w-8" strokeWidth={4} />
+                  <X className="h-6 w-6" strokeWidth={4} />
                   Batalkan
                 </button>
                 <button
                   type="button"
                   onClick={() => setScheduleOpen(false)}
-                  className="inline-flex h-[72px] flex-1 items-center justify-center gap-2 rounded-[22px] bg-[#28b900] px-6 text-[30px] font-normal text-white transition hover:bg-[#20a000] sm:max-w-[320px]"
+                  className="inline-flex h-[52px] flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#28b900] px-5 text-[20px] font-normal text-white transition hover:bg-[#20a000] sm:max-w-[240px]"
                 >
-                  <CheckSquare className="h-8 w-8" strokeWidth={3} />
+                  <CheckSquare className="h-6 w-6" strokeWidth={3} />
                   Simpan
                 </button>
               </div>
