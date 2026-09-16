@@ -204,7 +204,7 @@ export default function ObsWaktuAksesOperasional() {
   const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
-  const historyPageSize = 3;
+  const historyPageSize = 5;
   const historyPageCount = Math.ceil(changeHistory.length / historyPageSize);
   const visibleHistory = changeHistory.slice(
     (historyPage - 1) * historyPageSize,
@@ -631,10 +631,10 @@ export default function ObsWaktuAksesOperasional() {
                     </tr>
                   </thead>
                   <tbody className="text-[#17345f]">
-                    {visibleHistory.map((change) => (
+                    {visibleHistory.map((change, changeIndex) => (
                       operationalDays.map((day, dayIndex) => (
                         <tr key={`${change.id}-${day}`} className="border border-[#C9D3E3] bg-white hover:bg-[#FAFBFF]">
-                          <td className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.id}</td>
+                          <td className="w-[42px] whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{(historyPage - 1) * historyPageSize * operationalDays.length + changeIndex * operationalDays.length + dayIndex + 1}</td>
                           <td className="w-[150px] border border-[#C9D3E3] px-2 py-1.5 font-medium">{change.user}</td>
                           <td className="whitespace-nowrap border border-[#C9D3E3] px-2 py-1.5">{change.changedAt}</td>
                           <td className="border border-[#C9D3E3] px-2 py-1.5 whitespace-nowrap"><span className="font-medium text-[#61728c]">{day}:</span> {change.operationalHoursBefore}</td>
