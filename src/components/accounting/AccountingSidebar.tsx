@@ -83,10 +83,12 @@ export default function AccountingSidebar({
   active,
   onChange,
   className,
+  hiddenItems = [],
 }: {
   active: AccountingMenuItem;
   onChange: (item: AccountingMenuItem) => void;
   className?: string;
+  hiddenItems?: Array<{ groupId: AccountingMenuGroupId; itemLabel: string }>;
 }) {
   return (
     <aside
@@ -123,6 +125,15 @@ export default function AccountingSidebar({
 
       <div className="space-y-3">
         {groups.map((group) => {
+          const visibleItems = group.items.filter(
+            (itemLabel) =>
+              !hiddenItems.some(
+                (item) => item.groupId === group.id && item.itemLabel === itemLabel,
+              ),
+          );
+
+          if (visibleItems.length === 0) return null;
+
           return (
             <div key={group.id} className="rounded-[5px] bg-white">
               <div className="flex w-full items-center rounded-[5px] bg-white px-2.5 py-2 text-left">
@@ -133,7 +144,7 @@ export default function AccountingSidebar({
 
               <div className="px-2 py-1">
                 <div className="space-y-0.5">
-                  {group.items.map((itemLabel) => {
+                  {visibleItems.map((itemLabel) => {
                     return (
                       <button
                         key={`${group.id}-${itemLabel}`}

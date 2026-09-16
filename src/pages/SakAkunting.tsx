@@ -24,7 +24,11 @@ export default function SakAkunting() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="grid items-start gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
-          <AccountingSidebar active={active} onChange={setActive} />
+          <AccountingSidebar
+            active={active}
+            onChange={setActive}
+            hiddenItems={[{ groupId: "laporan", itemLabel: "Jurnal Umum" }]}
+          />
           <Card className="rounded-[5px] border-slate-200/70 bg-white p-5 shadow-sm md:p-6">
             {isGeneralJournal ? (
               <GeneralJournalReport isV2={active.itemLabel === "Laporan Jurnal Umum V2"} />
