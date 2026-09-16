@@ -392,8 +392,8 @@ export default function ObsWaktuAksesOperasional() {
                     </div>
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
-                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); }} className="h-8 rounded-[6px] bg-[#8291ad] px-3 text-[12px] text-white">Batal</button>
-                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); setDayConfirmOpen(true); }} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
+                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-2 text-[12px] font-semibold text-white transition hover:bg-[#71819d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8291ad]/40"><X className="h-[16px] w-[16px]" strokeWidth={4} />Batalkan</button>
+                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
                   </div>
                 </>
               )}
