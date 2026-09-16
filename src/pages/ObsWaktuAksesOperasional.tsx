@@ -190,6 +190,7 @@ export default function ObsWaktuAksesOperasional() {
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [dayChangeReason, setDayChangeReason] = React.useState("");
+  const [dayUserDropdown, setDayUserDropdown] = React.useState<"access" | "default" | null>(null);
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [defaultAccessUsers, setDefaultAccessUsers] = React.useState<string[]>(["supervisor"]);
@@ -369,20 +370,36 @@ export default function ObsWaktuAksesOperasional() {
                     </div>
                     <div>
                       <label className="mb-1.5 block text-[12px] font-normal text-black">User yang dapat mengakses sistem di luar jam operasional</label>
-                      <div className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
-                        {selectedUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Belum ada user</span> : selectedUsers.map((id) => {
-                          const user = accessUsers.find((item) => item.id === id);
-                          return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><span>×</span>{user.name}</span> : null;
-                        })}
+                      <div className="relative">
+                        <div className="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5" onClick={() => setDayUserDropdown(dayUserDropdown === "access" ? null : "access")}>
+                          <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                            {selectedUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Pilih user</span> : selectedUsers.map((id) => {
+                              const user = accessUsers.find((item) => item.id === id);
+                              return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><button type="button" onClick={(event) => { event.stopPropagation(); toggleUser(user.id); }} className="font-bold">×</button>{user.name}</span> : null;
+                            })}
+                          </div>
+                          <X className="h-4 w-4 shrink-0 text-slate-900" />
+                        </div>
+                        {dayUserDropdown === "access" && <div className="absolute z-20 mt-1 w-full rounded-[6px] border border-slate-200 bg-white p-1.5 shadow-lg">
+                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => toggleUser(user.id)} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
+                        </div>}
                       </div>
                     </div>
                     <div>
                       <label className="mb-1.5 block text-[12px] font-normal text-black">User default yang dapat mengakses di luar jam operasional</label>
-                      <div className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
-                        {defaultAccessUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span> : defaultAccessUsers.map((id) => {
-                          const user = accessUsers.find((item) => item.id === id);
-                          return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><span>×</span>{user.name}</span> : null;
-                        })}
+                      <div className="relative">
+                        <div className="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5" onClick={() => setDayUserDropdown(dayUserDropdown === "default" ? null : "default")}>
+                          <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+                            {defaultAccessUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Pilih user default</span> : defaultAccessUsers.map((id) => {
+                              const user = accessUsers.find((item) => item.id === id);
+                              return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><button type="button" onClick={(event) => { event.stopPropagation(); setDefaultAccessUsers((current) => current.filter((userId) => userId !== user.id)); }} className="font-bold">×</button>{user.name}</span> : null;
+                            })}
+                          </div>
+                          <X className="h-4 w-4 shrink-0 text-slate-900" />
+                        </div>
+                        {dayUserDropdown === "default" && <div className="absolute z-20 mt-1 w-full rounded-[6px] border border-slate-200 bg-white p-1.5 shadow-lg">
+                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id])} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
+                        </div>}
                       </div>
                     </div>
                     <div>
@@ -397,8 +414,8 @@ export default function ObsWaktuAksesOperasional() {
                     </div>
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
-                    <button type="button" onClick={() => setEditingDay(null)} className="h-8 rounded-[6px] bg-[#8291ad] px-3 text-[12px] text-white">Batal</button>
-                    <button type="button" onClick={() => setEditingDay(null)} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
+                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); }} className="h-8 rounded-[6px] bg-[#8291ad] px-3 text-[12px] text-white">Batal</button>
+                    <button type="button" onClick={() => { setDayUserDropdown(null); setEditingDay(null); }} className="h-8 rounded-[6px] bg-[#28b900] px-3 text-[12px] font-semibold text-white">Simpan</button>
                   </div>
                 </>
               )}
