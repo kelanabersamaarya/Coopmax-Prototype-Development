@@ -188,8 +188,8 @@ export default function LoanTransactionHistoryDialog({
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
           "max-w-[1120px]",
-          "max-h-[92vh]",
-          "overflow-hidden",
+          "max-h-[calc(100vh-1.5rem)]",
+          "flex flex-col overflow-hidden",
           R,
           "border-slate-200 p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
@@ -225,8 +225,7 @@ export default function LoanTransactionHistoryDialog({
           <Separator className="bg-slate-200" />
 
           <div
-            className="overflow-auto px-6 py-8"
-            style={{ maxHeight: "calc(92vh - 64px - 84px)" }}
+            className="min-h-0 flex-1 overflow-y-auto px-6 py-8"
           >
             <div className="grid gap-3">
               <div className="text-[13px] font-medium text-[#173b70]">
@@ -527,7 +526,7 @@ export default function LoanTransactionHistoryDialog({
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-5 py-4 sm:px-6">
+          <div className="sticky bottom-0 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
             <div className="flex justify-end">
               <Button onClick={() => onOpenChange(false)} className={btnTutupFooterCls}>
                 <X className="mr-2 h-4 w-4" />

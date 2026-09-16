@@ -48,3 +48,30 @@
   font-size: 18px !important;
   line-height: 1.5;
 }
+
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) > div > div:first-child {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+}
+
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) > div > div:nth-child(2) {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) > div > div:last-child {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: white;
+}
+
+#root [role="dialog"]:not(:has(.save-confirmation-modal)) > div {
+  display: flex;
+  max-height: calc(100vh - 1.5rem);
+  flex-direction: column;
+  overflow: hidden;
+}
