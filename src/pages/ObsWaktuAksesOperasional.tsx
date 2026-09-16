@@ -162,6 +162,8 @@ export default function ObsWaktuAksesOperasional() {
     "Pengaturan Waktu Operasional",
   );
   const [dailySchedule, setDailySchedule] = React.useState<DailySchedule>(defaultDailySchedule);
+  const [scheduleOpen, setScheduleOpen] = React.useState(false);
+  const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
   const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -239,40 +241,19 @@ export default function ObsWaktuAksesOperasional() {
                 </h2>
               </div>
 
-              <div className="border-b border-[#D7DEE9] px-4 py-4 md:px-5">
-                <div className="mb-3">
+              <div className="flex items-center justify-between gap-4 border-b border-[#D7DEE9] px-4 py-4 md:px-5">
+                <div>
                   <span className="text-[12px] font-semibold text-black">Waktu Operasional Harian</span>
+                  <p className="mt-1 text-[11px] text-slate-500">Jam operasional dapat disesuaikan untuk setiap hari.</p>
                 </div>
-                <div className="overflow-x-auto rounded-[6px] border border-[#D7DEE9]">
-                  <table className="w-full min-w-[620px] text-left text-[12px]">
-                    <thead className="bg-[#F7F8FC] text-[10px] uppercase tracking-[0.08em] text-[#61728c]">
-                      <tr>
-                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Hari</th>
-                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Mulai Operasional</th>
-                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Selesai Operasional</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {operationalDays.map((day) => (
-                        <tr key={day} className="bg-white">
-                          <td className="border-b border-[#D7DEE9] px-3 py-2 font-medium text-black">{day}</td>
-                          <td className="border-b border-[#D7DEE9] px-3 py-2">
-                            <TimeSelect
-                              value={dailySchedule[day].start}
-                              onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], start: value } }))}
-                            />
-                          </td>
-                          <td className="border-b border-[#D7DEE9] px-3 py-2">
-                            <TimeSelect
-                              value={dailySchedule[day].end}
-                              onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], end: value } }))}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setScheduleOpen(true)}
+                  className="inline-flex h-9 shrink-0 items-center gap-2 rounded-[6px] bg-[#635BFF] px-3 text-[12px] font-semibold text-white transition hover:bg-[#5149df]"
+                >
+                  <Clock3 className="h-4 w-4" />
+                  Atur Jadwal
+                </button>
               </div>
 
               <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
@@ -362,6 +343,58 @@ export default function ObsWaktuAksesOperasional() {
               </button>
             </div>
           </div>
+
+          <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl">
+              <div className="border-b border-[#D7DEE9] bg-[#F7F8FC] px-5 py-4 sm:px-6">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white">
+                    <Clock3 className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <h3 className="text-[16px] font-bold text-[#17345f]">Atur Waktu Operasional Harian</h3>
+                    <p className="mt-0.5 text-[11px] text-slate-500">Tentukan jam mulai dan selesai untuk setiap hari.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="max-h-[65vh] overflow-y-auto px-5 py-4 sm:px-6">
+                <div className="overflow-x-auto rounded-[6px] border border-[#D7DEE9]">
+                  <table className="w-full min-w-[620px] text-left text-[12px]">
+                    <thead className="bg-[#F7F8FC] text-[10px] uppercase tracking-[0.08em] text-[#61728c]">
+                      <tr>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Hari</th>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Mulai Operasional</th>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Selesai Operasional</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {operationalDays.map((day) => (
+                        <tr key={day} className="bg-white">
+                          <td className="border-b border-[#D7DEE9] px-3 py-2 font-medium text-black">{day}</td>
+                          <td className="border-b border-[#D7DEE9] px-3 py-2"><TimeSelect value={dailySchedule[day].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], start: value } }))} /></td>
+                          <td className="border-b border-[#D7DEE9] px-3 py-2"><TimeSelect value={dailySchedule[day].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], end: value } }))} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-4">
+                  <label htmlFor="change-reason" className="text-[12px] font-semibold text-black">Alasan Perubahan Jam Operasional</label>
+                  <textarea
+                    id="change-reason"
+                    value={changeReason}
+                    onChange={(event) => setChangeReason(event.target.value)}
+                    placeholder="Masukkan alasan perubahan jam operasional"
+                    className="mt-2 min-h-[88px] w-full resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4 sm:px-6">
+                <button type="button" onClick={() => setScheduleOpen(false)} className="h-9 rounded-[6px] border border-slate-300 bg-white px-4 text-[12px] font-semibold text-slate-600 transition hover:bg-slate-50">Batal</button>
+                <button type="button" onClick={() => setScheduleOpen(false)} className="h-9 rounded-[6px] bg-[#2fb300] px-4 text-[12px] font-bold text-white transition hover:bg-[#279800]">Simpan Jadwal</button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
           <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
