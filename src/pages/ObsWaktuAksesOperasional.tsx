@@ -1,10 +1,5 @@
 import * as React from "react";
 import { CheckSquare, ChevronDown, Clock3, Pencil, X } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
 import { cn } from "@/lib/utils";
@@ -195,12 +190,9 @@ export default function ObsWaktuAksesOperasional() {
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [dayChangeReason, setDayChangeReason] = React.useState("");
-  const [dayUserDropdown, setDayUserDropdown] = React.useState<"access" | "default" | null>(null);
   const [dayConfirmOpen, setDayConfirmOpen] = React.useState(false);
   const [daySuccessOpen, setDaySuccessOpen] = React.useState(false);
   const [changeReason, setChangeReason] = React.useState("");
-  const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
-  const [defaultAccessUsers, setDefaultAccessUsers] = React.useState<string[]>(["supervisor"]);
   const [historyPage, setHistoryPage] = React.useState(1);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -213,14 +205,6 @@ export default function ObsWaktuAksesOperasional() {
     (historyPage - 1) * historyPageSize,
     historyPage * historyPageSize,
   );
-
-  function toggleUser(id: string) {
-    setSelectedUsers((current) =>
-      current.includes(id)
-        ? current.filter((userId) => userId !== id)
-        : [...current, id],
-    );
-  }
 
   function saveAccessSettings() {
     setConfirmOpen(true);
@@ -327,40 +311,6 @@ export default function ObsWaktuAksesOperasional() {
                       <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
                       <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
                     </div>
-                    <div className="flex items-start gap-0">
-                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">User yang dapat mengakses<br />sistem di luar jam operasional</label>
-                      <div className="relative min-w-0 flex-1">
-                        <div className="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5" onClick={() => setDayUserDropdown(dayUserDropdown === "access" ? null : "access")}>
-                          <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                            {selectedUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Pilih user</span> : selectedUsers.map((id) => {
-                              const user = accessUsers.find((item) => item.id === id);
-                              return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><button type="button" onClick={(event) => { event.stopPropagation(); toggleUser(user.id); }} className="font-bold">×</button>{user.name}</span> : null;
-                            })}
-                          </div>
-                          <X className="h-4 w-4 shrink-0 text-slate-900" />
-                        </div>
-                        {dayUserDropdown === "access" && <div className="absolute z-20 mt-1 w-full rounded-[6px] border border-slate-200 bg-white p-1.5 shadow-lg">
-                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => { toggleUser(user.id); setDayUserDropdown(null); }} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
-                        </div>}
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-0">
-                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">User default yang dapat mengakses<br />di luar jam operasional</label>
-                      <div className="relative min-w-0 flex-1">
-                        <div className="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5" onClick={() => setDayUserDropdown(dayUserDropdown === "default" ? null : "default")}>
-                          <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                            {defaultAccessUsers.length === 0 ? <span className="px-1 text-[13px] text-slate-500">Pilih user default</span> : defaultAccessUsers.map((id) => {
-                              const user = accessUsers.find((item) => item.id === id);
-                              return user ? <span key={user.id} className="inline-flex h-7 items-center gap-2 bg-[#5543f5] px-2.5 text-[12px] font-normal text-white"><button type="button" onClick={(event) => { event.stopPropagation(); setDefaultAccessUsers((current) => current.filter((userId) => userId !== user.id)); }} className="font-bold">×</button>{user.name}</span> : null;
-                            })}
-                          </div>
-                          <X className="h-4 w-4 shrink-0 text-slate-900" />
-                        </div>
-                        {dayUserDropdown === "default" && <div className="absolute z-20 mt-1 w-full rounded-[6px] border border-slate-200 bg-white p-1.5 shadow-lg">
-                          {accessUsers.map((user) => <button key={user.id} type="button" onClick={() => { setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id]); setDayUserDropdown(null); }} className="flex w-full px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">{user.name}</button>)}
-                        </div>}
-                      </div>
-                    </div>
                     <div className="flex items-start gap-0 py-2.5">
                       <span className="w-[200px] shrink-0 pt-1 text-[12px] font-normal text-black">Status operasional</span>
                       <button
@@ -454,83 +404,6 @@ export default function ObsWaktuAksesOperasional() {
                   </table>
                 </div>
                 <div className="mt-5 border-t border-[#D7DEE9] pt-4">
-                <div className="flex items-center gap-3">
-                  <label className="w-[180px] shrink-0 text-[12px] font-normal leading-tight text-black">User yang dapat mengakses sistem di luar jam operasional</label>
-                  <Popover>
-                      <PopoverTrigger asChild>
-                        <div role="button" tabIndex={0} className="flex min-h-9 min-w-0 flex-1 items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 text-left outline-none focus:ring-2 focus:ring-violet-200">
-                          <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                            {selectedUsers.length > 0 ? selectedUsers.map((id) => {
-                              const user = accessUsers.find((item) => item.id === id);
-                              return user ? (
-                                <span key={id} className="inline-flex items-center gap-2 rounded-none bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">
-                                  <button
-                                    type="button"
-                                    aria-label={`Hapus ${user.name}`}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      toggleUser(user.id);
-                                    }}
-                                    className="text-[12px] font-bold leading-none text-white hover:text-white/70"
-                                  >
-                                    ×
-                                  </button>
-                                  {user.name}
-                                </span>
-                              ) : null;
-                            }) : <span className="px-1 text-[12px] text-slate-400">Pilih user</span>}
-                          </span>
-                          {selectedUsers.length > 0 ? <X className="h-4 w-4 shrink-0 text-slate-900" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />}
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
-                        {accessUsers.map((user) => (
-                          <button key={user.id} type="button" onClick={() => toggleUser(user.id)} className="flex w-full items-center rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
-                            {user.name}
-                          </button>
-                        ))}
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                  <div className="mt-4 flex items-center gap-3">
-                    <label className="w-[180px] shrink-0 text-[12px] font-normal leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <div role="button" tabIndex={0} className="flex min-h-9 min-w-0 flex-1 items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5 text-left outline-none focus:ring-2 focus:ring-violet-200">
-                          <span className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-                            {defaultAccessUsers.length > 0 ? defaultAccessUsers.map((id) => {
-                              const user = accessUsers.find((item) => item.id === id);
-                              return user ? (
-                                <span key={id} className="inline-flex items-center gap-2 rounded-none bg-[#5543f5] px-2.5 py-1.5 text-[11px] font-medium text-white">
-                                  <button
-                                    type="button"
-                                    aria-label={`Hapus ${user.name}`}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      setDefaultAccessUsers((current) => current.filter((userId) => userId !== user.id));
-                                    }}
-                                    className="text-[12px] font-bold leading-none text-white hover:text-white/70"
-                                  >
-                                    ×
-                                  </button>
-                                  {user.name}
-                                </span>
-                              ) : null;
-                            }) : <span className="px-1 text-[12px] text-slate-400">Pilih user default</span>}
-                          </span>
-                          {defaultAccessUsers.length > 0 ? <X className="h-4 w-4 shrink-0 text-slate-900" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />}
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[var(--radix-popover-trigger-width)] rounded-[6px] border-slate-200 bg-white p-1.5 shadow-lg">
-                        {accessUsers.map((user) => (
-                          <button key={user.id} type="button" onClick={() => setDefaultAccessUsers((current) => current.includes(user.id) ? current.filter((userId) => userId !== user.id) : [...current, user.id])} className="flex w-full items-center rounded-[4px] px-2.5 py-2 text-left text-[12px] text-slate-800 hover:bg-[#F1F4FA]">
-                            {user.name}
-                          </button>
-                        ))}
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
                 <div className="mt-4 flex items-start gap-3">
                   <label htmlFor="change-reason" className="w-[180px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Alasan Perubahan Jam Operasional</label>
                   <textarea
