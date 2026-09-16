@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, ChevronDown, ChevronLeft, ChevronRight, Clock3, Pencil, X } from "lucide-react";
+import { CheckSquare, ChevronDown, Clock3, Pencil, X } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -641,17 +641,17 @@ export default function ObsWaktuAksesOperasional() {
               </div>
               <div className="flex flex-col gap-3 border-t border-[#D7DEE9] px-4 py-3 text-[11px] text-[#61728c] sm:flex-row sm:items-center sm:justify-between">
                 <span>Menampilkan {(historyPage - 1) * historyPageSize + 1}-{Math.min(historyPage * historyPageSize, dailyHistory.length)} dari {dailyHistory.length} data</span>
-                <div className="flex items-center justify-end gap-1.5">
+                <div className="flex flex-wrap items-center justify-end gap-1.5">
                   <button
                     type="button"
                     aria-label="Halaman sebelumnya"
                     disabled={historyPage === 1}
                     onClick={() => setHistoryPage((page) => Math.max(1, page - 1))}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#C9D3E3] bg-white text-[#53657d] transition hover:bg-[#F1F4FA] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex h-14 min-w-[170px] items-center justify-center rounded-[3px] bg-[#e9edf3] px-5 text-[22px] font-medium text-[#c5cedb] transition hover:bg-[#dde4ed] disabled:cursor-not-allowed disabled:opacity-100"
                   >
-                    <ChevronLeft className="h-4 w-4" />
+                    Sebelumnya
                   </button>
-                  {Array.from({ length: historyPageCount }, (_, index) => index + 1).map((page) => (
+                  {Array.from({ length: historyPageCount > 6 ? 5 : historyPageCount }, (_, index) => index + 1).map((page) => (
                     <button
                       key={page}
                       type="button"
@@ -659,23 +659,40 @@ export default function ObsWaktuAksesOperasional() {
                       aria-current={historyPage === page ? "page" : undefined}
                       onClick={() => setHistoryPage(page)}
                       className={cn(
-                        "inline-flex h-8 min-w-8 items-center justify-center rounded-md border px-2 font-semibold transition",
+                        "inline-flex h-14 min-w-[46px] items-center justify-center rounded-[2px] px-3 text-[22px] font-medium transition",
                         historyPage === page
-                          ? "border-[#635BFF] bg-[#635BFF] text-white"
-                          : "border-[#C9D3E3] bg-white text-[#53657d] hover:bg-[#F1F4FA]",
+                          ? "bg-[#5a46f5] text-white"
+                          : "bg-[#e1e6ed] text-[#26364c] hover:bg-[#d5dce6]",
                       )}
                     >
                       {page}
                     </button>
                   ))}
+                  {historyPageCount > 6 ? (
+                    <>
+                      <span className="inline-flex h-14 min-w-[46px] items-center justify-center text-[22px] text-[#26364c]">...</span>
+                      <button
+                        type="button"
+                        aria-label={`Halaman ${historyPageCount}`}
+                        aria-current={historyPage === historyPageCount ? "page" : undefined}
+                        onClick={() => setHistoryPage(historyPageCount)}
+                        className={cn(
+                          "inline-flex h-14 min-w-[58px] items-center justify-center rounded-[2px] px-3 text-[22px] font-medium transition",
+                          historyPage === historyPageCount ? "bg-[#5a46f5] text-white" : "bg-[#e1e6ed] text-[#26364c] hover:bg-[#d5dce6]",
+                        )}
+                      >
+                        {historyPageCount}
+                      </button>
+                    </>
+                  ) : null}
                   <button
                     type="button"
                     aria-label="Halaman berikutnya"
                     disabled={historyPage === historyPageCount}
                     onClick={() => setHistoryPage((page) => Math.min(historyPageCount, page + 1))}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#C9D3E3] bg-white text-[#53657d] transition hover:bg-[#F1F4FA] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex h-14 min-w-[170px] items-center justify-center rounded-[3px] bg-[#e1e6ed] px-5 text-[22px] font-medium text-[#26364c] transition hover:bg-[#d5dce6] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    <ChevronRight className="h-4 w-4" />
+                    Selanjutnya
                   </button>
                 </div>
               </div>
