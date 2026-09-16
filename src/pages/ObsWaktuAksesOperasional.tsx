@@ -322,7 +322,7 @@ export default function ObsWaktuAksesOperasional() {
               {editingDay && (
                 <>
                   <div className="border-b border-[#D7DEE9] px-5 py-4">
-                    <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional {editingDay}</h3>
+                    <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional Harian</h3>
                   </div>
                   <div className="grid gap-4 px-5 py-5">
                     <div>
