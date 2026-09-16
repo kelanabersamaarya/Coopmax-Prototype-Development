@@ -32,7 +32,8 @@ export default function MobileAwareToaster() {
   const isMobilePrototype = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isObsArea =
-    location.pathname.startsWith("/obs-samudra-harta") ||
+    (location.pathname.startsWith("/obs-samudra-harta") &&
+      !location.pathname.includes("/waktu-akses-operasional")) ||
     location.pathname.startsWith("/obs-web");
   const isSakEpCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isMemberTransaction = location.pathname === "/anggota/transaksi";
