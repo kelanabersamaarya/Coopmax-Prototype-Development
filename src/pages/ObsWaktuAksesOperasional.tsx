@@ -401,13 +401,13 @@ export default function ObsWaktuAksesOperasional() {
           </Dialog>
 
           <Dialog open={dayConfirmOpen} onOpenChange={setDayConfirmOpen}>
-            <DialogContent className="w-[calc(100vw-2rem)] max-w-[460px] rounded-[8px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
-              <div className="px-8 pb-6 pt-8 text-center">
-                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-4 border-[#f7c8a6] text-[38px] font-light text-[#f2b98f]">!</div>
-                <h3 className="mt-5 text-[22px] font-extrabold text-[#3b4863]">Yakin menyimpan perubahan?</h3>
+            <DialogContent className="h-[260px] w-[calc(100vw-2rem)] max-w-[460px] rounded-[8px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+              <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+                <div className="mx-auto grid h-[68px] w-[68px] place-items-center rounded-full border-4 border-[#f7c8a6] text-[40px] font-light leading-none text-[#f2b98f]">!</div>
+                <h3 className="mt-5 text-[22px] font-extrabold leading-tight text-[#3b4863]">Yakin menyimpan perubahan?</h3>
                 <div className="mt-6 flex justify-center gap-2">
-                  <button type="button" onClick={() => { setDayConfirmOpen(false); setDaySuccessOpen(true); }} className="h-10 rounded-[6px] bg-[#2f80ed] px-5 text-[13px] font-semibold text-white">Yes</button>
-                  <button type="button" onClick={() => setDayConfirmOpen(false)} className="h-10 rounded-[6px] bg-[#8291ad] px-5 text-[13px] font-semibold text-white">Cancel</button>
+                  <button type="button" onClick={() => { setDayConfirmOpen(false); setDaySuccessOpen(true); }} className="h-[44px] min-w-[80px] rounded-[6px] bg-[#2f80ed] px-5 text-[14px] font-semibold text-white transition hover:bg-[#266ed0]">Yes</button>
+                  <button type="button" onClick={() => setDayConfirmOpen(false)} className="h-[44px] min-w-[90px] rounded-[6px] bg-[#8291ad] px-5 text-[14px] font-semibold text-white transition hover:bg-[#71819d]">Cancel</button>
                 </div>
               </div>
             </DialogContent>
