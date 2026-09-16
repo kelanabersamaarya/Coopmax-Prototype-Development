@@ -21,7 +21,7 @@ export default function LoanProductSaveSuccessModal({
         className={cn(
           "w-[calc(100vw-2rem)] sm:w-[460px]",
           "max-w-[460px]",
-          "h-[260px]",
+          "min-h-[260px]",
           "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
           "overflow-hidden",
           "[&>button[aria-label=Close]]:hidden",
