@@ -242,9 +242,16 @@ export default function ObsWaktuAksesOperasional() {
               </div>
 
               <div className="flex items-center justify-between gap-4 border-b border-[#D7DEE9] px-4 py-4 md:px-5">
-                <div>
+                <div className="min-w-0">
                   <span className="text-[12px] font-semibold text-black">Waktu Operasional Harian</span>
                   <p className="mt-1 text-[11px] text-slate-500">Jam operasional dapat disesuaikan untuk setiap hari.</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {operationalDays.map((day) => (
+                      <span key={day} className="rounded-[5px] border border-[#D7DEE9] bg-[#F7F8FC] px-2 py-1 text-[10px] font-medium text-[#17345f]">
+                        {day}: {dailySchedule[day].start} - {dailySchedule[day].end}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 <button
                   type="button"
