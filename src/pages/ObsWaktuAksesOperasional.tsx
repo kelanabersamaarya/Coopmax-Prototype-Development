@@ -254,31 +254,41 @@ export default function ObsWaktuAksesOperasional() {
                 </h2>
               </div>
 
-              <div className="flex items-center justify-between gap-4 border-b border-[#D7DEE9] px-4 py-4 md:px-5">
-                <div className="min-w-0">
-                  <span className="text-[12px] font-semibold text-black">Waktu Operasional Harian</span>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {operationalDays.map((day) => (
-                      <span key={day} className="rounded-[5px] border border-[#D7DEE9] bg-[#F7F8FC] px-2 py-1 text-[10px] font-medium text-[#17345f]">
-                        {day}: {dailySchedule[day].start} - {dailySchedule[day].end}
-                      </span>
-                    ))}
+              <div className="border-b border-[#D7DEE9] px-4 py-5 md:px-5">
+                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
+                  <div>
+                    <span className="text-[12px] font-semibold text-[#17345f]">Waktu Operasional Harian</span>
+                    <p className="mt-1 text-[11px] text-slate-500">Jadwal dan status operasional setiap hari</p>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => setScheduleOpen(true)}
+                    className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-[7px] bg-[#635BFF] px-3 text-[12px] font-semibold text-white transition hover:bg-[#5149df]"
+                  >
+                    <Pencil className="h-4 w-4" />
+                    Ubah Waktu Operasional Harian
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setScheduleOpen(true)}
-                  className="inline-flex h-9 shrink-0 items-center gap-2 rounded-[6px] bg-[#635BFF] px-3 text-[12px] font-semibold text-white transition hover:bg-[#5149df]"
-                >
-                  <Pencil className="h-4 w-4" />
-                  Ubah Waktu Operasional Harian
-                </button>
+                <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                  {operationalDays.map((day) => (
+                    <div key={day} className="rounded-[8px] border border-[#D7DEE9] bg-[#F8FAFD] px-3 py-2.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[11px] font-semibold text-[#17345f]">{day}</span>
+                        <span className={cn("rounded-full px-2 py-0.5 text-[9px] font-semibold", dailyStatus[day] ? "bg-[#E8F8E5] text-[#278b18]" : "bg-slate-200 text-slate-500")}>
+                          {dailyStatus[day] ? "Aktif" : "Nonaktif"}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-[12px] font-medium text-slate-700">
+                        {dailySchedule[day].start} <span className="text-slate-400">—</span> {dailySchedule[day].end}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="grid min-h-[86px] items-center gap-3 border-b border-[#D7DEE9] px-4 py-4 text-[12px] md:grid-cols-[minmax(0,1fr)_390px] md:px-5 md:py-2">
-                <span className="font-normal text-black">
-                  User yang dapat mengakses sistem di luar jam operasional
-                </span>
+              <div className="grid gap-5 border-b border-[#D7DEE9] px-4 py-5 text-[12px] md:grid-cols-2 md:px-5">
+                <div>
+                  <div className="font-normal text-black">User yang dapat mengakses sistem di luar jam operasional</div>
 
                 <div>
                   <Popover>
@@ -348,6 +358,24 @@ export default function ObsWaktuAksesOperasional() {
                     Pilih satu atau beberapa user yang tetap diizinkan masuk ke sistem.
                   </p>
                 </div>
+              </div>
+              <div>
+                <div className="font-normal text-black">User default yang dapat mengakses di luar jam operasional</div>
+                <div className="mt-2 flex min-h-9 flex-wrap items-center gap-1.5 rounded-[6px] border border-slate-300 bg-white px-2 py-1.5">
+                  {defaultAccessUsers.length === 0 ? (
+                    <span className="px-1 text-[13px] text-slate-500">Belum ada user default</span>
+                  ) : (
+                    defaultAccessUsers.map((id) => {
+                      const user = accessUsers.find((item) => item.id === id);
+                      return user ? (
+                        <span key={user.id} className="inline-flex h-7 items-center bg-[#5543f5] px-2.5 text-[12px] font-normal text-white">
+                          {user.name}
+                        </span>
+                      ) : null;
+                    })
+                  )}
+                </div>
+                <p className="mt-1 text-[11px] text-slate-500">User default yang tetap diizinkan masuk ke sistem.</p>
               </div>
             </div>
 
