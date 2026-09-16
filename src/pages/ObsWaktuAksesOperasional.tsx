@@ -573,10 +573,10 @@ export default function ObsWaktuAksesOperasional() {
           </Dialog>
 
           <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-            <DialogContent className="w-[calc(100vw-2rem)] max-w-[528px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
-              <div className="px-8 pb-5 pt-10 text-center sm:px-10">
-                <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6] bg-white">
-                  <div className="text-[54px] font-light leading-none text-[#f2b98f]">!</div>
+            <DialogContent className="h-[364px] w-[calc(100vw-2rem)] max-w-[582px] rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+              <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+                <div className="mx-auto grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6] bg-white">
+                  <div className="text-[58px] font-light leading-none text-[#f2b98f]">!</div>
                 </div>
                 <div className="mt-7 text-[28px] font-extrabold leading-tight tracking-tight text-[#3b4863]">
                   <span>Yakin menyimpan waktu</span>
@@ -587,14 +587,14 @@ export default function ObsWaktuAksesOperasional() {
                   <button
                     type="button"
                     onClick={confirmSaveAccessSettings}
-                    className="h-[48px] w-[104px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25"
+                    className="h-[56px] w-[118px] rounded-[5px] bg-[#2f80ed] text-[16px] font-semibold text-white ring-2 ring-[#2f80ed]/35 transition hover:bg-[#266ed0] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2f80ed]/25"
                   >
                     Yes
                   </button>
                   <button
                     type="button"
                     onClick={() => setConfirmOpen(false)}
-                    className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#a6a6a6]/25"
+                    className="h-[56px] w-[140px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white ring-2 ring-[#a6a6a6]/25 transition hover:bg-[#969696] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#a6a6a6]/25"
                   >
                     Cancel
                   </button>
