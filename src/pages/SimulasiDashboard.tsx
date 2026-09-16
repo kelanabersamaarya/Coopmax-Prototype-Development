@@ -178,6 +178,32 @@ function WideSummaryCard({ count, title, description, action }: { count: string;
   );
 }
 
+function ServerClockFooter() {
+  const [serverTime, setServerTime] = useState(() => new Date());
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setServerTime(new Date()), 1000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const formattedServerTime = serverTime.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+
+  return (
+    <footer className="fixed inset-x-0 bottom-0 z-20 flex min-h-[42px] flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-[#e6eaf1] bg-white px-4 py-2 text-[12px] text-[#61728c] shadow-[0_-2px_8px_rgba(15,23,42,0.04)] sm:px-6">
+      <span>© 2026 PT. Solusi Anak Sakti</span>
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-medium">
+        <span>Jam Server: {formattedServerTime}</span>
+        <span>Jam Operasional: 08.00 - 16.00</span>
+      </div>
+    </footer>
+  );
+}
+
 export default function Dashboard() {
   const navigate = useNavigate();
 
@@ -222,13 +248,14 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="mt-12 pb-4">
+      <section className="mt-12 pb-16">
         <h2 className="mb-7 text-xl font-bold text-[#16233a]">SUDAH PROSES BUNGA HARI INI</h2>
         <div className="grid gap-5 lg:grid-cols-2">
           <WideSummaryCard count="0" title="Rekening Tabungan" />
           <WideSummaryCard count="0" title="Rekening Deposito" />
         </div>
       </section>
+      <ServerClockFooter />
     </main>
   );
 }
