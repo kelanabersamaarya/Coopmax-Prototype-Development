@@ -35,7 +35,7 @@ export default function LoanProductSaveSuccessModal({
             <Check className="h-[58px] w-[58px] text-[#9bd77e]" strokeWidth={2.5} />
           </div>
 
-          <div className="mt-7 text-[30px] font-semibold leading-tight tracking-tight text-[#595959]">
+          <div className="mt-7 text-[22px] font-semibold leading-tight tracking-tight text-[#595959]">
             {message}
           </div>
 
