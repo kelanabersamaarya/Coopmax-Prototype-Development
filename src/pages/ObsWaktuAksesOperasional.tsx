@@ -477,7 +477,10 @@ export default function ObsWaktuAksesOperasional() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setScheduleOpen(false)}
+                  onClick={() => {
+                    setScheduleOpen(false);
+                    setConfirmOpen(true);
+                  }}
                   className="inline-flex h-[30px] w-[90px] items-center justify-center gap-1 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-normal text-white transition hover:bg-[#20a000]"
                 >
                   <CheckSquare className="h-4 w-4" strokeWidth={3} />
