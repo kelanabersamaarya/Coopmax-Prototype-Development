@@ -189,6 +189,7 @@ export default function ObsWaktuAksesOperasional() {
   const [dailyStatus, setDailyStatus] = React.useState<DailyStatus>(defaultDailyStatus);
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
+  const [editStep, setEditStep] = React.useState<1 | 2>(1);
   const [dayChangeReason, setDayChangeReason] = React.useState("");
   const [dayConfirmOpen, setDayConfirmOpen] = React.useState(false);
   const [daySuccessOpen, setDaySuccessOpen] = React.useState(false);
@@ -280,6 +281,7 @@ export default function ObsWaktuAksesOperasional() {
                         type="button"
                         onClick={() => {
                           setDayChangeReason("");
+                          setEditStep(1);
                           setEditingDay(day);
                         }}
                         className="mt-2 inline-flex h-7 items-center gap-1 rounded-[5px] bg-[#4169f5] px-2.5 text-[10px] font-semibold text-white transition hover:bg-[#3157d8]"
@@ -303,6 +305,8 @@ export default function ObsWaktuAksesOperasional() {
                     <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional Harian</h3>
                   </div>
                   <div className="grid gap-4 px-5 py-5">
+                    {editStep === 1 ? (
+                      <>
                     <div className="flex items-start gap-0 py-2.5">
                       <span className="w-[200px] shrink-0 pt-1 text-[12px] font-normal text-black">Status operasional</span>
                       <button
@@ -324,20 +328,30 @@ export default function ObsWaktuAksesOperasional() {
                       <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
                       <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
                     </div>
-                    <div className="flex items-start gap-0">
-                      <label htmlFor="day-change-reason" className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Alasan Perubahan</label>
-                      <textarea
-                        id="day-change-reason"
-                        value={dayChangeReason}
-                        onChange={(event) => setDayChangeReason(event.target.value)}
-                        placeholder="Masukkan alasan perubahan"
-                        className="min-h-[76px] min-w-0 flex-1 resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
-                      />
-                    </div>
+                      </>
+                    ) : (
+                      <div className="flex items-start gap-0">
+                        <label htmlFor="day-change-reason" className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Alasan Perubahan</label>
+                        <textarea
+                          id="day-change-reason"
+                          value={dayChangeReason}
+                          onChange={(event) => setDayChangeReason(event.target.value)}
+                          placeholder="Masukkan alasan perubahan"
+                          className="min-h-[120px] min-w-0 flex-1 resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+                        />
+                      </div>
+                    )}
                   </div>
                   <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
+                    {editStep === 2 ? (
+                      <button type="button" onClick={() => setEditStep(1)} className="inline-flex h-[32px] w-[100px] items-center justify-center rounded-[6px] bg-[#8291ad] px-2 text-[12px] font-semibold text-white transition hover:bg-[#71819d]">Kembali</button>
+                    ) : null}
                     <button type="button" onClick={() => setEditingDay(null)} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-2 text-[12px] font-semibold text-white transition hover:bg-[#71819d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8291ad]/40"><X className="h-[16px] w-[16px]" strokeWidth={4} />Batalkan</button>
-                    <button type="button" onClick={() => { setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
+                    {editStep === 1 ? (
+                      <button type="button" onClick={() => setEditStep(2)} className="inline-flex h-[32px] min-w-[100px] items-center justify-center rounded-[6px] bg-[#4169f5] px-3 text-[12px] font-semibold text-white transition hover:bg-[#3157d8]">Lanjut</button>
+                    ) : (
+                      <button type="button" onClick={() => { setEditingDay(null); setDayConfirmOpen(true); }} className="inline-flex h-[32px] w-[100px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-2 text-[12px] font-semibold text-white transition hover:bg-[#20a000] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#28b900]/40"><CheckSquare className="h-[16px] w-[16px]" strokeWidth={3} />Simpan</button>
+                    )}
                   </div>
                 </>
               )}
