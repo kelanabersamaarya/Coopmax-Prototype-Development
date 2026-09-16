@@ -241,7 +241,7 @@ export default function ObsWaktuAksesOperasional() {
 
               <div className="border-b border-[#D7DEE9] px-4 py-4 md:px-5">
                 <div className="mb-3">
-                  <span className="text-[12px] font-semibold text-black">Jadwal Operasional per Hari</span>
+                  <span className="text-[12px] font-semibold text-black">Waktu Operasional Harian</span>
                 </div>
                 <div className="overflow-x-auto rounded-[6px] border border-[#D7DEE9]">
                   <table className="w-full min-w-[620px] text-left text-[12px]">
