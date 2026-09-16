@@ -378,9 +378,9 @@ export default function ObsWaktuAksesOperasional() {
                   </table>
                 </div>
                 <div className="mt-5 grid gap-4 border-t border-[#D7DEE9] pt-4 md:grid-cols-2">
-                  <div>
-                    <label className="text-[12px] font-semibold text-black">User yang dapat mengakses sistem di luar jam operasional</label>
-                    <div className="mt-2 flex min-h-9 flex-wrap gap-1.5 rounded-[6px] border border-slate-300 bg-white p-1.5">
+                  <div className="flex items-center gap-3">
+                    <label className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User yang dapat mengakses sistem di luar jam operasional</label>
+                    <div className="flex min-h-9 min-w-0 flex-1 flex-wrap gap-1.5 rounded-[6px] border border-slate-300 bg-white p-1.5">
                       {accessUsers.map((user) => (
                         <button
                           key={user.id}
@@ -398,13 +398,13 @@ export default function ObsWaktuAksesOperasional() {
                       ))}
                     </div>
                   </div>
-                  <div>
-                    <label htmlFor="default-access-user" className="text-[12px] font-semibold text-black">User default yang dapat mengakses di luar jam operasional</label>
+                  <div className="flex items-center gap-3">
+                    <label htmlFor="default-access-user" className="w-[180px] shrink-0 text-[12px] font-semibold leading-tight text-black">User default yang dapat mengakses di luar jam operasional</label>
                     <select
                       id="default-access-user"
                       value={defaultAccessUser}
                       onChange={(event) => setDefaultAccessUser(event.target.value)}
-                      className="mt-2 h-9 w-full rounded-[6px] border border-slate-300 bg-white px-3 text-[12px] text-slate-900 outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+                      className="h-9 min-w-0 flex-1 rounded-[6px] border border-slate-300 bg-white px-3 text-[12px] text-slate-900 outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
                     >
                       {accessUsers.map((user) => (
                         <option key={user.id} value={user.id}>{user.name}</option>
@@ -412,14 +412,14 @@ export default function ObsWaktuAksesOperasional() {
                     </select>
                   </div>
                 </div>
-                <div className="mt-4">
-                  <label htmlFor="change-reason" className="text-[12px] font-semibold text-black">Alasan Perubahan Jam Operasional</label>
+                <div className="mt-4 flex items-start gap-3">
+                  <label htmlFor="change-reason" className="w-[180px] shrink-0 pt-2 text-[12px] font-semibold leading-tight text-black">Alasan Perubahan Jam Operasional</label>
                   <textarea
                     id="change-reason"
                     value={changeReason}
                     onChange={(event) => setChangeReason(event.target.value)}
                     placeholder="Masukkan alasan perubahan jam operasional"
-                    className="mt-2 min-h-[88px] w-full resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
+                    className="min-h-[88px] min-w-0 flex-1 resize-y rounded-[6px] border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-900 outline-none placeholder:text-slate-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-200"
                   />
                 </div>
               </div>
