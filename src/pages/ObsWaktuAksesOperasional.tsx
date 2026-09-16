@@ -121,6 +121,7 @@ const operationalDays = [
 
 type OperationalDay = (typeof operationalDays)[number];
 type DailySchedule = Record<OperationalDay, { start: string; end: string }>;
+type DailyStatus = Record<OperationalDay, boolean>;
 
 const defaultDailySchedule: DailySchedule = {
   Senin: { start: "08:00", end: "16:00" },
@@ -130,6 +131,16 @@ const defaultDailySchedule: DailySchedule = {
   Jumat: { start: "08:00", end: "16:00" },
   Sabtu: { start: "08:00", end: "13:00" },
   Minggu: { start: "08:00", end: "13:00" },
+};
+
+const defaultDailyStatus: DailyStatus = {
+  Senin: true,
+  Selasa: true,
+  Rabu: true,
+  Kamis: true,
+  Jumat: true,
+  Sabtu: true,
+  Minggu: true,
 };
 
 function TimeSelect({
@@ -162,6 +173,7 @@ export default function ObsWaktuAksesOperasional() {
     "Pengaturan Waktu Operasional",
   );
   const [dailySchedule, setDailySchedule] = React.useState<DailySchedule>(defaultDailySchedule);
+  const [dailyStatus, setDailyStatus] = React.useState<DailyStatus>(defaultDailyStatus);
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [changeReason, setChangeReason] = React.useState("");
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>(["admin"]);
@@ -364,6 +376,7 @@ export default function ObsWaktuAksesOperasional() {
                         <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Hari</th>
                         <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Mulai Operasional</th>
                         <th className="border-b border-[#D7DEE9] px-3 py-2 font-semibold">Waktu Selesai Operasional</th>
+                        <th className="border-b border-[#D7DEE9] px-3 py-2 text-center font-semibold">Aktif</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -372,6 +385,18 @@ export default function ObsWaktuAksesOperasional() {
                           <td className="border-b border-[#D7DEE9] px-3 py-2 font-medium text-black">{day}</td>
                           <td className="border-b border-[#D7DEE9] px-3 py-2"><TimeSelect value={dailySchedule[day].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], start: value } }))} /></td>
                           <td className="border-b border-[#D7DEE9] px-3 py-2"><TimeSelect value={dailySchedule[day].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [day]: { ...current[day], end: value } }))} /></td>
+                          <td className="border-b border-[#D7DEE9] px-3 py-2 text-center">
+                            <button
+                              type="button"
+                              role="switch"
+                              aria-checked={dailyStatus[day]}
+                              aria-label={`${dailyStatus[day] ? "Nonaktifkan" : "Aktifkan"} operasional ${day}`}
+                              onClick={() => setDailyStatus((current) => ({ ...current, [day]: !current[day] }))}
+                              className={cn("relative inline-flex h-5 w-9 items-center rounded-full transition-colors", dailyStatus[day] ? "bg-[#5543f5]" : "bg-slate-300")}
+                            >
+                              <span className={cn("inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform", dailyStatus[day] ? "translate-x-4" : "translate-x-0.5")} />
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
