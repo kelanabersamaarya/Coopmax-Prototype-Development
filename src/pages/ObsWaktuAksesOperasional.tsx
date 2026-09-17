@@ -41,7 +41,7 @@ export default function ObsWaktuAksesOperasional() {
   const [editingSchedule, setEditingSchedule] = React.useState<Schedule>(initialSchedule.Senin);
   const [editStep, setEditStep] = React.useState<1 | 2>(1);
   const [changeReason, setChangeReason] = React.useState("");
-  const [activeTab, setActiveTab] = React.useState<"settings" | "history">("settings");
+  const [activeTab, setActiveTab] = React.useState<"settings" | "history" | "special-access">("settings");
   const [confirmationOpen, setConfirmationOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
 
@@ -80,9 +80,11 @@ export default function ObsWaktuAksesOperasional() {
     <div className="mt-8 flex gap-4 overflow-x-auto pb-1">
       <button type="button" onClick={() => setActiveTab("settings")} className={cn("h-[49px] rounded-full px-5 text-[12px] font-semibold", activeTab === "settings" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Pengaturan Waktu Operasional</button>
       <button type="button" onClick={() => setActiveTab("history")} className={cn("h-[49px] rounded-full px-5 text-[12px] font-semibold", activeTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Riwayat Perubahan</button>
+      <button type="button" onClick={() => setActiveTab("special-access")} className={cn("h-[49px] rounded-full px-5 text-[12px] font-semibold", activeTab === "special-access" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Akses Khusus Operasional</button>
     </div>
     {activeTab === "settings" && <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><Clock3 className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Waktu Operasional Harian</h2></div><div className="grid gap-2 border-b border-[#D7DEE9] px-4 py-5 sm:grid-cols-2 lg:grid-cols-4 md:px-5">{days.map((day) => { const configured = status[day] === "waktu-operasional"; return <div key={day} className="flex h-full min-h-[104px] flex-col rounded-[8px] border border-[#D7DEE9] bg-[#F8FAFD] px-3 py-2.5"><div className="flex items-center justify-between gap-2"><span className="text-[14px] font-semibold text-[#17345f]">{day}</span><span className={cn("rounded-full px-2 py-0.5 text-[12px] font-semibold", configured ? "bg-[#E8F8E5] text-[#278b18]" : "bg-slate-200 text-slate-500")}>{configured ? "Waktu Operasional" : "Belum Diatur"}</span></div>{configured && <p className="mt-2 text-[12px] font-medium text-slate-700">{schedule[day].start} <span className="text-slate-400">—</span> {schedule[day].end}</p>}<button type="button" onClick={() => openEditor(day)} className="mt-auto inline-flex h-7 items-center gap-1 self-start rounded-[5px] bg-[#4169f5] px-2.5 text-[12px] font-semibold text-white hover:bg-[#3157d8]"><Pencil className="h-3 w-3" />{configured ? "Ubah Operasional Harian" : "Atur Operasional Harian"}</button></div>; })}</div></div></div>}
     {activeTab === "history" && <div className="mt-8 rounded-[5px] bg-white p-8 text-sm text-slate-500 shadow-sm ring-1 ring-[#E4E9F2]">Belum ada riwayat perubahan.</div>}
+    {activeTab === "special-access" && <div className="mt-8 rounded-[5px] bg-white p-8 text-sm text-slate-500 shadow-sm ring-1 ring-[#E4E9F2]">Pengaturan akses khusus operasional.</div>}
 
     <Dialog open={editingDay !== null} onOpenChange={(open) => !open && closeEditor()}>
       <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
