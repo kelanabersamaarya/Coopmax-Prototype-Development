@@ -1,4 +1,7 @@
-.add-access-stepper,
-.add-access-permission {
+[role="dialog"] > div.flex.items-start.gap-3.border-b {
+  display: none;
+}
+
+[role="dialog"] .grid.gap-4.px-5.py-7 > .relative {
   display: none;
 }

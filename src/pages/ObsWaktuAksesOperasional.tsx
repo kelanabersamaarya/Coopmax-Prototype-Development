@@ -53,7 +53,7 @@ export default function ObsWaktuAksesOperasional() {
   const [specialAccessTab, setSpecialAccessTab] = React.useState<"users" | "history">("users");
   const [specialAccessUsers, setSpecialAccessUsers] = React.useState(initialSpecialAccessUsers);
   const [addAccessOpen, setAddAccessOpen] = React.useState(false);
-  const [addAccessStep, setAddAccessStep] = React.useState<1 | 2>(1);
+  const [addAccessStep, setAddAccessStep] = React.useState<1 | 2>(2);
   const [addAccessReason, setAddAccessReason] = React.useState("");
   const [editAccessOpen, setEditAccessOpen] = React.useState(false);
   const [editAccessStep, setEditAccessStep] = React.useState<1 | 2>(1);
@@ -119,7 +119,7 @@ export default function ObsWaktuAksesOperasional() {
   };
 
   const saveSpecialAccess = () => {
-    if (!newAccess.user || !newAccess.access || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
+    if (!newAccess.user || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
     setSpecialAccessUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", date: `${newAccess.startDate} - ${newAccess.endDate}`, start: newAccess.startTime, end: newAccess.endTime }]);
     setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
     setAddConfirmationOpen(false);
@@ -163,7 +163,7 @@ export default function ObsWaktuAksesOperasional() {
     {activeTab === "history" && <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><Clock3 className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2></div><OperationalHistoryTable /></div></div>}
 
     <Dialog open={addAccessOpen} onOpenChange={setAddAccessOpen}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
+      <DialogContent className="add-access-dialog w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
         <div className="border-b border-[#D7DEE9] px-5 py-4"><h3 className="text-[16px] font-bold text-[#17345f]">Tambah Akses Khusus Operasional</h3></div>
         <div className="grid gap-4 px-5 py-7">
           <label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">User</span><div className="relative"><select value={newAccess.user} onChange={(event) => setNewAccess((current) => ({ ...current, user: event.target.value }))} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-[#4169f5] focus:ring-2 focus:ring-blue-100", newAccess.user ? "text-black" : "text-slate-400")}><option value="" disabled>Pilih user</option>{["Siti Aminah", "Andi Wijaya", "Dewi Lestari", "Rina Kurnia", "Agus Pratama"].map((user) => <option key={user} value={user} className="text-black">{user}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div></label>
