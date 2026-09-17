@@ -1,6 +1,6 @@
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b {
   display: grid;
-  grid-template-columns: minmax(980px, 1fr);
+  grid-template-columns: minmax(1180px, 1fr);
   gap: 0;
   overflow-x: auto;
   padding: 0.625rem;
@@ -9,9 +9,9 @@
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b::before {
-  content: "NO.                              USER                                      WAKTU OPERASIONAL                              STATUS OPERASIONAL                    AKSI";
+  content: "NO.                              USER DENGAN AKSES KHUSUS                              TANGGAL DAN WAKTU MULAI AKSES KHUSUS                              TANGGAL DAN WAKTU SELESAI AKSES KHUSUS                              ALASAN PEMBERIAN AKSES KHUSUS                              AKSI";
   display: block;
-  min-width: 980px;
+  min-width: 1180px;
   min-height: 44px;
   box-sizing: border-box;
   padding: 0.9rem 0.75rem;
@@ -29,10 +29,10 @@
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div {
   display: grid;
-  grid-template-columns: 8% 19% 36% 22% 15%;
+  grid-template-columns: 6% 17% 20% 20% 24% 13%;
   align-items: center;
-  min-width: 980px;
-  min-height: 54px;
+  min-width: 1180px;
+  min-height: 58px;
   margin: 0;
   padding: 0;
   border: 1px solid #D1DCEB;
@@ -53,10 +53,9 @@
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::before {
   content: counter(special-access-row);
   grid-column: 1;
-  padding: 1.05rem 0.75rem;
+  padding: 1rem 0.75rem;
   color: #003477;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
+  font: 12px Arial, sans-serif;
   text-align: left;
 }
 
@@ -82,7 +81,7 @@
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p {
-  grid-column: 3;
+  grid-column: 3 / 5;
   grid-row: 1;
   color: #003477;
   line-height: 1.45;
@@ -90,7 +89,7 @@
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
   display: inline-flex !important;
-  grid-column: 4;
+  grid-column: 5;
   grid-row: 1;
   justify-self: start;
   width: max-content;
@@ -99,14 +98,25 @@
   padding: 0.42rem 0.65rem;
   border: 0;
   border-radius: 999px;
+  background: transparent !important;
+  color: #003477 !important;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
+}
+
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
+  font-size: 0;
+}
+
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child::after {
+  content: "Kebutuhan operasional";
+  font-size: 12px;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > button {
   display: inline-flex !important;
-  grid-column: 5;
+  grid-column: 6;
   grid-row: 1;
   justify-self: start;
   width: max-content;
