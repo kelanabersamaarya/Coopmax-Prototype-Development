@@ -42,10 +42,12 @@ thead.bg-\[\#F7F8FC\] {
   .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > div::before {
     content: "–";
     position: absolute;
-    left: -14px;
     top: 50%;
+    left: -20px;
+    width: 20px;
     color: #334155;
-    transform: translate(-50%, -50%);
+    text-align: center;
+    transform: translateY(-50%);
   }
 
   .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) {
