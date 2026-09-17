@@ -342,14 +342,14 @@ export default function ObsWaktuAksesOperasional() {
                           setDailyOperationalStatus((current) => ({ ...current, [editingDay]: value }));
                           setDailyStatus((current) => ({ ...current, [editingDay]: value === "waktu-operasional" }));
                         }}
-                        className="gap-3"
+                        className="flex flex-row items-center gap-5"
                         aria-label={`Status operasional ${editingDay}`}
                       >
-                        <label className="flex cursor-pointer items-center gap-2 text-[12px] text-slate-700">
+                        <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-[12px] text-slate-700">
                           <RadioGroupItem value="belum-diatur" className="border-slate-400 text-[#5543f5]" />
                           Belum Diatur
                         </label>
-                        <label className="flex cursor-pointer items-center gap-2 text-[12px] text-slate-700">
+                        <label className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-[12px] text-slate-700">
                           <RadioGroupItem value="waktu-operasional" className="border-slate-400 text-[#5543f5]" />
                           Waktu Operasional
                         </label>
