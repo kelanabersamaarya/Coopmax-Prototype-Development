@@ -355,14 +355,18 @@ export default function ObsWaktuAksesOperasional() {
                         </label>
                       </RadioGroup>
                     </div>
-                    <div className="flex items-start gap-0">
-                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Mulai Operasional</label>
-                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} /></div>
-                    </div>
-                    <div className="flex items-start gap-0">
-                      <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
-                      <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
-                    </div>
+                    {dailyOperationalStatus[editingDay] === "waktu-operasional" && (
+                      <>
+                        <div className="flex items-start gap-0">
+                          <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Mulai Operasional</label>
+                          <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].start} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], start: value } }))} /></div>
+                        </div>
+                        <div className="flex items-start gap-0">
+                          <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Selesai Operasional</label>
+                          <div className="min-w-0 flex-1"><TimeSelect value={dailySchedule[editingDay].end} onChange={(value) => setDailySchedule((current) => ({ ...current, [editingDay]: { ...current[editingDay], end: value } }))} /></div>
+                        </div>
+                      </>
+                    )}
                       </>
                     ) : (
                       <div className="flex items-start gap-0">
