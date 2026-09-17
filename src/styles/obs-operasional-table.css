@@ -1,15 +1,15 @@
 .obs-operasional-page .operational-status-fieldset {
-  display: flex !important;
-  flex-direction: row !important;
+  display: grid !important;
+  grid-template-columns: max-content minmax(0, 1fr) !important;
   align-items: center !important;
-  gap: 24px !important;
+  column-gap: 24px !important;
   width: 100% !important;
   margin: 0 !important;
 }
 
 .obs-operasional-page .operational-status-fieldset > legend {
+  grid-column: 1 !important;
   display: block !important;
-  flex: 0 0 auto !important;
   width: auto !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -17,21 +17,22 @@
 }
 
 .obs-operasional-page .operational-status-options {
+  grid-column: 2 !important;
   display: flex !important;
-  flex: 0 0 auto !important;
-  flex-direction: row !important;
   align-items: center !important;
+  justify-content: flex-start !important;
+  flex-wrap: nowrap !important;
   gap: 28px !important;
-  width: auto !important;
+  min-width: 0 !important;
+  width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
 .obs-operasional-page .operational-status-options > label {
   display: inline-flex !important;
-  flex: 0 0 auto !important;
-  flex-direction: row !important;
   align-items: center !important;
+  flex: 0 0 auto !important;
   gap: 8px !important;
   width: auto !important;
   margin: 0 !important;
@@ -40,16 +41,19 @@
 }
 
 .obs-operasional-page .operational-status-options > label > input[type="radio"] {
-  order: 1 !important;
   flex: 0 0 auto !important;
   margin: 0 !important;
 }
 
 @media (max-width: 639px) {
   .obs-operasional-page .operational-status-fieldset {
-    align-items: flex-start !important;
-    flex-wrap: wrap !important;
+    grid-template-columns: 1fr !important;
     row-gap: 12px !important;
+  }
+
+  .obs-operasional-page .operational-status-fieldset > legend,
+  .obs-operasional-page .operational-status-options {
+    grid-column: 1 !important;
   }
 
   .obs-operasional-page .operational-status-options {
