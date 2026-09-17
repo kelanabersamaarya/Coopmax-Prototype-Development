@@ -6,71 +6,31 @@ thead.bg-\[\#F7F8FC\] {
   display: none;
 }
 
-/* Panel dan kontrol tabel */
-.obs-operasional-page > div:nth-of-type(2) {
-  margin-top: 24px;
-  border-radius: 20px;
-  background: #fff;
-  padding: 16px 20px 20px;
-  box-shadow: 0 8px 28px rgba(23, 52, 95, .06);
-  ring: 0;
-}
-
-.obs-operasional-page > div:nth-of-type(2) > .overflow-hidden {
-  overflow: visible;
-  border: 0;
-  border-radius: 0;
-}
-
-.obs-operasional-page > div:nth-of-type(2) > .overflow-hidden > div:first-child {
-  min-height: 52px;
-  border: 0;
-  background: #fff;
-  padding: 0 0 14px;
-}
-
-.obs-operasional-page > div:nth-of-type(2) > .overflow-hidden > div:first-child h2 {
-  color: #17345f;
-  font-size: 15px;
-}
-
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
   display: block;
   overflow-x: auto;
-  border: 0;
-  border-top: 1px solid #d3dce9;
-  background: #fff;
   padding: 0;
+  border-top: 1px solid #cbd5e1;
+  background: #fff;
   counter-reset: operational-row;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "Tampilkan 20 entri";
+  content: "NO.       HARI                                         STATUS                                             JAM OPERASIONAL                                             AKSI";
   display: block;
   min-width: 820px;
-  height: 62px;
+  height: 48px;
   box-sizing: border-box;
-  padding: 20px 12px 0;
-  color: #24364f;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: pre;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::after {
-  content: "NO.                 HARI                         STATUS                              JAM OPERASIONAL                         AKSI";
-  display: block;
-  min-width: 820px;
-  height: 42px;
-  box-sizing: border-box;
+  overflow: hidden;
   border-bottom: 1px solid #cbd5e1;
-  background: #fff;
-  padding: 13px 12px 0;
+  background: #f8fafc;
+  padding: 17px 16px 0;
   color: #17345f;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: .02em;
+  letter-spacing: 0;
+  line-height: 1;
   white-space: pre;
 }
 
@@ -86,7 +46,7 @@ thead.bg-\[\#F7F8FC\] {
   border-bottom: 1px solid #cbd5e1;
   border-radius: 0;
   background: #fff;
-  padding: 8px 12px;
+  padding: 8px 16px;
   color: #17345f;
 }
 
@@ -112,7 +72,7 @@ thead.bg-\[\#F7F8FC\] {
   grid-column: 3;
   grid-row: 1;
   justify-self: start;
-  border-radius: 4px;
+  border-radius: 3px;
   padding: 5px 9px;
   font-size: 10px;
   font-weight: 700;
@@ -131,13 +91,12 @@ thead.bg-\[\#F7F8FC\] {
   grid-row: 1;
   margin: 0;
   justify-self: start;
-  height: 32px;
-  border-radius: 4px;
+  height: 31px;
+  border-radius: 3px;
   background: #4169f5;
   padding: 0 12px;
   font-size: 11px;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button:hover {
@@ -145,12 +104,7 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 @media (max-width: 700px) {
-  .obs-operasional-page > div:nth-of-type(2) {
-    padding: 14px 12px 16px;
-  }
-
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before,
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::after,
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
     min-width: 760px;
   }
