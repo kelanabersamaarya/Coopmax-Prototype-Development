@@ -6,28 +6,84 @@ thead.bg-\[\#F7F8FC\] {
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
-    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0.625rem;
+    background: #fff;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
+    content: "Hari|Status Operasional|Waktu Mulai|Waktu Selesai|Aksi";
+    display: grid;
+    grid-template-columns: 14% 25% 20% 21% 20%;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 0.75rem;
+    border: 1px solid #D7DEE9;
+    border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+    background: #F7F8FC;
+    color: #17345f;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: pre;
+    word-spacing: 0;
   }
 
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
+    display: grid;
+    grid-template-columns: 14% 25% 20% 21% 20%;
+    align-items: center;
     min-width: 0;
+    min-height: 58px;
     width: 100%;
+    padding: 0;
+    border-width: 1px 1px 0;
+    border-radius: 0;
+    background: #fff;
   }
 
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b button {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div:last-child {
+    border-bottom-width: 1px;
+    border-radius: 0 0 5px 5px;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div {
+    display: contents;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child,
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p,
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
+    min-width: 0;
+    margin: 0;
+    padding: 0.75rem;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child {
+    grid-column: 1;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:last-child {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+    margin: 0;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
+    grid-column: 3 / 5;
+    grid-row: 1;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
+    grid-column: 5;
+    grid-row: 1;
+    justify-self: start;
     white-space: nowrap;
-  }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -38,61 +94,19 @@ thead.bg-\[\#F7F8FC\] {
     row-gap: 20px;
   }
 
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:first-child {
-    grid-column: 1 / -1;
-  }
-
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:first-child { grid-column: 1 / -1; }
   .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(2),
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) {
-    display: contents;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(2) > label {
-    grid-column: 1;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(2) > div {
-    grid-column: 2;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > label {
-    display: none;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > div {
-    position: relative;
-    grid-column: 4;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > div::before {
-    content: "–";
-    position: absolute;
-    top: 50%;
-    left: -20px;
-    width: 20px;
-    color: #334155;
-    text-align: center;
-    transform: translateY(-50%);
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) {
-    display: grid;
-    grid-column: 1 / -1;
-    grid-template-columns: 200px minmax(0, 1fr);
-    align-items: start;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) > label {
-    grid-column: 1;
-  }
-
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) > textarea {
-    grid-column: 2;
-  }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) { display: contents; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(2) > label { grid-column: 1; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(2) > div { grid-column: 2; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > label { display: none; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > div { position: relative; grid-column: 4; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) > div::before { content: "–"; position: absolute; top: 50%; left: -20px; width: 20px; color: #334155; text-align: center; transform: translateY(-50%); }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) { display: grid; grid-column: 1 / -1; grid-template-columns: 200px minmax(0, 1fr); align-items: start; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) > label { grid-column: 1; }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(4) > textarea { grid-column: 2; }
 }
 
 @media (max-width: 639px) {
-  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) {
-    margin-top: -12px;
-  }
+  .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) > .flex:nth-child(3) { margin-top: -12px; }
 }
