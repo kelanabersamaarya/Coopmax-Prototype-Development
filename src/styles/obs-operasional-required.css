@@ -64,6 +64,11 @@
     column-gap: 0;
   }
 
+  .operational-edit-dialog .grid.gap-5 > div:last-child > label {
+    grid-column: 1;
+    width: 200px;
+  }
+
   .operational-edit-dialog .grid.gap-5 > div:last-child > textarea {
     grid-column: 2;
     width: 100%;
