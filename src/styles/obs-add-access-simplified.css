@@ -3,6 +3,10 @@
   display: none;
 }
 
+.add-access-dialog > div.grid.gap-4.px-5.py-7 {
+  padding-bottom: 20px;
+}
+
 .add-access-dialog .grid.gap-4.px-5.py-7 > .relative {
   display: none;
 }
@@ -11,5 +15,5 @@
 .add-access-dialog > div:has(> label[for="add-access-reason"]) {
   border-top: 0 !important;
   border-top-color: transparent !important;
-  padding-top: 20px;
+  padding-top: 0;
 }
