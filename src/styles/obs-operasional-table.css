@@ -28,40 +28,36 @@ thead.bg-\[\#F7F8FC\] {
   display: block;
   overflow-x: auto;
   border: 0;
-  border-top: 1px solid #d3dce9;
+  border-top: 1px solid #cbd5e1;
   background: #fff;
   padding: 0;
   counter-reset: operational-row;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "NO.                 HARI                         STATUS                              JAM OPERASIONAL                         AKSI";
+  content: "NO.                       HARI                              STATUS                                      JAM OPERASIONAL                                      AKSI";
   display: block;
-  min-width: 820px;
-  height: 42px;
+  min-width: 1160px;
+  height: 44px;
   box-sizing: border-box;
   border-bottom: 1px solid #cbd5e1;
   background: #fff;
-  padding: 13px 12px 0;
+  padding: 15px 12px 0;
   color: #17345f;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: .02em;
+  letter-spacing: .01em;
   white-space: pre;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::after {
-  display: none;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
   display: grid;
-  min-width: 820px;
-  min-height: 58px;
-  grid-template-columns: 55px 1.25fr 1.4fr 1.35fr 1.8fr;
+  min-width: 1160px;
+  min-height: 59px;
+  grid-template-columns: 117px 185px 232px 256px minmax(260px, 1fr);
   align-items: center;
-  gap: 16px;
+  column-gap: 0;
   box-sizing: border-box;
   border: 0;
   border-bottom: 1px solid #cbd5e1;
@@ -74,8 +70,9 @@ thead.bg-\[\#F7F8FC\] {
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::before {
   content: counter(operational-row);
   counter-increment: operational-row;
-  color: #334155;
+  color: #17345f;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div {
@@ -85,8 +82,9 @@ thead.bg-\[\#F7F8FC\] {
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child {
   grid-column: 2;
   grid-row: 1;
+  align-self: center;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:last-child {
@@ -94,28 +92,31 @@ thead.bg-\[\#F7F8FC\] {
   grid-row: 1;
   justify-self: start;
   border-radius: 4px;
-  padding: 5px 9px;
+  padding: 6px 10px;
   font-size: 10px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
   grid-column: 4;
   grid-row: 1;
   margin: 0;
-  color: #334155;
+  color: #17345f;
   font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
   grid-column: 5;
   grid-row: 1;
-  margin: 0;
   justify-self: start;
-  height: 32px;
+  height: 34px;
+  margin: 0;
   border-radius: 4px;
   background: #4169f5;
-  padding: 0 12px;
+  padding: 0 13px;
   font-size: 11px;
   font-weight: 700;
   white-space: nowrap;
@@ -132,6 +133,6 @@ thead.bg-\[\#F7F8FC\] {
 
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before,
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
-    min-width: 760px;
+    min-width: 1080px;
   }
 }
