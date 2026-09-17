@@ -120,6 +120,21 @@ export default function ObsWaktuAksesOperasional() {
     if (!newAccess.user || !newAccess.access || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
     setAddConfirmationOpen(true);
   };
+
+  const openAddAccess = () => {
+    setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
+    setAccessOpen(false);
+    setAddConfirmationOpen(false);
+    setAddAccessOpen(true);
+  };
+
+  React.useEffect(() => {
+    if (addAccessOpen) {
+      setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
+      setAccessOpen(false);
+    }
+  }, [addAccessOpen]);
+
   const dateInputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
 
   return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
