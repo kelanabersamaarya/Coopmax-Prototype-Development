@@ -9,7 +9,7 @@ type OperationalStatus = "belum-diatur" | "waktu-operasional";
 type Schedule = { start: string; end: string };
 
 const days: OperationalDay[] = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-const times = Array.from({ length: 48 }, (_, i) => `${String(Math.floor(i / 2)).padStart(2, "0")}:${i % 2 ? "30" : "00"}`);
+const times = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
 const initialSchedule: Record<OperationalDay, Schedule> = {
   Senin: { start: "08:00", end: "16:00" }, Selasa: { start: "08:00", end: "16:00" }, Rabu: { start: "08:00", end: "16:00" },
   Kamis: { start: "08:00", end: "16:00" }, Jumat: { start: "08:00", end: "16:00" }, Sabtu: { start: "08:00", end: "13:00" }, Minggu: { start: "08:00", end: "13:00" },
@@ -17,7 +17,7 @@ const initialSchedule: Record<OperationalDay, Schedule> = {
 const initialStatus = days.reduce((result, day) => ({ ...result, [day]: "belum-diatur" }), {} as Record<OperationalDay, OperationalStatus>);
 
 function TimeSelect({ value, placeholder, onChange }: { value: string; placeholder: string; onChange: (value: string) => void }) {
-  return <div className="relative"><select value={value} onChange={(event) => onChange(event.target.value)} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200", value ? "text-slate-900" : "text-slate-400")}><option value="" disabled>{placeholder}</option>{times.map((time) => <option key={time}>{time}</option>)}</select><Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div>;
+  return <div className="relative"><select value={value} onChange={(event) => onChange(event.target.value)} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200", value ? "text-black" : "text-slate-400")}><option value="" disabled>{placeholder}</option>{times.map((time) => <option key={time} className="text-black">{time}</option>)}</select><Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div>;
 }
 
 export default function ObsWaktuAksesOperasional() {
