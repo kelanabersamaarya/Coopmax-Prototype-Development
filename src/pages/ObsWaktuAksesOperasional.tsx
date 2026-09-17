@@ -1,10 +1,12 @@
 import * as React from "react";
 import { CheckSquare, ChevronDown, ChevronRight, Clock3, Pencil, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
 import { cn } from "@/lib/utils";
 
 type AccessTab = "Pengaturan Waktu Operasional" | "Riwayat Perubahan";
+type OperationalStatus = "belum-diatur" | "waktu-operasional";
 
 type AccessUser = {
   id: string;
@@ -116,6 +118,7 @@ const operationalDays = [
 type OperationalDay = (typeof operationalDays)[number];
 type DailySchedule = Record<OperationalDay, { start: string; end: string }>;
 type DailyStatus = Record<OperationalDay, boolean>;
+type DailyOperationalStatus = Record<OperationalDay, OperationalStatus>;
 
 const defaultDailySchedule: DailySchedule = {
   Senin: { start: "08:00", end: "16:00" },
@@ -128,14 +131,19 @@ const defaultDailySchedule: DailySchedule = {
 };
 
 const defaultDailyStatus: DailyStatus = {
-  Senin: true,
-  Selasa: true,
-  Rabu: true,
-  Kamis: true,
-  Jumat: true,
-  Sabtu: true,
-  Minggu: true,
+  Senin: false,
+  Selasa: false,
+  Rabu: false,
+  Kamis: false,
+  Jumat: false,
+  Sabtu: false,
+  Minggu: false,
 };
+
+const defaultDailyOperationalStatus: DailyOperationalStatus = operationalDays.reduce(
+  (status, day) => ({ ...status, [day]: "belum-diatur" }),
+  {} as DailyOperationalStatus,
+);
 
 function HistorySchedule({ value }: { value: string }) {
   return (
@@ -187,6 +195,7 @@ export default function ObsWaktuAksesOperasional() {
   );
   const [dailySchedule, setDailySchedule] = React.useState<DailySchedule>(defaultDailySchedule);
   const [dailyStatus, setDailyStatus] = React.useState<DailyStatus>(defaultDailyStatus);
+  const [dailyOperationalStatus, setDailyOperationalStatus] = React.useState<DailyOperationalStatus>(defaultDailyOperationalStatus);
   const [scheduleOpen, setScheduleOpen] = React.useState(false);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [editStep, setEditStep] = React.useState<1 | 2>(1);
@@ -307,7 +316,7 @@ export default function ObsWaktuAksesOperasional() {
               {editingDay && (
                 <>
                   <div className="border-b border-[#D7DEE9] px-5 py-4">
-                    <h3 className="text-[16px] font-bold text-[#17345f]">Ubah Operasional Harian</h3>
+                    <h3 className="text-[16px] font-bold text-[#17345f]">Atur Waktu Operasional</h3>
                     <div className="mt-4 -mx-5 border-t border-[#D7DEE9] pt-4">
                     <div className="flex items-start gap-3 px-0 text-[10px] font-semibold">
                       <div className="flex w-[140px] shrink-0 flex-col items-center text-center">
@@ -327,16 +336,24 @@ export default function ObsWaktuAksesOperasional() {
                       <>
                     <div className="flex items-start gap-0 py-2.5">
                       <span className="w-[200px] shrink-0 pt-1 text-[12px] font-normal text-black">Status operasional</span>
-                      <button
-                        type="button"
-                        role="switch"
-                        aria-checked={dailyStatus[editingDay]}
-                        aria-label={`${dailyStatus[editingDay] ? "Nonaktifkan" : "Aktifkan"} operasional ${editingDay}`}
-                        onClick={() => setDailyStatus((current) => ({ ...current, [editingDay]: !current[editingDay] }))}
-                        className={cn("relative inline-flex h-5 w-9 items-center rounded-full transition-colors", dailyStatus[editingDay] ? "bg-[#5543f5]" : "bg-slate-300")}
+                      <RadioGroup
+                        value={dailyOperationalStatus[editingDay]}
+                        onValueChange={(value: OperationalStatus) => {
+                          setDailyOperationalStatus((current) => ({ ...current, [editingDay]: value }));
+                          setDailyStatus((current) => ({ ...current, [editingDay]: value === "waktu-operasional" }));
+                        }}
+                        className="gap-3"
+                        aria-label={`Status operasional ${editingDay}`}
                       >
-                        <span className={cn("inline-block h-4 w-4 rounded-full bg-white shadow-sm transition-transform", dailyStatus[editingDay] ? "translate-x-4" : "translate-x-0.5")} />
-                      </button>
+                        <label className="flex cursor-pointer items-center gap-2 text-[12px] text-slate-700">
+                          <RadioGroupItem value="belum-diatur" className="border-slate-400 text-[#5543f5]" />
+                          Belum Diatur
+                        </label>
+                        <label className="flex cursor-pointer items-center gap-2 text-[12px] text-slate-700">
+                          <RadioGroupItem value="waktu-operasional" className="border-slate-400 text-[#5543f5]" />
+                          Waktu Operasional
+                        </label>
+                      </RadioGroup>
                     </div>
                     <div className="flex items-start gap-0">
                       <label className="w-[200px] shrink-0 pt-2 text-[12px] font-normal leading-tight text-black">Waktu Mulai Operasional</label>
