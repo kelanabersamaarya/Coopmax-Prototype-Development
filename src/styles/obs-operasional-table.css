@@ -6,6 +6,16 @@ thead.bg-\[\#F7F8FC\] {
   display: none;
 }
 
+@media (min-width: 1024px) {
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
+    min-width: 0;
+  }
+}
+
 @media (min-width: 640px) {
   .operational-edit-dialog .px-5.py-7 > .grid:has(> .flex:nth-child(3)) {
     grid-template-columns: 200px minmax(0, 1fr) 20px minmax(0, 1fr);
