@@ -1,0 +1,14 @@
+.operational-edit-dialog span:has(+ [role="radiogroup"])::after,
+.operational-edit-dialog label:has(+ div > select)::after,
+.operational-edit-dialog label:has(+ textarea)::after {
+  content: "*";
+  color: #ef4444;
+  margin-left: 4px;
+}
+
+.operational-edit-dialog [role="radiogroup"]::before {
+  content: "*";
+  color: #ef4444;
+  margin-right: 2px;
+  order: -1;
+}
