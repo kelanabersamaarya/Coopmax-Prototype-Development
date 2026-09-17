@@ -6,14 +6,12 @@ thead.bg-\[\#F7F8FC\] {
   display: none;
 }
 
-/* Panel dan kontrol tabel */
 .obs-operasional-page > div:nth-of-type(2) {
   margin-top: 24px;
   border-radius: 20px;
   background: #fff;
-  padding: 16px 20px 20px;
+  padding: 0 20px 20px;
   box-shadow: 0 8px 28px rgba(23, 52, 95, .06);
-  ring: 0;
 }
 
 .obs-operasional-page > div:nth-of-type(2) > .overflow-hidden {
@@ -23,15 +21,7 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 .obs-operasional-page > div:nth-of-type(2) > .overflow-hidden > div:first-child {
-  min-height: 52px;
-  border: 0;
-  background: #fff;
-  padding: 0 0 14px;
-}
-
-.obs-operasional-page > div:nth-of-type(2) > .overflow-hidden > div:first-child h2 {
-  color: #17345f;
-  font-size: 15px;
+  display: none;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
@@ -45,16 +35,7 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "Tampilkan 20 entri";
-  display: block;
-  min-width: 820px;
-  height: 62px;
-  box-sizing: border-box;
-  padding: 20px 12px 0;
-  color: #24364f;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: pre;
+  display: none;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::after {
@@ -146,10 +127,9 @@ thead.bg-\[\#F7F8FC\] {
 
 @media (max-width: 700px) {
   .obs-operasional-page > div:nth-of-type(2) {
-    padding: 14px 12px 16px;
+    padding: 0 12px 16px;
   }
 
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before,
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::after,
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
     min-width: 760px;
