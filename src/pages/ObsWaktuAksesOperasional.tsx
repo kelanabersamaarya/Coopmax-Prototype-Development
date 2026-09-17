@@ -53,6 +53,7 @@ export default function ObsWaktuAksesOperasional() {
   const [specialAccessTab, setSpecialAccessTab] = React.useState<"users" | "history">("users");
   const [specialAccessUsers, setSpecialAccessUsers] = React.useState(initialSpecialAccessUsers);
   const [addAccessOpen, setAddAccessOpen] = React.useState(false);
+  const [addAccessStep, setAddAccessStep] = React.useState<1 | 2>(2);
   const [addAccessReason, setAddAccessReason] = React.useState("");
   const [editAccessOpen, setEditAccessOpen] = React.useState(false);
   const [editAccessStep, setEditAccessStep] = React.useState<1 | 2>(1);

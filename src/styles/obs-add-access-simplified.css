@@ -1,6 +1,5 @@
 .add-access-dialog > div.flex.items-start.gap-3.border-b,
-.add-access-dialog .add-access-stepper,
-.add-access-dialog button:has(> svg + text) {
+.add-access-dialog .add-access-stepper {
   display: none;
 }
 
@@ -15,14 +14,6 @@
   padding-top: 0;
 }
 
-.add-access-dialog [class*="border-t"]:has(button) {
+.add-access-dialog .add-access-footer {
   justify-content: flex-end;
-}
-
-.add-access-dialog [class*="border-t"]:has(button) > button:first-child {
-  order: 1;
-}
-
-.add-access-dialog [class*="border-t"]:has(button) > button:last-child {
-  order: 2;
 }
