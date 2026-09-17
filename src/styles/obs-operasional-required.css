@@ -11,33 +11,27 @@
 
 @media (min-width: 640px) {
   .operational-edit-dialog .grid.gap-5 {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 24px;
-  }
-
-  .operational-edit-dialog .grid.gap-5 > div:first-child,
-  .operational-edit-dialog .grid.gap-5 > div:last-child {
-    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .operational-edit-dialog .grid.gap-5 > div:nth-child(2),
   .operational-edit-dialog .grid.gap-5 > div:nth-child(3) {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 24px;
+    align-items: start;
   }
 
   .operational-edit-dialog .grid.gap-5 > div:nth-child(2) > label,
   .operational-edit-dialog .grid.gap-5 > div:nth-child(3) > label {
     width: auto;
-    flex: none;
-    white-space: normal;
+    white-space: nowrap;
   }
 
   .operational-edit-dialog .grid.gap-5 > div:nth-child(2) > div,
   .operational-edit-dialog .grid.gap-5 > div:nth-child(3) > div {
-    min-width: 0;
+    grid-column: 2;
     width: 100%;
+    min-width: 0;
   }
 }
