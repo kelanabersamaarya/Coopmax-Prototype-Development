@@ -7,6 +7,8 @@
   display: none;
 }
 
-.add-access-dialog > div:has(> textarea#add-access-reason) {
+.add-access-dialog > div:has(> textarea#add-access-reason),
+.add-access-dialog > div:has(> label[for="add-access-reason"]) {
   border-top: 0 !important;
+  border-top-color: transparent !important;
 }
