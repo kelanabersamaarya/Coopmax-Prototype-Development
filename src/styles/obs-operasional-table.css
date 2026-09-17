@@ -10,101 +10,55 @@ thead.bg-\[\#F7F8FC\] {
   display: block;
   overflow-x: auto;
   padding: 0;
-  border-top: 1px solid #cbd5e1;
-  background: #fff;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "No.\00a0\00a0\00a0\00a0 Hari\00a0\00a0\00a0\00a0 Status\00a0\00a0\00a0\00a0 Jam Operasional\00a0\00a0\00a0\00a0 Aksi";
+  content: "Hari | Status | Jam Operasional | Aksi";
   display: block;
-  min-width: 820px;
-  height: 48px;
-  border-bottom: 1px solid #cbd5e1;
-  background: #f8fafc;
-  padding: 17px 16px 0;
+  min-width: 760px;
+  border-bottom: 1px solid #d7dee9;
+  background: #f7f8fc;
+  padding: 12px 16px;
   color: #17345f;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  white-space: pre;
+  font-size: 12px;
+  font-weight: 700;
+  word-spacing: 86px;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
   display: grid;
-  min-width: 820px;
+  min-width: 760px;
   min-height: 58px;
-  grid-template-columns: 55px 1.25fr 1.4fr 1.35fr 1.8fr;
+  grid-template-columns: 1.1fr 1.25fr 1.25fr 1.5fr;
   align-items: center;
   gap: 16px;
   border: 0;
-  border-bottom: 1px solid #cbd5e1;
+  border-bottom: 1px solid #d7dee9;
   border-radius: 0;
   background: #fff;
-  padding: 8px 16px;
-  color: #17345f;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::before {
-  content: counter(operational-row);
-  counter-increment: operational-row;
-  color: #334155;
-  font-size: 12px;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
-  counter-reset: operational-row;
+  padding: 10px 16px;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div {
   display: contents;
 }
 
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child {
-  grid-column: 2;
-  grid-row: 1;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:last-child {
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
   grid-column: 3;
   grid-row: 1;
-  justify-self: start;
-  border-radius: 3px;
-  padding: 5px 9px;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
-  grid-column: 4;
-  grid-row: 1;
   margin: 0;
-  color: #334155;
-  font-size: 12px;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
-  grid-column: 5;
+  grid-column: 4;
   grid-row: 1;
   margin: 0;
   justify-self: start;
-  height: 31px;
-  border-radius: 3px;
-  background: #4169f5;
-  padding: 0 12px;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button:hover {
-  background: #3157d8;
 }
 
 @media (max-width: 700px) {
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before,
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
-    min-width: 760px;
+    min-width: 680px;
   }
 }
