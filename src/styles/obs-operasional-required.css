@@ -57,4 +57,15 @@
     color: #334155;
     font-size: 14px;
   }
+
+  .operational-edit-dialog .grid.gap-5 > div:last-child {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  .operational-edit-dialog .grid.gap-5 > div:last-child > textarea {
+    grid-column: 2;
+    width: 100%;
+  }
 }
