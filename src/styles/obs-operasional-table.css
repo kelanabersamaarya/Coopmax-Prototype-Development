@@ -34,7 +34,16 @@ thead.bg-\[\#F7F8FC\] {
 
 .obs-operasional-page fieldset > div.grid > label {
   min-width: 0;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.obs-operasional-page fieldset > div.grid > label > span {
+  min-width: 0;
+}
+
+.obs-operasional-page fieldset > div.grid > label > input[type="radio"] {
+  flex: 0 0 auto;
+  margin: 0;
 }
 
 @media (max-width: 639px) {
