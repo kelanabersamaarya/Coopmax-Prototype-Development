@@ -8,5 +8,5 @@
 }
 
 .add-access-dialog > div:has(> textarea#add-access-reason) {
-  border-top-width: 0;
+  border-top: 0 !important;
 }
