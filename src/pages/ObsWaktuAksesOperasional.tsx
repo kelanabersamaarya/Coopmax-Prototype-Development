@@ -33,8 +33,8 @@ function loadStoredSettings() {
   }
 }
 
-function TimeSelect({ value, placeholder, onChange }: { value: string; placeholder: string; onChange: (value: string) => void }) {
-  return <div className="relative"><select value={value} onChange={(event) => onChange(event.target.value)} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200", value ? "text-black" : "text-slate-400")}><option value="" disabled>{placeholder}</option>{times.map((time) => <option key={time} className="text-black">{time}</option>)}</select><Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div>;
+function TimeSelect({ value, placeholder, onChange, required = false }: { value: string; placeholder: string; onChange: (value: string) => void; required?: boolean }) {
+  return <div className="relative"><select required={required} value={value} onChange={(event) => onChange(event.target.value)} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200", value ? "text-black" : "text-slate-400")}><option value="" disabled>{placeholder}</option>{times.map((time) => <option key={time} className="text-black">{time}</option>)}</select><Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div>;
 }
 
 export default function ObsWaktuAksesOperasional() {
@@ -87,7 +87,12 @@ export default function ObsWaktuAksesOperasional() {
     setSuccessOpen(true);
   };
 
-  const requestSave = () => setConfirmationOpen(true);
+  const requestSave = () => {
+    if (!editingDay || !editingStatus) return;
+    if (editingStatus === "waktu-operasional" && (!editingSchedule.start || !editingSchedule.end)) return;
+    if (isEditingConfigured && !changeReason.trim()) return;
+    setConfirmationOpen(true);
+  };
 
   const openAccessEditor = (user: typeof initialSpecialAccessUsers[number]) => {
     setNewAccess({ user: user.name, access: "All permission", startDate: "2024-06-12", endDate: "2024-06-12", startTime: user.start, endTime: user.end });
