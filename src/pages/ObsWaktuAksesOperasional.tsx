@@ -53,7 +53,6 @@ export default function ObsWaktuAksesOperasional() {
   const [specialAccessTab, setSpecialAccessTab] = React.useState<"users" | "history">("users");
   const [specialAccessUsers, setSpecialAccessUsers] = React.useState(initialSpecialAccessUsers);
   const [addAccessOpen, setAddAccessOpen] = React.useState(false);
-  const [addAccessStep, setAddAccessStep] = React.useState<1 | 2>(2);
   const [addAccessReason, setAddAccessReason] = React.useState("");
   const [editAccessOpen, setEditAccessOpen] = React.useState(false);
   const [editAccessStep, setEditAccessStep] = React.useState<1 | 2>(1);
@@ -149,8 +148,6 @@ export default function ObsWaktuAksesOperasional() {
       setAccessOpen(false);
     }
   }, [addAccessOpen]);
-
-  const dateInputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
 
   return <div className="obs-operasional-page min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
     <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">Operasional Harian</h1>
