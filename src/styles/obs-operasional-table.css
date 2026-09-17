@@ -8,11 +8,26 @@ thead.bg-\[\#F7F8FC\] {
 
 @media (min-width: 1024px) {
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    align-items: stretch;
   }
 
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
     min-width: 0;
+    width: 100%;
+  }
+
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b button {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
