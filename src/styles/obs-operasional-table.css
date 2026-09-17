@@ -130,12 +130,16 @@ thead.bg-\[\#F7F8FC\] {
   background: #3157d8;
 }
 
-.obs-operasional-page button:has(svg.lucide-plus) {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+.obs-operasional-page > div:nth-of-type(3) > .overflow-hidden > div:first-child {
+  display: flex;
+}
+
+.obs-operasional-page > div:nth-of-type(3) > .overflow-hidden > div:first-child > button {
+  display: inline-flex;
+  visibility: visible;
+  opacity: 1;
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
 
 @media (max-width: 700px) {
