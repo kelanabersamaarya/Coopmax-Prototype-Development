@@ -8,3 +8,19 @@
 .operational-edit-dialog label[for="change-reason"] > span {
   display: none;
 }
+
+.operational-edit-dialog .grid.gap-5 > div:has(> label.w-\[200px\]) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.operational-edit-dialog .grid.gap-5 > div:has(> label.w-\[200px\]) > label {
+  flex: 0 0 200px;
+  white-space: nowrap;
+}
+
+.operational-edit-dialog .grid.gap-5 > div:has(> label.w-\[200px\]) > div {
+  min-width: 0;
+  flex: 1;
+}
