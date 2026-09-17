@@ -54,7 +54,7 @@ export default function ObsWaktuAksesOperasional() {
   };
 
   return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
-    <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">Waktu Operasional</h1>
+    <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">Operasional Harian</h1>
     <div className="mt-8 flex gap-4 overflow-x-auto pb-1">
       <button type="button" onClick={() => setActiveTab("settings")} className={cn("h-[49px] rounded-full px-5 text-[12px] font-semibold", activeTab === "settings" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Pengaturan Waktu Operasional</button>
       <button type="button" onClick={() => setActiveTab("history")} className={cn("h-[49px] rounded-full px-5 text-[12px] font-semibold", activeTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Riwayat Perubahan</button>
