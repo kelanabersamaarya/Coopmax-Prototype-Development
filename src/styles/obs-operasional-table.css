@@ -1,53 +1,68 @@
-.obs-operasional-page .operational-status-row {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 1.5rem !important;
+fieldset:has(input[name="operational-status"]) {
+  display: block !important;
   width: 100% !important;
+  margin: 0 !important;
   white-space: nowrap !important;
 }
 
-.obs-operasional-page .operational-status-row > span:first-child {
-  flex: 0 0 auto !important;
+fieldset:has(input[name="operational-status"]) > legend {
+  display: inline-block !important;
+  width: auto !important;
+  margin: 0 1.5rem 0 0 !important;
+  padding: 0 !important;
+  vertical-align: middle !important;
   white-space: nowrap !important;
 }
 
-.obs-operasional-page .operational-status-options {
-  display: flex !important;
-  flex: 0 0 auto !important;
+fieldset:has(input[name="operational-status"]) > div.grid {
+  display: inline-flex !important;
   flex-direction: row !important;
   align-items: center !important;
+  justify-content: flex-start !important;
   gap: 1.75rem !important;
+  width: auto !important;
+  min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
+  vertical-align: middle !important;
 }
 
-.obs-operasional-page .operational-status-options > label {
-  display: flex !important;
+fieldset:has(input[name="operational-status"]) > div.grid > label {
+  display: inline-flex !important;
   flex: 0 0 auto !important;
   flex-direction: row !important;
   align-items: center !important;
+  justify-content: flex-start !important;
   gap: 0.5rem !important;
+  width: auto !important;
+  min-width: max-content !important;
   margin: 0 !important;
   white-space: nowrap !important;
 }
 
-.obs-operasional-page .operational-status-options > label > input[type="radio"] {
+fieldset:has(input[name="operational-status"]) > div.grid > label > input[type="radio"] {
   order: 1 !important;
+  flex: 0 0 auto !important;
   margin: 0 !important;
 }
 
-.obs-operasional-page .operational-status-options > label > span {
+fieldset:has(input[name="operational-status"]) > div.grid > label > span {
   order: 2 !important;
+  white-space: nowrap !important;
 }
 
 @media (max-width: 639px) {
-  .obs-operasional-page .operational-status-row {
-    align-items: flex-start !important;
-    flex-wrap: wrap !important;
+  fieldset:has(input[name="operational-status"]) {
+    white-space: normal !important;
   }
 
-  .obs-operasional-page .operational-status-options {
+  fieldset:has(input[name="operational-status"]) > legend {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  fieldset:has(input[name="operational-status"]) > div.grid {
+    display: flex !important;
     flex-wrap: wrap !important;
     row-gap: 0.75rem !important;
   }
