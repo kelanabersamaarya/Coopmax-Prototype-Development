@@ -53,6 +53,7 @@ export default function ObsWaktuAksesOperasional() {
   const [newAccess, setNewAccess] = React.useState({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
   const [accessOpen, setAccessOpen] = React.useState(false);
   const [confirmationOpen, setConfirmationOpen] = React.useState(false);
+  const [addConfirmationOpen, setAddConfirmationOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
 
   const isEditingConfigured = editingDay !== null && status[editingDay] === "waktu-operasional";
@@ -110,7 +111,14 @@ export default function ObsWaktuAksesOperasional() {
     if (!newAccess.user || !newAccess.access || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
     setSpecialAccessUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", date: `${newAccess.startDate} - ${newAccess.endDate}`, start: newAccess.startTime, end: newAccess.endTime }]);
     setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
+    setAddConfirmationOpen(false);
     setAddAccessOpen(false);
+    setSuccessOpen(true);
+  };
+
+  const requestSaveSpecialAccess = () => {
+    if (!newAccess.user || !newAccess.access || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
+    setAddConfirmationOpen(true);
   };
   const dateInputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
 
@@ -135,7 +143,7 @@ export default function ObsWaktuAksesOperasional() {
           <label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Waktu mulai operasional</span><TimeSelect value={newAccess.startTime} placeholder="Pilih Waktu Mulai Operasional" onChange={(value) => setNewAccess((current) => ({ ...current, startTime: value }))} /></label>
           <label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Waktu selesai operasional</span><TimeSelect value={newAccess.endTime} placeholder="Pilih Waktu Selesasi Operasional" onChange={(value) => setNewAccess((current) => ({ ...current, endTime: value }))} /></label>
         </div>
-        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={() => setAddAccessOpen(false)} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white"><X className="h-3.5 w-3.5" />Batalkan</button><button type="button" onClick={saveSpecialAccess} disabled={!newAccess.user || !newAccess.access || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#20b900] px-5 text-[12px] font-semibold text-white hover:bg-[#19a000] disabled:cursor-not-allowed disabled:opacity-50"><CheckSquare className="h-3.5 w-3.5" />Simpan</button></div>
+        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={() => setAddAccessOpen(false)} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white"><X className="h-3.5 w-3.5" />Batalkan</button><button type="button" onClick={requestSaveSpecialAccess} disabled={!newAccess.user || !newAccess.access || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#20b900] px-5 text-[12px] font-semibold text-white hover:bg-[#19a000] disabled:cursor-not-allowed disabled:opacity-50"><CheckSquare className="h-3.5 w-3.5" />Simpan</button></div>
       </DialogContent>
     </Dialog>
 
@@ -162,6 +170,12 @@ export default function ObsWaktuAksesOperasional() {
     <Dialog open={confirmationOpen} onOpenChange={(open) => { setConfirmationOpen(open); }}>
       <DialogContent className="w-[calc(100vw-2rem)] max-w-[412px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
               <div className="flex flex-col items-center px-5 py-10 text-center"><AlertCircle className="h-[72px] w-[72px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-5 text-[22px] font-bold text-[#435270]">Yakin menyimpan perubahan?</h3><div className="mt-6 flex gap-2"><button type="button" onClick={saveEditor} className="inline-flex h-[47px] w-[84px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[94px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
+      </DialogContent>
+    </Dialog>
+
+    <Dialog open={addConfirmationOpen} onOpenChange={setAddConfirmationOpen}>
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[412px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+        <div className="flex flex-col items-center px-5 py-10 text-center"><AlertCircle className="h-[72px] w-[72px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-5 text-[22px] font-bold text-[#435270]">Yakin menyimpan akses operasional?</h3><div className="mt-6 flex gap-2"><button type="button" onClick={saveSpecialAccess} className="inline-flex h-[47px] w-[84px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setAddConfirmationOpen(false)} className="inline-flex h-[47px] w-[94px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
       </DialogContent>
     </Dialog>
 
