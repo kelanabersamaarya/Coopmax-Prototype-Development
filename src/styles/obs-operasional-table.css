@@ -7,27 +7,28 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 .obs-operasional-page fieldset {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: flex-start !important;
-  gap: 0.5rem !important;
+  display: block !important;
   width: 100% !important;
+  min-height: 44px;
+  margin: 0 !important;
 }
 
 .obs-operasional-page fieldset > legend {
   display: block !important;
-  flex: 0 0 200px !important;
+  float: left !important;
   width: 200px !important;
   margin: 0 !important;
   padding: 0 !important;
+  line-height: 1.25rem !important;
 }
 
 .obs-operasional-page fieldset > div.grid {
   display: grid !important;
-  flex: 1 1 auto !important;
+  width: calc(100% - 208px) !important;
+  margin-left: 208px !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   gap: 0.75rem 1.25rem !important;
-  margin: 0 !important;
+  margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
@@ -38,16 +39,18 @@ thead.bg-\[\#F7F8FC\] {
 
 @media (max-width: 639px) {
   .obs-operasional-page fieldset {
-    flex-direction: column !important;
+    min-height: 0;
   }
 
   .obs-operasional-page fieldset > legend {
-    flex-basis: auto !important;
+    float: none !important;
     width: auto !important;
+    margin-bottom: 0.5rem !important;
   }
 
   .obs-operasional-page fieldset > div.grid {
-    width: 100%;
+    width: 100% !important;
+    margin-left: 0 !important;
   }
 }
 
