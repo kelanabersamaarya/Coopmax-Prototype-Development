@@ -1,7 +1,8 @@
-[role="dialog"] > div.flex.items-start.gap-3.border-b {
+.add-access-dialog > div.flex.items-start.gap-3.border-b,
+.add-access-dialog .add-access-stepper {
   display: none;
 }
 
-[role="dialog"] .grid.gap-4.px-5.py-7 > .relative {
+.add-access-dialog .grid.gap-4.px-5.py-7 > .relative {
   display: none;
 }
