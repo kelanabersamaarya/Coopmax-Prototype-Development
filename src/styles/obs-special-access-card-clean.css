@@ -1,136 +1,111 @@
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b {
-  display: grid;
-  grid-template-columns: minmax(1180px, 1fr);
-  gap: 0;
-  overflow-x: auto;
-  padding: 0.625rem;
-  background: #fff;
-  counter-reset: special-access-row;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0 !important;
+  overflow: visible !important;
+  padding: 0.625rem !important;
+  background: #fff !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b::before {
-  content: "NO.                              USER DENGAN AKSES KHUSUS                              TANGGAL DAN WAKTU MULAI AKSES KHUSUS                              TANGGAL DAN WAKTU SELESAI AKSES KHUSUS                              ALASAN PEMBERIAN AKSES KHUSUS                              AKSI";
-  display: block;
-  min-width: 1180px;
-  min-height: 44px;
-  box-sizing: border-box;
-  padding: 0.9rem 0.75rem;
-  border: 1px solid #D1DCEB;
-  border-bottom: 0;
-  border-radius: 5px 5px 0 0;
-  background: #fff;
-  color: #003477;
-  font: 700 12px/1.25 Arial, sans-serif;
-  white-space: pre;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
+  content: "NO. | USER DENGAN AKSES KHUSUS | TANGGAL DAN WAKTU MULAI AKSES KHUSUS | TANGGAL DAN WAKTU SELESAI AKSES KHUSUS | ALASAN PEMBERIAN AKSES KHUSUS | AKSI" !important;
+  display: block !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  padding: 0.9rem 0.75rem !important;
+  border: 1px solid #D1DCEB !important;
+  border-bottom: 0 !important;
+  border-radius: 5px 5px 0 0 !important;
+  background: #fff !important;
+  color: #003477 !important;
+  font: 700 11px/1.35 Arial, sans-serif !important;
+  white-space: normal !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div {
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
   display: grid !important;
   grid-template-columns: 6% 18% 19% 19% 24% 14% !important;
-  align-items: center;
-  min-width: 1180px;
-  min-height: 58px;
-  margin: 0;
-  padding: 0;
-  border: 1px solid #D1DCEB;
-  border-bottom: 0;
-  background: #fff;
-  counter-increment: special-access-row;
+  min-width: 0 !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #D1DCEB !important;
+  border-bottom: 0 !important;
+  background: #fff !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div:last-child {
-  border-bottom: 1px solid #D1DCEB;
-  border-radius: 0 0 5px 5px;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div:last-child {
+  border-bottom: 1px solid #D1DCEB !important;
+  border-radius: 0 0 5px 5px !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::before {
-  content: counter(special-access-row);
-  grid-column: 1;
-  grid-row: 1;
-  padding: 1rem 0.75rem;
-  color: #003477;
-  font: 12px Arial, sans-serif;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::before {
+  content: counter(special-access-row) !important;
+  counter-increment: special-access-row !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  padding: 1rem 0.75rem !important;
+  color: #003477 !important;
+  font: 12px Arial, sans-serif !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::after {
-  content: "12 Juni 2024 · 15:00";
-  grid-column: 4;
-  grid-row: 1;
-  min-width: 0;
-  padding: 1rem 0.75rem;
-  border-left: 1px solid #D1DCEB;
-  color: #003477;
-  font: 12px Arial, sans-serif;
-  white-space: nowrap;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
+  counter-reset: special-access-row !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child {
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child {
   display: contents !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:first-child {
-  grid-column: 2;
-  grid-row: 1;
-  min-width: 0;
-  padding: 1rem 0.75rem;
-  border-left: 1px solid #D1DCEB;
-  color: #003477;
-  font: 500 12px Arial, sans-serif;
-  white-space: nowrap;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child > span:first-child {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  padding: 1rem 0.75rem !important;
+  border-left: 1px solid #D1DCEB !important;
+  color: #003477 !important;
+  font: 500 12px Arial, sans-serif !important;
+  white-space: nowrap !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p {
-  grid-column: 3;
-  grid-row: 1;
-  min-width: 0;
-  margin: 0;
-  padding: 1rem 0.75rem;
-  border-left: 1px solid #D1DCEB;
-  color: #003477;
-  font: 12px Arial, sans-serif;
-  white-space: nowrap;
-  overflow: hidden;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  margin: 0 !important;
+  padding: 1rem 0.75rem !important;
+  border-left: 1px solid #D1DCEB !important;
+  color: #003477 !important;
+  font: 12px Arial, sans-serif !important;
+  white-space: nowrap !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
-  grid-column: 5;
-  grid-row: 1;
-  min-width: 0;
-  margin: 0;
-  padding: 1rem 0.75rem;
-  border-left: 1px solid #D1DCEB;
-  border-radius: 0;
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::after {
+  content: "12 Juni 2024 · 15:00" !important;
+  grid-column: 4 !important;
+  grid-row: 1 !important;
+  padding: 1rem 0.75rem !important;
+  border-left: 1px solid #D1DCEB !important;
+  color: #003477 !important;
+  font: 12px Arial, sans-serif !important;
+  white-space: nowrap !important;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child > span:last-child {
+  grid-column: 5 !important;
+  grid-row: 1 !important;
+  margin: 0 !important;
+  padding: 1rem 0.75rem !important;
+  border-left: 1px solid #D1DCEB !important;
+  border-radius: 0 !important;
   background: transparent !important;
   color: #003477 !important;
-  font: 500 12px Arial, sans-serif;
-  white-space: normal;
+  font: 500 12px Arial, sans-serif !important;
+  white-space: normal !important;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
-  font-size: 0;
-}
-
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child::after {
-  content: "Kebutuhan operasional";
-  font-size: 12px;
-}
-
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > button {
-  grid-column: 6;
-  grid-row: 1;
-  justify-self: start;
-  width: max-content;
-  max-width: calc(100% - 1.5rem);
-  margin: 0 0.75rem;
-  border-left: 0;
-  border-radius: 5px;
-  background: #4169F5;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-@media (max-width: 767px) {
-  .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b {
-    margin-inline: -0.25rem;
-  }
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
+  grid-column: 6 !important;
+  grid-row: 1 !important;
+  justify-self: start !important;
+  margin: 0 0.75rem !important;
+  white-space: nowrap !important;
 }
