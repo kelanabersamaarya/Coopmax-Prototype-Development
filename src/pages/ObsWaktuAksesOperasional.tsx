@@ -44,7 +44,6 @@ export default function ObsWaktuAksesOperasional() {
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [editingStatus, setEditingStatus] = React.useState<OperationalStatus>("belum-diatur");
   const [editingSchedule, setEditingSchedule] = React.useState<Schedule>(initialSchedule.Senin);
-  const [editStep, setEditStep] = React.useState<1 | 2>(1);
   const [changeReason, setChangeReason] = React.useState("");
   const [activeTab, setActiveTab] = React.useState<"settings" | "history" | "special-access">("settings");
   const [operationalTab, setOperationalTab] = React.useState<"daily" | "history">("daily");
@@ -68,13 +67,11 @@ export default function ObsWaktuAksesOperasional() {
     setEditingDay(day);
     setEditingStatus(status[day]);
     setEditingSchedule(status[day] === "waktu-operasional" ? schedule[day] : { start: "", end: "" });
-    setEditStep(1);
     setChangeReason("");
   };
 
   const closeEditor = () => {
     setEditingDay(null);
-    setEditStep(1);
     setChangeReason("");
   };
 
