@@ -12,25 +12,21 @@ thead.bg-\[\#F7F8FC\] {
   padding: 0;
   border-top: 1px solid #cbd5e1;
   background: #fff;
-  counter-reset: operational-row;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "NO.       HARI                                         STATUS                                             JAM OPERASIONAL                                             AKSI";
+  content: "No.\00a0\00a0\00a0\00a0 Hari\00a0\00a0\00a0\00a0 Status\00a0\00a0\00a0\00a0 Jam Operasional\00a0\00a0\00a0\00a0 Aksi";
   display: block;
   min-width: 820px;
   height: 48px;
-  box-sizing: border-box;
-  overflow: hidden;
   border-bottom: 1px solid #cbd5e1;
   background: #f8fafc;
   padding: 17px 16px 0;
   color: #17345f;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0;
-  line-height: 1;
+  letter-spacing: .04em;
+  text-transform: uppercase;
   white-space: pre;
 }
 
@@ -41,7 +37,6 @@ thead.bg-\[\#F7F8FC\] {
   grid-template-columns: 55px 1.25fr 1.4fr 1.35fr 1.8fr;
   align-items: center;
   gap: 16px;
-  box-sizing: border-box;
   border: 0;
   border-bottom: 1px solid #cbd5e1;
   border-radius: 0;
@@ -55,6 +50,10 @@ thead.bg-\[\#F7F8FC\] {
   counter-increment: operational-row;
   color: #334155;
   font-size: 12px;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
+  counter-reset: operational-row;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div {
