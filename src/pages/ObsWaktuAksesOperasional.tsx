@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, ChevronRight, Clock3, Pencil, X } from "lucide-react";
+import { AlertCircle, CheckCircle2, CheckSquare, ChevronRight, Clock3, Pencil, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
@@ -30,6 +30,7 @@ export default function ObsWaktuAksesOperasional() {
   const [changeReason, setChangeReason] = React.useState("");
   const [activeTab, setActiveTab] = React.useState<"settings" | "history">("settings");
   const [confirmationOpen, setConfirmationOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   const isEditingConfigured = editingDay !== null && status[editingDay] === "waktu-operasional";
 
@@ -53,6 +54,7 @@ export default function ObsWaktuAksesOperasional() {
     setSchedule((current) => ({ ...current, [editingDay]: editingSchedule }));
     setConfirmationOpen(false);
     closeEditor();
+    setSuccessOpen(true);
   };
 
   const requestSave = () => setConfirmationOpen(true);
@@ -77,11 +79,15 @@ export default function ObsWaktuAksesOperasional() {
       </DialogContent>
     </Dialog>
 
-    <Dialog open={confirmationOpen} onOpenChange={setConfirmationOpen}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[430px] rounded-[10px] border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="border-b border-[#D7DEE9] px-5 py-4"><h3 className="text-[16px] font-bold text-[#17345f]">Konfirmasi Penyimpanan</h3></div>
-        <div className="px-5 py-6 text-[13px] text-slate-700">Apakah Anda yakin ingin menyimpan pengaturan operasional harian ini?</div>
-        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[33px] items-center justify-center rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white">Batal</button><button type="button" onClick={saveEditor} className="inline-flex h-[33px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] px-4 text-[12px] font-semibold text-white"><CheckSquare className="h-4 w-4" />Ya, Simpan</button></div>
+    <Dialog open={confirmationOpen} onOpenChange={(open) => { setConfirmationOpen(open); }}>
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[412px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
+        <div className="flex flex-col items-center px-5 py-10 text-center"><AlertCircle className="h-[72px] w-[72px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-5 text-[22px] font-bold text-[#435270]">Yakin menyimpan perubahan?</h3><div className="mt-6 flex gap-2"><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[84px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[94px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
+      </DialogContent>
+    </Dialog>
+
+    <Dialog open={successOpen} onOpenChange={setSuccessOpen}>
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[474px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
+        <div className="flex flex-col items-center px-5 py-8 text-center"><CheckCircle2 className="h-[92px] w-[92px] text-[#92d477]" strokeWidth={1.5} /><h3 className="mt-4 text-[22px] font-bold text-[#5b5b5b]">Berhasil Menyimpan Data</h3><button type="button" onClick={() => setSuccessOpen(false)} className="mt-6 inline-flex h-[53px] w-[110px] items-center justify-center rounded-[6px] bg-[#2874d4] text-[17px] font-bold text-white ring-2 ring-[#a8c8f1]">OK</button></div>
       </DialogContent>
     </Dialog>
   </div>;
