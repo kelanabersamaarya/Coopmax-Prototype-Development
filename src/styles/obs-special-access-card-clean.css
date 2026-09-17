@@ -9,53 +9,55 @@
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b::before {
-  content: "No.  |  User  |  Waktu Operasional  |  Status Operasional  |  Aksi";
+  content: "NO.                              USER                                      WAKTU OPERASIONAL                              STATUS OPERASIONAL                    AKSI";
   display: block;
   min-width: 980px;
-  min-height: 46px;
-  padding: 0.75rem 1rem;
-  border: 1px solid #D7DEE9;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 0.9rem 0.75rem;
+  border: 1px solid #D1DCEB;
   border-bottom: 0;
   border-radius: 5px 5px 0 0;
-  background: #F7F8FC;
-  color: #17345f;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: #fff;
+  color: #003477;
+  font-family: Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
-  line-height: 1.5;
   white-space: pre;
+  line-height: 1;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div {
   display: grid;
-  grid-template-columns: 7% 20% 31% 20% 22%;
+  grid-template-columns: 8% 19% 36% 22% 15%;
   align-items: center;
   min-width: 980px;
-  min-height: 64px;
+  min-height: 54px;
   margin: 0;
   padding: 0;
-  border: 1px solid #D7DEE9;
-  border-top: 0;
+  border: 1px solid #D1DCEB;
+  border-bottom: 0;
   background: #fff;
   counter-increment: special-access-row;
-  transition: background-color 150ms ease;
-}
-
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div:hover {
-  background: #F8FAFF;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div:last-child {
+  border-bottom: 1px solid #D1DCEB;
   border-radius: 0 0 5px 5px;
+}
+
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div:hover {
+  background: #fbfcff;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::before {
   content: counter(special-access-row);
   grid-column: 1;
-  padding: 0.9rem 1rem;
-  color: #334155;
+  padding: 1.05rem 0.75rem;
+  color: #003477;
+  font-family: Arial, sans-serif;
   font-size: 12px;
-  text-align: center;
+  text-align: left;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child {
@@ -67,22 +69,23 @@
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > button {
   min-width: 0;
   margin: 0;
-  padding: 0.9rem 1rem;
+  padding: 1rem 0.75rem;
+  border-left: 1px solid #D1DCEB;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:first-child {
   grid-column: 2;
-  color: #334155;
-  font-size: 12px;
-  font-weight: 600;
+  color: #003477;
+  font-weight: 500;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p {
   grid-column: 3;
   grid-row: 1;
-  color: #334155;
-  font-size: 12px;
-  line-height: 1.5;
+  color: #003477;
+  line-height: 1.45;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
@@ -90,8 +93,12 @@
   grid-column: 4;
   grid-row: 1;
   justify-self: start;
-  margin: 0 1rem;
-  padding: 0.3rem 0.65rem;
+  width: max-content;
+  max-width: calc(100% - 1.5rem);
+  margin: 0 0.75rem;
+  padding: 0.42rem 0.65rem;
+  border: 0;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -103,7 +110,13 @@
   grid-row: 1;
   justify-self: start;
   width: max-content;
-  max-width: calc(100% - 2rem);
+  max-width: calc(100% - 1.5rem);
+  margin: 0 0.75rem;
+  padding: 0 0.7rem;
+  border-left: 0;
+  border-radius: 5px;
+  background: #4169F5;
+  font-weight: 700;
   white-space: nowrap;
 }
 
