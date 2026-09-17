@@ -1,215 +1,45 @@
 import * as React from "react";
-import { AlertCircle, CalendarDays, CheckCircle2, CheckSquare, ChevronDown, ChevronRight, Clock3, Pencil, Plus, User, X } from "lucide-react";
+import { CalendarDays, CheckCircle2, CheckSquare, ChevronDown, Clock3, Pencil, Plus, User, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { OperationalSpecialAccessTable } from "@/components/OperationalSpecialAccessTable";
+import { OperationalScheduleTable } from "@/components/OperationalScheduleTable";
+import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
 import "@/styles/obs-operasional-table.css";
 import "@/styles/obs-operasional-required.css";
-import "@/styles/obs-special-access-card-clean.css";
 import "@/styles/obs-add-access-simplified.css";
-import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
-import { OperationalScheduleTable } from "@/components/OperationalScheduleTable";
 
-type OperationalDay = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
-type OperationalStatus = "belum-diatur" | "waktu-operasional" | "operasional-tutup";
-type Schedule = { start: string; end: string };
-
-const days: OperationalDay[] = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-const initialSpecialAccessUsers = [
-  { name: "Budi Santoso", status: "Waktu Operasional", date: "12 Juni 2024", start: "08:00", end: "15:00" },
-];
-const times = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
-const initialSchedule: Record<OperationalDay, Schedule> = {
-  Senin: { start: "08:00", end: "16:00" }, Selasa: { start: "08:00", end: "16:00" }, Rabu: { start: "08:00", end: "16:00" },
-  Kamis: { start: "08:00", end: "16:00" }, Jumat: { start: "08:00", end: "16:00" }, Sabtu: { start: "08:00", end: "13:00" }, Minggu: { start: "08:00", end: "13:00" },
-};
-const initialStatus = days.reduce((result, day) => ({ ...result, [day]: "belum-diatur" }), {} as Record<OperationalDay, OperationalStatus>);
-const storageKey = "obs-operasional-harian";
-
-function loadStoredSettings() {
-  try {
-    const stored = localStorage.getItem(storageKey);
-    if (!stored) return { status: initialStatus, schedule: initialSchedule };
-    const parsed = JSON.parse(stored) as { status?: Record<OperationalDay, OperationalStatus>; schedule?: Record<OperationalDay, Schedule> };
-    return { status: { ...initialStatus, ...parsed.status }, schedule: { ...initialSchedule, ...parsed.schedule } };
-  } catch {
-    return { status: initialStatus, schedule: initialSchedule };
-  }
-}
-
-function TimeSelect({ value, placeholder, onChange, required = false }: { value: string; placeholder: string; onChange: (value: string) => void; required?: boolean }) {
-  return <div className="relative"><select required={required} value={value} onChange={(event) => onChange(event.target.value)} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200", value ? "text-black" : "text-slate-400")}><option value="" disabled>{placeholder}</option>{times.map((time) => <option key={time} className="text-black">{time}</option>)}</select><Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div>;
-}
+type Day = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
+type Status = "belum-diatur" | "waktu-operasional" | "operasional-tutup";
+type UserAccess = { name: string; status: string; date: string; start: string; end: string };
+const days: Day[] = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+const schedule = Object.fromEntries(days.map((day) => [day, { start: "08:00", end: day === "Sabtu" || day === "Minggu" ? "13:00" : "16:00" }])) as Record<Day, { start: string; end: string }>;
+const status = Object.fromEntries(days.map((day) => [day, "belum-diatur"])) as Record<Day, Status>;
+const times = Array.from({ length: 24 }, (_, index) => `${String(index).padStart(2, "0")}:00`);
 
 export default function ObsWaktuAksesOperasional() {
-  const storedSettings = React.useMemo(loadStoredSettings, []);
-  const [status, setStatus] = React.useState(storedSettings.status);
-  const [schedule, setSchedule] = React.useState(storedSettings.schedule);
-  const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
-  const [editingStatus, setEditingStatus] = React.useState<OperationalStatus>("belum-diatur");
-  const [editingSchedule, setEditingSchedule] = React.useState<Schedule>(initialSchedule.Senin);
-  const [changeReason, setChangeReason] = React.useState("");
-  const [activeTab, setActiveTab] = React.useState<"settings" | "history" | "special-access">("settings");
+  const [activeTab, setActiveTab] = React.useState<"settings" | "special-access" | "history">("settings");
   const [operationalTab, setOperationalTab] = React.useState<"daily" | "history">("daily");
-  const [specialAccessTab, setSpecialAccessTab] = React.useState<"users" | "history">("users");
-  const [specialAccessUsers, setSpecialAccessUsers] = React.useState(initialSpecialAccessUsers);
-  const [addAccessOpen, setAddAccessOpen] = React.useState(false);
-  const [addAccessReason, setAddAccessReason] = React.useState("");
-  const [editAccessOpen, setEditAccessOpen] = React.useState(false);
-  const [editAccessStep, setEditAccessStep] = React.useState<1 | 2>(1);
-  const [editAccessReason, setEditAccessReason] = React.useState("");
-  const [newAccess, setNewAccess] = React.useState({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
-  const [accessOpen, setAccessOpen] = React.useState(false);
-  const [confirmationOpen, setConfirmationOpen] = React.useState(false);
-  const [addConfirmationOpen, setAddConfirmationOpen] = React.useState(false);
+  const [specialTab, setSpecialTab] = React.useState<"users" | "history">("users");
+  const [users, setUsers] = React.useState<UserAccess[]>([{ name: "Budi Santoso", status: "Waktu Operasional", date: "12 Juni 2024", start: "08:00", end: "15:00" }, { name: "Siti Aminah", status: "Waktu Operasional", date: "12 Juni 2024", start: "08:00", end: "15:00" }]);
+  const [addOpen, setAddOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
-
-  const isEditingConfigured = editingDay !== null && status[editingDay] !== "belum-diatur";
-
-  const openEditor = (day: OperationalDay) => {
-    setEditingDay(day);
-    setEditingStatus(status[day]);
-    setEditingSchedule(status[day] === "waktu-operasional" ? schedule[day] : { start: "", end: "" });
-    setChangeReason("");
-  };
-
-  const closeEditor = () => {
-    setEditingDay(null);
-    setChangeReason("");
-  };
-
-  const saveEditor = () => {
-    if (!editingDay) return;
-    const nextStatus = { ...status, [editingDay]: editingStatus };
-    const nextSchedule = { ...schedule, [editingDay]: editingSchedule };
-    setStatus(nextStatus);
-    setSchedule(nextSchedule);
-    localStorage.setItem(storageKey, JSON.stringify({ status: nextStatus, schedule: nextSchedule }));
-    setConfirmationOpen(false);
-    closeEditor();
-    setSuccessOpen(true);
-  };
-
-  const requestSave = () => {
-    if (!editingDay || !editingStatus) return;
-    if (editingStatus === "waktu-operasional" && (!editingSchedule.start || !editingSchedule.end)) return;
-    if (isEditingConfigured && !changeReason.trim()) return;
-    setConfirmationOpen(true);
-  };
-
-  const openAccessEditor = (user: typeof initialSpecialAccessUsers[number]) => {
-    setNewAccess({ user: user.name, access: "All permission", startDate: "2024-06-12", endDate: "2024-06-12", startTime: user.start, endTime: user.end });
-    setEditAccessStep(1);
-    setEditAccessReason("");
-    setEditAccessOpen(true);
-  };
-
-  const closeAccessEditor = () => {
-    setEditAccessOpen(false);
-    setEditAccessStep(1);
-    setEditAccessReason("");
-  };
-
-  const saveAccessEdit = () => {
-    if (!editAccessReason.trim()) return;
-    setEditAccessOpen(false);
-    setEditAccessStep(1);
-    setEditAccessReason("");
-    setSuccessOpen(true);
-  };
-
-  const saveSpecialAccess = () => {
-    if (!newAccess.user || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
-    setSpecialAccessUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", date: `${newAccess.startDate} - ${newAccess.endDate}`, start: newAccess.startTime, end: newAccess.endTime }]);
-    setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
-    setAddConfirmationOpen(false);
-    setAddAccessOpen(false);
-    setSuccessOpen(true);
-  };
-
-  const requestSaveSpecialAccess = () => {
-    if (!newAccess.user || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
-    if (!addAccessReason.trim()) return;
-    setAddConfirmationOpen(true);
-  };
-
-  const cancelAddAccess = () => setAddAccessOpen(false);
-
-  const openAddAccess = () => {
-    setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
-    setAddAccessReason("");
-    setAccessOpen(false);
-    setAddConfirmationOpen(false);
-    setAddAccessOpen(true);
-  };
-
-  React.useEffect(() => {
-    if (addAccessOpen) {
-      setNewAccess({ user: "", access: "", startDate: "", endDate: "", startTime: "", endTime: "" });
-      setAccessOpen(false);
-    }
-  }, [addAccessOpen]);
+  const [newAccess, setNewAccess] = React.useState({ user: "", startDate: "", endDate: "", startTime: "", endTime: "", reason: "" });
+  const canSave = Object.values(newAccess).every(Boolean);
+  const addUser = () => { if (!canSave) return; setUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", date: newAccess.startDate, start: newAccess.startTime, end: newAccess.endTime }]); setAddOpen(false); setNewAccess({ user: "", startDate: "", endDate: "", startTime: "", endTime: "", reason: "" }); setSuccessOpen(true); };
+  const deleteUser = (user: UserAccess) => setUsers((current) => current.filter((item) => item !== user));
 
   return <div className="obs-operasional-page min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
     <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">Operasional Harian</h1>
     <div className="mt-8 flex items-center gap-5 overflow-x-auto pb-1">
-      <button type="button" onClick={() => setActiveTab("settings")} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold transition-colors", activeTab === "settings" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Pengaturan Waktu Operasional</button>
-      <button type="button" onClick={() => { setActiveTab("special-access"); setSpecialAccessTab("users"); }} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold transition-colors", activeTab === "special-access" && specialAccessTab === "users" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Akses Khusus Operasional</button>
-      <button type="button" onClick={() => setActiveTab("history")} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold transition-colors", activeTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Riwayat Perubahan</button>
+      {[ ["settings", "Pengaturan Waktu Operasional"], ["special-access", "Akses Khusus Operasional"], ["history", "Riwayat Perubahan"] ].map(([key, label]) => <button key={key} type="button" onClick={() => setActiveTab(key as typeof activeTab)} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold", activeTab === key ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>{label}</button>)}
     </div>
-    {activeTab === "settings" && <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><Clock3 className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Pengaturan Waktu Operasional</h2></div><div className="flex items-center gap-5 bg-white px-4"><button type="button" onClick={() => setOperationalTab("daily")} className={cn("my-2 h-10 rounded-full px-5 text-[13px] font-semibold transition-colors", operationalTab === "daily" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Waktu operasional harian</button><button type="button" onClick={() => setOperationalTab("history")} className={cn("my-2 h-10 rounded-full px-5 text-[13px] font-semibold transition-colors", operationalTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Riwayat perubahan</button></div>{operationalTab === "daily" && <OperationalScheduleTable days={days} status={status} schedule={schedule} onEdit={openEditor} />}{operationalTab === "history" && <OperationalHistoryTable />}</div></div>}
-    {activeTab === "special-access" && <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><div className="flex min-h-[69px] items-center justify-between gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><div className="flex items-center gap-4"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><User className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Akses Khusus Operasional</h2></div><button type="button" onClick={openAddAccess} className="inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-[#2864e8] px-4 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[#1f55ca]"><Plus className="h-4 w-4" />Tambah</button></div><div className="flex items-center gap-5 bg-white px-4"><button type="button" onClick={() => setSpecialAccessTab("users")} className={cn("my-2 h-10 rounded-full px-5 text-[13px] font-semibold transition-colors", specialAccessTab === "users" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>User</button><button type="button" onClick={() => setSpecialAccessTab("history")} className={cn("my-2 h-10 rounded-full px-5 text-[13px] font-semibold transition-colors", specialAccessTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Riwayat Perubahan</button></div>{specialAccessTab === "users" ? <div className="grid gap-2 border-b border-[#D7DEE9] px-4 py-5 sm:grid-cols-2 lg:grid-cols-4 md:px-5">{specialAccessUsers.map((user) => <div key={user.name} className="flex min-h-[132px] flex-col rounded-[8px] border border-[#D7DEE9] bg-[#F8FAFD] px-3 py-2.5"><div className="flex items-center justify-between gap-2"><span className="text-[14px] font-semibold text-[#17345f]">{user.name}</span><span className={cn("rounded-full px-2 py-0.5 text-[12px] font-semibold", user.status === "Waktu Operasional" ? "bg-[#E8F8E5] text-[#278b18]" : "bg-slate-200 text-slate-500")}>{user.status}</span></div>{user.status === "Waktu Operasional" && <p className="mt-2 text-[12px] font-medium text-slate-700">{user.date} · {user.start} <span className="text-slate-400">—</span> {user.end}</p>}{user.status === "Belum Diatur" && <p className="mt-2 text-[12px] font-medium text-slate-500">Tanggal belum diatur</p>}<button type="button" onClick={() => user.status === "Waktu Operasional" && openAccessEditor(user)} className="mt-auto inline-flex h-7 items-center gap-1 self-start rounded-[5px] bg-[#4169f5] px-2.5 text-[12px] font-semibold text-white hover:bg-[#3157d8]"><Pencil className="h-3 w-3" />{user.status === "Waktu Operasional" ? "Ubah Akses Operasional" : "Atur Akses Operasional"}</button></div>)}</div> : <div className="border-b border-[#D7DEE9] p-2.5"><div className="overflow-x-auto rounded-[5px] border border-[#D7DEE9]"><table className="w-full min-w-[1100px] text-left text-[12px]"><thead className="bg-[#F7F8FC] text-[#17345f]"><tr><th className="px-4 py-3 font-bold">Pemberi Akses</th><th className="px-4 py-3 font-bold">User yang Diberikan Akses</th><th className="px-4 py-3 font-bold">Aktivitas</th><th className="px-4 py-3 font-bold">Tanggal & Waktu Pemberian Akses</th><th className="px-4 py-3 font-bold">Tanggal & Waktu Perubahan Akses</th><th className="px-4 py-3 font-bold">Akses yang Diberikan</th><th className="px-4 py-3 font-bold">Alasan Pemberian / Perubahan Akses</th><th className="px-4 py-3 font-bold">Status Akses</th></tr></thead><tbody><tr className="border-t border-[#D7DEE9] text-[#334155]"><td className="px-4 py-4">Admin Budi</td><td className="px-4 py-4">Budi Santoso</td><td className="px-4 py-4"><span className="rounded-full bg-[#E8F8E5] px-2 py-1 font-semibold text-[#278b18]">Pemberian Akses</span></td><td className="px-4 py-4">12 Juni 2024<br />09:00</td><td className="px-4 py-4">-</td><td className="px-4 py-4">All permission<br />08:00 - 15:00</td><td className="px-4 py-4">Kebutuhan operasional</td><td className="px-4 py-4"><span className="rounded-full bg-[#E8F8E5] px-2 py-1 font-semibold text-[#278b18]">Aktif</span></td></tr><tr className="border-t border-[#D7DEE9] text-[#334155]"><td className="px-4 py-4">Admin Citra</td><td className="px-4 py-4">Budi Santoso</td><td className="px-4 py-4"><span className="rounded-full bg-[#EEF2FF] px-2 py-1 font-semibold text-[#4169f5]">Perubahan Akses</span></td><td className="px-4 py-4">12 Juni 2024<br />09:00</td><td className="px-4 py-4">13 Juni 2024<br />10:30</td><td className="px-4 py-4">All permission<br />09:00 - 16:00</td><td className="px-4 py-4">Penyesuaian jam operasional</td><td className="px-4 py-4"><span className="rounded-full bg-[#E8F8E5] px-2 py-1 font-semibold text-[#278b18]">Aktif</span></td></tr></tbody></table></div></div>}</div></div>}
-
-    {activeTab === "history" && <div className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><div className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><Clock3 className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Riwayat Perubahan</h2></div><OperationalHistoryTable /></div></div>}
-
-    <Dialog open={addAccessOpen} onOpenChange={setAddAccessOpen}>
-      <DialogContent className="add-access-dialog w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="border-b border-[#D7DEE9] px-5 py-4"><h3 className="text-[16px] font-bold text-[#17345f]">Tambah Akses Khusus Operasional</h3></div>
-        <div className="grid gap-4 px-5 py-7">
-          <label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">User <span className="text-red-500">*</span></span><div className="relative"><select required aria-required="true" value={newAccess.user} onChange={(event) => setNewAccess((current) => ({ ...current, user: event.target.value }))} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-[#4169f5] focus:ring-2 focus:ring-blue-100", newAccess.user ? "text-black" : "text-slate-400")}><option value="" disabled>Pilih user</option>{["Siti Aminah", "Andi Wijaya", "Dewi Lestari", "Rina Kurnia", "Agus Pratama"].map((user) => <option key={user} value={user} className="text-black">{user}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div></label>
-          <div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Mulai operasional <span className="text-red-500">*</span></span><div className="grid gap-2 sm:grid-cols-2"><div className="relative"><input required aria-required="true" type="date" aria-label="Tanggal mulai operasional" value={newAccess.startDate} onChange={(event) => setNewAccess((current) => ({ ...current, startDate: event.target.value }))} onClick={(event) => { event.currentTarget.showPicker?.(); }} className={cn("h-9 w-full cursor-pointer rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-[#4169e5] focus:ring-2 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:opacity-0", newAccess.startDate ? "text-black" : "text-transparent")} />{!newAccess.startDate && <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[13px] text-slate-400">Pilih Tanggal Mulai Operasional</span>}<CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-700" /></div><TimeSelect required value={newAccess.startTime} placeholder="Pilih Waktu Mulai Operasional" onChange={(value) => setNewAccess((current) => ({ ...current, startTime: value }))} /></div></div>
-          <div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Selesai operasional <span className="text-red-500">*</span></span><div className="grid gap-2 sm:grid-cols-2"><div className="relative"><input required aria-required="true" type="date" aria-label="Tanggal selesai operasional" value={newAccess.endDate} onChange={(event) => setNewAccess((current) => ({ ...current, endDate: event.target.value }))} onClick={(event) => { event.currentTarget.showPicker?.(); }} className={cn("h-9 w-full cursor-pointer rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-[#4169e5] focus:ring-2 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:opacity-0", newAccess.endDate ? "text-black" : "text-transparent")} />{!newAccess.endDate && <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[13px] text-slate-400">Pilih Tanggal Selesai Operasional</span>}<CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-700" /></div><TimeSelect required value={newAccess.endTime} placeholder="Pilih Waktu Selesai Operasional" onChange={(value) => setNewAccess((current) => ({ ...current, endTime: value }))} /></div></div>
-        </div>
-        <div className="grid gap-2 border-t border-[#D7DEE9] px-5 py-7 sm:grid-cols-[210px_1fr] sm:items-start"><label htmlFor="add-access-reason" className="pt-2 text-[12px] text-black">Alasan Pemberian Akses <span className="text-red-500">*</span></label><textarea required aria-required="true" id="add-access-reason" value={addAccessReason} onChange={(event) => setAddAccessReason(event.target.value)} placeholder="Masukkan alasan pemberian akses" className="min-h-[122px] resize-y rounded-[6px] border border-slate-300 px-3 py-3 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-blue-200" /></div>
-        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={() => setAddAccessOpen(false)} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white"><X className="h-3.5 w-3.5" />Batalkan</button><button type="button" onClick={requestSaveSpecialAccess} disabled={!newAccess.user || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime || !addAccessReason.trim()} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#20b900] px-5 text-[12px] font-semibold text-white hover:bg-[#19a000] disabled:cursor-not-allowed disabled:opacity-50"><CheckSquare className="h-3.5 w-3.5" />Simpan</button></div>
-      </DialogContent>
-    </Dialog>
-
-    <Dialog open={editAccessOpen} onOpenChange={(open) => !open && closeAccessEditor()}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="border-b border-[#D7DEE9] px-5 py-4"><h3 className="text-[16px] font-bold text-[#17345f]">Ubah Akses Khusus Operasional</h3></div>
-        <div className="flex items-start gap-3 border-b border-[#D7DEE9] px-5 py-4 text-[10px] font-semibold"><div className="flex w-[140px] shrink-0 flex-col items-center text-center"><span className={cn("flex h-9 w-9 items-center justify-center rounded-full text-[14px]", editAccessStep === 1 ? "bg-[#2864e8] text-white" : "bg-[#eef2f7] text-[#63738c]")}>1</span><span className={cn("mt-2 whitespace-nowrap", editAccessStep === 1 ? "text-[#17345f]" : "text-[#63738c]")}>Akses Khusus Operasional</span></div><div className="mt-[18px] h-[2px] min-w-0 flex-1 bg-[#e4eaf2]" /><div className="flex w-[140px] shrink-0 flex-col items-center text-center"><span className={cn("flex h-9 w-9 items-center justify-center rounded-full text-[14px]", editAccessStep === 2 ? "bg-[#2864e8] text-white" : "bg-[#eef2f7] text-[#63738c]")}>2</span><span className={cn("mt-2 whitespace-nowrap", editAccessStep === 2 ? "text-[#17345f]" : "text-[#63738c]")}>Alasan Perubahan</span></div></div>
-        <div className="px-5 py-7">{editAccessStep === 1 ? <div className="grid gap-4"><div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">User</span><input value={newAccess.user} readOnly className="h-9 rounded-[6px] border border-slate-300 bg-slate-50 px-3 text-[13px] text-black" /></div><div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Hak Akses</span><select value={newAccess.access} onChange={(event) => setNewAccess((current) => ({ ...current, access: event.target.value }))} className="h-9 rounded-[6px] border border-slate-300 bg-white px-3 text-[13px] text-black outline-none focus:border-[#4169e5] focus:ring-2 focus:ring-blue-100"><option value="" disabled>Pilih Hak Akses</option>{["All permission", "Dashboard", "Login", "User setting", "Auth management", "Dashboard Umum", "Deposito Dashboard"].map((access) => <option key={access} value={access}>{access}</option>)}</select></div><div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Tanggal mulai operasional</span><input type="date" value={newAccess.startDate} onChange={(event) => setNewAccess((current) => ({ ...current, startDate: event.target.value }))} className="h-9 rounded-[6px] border border-slate-300 bg-white px-3 text-[13px] text-black outline-none focus:border-[#4169e5] focus:ring-2 focus:ring-blue-100" /></div><div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Tanggal selesai operasional</span><input type="date" value={newAccess.endDate} onChange={(event) => setNewAccess((current) => ({ ...current, endDate: event.target.value }))} className="h-9 rounded-[6px] border border-slate-300 bg-white px-3 text-[13px] text-black outline-none focus:border-[#4169e5] focus:ring-2 focus:ring-blue-100" /></div><div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Waktu mulai operasional</span><TimeSelect value={newAccess.startTime} placeholder="-" onChange={(value) => setNewAccess((current) => ({ ...current, startTime: value }))} /></div><div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">Waktu selesai operasional</span><TimeSelect value={newAccess.endTime} placeholder="-" onChange={(value) => setNewAccess((current) => ({ ...current, endTime: value }))} /></div></div> : <div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-start"><label htmlFor="edit-access-reason" className="pt-2 text-[12px] text-black">Alasan Perubahan <span className="text-red-500">*</span></label><textarea id="edit-access-reason" value={editAccessReason} onChange={(event) => setEditAccessReason(event.target.value)} placeholder="Masukkan alasan perubahan" className="min-h-[122px] resize-y rounded-[6px] border border-slate-300 px-3 py-3 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-blue-200" /></div>}</div>
-        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">{editAccessStep === 1 ? <><button type="button" onClick={closeAccessEditor} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white"><X className="h-3.5 w-3.5" />Batalkan</button><button type="button" onClick={() => setEditAccessStep(2)} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#2864e8] px-4 text-[12px] font-semibold text-white">Lanjutkan<ChevronRight className="h-4 w-4" /></button></> : <><button type="button" onClick={() => setEditAccessStep(1)} className="mr-auto inline-flex h-9 items-center justify-center rounded-[6px] border border-[#8291ad] px-4 text-[12px] font-semibold text-[#8291ad]">Kembali</button><button type="button" onClick={closeAccessEditor} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white"><X className="h-3.5 w-3.5" />Batalkan</button><button type="button" onClick={saveAccessEdit} disabled={!editAccessReason.trim()} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[6px] bg-[#20b900] px-5 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"><CheckSquare className="h-3.5 w-3.5" />Simpan</button></>}</div>
-      </DialogContent>
-    </Dialog>
-
-    <Dialog open={editingDay !== null} onOpenChange={(open) => !open && closeEditor()}>
-      <DialogContent className="operational-edit-dialog w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="border-b border-[#D7DEE9] px-5 py-4"><h3 className="text-[16px] font-bold text-[#17345f]">{isEditingConfigured ? "Ubah Operasional Harian" : "Atur Operasional Harian"}</h3></div>
-        {editingDay && <>
-          <div className="px-5 py-7"><div className="grid gap-5"><div className="flex items-start gap-0"><span className="w-[200px] shrink-0 pt-1 text-[12px] text-black">Status operasional</span><RadioGroup value={editingStatus} onValueChange={(value: OperationalStatus) => setEditingStatus(value)} className="flex flex-row items-center gap-5"><label className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-[12px] text-slate-700"><RadioGroupItem value="belum-diatur" className="border-slate-400 text-[#5543f5]" />Belum Diatur</label><label className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-[12px] text-slate-700"><RadioGroupItem value="waktu-operasional" className="border-slate-400 text-[#5543f5]" />Waktu Operasional Harian</label><label className="flex cursor-pointer items-center gap-2 whitespace-nowrap text-[12px] text-slate-700"><RadioGroupItem value="operasional-tutup" className="border-slate-400 text-[#5543f5]" />Operasional Tutup</label></RadioGroup></div>{editingStatus === "waktu-operasional" && <><div className="flex items-start gap-0"><label className="w-[200px] shrink-0 pt-2 text-[12px] text-black">Waktu Operasional</label><div className="min-w-0 flex-1"><TimeSelect value={editingSchedule.start} placeholder="Pilih Waktu Mulai Operasional" onChange={(value) => setEditingSchedule((current) => ({ ...current, start: value }))} /></div></div><div className="flex items-start gap-0"><label className="w-[200px] shrink-0 pt-2 text-[12px] text-black">Waktu Selesai Operasional</label><div className="min-w-0 flex-1"><TimeSelect value={editingSchedule.end} placeholder="Pilih Waktu Selesasi Operasional" onChange={(value) => setEditingSchedule((current) => ({ ...current, end: value }))} /></div></div></>}{isEditingConfigured && <div className="flex items-start gap-0"><label htmlFor="change-reason" className="w-[200px] shrink-0 pt-0 text-[12px] text-black">Alasan Perubahan <span className="text-red-500">*</span></label><textarea id="change-reason" value={changeReason} onChange={(event) => setChangeReason(event.target.value)} placeholder="Masukkan alasan perubahan" className="min-h-[122px] min-w-0 flex-1 resize-y rounded-[6px] border border-slate-300 px-3 py-3 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200" /></div>}</div></div>
-          <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={closeEditor} className="inline-flex h-[33px] w-[104px] items-center justify-center gap-1.5 rounded-[6px] bg-[#8291ad] text-[12px] font-semibold text-white"><X className="h-4 w-4" />Batalkan</button><button type="button" disabled={isEditingConfigured && !changeReason.trim()} onClick={requestSave} className="inline-flex h-[33px] w-[104px] items-center justify-center gap-1.5 rounded-[6px] bg-[#28b900] text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"><CheckSquare className="h-4 w-4" />Simpan</button></div>
-        </>}
-      </DialogContent>
-    </Dialog>
-
-    <Dialog open={confirmationOpen} onOpenChange={(open) => { setConfirmationOpen(open); }}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[412px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
-              <div className="flex flex-col items-center px-5 py-10 text-center"><AlertCircle className="h-[72px] w-[72px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-5 text-[22px] font-bold text-[#435270]">Yakin menyimpan perubahan?</h3><div className="mt-6 flex gap-2"><button type="button" onClick={saveEditor} className="inline-flex h-[47px] w-[84px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[94px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
-      </DialogContent>
-    </Dialog>
-
-    <Dialog open={addConfirmationOpen} onOpenChange={setAddConfirmationOpen}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[425px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
-        <div className="flex flex-col items-center px-5 py-11 text-center"><AlertCircle className="h-[68px] w-[68px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-8 text-[22px] font-bold text-[#435270]">Yakin menyimpan data?</h3><div className="mt-7 flex gap-2"><button type="button" onClick={saveSpecialAccess} className="inline-flex h-[48px] w-[86px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setAddConfirmationOpen(false)} className="inline-flex h-[48px] w-[98px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
-      </DialogContent>
-    </Dialog>
-
-    <Dialog open={successOpen} onOpenChange={setSuccessOpen}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[474px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
-              <div className="flex flex-col items-center px-5 py-8 text-center"><CheckCircle2 className="h-[92px] w-[92px] text-[#92d477]" strokeWidth={1.5} /><h3 className="mt-4 text-[22px] font-bold text-[#5b5b5b]">Berhasil Menyimpan Data</h3><button type="button" onClick={() => setSuccessOpen(false)} className="mt-6 inline-flex h-[53px] w-[110px] items-center justify-center rounded-[6px] bg-[#2874d4] text-[17px] font-bold text-white ring-2 ring-[#a8c8f1]">OK</button></div>
-      </DialogContent>
-    </Dialog>
+    {activeTab === "settings" && <section className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><header className="flex min-h-[69px] items-center gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><Clock3 className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Pengaturan Waktu Operasional</h2></header><div className="flex items-center gap-5 px-4"><button type="button" onClick={() => setOperationalTab("daily")} className={cn("my-2 rounded-full px-5 py-2 text-[13px] font-semibold", operationalTab === "daily" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Waktu operasional harian</button><button type="button" onClick={() => setOperationalTab("history")} className={cn("my-2 rounded-full px-5 py-2 text-[13px] font-semibold", operationalTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Riwayat perubahan</button></div>{operationalTab === "daily" ? <OperationalScheduleTable days={days} status={status} schedule={schedule} onEdit={() => undefined} /> : <OperationalHistoryTable />}</div></section>}
+    {activeTab === "special-access" && <section className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><header className="flex min-h-[69px] items-center justify-between gap-4 border-b border-[#D7DEE9] bg-[#F7F8FC] px-5"><div className="flex items-center gap-4"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#4169f5] text-white"><User className="h-5 w-5" /></span><h2 className="text-[15px] font-bold text-black">Akses Khusus Operasional</h2></div><button type="button" onClick={() => setAddOpen(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-[#2864e8] px-4 text-[13px] font-semibold text-white"><Plus className="h-4 w-4" />Tambah</button></header><div className="flex items-center gap-5 px-4"><button type="button" onClick={() => setSpecialTab("users")} className={cn("my-2 rounded-full px-5 py-2 text-[13px] font-semibold", specialTab === "users" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>User</button><button type="button" onClick={() => setSpecialTab("history")} className={cn("my-2 rounded-full px-5 py-2 text-[13px] font-semibold", specialTab === "history" ? "bg-[#635BFF] text-white" : "text-[#53657d]")}>Riwayat Perubahan</button></div>{specialTab === "users" ? <OperationalSpecialAccessTable users={users} onDelete={deleteUser} /> : <OperationalHistoryTable />}</div></section>}
+    {activeTab === "history" && <section className="mt-8 rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"><div className="overflow-hidden rounded-[5px] border border-[#D7DEE9]"><OperationalHistoryTable /></div></section>}
+    <Dialog open={addOpen} onOpenChange={setAddOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><div className="border-b border-[#D7DEE9] px-5 py-4"><h3 className="text-[16px] font-bold text-[#17345f]">Tambah Akses Khusus Operasional</h3></div><div className="grid gap-4 px-5 py-7"><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px]">User *</span><select value={newAccess.user} onChange={(e) => setNewAccess({ ...newAccess, user: e.target.value })} className="h-9 rounded-[6px] border px-3 text-[13px]"><option value="">Pilih user</option>{["Siti Aminah", "Andi Wijaya", "Dewi Lestari"].map((user) => <option key={user}>{user}</option>)}</select></label><DateField label="Mulai operasional" value={newAccess.startDate} onChange={(value) => setNewAccess({ ...newAccess, startDate: value })} /><DateField label="Selesai operasional" value={newAccess.endDate} onChange={(value) => setNewAccess({ ...newAccess, endDate: value })} /><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-start"><span className="text-[12px]">Alasan Pemberian Akses *</span><textarea value={newAccess.reason} onChange={(e) => setNewAccess({ ...newAccess, reason: e.target.value })} className="min-h-[122px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan pemberian akses" /></label></div><div className="flex justify-end gap-2 border-t px-5 py-4"><button type="button" onClick={() => setAddOpen(false)} className="rounded-[6px] bg-[#8291ad] px-4 py-2 text-[12px] font-semibold text-white"><X className="mr-1 inline h-3.5 w-3.5" />Batalkan</button><button type="button" onClick={addUser} disabled={!canSave} className="rounded-[6px] bg-[#20b900] px-5 py-2 text-[12px] font-semibold text-white disabled:opacity-50"><CheckSquare className="mr-1 inline h-3.5 w-3.5" />Simpan</button></div></DialogContent></Dialog>
+    <Dialog open={successOpen} onOpenChange={setSuccessOpen}><DialogContent className="max-w-[474px] text-center"><CheckCircle2 className="mx-auto h-20 w-20 text-[#92d477]" /><h3 className="mt-4 text-xl font-bold">Berhasil Menyimpan Data</h3><button type="button" onClick={() => setSuccessOpen(false)} className="mt-5 rounded-[6px] bg-[#2874d4] px-8 py-3 font-bold text-white">OK</button></DialogContent></Dialog>
   </div>;
 }
+
+function DateField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) { return <div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px]">{label} *</span><div className="grid gap-2 sm:grid-cols-2"><input type="date" value={value} onChange={(e) => onChange(e.target.value)} className="h-9 rounded-[6px] border px-3 text-[13px]" /><select className="h-9 rounded-[6px] border px-3 text-[13px]" defaultValue=""><option value="">Pilih waktu</option>{times.map((time) => <option key={time}>{time}</option>)}</select></div></div>; }
