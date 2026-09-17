@@ -80,14 +80,14 @@ export default function ObsWaktuAksesOperasional() {
     </Dialog>
 
     <Dialog open={confirmationOpen} onOpenChange={(open) => { setConfirmationOpen(open); }}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[412px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="flex flex-col items-center px-5 py-10 text-center"><AlertCircle className="h-[72px] w-[72px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-5 text-[22px] font-bold text-[#435270]">Yakin menyimpan perubahan?</h3><div className="mt-6 flex gap-2"><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[84px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[94px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[412px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+              <div className="flex flex-col items-center px-5 py-10 text-center"><AlertCircle className="h-[72px] w-[72px] text-[#f6c39f]" strokeWidth={1.5} /><h3 className="mt-5 text-[22px] font-bold text-[#435270]">Yakin menyimpan perubahan?</h3><div className="mt-6 flex gap-2"><button type="button" onClick={saveEditor} className="inline-flex h-[47px] w-[84px] items-center justify-center rounded-[6px] bg-[#2f80ed] text-[14px] font-bold text-white">Yes</button><button type="button" onClick={() => setConfirmationOpen(false)} className="inline-flex h-[47px] w-[94px] items-center justify-center rounded-[6px] bg-[#8999b6] text-[14px] font-bold text-white">Cancel</button></div></div>
       </DialogContent>
     </Dialog>
 
     <Dialog open={successOpen} onOpenChange={setSuccessOpen}>
-      <DialogContent className="w-[calc(100vw-2rem)] max-w-[474px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="flex flex-col items-center px-5 py-8 text-center"><CheckCircle2 className="h-[92px] w-[92px] text-[#92d477]" strokeWidth={1.5} /><h3 className="mt-4 text-[22px] font-bold text-[#5b5b5b]">Berhasil Menyimpan Data</h3><button type="button" onClick={() => setSuccessOpen(false)} className="mt-6 inline-flex h-[53px] w-[110px] items-center justify-center rounded-[6px] bg-[#2874d4] text-[17px] font-bold text-white ring-2 ring-[#a8c8f1]">OK</button></div>
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[474px] rounded-[6px] border-slate-200 bg-white p-0 shadow-2xl [&>button]:hidden">
+              <div className="flex flex-col items-center px-5 py-8 text-center"><CheckCircle2 className="h-[92px] w-[92px] text-[#92d477]" strokeWidth={1.5} /><h3 className="mt-4 text-[22px] font-bold text-[#5b5b5b]">Berhasil Menyimpan Data</h3><button type="button" onClick={() => setSuccessOpen(false)} className="mt-6 inline-flex h-[53px] w-[110px] items-center justify-center rounded-[6px] bg-[#2874d4] text-[17px] font-bold text-white ring-2 ring-[#a8c8f1]">OK</button></div>
       </DialogContent>
     </Dialog>
   </div>;
