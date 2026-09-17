@@ -1,4 +1,4 @@
-.obs-operasional-page fieldset.flex.items-center.gap-6 {
+.obs-operasional-page .operational-status-fieldset {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -7,7 +7,7 @@
   margin: 0 !important;
 }
 
-.obs-operasional-page fieldset.flex.items-center.gap-6 > legend {
+.obs-operasional-page .operational-status-fieldset > legend {
   display: block !important;
   flex: 0 0 auto !important;
   width: auto !important;
@@ -16,7 +16,7 @@
   white-space: nowrap !important;
 }
 
-.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 {
+.obs-operasional-page .operational-status-options {
   display: flex !important;
   flex: 0 0 auto !important;
   flex-direction: row !important;
@@ -27,7 +27,7 @@
   padding: 0 !important;
 }
 
-.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 > label {
+.obs-operasional-page .operational-status-options > label {
   display: inline-flex !important;
   flex: 0 0 auto !important;
   flex-direction: row !important;
@@ -39,25 +39,20 @@
   white-space: nowrap !important;
 }
 
-.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 > label > input[type="radio"] {
+.obs-operasional-page .operational-status-options > label > input[type="radio"] {
   order: 1 !important;
   flex: 0 0 auto !important;
   margin: 0 !important;
 }
 
-.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 > label > span {
-  order: 2 !important;
-  white-space: nowrap !important;
-}
-
 @media (max-width: 639px) {
-  .obs-operasional-page fieldset.flex.items-center.gap-6 {
+  .obs-operasional-page .operational-status-fieldset {
     align-items: flex-start !important;
     flex-wrap: wrap !important;
     row-gap: 12px !important;
   }
 
-  .obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 {
+  .obs-operasional-page .operational-status-options {
     flex-wrap: wrap !important;
     row-gap: 12px !important;
   }
