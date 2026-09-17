@@ -1,15 +1,13 @@
-.obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) {
+.obs-operasional-page fieldset.flex.items-center.gap-6 {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
   gap: 24px !important;
   width: 100% !important;
   margin: 0 !important;
-  padding: 0 !important;
-  white-space: nowrap !important;
 }
 
-.obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > legend {
+.obs-operasional-page fieldset.flex.items-center.gap-6 > legend {
   display: block !important;
   flex: 0 0 auto !important;
   width: auto !important;
@@ -18,9 +16,9 @@
   white-space: nowrap !important;
 }
 
-.obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > div.grid {
+.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 {
   display: flex !important;
-  flex: 0 1 auto !important;
+  flex: 0 0 auto !important;
   flex-direction: row !important;
   align-items: center !important;
   gap: 28px !important;
@@ -29,42 +27,37 @@
   padding: 0 !important;
 }
 
-.obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > div.grid > label {
+.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 > label {
   display: inline-flex !important;
   flex: 0 0 auto !important;
   flex-direction: row !important;
   align-items: center !important;
   gap: 8px !important;
   width: auto !important;
-  min-width: max-content !important;
   margin: 0 !important;
   padding: 0 !important;
   white-space: nowrap !important;
 }
 
-.obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > div.grid > label > input[type="radio"] {
+.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 > label > input[type="radio"] {
   order: 1 !important;
   flex: 0 0 auto !important;
   margin: 0 !important;
 }
 
-.obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > div.grid > label > span {
+.obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 > label > span {
   order: 2 !important;
   white-space: nowrap !important;
 }
 
 @media (max-width: 639px) {
-  .obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) {
+  .obs-operasional-page fieldset.flex.items-center.gap-6 {
     align-items: flex-start !important;
     flex-wrap: wrap !important;
-    white-space: normal !important;
+    row-gap: 12px !important;
   }
 
-  .obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > legend {
-    flex-basis: 100% !important;
-  }
-
-  .obs-operasional-page .grid.gap-5.px-5.py-7 > fieldset:has(input[name="operational-status"]) > div.grid {
+  .obs-operasional-page fieldset.flex.items-center.gap-6 > div.flex.items-center.gap-7 {
     flex-wrap: wrap !important;
     row-gap: 12px !important;
   }
