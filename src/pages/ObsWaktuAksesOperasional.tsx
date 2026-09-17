@@ -146,7 +146,7 @@ export default function ObsWaktuAksesOperasional() {
 
   const dateInputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
 
-  return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
+  return <div className="obs-operasional-page min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
     <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">Operasional Harian</h1>
     <div className="mt-8 flex items-center gap-5 overflow-x-auto pb-1">
       <button type="button" onClick={() => setActiveTab("settings")} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold transition-colors", activeTab === "settings" ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>Pengaturan Waktu Operasional</button>
