@@ -135,7 +135,7 @@
   border: 0 !important;
   border-left: 0 !important;
   border-radius: 5px !important;
-  background: #4169F5 !important;
+  background: #dc3545 !important;
   color: #fff !important;
   font-size: 12px !important;
   font-weight: 700 !important;
@@ -143,7 +143,6 @@
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  background: #dc3545 !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button svg {
