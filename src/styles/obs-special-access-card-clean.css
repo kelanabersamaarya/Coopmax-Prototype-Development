@@ -1,0 +1,4 @@
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid > div > div:first-child > span:last-child,
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid > div > button {
+  display: none;
+}

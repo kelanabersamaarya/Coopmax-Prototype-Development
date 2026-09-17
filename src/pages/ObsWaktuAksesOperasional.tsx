@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import "@/styles/obs-operasional-table.css";
 import "@/styles/obs-operasional-required.css";
+import "@/styles/obs-special-access-card-clean.css";
 import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
 
 type OperationalDay = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
