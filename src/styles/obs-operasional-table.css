@@ -48,7 +48,6 @@ thead.bg-\[\#F7F8FC\] {
   font-size: 12px;
   font-weight: 600;
   line-height: 1;
-  letter-spacing: normal;
   white-space: pre;
 }
 
@@ -62,19 +61,14 @@ thead.bg-\[\#F7F8FC\] {
   box-sizing: border-box;
   border: 0;
   border-bottom: 1px solid #cbd5e1;
-  border-radius: 0;
   padding: 0 12px;
   color: #17345f;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.25;
+  font: 500 12px/1.25 inherit;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::before {
   content: counter(operational-row);
   counter-increment: operational-row;
-  color: #17345f;
   font: inherit;
 }
 
@@ -84,45 +78,34 @@ thead.bg-\[\#F7F8FC\] {
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child {
   grid-column: 2;
-  grid-row: 1;
   font: inherit;
-  font-weight: 500;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:last-child {
   grid-column: 4;
-  grid-row: 1;
   justify-self: start;
   border-radius: 3px;
   padding: 4px 8px;
-  font: inherit;
-  font-size: 11px;
-  font-weight: 600;
+  font: 600 11px/1.25 inherit;
   white-space: nowrap;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
   grid-column: 3;
-  grid-row: 1;
   margin: 0;
-  color: #17345f;
   font: inherit;
-  font-weight: 500;
   white-space: nowrap;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
   grid-column: 5;
-  grid-row: 1;
   justify-self: start;
   height: 30px;
   margin: 0;
   border-radius: 3px;
   background: #4169f5;
   padding: 0 12px;
-  font: inherit;
-  font-size: 11px;
-  font-weight: 600;
+  font: 600 11px/1.25 inherit;
   white-space: nowrap;
 }
 
@@ -130,12 +113,21 @@ thead.bg-\[\#F7F8FC\] {
   background: #3157d8;
 }
 
-.obs-operasional-page button:has(svg.lucide-plus) {
+.obs-operasional-page > div:nth-of-type(3) > .overflow-hidden > div:first-child {
+  display: flex !important;
+}
+
+.obs-operasional-page > div:nth-of-type(3) > .overflow-hidden > div:first-child > button {
   display: inline-flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: relative;
   z-index: 5;
+  flex-shrink: 0;
+}
+
+.obs-operasional-page > div:nth-of-type(3) > .overflow-hidden > div:first-child > button svg {
+  display: block !important;
 }
 
 @media (max-width: 700px) {
