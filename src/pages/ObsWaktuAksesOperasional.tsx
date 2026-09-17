@@ -62,7 +62,7 @@ export default function ObsWaktuAksesOperasional() {
   const [addConfirmationOpen, setAddConfirmationOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
 
-  const isEditingConfigured = editingDay !== null && status[editingDay] === "waktu-operasional";
+  const isEditingConfigured = editingDay !== null && status[editingDay] !== "belum-diatur";
 
   const openEditor = (day: OperationalDay) => {
     setEditingDay(day);
