@@ -1,37 +1,42 @@
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-columns: minmax(1180px, 1fr) !important;
   gap: 0 !important;
-  overflow: visible !important;
+  overflow-x: auto !important;
   padding: 0.625rem !important;
   background: #fff !important;
+  counter-reset: special-access-row !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "NO. | USER DENGAN AKSES KHUSUS | TANGGAL DAN WAKTU MULAI AKSES KHUSUS | TANGGAL DAN WAKTU SELESAI AKSES KHUSUS | ALASAN PEMBERIAN AKSES KHUSUS | AKSI" !important;
+  content: "NO.       USER DENGAN AKSES KHUSUS        TANGGAL DAN WAKTU MULAI AKSES KHUSUS       TANGGAL DAN WAKTU SELESAI AKSES KHUSUS       ALASAN PEMBERIAN AKSES KHUSUS       AKSI" !important;
   display: block !important;
-  min-width: 0 !important;
+  width: 1180px !important;
   min-height: 44px !important;
+  box-sizing: border-box !important;
   padding: 0.9rem 0.75rem !important;
   border: 1px solid #D1DCEB !important;
   border-bottom: 0 !important;
   border-radius: 5px 5px 0 0 !important;
   background: #fff !important;
   color: #003477 !important;
-  font: 700 11px/1.35 Arial, sans-serif !important;
-  white-space: normal !important;
+  font: 700 11px/1.25 Arial, sans-serif !important;
+  white-space: pre !important;
+  overflow: hidden !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
   display: grid !important;
   grid-template-columns: 6% 18% 19% 19% 24% 14% !important;
-  min-width: 0 !important;
+  align-items: center !important;
+  width: 1180px !important;
   min-height: 58px !important;
   margin: 0 !important;
   padding: 0 !important;
   border: 1px solid #D1DCEB !important;
   border-bottom: 0 !important;
   background: #fff !important;
+  counter-increment: special-access-row !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div:last-child {
@@ -41,16 +46,11 @@
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::before {
   content: counter(special-access-row) !important;
-  counter-increment: special-access-row !important;
   grid-column: 1 !important;
   grid-row: 1 !important;
   padding: 1rem 0.75rem !important;
   color: #003477 !important;
   font: 12px Arial, sans-serif !important;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
-  counter-reset: special-access-row !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child {
@@ -60,6 +60,7 @@
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child > span:first-child {
   grid-column: 2 !important;
   grid-row: 1 !important;
+  min-width: 0 !important;
   padding: 1rem 0.75rem !important;
   border-left: 1px solid #D1DCEB !important;
   color: #003477 !important;
@@ -70,18 +71,26 @@
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
   grid-column: 3 !important;
   grid-row: 1 !important;
+  min-width: 0 !important;
   margin: 0 !important;
   padding: 1rem 0.75rem !important;
   border-left: 1px solid #D1DCEB !important;
   color: #003477 !important;
   font: 12px Arial, sans-serif !important;
   white-space: nowrap !important;
+  font-size: 0 !important;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p::before {
+  content: "12 Juni 2024 · 08:00" !important;
+  font-size: 12px !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div::after {
   content: "12 Juni 2024 · 15:00" !important;
   grid-column: 4 !important;
   grid-row: 1 !important;
+  min-width: 0 !important;
   padding: 1rem 0.75rem !important;
   border-left: 1px solid #D1DCEB !important;
   color: #003477 !important;
@@ -92,6 +101,7 @@
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child > span:last-child {
   grid-column: 5 !important;
   grid-row: 1 !important;
+  min-width: 0 !important;
   margin: 0 !important;
   padding: 1rem 0.75rem !important;
   border-left: 1px solid #D1DCEB !important;
@@ -99,13 +109,21 @@
   background: transparent !important;
   color: #003477 !important;
   font: 500 12px Arial, sans-serif !important;
-  white-space: normal !important;
+  font-size: 0 !important;
+  white-space: nowrap !important;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div:first-child > span:last-child::after {
+  content: "Kebutuhan operasional" !important;
+  font-size: 12px !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
   grid-column: 6 !important;
   grid-row: 1 !important;
   justify-self: start !important;
+  width: max-content !important;
+  max-width: calc(100% - 1.5rem) !important;
   margin: 0 0.75rem !important;
   white-space: nowrap !important;
 }
