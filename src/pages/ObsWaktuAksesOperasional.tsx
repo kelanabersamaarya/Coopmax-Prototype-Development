@@ -9,13 +9,8 @@ type OperationalStatus = "belum-diatur" | "waktu-operasional";
 type Schedule = { start: string; end: string };
 
 const days: OperationalDay[] = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-const specialAccessUsers = [
+const initialSpecialAccessUsers = [
   { name: "Budi Santoso", status: "Waktu Operasional", date: "12 Juni 2024", start: "08:00", end: "15:00" },
-  { name: "Siti Aminah", status: "Belum Diatur", date: "-", start: "-", end: "-" },
-  { name: "Andi Wijaya", status: "Belum Diatur", date: "-", start: "-", end: "-" },
-  { name: "Dewi Lestari", status: "Belum Diatur", date: "-", start: "-", end: "-" },
-  { name: "Rina Kurnia", status: "Belum Diatur", date: "-", start: "-", end: "-" },
-  { name: "Agus Pratama", status: "Belum Diatur", date: "-", start: "-", end: "-" },
 ];
 const times = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
 const initialSchedule: Record<OperationalDay, Schedule> = {
@@ -50,6 +45,7 @@ export default function ObsWaktuAksesOperasional() {
   const [editStep, setEditStep] = React.useState<1 | 2>(1);
   const [changeReason, setChangeReason] = React.useState("");
   const [activeTab, setActiveTab] = React.useState<"settings" | "history" | "special-access">("settings");
+  const [specialAccessUsers, setSpecialAccessUsers] = React.useState(initialSpecialAccessUsers);
   const [addAccessOpen, setAddAccessOpen] = React.useState(false);
   const [newAccess, setNewAccess] = React.useState({ user: "", startDate: "", endDate: "", startTime: "", endTime: "" });
   const [confirmationOpen, setConfirmationOpen] = React.useState(false);
@@ -85,6 +81,13 @@ export default function ObsWaktuAksesOperasional() {
 
   const requestSave = () => setConfirmationOpen(true);
 
+  const saveSpecialAccess = () => {
+    if (!newAccess.user || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime) return;
+    setSpecialAccessUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", date: `${newAccess.startDate} - ${newAccess.endDate}`, start: newAccess.startTime, end: newAccess.endTime }]);
+    setNewAccess({ user: "", startDate: "", endDate: "", startTime: "", endTime: "" });
+    setAddAccessOpen(false);
+  };
+
   return <div className="min-h-screen bg-[hsl(var(--app-bg))] px-2 py-6 md:px-3 md:py-8">
     <h1 className="text-[25px] font-extrabold leading-tight tracking-tight text-[#002060]">Operasional Harian</h1>
     <div className="mt-8 flex gap-4 overflow-x-auto pb-1">
@@ -102,7 +105,7 @@ export default function ObsWaktuAksesOperasional() {
         <div className="grid gap-4 px-5 py-7">
           {[{ key: "user", label: "User", type: "text", placeholder: "Masukkan nama user" }, { key: "startDate", label: "Tanggal mulai operasional", type: "date", placeholder: "" }, { key: "endDate", label: "Tanggal selesai operasional", type: "date", placeholder: "" }, { key: "startTime", label: "Waktu mulai operasional", type: "time", placeholder: "" }, { key: "endTime", label: "Waktu selesai operasional", type: "time", placeholder: "" }].map((field) => <label key={field.key} className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] font-medium text-black">{field.label}</span><input type={field.type} value={newAccess[field.key as keyof typeof newAccess]} onChange={(event) => setNewAccess((current) => ({ ...current, [field.key]: event.target.value }))} placeholder={field.placeholder} className="h-9 rounded-[6px] border border-slate-300 bg-white px-3 text-[13px] text-black outline-none focus:border-[#4169f5] focus:ring-2 focus:ring-blue-100" /></label>)}
         </div>
-        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={() => setAddAccessOpen(false)} className="inline-flex h-9 items-center justify-center rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white">Batalkan</button><button type="button" onClick={() => setAddAccessOpen(false)} className="inline-flex h-9 items-center justify-center rounded-[6px] bg-[#2864e8] px-5 text-[12px] font-semibold text-white hover:bg-[#1f55ca]">Simpan</button></div>
+        <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4"><button type="button" onClick={() => setAddAccessOpen(false)} className="inline-flex h-9 items-center justify-center rounded-[6px] bg-[#8291ad] px-4 text-[12px] font-semibold text-white">Batalkan</button><button type="button" onClick={saveSpecialAccess} disabled={!newAccess.user || !newAccess.startDate || !newAccess.endDate || !newAccess.startTime || !newAccess.endTime} className="inline-flex h-9 items-center justify-center rounded-[6px] bg-[#2864e8] px-5 text-[12px] font-semibold text-white hover:bg-[#1f55ca] disabled:cursor-not-allowed disabled:opacity-50">Simpan</button></div>
       </DialogContent>
     </Dialog>
 
