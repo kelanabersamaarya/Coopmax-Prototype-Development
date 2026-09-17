@@ -1,14 +1,16 @@
 .obs-operasional-page .operational-status-fieldset {
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: 210px max-content !important;
   align-items: center !important;
-  gap: 38px !important;
-  width: 100% !important;
+  column-gap: 16px !important;
+  width: max-content !important;
+  max-width: 100% !important;
   margin: 0 !important;
 }
 
 .obs-operasional-page .operational-status-fieldset > legend {
+  grid-column: 1 !important;
   display: block !important;
-  flex: 0 0 auto !important;
   width: auto !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -17,14 +19,12 @@
 }
 
 .obs-operasional-page .operational-status-options {
+  grid-column: 2 !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-start !important;
-  flex: 1 1 auto !important;
   flex-wrap: nowrap !important;
   gap: 62px !important;
-  min-width: 0 !important;
-  width: auto !important;
+  width: max-content !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -34,7 +34,7 @@
   align-items: center !important;
   flex: 0 0 auto !important;
   gap: 9px !important;
-  width: auto !important;
+  width: max-content !important;
   margin: 0 !important;
   padding: 0 !important;
   white-space: nowrap !important;
@@ -50,14 +50,20 @@
 
 @media (max-width: 639px) {
   .obs-operasional-page .operational-status-fieldset {
-    align-items: flex-start !important;
-    flex-wrap: wrap !important;
+    grid-template-columns: 1fr !important;
     row-gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .obs-operasional-page .operational-status-fieldset > legend,
+  .obs-operasional-page .operational-status-options {
+    grid-column: 1 !important;
   }
 
   .obs-operasional-page .operational-status-options {
     flex-wrap: wrap !important;
     row-gap: 12px !important;
     column-gap: 24px !important;
+    width: 100% !important;
   }
 }
