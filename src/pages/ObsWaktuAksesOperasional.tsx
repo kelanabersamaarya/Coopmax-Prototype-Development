@@ -73,3 +73,5 @@ export default function ObsWaktuAksesOperasional() {
 
 function TimeSelect({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) { return <label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px] text-[#17345f]">{label}</span><select value={value} onChange={(e) => onChange(e.target.value)} className="h-9 rounded-[6px] border px-3 text-[13px]">{times.map((time) => <option key={time}>{time}</option>)}</select></label>; }
 function DateField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) { return <div className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><span className="text-[12px]">{label} *</span><input type="date" value={value} onChange={(e) => onChange(e.target.value)} className="h-9 rounded-[6px] border px-3 text-[13px]" /></div>; }
+EOF
+
