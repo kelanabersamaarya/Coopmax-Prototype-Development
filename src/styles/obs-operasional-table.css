@@ -35,7 +35,7 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "NO.                HARI                           STATUS                                  JAM OPERASIONAL                                  AKSI";
+  content: "NO.                HARI                           JAM OPERASIONAL                                  STATUS                                  AKSI";
   display: block;
   min-width: 1000px;
   height: 44px;
@@ -55,7 +55,7 @@ thead.bg-\[\#F7F8FC\] {
   display: grid;
   min-width: 1000px;
   min-height: 59px;
-  grid-template-columns: 72px 205px 250px 300px minmax(173px, 1fr);
+  grid-template-columns: 72px 205px 300px 250px minmax(173px, 1fr);
   align-items: center;
   column-gap: 0;
   box-sizing: border-box;
@@ -88,7 +88,7 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:last-child {
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 1;
   justify-self: start;
   border-radius: 4px;
@@ -99,7 +99,7 @@ thead.bg-\[\#F7F8FC\] {
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
-  grid-column: 4;
+  grid-column: 3;
   grid-row: 1;
   margin: 0;
   color: #17345f;
