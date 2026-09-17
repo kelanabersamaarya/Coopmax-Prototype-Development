@@ -5,6 +5,7 @@
   overflow-x: auto;
   padding: 0.625rem;
   background: #fff;
+  counter-reset: special-access-row;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b::before {
@@ -24,9 +25,8 @@
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div {
-  position: relative;
-  display: grid;
-  grid-template-columns: 6% 18% 19% 19% 24% 14%;
+  display: grid !important;
+  grid-template-columns: 6% 18% 19% 19% 24% 14% !important;
   align-items: center;
   min-width: 1180px;
   min-height: 58px;
@@ -35,6 +35,7 @@
   border: 1px solid #D1DCEB;
   border-bottom: 0;
   background: #fff;
+  counter-increment: special-access-row;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div:last-child {
@@ -42,62 +43,58 @@
   border-radius: 0 0 5px 5px;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div:hover {
-  background: #fbfcff;
-}
-
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::before {
   content: counter(special-access-row);
-  counter-increment: special-access-row;
   grid-column: 1;
+  grid-row: 1;
   padding: 1rem 0.75rem;
   color: #003477;
   font: 12px Arial, sans-serif;
 }
 
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b {
-  counter-reset: special-access-row;
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::after {
+  content: "12 Juni 2024 · 15:00";
+  grid-column: 4;
+  grid-row: 1;
+  min-width: 0;
+  padding: 1rem 0.75rem;
+  border-left: 1px solid #D1DCEB;
+  color: #003477;
+  font: 12px Arial, sans-serif;
+  white-space: nowrap;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child {
-  display: contents;
+  display: contents !important;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:first-child {
   grid-column: 2;
+  grid-row: 1;
   min-width: 0;
   padding: 1rem 0.75rem;
   border-left: 1px solid #D1DCEB;
   color: #003477;
   font: 500 12px Arial, sans-serif;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p {
   grid-column: 3;
+  grid-row: 1;
   min-width: 0;
   margin: 0;
   padding: 1rem 0.75rem;
   border-left: 1px solid #D1DCEB;
   color: #003477;
-  font: 12px/1.45 Arial, sans-serif;
-}
-
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div::after {
-  content: "12 Juni 2024 · 15:00";
-  grid-column: 4;
-  min-width: 0;
-  padding: 1rem 0.75rem;
-  border-left: 1px solid #D1DCEB;
-  color: #003477;
-  font: 12px/1.45 Arial, sans-serif;
+  font: 12px Arial, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
-  display: inline-flex !important;
   grid-column: 5;
   grid-row: 1;
-  justify-self: start;
   min-width: 0;
   margin: 0;
   padding: 1rem 0.75rem;
@@ -119,14 +116,12 @@
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > button {
-  display: inline-flex !important;
   grid-column: 6;
   grid-row: 1;
   justify-self: start;
   width: max-content;
   max-width: calc(100% - 1.5rem);
   margin: 0 0.75rem;
-  padding: 0 0.7rem;
   border-left: 0;
   border-radius: 5px;
   background: #4169F5;
