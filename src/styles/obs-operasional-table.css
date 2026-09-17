@@ -1,28 +1,40 @@
-.obs-operasional-page .operational-status-row {
+.obs-operasional-page .operational-status-row,
+.obs-operasional-page fieldset {
   display: grid !important;
   grid-template-columns: 200px minmax(0, 1fr) !important;
   align-items: center !important;
   gap: 0.5rem !important;
   width: 100% !important;
+  margin: 0 !important;
 }
 
-.obs-operasional-page .operational-status-row > legend {
+.obs-operasional-page .operational-status-row > legend,
+.obs-operasional-page fieldset > legend {
   grid-column: 1 !important;
-  margin: 0 !important;
+  grid-row: 1 !important;
+  display: block !important;
   width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
   float: none !important;
 }
 
-.obs-operasional-page .operational-status-options {
+.obs-operasional-page .operational-status-options,
+.obs-operasional-page fieldset > div.grid {
   grid-column: 2 !important;
+  grid-row: 1 !important;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   align-items: center !important;
   gap: 1rem !important;
+  width: auto !important;
   min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.obs-operasional-page .operational-status-options > label {
+.obs-operasional-page .operational-status-options > label,
+.obs-operasional-page fieldset > div.grid > label {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -31,25 +43,15 @@
   margin: 0 !important;
 }
 
-.obs-operasional-page .operational-status-options > label > span {
+.obs-operasional-page .operational-status-options > label > span,
+.obs-operasional-page fieldset > div.grid > label > span {
   min-width: 0 !important;
-  overflow-wrap: anywhere;
+  overflow-wrap: anywhere !important;
 }
 
-.obs-operasional-page .operational-status-options > label > input[type="radio"] {
+.obs-operasional-page .operational-status-options > label > input[type="radio"],
+.obs-operasional-page fieldset > div.grid > label > input[type="radio"] {
   order: 2 !important;
   flex: 0 0 auto !important;
   margin: 0 !important;
-}
-
-@media (max-width: 639px) {
-  .obs-operasional-page .operational-status-row {
-    grid-template-columns: 1fr !important;
-    align-items: start !important;
-  }
-
-  .obs-operasional-page .operational-status-row > legend,
-  .obs-operasional-page .operational-status-options {
-    grid-column: 1 !important;
-  }
 }
