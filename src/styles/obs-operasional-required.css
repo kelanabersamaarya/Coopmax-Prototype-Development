@@ -87,6 +87,12 @@
 
   .operational-edit-dialog .grid.gap-5 > div:last-child > textarea {
     grid-column: 2;
+    grid-row: 1;
     width: 100%;
+  }
+
+  .operational-edit-dialog .grid.gap-5 > div:has(> #change-reason) > label {
+    grid-column: 1;
+    grid-row: 1;
   }
 }
