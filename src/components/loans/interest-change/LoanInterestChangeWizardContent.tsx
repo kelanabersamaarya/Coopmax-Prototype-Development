@@ -69,12 +69,19 @@ function AccountField({ label, value }: { label: string; value: string }) {
 function FieldRow({
   label,
   children,
+  className,
 }: {
   label: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center">
+    <div
+      className={cn(
+        "grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center",
+        className,
+      )}
+    >
       <label className="text-[14px] font-normal text-[#002060]">
         {label} <span className="text-rose-600">*</span>
       </label>
@@ -496,7 +503,7 @@ export default function LoanInterestChangeWizard({
                         placeholder="Pilih Tanggal Efektif"
                       />
                     </FieldRow>
-                    <FieldRow label="Alasan Perubahan">
+                    <FieldRow label="Alasan Perubahan" className="sm:items-start">
                       <Textarea
                         value={reason}
                         onChange={(event) => setReason(event.target.value)}
