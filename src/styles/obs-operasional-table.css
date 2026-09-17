@@ -6,6 +6,11 @@ thead.bg-\[\#F7F8FC\] {
   display: none;
 }
 
+.obs-operasional-page fieldset {
+  grid-template-columns: 200px minmax(0, 1fr);
+  align-items: start;
+}
+
 .obs-operasional-page fieldset > div.grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
