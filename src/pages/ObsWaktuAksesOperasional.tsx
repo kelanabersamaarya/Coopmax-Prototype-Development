@@ -3,6 +3,7 @@ import { AlertCircle, CalendarDays, CheckCircle2, CheckSquare, ChevronDown, Chev
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import "@/styles/obs-operasional-table.css";
 
 type OperationalDay = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
 type OperationalStatus = "belum-diatur" | "waktu-operasional";
