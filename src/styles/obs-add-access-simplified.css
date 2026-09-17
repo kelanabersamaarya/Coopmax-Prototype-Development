@@ -3,6 +3,11 @@
   display: none;
 }
 
+.add-access-dialog > div.grid.gap-4.px-5.py-7 {
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+
 .add-access-dialog .grid.gap-4.px-5.py-7 > .relative {
   display: none;
 }
@@ -12,6 +17,7 @@
   border-top: 0 !important;
   border-top-color: transparent !important;
   padding-top: 0;
+  padding-bottom: 16px;
 }
 
 .add-access-dialog .add-access-footer {
