@@ -15,14 +15,27 @@ const initialSchedule: Record<OperationalDay, Schedule> = {
   Kamis: { start: "08:00", end: "16:00" }, Jumat: { start: "08:00", end: "16:00" }, Sabtu: { start: "08:00", end: "13:00" }, Minggu: { start: "08:00", end: "13:00" },
 };
 const initialStatus = days.reduce((result, day) => ({ ...result, [day]: "belum-diatur" }), {} as Record<OperationalDay, OperationalStatus>);
+const storageKey = "obs-operasional-harian";
+
+function loadStoredSettings() {
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (!stored) return { status: initialStatus, schedule: initialSchedule };
+    const parsed = JSON.parse(stored) as { status?: Record<OperationalDay, OperationalStatus>; schedule?: Record<OperationalDay, Schedule> };
+    return { status: { ...initialStatus, ...parsed.status }, schedule: { ...initialSchedule, ...parsed.schedule } };
+  } catch {
+    return { status: initialStatus, schedule: initialSchedule };
+  }
+}
 
 function TimeSelect({ value, placeholder, onChange }: { value: string; placeholder: string; onChange: (value: string) => void }) {
   return <div className="relative"><select value={value} onChange={(event) => onChange(event.target.value)} className={cn("h-9 w-full appearance-none rounded-[6px] border border-slate-300 bg-white px-3 pr-9 text-[13px] outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-200", value ? "text-black" : "text-slate-400")}><option value="" disabled>{placeholder}</option>{times.map((time) => <option key={time} className="text-black">{time}</option>)}</select><Clock3 className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" /></div>;
 }
 
 export default function ObsWaktuAksesOperasional() {
-  const [status, setStatus] = React.useState(initialStatus);
-  const [schedule, setSchedule] = React.useState(initialSchedule);
+  const storedSettings = React.useMemo(loadStoredSettings, []);
+  const [status, setStatus] = React.useState(storedSettings.status);
+  const [schedule, setSchedule] = React.useState(storedSettings.schedule);
   const [editingDay, setEditingDay] = React.useState<OperationalDay | null>(null);
   const [editingStatus, setEditingStatus] = React.useState<OperationalStatus>("belum-diatur");
   const [editingSchedule, setEditingSchedule] = React.useState<Schedule>(initialSchedule.Senin);
@@ -50,8 +63,11 @@ export default function ObsWaktuAksesOperasional() {
 
   const saveEditor = () => {
     if (!editingDay) return;
-    setStatus((current) => ({ ...current, [editingDay]: editingStatus }));
-    setSchedule((current) => ({ ...current, [editingDay]: editingSchedule }));
+    const nextStatus = { ...status, [editingDay]: editingStatus };
+    const nextSchedule = { ...schedule, [editingDay]: editingSchedule };
+    setStatus(nextStatus);
+    setSchedule(nextSchedule);
+    localStorage.setItem(storageKey, JSON.stringify({ status: nextStatus, schedule: nextSchedule }));
     setConfirmationOpen(false);
     closeEditor();
     setSuccessOpen(true);
