@@ -37,7 +37,7 @@ thead.bg-\[\#F7F8FC\] {
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
   content: "NO.                HARI                           JAM OPERASIONAL                                  STATUS                                  AKSI";
   display: block;
-  min-width: 1000px;
+  min-width: 100%;
   height: 44px;
   box-sizing: border-box;
   border-bottom: 1px solid #cbd5e1;
@@ -53,9 +53,9 @@ thead.bg-\[\#F7F8FC\] {
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
   display: grid;
-  min-width: 1000px;
+  min-width: 100%;
   min-height: 59px;
-  grid-template-columns: 72px 205px 300px 250px minmax(173px, 1fr);
+  grid-template-columns: 72px minmax(180px, 1fr) minmax(240px, 1.35fr) minmax(180px, 1fr) minmax(230px, 1.2fr);
   align-items: center;
   column-gap: 0;
   box-sizing: border-box;
@@ -133,6 +133,6 @@ thead.bg-\[\#F7F8FC\] {
 
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before,
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
-    min-width: 1000px;
+    min-width: 920px;
   }
 }
