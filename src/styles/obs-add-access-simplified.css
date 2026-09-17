@@ -11,5 +11,5 @@
 .add-access-dialog > div:has(> label[for="add-access-reason"]) {
   border-top: 0 !important;
   border-top-color: transparent !important;
-  padding-top: 1rem;
+  padding-top: 20px;
 }
