@@ -8,6 +8,7 @@ import "@/styles/obs-operasional-required.css";
 import "@/styles/obs-special-access-card-clean.css";
 import "@/styles/obs-add-access-simplified.css";
 import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
+import { OperationalScheduleTable } from "@/components/OperationalScheduleTable";
 
 type OperationalDay = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
 type OperationalStatus = "belum-diatur" | "waktu-operasional" | "operasional-tutup";

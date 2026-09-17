@@ -16,9 +16,9 @@ thead.bg-\[\#F7F8FC\] {
   }
 
   .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-    content: "Hari|Status Operasional|Waktu Mulai|Waktu Selesai|Aksi";
-    display: grid;
-    grid-template-columns: 14% 25% 20% 21% 20%;
+    content: "No.                 Hari                    Waktu Operasional                    Status Operasional                    Aksi";
+    display: block;
+    grid-template-columns: 8% 18% 36% 22% 16%;
     align-items: center;
     min-height: 46px;
     padding: 0 0.75rem;
