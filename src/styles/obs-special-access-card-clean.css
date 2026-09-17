@@ -9,7 +9,7 @@
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-  content: "NO.    |    USER DENGAN AKSES KHUSUS    |    TANGGAL DAN WAKTU MULAI AKSES KHUSUS    |    TANGGAL DAN WAKTU SELESAI AKSES KHUSUS    |    ALASAN PEMBERIAN AKSES KHUSUS    |    AKSI" !important;
+  content: "NO.     USER DENGAN AKSES KHUSUS     TANGGAL DAN WAKTU MULAI     TANGGAL DAN WAKTU SELESAI     ALASAN PEMBERIAN AKSES KHUSUS     AKSI" !important;
   display: block !important;
   width: 100% !important;
   min-width: 1120px !important;
@@ -29,7 +29,7 @@
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
   display: grid !important;
-  grid-template-columns: 5% 17% 18% 18% minmax(250px, 25%) minmax(170px, 17%) !important;
+  grid-template-columns: 5% 18% 17% 17% minmax(280px, 28%) minmax(180px, 15%) !important;
   align-items: center !important;
   width: 100% !important;
   min-width: 1120px !important;
@@ -121,6 +121,7 @@
   color: #003477 !important;
   font: 500 12px/1.4 Arial, sans-serif !important;
   white-space: normal !important;
+  overflow-wrap: anywhere !important;
 }
 
 .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
