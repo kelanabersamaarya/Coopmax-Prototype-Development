@@ -5,3 +5,60 @@ thead.bg-\[\#F7F8FC\] {
 .obs-operasional-page > div:nth-of-type(2) .bg-white.px-4 {
   display: none;
 }
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
+  display: block;
+  overflow-x: auto;
+  padding: 0;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
+  content: "Hari | Status | Jam Operasional | Aksi";
+  display: block;
+  min-width: 760px;
+  border-bottom: 1px solid #d7dee9;
+  background: #f7f8fc;
+  padding: 12px 16px;
+  color: #17345f;
+  font-size: 12px;
+  font-weight: 700;
+  word-spacing: 86px;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
+  display: grid;
+  min-width: 760px;
+  min-height: 58px;
+  grid-template-columns: 1.1fr 1.25fr 1.25fr 1.5fr;
+  align-items: center;
+  gap: 16px;
+  border: 0;
+  border-bottom: 1px solid #d7dee9;
+  border-radius: 0;
+  background: #fff;
+  padding: 10px 16px;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div {
+  display: contents;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p {
+  grid-column: 3;
+  grid-row: 1;
+  margin: 0;
+}
+
+.obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
+  grid-column: 4;
+  grid-row: 1;
+  margin: 0;
+  justify-self: start;
+}
+
+@media (max-width: 700px) {
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before,
+  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
+    min-width: 680px;
+  }
+}
