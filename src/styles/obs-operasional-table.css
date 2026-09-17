@@ -1,123 +1,55 @@
-thead.bg-\[\#F7F8FC\] {
-  background-color: transparent !important;
-}
-
-.obs-operasional-page > div:nth-of-type(2) .bg-white.px-4 {
-  display: none;
-}
-
-.obs-operasional-page fieldset {
-  display: block !important;
-  width: 100% !important;
-  min-height: 44px;
-  margin: 0 !important;
-}
-
-.obs-operasional-page fieldset > legend {
-  display: block !important;
-  float: left !important;
-  width: 200px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.25rem !important;
-}
-
-.obs-operasional-page fieldset > div.grid {
+.obs-operasional-page .operational-status-row {
   display: grid !important;
-  width: calc(100% - 208px) !important;
-  margin-left: 208px !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 0.75rem 1.25rem !important;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+  grid-template-columns: 200px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
 }
 
-.obs-operasional-page fieldset > div.grid > label {
-  min-width: 0;
-  align-items: center;
+.obs-operasional-page .operational-status-row > legend {
+  grid-column: 1 !important;
+  margin: 0 !important;
+  width: auto !important;
+  float: none !important;
 }
 
-.obs-operasional-page fieldset > div.grid > label > span {
-  min-width: 0;
+.obs-operasional-page .operational-status-options {
+  grid-column: 2 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  min-width: 0 !important;
 }
 
-.obs-operasional-page fieldset > div.grid > label > input[type="radio"] {
-  flex: 0 0 auto;
-  margin: 0;
+.obs-operasional-page .operational-status-options > label {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.obs-operasional-page .operational-status-options > label > span {
+  min-width: 0 !important;
+  overflow-wrap: anywhere;
+}
+
+.obs-operasional-page .operational-status-options > label > input[type="radio"] {
+  order: 2 !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
 }
 
 @media (max-width: 639px) {
-  .obs-operasional-page fieldset {
-    min-height: 0;
+  .obs-operasional-page .operational-status-row {
+    grid-template-columns: 1fr !important;
+    align-items: start !important;
   }
 
-  .obs-operasional-page fieldset > legend {
-    float: none !important;
-    width: auto !important;
-    margin-bottom: 0.5rem !important;
+  .obs-operasional-page .operational-status-row > legend,
+  .obs-operasional-page .operational-status-options {
+    grid-column: 1 !important;
   }
-
-  .obs-operasional-page fieldset > div.grid {
-    width: 100% !important;
-    margin-left: 0 !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    padding: 0.625rem;
-    background: #fff;
-  }
-
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b::before {
-    content: "No.                 Hari                    Waktu Operasional                    Status Operasional                    Aksi";
-    display: block;
-    min-height: 46px;
-    padding: 0 0.75rem;
-    border: 1px solid #D7DEE9;
-    border-bottom: 0;
-    border-radius: 5px 5px 0 0;
-    background: #F7F8FC;
-    color: #17345f;
-    font-size: 12px;
-    font-weight: 700;
-    white-space: pre;
-  }
-
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div {
-    display: grid;
-    grid-template-columns: 14% 25% 20% 21% 20%;
-    align-items: center;
-    min-height: 58px;
-    width: 100%;
-    padding: 0;
-    border-width: 1px 1px 0;
-    border-radius: 0;
-    background: #fff;
-  }
-
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div:last-child {
-    border-bottom-width: 1px;
-    border-radius: 0 0 5px 5px;
-  }
-
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div {
-    display: contents;
-  }
-
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child,
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p,
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button {
-    min-width: 0;
-    margin: 0;
-    padding: 0.75rem;
-  }
-
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:first-child { grid-column: 1; }
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > div > span:last-child { grid-column: 2; grid-row: 1; justify-self: start; }
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > p { grid-column: 3 / 5; grid-row: 1; }
-  .obs-operasional-page > div:nth-of-type(2) .grid.gap-2.border-b > div > button { grid-column: 5; grid-row: 1; justify-self: start; white-space: nowrap; }
 }
