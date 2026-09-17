@@ -32,30 +32,30 @@
     grid-column: 1 / -1;
   }
 
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(2),
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(3) {
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(2),
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(3) {
     display: contents;
   }
 
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(2) > label {
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(2) > label {
     grid-column: 1;
     grid-row: 2;
     width: 200px;
     white-space: nowrap;
   }
 
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(2) > div {
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(2) > div {
     grid-column: 2;
     grid-row: 2;
     width: 100%;
     min-width: 0;
   }
 
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(3) > label {
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(3) > label {
     display: none;
   }
 
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(3) > div {
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(3) > div {
     grid-column: 4;
     grid-row: 2;
     position: relative;
@@ -63,7 +63,7 @@
     min-width: 0;
   }
 
-  .operational-edit-dialog .grid.gap-5 > div:nth-child(3) > div::before {
+  .operational-edit-dialog .grid.gap-5:has(> div:nth-child(3)) > div:nth-child(3) > div::before {
     content: "-";
     position: absolute;
     left: -21px;
@@ -76,6 +76,13 @@
     display: grid;
     grid-template-columns: 200px minmax(0, 1fr);
     column-gap: 0;
+    align-items: start !important;
+  }
+
+  .operational-edit-dialog .grid.gap-5 > div:last-child > label {
+    align-self: start !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
   .operational-edit-dialog .grid.gap-5 > div:last-child > textarea {
