@@ -23,13 +23,13 @@
   font-family: Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
+  line-height: 1.25;
   white-space: pre;
-  line-height: 1;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div {
   display: grid;
-  grid-template-columns: 6% 17% 20% 20% 24% 13%;
+  grid-template-columns: 6% 18% 19% 19% 24% 14%;
   align-items: center;
   min-width: 1180px;
   min-height: 58px;
@@ -78,13 +78,33 @@
   grid-column: 2;
   color: #003477;
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p {
-  grid-column: 3 / 5;
-  grid-row: 1;
+  display: contents;
   color: #003477;
+}
+
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p::before,
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p::after {
+  min-width: 0;
+  padding: 1rem 0.75rem;
+  border-left: 1px solid #D1DCEB;
+  color: #003477;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
   line-height: 1.45;
+}
+
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p::before {
+  content: "12 Juni 2024 · 08:00";
+  grid-column: 3;
+}
+
+.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > p::after {
+  content: "12 Juni 2024 · 15:00";
+  grid-column: 4;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
@@ -92,26 +112,18 @@
   grid-column: 5;
   grid-row: 1;
   justify-self: start;
-  width: max-content;
+  width: auto;
   max-width: calc(100% - 1.5rem);
   margin: 0 0.75rem;
-  padding: 0.42rem 0.65rem;
+  padding: 1rem 0.75rem;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0;
   background: transparent !important;
   color: #003477 !important;
+  font-family: Arial, sans-serif;
   font-size: 12px;
   font-weight: 500;
-  white-space: nowrap;
-}
-
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child {
-  font-size: 0;
-}
-
-.obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > div:first-child > span:last-child::after {
-  content: "Kebutuhan operasional";
-  font-size: 12px;
+  white-space: normal;
 }
 
 .obs-operasional-page > div:has(> div > div[class*="justify-between"]) .grid.gap-2.border-b > div > button {
