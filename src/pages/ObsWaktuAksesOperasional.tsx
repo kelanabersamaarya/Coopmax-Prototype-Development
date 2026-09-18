@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertCircle, CheckCircle2, CheckSquare, Clock3, History, Plus, User, X } from "lucide-react";
+import { AlertCircle, CheckSquare, Clock3, History, Plus, User, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { OperationalSpecialAccessTable } from "@/components/OperationalSpecialAccessTable";
@@ -8,6 +8,7 @@ import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
 import { AccessDateField, RequiredLabel } from "@/components/OperationalAccessFields";
 import { OperationalTimeRange } from "@/components/OperationalTimeRange";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
+import { OperationalSuccessDialog } from "@/components/OperationalSuccessDialog";
 
 type Day = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
 type Status = "belum-diatur" | "waktu-operasional" | "operasional-tutup";
@@ -89,9 +90,10 @@ export default function ObsWaktuAksesOperasional() {
       {editRequiresReason && <label className="grid gap-2 sm:grid-cols-[200px_1fr] sm:items-start"><RequiredLabel>Alasan perubahan</RequiredLabel><textarea value={editReason} onChange={(event) => setEditReason(event.target.value)} required className="min-h-[100px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan perubahan" /></label>}
     </div><Footer cancel={() => setEditOpen(false)} save={requestScheduleSave} disabled={(showOperationalFields && (!editStart || !editEnd)) || (editRequiresReason && !editReason.trim())} /></DialogContent></Dialog>
     <OperationalConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} onConfirm={saveSchedule} />
+    <OperationalSuccessDialog open={scheduleSuccessOpen} onOpenChange={setScheduleSuccessOpen} title="Berhasil menyimpan data" />
     <Dialog open={addOpen} onOpenChange={setAddOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text="Tambah Akses Khusus Operasional" /><div className="grid gap-4 px-5 py-7"><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><RequiredLabel>User</RequiredLabel><select value={newAccess.user} onChange={(e) => update("user", e.target.value)} className="h-9 rounded-[6px] border px-3 text-[13px]"><option value="">Pilih user</option>{["Siti Aminah", "Andi Wijaya", "Dewi Lestari"].map((user) => <option key={user}>{user}</option>)}</select></label><AccessDateField label="Mulai operasional" date={newAccess.startDate} time={newAccess.start} onDateChange={(v) => update("startDate", v)} onTimeChange={(v) => update("start", v)} /><AccessDateField label="Selesai operasional" date={newAccess.endDate} time={newAccess.end} onDateChange={(v) => update("endDate", v)} onTimeChange={(v) => update("end", v)} /><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-start"><RequiredLabel>Alasan Pemberian Akses</RequiredLabel><textarea value={newAccess.reason} onChange={(e) => update("reason", e.target.value)} className="min-h-[122px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan pemberian akses" /></label></div><Footer cancel={() => setAddOpen(false)} save={requestAdd} disabled={!canSave} /></DialogContent></Dialog>
     <OperationalConfirmDialog open={addConfirmOpen} onOpenChange={setAddConfirmOpen} onConfirm={addUser} />
-    <Dialog open={successOpen} onOpenChange={setSuccessOpen}><DialogContent className="max-w-[474px] text-center"><CheckCircle2 className="mx-auto h-20 w-20 text-[#92d477]" /><h3 className="mt-4 text-xl font-bold">Berhasil Menyimpan Data</h3><button type="button" onClick={() => setSuccessOpen(false)} className="mt-5 rounded bg-[#2874d4] px-8 py-3 font-bold text-white">OK</button></DialogContent></Dialog>
+    <OperationalSuccessDialog open={successOpen} onOpenChange={setSuccessOpen} title="Berhasil menambahkan data" />
   </div>;
 }
 
