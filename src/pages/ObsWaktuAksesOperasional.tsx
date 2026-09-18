@@ -4,7 +4,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { OperationalSpecialAccessTable } from "@/components/OperationalSpecialAccessTable";
 import { OperationalScheduleTable } from "@/components/OperationalScheduleTable";
-import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
+import { OperationalHistoryTable, type OperationalHistoryEntry } from "@/components/OperationalHistoryTable";
 import { AccessDateField, RequiredLabel } from "@/components/OperationalAccessFields";
 import { OperationalTimeRange } from "@/components/OperationalTimeRange";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
@@ -22,6 +22,7 @@ export default function ObsWaktuAksesOperasional() {
   const [activeTab, setActiveTab] = React.useState<"settings" | "special-access" | "history">("settings");
   const [schedule, setSchedule] = React.useState(defaultSchedule);
   const [status, setStatus] = React.useState(Object.fromEntries(days.map((day) => [day, "belum-diatur"])) as Record<Day, Status>);
+  const [history, setHistory] = React.useState<OperationalHistoryEntry[]>([]);
   const [editDay, setEditDay] = React.useState<Day | null>(null);
   const [editStart, setEditStart] = React.useState("");
   const [editEnd, setEditEnd] = React.useState("");
@@ -55,6 +56,9 @@ export default function ObsWaktuAksesOperasional() {
 
   const saveSchedule = () => {
     if (!editDay || (editStatus === "waktu-operasional" && (!editStart || !editEnd)) || (editRequiresReason && !editReason.trim())) return;
+    const before = status[editDay] === "waktu-operasional" ? `${editDay}: ${schedule[editDay].start} - ${schedule[editDay].end}` : `${editDay}: ${status[editDay]}`;
+    const after = editStatus === "waktu-operasional" ? `${editDay}: ${editStart} - ${editEnd}` : `${editDay}: ${editStatus}`;
+    setHistory((current) => [{ user: "Admin", changedAt: new Date().toLocaleString("id-ID"), before, after, reason: editReason }, ...current]);
     setSchedule((current) => ({ ...current, [editDay]: { start: editStart, end: editEnd } }));
     setStatus((current) => ({ ...current, [editDay]: editStatus }));
     setConfirmOpen(false);
@@ -82,7 +86,7 @@ export default function ObsWaktuAksesOperasional() {
     <div className="mt-8 flex gap-5 overflow-x-auto pb-1">{([["settings", "Pengaturan Waktu Operasional"], ["special-access", "Akses Khusus Operasional"], ["history", "Riwayat Perubahan"]] as const).map(([key, label]) => <button key={key} type="button" onClick={() => setActiveTab(key)} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold", activeTab === key ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>{label}</button>)}</div>
     {activeTab === "settings" && <Panel icon={<Clock3 />} title="Pengaturan Waktu Operasional"><OperationalScheduleTable days={days} status={status} schedule={schedule} onEdit={openEdit} /></Panel>}
     {activeTab === "special-access" && <Panel icon={<User />} title="Akses Khusus Operasional" action={<button type="button" onClick={() => setAddOpen(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-[#2864e8] px-4 text-[13px] font-semibold text-white"><Plus className="h-4 w-4" />Tambah</button>}><OperationalSpecialAccessTable users={users} onDelete={(user) => setUsers((current) => current.filter((item) => item !== user))} /></Panel>}
-    {activeTab === "history" && <Panel icon={<History />} title="Riwayat Perubahan"><OperationalHistoryTable /></Panel>}
+    {activeTab === "history" && <Panel icon={<History />} title="Riwayat Perubahan"><OperationalHistoryTable entries={history} /></Panel>}
 
     <Dialog open={editOpen} onOpenChange={setEditOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text={editRequiresReason ? "Ubah Waktu Operasional" : "Tambah Waktu Operasional"} /><div className="grid gap-5 px-5 py-7">
       <div className="operational-status-fieldset" role="group" aria-label="Status operasional"><div className="operational-status-label text-[12px]">Status operasional <span className="text-red-500">*</span></div><div className="operational-status-options"><StatusRadio label="Belum diatur" value="belum-diatur" selected={editStatus} onChange={setEditStatus} /><StatusRadio label="Waktu Operasional" value="waktu-operasional" selected={editStatus} onChange={setEditStatus} /><StatusRadio label="Operasional Tutup" value="operasional-tutup" selected={editStatus} onChange={setEditStatus} /></div></div>
