@@ -18,7 +18,7 @@ export function OperationalUserSelect({ value, onChange }: Props) {
   }, [open]);
 
   return <div ref={containerRef} className="relative">
-    <button type="button" onClick={() => setOpen((current) => !current)} className="flex h-10 w-full items-center justify-between rounded-[8px] border border-[#d8e2ef] bg-white px-3 text-left text-[13px] text-black outline-none transition focus:border-[#4169f5] focus:ring-2 focus:ring-[#4169f5]/15">
+    <button type="button" onClick={() => setOpen((current) => !current)} className="flex h-10 w-full items-center justify-between rounded-[8px] border border-[#d8e2ef] bg-white px-3 text-left text-[13px] text-black outline-none transition focus:outline-none focus:ring-0">
       <span>{value || "Pilih user"}</span><ChevronDown className={`h-4 w-4 text-slate-700 transition-transform ${open ? "rotate-180" : ""}`} />
     </button>
     {open && <div className="absolute z-50 mt-1 w-full overflow-hidden rounded-[8px] border border-[#d8e2ef] bg-white p-1 shadow-xl">
