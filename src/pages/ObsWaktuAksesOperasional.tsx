@@ -46,8 +46,8 @@ export default function ObsWaktuAksesOperasional() {
   const openEdit = (day: Day) => {
     const existingSchedule = status[day] !== "belum-diatur";
     setEditDay(day);
-    setEditStart(schedule[day].start);
-    setEditEnd(schedule[day].end);
+    setEditStart(existingSchedule ? schedule[day].start : "");
+    setEditEnd(existingSchedule ? schedule[day].end : "");
     setEditStatus(status[day]);
     setEditReason("");
     setEditRequiresReason(existingSchedule);
