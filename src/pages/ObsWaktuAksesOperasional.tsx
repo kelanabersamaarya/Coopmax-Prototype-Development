@@ -10,6 +10,7 @@ import { OperationalUserSelect } from "@/components/OperationalUserSelect";
 import { OperationalTimeRange } from "@/components/OperationalTimeRange";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
 import { OperationalSuccessDialog } from "@/components/OperationalSuccessDialog";
+import { OperationalWarningDialog } from "@/components/OperationalWarningDialog";
 
 type Day = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
 type Status = "belum-diatur" | "waktu-operasional" | "operasional-tutup";
@@ -55,6 +56,7 @@ export default function ObsWaktuAksesOperasional() {
   const [userToDelete, setUserToDelete] = React.useState<UserAccess | null>(null);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
+  const [durationWarningOpen, setDurationWarningOpen] = React.useState(false);
   const [newAccess, setNewAccess] = React.useState<AccessForm>(emptyForm);
   const canSave = Object.values(newAccess).every(Boolean);
   const showOperationalFields = editStatus === "waktu-operasional";
@@ -90,7 +92,16 @@ export default function ObsWaktuAksesOperasional() {
     if (editDay && (editStatus !== "waktu-operasional" || (editStart && editEnd)) && (!editRequiresReason || editReason.trim())) setConfirmOpen(true);
   };
 
-  const requestAdd = () => { if (canSave) setAddConfirmOpen(true); };
+  const requestAdd = () => {
+    if (!canSave) return;
+    const start = new Date(`${newAccess.startDate}T${newAccess.start}`);
+    const end = new Date(`${newAccess.endDate}T${newAccess.end}`);
+    if (end.getTime() - start.getTime() > 24 * 60 * 60 * 1000) {
+      setDurationWarningOpen(true);
+      return;
+    }
+    setAddConfirmOpen(true);
+  };
   const requestDelete = (user: UserAccess) => {
     setUserToDelete(user);
     setDeleteConfirmOpen(true);
@@ -127,6 +138,7 @@ export default function ObsWaktuAksesOperasional() {
     <OperationalConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} onConfirm={saveSchedule} />
     <OperationalSuccessDialog open={scheduleSuccessOpen} onOpenChange={setScheduleSuccessOpen} title="Berhasil menyimpan data" />
     <Dialog open={addOpen} onOpenChange={setAddOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text="Tambah Akses Khusus Operasional" /><div className="grid gap-4 px-5 py-7"><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><RequiredLabel>User</RequiredLabel><OperationalUserSelect value={newAccess.user} onChange={(value) => update("user", value)} /></label><AccessDateField label="Mulai operasional" date={newAccess.startDate} time={newAccess.start} onDateChange={(v) => update("startDate", v)} onTimeChange={(v) => update("start", v)} /><AccessDateField label="Selesai operasional" date={newAccess.endDate} time={newAccess.end} onDateChange={(v) => update("endDate", v)} onTimeChange={(v) => update("end", v)} /><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-start"><RequiredLabel>Alasan Pemberian Akses</RequiredLabel><textarea value={newAccess.reason} onChange={(e) => update("reason", e.target.value)} className="min-h-[122px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan pemberian akses" /></label></div><Footer cancel={() => setAddOpen(false)} save={requestAdd} disabled={!canSave} /></DialogContent></Dialog>
+    <OperationalWarningDialog open={durationWarningOpen} onOpenChange={setDurationWarningOpen} />
     <OperationalConfirmDialog open={addConfirmOpen} onOpenChange={setAddConfirmOpen} onConfirm={addUser} />
     <OperationalConfirmDialog open={deleteConfirmOpen} onOpenChange={(open) => { setDeleteConfirmOpen(open); if (!open) setUserToDelete(null); }} onConfirm={deleteUser} title="Yakin untuk menghapus data?" />
     <OperationalSuccessDialog open={deleteSuccessOpen} onOpenChange={setDeleteSuccessOpen} title="Berhasil Menghapus Data" />
