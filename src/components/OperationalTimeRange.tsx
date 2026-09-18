@@ -24,7 +24,7 @@ function TimeField({ label, value, onChange }: { label: string; value: string; o
   }, [open]);
 
   return <div ref={fieldRef} className="relative min-w-0 flex-1">
-    <button type="button" aria-label={label} aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className={`flex h-9 w-full items-center justify-between rounded-[6px] border bg-white py-1 pl-3 pr-2 text-left text-[13px] shadow-sm transition-colors hover:border-[#93b4df] focus:outline-none focus:ring-2 focus:ring-[#bfdbfe] ${value ? "text-slate-900" : "text-slate-400"}`}>
+    <button type="button" aria-label={label} aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className={`flex h-9 w-full items-center justify-between rounded-[6px] border bg-white py-1 pl-3 pr-2 text-left text-[13px] shadow-sm transition-colors hover:border-[#93b4df] focus:outline-none focus-visible:outline-none focus-visible:ring-0 ${value ? "text-slate-900" : "text-slate-400"}`}>
       <span className="truncate">{value || label}</span>
       <Clock3 className="h-4 w-4 shrink-0 text-slate-700" />
     </button>
