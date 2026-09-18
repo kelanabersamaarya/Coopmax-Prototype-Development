@@ -22,8 +22,8 @@ export function OperationalUserSelect({ value, onChange }: Props) {
       <span className={value ? "text-black" : "text-slate-400"}>{value || "Pilih user"}</span><ChevronDown className={`h-4 w-4 text-slate-700 transition-transform ${open ? "rotate-180" : ""}`} />
     </button>
     {open && <div className="absolute z-50 mt-1 w-full overflow-hidden rounded-[8px] border border-[#d8e2ef] bg-white p-1 shadow-xl">
-      <button type="button" onClick={() => { onChange(""); setOpen(false); }} className={`w-full rounded-[6px] px-3 py-2 text-left text-[13px] transition hover:bg-[#246bd1] hover:text-white ${!value ? "bg-[#246bd1] font-semibold text-white" : "text-black"}`}>Pilih user</button>
-      {options.map((option) => <button key={option} type="button" onClick={() => { onChange(option); setOpen(false); }} className={`w-full rounded-[6px] px-3 py-2 text-left text-[13px] transition hover:bg-[#246bd1] hover:text-white ${value === option ? "bg-[#246bd1] font-semibold text-white" : "text-black"}`}>{option}</button>)}
+      <button type="button" onClick={() => { onChange(""); setOpen(false); }} className="w-full rounded-[6px] px-3 py-2 text-left text-[13px] font-semibold text-black transition hover:bg-[#246bd1] hover:text-white">Pilih user</button>
+      {options.map((option) => <button key={option} type="button" onClick={() => { onChange(option); setOpen(false); }} className="w-full rounded-[6px] px-3 py-2 text-left text-[13px] text-black transition hover:bg-[#246bd1] hover:text-white">{option}</button>)}
     </div>}
   </div>;
 }
