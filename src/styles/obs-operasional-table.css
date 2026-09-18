@@ -16,10 +16,10 @@
 
 .obs-operasional-page .operational-status-options {
   grid-column: 2 !important;
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, max-content) !important;
   align-items: center !important;
-  flex-wrap: nowrap !important;
-  gap: 28px !important;
+  gap: 12px 28px !important;
   min-width: 0 !important;
   width: max-content !important;
   max-width: 100% !important;
@@ -55,7 +55,7 @@
   }
 
   .obs-operasional-page .operational-status-options {
-    flex-wrap: wrap !important;
+    grid-template-columns: repeat(2, max-content) !important;
     row-gap: 12px !important;
   }
 }
