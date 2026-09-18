@@ -6,6 +6,7 @@ import { OperationalSpecialAccessTable } from "@/components/OperationalSpecialAc
 import { OperationalScheduleTable } from "@/components/OperationalScheduleTable";
 import { OperationalHistoryTable } from "@/components/OperationalHistoryTable";
 import { AccessDateField, RequiredLabel } from "@/components/OperationalAccessFields";
+import { OperationalTimeRange } from "@/components/OperationalTimeRange";
 
 type Day = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
 type Status = "belum-diatur" | "waktu-operasional" | "operasional-tutup";
@@ -83,7 +84,7 @@ export default function ObsWaktuAksesOperasional() {
 
     <Dialog open={editOpen} onOpenChange={setEditOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text={editRequiresReason ? "Ubah Waktu Operasional" : `Atur Waktu Operasional ${editDay ?? ""}`} /><div className="grid gap-5 px-5 py-7">
       <div className="operational-status-fieldset" role="group" aria-label="Status operasional"><div className="operational-status-label">Status operasional <span className="text-red-500">*</span></div><div className="operational-status-options"><StatusRadio label="Belum diatur" value="belum-diatur" selected={editStatus} onChange={setEditStatus} /><StatusRadio label="Waktu Operasional" value="waktu-operasional" selected={editStatus} onChange={setEditStatus} /><StatusRadio label="Operasional Tutup" value="operasional-tutup" selected={editStatus} onChange={setEditStatus} /></div></div>
-      {showOperationalFields && <><TimeSelect label="Mulai operasional" value={editStart} onChange={setEditStart} /><TimeSelect label="Selesai operasional" value={editEnd} onChange={setEditEnd} /></>}
+      {showOperationalFields && <OperationalTimeRange start={editStart} end={editEnd} onStartChange={setEditStart} onEndChange={setEditEnd} />}
       {editRequiresReason && <label className="grid gap-2 sm:grid-cols-[200px_1fr] sm:items-start"><RequiredLabel>Alasan perubahan</RequiredLabel><textarea value={editReason} onChange={(event) => setEditReason(event.target.value)} required className="min-h-[100px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan perubahan" /></label>}
     </div><Footer cancel={() => setEditOpen(false)} save={requestScheduleSave} disabled={(showOperationalFields && (!editStart || !editEnd)) || (editRequiresReason && !editReason.trim())} /></DialogContent></Dialog>
     <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}><DialogContent className="max-w-[520px] text-center"><AlertCircle className="mx-auto h-20 w-20 text-[#ffb06f]" /><h3 className="mt-5 text-[28px] font-semibold text-[#4a607c]">Yakin untuk menyimpan data ?</h3><div className="mt-7 flex justify-center gap-2"><button type="button" onClick={() => setConfirmOpen(false)} className="rounded bg-[#a9a9a9] px-8 py-3 font-semibold text-white">Cancel</button><button type="button" onClick={saveSchedule} className="rounded bg-[#3189d8] px-8 py-3 font-semibold text-white">Yes</button></div></DialogContent></Dialog>
