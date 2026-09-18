@@ -2,7 +2,7 @@ import { CalendarDays, Clock3 } from "lucide-react";
 import * as React from "react";
 import { Calendar } from "@/components/ui/calendar";
 
-const times = Array.from({ length: 48 }, (_, index) => `${String(Math.floor(index / 2)).padStart(2, "0")}:${index % 2 ? "30" : "00"}`);
+const times = Array.from({ length: 24 }, (_, index) => `${String(index).padStart(2, "0")}:00`);
 
 function parseDate(value: string) {
   if (!value) return undefined;
