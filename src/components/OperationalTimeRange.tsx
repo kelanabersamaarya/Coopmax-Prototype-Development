@@ -2,7 +2,7 @@ import * as React from "react";
 import { Check, Clock3 } from "lucide-react";
 import { RequiredLabel } from "./OperationalAccessFields";
 
-const times = Array.from({ length: 48 }, (_, index) => `${String(Math.floor(index / 2)).padStart(2, "0")}:${index % 2 ? "30" : "00"}`);
+const times = Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
 
 type Props = { start: string; end: string; onStartChange: (value: string) => void; onEndChange: (value: string) => void };
 
