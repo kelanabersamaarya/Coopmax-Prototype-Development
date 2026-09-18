@@ -50,6 +50,8 @@ export default function ObsWaktuAksesOperasional() {
   ]);
   const [addOpen, setAddOpen] = React.useState(false);
   const [addConfirmOpen, setAddConfirmOpen] = React.useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+  const [userToDelete, setUserToDelete] = React.useState<UserAccess | null>(null);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [newAccess, setNewAccess] = React.useState<AccessForm>(emptyForm);
   const canSave = Object.values(newAccess).every(Boolean);
@@ -87,6 +89,16 @@ export default function ObsWaktuAksesOperasional() {
   };
 
   const requestAdd = () => { if (canSave) setAddConfirmOpen(true); };
+  const requestDelete = (user: UserAccess) => {
+    setUserToDelete(user);
+    setDeleteConfirmOpen(true);
+  };
+  const deleteUser = () => {
+    if (!userToDelete) return;
+    setUsers((current) => current.filter((item) => item !== userToDelete));
+    setUserToDelete(null);
+    setDeleteConfirmOpen(false);
+  };
   const addUser = () => {
     if (!canSave) return;
     setUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", startDate: newAccess.startDate, endDate: newAccess.endDate, start: newAccess.start, end: newAccess.end, reason: newAccess.reason }]);
@@ -101,7 +113,7 @@ export default function ObsWaktuAksesOperasional() {
     <h1 className="text-[25px] font-extrabold tracking-tight text-[#002060]">Operasional Harian</h1>
     <div className="mt-8 flex gap-5 overflow-x-auto pb-1">{([["settings", "Waktu Operasional"], ["special-access", "Akses Khusus Operasional"], ["history", "Riwayat Perubahan"]] as const).map(([key, label]) => <button key={key} type="button" onClick={() => setActiveTab(key)} className={cn("h-[49px] shrink-0 rounded-full px-5 text-[12px] font-semibold", activeTab === key ? "bg-[#635BFF] text-white" : "text-[#53657d] hover:text-[#635BFF]")}>{label}</button>)}</div>
     {activeTab === "settings" && <Panel icon={<Clock3 />} title="Pengaturan Waktu Operasional"><OperationalScheduleTable days={days} status={status} schedule={schedule} onEdit={openEdit} /></Panel>}
-    {activeTab === "special-access" && <Panel icon={<User />} title="Akses Khusus Operasional" action={<button type="button" onClick={() => setAddOpen(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-[#2864e8] px-4 text-[13px] font-semibold text-white"><Plus className="h-4 w-4" />Tambah</button>}><OperationalSpecialAccessTable users={users} onDelete={(user) => setUsers((current) => current.filter((item) => item !== user))} /></Panel>}
+    {activeTab === "special-access" && <Panel icon={<User />} title="Akses Khusus Operasional" action={<button type="button" onClick={() => setAddOpen(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-[#2864e8] px-4 text-[13px] font-semibold text-white"><Plus className="h-4 w-4" />Tambah</button>}><OperationalSpecialAccessTable users={users} onDelete={requestDelete} /></Panel>}
     {activeTab === "history" && <Panel icon={<History />} title="Riwayat Perubahan"><OperationalHistoryTable entries={history} /></Panel>}
 
     <Dialog open={editOpen} onOpenChange={setEditOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text={editRequiresReason ? "Ubah Waktu Operasional" : "Tambah Waktu Operasional"} /><div className="grid gap-5 px-5 py-7">
@@ -113,6 +125,7 @@ export default function ObsWaktuAksesOperasional() {
     <OperationalSuccessDialog open={scheduleSuccessOpen} onOpenChange={setScheduleSuccessOpen} title="Berhasil menyimpan data" />
     <Dialog open={addOpen} onOpenChange={setAddOpen}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text="Tambah Akses Khusus Operasional" /><div className="grid gap-4 px-5 py-7"><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><RequiredLabel>User</RequiredLabel><select value={newAccess.user} onChange={(e) => update("user", e.target.value)} className="h-9 rounded-[6px] border px-3 text-[13px]"><option value="">Pilih user</option>{["Siti Aminah", "Andi Wijaya", "Dewi Lestari"].map((user) => <option key={user}>{user}</option>)}</select></label><AccessDateField label="Mulai operasional" date={newAccess.startDate} time={newAccess.start} onDateChange={(v) => update("startDate", v)} onTimeChange={(v) => update("start", v)} /><AccessDateField label="Selesai operasional" date={newAccess.endDate} time={newAccess.end} onDateChange={(v) => update("endDate", v)} onTimeChange={(v) => update("end", v)} /><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-start"><RequiredLabel>Alasan Pemberian Akses</RequiredLabel><textarea value={newAccess.reason} onChange={(e) => update("reason", e.target.value)} className="min-h-[122px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan pemberian akses" /></label></div><Footer cancel={() => setAddOpen(false)} save={requestAdd} disabled={!canSave} /></DialogContent></Dialog>
     <OperationalConfirmDialog open={addConfirmOpen} onOpenChange={setAddConfirmOpen} onConfirm={addUser} />
+    <OperationalConfirmDialog open={deleteConfirmOpen} onOpenChange={(open) => { setDeleteConfirmOpen(open); if (!open) setUserToDelete(null); }} onConfirm={deleteUser} title="Yakin untuk menghapus data?" />
     <OperationalSuccessDialog open={successOpen} onOpenChange={setSuccessOpen} title="Berhasil menambahkan data" />
   </div>;
 }
