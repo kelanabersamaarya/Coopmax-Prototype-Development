@@ -1,8 +1,8 @@
 .operational-status-fieldset {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) !important;
-  align-items: start !important;
-  row-gap: 6px !important;
+  grid-template-columns: 200px minmax(0, 1fr) !important;
+  align-items: center !important;
+  column-gap: 0 !important;
   width: 100% !important;
   margin: 0 !important;
 }
@@ -15,7 +15,7 @@
 }
 
 .operational-status-options {
-  grid-column: 1 !important;
+  grid-column: 2 !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
