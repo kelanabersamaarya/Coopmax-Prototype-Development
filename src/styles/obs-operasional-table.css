@@ -16,19 +16,18 @@
 
 .obs-operasional-page .operational-status-options {
   grid-column: 2 !important;
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   align-items: center !important;
-  flex-wrap: nowrap !important;
-  gap: 20px !important;
+  gap: 12px !important;
   min-width: 0 !important;
-  overflow-x: auto !important;
   padding: 2px 0 !important;
 }
 
 .obs-operasional-page .operational-status-options > label {
-  display: inline-flex !important;
+  display: flex !important;
   align-items: center !important;
-  flex: 0 0 auto !important;
+  min-width: 0 !important;
   gap: 8px !important;
   white-space: nowrap !important;
   font-size: 13px !important;
