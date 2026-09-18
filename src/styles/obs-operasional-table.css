@@ -18,9 +18,11 @@
   grid-column: 2 !important;
   display: flex !important;
   align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 12px 28px !important;
+  flex-wrap: nowrap !important;
+  gap: 20px !important;
   min-width: 0 !important;
+  overflow-x: auto !important;
+  padding: 2px 0 !important;
 }
 
 .obs-operasional-page .operational-status-options > label {
@@ -39,17 +41,4 @@
   flex: 0 0 auto !important;
   margin: 0 !important;
   accent-color: #4169f5 !important;
-}
-
-@media (max-width: 639px) {
-  .obs-operasional-page .operational-status-fieldset {
-    grid-template-columns: 1fr !important;
-    align-items: start !important;
-    row-gap: 8px !important;
-  }
-
-  .obs-operasional-page .operational-status-label,
-  .obs-operasional-page .operational-status-options {
-    grid-column: 1 !important;
-  }
 }
