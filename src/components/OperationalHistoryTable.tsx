@@ -11,7 +11,7 @@ export type OperationalHistoryEntry = {
 type Props = { entries: OperationalHistoryEntry[] };
 const rowsPerPage = 20;
 const cellClass = "border-r border-[#D7DEE9] px-3 py-3 align-top break-words last:border-r-0";
-const headerClass = "border-r border-[#D7DEE9] px-3 py-3 align-top font-bold leading-5 last:border-r-0";
+const headerClass = "border-r border-[#D7DEE9] px-3 py-3 align-top font-bold uppercase leading-5 last:border-r-0";
 
 export function OperationalHistoryTable({ entries }: Props) {
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -25,7 +25,7 @@ export function OperationalHistoryTable({ entries }: Props) {
     <div className="overflow-x-auto rounded-[5px] border border-[#D7DEE9]">
       <table className="w-full min-w-[960px] table-fixed border-collapse text-left text-[12px] text-[#334155]">
         <colgroup><col className="w-[6%]" /><col className="w-[12%]" /><col className="w-[17%]" /><col className="w-[22%]" /><col className="w-[22%]" /><col className="w-[21%]" /></colgroup>
-        <thead className="bg-[#F7F8FC] text-[#17345f]"><tr><th className={headerClass}>No.</th><th className={headerClass}>User</th><th className={headerClass}>Tanggal dan Waktu Perubahan</th><th className={headerClass}>Jam Operasional Sebelum Perubahan Per Hari</th><th className={headerClass}>Jam Operasional Sesudah Perubahan Per Hari</th><th className={headerClass}>Alasan Perubahan</th></tr></thead>
+        <thead className="text-[#17345f]"><tr><th className={headerClass}>No.</th><th className={headerClass}>User</th><th className={headerClass}>Tanggal dan Waktu Perubahan</th><th className={headerClass}>Jam Operasional Sebelum Perubahan Per Hari</th><th className={headerClass}>Jam Operasional Sesudah Perubahan Per Hari</th><th className={headerClass}>Alasan Perubahan</th></tr></thead>
         <tbody>{visibleEntries.length === 0 ? <tr className="border-t border-[#D7DEE9]"><td colSpan={6} className="px-3 py-8 text-center text-[#64748b]">Belum ada riwayat perubahan</td></tr> : visibleEntries.map((entry, index) => <tr key={`${entry.changedAt}-${index}`} className="border-t border-[#D7DEE9]"><td className={cellClass}>{(currentPage - 1) * rowsPerPage + index + 1}</td><td className={cellClass}>{entry.user}</td><td className={cellClass}>{entry.changedAt}</td><td className={cellClass}>{entry.before}</td><td className={cellClass}>{entry.after}</td><td className={cellClass}>{entry.reason || "-"}</td></tr>)}</tbody>
       </table>
     </div>
