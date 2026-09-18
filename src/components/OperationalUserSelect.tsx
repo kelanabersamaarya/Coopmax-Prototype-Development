@@ -6,7 +6,18 @@ const options = ["Siti Aminah", "Andi Wijaya", "Dewi Lestari"];
 
 export function OperationalUserSelect({ value, onChange }: Props) {
   const [open, setOpen] = React.useState(false);
-  return <div className="relative">
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!open) return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [open]);
+
+  return <div ref={containerRef} className="relative">
     <button type="button" onClick={() => setOpen((current) => !current)} className="flex h-10 w-full items-center justify-between rounded-[8px] border border-[#d8e2ef] bg-white px-3 text-left text-[13px] text-black outline-none transition hover:border-[#9db5d3] focus:border-[#4169f5] focus:ring-2 focus:ring-[#4169f5]/15">
       <span>{value || "Pilih user"}</span><ChevronDown className={`h-4 w-4 text-slate-700 transition-transform ${open ? "rotate-180" : ""}`} />
     </button>
