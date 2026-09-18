@@ -1,4 +1,4 @@
-.obs-operasional-page .operational-status-fieldset {
+.operational-status-fieldset {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
   align-items: start !important;
@@ -7,14 +7,14 @@
   margin: 0 !important;
 }
 
-.obs-operasional-page .operational-status-label {
+.operational-status-label {
   grid-column: 1 !important;
   white-space: nowrap !important;
   font-size: 12px !important;
   color: #17345f !important;
 }
 
-.obs-operasional-page .operational-status-options {
+.operational-status-options {
   grid-column: 1 !important;
   display: flex !important;
   flex-direction: row !important;
@@ -26,7 +26,7 @@
   overflow: visible !important;
 }
 
-.obs-operasional-page .operational-status-options > label {
+.operational-status-options > label {
   display: inline-flex !important;
   align-items: center !important;
   flex: 0 0 auto !important;
@@ -37,7 +37,7 @@
   color: #17345f !important;
 }
 
-.obs-operasional-page .operational-status-options > label > input[type="radio"] {
+.operational-status-options > label > input[type="radio"] {
   width: 16px !important;
   height: 16px !important;
   flex: 0 0 auto !important;
