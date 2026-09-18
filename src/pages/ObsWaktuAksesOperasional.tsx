@@ -17,12 +17,24 @@ type AccessForm = Omit<UserAccess, "status"> & { user: string };
 const days: Day[] = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 const defaultSchedule = Object.fromEntries(days.map((day) => [day, { start: "08:00", end: day === "Sabtu" || day === "Minggu" ? "13:00" : "16:00" }])) as Record<Day, { start: string; end: string }>;
 const emptyForm: AccessForm = { user: "", startDate: "", endDate: "", start: "", end: "", reason: "" };
+const scheduleStorageKey = "obs-operasional-schedule";
+const statusStorageKey = "obs-operasional-status";
+const historyStorageKey = "obs-operasional-history";
+
+function readStorage<T>(key: string, fallback: T): T {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) as T : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export default function ObsWaktuAksesOperasional() {
   const [activeTab, setActiveTab] = React.useState<"settings" | "special-access" | "history">("settings");
-  const [schedule, setSchedule] = React.useState(defaultSchedule);
-  const [status, setStatus] = React.useState(Object.fromEntries(days.map((day) => [day, "belum-diatur"])) as Record<Day, Status>);
-  const [history, setHistory] = React.useState<OperationalHistoryEntry[]>([]);
+  const [schedule, setSchedule] = React.useState<Record<Day, { start: string; end: string }>>(() => readStorage(scheduleStorageKey, defaultSchedule));
+  const [status, setStatus] = React.useState<Record<Day, Status>>(() => readStorage(statusStorageKey, Object.fromEntries(days.map((day) => [day, "belum-diatur"])) as Record<Day, Status>));
+  const [history, setHistory] = React.useState<OperationalHistoryEntry[]>(() => readStorage(historyStorageKey, []));
   const [editDay, setEditDay] = React.useState<Day | null>(null);
   const [editStart, setEditStart] = React.useState("");
   const [editEnd, setEditEnd] = React.useState("");
@@ -42,6 +54,10 @@ export default function ObsWaktuAksesOperasional() {
   const [newAccess, setNewAccess] = React.useState<AccessForm>(emptyForm);
   const canSave = Object.values(newAccess).every(Boolean);
   const showOperationalFields = editStatus === "waktu-operasional";
+
+  React.useEffect(() => { localStorage.setItem(scheduleStorageKey, JSON.stringify(schedule)); }, [schedule]);
+  React.useEffect(() => { localStorage.setItem(statusStorageKey, JSON.stringify(status)); }, [status]);
+  React.useEffect(() => { localStorage.setItem(historyStorageKey, JSON.stringify(history)); }, [history]);
 
   const openEdit = (day: Day) => {
     const existingSchedule = status[day] !== "belum-diatur";
