@@ -22,6 +22,7 @@ const emptyForm: AccessForm = { user: "", startDate: "", endDate: "", start: "",
 const scheduleStorageKey = "obs-operasional-schedule";
 const statusStorageKey = "obs-operasional-status";
 const historyStorageKey = "obs-operasional-history";
+const usersStorageKey = "obs-operasional-special-access-users";
 
 function readStorage<T>(key: string, fallback: T): T {
   try {
@@ -46,10 +47,10 @@ export default function ObsWaktuAksesOperasional() {
   const [editOpen, setEditOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [scheduleSuccessOpen, setScheduleSuccessOpen] = React.useState(false);
-  const [users, setUsers] = React.useState<UserAccess[]>([
+  const [users, setUsers] = React.useState<UserAccess[]>(() => readStorage(usersStorageKey, [
     { name: "Budi Santoso", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
     { name: "Siti Aminah", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
-  ]);
+  ]));
   const [addOpen, setAddOpen] = React.useState(false);
   const [addConfirmOpen, setAddConfirmOpen] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
@@ -64,6 +65,7 @@ export default function ObsWaktuAksesOperasional() {
   React.useEffect(() => { localStorage.setItem(scheduleStorageKey, JSON.stringify(schedule)); }, [schedule]);
   React.useEffect(() => { localStorage.setItem(statusStorageKey, JSON.stringify(status)); }, [status]);
   React.useEffect(() => { localStorage.setItem(historyStorageKey, JSON.stringify(history)); }, [history]);
+  React.useEffect(() => { localStorage.setItem(usersStorageKey, JSON.stringify(users)); }, [users]);
 
   const openEdit = (day: Day) => {
     const existingSchedule = status[day] !== "belum-diatur";
