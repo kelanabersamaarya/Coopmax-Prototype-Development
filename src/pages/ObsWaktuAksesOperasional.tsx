@@ -11,6 +11,7 @@ import { OperationalTimeRange } from "@/components/OperationalTimeRange";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
 import { OperationalSuccessDialog } from "@/components/OperationalSuccessDialog";
 import { OperationalWarningDialog } from "@/components/OperationalWarningDialog";
+import { formatCurrentOperationalDateTime } from "@/lib/operational-date-time";
 
 type Day = "Senin" | "Selasa" | "Rabu" | "Kamis" | "Jumat" | "Sabtu" | "Minggu";
 type Status = "belum-diatur" | "waktu-operasional" | "operasional-tutup";
@@ -82,7 +83,7 @@ export default function ObsWaktuAksesOperasional() {
     if (!editDay || (editStatus === "waktu-operasional" && (!editStart || !editEnd)) || (editRequiresReason && !editReason.trim())) return;
     const before = status[editDay] === "waktu-operasional" ? `${editDay}: ${schedule[editDay].start} - ${schedule[editDay].end}` : `${editDay}: ${status[editDay]}`;
     const after = editStatus === "waktu-operasional" ? `${editDay}: ${editStart} - ${editEnd}` : `${editDay}: ${editStatus}`;
-    setHistory((current) => [{ user: "Admin", changedAt: new Date().toLocaleString("id-ID"), before, after, reason: editReason }, ...current]);
+    setHistory((current) => [{ user: "Admin", changedAt: formatCurrentOperationalDateTime(), before, after, reason: editReason }, ...current]);
     setSchedule((current) => ({ ...current, [editDay]: { start: editStart, end: editEnd } }));
     setStatus((current) => ({ ...current, [editDay]: editStatus }));
     setConfirmOpen(false);
