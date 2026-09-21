@@ -9,6 +9,7 @@ import { AccessDateField, RequiredLabel } from "@/components/OperationalAccessFi
 import { OperationalUserSelect } from "@/components/OperationalUserSelect";
 import { OperationalTimeRange } from "@/components/OperationalTimeRange";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
+import { OperationalCancelAccessDialog } from "@/components/OperationalCancelAccessDialog";
 import { OperationalSuccessDialog } from "@/components/OperationalSuccessDialog";
 import { OperationalWarningDialog } from "@/components/OperationalWarningDialog";
 import { formatCurrentOperationalDateTime } from "@/lib/operational-date-time";
@@ -59,6 +60,8 @@ export default function ObsWaktuAksesOperasional() {
   const [addOpen, setAddOpen] = React.useState(false);
   const [addConfirmOpen, setAddConfirmOpen] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
+  const [cancelAccessOpen, setCancelAccessOpen] = React.useState(false);
+  const [cancelReason, setCancelReason] = React.useState("");
   const [userToDelete, setUserToDelete] = React.useState<UserAccess | null>(null);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -111,13 +114,16 @@ export default function ObsWaktuAksesOperasional() {
   };
   const requestDelete = (user: UserAccess) => {
     setUserToDelete(user);
-    setDeleteConfirmOpen(true);
+    setCancelReason("");
+    setCancelAccessOpen(true);
   };
   const deleteUser = () => {
-    if (!userToDelete) return;
+    if (!userToDelete || !cancelReason.trim()) return;
     setUsers((current) => current.filter((item) => item !== userToDelete));
+    setHistory((current) => [{ user: "Admin", changedAt: formatCurrentOperationalDateTime(), before: `Akses khusus: ${userToDelete.name}`, after: "Akses dibatalkan", reason: cancelReason }, ...current]);
     setUserToDelete(null);
-    setDeleteConfirmOpen(false);
+    setCancelReason("");
+    setCancelAccessOpen(false);
     setDeleteSuccessOpen(true);
   };
   const addUser = () => {
@@ -147,8 +153,8 @@ export default function ObsWaktuAksesOperasional() {
     <Dialog open={addOpen} onOpenChange={(open) => { setAddOpen(open); setNewAccess(emptyForm); }}><DialogContent className="w-[calc(100vw-2rem)] max-w-[760px] rounded-[6px] bg-white p-0"><ModalTitle text="Tambah Akses Khusus Operasional" /><div className="grid gap-4 px-5 py-7"><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-center"><RequiredLabel>User</RequiredLabel><OperationalUserSelect value={newAccess.user} onChange={(value) => update("user", value)} /></label><AccessDateField label="Mulai operasional" date={newAccess.startDate} time={newAccess.start} onDateChange={(v) => update("startDate", v)} onTimeChange={(v) => update("start", v)} /><AccessDateField label="Selesai operasional" date={newAccess.endDate} time={newAccess.end} onDateChange={(v) => update("endDate", v)} onTimeChange={(v) => update("end", v)} /><label className="grid gap-2 sm:grid-cols-[210px_1fr] sm:items-start"><RequiredLabel>Alasan Pemberian Akses</RequiredLabel><textarea value={newAccess.reason} onChange={(e) => update("reason", e.target.value)} className="min-h-[122px] rounded-[6px] border px-3 py-3 text-[13px]" placeholder="Masukkan alasan pemberian akses" /></label></div><Footer cancel={() => { setNewAccess(emptyForm); setAddOpen(false); }} save={requestAdd} disabled={!canSave} /></DialogContent></Dialog>
     <OperationalWarningDialog open={durationWarningOpen} onOpenChange={setDurationWarningOpen} />
     <OperationalConfirmDialog open={addConfirmOpen} onOpenChange={setAddConfirmOpen} onConfirm={addUser} />
-    <OperationalConfirmDialog open={deleteConfirmOpen} onOpenChange={(open) => { setDeleteConfirmOpen(open); if (!open) setUserToDelete(null); }} onConfirm={deleteUser} title="Yakin untuk menghapus data?" />
-    <OperationalSuccessDialog open={deleteSuccessOpen} onOpenChange={setDeleteSuccessOpen} title="Berhasil Menghapus Data" />
+    <OperationalCancelAccessDialog open={cancelAccessOpen} reason={cancelReason} onReasonChange={setCancelReason} onOpenChange={(open) => { setCancelAccessOpen(open); if (!open) { setUserToDelete(null); setCancelReason(""); } }} onConfirm={deleteUser} />
+    <OperationalSuccessDialog open={deleteSuccessOpen} onOpenChange={setDeleteSuccessOpen} title="Berhasil Membatalkan Akses" />
     <OperationalSuccessDialog open={successOpen} onOpenChange={setSuccessOpen} title="Berhasil menambahkan data" />
   </div>;
 }
