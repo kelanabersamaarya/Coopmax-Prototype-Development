@@ -41,7 +41,7 @@ export default function LoginSimulasi() {
               <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
             </div>
             <p className="mt-1 text-[12px] leading-[1.45]">
-              Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan coba masuk kembali pada jam operasional.
+              Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan masuk kembali pada jam operasional.
             </p>
           </div>
         ) : null}
