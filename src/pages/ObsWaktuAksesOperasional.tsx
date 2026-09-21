@@ -129,7 +129,7 @@ export default function ObsWaktuAksesOperasional() {
   };
   const addUser = () => {
     if (!canSave) return;
-    setUsers((current) => [...current, { name: newAccess.user, status: "Waktu Operasional", startDate: newAccess.startDate, endDate: newAccess.endDate, start: newAccess.start, end: newAccess.end, reason: newAccess.reason }]);
+    setUsers((current) => [{ name: newAccess.user, status: "Waktu Operasional", startDate: newAccess.startDate, endDate: newAccess.endDate, start: newAccess.start, end: newAccess.end, reason: newAccess.reason }, ...current]);
     setAddConfirmOpen(false);
     setAddOpen(false);
     setNewAccess(emptyForm);
