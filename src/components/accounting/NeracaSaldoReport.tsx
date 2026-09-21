@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { openBlankReportPdfPreview, openReportPdfPreview } from "@/utils/pdf-preview";
 import { NeracaSaldoRecapTable } from "@/components/accounting/AccountingRecapTables";
 
@@ -85,7 +86,7 @@ const recapRows = [
 export default function NeracaSaldoReport() {
   const [period, setPeriod] = React.useState("Perbulan");
   const [date, setDate] = React.useState("2026-09-10");
-  const [reportType, setReportType] = React.useState("Laporan Terperinci");
+  const [showRecap, setShowRecap] = React.useState(false);
   const [shownDate, setShownDate] = React.useState("10 September 2026");
   const [isReportVisible, setIsReportVisible] = React.useState(false);
 
@@ -151,7 +152,7 @@ export default function NeracaSaldoReport() {
         });
       };
 
-      if (reportType === "Laporan Terperinci" && table) {
+      if (!showRecap && table) {
         if (layout === "Scontro") {
           const leftTable = table.cloneNode(true) as HTMLTableElement;
           const rightTable = table.cloneNode(true) as HTMLTableElement;
@@ -170,7 +171,7 @@ export default function NeracaSaldoReport() {
           boldDescriptionsInTable(staffelTable);
           reportContent = staffelTable.outerHTML;
         }
-      } else if (reportType === "Laporan Rekap") {
+      } else if (showRecap) {
         const recapTables = Array.from(reportArea.querySelectorAll("table")) as HTMLTableElement[];
         recapTables.forEach(boldRecapRows);
         if (layout === "Staffel" && recapTables.length > 1) {
@@ -189,7 +190,7 @@ export default function NeracaSaldoReport() {
       openReportPdfPreview({
         title: `Neraca Saldo - ${layout}`,
         targetWindow: previewWindow,
-        reportHtml: `<style>.neraca-${layout.toLowerCase()} { width: 100%; }.neraca-${layout.toLowerCase()} table { border-collapse: collapse; }.neraca-${layout.toLowerCase()} table thead th { text-align: inherit; }.neraca-${layout.toLowerCase()} table tbody td.neraca-bold-description { font-weight: 700 !important; }.neraca-${layout.toLowerCase()} table tbody tr.neraca-bold-row td:first-child { font-weight: 700 !important; }.neraca-scontro .grid { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; column-gap: 18px !important; row-gap: 0 !important; width: 100% !important; }.neraca-scontro-columns { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 18px !important; width: 100% !important; }.neraca-scontro .grid > table, .neraca-scontro-columns > div { width: 100% !important; min-width: 0 !important; }.neraca-scontro .grid > table th:first-child, .neraca-scontro .grid > table td:first-child, .neraca-scontro-columns table th:first-child, .neraca-scontro-columns table td:first-child { width: 48% !important; }.neraca-scontro .grid > table th, .neraca-scontro .grid > table td, .neraca-scontro-columns table th, .neraca-scontro-columns table td { border: 1px solid #777 !important; }.neraca-scontro .grid > table thead th, .neraca-scontro-columns table thead th { text-align: center !important; }.neraca-scontro .grid > table tbody td:first-child, .neraca-scontro-columns table tbody td:first-child { text-align: left !important; }.neraca-scontro .grid > table tbody td:not(:first-child), .neraca-scontro-columns table tbody td:not(:first-child) { text-align: right !important; }</style><div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${reportType} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportContent}</div>`,
+        reportHtml: `<style>.neraca-${layout.toLowerCase()} { width: 100%; }.neraca-${layout.toLowerCase()} table { border-collapse: collapse; }.neraca-${layout.toLowerCase()} table thead th { text-align: inherit; }.neraca-${layout.toLowerCase()} table tbody td.neraca-bold-description { font-weight: 700 !important; }.neraca-${layout.toLowerCase()} table tbody tr.neraca-bold-row td:first-child { font-weight: 700 !important; }.neraca-scontro .grid { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; column-gap: 18px !important; row-gap: 0 !important; width: 100% !important; }.neraca-scontro-columns { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 18px !important; width: 100% !important; }.neraca-scontro .grid > table, .neraca-scontro-columns > div { width: 100% !important; min-width: 0 !important; }.neraca-scontro .grid > table th:first-child, .neraca-scontro .grid > table td:first-child, .neraca-scontro-columns table th:first-child, .neraca-scontro-columns table td:first-child { width: 48% !important; }.neraca-scontro .grid > table th, .neraca-scontro .grid > table td, .neraca-scontro-columns table th, .neraca-scontro-columns table td { border: 1px solid #777 !important; }.neraca-scontro .grid > table thead th, .neraca-scontro-columns table thead th { text-align: center !important; }.neraca-scontro .grid > table tbody td:first-child, .neraca-scontro-columns table tbody td:first-child { text-align: left !important; }.neraca-scontro .grid > table tbody td:not(:first-child), .neraca-scontro-columns table tbody td:not(:first-child) { text-align: right !important; }</style><div class="neraca-export-header"><strong>Koperasi Astiti Dana Lestari</strong><span>Laporan Neraca Saldo</span><span>${showRecap ? "Laporan Rekap" : "Laporan Terperinci"} · ${shownDate}</span></div><div class="neraca-${layout.toLowerCase()}">${reportContent}</div>`,
       });
     });
   };
@@ -201,7 +202,10 @@ export default function NeracaSaldoReport() {
         <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
           <ReportSelect label="Periode" value={period} options={["Perbulan", "Harian", "Per tahun"]} onChange={(value) => { setPeriod(value); setIsReportVisible(false); }} />
           <label className="w-full text-[13px] md:max-w-[245px]">Tanggal Laporan<div className="mt-1.5 flex h-[31px] overflow-hidden rounded-[5px] border border-[#c8d3e5]"><span className="inline-flex w-12 items-center justify-center bg-slate-100 text-slate-400"><CalendarDays className="h-5 w-5" /></span><Input type="date" value={date} onChange={(event) => { setDate(event.target.value); setIsReportVisible(false); }} className="date-report-input h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" /></div></label>
-          <ReportSelect label="Jenis Laporan" value={reportType} options={["Laporan Terperinci", "Laporan Rekap"]} onChange={(value) => { setReportType(value); setIsReportVisible(false); }} />
+          <label className="flex h-[31px] items-center gap-2 text-[13px] md:mb-0.5">
+            <Checkbox checked={showRecap} onCheckedChange={(checked) => { setShowRecap(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
+            <span>Tampilkan laporan rekap</span>
+          </label>
         </div>
         <Button type="button" onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
       </div>
@@ -229,7 +233,7 @@ export default function NeracaSaldoReport() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          {reportType === "Laporan Rekap" ? <NeracaSaldoRecapTable /> : <DetailedTable />}
+          {showRecap ? <NeracaSaldoRecapTable /> : <DetailedTable />}
           </div>
         </>
       ) : null}
