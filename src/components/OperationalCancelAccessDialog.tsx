@@ -38,7 +38,7 @@ export function OperationalCancelAccessDialog({ open, reason, onReasonChange, on
           </div>
         </DialogContent>
       </Dialog>
-      <OperationalConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} onConfirm={onConfirm} title="Yakin menghapus akses?" />
+      <OperationalConfirmDialog open={confirmOpen} onOpenChange={setConfirmOpen} onConfirm={onConfirm} title="Yakin membatalkan akses?" />
     </>
   );
 }
