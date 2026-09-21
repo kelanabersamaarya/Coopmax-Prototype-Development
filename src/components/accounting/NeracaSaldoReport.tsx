@@ -200,12 +200,14 @@ export default function NeracaSaldoReport() {
       <div className="p-1 md:p-0">
         <h1 className="text-[21px] font-bold">Laporan <span className="font-normal">Neraca Saldo</span></h1>
         <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
-          <ReportSelect label="Periode" value={period} options={["Perbulan", "Harian", "Per tahun"]} onChange={(value) => { setPeriod(value); setIsReportVisible(false); }} />
+          <div className="flex w-full flex-col gap-2 md:max-w-[245px]">
+            <ReportSelect label="Periode" value={period} options={["Perbulan", "Harian", "Per tahun"]} onChange={(value) => { setPeriod(value); setIsReportVisible(false); }} />
+            <label className="flex h-[31px] items-center gap-2 text-[13px]">
+              <Checkbox checked={showRecap} onCheckedChange={(checked) => { setShowRecap(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
+              <span>Laporan Detail</span>
+            </label>
+          </div>
           <label className="w-full text-[13px] md:max-w-[245px]">Tanggal Laporan<div className="mt-1.5 flex h-[31px] overflow-hidden rounded-[5px] border border-[#c8d3e5]"><span className="inline-flex w-12 items-center justify-center bg-slate-100 text-slate-400"><CalendarDays className="h-5 w-5" /></span><Input type="date" value={date} onChange={(event) => { setDate(event.target.value); setIsReportVisible(false); }} className="date-report-input h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" /></div></label>
-          <label className="flex h-[31px] items-center gap-2 text-[13px] md:mb-0.5">
-            <Checkbox checked={showRecap} onCheckedChange={(checked) => { setShowRecap(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
-            <span>Laporan Detail</span>
-          </label>
         </div>
         <Button type="button" onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
       </div>
