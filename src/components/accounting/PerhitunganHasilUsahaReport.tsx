@@ -122,7 +122,7 @@ export default function PerhitunganHasilUsahaReport() {
           <PerhitunganHasilUsahaRecapTable />
         ) : (
           <table className="min-w-[760px] w-full border-collapse text-[12px]">
-            <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2">Jumlah</th></tr></thead>
+            <thead><tr className="uppercase tracking-wider text-[#526786]"><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Deskripsi</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Bulan Lalu</th><th className="border-b border-r border-[#c8d3e5] px-3 py-2 text-center">Bulan Ini</th><th className="border-b border-[#c8d3e5] px-3 py-2 text-center">Jumlah</th></tr></thead>
             <tbody>
             <tr className="bg-[#dfe6eb] font-semibold"><td colSpan={4} className="border-b border-[#c8d3e5] px-3 py-1 text-center">Pendapatan</td></tr>
             <tr className="font-bold"><td colSpan={4} className="border-b border-[#c8d3e5] px-8 py-1">PARTISIPASI BRUTO ANGGOTA</td></tr>
