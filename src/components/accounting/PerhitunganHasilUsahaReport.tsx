@@ -2,6 +2,7 @@ import * as React from "react";
 import { CalendarDays, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,7 +41,7 @@ const rows = [
 export default function PerhitunganHasilUsahaReport() {
   const [period, setPeriod] = React.useState("Perbulan");
   const [date, setDate] = React.useState("2026-09-10");
-  const [reportType, setReportType] = React.useState("Laporan Terperinci");
+  const [showRecap, setShowRecap] = React.useState(false);
   const [shownDate, setShownDate] = React.useState("10 September 2026");
   const [isReportVisible, setIsReportVisible] = React.useState(false);
 
@@ -57,6 +58,7 @@ export default function PerhitunganHasilUsahaReport() {
       const reportArea = document.querySelector(".shu-report-area");
       if (!reportArea) return;
       const formatLabel = format === "scontro" ? "Bentuk Scontro" : "Bentuk Staffel";
+      const reportType = showRecap ? "Laporan Rekap" : "Laporan Terperinci";
       const exportBody = buildShuExportBody(format, reportType);
       openReportPdfPreview({
         title: `Perhitungan Hasil Usaha - ${formatLabel}`,
@@ -84,12 +86,9 @@ export default function PerhitunganHasilUsahaReport() {
               <Input type="date" value={date} onChange={(e) => { setDate(e.target.value); setIsReportVisible(false); }} className="date-report-input h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" />
             </div>
           </label>
-          <label className="w-full text-[13px] md:max-w-[245px]">Jenis Laporan
-            <div className="relative mt-1.5">
-              <select value={reportType} onChange={(e) => { setReportType(e.target.value); setIsReportVisible(false); }} className="h-[31px] w-full appearance-none rounded-[5px] border border-[#c8d3e5] bg-white px-3 text-[13px] outline-none focus:ring-2 focus:ring-violet-200">
-                <option>Laporan Terperinci</option><option>Laporan Rekap</option>
-              </select><ChevronDown className="pointer-events-none absolute right-2 top-2 h-4 w-4 text-slate-500" />
-            </div>
+          <label className="flex h-[31px] items-center gap-2 text-[13px] md:mb-0.5">
+            <Checkbox checked={showRecap} onCheckedChange={(checked) => { setShowRecap(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
+            <span>Tampilkan laporan rekap</span>
           </label>
         </div>
         <Button onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
@@ -119,7 +118,7 @@ export default function PerhitunganHasilUsahaReport() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-        {reportType === "Laporan Rekap" ? (
+        {showRecap ? (
           <PerhitunganHasilUsahaRecapTable />
         ) : (
           <table className="min-w-[760px] w-full border-collapse text-[12px]">
