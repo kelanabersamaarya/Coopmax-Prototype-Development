@@ -120,7 +120,7 @@ export default function ObsWaktuAksesOperasional() {
   };
   const deleteUser = () => {
     if (!userToDelete || !cancelReason.trim()) return;
-    setUsers((current) => current.filter((item) => item !== userToDelete));
+    setUsers((current) => current.map((item) => item === userToDelete ? { ...item, status: "Tidak Aktif" } : item));
     setHistory((current) => [{ user: "Admin", changedAt: formatCurrentOperationalDateTime(), before: `Akses khusus: ${userToDelete.name}`, after: "Akses dibatalkan", reason: cancelReason }, ...current]);
     setUserToDelete(null);
     setCancelReason("");
