@@ -1,5 +1,5 @@
 import * as React from "react";
-import { X } from "lucide-react";
+import { CheckSquare, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
 
@@ -34,7 +34,7 @@ export function OperationalCancelAccessDialog({ open, reason, onReasonChange, on
           </div>
           <div className="flex justify-end gap-2 border-t border-[#D7DEE9] px-5 py-4">
             <button type="button" onClick={() => onOpenChange(false)} className="rounded-[6px] bg-[#8291ad] px-4 py-2 text-[12px] font-semibold text-white"><X className="mr-1 inline h-3.5 w-3.5" />Batalkan</button>
-            <button type="button" onClick={() => setConfirmOpen(true)} disabled={!reason.trim()} className="rounded-[6px] bg-[#20b900] px-5 py-2 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">Simpan</button>
+            <button type="button" onClick={() => setConfirmOpen(true)} disabled={!reason.trim()} className="inline-flex items-center gap-1 rounded-[6px] bg-[#20b900] px-5 py-2 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"><CheckSquare className="h-3.5 w-3.5" />Simpan</button>
           </div>
         </DialogContent>
       </Dialog>
