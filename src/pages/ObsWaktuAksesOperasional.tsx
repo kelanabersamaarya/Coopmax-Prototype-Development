@@ -53,10 +53,14 @@ export default function ObsWaktuAksesOperasional() {
     const initialUsers = readStorage<UserAccess[]>(usersStorageKey, [
       { name: "Budi Santoso", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
       { name: "Siti Aminah", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
-      { name: "Andi Pratama", status: "Tidak Aktif", startDate: "10 Juni 2024", endDate: "10 Juni 2024", start: "08:00", end: "12:00", reason: "Akses sudah tidak diperlukan" },
-      { name: "Dewi Lestari", status: "Kedaluwarsa", startDate: "01 Juni 2024", endDate: "01 Juni 2024", start: "08:00", end: "12:00", reason: "Masa akses telah berakhir" },
     ]);
-    return initialUsers.some((user) => user.status === "Kedaluwarsa") ? initialUsers : [...initialUsers, { name: "Dewi Lestari", status: "Kedaluwarsa", startDate: "01 Juni 2024", endDate: "01 Juni 2024", start: "08:00", end: "12:00", reason: "Masa akses telah berakhir" }];
+    const inactiveUser = { name: "Andi Pratama", status: "Tidak Aktif", startDate: "10 Juni 2024", endDate: "10 Juni 2024", start: "08:00", end: "12:00", reason: "Akses sudah tidak diperlukan" };
+    const expiredUser = { name: "Dewi Lestari", status: "Kedaluwarsa", startDate: "01 Juni 2024", endDate: "01 Juni 2024", start: "08:00", end: "12:00", reason: "Masa akses telah berakhir" };
+    return [
+      ...initialUsers,
+      ...(initialUsers.some((user) => user.name === inactiveUser.name) ? [] : [inactiveUser]),
+      ...(initialUsers.some((user) => user.name === expiredUser.name) ? [] : [expiredUser]),
+    ];
   });
   const [addOpen, setAddOpen] = React.useState(false);
   const [addConfirmOpen, setAddConfirmOpen] = React.useState(false);
