@@ -124,6 +124,7 @@ export default function ObsWaktuAksesOperasional() {
     setUserToDelete(null);
     setCancelReason("");
     setCancelAccessOpen(false);
+    setDeleteConfirmOpen(false);
     setDeleteSuccessOpen(true);
   };
   const addUser = () => {
