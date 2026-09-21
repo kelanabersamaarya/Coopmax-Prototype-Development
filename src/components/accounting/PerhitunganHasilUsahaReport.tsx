@@ -88,7 +88,7 @@ export default function PerhitunganHasilUsahaReport() {
           </label>
           <label className="flex h-[31px] items-center gap-2 text-[13px] md:mb-0.5">
             <Checkbox checked={showRecap} onCheckedChange={(checked) => { setShowRecap(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
-            <span>Tampilkan laporan rekap</span>
+            <span>Laporan Detail</span>
           </label>
         </div>
         <Button onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>

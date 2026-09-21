@@ -204,7 +204,7 @@ export default function NeracaSaldoReport() {
           <label className="w-full text-[13px] md:max-w-[245px]">Tanggal Laporan<div className="mt-1.5 flex h-[31px] overflow-hidden rounded-[5px] border border-[#c8d3e5]"><span className="inline-flex w-12 items-center justify-center bg-slate-100 text-slate-400"><CalendarDays className="h-5 w-5" /></span><Input type="date" value={date} onChange={(event) => { setDate(event.target.value); setIsReportVisible(false); }} className="date-report-input h-full rounded-none border-0 text-[13px] shadow-none focus-visible:ring-0" /></div></label>
           <label className="flex h-[31px] items-center gap-2 text-[13px] md:mb-0.5">
             <Checkbox checked={showRecap} onCheckedChange={(checked) => { setShowRecap(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
-            <span>Tampilkan laporan rekap</span>
+            <span>Laporan Detail</span>
           </label>
         </div>
         <Button type="button" onClick={showReport} className="mt-2 h-[31px] rounded-[6px] bg-violet-600 px-3 text-[12px] hover:bg-violet-700">Tampilkan Laporan</Button>
