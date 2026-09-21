@@ -48,10 +48,14 @@ export default function ObsWaktuAksesOperasional() {
   const [editOpen, setEditOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [scheduleSuccessOpen, setScheduleSuccessOpen] = React.useState(false);
-  const [users, setUsers] = React.useState<UserAccess[]>(() => readStorage(usersStorageKey, [
-    { name: "Budi Santoso", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
-    { name: "Siti Aminah", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
-  ]));
+  const [users, setUsers] = React.useState<UserAccess[]>(() => {
+    const initialUsers = readStorage<UserAccess[]>(usersStorageKey, [
+      { name: "Budi Santoso", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
+      { name: "Siti Aminah", status: "Waktu Operasional", startDate: "12 Juni 2024", endDate: "12 Juni 2024", start: "08:00", end: "15:00", reason: "Kebutuhan operasional" },
+      { name: "Andi Pratama", status: "Tidak Aktif", startDate: "10 Juni 2024", endDate: "10 Juni 2024", start: "08:00", end: "12:00", reason: "Akses sudah tidak diperlukan" },
+    ]);
+    return initialUsers.some((user) => user.status === "Tidak Aktif") ? initialUsers : [...initialUsers, { name: "Andi Pratama", status: "Tidak Aktif", startDate: "10 Juni 2024", endDate: "10 Juni 2024", start: "08:00", end: "12:00", reason: "Akses sudah tidak diperlukan" }];
+  });
   const [addOpen, setAddOpen] = React.useState(false);
   const [addConfirmOpen, setAddConfirmOpen] = React.useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false);
