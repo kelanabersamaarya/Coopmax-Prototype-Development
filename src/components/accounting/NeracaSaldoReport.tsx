@@ -199,7 +199,7 @@ export default function NeracaSaldoReport() {
     <div className="overflow-hidden rounded-[10px] bg-white text-[#08265a]">
       <div className="p-1 md:p-0">
         <h1 className="text-[21px] font-bold">Laporan <span className="font-normal">Neraca Saldo</span></h1>
-        <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
+        <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
           <div className="flex w-full flex-col gap-2 md:max-w-[245px]">
             <ReportSelect label="Periode" value={period} options={["Perbulan", "Harian", "Per tahun"]} onChange={(value) => { setPeriod(value); setIsReportVisible(false); }} />
             <label className="flex h-[31px] items-center gap-2 text-[13px]">

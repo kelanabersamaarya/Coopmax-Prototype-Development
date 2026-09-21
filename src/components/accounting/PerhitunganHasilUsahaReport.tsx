@@ -72,7 +72,7 @@ export default function PerhitunganHasilUsahaReport() {
     <div className="overflow-hidden rounded-[10px] bg-white text-[#08265a]">
       <div className="p-1 md:p-0">
         <h1 className="text-[21px] font-bold">Laporan <span className="font-normal">Perhitungan Hasil Usaha</span></h1>
-        <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
+        <div className="mt-7 flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
           <div className="flex w-full flex-col gap-2 md:max-w-[245px]">
             <label className="w-full text-[13px]">Periode
               <div className="relative mt-1.5">
