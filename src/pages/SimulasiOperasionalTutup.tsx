@@ -41,7 +41,7 @@ export default function SimulasiOperasionalTutup() {
               <p className="text-[13px] font-bold">Sistem Berada Diluar Hari dan Jam Operasional</p>
             </div>
             <p className="mt-1 text-[12px] leading-[1.45]">
-              Mohon maaf, sistem hanya dapat diakses pada hari Senin–Sabtu, pukul 08.00–17.00. Silakan coba kembali pada jam operasional.
+              Mohon maaf, sistem hanya dapat diakses pada hari Senin–Sabtu, pukul 08.00–17.00. Silakan masuk kembali pada jam operasional.
             </p>
           </div>
         ) : null}
