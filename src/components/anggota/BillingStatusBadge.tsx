@@ -10,7 +10,7 @@ const statusStyles: Record<BillingStatus, string> = {
 export default function BillingStatusBadge({ status }: { status: BillingStatus }) {
   return (
     <span
-      className={`mr-2 inline-flex min-h-7 items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-[12px] font-bold leading-[1.15] ${statusStyles[status]}`}
+      className={`mr-2 inline-flex min-h-7 items-center whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[12px] font-bold leading-[1.15] ${statusStyles[status]}`}
     >
       {status.toUpperCase()}
     </span>
