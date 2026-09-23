@@ -61,7 +61,6 @@ import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsPengaturanUmum from "./pages/ObsPengaturanUmum";
 import ObsWaktuAksesOperasional from "./pages/ObsWaktuAksesOperasional";
 import LoginSimulasi from "./pages/LoginSimulasi";
-import SimulasiOperasionalTutup from "./pages/SimulasiOperasionalTutup";
 import ObsWeb from "./pages/ObsWeb";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileEKolektorFace from "./pages/MobileEKolektorFace";
@@ -315,7 +314,7 @@ const App = () => (
             <Route path="login/simulasi" element={<LoginSimulasi />} />
             <Route
               path="login/simulasi-operasional-tutup"
-              element={<SimulasiOperasionalTutup />}
+              element={<SimulasiDashboard operationalStatus="closed" />}
             />
             <Route path="login/simulasi-dashboard" element={<SimulasiDashboard />} />
             <Route
