@@ -62,17 +62,17 @@ export default function SidebarLoginMenu() {
               <NavLink to="/login/simulasi-dashboard" className={linkClass}>
                 Footer Jam Operasional
               </NavLink>
-              <NavLink to="/login/simulasi" className={linkClass}>
-                Simulasi Login
-              </NavLink>
               <NavLink to="/login/simulasi-operasional-tutup" className={linkClass}>
                 Footer Operasional Tutup
               </NavLink>
-              <NavLink to="/login/simulasi-login-operasional-tutup" className={linkClass}>
-                Simulasi Login Operasional Tutup
-              </NavLink>
               <NavLink to="/login/simulasi-footer-belum-diatur" className={linkClass}>
                 Footer Jam Operasional Belum Diatur
+              </NavLink>
+              <NavLink to="/login/simulasi" className={linkClass}>
+                Simulasi Login
+              </NavLink>
+              <NavLink to="/login/simulasi-login-operasional-tutup" className={linkClass}>
+                Simulasi Login Operasional Tutup
               </NavLink>
             </div>
           </div>
