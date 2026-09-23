@@ -16,7 +16,7 @@ function CoopmaxLogo() {
   );
 }
 
-export default function LoginSimulasi() {
+export default function LoginSimulasi({ operationalClosed = false }: { operationalClosed?: boolean }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showAccessNotice, setShowAccessNotice] = React.useState(false);
 
@@ -38,10 +38,12 @@ export default function LoginSimulasi() {
           <div className="mt-4 rounded-[3px] border border-solid border-red-500 bg-red-100/70 px-3 py-2.5 text-left text-red-700">
             <div className="flex items-center gap-1.5">
               <AlertTriangle className="h-4 w-4 shrink-0" />
-              <p className="text-[13px] font-bold">Akses Dibatasi Sementara</p>
+              <p className="text-[13px] font-bold">{operationalClosed ? "Operasional Tutup" : "Akses Dibatasi Sementara"}</p>
             </div>
             <p className="mt-1 text-[12px] leading-[1.45]">
-              Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan masuk kembali pada jam operasional.
+              {operationalClosed
+                ? "Mohon maaf, saat ini operasional tutup. Sistem hanya dapat diakses pada hari dan jam operasional yang telah ditentukan. Silakan coba kembali pada hari dan jam operasional."
+                : "Mohon maaf, sistem hanya dapat diakses pada jam operasional, yaitu pukul 08.00–17.00. Silakan masuk kembali pada jam operasional."}
             </p>
           </div>
         ) : null}
