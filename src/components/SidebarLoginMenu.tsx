@@ -65,7 +65,7 @@ export default function SidebarLoginMenu() {
                 Simulasi Login
               </NavLink>
               <NavLink to="/login/simulasi-operasional-tutup" className={linkClass}>
-                Operasional Tutup
+                Footer Operasional Tutup
               </NavLink>
               <NavLink to="/login/simulasi-login-operasional-tutup" className={linkClass}>
                 Simulasi Login Operasional Tutup
