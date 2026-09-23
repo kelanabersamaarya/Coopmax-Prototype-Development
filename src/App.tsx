@@ -313,6 +313,10 @@ const App = () => (
             />
             <Route path="login/simulasi" element={<LoginSimulasi />} />
             <Route
+              path="login/simulasi-footer-belum-diatur"
+              element={<SimulasiDashboard hideOperationalInfo />}
+            />
+            <Route
               path="login/simulasi-login-operasional-tutup"
               element={<LoginSimulasi operationalClosed />}
             />

@@ -11,7 +11,8 @@ export default function SidebarLoginMenu() {
     location.pathname === "/login/simulasi-dashboard" ||
     location.pathname === "/login/simulasi" ||
     location.pathname === "/login/simulasi-operasional-tutup" ||
-    location.pathname === "/login/simulasi-login-operasional-tutup";
+    location.pathname === "/login/simulasi-login-operasional-tutup" ||
+    location.pathname === "/login/simulasi-footer-belum-diatur";
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
@@ -69,6 +70,9 @@ export default function SidebarLoginMenu() {
               </NavLink>
               <NavLink to="/login/simulasi-login-operasional-tutup" className={linkClass}>
                 Simulasi Login Operasional Tutup
+              </NavLink>
+              <NavLink to="/login/simulasi-footer-belum-diatur" className={linkClass}>
+                Footer Jam Operasional Belum Diatur
               </NavLink>
             </div>
           </div>
