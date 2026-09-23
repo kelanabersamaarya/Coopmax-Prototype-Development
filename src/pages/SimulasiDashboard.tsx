@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { ArrowRight, BarChart3, Cog, CreditCard, Clock3, Landmark, Users, UserRound, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const OPERATIONAL_START_HOUR = 8;
-const OPERATIONAL_END_HOUR = 16;
-
 function OperationalTimeCounter() {
   const [isVisible, setIsVisible] = useState(true);
   const [remainingSeconds, setRemainingSeconds] = useState(2 * 60 * 60);
@@ -178,7 +175,7 @@ function WideSummaryCard({ count, title, description, action }: { count: string;
   );
 }
 
-function ServerClockFooter() {
+function ServerClockFooter({ operationalStatus }: { operationalStatus: "open" | "closed" }) {
   const [serverTime, setServerTime] = useState(() => new Date());
 
   useEffect(() => {
@@ -198,13 +195,13 @@ function ServerClockFooter() {
       <span>© 2026 PT. Solusi Anak Sakti</span>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-medium">
         <span>Jam Server: {formattedServerTime}</span>
-        <span>Jam Operasional: 08.00 - 16.00</span>
+        <span>Jam Operasional: {operationalStatus === "closed" ? "Tutup" : "08.00 - 16.00"}</span>
       </div>
     </footer>
   );
 }
 
-export default function Dashboard() {
+export default function Dashboard({ operationalStatus = "open" }: { operationalStatus?: "open" | "closed" }) {
   const navigate = useNavigate();
 
   return (
@@ -255,7 +252,7 @@ export default function Dashboard() {
           <WideSummaryCard count="0" title="Rekening Deposito" />
         </div>
       </section>
-      <ServerClockFooter />
+      <ServerClockFooter operationalStatus={operationalStatus} />
     </main>
   );
 }
