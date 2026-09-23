@@ -59,7 +59,7 @@ export default function SidebarLoginMenu() {
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
               <NavLink to="/login/simulasi-dashboard" className={linkClass}>
-                Jam Operasional
+                Footer Jam Operasional
               </NavLink>
               <NavLink to="/login/simulasi" className={linkClass}>
                 Simulasi Login
