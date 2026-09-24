@@ -175,7 +175,17 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full border-collapse text-[13px]">
+    <table className="w-full min-w-[1105px] table-fixed border-collapse text-[13px]">
+      <colgroup>
+        <col className="w-[110px]" />
+        <col className="w-[150px]" />
+        <col className="w-[140px]" />
+        <col className="w-[130px]" />
+        <col className="w-[150px]" />
+        <col className="w-[150px]" />
+        <col className="w-[130px]" />
+        <col className="w-[145px]" />
+      </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
 
@@ -227,7 +237,7 @@ function InnerGraceTable({
                 ) : null}
               </Td>
 
-              <Td className="w-[145px]">
+              <Td className="w-[145px] px-4">
                 <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
               </Td>
             </tr>
@@ -256,7 +266,7 @@ export default function BillingTableWithStatus({
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
-  const colCount = 7;
+  const colCount = 8;
 
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
@@ -277,7 +287,17 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll">
-          <table className="w-full min-w-[980px] border-collapse text-[13px]">
+          <table className="w-full min-w-[1105px] table-fixed border-collapse text-[13px]">
+            <colgroup>
+              <col className="w-[110px]" />
+              <col className="w-[150px]" />
+              <col className="w-[140px]" />
+              <col className="w-[130px]" />
+              <col className="w-[150px]" />
+              <col className="w-[150px]" />
+              <col className="w-[130px]" />
+              <col className="w-[145px]" />
+            </colgroup>
             <thead className="bg-white">
               <tr className="border-b border-slate-200">
                 <th className={cn(thBase, "w-[110px]")}>
