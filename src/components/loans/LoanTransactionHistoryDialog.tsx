@@ -306,6 +306,10 @@ export default function LoanTransactionHistoryDialog({
                       <tr className="border-b border-[#d5dce7]">
                         <th className={cn(headerTh, "w-[58px] whitespace-nowrap")}>No.</th>
 
+                        <th className={cn(headerTh, "w-[180px] whitespace-nowrap")}>
+                          No. Transaksi
+                        </th>
+
                         <th className={cn(headerTh, "w-[150px]")}>
                           Periode
                           <br />
@@ -374,7 +378,7 @@ export default function LoanTransactionHistoryDialog({
                       {paged.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={14}
+                            colSpan={15}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada transaksi.
@@ -394,6 +398,10 @@ export default function LoanTransactionHistoryDialog({
                             >
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
                                 {derivedNo}
+                              </td>
+
+                              <td className={cn(tdBase, "text-slate-700 whitespace-nowrap")}>
+                                {trxNo}
                               </td>
 
                               <td className={cn(tdBase, "text-slate-700 whitespace-nowrap")}>
