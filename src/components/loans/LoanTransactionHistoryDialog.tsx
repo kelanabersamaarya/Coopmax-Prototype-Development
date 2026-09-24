@@ -193,7 +193,7 @@ export default function LoanTransactionHistoryDialog({
 
   const btnTutupFooterCls = cn(
     H,
-    "w-[80px] px-0",
+    "w-[96px] px-3",
     "bg-[#7e93b3] text-white hover:bg-[#6f84a5]",
     R,
   );
