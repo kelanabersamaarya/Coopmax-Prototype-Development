@@ -306,19 +306,19 @@ export default function LoanTransactionHistoryDialog({
                       <tr className="border-b border-[#d5dce7]">
                         <th className={cn(headerTh, "w-[58px] whitespace-nowrap")}>No.</th>
 
-                        <th className={cn(headerTh, "w-[180px] whitespace-nowrap")}>
+                        <th className={cn(headerTh, "w-[130px] whitespace-nowrap")}>
                           No. Transaksi
                         </th>
 
-                        <th className={cn(headerTh, "w-[150px]")}>
+                        <th className={cn(headerTh, "w-[105px]")}>
                           Periode
                           <br />
                           Angsuran
                         </th>
 
-                        <th className={cn(headerTh, "w-[120px]")}>
-                          <span className="block">Angsuran</span>
-                          <span className="block">Ke-</span>
+                        <th className={cn(headerTh, "w-[90px] whitespace-nowrap")}>
+                          <span className="block whitespace-nowrap">Angsuran</span>
+                          <span className="block whitespace-nowrap">Ke-</span>
                         </th>
 
                         <th className={cn(headerTh, "w-[120px] whitespace-nowrap")}>Tanggal</th>
