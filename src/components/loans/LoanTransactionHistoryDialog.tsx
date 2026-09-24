@@ -40,7 +40,7 @@ type Row = {
 const seed: Row[] = [
   {
     angsuranKe: "",
-    periodeAngsuran: "April 2026",
+    periodeAngsuran: "Januari 2026",
     tanggal: "20-04-2026",
     tipe: "Pemutihan Pinjaman",
     nominal: "0,00",
@@ -85,6 +85,13 @@ const seed: Row[] = [
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
+const INSTALLMENT_PERIODS = [
+  "Januari 2026",
+  "Februari 2026",
+  "Maret 2026",
+  "April 2026",
+  "Mei 2026",
+];
 
 export default function LoanTransactionHistoryDialog({
   open,
@@ -121,20 +128,16 @@ export default function LoanTransactionHistoryDialog({
 
   const transactionRows = React.useMemo(
     () =>
-      savedRows.map((saved) => {
+      savedRows.map((saved, index) => {
         const tanggal = saved.transactionNo
           .slice(3, 9)
           .replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-20$3");
-        const [day, month, year] = tanggal.split("-").map(Number);
-        const periodeAngsuran = new Intl.DateTimeFormat("id-ID", {
-          month: "long",
-          year: "numeric",
-        }).format(new Date(year, month - 1, day));
-
         return {
           ...seed[1],
           tanggal,
-          periodeAngsuran,
+          periodeAngsuran: INSTALLMENT_PERIODS[
+            Math.min(index, INSTALLMENT_PERIODS.length - 1)
+          ],
           tipe: "Pembayaran Angsuran",
           keterangan: saved.keterangan,
         };
@@ -394,7 +397,9 @@ export default function LoanTransactionHistoryDialog({
                               </td>
 
                               <td className={cn(tdBase, "text-slate-700 whitespace-nowrap")}>
-                                {r.periodeAngsuran || "-"}
+                                {INSTALLMENT_PERIODS[
+                                  Math.min(derivedNo - 1, INSTALLMENT_PERIODS.length - 1)
+                                ]}
                               </td>
 
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
