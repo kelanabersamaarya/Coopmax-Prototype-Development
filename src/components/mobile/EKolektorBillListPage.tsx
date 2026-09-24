@@ -17,7 +17,7 @@ const billRows: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "0,00",
     sisaBunga: "26.389",
-    statusTagihan: "Terlambat",
+    statusTagihan: "Lunas",
   },
   {
     jatuhTempo: "25-02-2026",
@@ -26,7 +26,7 @@ const billRows: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "0,00",
     sisaBunga: "26.389",
-    statusTagihan: "Terlambat",
+    statusTagihan: "Lunas",
   },
   {
     jatuhTempo: "25-03-2026",
