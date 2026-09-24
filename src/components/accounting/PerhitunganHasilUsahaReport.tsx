@@ -40,6 +40,7 @@ const rows = [
 export default function PerhitunganHasilUsahaReport() {
   const [period, setPeriod] = React.useState("Perbulan");
   const [date, setDate] = React.useState("2026-09-10");
+  const [showDetail, setShowDetail] = React.useState(false);
   const [shownDate, setShownDate] = React.useState("10 September 2026");
   const [isReportVisible, setIsReportVisible] = React.useState(false);
 
@@ -80,7 +81,7 @@ export default function PerhitunganHasilUsahaReport() {
               </div>
             </label>
             <label className="flex h-[31px] items-center gap-2 text-[13px]">
-              <Checkbox checked={false} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
+              <Checkbox checked={showDetail} onCheckedChange={(checked) => { setShowDetail(checked === true); setIsReportVisible(false); }} className="rounded-[4px] border-[#9aa9bf] data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600" />
               <span>Laporan Detail</span>
             </label>
           </div>
