@@ -359,7 +359,7 @@ export default function LoanTransactionHistoryDialog({
                         <th className={cn(headerTh, "w-[220px]")}>Catatan</th>
 
                         <th className={cn(headerTh, "w-[90px] text-center")}>
-                          Detail
+                          DETAIL TRANSAKSI
                         </th>
                       </tr>
                     </thead>
