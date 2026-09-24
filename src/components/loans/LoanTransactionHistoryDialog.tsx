@@ -203,7 +203,7 @@ export default function LoanTransactionHistoryDialog({
       <DialogContent
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
-          "max-w-[1600px]",
+          "max-w-[1400px]",
           "max-h-[75vh]",
           "flex flex-col overflow-hidden",
           R,
