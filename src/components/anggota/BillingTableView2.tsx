@@ -546,6 +546,7 @@ export default function BillingTableView2({
 
   function statusForRow(row: BillingRow) {
     if (row.jatuhTempo === "25-03-2026") return "Terlambat";
+    if (row.jatuhTempo === "25-04-2026") return "Jatuh Tempo";
     return row.statusTagihan ?? "Belum Dibayar";
   }
 
