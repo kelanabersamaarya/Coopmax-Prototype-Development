@@ -23,6 +23,7 @@ import {
 
 type Row = {
   angsuranKe: string;
+  periodeAngsuran: string;
   tanggal: string;
   tipe: string;
   nominal: string;
@@ -39,6 +40,7 @@ type Row = {
 const seed: Row[] = [
   {
     angsuranKe: "",
+    periodeAngsuran: "April 2026",
     tanggal: "20-04-2026",
     tipe: "Pemutihan Pinjaman",
     nominal: "0,00",
@@ -53,6 +55,7 @@ const seed: Row[] = [
   },
   {
     angsuranKe: "",
+    periodeAngsuran: "April 2026",
     tanggal: "17-04-2026",
     tipe: "Pembayaran Angsuran",
     nominal: "79.861",
@@ -66,6 +69,7 @@ const seed: Row[] = [
   },
   {
     angsuranKe: "",
+    periodeAngsuran: "April 2026",
     tanggal: "10-04-2026",
     tipe: "Pembayaran Angsuran",
     nominal: "500.000",
@@ -117,12 +121,24 @@ export default function LoanTransactionHistoryDialog({
 
   const transactionRows = React.useMemo(
     () =>
-      savedRows.map((saved) => ({
-        ...seed[1],
-        tanggal: saved.transactionNo.slice(3, 9).replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-20$3"),
-        tipe: "Pembayaran Angsuran",
-        keterangan: saved.keterangan,
-      })),
+      savedRows.map((saved) => {
+        const tanggal = saved.transactionNo
+          .slice(3, 9)
+          .replace(/(\d{2})(\d{2})(\d{2})/, "$1-$2-20$3");
+        const [day, month, year] = tanggal.split("-").map(Number);
+        const periodeAngsuran = new Intl.DateTimeFormat("id-ID", {
+          month: "long",
+          year: "numeric",
+        }).format(new Date(year, month - 1, day));
+
+        return {
+          ...seed[1],
+          tanggal,
+          periodeAngsuran,
+          tipe: "Pembayaran Angsuran",
+          keterangan: saved.keterangan,
+        };
+      }),
     [savedRows],
   );
 
@@ -287,6 +303,12 @@ export default function LoanTransactionHistoryDialog({
                       <tr className="border-b border-[#d5dce7]">
                         <th className={cn(headerTh, "w-[58px]")}>No.</th>
 
+                        <th className={cn(headerTh, "w-[150px]")}>
+                          Periode
+                          <br />
+                          Angsuran
+                        </th>
+
                         <th className={cn(headerTh, "w-[120px]")}>
                           Angsuran
                           <br />
@@ -347,7 +369,7 @@ export default function LoanTransactionHistoryDialog({
                       {paged.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={13}
+                            colSpan={14}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada transaksi.
@@ -367,6 +389,10 @@ export default function LoanTransactionHistoryDialog({
                             >
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
                                 {derivedNo}
+                              </td>
+
+                              <td className={cn(tdBase, "text-slate-700 whitespace-nowrap")}>
+                                {r.periodeAngsuran || "-"}
                               </td>
 
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
