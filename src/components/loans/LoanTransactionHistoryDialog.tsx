@@ -203,7 +203,7 @@ export default function LoanTransactionHistoryDialog({
       <DialogContent
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
-          "max-w-[1120px]",
+          "max-w-[1600px]",
           "max-h-[75vh]",
           "flex flex-col overflow-hidden",
           R,
@@ -298,10 +298,10 @@ export default function LoanTransactionHistoryDialog({
 
               <div className={cn("mt-2 overflow-hidden border-y border-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[1220px] border-collapse">
+                  <table className="w-full min-w-[1600px] border-collapse">
                     <thead className="bg-white">
                       <tr className="border-b border-[#d5dce7]">
-                        <th className={cn(headerTh, "w-[58px]")}>No.</th>
+                        <th className={cn(headerTh, "w-[58px] whitespace-nowrap")}>No.</th>
 
                         <th className={cn(headerTh, "w-[150px]")}>
                           Periode
@@ -309,12 +309,13 @@ export default function LoanTransactionHistoryDialog({
                           Angsuran
                         </th>
 
-                        <th className={cn(headerTh, "w-[120px] whitespace-nowrap")}>
-                          <span className="block">Angsuran</span>
-                          <span className="block">Ke-</span>
+                        <th className={cn(headerTh, "w-[120px]")}>
+                          Angsuran
+                          <br />
+                          Ke-
                         </th>
 
-                        <th className={cn(headerTh, "w-[120px]")}>Tanggal</th>
+                        <th className={cn(headerTh, "w-[120px] whitespace-nowrap")}>Tanggal</th>
 
                         <th className={cn(headerTh, "w-[170px]")}>
                           Tipe
@@ -354,12 +355,14 @@ export default function LoanTransactionHistoryDialog({
                           Akhir
                         </th>
 
-                        <th className={cn(headerTh, "w-[220px]")}>Keterangan</th>
+                        <th className={cn(headerTh, "w-[220px] whitespace-nowrap")}>Keterangan</th>
 
-                        <th className={cn(headerTh, "w-[220px]")}>Catatan</th>
+                        <th className={cn(headerTh, "w-[220px] whitespace-nowrap")}>Catatan</th>
 
-                        <th className={cn(headerTh, "w-[90px] text-center")}>
-                          DETAIL TRANSAKSI
+                        <th className={cn(headerTh, "w-[130px] text-center")}>
+                          DETAIL
+                          <br />
+                          TRANSAKSI
                         </th>
                       </tr>
                     </thead>
