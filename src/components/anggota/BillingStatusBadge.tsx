@@ -4,7 +4,7 @@ const statusStyles: Record<BillingStatus, string> = {
   "Belum Dibayar": "text-black font-normal",
   Lunas: "text-black font-normal",
   "Jatuh Tempo": "text-red-600 bg-[#FF4C4C]/10 font-bold",
-  Terlambat: "text-red-600 bg-[#c2410c]/10 font-bold",
+  Terlambat: "text-red-600 bg-[#FF4C4C]/10 font-bold",
   "Dibayar Sebagian": "text-black font-normal",
 };
 
