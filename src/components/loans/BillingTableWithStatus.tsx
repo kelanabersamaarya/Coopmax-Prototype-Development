@@ -384,7 +384,7 @@ export default function BillingTableWithStatus({
                     );
                     const penaltyNumberClass = cn(
                       "num-sans-tabular",
-                      globalIdx === 2 && "translate-x-1",
+                      globalIdx === 2 && "-translate-x-1",
                     );
 
                     return (
