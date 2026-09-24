@@ -378,6 +378,14 @@ export default function BillingTableWithStatus({
                     const rowIndex = graceCount + idx;
                     const globalIdx = penaltyIndexOffset + rowIndex;
                     const showPenalty = globalIdx < PENALTY_ROWS;
+                    const penaltyCellClass = cn(
+                      alignedPenaltyCellClass,
+                      globalIdx === 2 && "pr-0",
+                    );
+                    const penaltyNumberClass = cn(
+                      "num-sans-tabular",
+                      globalIdx === 2 && "translate-x-1",
+                    );
 
                     return (
                       <tr key={`${r.jatuhTempo}-${rowIndex}`} className="bg-white">
@@ -405,10 +413,10 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className={alignedPenaltyCellClass} align="right">
+                        <Td className={penaltyCellClass} align="right">
                           {showPenalty ? (
                             <div className="flex items-center justify-end gap-2">
-                              <span className="num-sans-tabular">
+                              <span className={penaltyNumberClass}>
                                 {formatIdrLike(PENALTY_AMOUNT)}
                               </span>
                               {showPenaltyDetailAction ? (
