@@ -104,6 +104,7 @@ const pelunasanRowsLikeView1: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
+    statusTagihan: i === 2 ? "Jatuh Tempo" : "Belum Dibayar",
   })),
 ];
 
@@ -141,6 +142,7 @@ const upcomingRows: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "83.333",
+    statusTagihan: i === 0 ? "Jatuh Tempo" : "Belum Dibayar",
   })),
 ];
 
