@@ -134,6 +134,7 @@ const upcomingRows: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "783.333",
     sisaBunga: "26.389",
+    statusTagihan: "Terlambat",
   },
   ...Array.from({ length: 8 }).map((_, i) => ({
     jatuhTempo: `25-${String(4 + i).padStart(2, "0")}-2026`,

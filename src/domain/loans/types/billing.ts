@@ -2,6 +2,7 @@ export type BillingStatus =
   | "Belum Dibayar"
   | "Lunas"
   | "Jatuh Tempo"
+  | "Terlambat"
   | "Dibayar Sebagian";
 
 export type BillingRow = {
