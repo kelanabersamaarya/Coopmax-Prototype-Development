@@ -317,9 +317,8 @@ export default function LoanTransactionHistoryDialog({
                         </th>
 
                         <th className={cn(headerTh, "w-[120px]")}>
-                          Angsuran
-                          <br />
-                          Ke-
+                          <span className="block">Angsuran</span>
+                          <span className="block">Ke-</span>
                         </th>
 
                         <th className={cn(headerTh, "w-[120px] whitespace-nowrap")}>Tanggal</th>
