@@ -309,10 +309,9 @@ export default function LoanTransactionHistoryDialog({
                           Angsuran
                         </th>
 
-                        <th className={cn(headerTh, "w-[120px]")}>
-                          Angsuran
-                          <br />
-                          Ke-
+                        <th className={cn(headerTh, "w-[120px] whitespace-nowrap")}>
+                          <span className="block">Angsuran</span>
+                          <span className="block">Ke-</span>
                         </th>
 
                         <th className={cn(headerTh, "w-[120px]")}>Tanggal</th>
@@ -396,7 +395,7 @@ export default function LoanTransactionHistoryDialog({
                               </td>
 
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
-                                {r.angsuranKe || "-"}
+                                {derivedNo <= 5 ? derivedNo : "-"}
                               </td>
 
                               <td
