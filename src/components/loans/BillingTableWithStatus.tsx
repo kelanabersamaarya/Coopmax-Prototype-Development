@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import BillingStatusBadge from "@/components/anggota/BillingStatusBadge";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
 import PenaltyDetailDialogReadOnly, {
@@ -21,6 +22,7 @@ export type BillingRow = {
   tagihanBunga: string;
   sisaPokok: string;
   sisaBunga: string;
+  statusTagihan?: "Belum Dibayar" | "Lunas" | "Jatuh Tempo" | "Terlambat" | "Dibayar Sebagian";
 };
 
 const PENALTY_ROWS = 3;
@@ -224,6 +226,10 @@ function InnerGraceTable({
                   </div>
                 ) : null}
               </Td>
+
+              <Td className="w-[145px]">
+                <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
+              </Td>
             </tr>
           );
         })}
@@ -315,6 +321,8 @@ export default function BillingTableWithStatus({
                   <br />
                   Denda
                 </th>
+
+                <th className={cn(thBase, "w-[145px]")}>Status Tagihan</th>
               </tr>
             </thead>
 
@@ -391,6 +399,10 @@ export default function BillingTableWithStatus({
                             </div>
                           ) : null}
                         </Td>
+
+                        <Td className="w-[145px]">
+                          <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
+                        </Td>
                       </tr>
                     );
                   })}
@@ -442,6 +454,10 @@ export default function BillingTableWithStatus({
                               ) : null}
                             </div>
                           ) : null}
+                        </Td>
+
+                        <Td className="w-[145px]">
+                          <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
                     );
