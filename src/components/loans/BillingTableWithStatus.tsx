@@ -222,7 +222,7 @@ function InnerGraceTable({
                 <RightNum value={r.sisaBunga} />
               </Td>
 
-              <Td className="w-[130px] pr-1" align="right">
+              <Td className={alignedPenaltyCellClass} align="right">
                 {showPenalty ? (
                   <div className="flex items-center justify-end gap-2">
                     <span className="num-sans-tabular">
