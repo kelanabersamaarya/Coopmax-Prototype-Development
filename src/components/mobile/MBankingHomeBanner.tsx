@@ -51,6 +51,10 @@ export default function MBankingHomeBanner() {
 
   return (
     <section className="px-6 pt-7" aria-label="Banner informasi">
+      <h2 className="mb-3 text-[16px] font-extrabold leading-tight text-[#23305A]">
+        Info & Penawaran Menarik
+      </h2>
+
       <div
         ref={sliderRef}
         onScroll={updateActiveSlide}
