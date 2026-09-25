@@ -53,7 +53,7 @@ export default function MBankingNotificationsPage({
   onBack: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-full flex-col overflow-y-auto bg-white text-[#23305A]">
+    <div className="flex h-full min-h-full flex-col overflow-y-auto bg-white text-[#23305A] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <header className="px-6 pb-5 pt-8">
         <button
           type="button"
