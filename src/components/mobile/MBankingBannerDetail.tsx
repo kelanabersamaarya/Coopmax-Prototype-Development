@@ -39,10 +39,10 @@ export default function MBankingBannerDetail({
           <p>
             Buat kamu nasabah setia Koperasi, yuk nikmati diskon hingga Rp150
             Ribu di merchant favorit seperti Karnivor, Baby Dutch, Nanny&apos;s
-            Pavillon, Croco, Monsieur Spoon, dan Raa Cha. ✨
+            Pavillon, Croco, Monsieur Spoon, dan Raa Cha.
           </p>
           <p>
-            Jangan sampai kelewatan, serbu promosinya sekarang! 🚀
+            Jangan sampai kelewatan, serbu promosinya sekarang!
           </p>
         </div>
       </main>
