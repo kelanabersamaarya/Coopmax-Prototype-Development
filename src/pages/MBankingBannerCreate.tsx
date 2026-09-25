@@ -44,11 +44,11 @@ export default function MBankingBannerCreate() {
 
           <label className="pt-1 text-[13px]">Konten<span className="text-red-600">*</span></label>
           <div className="overflow-hidden rounded border border-[#c7d3e4]">
-            <div className="flex h-12 flex-nowrap overflow-hidden border-b border-[#d4d4d4] bg-[#f5f5f5] p-1">
+            <div className="flex h-[52px] flex-nowrap items-center overflow-hidden border-b border-[#d4d4d4] bg-[#f5f5f5] px-1.5 py-1">
               {toolbarButtons.map(({ label, icon: Icon, accent, dropdown }, index) => (
-                <button key={label} type="button" aria-label={label} className={`flex h-10 shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] px-3 text-[#1d3858] hover:bg-white ${index === 0 ? "min-w-[72px] rounded-md border border-[#d6dce5]" : "min-w-[40px]"}`}>
-                  <Icon className={accent ? "h-4 w-4 rounded-sm bg-yellow-300 p-0.5 text-black" : "h-4 w-4"} strokeWidth={2.2} />
-                  {dropdown && <span className="text-[10px]">⌄</span>}
+                <button key={label} type="button" aria-label={label} className={`flex h-[40px] shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] text-[#16385d] hover:bg-white ${index === 0 ? "mr-1 min-w-[72px] rounded-md border border-[#cfd7e2] bg-white px-3" : "min-w-[42px] px-2"}`}>
+                  <Icon className={accent ? "h-[17px] w-[17px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[17px] w-[17px]"} strokeWidth={2} />
+                  {dropdown && <span className="text-[10px] leading-none">⌄</span>}
                 </button>
               ))}
             </div>
