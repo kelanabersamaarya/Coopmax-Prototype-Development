@@ -23,16 +23,16 @@ export default function MBankingBannerDetail({
         </h1>
       </header>
 
-      <main className="px-6 pb-12 pt-8">
+      <main className="px-6 pb-12 pt-2">
         <img
           src="/banner_sample.jpeg"
           alt="Informasi banner M-Banking"
           className="block aspect-[2.25/1] w-full rounded-[22px] object-cover shadow-[0_8px_18px_rgba(24,45,91,0.12)]"
         />
 
-        <div className="mt-12 h-4 w-9 rounded-full bg-[#0052C8]" aria-hidden="true" />
+        <div className="mt-8 h-4 w-9 rounded-full bg-[#0052C8]" aria-hidden="true" />
 
-        <div className="mt-20 space-y-5 text-[17px] leading-[1.45] text-[#23305A]">
+        <div className="mt-12 space-y-5 text-[17px] leading-[1.45] text-[#23305A]">
           <p className="font-bold">
             Special Harpelnas: Diskon Resto s.d Rp150 Ribu!
           </p>
