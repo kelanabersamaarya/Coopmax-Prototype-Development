@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlignLeft, Bold, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Save, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
+import { AlignLeft, Bold, ChevronLeft, ChevronRight, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Save, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,10 +24,43 @@ const toolbarButtons = [
 
 const toolbarGroups = [[0], [1, 2, 3], [4], [5, 6, 7], [8], [9, 10, 11], [12, 13, 14]];
 
+const calendarDays = [null, null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+
+function DateCalendar({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [month, setMonth] = useState(8);
+  const [year, setYear] = useState(2026);
+  const monthName = new Intl.DateTimeFormat("en-US", { month: "short" }).format(new Date(year, month, 1));
+
+  return (
+    <div className="relative">
+      <Input
+        value={value}
+        placeholder="mm/dd/yyyy"
+        onFocus={() => setOpen(true)}
+        onChange={(event) => onChange(event.target.value)}
+        className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400"
+      />
+      {open && <div className="absolute left-0 top-9 z-20 w-[308px] rounded border border-[#cbd2dc] bg-white p-2.5 shadow-lg">
+        <div className="mb-2 flex h-7 items-center justify-between rounded bg-[#eeeeee] px-1 text-[#142b50]">
+          <button type="button" onClick={() => setMonth((current) => current === 0 ? 11 : current - 1)} className="flex h-6 w-6 items-center justify-center rounded bg-[#3d3d3d] text-white"><ChevronLeft className="h-3.5 w-3.5" /></button>
+          <select value={month} onChange={(event) => setMonth(Number(event.target.value))} className="h-6 bg-white px-1 text-[13px] font-medium outline-none">{Array.from({ length: 12 }, (_, index) => <option key={index} value={index}>{new Intl.DateTimeFormat("en-US", { month: "short" }).format(new Date(2026, index, 1))}</option>)}</select>
+          <select value={year} onChange={(event) => setYear(Number(event.target.value))} className="h-6 bg-white px-1 text-[13px] font-medium outline-none"><option>2026</option><option>2027</option></select>
+          <button type="button" onClick={() => setMonth((current) => current === 11 ? 0 : current + 1)} className="flex h-6 w-6 items-center justify-center rounded bg-[#3d3d3d] text-white"><ChevronRight className="h-3.5 w-3.5" /></button>
+        </div>
+        <div className="grid grid-cols-7 text-center text-[12px] font-bold text-[#405273]">{["SU", "MO", "TU", "WE", "TH", "FR", "SA"].map((day) => <span key={day} className="py-1">{day}</span>)}</div>
+        <div className="grid grid-cols-7 gap-px bg-white">{calendarDays.map((day, index) => <button key={`${month}-${year}-${index}`} type="button" disabled={!day} onClick={() => { if (day) { onChange(`${String(month + 1).padStart(2, "0")}/${String(day).padStart(2, "0")}/${year}`); setOpen(false); } }} className={`h-8 text-[12px] ${day === 25 ? "bg-[#fffef0] text-[#6f5cff]" : day ? "bg-[#f0f1f2] text-[#18345c] hover:bg-[#dce7f8]" : "bg-white"}`}>{day}</button>)}</div>
+      </div>}
+    </div>
+  );
+}
+
 export default function MBankingBannerCreate() {
   const navigate = useNavigate();
   const [active, setActive] = useState(true);
   const [content, setContent] = useState("");
+  const [bannerDate, setBannerDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
 
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#062c63] md:px-8 md:py-8">
@@ -39,10 +72,10 @@ export default function MBankingBannerCreate() {
           <Input id="banner-name" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
 
           <label htmlFor="banner-date" className="pt-1 text-[13px]">Tanggal Banner<span className="text-red-600">*</span></label>
-          <Input id="banner-date" type="date" className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400 [&::-webkit-calendar-picker-indicator]:hidden" />
+          <DateCalendar value={bannerDate} onChange={setBannerDate} />
 
           <label htmlFor="banner-expiry" className="pt-1 text-[13px]">Tanggal Kadaluarsa</label>
-          <Input id="banner-expiry" type="date" className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400 [&::-webkit-calendar-picker-indicator]:hidden" />
+          <DateCalendar value={expiryDate} onChange={setExpiryDate} />
 
           <label className="pt-1 text-[13px]">Konten<span className="text-red-600">*</span></label>
           <div className="overflow-hidden rounded border border-[#c7d3e4]">
