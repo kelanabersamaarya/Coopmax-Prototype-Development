@@ -4,8 +4,12 @@ import { ArrowLeft } from "lucide-react";
 
 export default function MBankingBannerDetail({
   onBack,
+  bannerSrc = "/banner_sample.jpeg",
+  bannerTitle = "Spesial Harpelnas",
 }: {
   onBack: () => void;
+  bannerSrc?: string;
+  bannerTitle?: string;
 }) {
   return (
     <div className="flex h-full min-h-full flex-col overflow-y-auto bg-white text-[#23305A]">
@@ -19,14 +23,14 @@ export default function MBankingBannerDetail({
           <ArrowLeft className="h-8 w-8" strokeWidth={2.2} />
         </button>
         <h1 className="mt-5 text-[22px] font-extrabold leading-tight text-[#23305A]">
-          Spesial Harpelnas
+          {bannerTitle}
         </h1>
       </header>
 
       <main className="px-6 pb-12 pt-2">
         <img
-          src="/banner_sample.jpeg"
-          alt="Informasi banner M-Banking"
+          src={bannerSrc}
+          alt={bannerTitle}
           className="block aspect-[2.25/1] w-full rounded-[22px] object-cover shadow-[0_8px_18px_rgba(24,45,91,0.12)]"
         />
 

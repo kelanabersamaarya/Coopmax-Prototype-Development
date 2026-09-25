@@ -10,8 +10,10 @@ const banners = [
 
 export default function MBankingAllBanners({
   onBack,
+  onBannerClick,
 }: {
   onBack: () => void;
+  onBannerClick?: (banner: (typeof banners)[number]) => void;
 }) {
   return (
     <div className="flex h-full min-h-full flex-col overflow-y-auto bg-white text-[#23305A]">
@@ -35,11 +37,18 @@ export default function MBankingAllBanners({
             key={banner.src}
             className="overflow-hidden rounded-[20px] shadow-[0_8px_18px_rgba(24,45,91,0.14)]"
           >
-            <img
-              src={banner.src}
-              alt={banner.alt}
-              className="block aspect-[2.25/1] w-full object-cover"
-            />
+            <button
+              type="button"
+              onClick={() => onBannerClick?.(banner)}
+              className="block w-full text-left"
+              aria-label={`Buka ${banner.alt}`}
+            >
+              <img
+                src={banner.src}
+                alt={banner.alt}
+                className="block aspect-[2.25/1] w-full object-cover"
+              />
+            </button>
           </article>
         ))}
       </main>

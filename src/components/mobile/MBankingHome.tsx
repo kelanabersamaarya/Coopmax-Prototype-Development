@@ -30,9 +30,28 @@ export default function MBankingHome({
   const [exitOpen, setExitOpen] = React.useState(false);
   const [bannerDetailOpen, setBannerDetailOpen] = React.useState(false);
   const [allBannersOpen, setAllBannersOpen] = React.useState(false);
+  const [selectedBanner, setSelectedBanner] = React.useState<{
+    src: string;
+    alt: string;
+  } | null>(null);
+
+  if (selectedBanner) {
+    return (
+      <MBankingBannerDetail
+        bannerSrc={selectedBanner.src}
+        bannerTitle={selectedBanner.alt}
+        onBack={() => setSelectedBanner(null)}
+      />
+    );
+  }
 
   if (allBannersOpen) {
-    return <MBankingAllBanners onBack={() => setAllBannersOpen(false)} />;
+    return (
+      <MBankingAllBanners
+        onBack={() => setAllBannersOpen(false)}
+        onBannerClick={(banner) => setSelectedBanner(banner)}
+      />
+    );
   }
 
   if (bannerDetailOpen) {
