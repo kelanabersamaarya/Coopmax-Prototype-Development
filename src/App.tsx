@@ -301,6 +301,7 @@ const App = () => (
             <Route path="mobile/mbanking-transactions" element={<MobileMBankingTransactions />} />
             <Route path="mobile/mbanking-banners" element={<MBankingBanners />} />
             <Route path="mobile/mbanking-banners/tambah" element={<MBankingBannerCreate />} />
+            <Route path="mobile/mbanking-banners/:id/ubah" element={<MBankingBannerCreate />} />
             <Route path="mobile/mbanking-banners/:id" element={<MBankingBannerDetail />} />
             <Route
               path="mobile/status-pembayaran-payment-link"

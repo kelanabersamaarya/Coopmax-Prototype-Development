@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AlignLeft, Bold, CheckSquare, ChevronLeft, ChevronRight, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Table2, Trash2, Underline, Video, WandSparkles, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -75,19 +75,35 @@ function DateCalendar({ value, onChange }: { value: string; onChange: (value: st
 
 export default function MBankingBannerCreate() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
   const [active, setActive] = useState(true);
   const [content, setContent] = useState("");
   const [bannerDate, setBannerDate] = useState("");
   const [bannerImages, setBannerImages] = useState<File[]>([]);
+  const [savedImages, setSavedImages] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [expiryDate, setExpiryDate] = useState("");
   const [bannerName, setBannerName] = useState("");
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
 
+  useEffect(() => {
+    if (!id) return;
+    const banners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] }>;
+    const banner = banners.find((item) => item.id === id);
+    if (!banner) return;
+    setBannerName(banner.name);
+    setBannerDate(banner.start === "-" ? "" : banner.start);
+    setExpiryDate(banner.end === "-" ? "" : banner.end);
+    setActive(banner.active);
+    setContent(banner.content);
+    setSavedImages(banner.images || []);
+  }, [id]);
+
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#062c63] md:px-8 md:py-8">
-      <h1 className="px-1 text-[22px] font-semibold tracking-tight">Banner <span className="text-[16px] font-normal">Tambah</span></h1>
+      <h1 className="px-1 text-[22px] font-semibold tracking-tight">Banner <span className="text-[16px] font-normal">{isEditMode ? "Ubah" : "Tambah"}</span></h1>
 
       <section className="mt-8 rounded-[22px] bg-white px-5 py-7 shadow-[0_5px_24px_rgba(58,77,126,0.04)] md:px-12 md:py-8">
         <div className="grid gap-x-8 gap-y-2 md:grid-cols-[170px_minmax(0,1fr)]">
@@ -137,7 +153,7 @@ export default function MBankingBannerCreate() {
           <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => setBannerImages(Array.from(event.target.files ?? []))} />
           <Button type="button" onClick={() => imageInputRef.current?.click()} className="h-8 rounded-md bg-[#3768f5] px-4 text-[13px] font-medium text-white hover:bg-[#2e58d8]"><Plus className="mr-1 h-4 w-4" />Tambah Gambar</Button>
         </div>
-        {bannerImages.length > 0 && <div className="mt-3 border-t border-[#d5ddeb] pt-2"><div className="flex items-start gap-4"><div className="flex flex-wrap gap-4">{bannerImages.map((file) => <img key={`${file.name}-${file.lastModified}`} src={URL.createObjectURL(file)} alt={file.name} className="h-[130px] w-[104px] object-cover" />)}</div><button type="button" aria-label="Hapus gambar" onClick={() => setBannerImages([])} className="mt-[48px] ml-auto mr-[200px] flex h-8 w-11 items-center justify-center rounded-md bg-[#df3048] text-white hover:bg-[#c62239]"><Trash2 className="h-4 w-4" /></button></div></div>}
+        {(savedImages.length > 0 || bannerImages.length > 0) && <div className="mt-3 border-t border-[#d5ddeb] pt-2"><div className="flex items-start gap-4"><div className="flex flex-wrap gap-4">{savedImages.map((image, index) => <img key={`saved-${index}`} src={image} alt={`${bannerName} ${index + 1}`} className="h-[130px] w-[104px] object-cover" />)}{bannerImages.map((file) => <img key={`${file.name}-${file.lastModified}`} src={URL.createObjectURL(file)} alt={file.name} className="h-[130px] w-[104px] object-cover" />)}</div><button type="button" aria-label="Hapus gambar" onClick={() => { setSavedImages([]); setBannerImages([]); }} className="mt-[48px] ml-auto mr-[200px] flex h-8 w-11 items-center justify-center rounded-md bg-[#df3048] text-white hover:bg-[#c62239]"><Trash2 className="h-4 w-4" /></button></div></div>}
 
         <div className="mt-10 flex justify-end gap-1">
           <Button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
@@ -158,8 +174,9 @@ export default function MBankingBannerCreate() {
                 <button type="button" onClick={async () => {
                   const storedBanners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] }>;
                   const images = await Promise.all(bannerImages.map(readFileAsDataUrl));
-                  storedBanners.push({ id: crypto.randomUUID(), name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active, content, images });
-                  window.localStorage.setItem("mbanking-banners", JSON.stringify(storedBanners));
+                  const nextBanner = { id: id || crypto.randomUUID(), name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active, content, images: bannerImages.length > 0 ? images : savedImages };
+                  const nextBanners = isEditMode ? storedBanners.map((item) => item.id === id ? nextBanner : item) : [...storedBanners, nextBanner];
+                  window.localStorage.setItem("mbanking-banners", JSON.stringify(nextBanners));
                   setShowSaveConfirmation(false);
                   setShowSaveSuccess(true);
                 }} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button>
@@ -175,7 +192,7 @@ export default function MBankingBannerCreate() {
               <div aria-hidden="true" className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dff0d7] text-[#9bd77d]">
                 <span className="text-[64px] font-light leading-none">✓</span>
               </div>
-              <h2 className="mt-8 text-[30px] font-bold text-[#5b5b5b]">Berhasil menambahkan data</h2>
+              <h2 className="mt-8 text-[30px] font-bold text-[#5b5b5b]">{isEditMode ? "Berhasil mengubah data" : "Berhasil menambahkan data"}</h2>
               <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="mt-8 h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">OK</button>
             </div>
           </div>

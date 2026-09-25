@@ -46,7 +46,7 @@ export default function MBankingBannerDetail() {
         <h1 className="text-[22px] font-semibold">Banner <span className="text-[16px] font-normal">Detail</span></h1>
         <div className="flex flex-wrap gap-3">
           <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff]"><List className="h-4 w-4" />Kembali ke Daftar</button>
-          <button type="button" className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Pencil className="h-4 w-4" />Ubah</button>
+          <button type="button" onClick={() => navigate(`/mobile/mbanking-banners/${banner.id}/ubah`)} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Pencil className="h-4 w-4" />Ubah</button>
           <button type="button" className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Trash2 className="h-4 w-4" />Hapus</button>
         </div>
       </div>
