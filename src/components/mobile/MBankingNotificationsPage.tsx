@@ -2,6 +2,51 @@
 
 import { ArrowLeft, Bell } from "lucide-react";
 
+const notifications = [
+  {
+    type: "Transfer In",
+    amount: "Rp2.500.000",
+    date: "20 Jul 2026",
+    time: "11:49",
+    status: "Berhasil",
+  },
+  {
+    type: "Transfer Out Antar Bank",
+    amount: "Rp750.000",
+    date: "19 Jul 2026",
+    time: "14:22",
+    status: "Berhasil",
+  },
+  {
+    type: "Transfer Out Antar Simpanan",
+    amount: "Rp500.000",
+    date: "18 Jul 2026",
+    time: "09:15",
+    status: "Berhasil",
+  },
+  {
+    type: "Pembayaran Pinjaman",
+    amount: "Rp991.666",
+    date: "17 Jul 2026",
+    time: "16:08",
+    status: "Berhasil",
+  },
+  {
+    type: "Setoran Simpanan",
+    amount: "Rp300.000",
+    date: "16 Jul 2026",
+    time: "10:35",
+    status: "Berhasil",
+  },
+  {
+    type: "Penarikan Simpanan",
+    amount: "Rp1.000.000",
+    date: "15 Jul 2026",
+    time: "13:47",
+    status: "Berhasil",
+  },
+];
+
 export default function MBankingNotificationsPage({
   onBack,
 }: {
@@ -39,32 +84,41 @@ export default function MBankingNotificationsPage({
           </button>
         </div>
 
-        <article className="mt-4 rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]">
-          <div className="flex items-start gap-3">
-            <Bell className="mt-1 h-7 w-7 shrink-0 fill-[#004FC7] text-[#004FC7]" strokeWidth={1.8} />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-[16px] font-bold leading-tight text-[#23305A]">
-                    Transfer In
-                  </p>
-                  <p className="mt-1 text-[14px] font-semibold text-[#004FC7]">
-                    Rp2.500.000
-                  </p>
-                </div>
-                <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
-                  <p>20 Jul 2026</p>
-                  <p>11:49</p>
-                </div>
-              </div>
+        <div className="mt-4 grid gap-3">
+          {notifications.map((notification) => (
+            <article
+              key={`${notification.type}-${notification.date}-${notification.time}`}
+              className="rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]"
+            >
+              <div className="flex items-start gap-3">
+                <Bell className="mt-1 h-7 w-7 shrink-0 fill-[#004FC7] text-[#004FC7]" strokeWidth={1.8} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[16px] font-bold leading-tight text-[#23305A]">
+                        {notification.type}
+                      </p>
+                      <p className="mt-1 text-[14px] font-semibold text-[#004FC7]">
+                        {notification.amount}
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
+                      <p>{notification.date}</p>
+                      <p>{notification.time}</p>
+                    </div>
+                  </div>
 
-              <div className="mt-3 flex items-center justify-between gap-3 border-t border-[#EEF2F7] pt-3 text-[13px]">
-                <span className="text-[#6B7280]">Status</span>
-                <span className="font-bold text-[#16A34A]">Berhasil</span>
+                  <div className="mt-3 flex items-center justify-between gap-3 border-t border-[#EEF2F7] pt-3 text-[13px]">
+                    <span className="text-[#6B7280]">Status</span>
+                    <span className="font-bold text-[#16A34A]">
+                      {notification.status}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </article>
+            </article>
+          ))}
+        </div>
       </main>
     </div>
   );
