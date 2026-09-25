@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AlignLeft, Bold, CheckSquare, ChevronLeft, ChevronRight, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
+import { AlignLeft, Bold, CheckSquare, ChevronLeft, ChevronRight, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Table2, Trash2, Underline, Video, WandSparkles, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -126,7 +126,7 @@ export default function MBankingBannerCreate() {
           <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => setBannerImages(Array.from(event.target.files ?? []))} />
           <Button type="button" onClick={() => imageInputRef.current?.click()} className="h-8 rounded-md bg-[#3768f5] px-4 text-[13px] font-medium text-white hover:bg-[#2e58d8]"><Plus className="mr-1 h-4 w-4" />Tambah Gambar</Button>
         </div>
-        {bannerImages.length > 0 && <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">{bannerImages.map((file) => <div key={`${file.name}-${file.lastModified}`} className="overflow-hidden rounded-md border border-[#d5ddeb] bg-[#f8faff] p-2"><img src={URL.createObjectURL(file)} alt={file.name} className="h-20 w-full object-cover" /><p className="mt-1 truncate text-[11px] text-[#526784]">{file.name}</p></div>)}</div>}
+        {bannerImages.length > 0 && <div className="mt-3 border-t border-[#d5ddeb] pt-2"><div className="flex flex-wrap items-start gap-4">{bannerImages.map((file, index) => <div key={`${file.name}-${file.lastModified}`} className="relative h-[130px] w-[104px]"><img src={URL.createObjectURL(file)} alt={file.name} className="h-[130px] w-[104px] object-cover" /><button type="button" aria-label={`Hapus gambar ${file.name}`} onClick={() => setBannerImages((files) => files.filter((_, fileIndex) => fileIndex !== index))} className="absolute left-1/2 top-1/2 flex h-8 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-md bg-[#df3048] text-white hover:bg-[#c62239]"><Trash2 className="h-4 w-4" /></button></div>)}</div></div>}
 
         <div className="mt-10 flex justify-end gap-1">
           <Button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
