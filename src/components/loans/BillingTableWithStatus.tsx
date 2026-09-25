@@ -380,7 +380,7 @@ export default function BillingTableWithStatus({
                     const showPenalty = globalIdx < PENALTY_ROWS;
                     const penaltyNumberClass =
                       globalIdx >= 2 && globalIdx <= 3
-                        ? "num-sans-tabular translate-x-[2px]"
+                        ? "num-sans-tabular translate-x-[4px]"
                         : "num-sans-tabular";
 
                     return (
