@@ -53,7 +53,7 @@ export default function MBankingBannerCreate() {
                     const { label, icon: Icon, accent, dropdown } = toolbarButtons[index];
                     return (
                       <button key={label} type="button" aria-label={label} className={`flex h-[40px] shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] px-1 text-[#16385d] last:border-r-0 hover:bg-[#fafafa] ${groupIndex === 5 ? "min-w-[38px] px-0" : "min-w-[42px]"}`}>
-                        <Icon className={index === 1 ? "h-[17px] w-[17px] text-[#16385d]" : index === 3 ? "h-[18px] w-[18px] rotate-[15deg] text-[#16385d]" : index === 9 ? "h-[17px] w-[17px] rotate-[45deg] text-[#16385d]" : index === 11 ? "h-[18px] w-[18px] -scale-x-100 fill-[#16385d] text-[#16385d]" : accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={index === 1 ? 3 : index === 3 ? 2.4 : index === 9 ? 3 : 2} />
+                        <Icon className={index === 1 ? "h-[17px] w-[17px] text-[#16385d]" : index === 3 ? "h-[18px] w-[18px] rotate-[15deg] text-[#16385d]" : index === 9 ? "h-[17px] w-[17px] rotate-[45deg] text-[#16385d]" : index === 11 ? "h-[18px] w-[18px] -scale-x-100 fill-[#16385d] text-[#16385d]" : index === 14 ? "h-[27px] w-[27px] text-[#16385d]" : accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={index === 1 ? 3 : index === 3 ? 2.4 : index === 9 ? 3 : 2} />
                         {dropdown && index === 8 ? <><span className="text-[10px] leading-none">▼</span><span className="text-[10px] leading-none">▼</span></> : dropdown && <span className="text-[9px] leading-none">⌄</span>}
                       </button>
                     );
