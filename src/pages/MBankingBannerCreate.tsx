@@ -134,7 +134,23 @@ export default function MBankingBannerCreate() {
           <Button type="button" onClick={() => setShowSaveConfirmation(true)} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" strokeWidth={3} />Simpan</Button>
         </div>
 
-        {showSaveConfirmation && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"><div className="w-full max-w-[528px] rounded-md bg-white px-6 py-10 text-center shadow-2xl"><div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f8c9a4] text-[58px] font-bold leading-none text-[#f5b47d]">!</div><h2 className="mt-8 text-[30px] font-bold text-[#526070]">Yakin untuk menyimpan data ?</h2><div className="mt-7 flex justify-center gap-2"><button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button><button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[126px] rounded-md bg-[#adadad] px-6 text-[16px] font-semibold text-white hover:bg-[#989898]">Cancel</button></div></div></div>}
+        {showSaveConfirmation && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+            <div className="w-full max-w-[528px] rounded-md bg-white px-6 py-10 text-center shadow-2xl">
+              <div
+                aria-hidden="true"
+                className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f8c9a4] text-[58px] font-bold leading-none text-[#f5b47d]"
+              >
+                !
+              </div>
+              <h2 className="mt-8 text-[30px] font-bold text-[#526070]">Yakin untuk menyimpan data ?</h2>
+              <div className="mt-7 flex justify-center gap-2">
+                <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button>
+                <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[126px] rounded-md bg-[#adadad] px-6 text-[16px] font-semibold text-white hover:bg-[#989898]">Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
