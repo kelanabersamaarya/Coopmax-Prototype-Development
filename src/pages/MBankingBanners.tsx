@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { Eye, Pencil, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-const banners = [
+type Banner = { name: string; start: string; end: string; active: boolean };
+
+const defaultBanners: Banner[] = [
   { name: "Selamat Hari Suci Galungan dan Kuningan", start: "24-09-2026", end: "24-09-2026", active: true },
   { name: "Selamat Hari Raya Nyepi", start: "24-09-2026", end: "30-09-2026", active: true },
   { name: "Selamat Hari Raya Galungan", start: "10-06-2025", end: "30-06-2025", active: false },
@@ -13,9 +16,18 @@ const banners = [
   { name: "Galungan", start: "24-09-2026", end: "30-09-2026", active: true },
 ];
 
+const bannerStorageKey = "mbanking-banners";
+
 const headerClass = "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
 
 export default function MBankingBanners() {
+  const [banners, setBanners] = useState<Banner[]>(defaultBanners);
+
+  useEffect(() => {
+    const storedBanners = window.localStorage.getItem(bannerStorageKey);
+    if (storedBanners) setBanners([...defaultBanners, ...(JSON.parse(storedBanners) as Banner[])]);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#102d58] md:px-8 md:py-8">
       <div className="flex items-center justify-between gap-4 px-1">
@@ -81,7 +93,7 @@ export default function MBankingBanners() {
         </div>
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-700">
-          <span>Menampilkan 1 sampai 7 dari 7 entri</span>
+          <span>Menampilkan 1 sampai {banners.length} dari {banners.length} entri</span>
           <div className="flex items-center"><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Sebelumnya</button><button className="bg-violet-600 px-3 py-2 text-white">1</button><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Selanjutnya</button></div>
         </div>
       </section>

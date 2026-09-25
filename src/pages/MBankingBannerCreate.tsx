@@ -73,6 +73,7 @@ export default function MBankingBannerCreate() {
   const [bannerImages, setBannerImages] = useState<File[]>([]);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [expiryDate, setExpiryDate] = useState("");
+  const [bannerName, setBannerName] = useState("");
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
 
@@ -83,7 +84,7 @@ export default function MBankingBannerCreate() {
       <section className="mt-8 rounded-[22px] bg-white px-5 py-7 shadow-[0_5px_24px_rgba(58,77,126,0.04)] md:px-12 md:py-8">
         <div className="grid gap-x-8 gap-y-2 md:grid-cols-[170px_minmax(0,1fr)]">
           <label htmlFor="banner-name" className="pt-1 text-[13px]">Nama Banner<span className="text-red-600">*</span></label>
-          <Input id="banner-name" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
+          <Input id="banner-name" value={bannerName} onChange={(event) => setBannerName(event.target.value)} className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
 
           <label htmlFor="banner-date" className="pt-1 text-[13px]">Tanggal Banner<span className="text-red-600">*</span></label>
           <DateCalendar value={bannerDate} onChange={setBannerDate} />
@@ -146,7 +147,13 @@ export default function MBankingBannerCreate() {
               </div>
               <h2 className="mt-8 text-[30px] font-bold text-[#526070]">Yakin untuk menyimpan data ?</h2>
               <div className="mt-7 flex justify-center gap-2">
-                <button type="button" onClick={() => { setShowSaveConfirmation(false); setShowSaveSuccess(true); }} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button>
+                <button type="button" onClick={() => {
+                  const storedBanners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ name: string; start: string; end: string; active: boolean }>;
+                  storedBanners.push({ name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active });
+                  window.localStorage.setItem("mbanking-banners", JSON.stringify(storedBanners));
+                  setShowSaveConfirmation(false);
+                  setShowSaveSuccess(true);
+                }} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button>
                 <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[126px] rounded-md bg-[#adadad] px-6 text-[16px] font-semibold text-white hover:bg-[#989898]">Cancel</button>
               </div>
             </div>
