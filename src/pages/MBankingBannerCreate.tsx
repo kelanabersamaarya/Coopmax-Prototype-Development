@@ -22,6 +22,8 @@ const toolbarButtons = [
   { label: "Bantuan", icon: HelpCircle },
 ];
 
+const toolbarGroups = [[0], [1, 2, 3], [4], [5, 6], [7], [8], [9, 10, 11], [12, 13, 14]];
+
 export default function MBankingBannerCreate() {
   const navigate = useNavigate();
   const [active, setActive] = useState(true);
@@ -45,11 +47,18 @@ export default function MBankingBannerCreate() {
           <label className="pt-1 text-[13px]">Konten<span className="text-red-600">*</span></label>
           <div className="overflow-hidden rounded border border-[#c7d3e4]">
             <div className="flex h-[52px] flex-nowrap items-center gap-1 overflow-hidden border-b border-[#d4d4d4] bg-[#f5f5f5] px-1.5 py-1">
-              {toolbarButtons.map(({ label, icon: Icon, accent, dropdown }, index) => (
-                <button key={label} type="button" aria-label={label} className={`flex h-[40px] shrink-0 items-center justify-center gap-1 text-[#16385d] hover:bg-[#fafafa] ${index === 0 ? "mr-1 min-w-[58px] rounded-md border border-[#cfd7e2] bg-white px-1.5" : index === 1 ? "min-w-[42px] rounded-l-[9px] border border-[#d6dce5] bg-white px-1" : index === 2 ? "min-w-[42px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 3 ? "min-w-[55px] rounded-r-[9px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 4 ? "min-w-[48px] rounded-[9px] border border-[#d6dce5] bg-white px-1" : index === 5 ? "min-w-[42px] rounded-l-[9px] border border-[#d6dce5] bg-white px-1" : index === 6 ? "min-w-[42px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 7 ? "min-w-[72px] rounded-r-[9px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 8 ? "min-w-[72px] rounded-[9px] border border-[#d6dce5] bg-white px-1" : index === 9 ? "min-w-[42px] rounded-l-[9px] border border-[#d6dce5] bg-white px-1" : index === 10 ? "min-w-[42px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 11 ? "min-w-[42px] rounded-r-[9px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 12 ? "min-w-[46px] rounded-l-[9px] border border-[#d6dce5] bg-white px-1" : index === 13 ? "min-w-[46px] border-y border-r border-[#d6dce5] bg-white px-1" : index === 14 ? "min-w-[46px] rounded-r-[9px] border-y border-r border-[#d6dce5] bg-white px-1" : "min-w-[36px] border-r border-[#d6dce5] px-1"}`}>
-                  <Icon className={accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={2} />
-                  {dropdown && <span className="text-[9px] leading-none">⌄</span>}
-                </button>
+              {toolbarGroups.map((group, groupIndex) => (
+                <div key={groupIndex} className="flex shrink-0 overflow-hidden rounded-[9px] border border-[#d6dce5] bg-white">
+                  {group.map((index) => {
+                    const { label, icon: Icon, accent, dropdown } = toolbarButtons[index];
+                    return (
+                      <button key={label} type="button" aria-label={label} className="flex h-[40px] min-w-[42px] shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] px-1 text-[#16385d] last:border-r-0 hover:bg-[#fafafa]">
+                        <Icon className={accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={2} />
+                        {dropdown && <span className="text-[9px] leading-none">⌄</span>}
+                      </button>
+                    );
+                  })}
+                </div>
               ))}
             </div>
             <textarea
