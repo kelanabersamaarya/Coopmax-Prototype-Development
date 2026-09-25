@@ -9,6 +9,7 @@ export default function SidebarMBankingMenu() {
   const location = useLocation();
   const isActive =
     location.pathname.startsWith("/mobile/mbanking-transactions") ||
+    location.pathname.startsWith("/mobile/mbanking-banners") ||
     location.pathname.startsWith("/mobile/m-banking");
   const [open, setOpen] = React.useState(isActive);
 
@@ -64,6 +65,20 @@ export default function SidebarMBankingMenu() {
                 }
               >
                 M-Banking
+              </NavLink>
+
+              <NavLink
+                to="/mobile/mbanking-banners"
+                className={({ isActive: linkActive }) =>
+                  cn(
+                    "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                    linkActive
+                      ? "bg-violet-600 text-white"
+                      : "text-slate-800 hover:bg-slate-50",
+                  )
+                }
+              >
+                Banner
               </NavLink>
 
               <NavLink
