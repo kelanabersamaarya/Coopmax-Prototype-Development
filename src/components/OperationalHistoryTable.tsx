@@ -15,6 +15,7 @@ const cellClass = "border-r border-[#D7DEE9] px-3 py-3 align-top break-words las
 const headerClass = "border-r border-[#D7DEE9] px-3 py-3 align-top font-bold uppercase leading-5 last:border-r-0";
 const numberHeaderClass = `${headerClass} text-center`;
 const numberCellClass = `${cellClass} text-center`;
+const formatHistoryValue = (value: string) => value.replaceAll("belum-diatur", "Tidak Diatur");
 
 export function OperationalHistoryTable({ entries }: Props) {
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -29,7 +30,7 @@ export function OperationalHistoryTable({ entries }: Props) {
       <table className="w-full min-w-[960px] table-fixed border-collapse text-left text-[12px] text-[#334155]">
         <colgroup><col className="w-[4%]" /><col className="w-[12%]" /><col className="w-[18%]" /><col className="w-[22%]" /><col className="w-[22%]" /><col className="w-[22%]" /></colgroup>
         <thead className="text-[#17345f]"><tr><th className={`${numberHeaderClass} px-2`}>No.</th><th className={headerClass}>User</th><th className={headerClass}>Tanggal dan Waktu Perubahan</th><th className={headerClass}>JAM OEPRASIONAL PER HARI SEBELUM PERUBAHAN</th><th className={headerClass}>JAM OEPRASIONAL PER HARI SESUDAH PERUBAHAN</th><th className={headerClass}>Alasan Perubahan</th></tr></thead>
-        <tbody>{visibleEntries.length === 0 ? <tr className="border-t border-[#D7DEE9]"><td colSpan={6} className="px-3 py-8 text-center text-[#64748b]">Belum ada riwayat perubahan</td></tr> : visibleEntries.map((entry, index) => <tr key={`${entry.changedAt}-${index}`} className="border-t border-[#D7DEE9]"><td className={`${numberCellClass} px-2`}>{(currentPage - 1) * rowsPerPage + index + 1}</td><td className={cellClass}>{entry.user}</td><td className={cellClass}>{formatOperationalHistoryDateTime(entry.changedAt)}</td><td className={cellClass}>{entry.before}</td><td className={cellClass}>{entry.after}</td><td className={cellClass}>{entry.reason || "-"}</td></tr>)}</tbody>
+        <tbody>{visibleEntries.length === 0 ? <tr className="border-t border-[#D7DEE9]"><td colSpan={6} className="px-3 py-8 text-center text-[#64748b]">Belum ada riwayat perubahan</td></tr> : visibleEntries.map((entry, index) => <tr key={`${entry.changedAt}-${index}`} className="border-t border-[#D7DEE9]"><td className={`${numberCellClass} px-2`}>{(currentPage - 1) * rowsPerPage + index + 1}</td><td className={cellClass}>{entry.user}</td><td className={cellClass}>{formatOperationalHistoryDateTime(entry.changedAt)}</td><td className={cellClass}>{formatHistoryValue(entry.before)}</td><td className={cellClass}>{formatHistoryValue(entry.after)}</td><td className={cellClass}>{entry.reason || "-"}</td></tr>)}</tbody>
       </table>
     </div>
     <div className="flex flex-col gap-3 px-1 pt-3 text-[12px] text-[#17233d] sm:flex-row sm:items-center sm:justify-between">
