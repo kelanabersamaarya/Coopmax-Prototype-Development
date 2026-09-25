@@ -74,6 +74,7 @@ export default function MBankingBannerCreate() {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const [expiryDate, setExpiryDate] = useState("");
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#062c63] md:px-8 md:py-8">
@@ -145,9 +146,21 @@ export default function MBankingBannerCreate() {
               </div>
               <h2 className="mt-8 text-[30px] font-bold text-[#526070]">Yakin untuk menyimpan data ?</h2>
               <div className="mt-7 flex justify-center gap-2">
-                <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button>
+                <button type="button" onClick={() => { setShowSaveConfirmation(false); setShowSaveSuccess(true); }} className="h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">Yes</button>
                 <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 min-w-[126px] rounded-md bg-[#adadad] px-6 text-[16px] font-semibold text-white hover:bg-[#989898]">Cancel</button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {showSaveSuccess && (
+          <div className="banner-save-success-modal fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+            <div className="w-full max-w-[528px] rounded-md bg-white px-6 py-10 text-center shadow-2xl">
+              <div aria-hidden="true" className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dff0d7] text-[#9bd77d]">
+                <span className="text-[64px] font-light leading-none">✓</span>
+              </div>
+              <h2 className="mt-8 text-[30px] font-bold text-[#5b5b5b]">Berhasil menambahkan data</h2>
+              <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="mt-8 h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">OK</button>
             </div>
           </div>
         )}
