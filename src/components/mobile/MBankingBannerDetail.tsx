@@ -32,13 +32,19 @@ export default function MBankingBannerDetail({
 
         <div className="mt-12 h-4 w-9 rounded-full bg-[#0052C8]" aria-hidden="true" />
 
-        <p className="mt-20 text-[18px] leading-[1.3] text-[#23305A]">
-          Koperasi mengucapkan Selamat Hari Suci Galungan dan Kuningan.
-          Semoga Dharma senantiasa menang atas Adharma, dan kedamaian selalu
-          menyertai kita semua. Mari kita jadikan momentum ini sebagai
-          pengingat akan pentingnya kebersamaan, kejujuran, dan gotong royong
-          dalam kehidupan dan berkoperasi.
-        </p>
+        <div className="mt-20 space-y-5 text-[17px] leading-[1.45] text-[#23305A]">
+          <p className="font-bold">
+            Special Harpelnas: Diskon Resto s.d Rp150 Ribu!
+          </p>
+          <p>
+            Buat kamu nasabah setia Koperasi, yuk nikmati diskon hingga Rp150
+            Ribu di merchant favorit seperti Karnivor, Baby Dutch, Nanny&apos;s
+            Pavillon, Croco, Monsieur Spoon, dan Raa Cha. ✨
+          </p>
+          <p>
+            Jangan sampai kelewatan, serbu promosinya sekarang! 🚀
+          </p>
+        </div>
       </main>
     </div>
   );
