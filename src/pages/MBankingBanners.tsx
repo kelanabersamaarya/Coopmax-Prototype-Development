@@ -1,104 +1,45 @@
 import { useEffect, useState } from "react";
 import { ChevronsUpDown, Eye, Pencil, Plus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-type Banner = { name: string; start: string; end: string; active: boolean };
+type Banner = { id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] };
 
 const defaultBanners: Banner[] = [
-  { name: "Selamat Hari Suci Galungan dan Kuningan", start: "24-09-2026", end: "24-09-2026", active: true },
-  { name: "Selamat Hari Raya Nyepi", start: "24-09-2026", end: "30-09-2026", active: true },
-  { name: "Selamat Hari Raya Galungan", start: "10-06-2025", end: "30-06-2025", active: false },
-  { name: "Selamat Hari Raya", start: "01-10-2022", end: "14-10-2022", active: true },
-  { name: "Promo Deposito Seru", start: "11-06-2025", end: "30-06-2025", active: true },
-  { name: "Hari raya", start: "24-09-2026", end: "24-09-2026", active: true },
-  { name: "Galungan", start: "24-09-2026", end: "30-09-2026", active: true },
-];
+  ["Selamat Hari Suci Galungan dan Kuningan", "24-09-2026", "24-09-2026", true],
+  ["Selamat Hari Raya Nyepi", "24-09-2026", "30-09-2026", true],
+  ["Selamat Hari Raya Galungan", "10-06-2025", "30-06-2025", false],
+  ["Selamat Hari Raya", "01-10-2022", "14-10-2022", true],
+  ["Promo Deposito Seru", "11-06-2025", "30-06-2025", true],
+  ["Hari raya", "24-09-2026", "24-09-2026", true],
+  ["Galungan", "24-09-2026", "30-09-2026", true],
+].map(([name, start, end, active], index) => ({ id: `default-${index + 1}`, name: name as string, start: start as string, end: end as string, active: active as boolean, content: "", images: [] }));
 
 const bannerStorageKey = "mbanking-banners";
-
 const headerClass = "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
 
 export default function MBankingBanners() {
+  const navigate = useNavigate();
   const [banners, setBanners] = useState<Banner[]>(defaultBanners);
 
   useEffect(() => {
     const storedBanners = window.localStorage.getItem(bannerStorageKey);
-    if (storedBanners) {
-      const savedBanners = JSON.parse(storedBanners) as Banner[];
-      setBanners([...savedBanners.reverse(), ...defaultBanners]);
-    }
+    if (storedBanners) setBanners([...(JSON.parse(storedBanners) as Banner[]).reverse(), ...defaultBanners]);
   }, []);
 
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#102d58] md:px-8 md:py-8">
-      <div className="flex items-center justify-between gap-4 px-1">
-        <h1 className="text-[22px] font-semibold tracking-tight">
-          Banner <span className="text-[16px] font-normal">Daftar</span>
-        </h1>
-        <Button onClick={() => window.location.assign("/mobile/mbanking-banners/tambah")} className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50">
-          <Plus className="mr-2 h-4 w-4" />
-          Tambah
-        </Button>
-      </div>
-
+      <div className="flex items-center justify-between gap-4 px-1"><h1 className="text-[22px] font-semibold tracking-tight">Banner <span className="text-[16px] font-normal">Daftar</span></h1><Button onClick={() => navigate("/mobile/mbanking-banners/tambah")} className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50"><Plus className="mr-2 h-4 w-4" />Tambah</Button></div>
       <section className="mt-8 min-h-[515px] rounded-[22px] bg-white px-5 py-6 shadow-[0_5px_24px_rgba(58,77,126,0.04)] md:px-6">
-        <div className="mb-4 flex items-center text-[13px] text-slate-800">
-          Tampilkan
-          <select className="mx-1 h-7 rounded border border-slate-300 bg-white px-1 text-[13px] text-slate-900">
-            <option>20</option>
-          </select>
-          entri
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[920px] table-fixed border-collapse text-[12px]">
-            <colgroup>
-              <col className="w-[5%]" />
-              <col className="w-[27%]" />
-              <col className="w-[20%]" />
-              <col className="w-[20%]" />
-              <col className="w-[20%]" />
-              <col className="w-[8%]" />
-            </colgroup>
-            <thead>
-              <tr className="bg-white">
-                <th className={headerClass}>No.</th>
-                <th className={cn(headerClass, "bg-[#eef0f4]")}>Nama Banner <span className="float-right">⌄</span></th>
-                <th className={headerClass}>Tanggal Banner <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
-                <th className={headerClass}>Tanggal Kadaluarsa <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
-                <th className={headerClass}>Status <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
-                <th className={headerClass}>Aksi <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
-              </tr>
-              <tr className="border-b border-slate-300">
-                <th />
-                <th className="px-2.5 py-2"><Input className="h-8 text-[12px]" /></th>
-                <th className="px-2.5 py-2"><div className="flex h-8 overflow-hidden rounded border border-slate-300"><Input className="h-full min-w-0 flex-1 rounded-none border-0 text-[12px] shadow-none focus-visible:ring-0" /><button className="w-8 bg-[#8494af] text-white">×</button></div></th>
-                <th className="px-2.5 py-2"><div className="flex h-8 overflow-hidden rounded border border-slate-300"><Input className="h-full min-w-0 flex-1 rounded-none border-0 text-[12px] shadow-none focus-visible:ring-0" /><button className="w-8 bg-[#8494af] text-white">×</button></div></th>
-                <th className="px-2.5 py-2"><select className="h-8 w-full rounded border border-slate-300 bg-white px-2 text-[12px] text-slate-500"><option>-- Semua --</option></select></th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {banners.map((banner, index) => (
-                <tr key={banner.name} className="border-b border-[#cbd5e1] text-[#123664]">
-                  <td className="px-1 py-2">{index + 1}</td>
-                  <td className="bg-[#f0f1f4] px-2.5 py-2">{banner.name}</td>
-                  <td className="px-2.5 py-2">{banner.start}</td>
-                  <td className="px-2.5 py-2">{banner.end}</td>
-                  <td className="px-2.5 py-2"><span className={cn("rounded px-1.5 py-1 text-[10px] font-bold text-white", banner.active ? "bg-green-600" : "bg-red-500")}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></td>
-                  <td className="px-2.5 py-2"><div className="flex min-w-[78px] items-center gap-2"><button type="button" aria-label="Lihat banner" className="text-[#7b879d] transition-colors hover:text-[#526784]"><Eye className="h-[18px] w-[18px]" strokeWidth={2.2} /></button><button type="button" aria-label="Edit banner" className="text-[#315fff] transition-colors hover:text-[#2448c7]"><Pencil className="h-[19px] w-[19px]" strokeWidth={2.3} /></button><button type="button" aria-label="Hapus banner" className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#e52d4f] text-white transition-colors hover:bg-[#c91f3e]"><X className="h-[11px] w-[11px]" strokeWidth={3} /></button></div></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-700">
-          <span>Menampilkan 1 sampai {banners.length} dari {banners.length} entri</span>
-          <div className="flex items-center"><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Sebelumnya</button><button className="bg-violet-600 px-3 py-2 text-white">1</button><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Selanjutnya</button></div>
-        </div>
+        <div className="mb-4 flex items-center text-[13px] text-slate-800">Tampilkan<select className="mx-1 h-7 rounded border border-slate-300 bg-white px-1 text-[13px] text-slate-900"><option>20</option></select>entri</div>
+        <div className="overflow-x-auto"><table className="w-full min-w-[920px] table-fixed border-collapse text-[12px]"><colgroup><col className="w-[5%]" /><col className="w-[27%]" /><col className="w-[20%]" /><col className="w-[20%]" /><col className="w-[20%]" /><col className="w-[8%]" /></colgroup>
+          <thead><tr className="bg-white"><th className={headerClass}>No.</th><th className={cn(headerClass, "bg-[#eef0f4]")}>Nama Banner <span className="float-right">⌄</span></th>{["Tanggal Banner", "Tanggal Kadaluarsa", "Status", "Aksi"].map((label) => <th key={label} className={headerClass}>{label}<ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>)}</tr>
+            <tr className="border-b border-slate-300"><th /><th className="px-2.5 py-2"><Input className="h-8 text-[12px]" /></th><th className="px-2.5 py-2"><div className="flex h-8 overflow-hidden rounded border border-slate-300"><Input className="h-full min-w-0 flex-1 rounded-none border-0 text-[12px] shadow-none focus-visible:ring-0" /><button className="w-8 bg-[#8494af] text-white">×</button></div></th><th className="px-2.5 py-2"><div className="flex h-8 overflow-hidden rounded border border-slate-300"><Input className="h-full min-w-0 flex-1 rounded-none border-0 text-[12px] shadow-none focus-visible:ring-0" /><button className="w-8 bg-[#8494af] text-white">×</button></div></th><th className="px-2.5 py-2"><select className="h-8 w-full rounded border border-slate-300 bg-white px-2 text-[12px] text-slate-500"><option>-- Semua --</option></select></th><th /></tr></thead>
+          <tbody>{banners.map((banner, index) => <tr key={banner.id} className="border-b border-[#cbd5e1] text-[#123664]"><td className="px-1 py-2">{index + 1}</td><td className="bg-[#f0f1f4] px-2.5 py-2">{banner.name}</td><td className="px-2.5 py-2">{banner.start}</td><td className="px-2.5 py-2">{banner.end}</td><td className="px-2.5 py-2"><span className={cn("rounded px-1.5 py-1 text-[10px] font-bold text-white", banner.active ? "bg-green-600" : "bg-red-500")}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></td><td className="px-2.5 py-2"><div className="flex min-w-[78px] items-center gap-2"><button type="button" aria-label="Lihat banner" onClick={() => navigate(`/mobile/mbanking-banners/${banner.id}`)} className="text-[#7b879d] transition-colors hover:text-[#526784]"><Eye className="h-[18px] w-[18px]" strokeWidth={2.2} /></button><button type="button" aria-label="Edit banner" className="text-[#315fff] transition-colors hover:text-[#2448c7]"><Pencil className="h-[19px] w-[19px]" strokeWidth={2.3} /></button><button type="button" aria-label="Hapus banner" className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#e52d4f] text-white transition-colors hover:bg-[#c91f3e]"><X className="h-[11px] w-[11px]" strokeWidth={3} /></button></div></td></tr>)}</tbody>
+        </table></div>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-700"><span>Menampilkan 1 sampai {banners.length} dari {banners.length} entri</span><div className="flex items-center"><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Sebelumnya</button><button className="bg-violet-600 px-3 py-2 text-white">1</button><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Selanjutnya</button></div></div>
       </section>
     </div>
   );

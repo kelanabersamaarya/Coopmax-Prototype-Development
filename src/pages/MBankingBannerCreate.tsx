@@ -26,6 +26,14 @@ const toolbarGroups = [[0], [1, 2, 3], [4], [5, 6, 7], [8], [9, 10, 11], [12, 13
 
 const calendarDays = [null, null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
 
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.readAsDataURL(file);
+  });
+}
+
 function DateCalendar({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -147,9 +155,10 @@ export default function MBankingBannerCreate() {
               </div>
               <h2 className="mt-8 text-[30px] font-bold text-[#526070]">Yakin untuk menyimpan data ?</h2>
               <div className="mt-7 flex justify-center gap-2">
-                <button type="button" onClick={() => {
-                  const storedBanners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ name: string; start: string; end: string; active: boolean }>;
-                  storedBanners.push({ name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active });
+                <button type="button" onClick={async () => {
+                  const storedBanners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] }>;
+                  const images = await Promise.all(bannerImages.map(readFileAsDataUrl));
+                  storedBanners.push({ id: crypto.randomUUID(), name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active, content, images });
                   window.localStorage.setItem("mbanking-banners", JSON.stringify(storedBanners));
                   setShowSaveConfirmation(false);
                   setShowSaveSuccess(true);
