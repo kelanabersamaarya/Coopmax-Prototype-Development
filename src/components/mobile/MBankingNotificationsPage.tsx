@@ -45,6 +45,13 @@ const notifications = [
     time: "13:47",
     status: "Berhasil",
   },
+  {
+    type: "Transfer Out Antar Bank",
+    amount: "Rp1.250.000",
+    date: "14 Jul 2026",
+    time: "10:18",
+    status: "Gagal",
+  },
 ];
 
 export default function MBankingNotificationsPage({
@@ -105,7 +112,13 @@ export default function MBankingNotificationsPage({
                     <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
                       <p>{notification.date}</p>
                       <p>{notification.time}</p>
-                      <p className="mt-1 font-bold text-[#16A34A]">
+                      <p
+                        className={`mt-1 font-bold ${
+                          notification.status === "Gagal"
+                            ? "text-[#DC2626]"
+                            : "text-[#16A34A]"
+                        }`}
+                      >
                         {notification.status}
                       </p>
                     </div>
