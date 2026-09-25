@@ -86,6 +86,7 @@ export default function MBankingBannerCreate() {
   const [bannerName, setBannerName] = useState("");
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -148,15 +149,16 @@ export default function MBankingBannerCreate() {
         </div>
 
         <div className="mt-9 flex items-center justify-between gap-4">
-          <h2 className="text-[21px] font-medium">Gambar Banner <span className="text-[16px]">Daftar</span></h2>
-          <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => setBannerImages(Array.from(event.target.files ?? []))} />
+          <h2 className="text-[21px] font-medium">Gambar Banner <span className="text-[16px]">Daftar</span><span className="ml-1 text-red-600">*</span></h2>
+          <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => { setBannerImages(Array.from(event.target.files ?? [])); setImageError(false); }} />
           <Button type="button" onClick={() => imageInputRef.current?.click()} className="h-8 rounded-md bg-[#3768f5] px-4 text-[13px] font-medium text-white hover:bg-[#2e58d8]"><Plus className="mr-1 h-4 w-4" />Tambah Gambar</Button>
         </div>
+        {imageError && <p className="mt-2 text-right text-[12px] text-red-600">Gambar Banner wajib diisi.</p>}
         {(savedImages.length > 0 || bannerImages.length > 0) && <div className="mt-3 border-t border-[#d5ddeb] pt-2"><div className="flex items-start gap-4"><div className="flex flex-wrap gap-4">{savedImages.map((image, index) => <img key={`saved-${index}`} src={image} alt={`${bannerName} ${index + 1}`} className="h-[130px] w-[104px] object-cover" />)}{bannerImages.map((file) => <img key={`${file.name}-${file.lastModified}`} src={URL.createObjectURL(file)} alt={file.name} className="h-[130px] w-[104px] object-cover" />)}</div><button type="button" aria-label="Hapus gambar" onClick={() => { setSavedImages([]); setBannerImages([]); }} className="mt-[48px] ml-auto mr-[200px] flex h-8 w-11 items-center justify-center rounded-md bg-[#df3048] text-white hover:bg-[#c62239]"><Trash2 className="h-4 w-4" /></button></div></div>}
 
         <div className="mt-10 flex justify-end gap-1">
           <Button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
-          <Button type="button" onClick={() => setShowSaveConfirmation(true)} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" strokeWidth={3} />Simpan</Button>
+          <Button type="button" onClick={() => { if (bannerImages.length === 0 && savedImages.length === 0) { setImageError(true); return; } setShowSaveConfirmation(true); }} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" strokeWidth={3} />Simpan</Button>
         </div>
 
         {showSaveConfirmation && (
