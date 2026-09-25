@@ -25,7 +25,7 @@ export type BillingRow = {
   statusTagihan?: "Belum Dibayar" | "Lunas" | "Jatuh Tempo" | "Terlambat" | "Dibayar Sebagian";
 };
 
-const PENALTY_ROWS = 3;
+const PENALTY_ROWS = 4;
 const PENALTY_AMOUNT = 75000;
 const PENALTY_DETAIL_DAYS = 3;
 const PENALTY_PER_DAY = 25000;
