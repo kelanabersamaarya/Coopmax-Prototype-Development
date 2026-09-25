@@ -149,7 +149,7 @@ export default function MBankingBannerCreate() {
         </div>
 
         <div className="mt-9 flex items-center justify-between gap-4">
-          <h2 className="text-[21px] font-medium">Gambar Banner <span className="text-[16px]">Daftar</span><span className="ml-1 text-red-600">*</span></h2>
+          <h2 className="text-[21px] font-bold">Gambar Banner <span className="text-[16px] font-normal">Daftar</span><span className="ml-1 text-red-600 font-normal">*</span></h2>
           <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => { setBannerImages(Array.from(event.target.files ?? [])); setImageError(false); }} />
           <Button type="button" onClick={() => imageInputRef.current?.click()} className="h-8 rounded-md bg-[#3768f5] px-4 text-[13px] font-medium text-white hover:bg-[#2e58d8]"><Plus className="mr-1 h-4 w-4" />Tambah Gambar</Button>
         </div>
