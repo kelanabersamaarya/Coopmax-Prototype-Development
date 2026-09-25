@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Mail } from "lucide-react";
+import { ArrowLeft, Bell } from "lucide-react";
 
 export default function MBankingNotificationsPage({
   onBack,
@@ -40,7 +40,7 @@ export default function MBankingNotificationsPage({
         </div>
 
         <article className="mt-4 flex items-center gap-4 rounded-[20px] bg-white px-4 py-5 shadow-[0_6px_18px_rgba(30,47,83,0.09)]">
-          <Mail className="h-10 w-10 shrink-0 fill-[#8A8A8A] text-[#8A8A8A]" strokeWidth={1.6} />
+          <Bell className="h-10 w-10 shrink-0 fill-[#8A8A8A] text-[#8A8A8A]" strokeWidth={1.6} />
           <div className="min-w-0 flex-1 text-[18px] font-bold text-[#23305A]">
             Transfer
           </div>
