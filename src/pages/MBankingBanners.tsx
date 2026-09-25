@@ -73,7 +73,7 @@ export default function MBankingBanners() {
                   <td className="px-2.5 py-2">{banner.start}</td>
                   <td className="px-2.5 py-2">{banner.end}</td>
                   <td className="px-2.5 py-2"><span className={cn("rounded px-1.5 py-1 text-[10px] font-bold text-white", banner.active ? "bg-green-600" : "bg-red-500")}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></td>
-                  <td className="px-2.5 py-2"><div className="flex items-center gap-2 text-blue-600"><Eye className="h-4 w-4" /><Pencil className="h-4 w-4" /><X className="h-4 w-4 rounded-full fill-red-500 text-white" /></div></td>
+                  <td className="px-2.5 py-2"><div className="flex min-w-[78px] items-center gap-2"><button type="button" aria-label="Lihat banner" className="text-[#7b879d] transition-colors hover:text-[#526784]"><Eye className="h-[18px] w-[18px]" strokeWidth={2.2} /></button><button type="button" aria-label="Edit banner" className="text-[#315fff] transition-colors hover:text-[#2448c7]"><Pencil className="h-[19px] w-[19px]" strokeWidth={2.3} /></button><button type="button" aria-label="Hapus banner" className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#e52d4f] text-white transition-colors hover:bg-[#c91f3e]"><X className="h-[13px] w-[13px]" strokeWidth={3} /></button></div></td>
                 </tr>
               ))}
             </tbody>
