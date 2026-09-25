@@ -30,9 +30,7 @@ export default function MBankingBannerDetail({
           className="block aspect-[2.25/1] w-full rounded-[22px] object-cover shadow-[0_8px_18px_rgba(24,45,91,0.12)]"
         />
 
-        <div className="mt-8 h-4 w-9 rounded-full bg-[#0052C8]" aria-hidden="true" />
-
-        <div className="mt-12 space-y-5 text-[17px] leading-[1.45] text-[#23305A]">
+        <div className="mt-8 space-y-5 text-[17px] leading-[1.45] text-[#23305A]">
           <p className="font-bold">
             Special Harpelnas: Diskon Resto s.d Rp150 Ribu!
           </p>
