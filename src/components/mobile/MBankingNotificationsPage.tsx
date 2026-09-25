@@ -105,14 +105,10 @@ export default function MBankingNotificationsPage({
                     <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
                       <p>{notification.date}</p>
                       <p>{notification.time}</p>
+                      <p className="mt-1 font-bold text-[#16A34A]">
+                        {notification.status}
+                      </p>
                     </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-between gap-3 border-t border-[#EEF2F7] pt-3 text-[13px]">
-                    <span className="text-[#6B7280]">Status</span>
-                    <span className="font-bold text-[#16A34A]">
-                      {notification.status}
-                    </span>
                   </div>
                 </div>
               </div>
