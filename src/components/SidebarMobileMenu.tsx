@@ -59,7 +59,7 @@ export default function SidebarMobileMenu() {
         </span>
 
         <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
-          Mobile
+          E-Kolektor
         </span>
 
         <ChevronDown
