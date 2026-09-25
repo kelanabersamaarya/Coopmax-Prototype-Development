@@ -159,7 +159,7 @@ const thBase =
   "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const thRight =
   "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
-const alignedPenaltyCellClass = "w-[130px] pr-[17px]";
+const alignedPenaltyCellClass = "w-[112px] pr-[17px]";
 
 function InnerGraceTable({
   rows,
@@ -175,15 +175,15 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full min-w-[1105px] table-fixed border-collapse text-[13px]">
+    <table className="w-full min-w-[983px] table-fixed border-collapse text-[13px]">
       <colgroup>
-        <col className="w-[110px]" />
-        <col className="w-[150px]" />
-        <col className="w-[140px]" />
-        <col className="w-[130px]" />
-        <col className="w-[150px]" />
-        <col className="w-[150px]" />
-        <col className="w-[130px]" />
+        <col className="w-[96px]" />
+        <col className="w-[132px]" />
+        <col className="w-[122px]" />
+        <col className="w-[112px]" />
+        <col className="w-[132px]" />
+        <col className="w-[132px]" />
+        <col className="w-[112px]" />
         <col className="w-[145px]" />
       </colgroup>
       <tbody className="bg-white">
@@ -287,15 +287,15 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll">
-          <table className="w-full min-w-[1105px] table-fixed border-collapse text-[13px]">
+          <table className="w-full min-w-[983px] table-fixed border-collapse text-[13px]">
             <colgroup>
-              <col className="w-[110px]" />
-              <col className="w-[150px]" />
-              <col className="w-[140px]" />
-              <col className="w-[130px]" />
-              <col className="w-[150px]" />
-              <col className="w-[150px]" />
-              <col className="w-[130px]" />
+              <col className="w-[96px]" />
+              <col className="w-[132px]" />
+              <col className="w-[122px]" />
+              <col className="w-[112px]" />
+              <col className="w-[132px]" />
+              <col className="w-[132px]" />
+              <col className="w-[112px]" />
               <col className="w-[145px]" />
             </colgroup>
             <thead className="bg-white">
