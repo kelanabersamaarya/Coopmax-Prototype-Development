@@ -67,6 +67,7 @@ import MobileEKolektorFace from "./pages/MobileEKolektorFace";
 import MobileMBanking from "./pages/MobileMBanking";
 import MobileMBankingTransactions from "./pages/MobileMBankingTransactions";
 import MBankingBanners from "./pages/MBankingBanners";
+import MBankingBannerCreate from "./pages/MBankingBannerCreate";
 import MobilePaymentLinkStatus from "./pages/MobilePaymentLinkStatus";
 import NewMBanking from "./pages/NewMBanking";
 import PaymentLink from "./pages/PaymentLink";
@@ -298,6 +299,7 @@ const App = () => (
             <Route path="mobile/m-banking" element={<MobileMBanking />} />
             <Route path="mobile/mbanking-transactions" element={<MobileMBankingTransactions />} />
             <Route path="mobile/mbanking-banners" element={<MBankingBanners />} />
+            <Route path="mobile/mbanking-banners/tambah" element={<MBankingBannerCreate />} />
             <Route
               path="mobile/status-pembayaran-payment-link"
               element={<MobilePaymentLinkStatus />}
