@@ -1,4 +1,4 @@
-import { ArrowLeft, ClipboardList, Pencil, Trash2 } from "lucide-react";
+import { List, Pencil, Trash2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export type SavedBanner = {
@@ -34,7 +34,7 @@ export default function MBankingBannerDetail() {
   if (!banner) {
     return (
       <div className="min-h-screen bg-[#f4f6fc] px-5 py-8 text-[#062c63] md:px-10">
-        <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex items-center gap-2 text-sm font-semibold"><ArrowLeft className="h-4 w-4" />Kembali ke Daftar</button>
+        <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex h-[82px] items-center gap-5 rounded-full bg-white px-8 text-[30px] font-normal text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff] sm:px-9"><List className="h-9 w-9 stroke-[2.5]" />Kembali ke Daftar</button>
         <div className="mt-8 rounded-[22px] bg-white p-8">Data banner tidak ditemukan.</div>
       </div>
     );
@@ -45,7 +45,7 @@ export default function MBankingBannerDetail() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-[22px] font-semibold">Banner <span className="text-[16px] font-normal">Detail</span></h1>
         <div className="flex flex-wrap gap-3">
-          <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><ClipboardList className="h-4 w-4" />Kembali ke Daftar</button>
+          <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex h-[82px] items-center gap-5 rounded-full bg-white px-8 text-[30px] font-normal text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff] sm:px-9"><List className="h-9 w-9 stroke-[2.5]" />Kembali ke Daftar</button>
           <button type="button" className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Pencil className="h-4 w-4" />Ubah</button>
           <button type="button" className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Trash2 className="h-4 w-4" />Hapus</button>
         </div>
