@@ -20,7 +20,7 @@ export default function MBankingBanners() {
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#102d58] md:px-8 md:py-8">
       <div className="flex items-center justify-between gap-4 px-1">
         <h1 className="text-[22px] font-semibold tracking-tight">
-          Banner <span className="font-normal">Daftar</span>
+          Banner <span className="text-[16px] font-normal">Daftar</span>
         </h1>
         <Button className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50">
           <Plus className="mr-2 h-4 w-4" />
