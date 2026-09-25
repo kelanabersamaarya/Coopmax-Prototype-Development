@@ -378,6 +378,10 @@ export default function BillingTableWithStatus({
                     const rowIndex = graceCount + idx;
                     const globalIdx = penaltyIndexOffset + rowIndex;
                     const showPenalty = globalIdx < PENALTY_ROWS;
+                    const penaltyNumberClass =
+                      globalIdx >= 2 && globalIdx <= 3
+                        ? "num-sans-tabular translate-x-[2px]"
+                        : "num-sans-tabular";
 
                     return (
                       <tr key={`${r.jatuhTempo}-${rowIndex}`} className="bg-white">
@@ -408,7 +412,7 @@ export default function BillingTableWithStatus({
                         <Td className="w-[130px] pr-[17px]" align="right">
                           {showPenalty ? (
                             <div className="flex items-center justify-end gap-2">
-                              <span className="num-sans-tabular">
+                              <span className={penaltyNumberClass}>
                                 {formatIdrLike(PENALTY_AMOUNT)}
                               </span>
                               {showPenaltyDetailAction ? (
