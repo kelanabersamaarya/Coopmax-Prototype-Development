@@ -39,16 +39,31 @@ export default function MBankingNotificationsPage({
           </button>
         </div>
 
-        <article className="mt-4 flex items-center gap-4 rounded-[20px] bg-white px-4 py-5 shadow-[0_6px_18px_rgba(30,47,83,0.09)]">
-          <Bell className="h-8 w-8 shrink-0 fill-[#004FC7] text-[#004FC7]" strokeWidth={1.8} />
-          <div className="min-w-0 flex-1 text-[18px] font-bold text-[#23305A]">
-            Transfer
+        <article className="mt-4 rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]">
+          <div className="flex items-start gap-3">
+            <Bell className="mt-1 h-7 w-7 shrink-0 fill-[#004FC7] text-[#004FC7]" strokeWidth={1.8} />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[16px] font-bold leading-tight text-[#23305A]">
+                    Transfer In
+                  </p>
+                  <p className="mt-1 text-[14px] font-semibold text-[#004FC7]">
+                    Rp2.500.000
+                  </p>
+                </div>
+                <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
+                  <p>20 Jul 2026</p>
+                  <p>11:49</p>
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-center justify-between gap-3 border-t border-[#EEF2F7] pt-3 text-[13px]">
+                <span className="text-[#6B7280]">Status</span>
+                <span className="font-bold text-[#16A34A]">Berhasil</span>
+              </div>
+            </div>
           </div>
-          <time className="shrink-0 text-right text-[16px] leading-[1.15] text-[#23305A]">
-            20 Jul 2026
-            <br />
-            11:49
-          </time>
         </article>
       </main>
     </div>
