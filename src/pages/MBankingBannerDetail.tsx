@@ -54,7 +54,7 @@ export default function MBankingBannerDetail() {
       <section className="mt-8 rounded-[22px] bg-white px-8 py-8 md:px-12 md:py-9">
         <h2 className="text-[15px] font-bold uppercase">Detail Banner</h2>
         <dl className="mt-5 grid max-w-[600px] grid-cols-[198px_1fr] gap-y-4 text-[13px]">
-          <dt className="text-[#7184a2]">Nama Banner</dt><dd>: {banner.name}</dd>
+          <dt className="text-[#7184a2]">Judul Banner</dt><dd>: {banner.name}</dd>
           <dt className="text-[#7184a2]">Tanggal Banner</dt><dd>: {banner.start}</dd>
           <dt className="text-[#7184a2]">Tanggal Kadaluarsa</dt><dd>: {banner.end}</dd>
           <dt className="text-[#7184a2]">Status</dt><dd><span className={`rounded px-3 py-1 text-[11px] font-bold text-white ${banner.active ? "bg-green-600" : "bg-red-500"}`}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></dd>
