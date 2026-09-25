@@ -39,10 +39,10 @@ export default function MBankingBannerCreate() {
           <Input id="banner-name" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
 
           <label htmlFor="banner-date" className="pt-1 text-[13px]">Tanggal Banner<span className="text-red-600">*</span></label>
-          <Input id="banner-date" placeholder="dd-mm-yyyy" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none placeholder:text-[#8494af] focus-visible:ring-1 focus-visible:ring-blue-400" />
+          <Input id="banner-date" type="date" className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
 
           <label htmlFor="banner-expiry" className="pt-1 text-[13px]">Tanggal Kadaluarsa</label>
-          <Input id="banner-expiry" placeholder="dd-mm-yyyy" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none placeholder:text-[#8494af] focus-visible:ring-1 focus-visible:ring-blue-400" />
+          <Input id="banner-expiry" type="date" className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
 
           <label className="pt-1 text-[13px]">Konten<span className="text-red-600">*</span></label>
           <div className="overflow-hidden rounded border border-[#c7d3e4]">
