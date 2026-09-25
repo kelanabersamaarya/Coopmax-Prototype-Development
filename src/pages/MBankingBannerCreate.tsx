@@ -70,6 +70,8 @@ export default function MBankingBannerCreate() {
   const [active, setActive] = useState(true);
   const [content, setContent] = useState("");
   const [bannerDate, setBannerDate] = useState("");
+  const [bannerImages, setBannerImages] = useState<File[]>([]);
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const [expiryDate, setExpiryDate] = useState("");
 
   return (
@@ -121,8 +123,10 @@ export default function MBankingBannerCreate() {
 
         <div className="mt-9 flex items-center justify-between gap-4">
           <h2 className="text-[21px] font-medium">Gambar Banner <span className="text-[16px]">Daftar</span></h2>
-          <Button type="button" className="h-8 rounded-md bg-[#3768f5] px-4 text-[13px] font-medium text-white hover:bg-[#2e58d8]"><Plus className="mr-1 h-4 w-4" />Tambah Gambar</Button>
+          <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(event) => setBannerImages(Array.from(event.target.files ?? []))} />
+          <Button type="button" onClick={() => imageInputRef.current?.click()} className="h-8 rounded-md bg-[#3768f5] px-4 text-[13px] font-medium text-white hover:bg-[#2e58d8]"><Plus className="mr-1 h-4 w-4" />Tambah Gambar</Button>
         </div>
+        {bannerImages.length > 0 && <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">{bannerImages.map((file) => <div key={`${file.name}-${file.lastModified}`} className="overflow-hidden rounded-md border border-[#d5ddeb] bg-[#f8faff] p-2"><img src={URL.createObjectURL(file)} alt={file.name} className="h-20 w-full object-cover" /><p className="mt-1 truncate text-[11px] text-[#526784]">{file.name}</p></div>)}</div>}
 
         <div className="mt-10 flex justify-end gap-1">
           <Button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
