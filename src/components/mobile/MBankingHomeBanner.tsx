@@ -10,7 +10,11 @@ const banners = [
 
 const sliderStartInset = 16;
 
-export default function MBankingHomeBanner() {
+export default function MBankingHomeBanner({
+  onBannerClick,
+}: {
+  onBannerClick?: () => void;
+}) {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const sliderRef = React.useRef<HTMLDivElement>(null);
   const slideRefs = React.useRef<Array<HTMLDivElement | null>>([]);
@@ -70,11 +74,18 @@ export default function MBankingHomeBanner() {
             }}
             className="w-[87%] shrink-0 snap-start overflow-hidden rounded-[18px] shadow-[0_8px_18px_rgba(24,45,91,0.14)]"
           >
-            <img
-              src={banner.src}
-              alt={banner.alt}
-              className="block aspect-[2.25/1] w-full object-cover"
-            />
+            <button
+              type="button"
+              onClick={() => onBannerClick?.()}
+              className="block w-full text-left"
+              aria-label={`Buka ${banner.alt}`}
+            >
+              <img
+                src={banner.src}
+                alt={banner.alt}
+                className="block aspect-[2.25/1] w-full object-cover"
+              />
+            </button>
           </div>
         ))}
       </div>
