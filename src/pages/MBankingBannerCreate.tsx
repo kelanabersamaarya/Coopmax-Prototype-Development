@@ -48,11 +48,11 @@ export default function MBankingBannerCreate() {
           <div className="overflow-hidden rounded border border-[#c7d3e4]">
             <div className="flex h-[52px] flex-nowrap items-center gap-1 overflow-hidden border-b border-[#d4d4d4] bg-[#f5f5f5] px-1.5 py-1">
               {toolbarGroups.map((group, groupIndex) => (
-                <div key={groupIndex} className={`flex shrink-0 overflow-hidden rounded-[9px] border border-[#d6dce5] bg-white ${groupIndex === 5 ? "min-w-[92px]" : ""}`}>
+                <div key={groupIndex} className={`flex shrink-0 overflow-hidden rounded-[9px] border border-[#d6dce5] bg-white ${groupIndex === 5 ? "min-w-[76px]" : ""}`}>
                   {group.map((index) => {
                     const { label, icon: Icon, accent, dropdown } = toolbarButtons[index];
                     return (
-                      <button key={label} type="button" aria-label={label} className={`flex h-[40px] shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] px-1 text-[#16385d] last:border-r-0 hover:bg-[#fafafa] ${groupIndex === 5 ? "min-w-[46px] px-0" : "min-w-[42px]"}`}>
+                      <button key={label} type="button" aria-label={label} className={`flex h-[40px] shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] px-1 text-[#16385d] last:border-r-0 hover:bg-[#fafafa] ${groupIndex === 5 ? "min-w-[38px] px-0" : "min-w-[42px]"}`}>
                         <Icon className={index === 1 ? "h-[17px] w-[17px] text-[#16385d]" : index === 3 ? "h-[18px] w-[18px] rotate-[15deg] text-[#16385d]" : accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={index === 1 ? 3 : index === 3 ? 2.4 : 2} />
                         {dropdown && index === 8 ? <><span className="text-[10px] leading-none">▼</span><span className="text-[10px] leading-none">▼</span></> : dropdown && <span className="text-[9px] leading-none">⌄</span>}
                       </button>
