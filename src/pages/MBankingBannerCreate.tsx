@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlignLeft, Bold, Code2, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Save, Strikethrough, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
+import { AlignLeft, Bold, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Save, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +8,7 @@ const toolbarButtons = [
   { label: "Format", icon: WandSparkles, dropdown: true },
   { label: "Tebal", icon: Bold },
   { label: "Garis bawah", icon: Underline },
-  { label: "Coret", icon: Strikethrough },
+  { label: "Hapus format", icon: Eraser },
   { label: "Warna teks", icon: WandSparkles, accent: true, dropdown: true },
   { label: "Daftar", icon: List },
   { label: "Daftar bernomor", icon: ListOrdered },
