@@ -15,7 +15,7 @@ const cellClass = "border-r border-[#D7DEE9] px-3 py-3 align-top break-words las
 const headerClass = "border-r border-[#D7DEE9] px-3 py-3 align-top font-bold uppercase leading-5 last:border-r-0";
 const numberHeaderClass = `${headerClass} text-center`;
 const numberCellClass = `${cellClass} text-center`;
-const formatHistoryValue = (value: string) => value.replaceAll("belum-diatur", "Tidak Diatur");
+const formatHistoryValue = (value: string) => value.split("belum-diatur").join("Tidak Diatur");
 
 export function OperationalHistoryTable({ entries }: Props) {
   const [currentPage, setCurrentPage] = React.useState(1);
