@@ -384,7 +384,10 @@ export default function BillingTableWithStatus({
                         : "num-sans-tabular";
 
                     return (
-                      <tr key={`${r.jatuhTempo}-${rowIndex}`} className="bg-white">
+                      <tr
+                        key={`${r.jatuhTempo}-${rowIndex}`}
+                        className="bg-white [&>td:nth-child(-n+6)]:translate-x-2"
+                      >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
                         </Td>
@@ -440,7 +443,10 @@ export default function BillingTableWithStatus({
                     const showPenalty = globalIdx < PENALTY_ROWS;
 
                     return (
-                      <tr key={`${r.jatuhTempo}-${idx}`} className="bg-white">
+                      <tr
+                        key={`${r.jatuhTempo}-${idx}`}
+                        className="bg-white [&>td:nth-child(-n+6)]:translate-x-2"
+                      >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
                         </Td>
