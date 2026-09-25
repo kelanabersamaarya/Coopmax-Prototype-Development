@@ -86,6 +86,7 @@ export default function MBankingBannerCreate() {
   const [bannerName, setBannerName] = useState("");
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+  const [showImageAlert, setShowImageAlert] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
@@ -158,8 +159,19 @@ export default function MBankingBannerCreate() {
 
         <div className="mt-10 flex justify-end gap-1">
           <Button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
-          <Button type="button" onClick={() => { if (bannerImages.length === 0 && savedImages.length === 0) { setImageError(true); return; } setShowSaveConfirmation(true); }} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" strokeWidth={3} />Simpan</Button>
+          <Button type="button" onClick={() => { if (bannerImages.length === 0 && savedImages.length === 0) { setImageError(true); setShowImageAlert(true); return; } setShowSaveConfirmation(true); }} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" strokeWidth={3} />Simpan</Button>
         </div>
+
+        {showImageAlert && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+            <div className="w-full max-w-[528px] rounded-md bg-white px-6 py-10 text-center shadow-2xl">
+              <div aria-hidden="true" className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f27479] text-[58px] font-light leading-none text-[#f27479]">×</div>
+              <h2 className="mt-8 text-[30px] font-bold text-[#526070]">Kesalahan</h2>
+              <p className="mt-3 text-[18px] text-[#526070]">Gambar Banner Wajib Diisi</p>
+              <button type="button" onClick={() => setShowImageAlert(false)} className="mt-7 h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">OK</button>
+            </div>
+          </div>
+        )}
 
         {showSaveConfirmation && (
           <div className="banner-save-confirmation-modal fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
