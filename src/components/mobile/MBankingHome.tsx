@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import MBankingAllBanners from "@/components/mobile/MBankingAllBanners";
 import MBankingBannerDetail from "@/components/mobile/MBankingBannerDetail";
 import MBankingBottomNav from "@/components/mobile/MBankingBottomNav";
 import MBankingHomeBanner from "@/components/mobile/MBankingHomeBanner";
@@ -28,6 +29,11 @@ export default function MBankingHome({
   const [screen, setScreen] = React.useState<MBankingHomeScreen>("home");
   const [exitOpen, setExitOpen] = React.useState(false);
   const [bannerDetailOpen, setBannerDetailOpen] = React.useState(false);
+  const [allBannersOpen, setAllBannersOpen] = React.useState(false);
+
+  if (allBannersOpen) {
+    return <MBankingAllBanners onBack={() => setAllBannersOpen(false)} />;
+  }
 
   if (bannerDetailOpen) {
     return <MBankingBannerDetail onBack={() => setBannerDetailOpen(false)} />;
@@ -62,7 +68,10 @@ export default function MBankingHome({
         <MBankingHomeHeader onProfileClick={() => setScreen("profile")} />
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
-        <MBankingHomeBanner onBannerClick={() => setBannerDetailOpen(true)} />
+        <MBankingHomeBanner
+          onBannerClick={() => setBannerDetailOpen(true)}
+          onViewAll={() => setAllBannersOpen(true)}
+        />
         <MBankingTransactionHistoryEmpty transactions={transactions} />
       </main>
 

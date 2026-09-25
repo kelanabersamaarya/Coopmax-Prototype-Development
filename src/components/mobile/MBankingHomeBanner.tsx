@@ -12,8 +12,10 @@ const sliderStartInset = 16;
 
 export default function MBankingHomeBanner({
   onBannerClick,
+  onViewAll,
 }: {
   onBannerClick?: () => void;
+  onViewAll?: () => void;
 }) {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const sliderRef = React.useRef<HTMLDivElement>(null);
@@ -55,9 +57,18 @@ export default function MBankingHomeBanner({
 
   return (
     <section className="px-6 pt-7" aria-label="Banner informasi">
-      <h2 className="mb-3 text-[16px] font-extrabold leading-tight text-[#23305A]">
-        Info & Penawaran Menarik
-      </h2>
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-[16px] font-extrabold leading-tight text-[#23305A]">
+          Info & Penawaran Menarik
+        </h2>
+        <button
+          type="button"
+          onClick={onViewAll}
+          className="shrink-0 text-[13px] font-semibold text-[#004FC7] underline underline-offset-2 transition active:scale-[0.98]"
+        >
+          Lihat Semua
+        </button>
+      </div>
 
       <div
         ref={sliderRef}
