@@ -53,7 +53,7 @@ export default function MBankingHomeBanner() {
             ref={(element) => {
               slideRefs.current[index] = element;
             }}
-            className="w-[87%] shrink-0 snap-start overflow-hidden rounded-[18px] shadow-[0_8px_18px_rgba(24,45,91,0.14)]"
+            className="w-[87%] shrink-0 snap-start overflow-hidden rounded-[18px] shadow-[0_8px_18px_rgba(24,45,91,0.14)] first:ml-2"
           >
             <img
               src={banner.src}
