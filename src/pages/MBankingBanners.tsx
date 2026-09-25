@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Eye, Pencil, Plus, X } from "lucide-react";
+import { ChevronsUpDown, Eye, Pencil, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -66,10 +66,10 @@ export default function MBankingBanners() {
               <tr className="bg-white">
                 <th className={headerClass}>No.</th>
                 <th className={cn(headerClass, "bg-[#eef0f4]")}>Nama Banner <span className="float-right">⌄</span></th>
-                <th className={headerClass}>Tanggal Banner <span className="float-right">↕</span></th>
-                <th className={headerClass}>Tanggal Kadaluarsa <span className="float-right">↕</span></th>
-                <th className={headerClass}>Status <span className="float-right">↕</span></th>
-                <th className={headerClass}>Aksi <span className="float-right">↕</span></th>
+                <th className={headerClass}>Tanggal Banner <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
+                <th className={headerClass}>Tanggal Kadaluarsa <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
+                <th className={headerClass}>Status <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
+                <th className={headerClass}>Aksi <ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>
               </tr>
               <tr className="border-b border-slate-300">
                 <th />
