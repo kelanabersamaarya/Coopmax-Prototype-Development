@@ -53,7 +53,7 @@ export default function MBankingBannerCreate() {
                     const { label, icon: Icon, accent, dropdown } = toolbarButtons[index];
                     return (
                       <button key={label} type="button" aria-label={label} className="flex h-[40px] min-w-[42px] shrink-0 items-center justify-center gap-1 border-r border-[#d6dce5] px-1 text-[#16385d] last:border-r-0 hover:bg-[#fafafa]">
-                        <Icon className={accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={2} />
+                        <Icon className={index === 1 ? "h-[17px] w-[17px] text-[#16385d]" : accent ? "h-[15px] w-[15px] rounded-sm bg-yellow-300 p-0.5 text-black" : "h-[15px] w-[15px]"} strokeWidth={index === 1 ? 3 : 2} />
                         {dropdown && <span className="text-[9px] leading-none">⌄</span>}
                       </button>
                     );
