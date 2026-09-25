@@ -4,8 +4,10 @@ import { Bell } from "lucide-react";
 
 export default function MBankingHomeHeader({
   onProfileClick,
+  onNotificationClick,
 }: {
   onProfileClick?: () => void;
+  onNotificationClick?: () => void;
 }) {
   return (
     <header className="shrink-0 bg-white px-6 pb-5 pt-6">
@@ -22,6 +24,7 @@ export default function MBankingHomeHeader({
         <div className="flex shrink-0 items-center gap-2.5">
           <button
             type="button"
+            onClick={onNotificationClick}
             className="inline-flex h-[38px] w-[38px] items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.98]"
             aria-label="Notifikasi"
             title="Notifikasi"

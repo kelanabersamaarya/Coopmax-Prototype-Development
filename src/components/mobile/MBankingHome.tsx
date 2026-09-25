@@ -7,6 +7,7 @@ import MBankingBottomNav from "@/components/mobile/MBankingBottomNav";
 import MBankingHomeBanner from "@/components/mobile/MBankingHomeBanner";
 import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
 import MBankingInfoPage from "@/components/mobile/MBankingInfoPage";
+import MBankingNotificationsPage from "@/components/mobile/MBankingNotificationsPage";
 import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
 import MBankingProfilePage from "@/components/mobile/MBankingProfilePage";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
@@ -30,10 +31,15 @@ export default function MBankingHome({
   const [exitOpen, setExitOpen] = React.useState(false);
   const [bannerDetailOpen, setBannerDetailOpen] = React.useState(false);
   const [allBannersOpen, setAllBannersOpen] = React.useState(false);
+  const [notificationsOpen, setNotificationsOpen] = React.useState(false);
   const [selectedBanner, setSelectedBanner] = React.useState<{
     src: string;
     alt: string;
   } | null>(null);
+
+  if (notificationsOpen) {
+    return <MBankingNotificationsPage onBack={() => setNotificationsOpen(false)} />;
+  }
 
   if (selectedBanner) {
     return (
@@ -84,7 +90,10 @@ export default function MBankingHome({
   return (
     <div className="relative flex min-h-full flex-col bg-white">
       <main className="min-h-0 flex-1 bg-white">
-        <MBankingHomeHeader onProfileClick={() => setScreen("profile")} />
+        <MBankingHomeHeader
+          onProfileClick={() => setScreen("profile")}
+          onNotificationClick={() => setNotificationsOpen(true)}
+        />
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
         <MBankingHomeBanner
