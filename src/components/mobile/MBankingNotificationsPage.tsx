@@ -24,7 +24,7 @@ export default function MBankingNotificationsPage({
       </header>
 
       <main className="px-6 pb-12">
-        <div className="flex items-center gap-8 border-b border-[#F4F4F4]">
+        <div className="flex items-center gap-8">
           <button
             type="button"
             className="rounded-full bg-[#004FC7] px-7 py-3 text-[16px] font-bold text-white shadow-sm"
