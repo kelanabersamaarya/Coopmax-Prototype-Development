@@ -1,23 +1,24 @@
 import { useState } from "react";
-import { AlignLeft, Bold, HelpCircle, Image, Italic, Link, List, ListOrdered, Maximize, Plus, Save, Strikethrough, Table2, Underline, Video, X } from "lucide-react";
+import { AlignLeft, Bold, Code2, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Save, Strikethrough, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const toolbarButtons = [
-  { label: "Format", icon: Italic },
+  { label: "Format", icon: WandSparkles, dropdown: true },
   { label: "Tebal", icon: Bold },
   { label: "Garis bawah", icon: Underline },
   { label: "Coret", icon: Strikethrough },
+  { label: "Warna teks", icon: WandSparkles, accent: true, dropdown: true },
   { label: "Daftar", icon: List },
   { label: "Daftar bernomor", icon: ListOrdered },
-  { label: "Rata kiri", icon: AlignLeft },
-  { label: "Tabel", icon: Table2 },
+  { label: "Rata kiri", icon: AlignLeft, dropdown: true },
+  { label: "Tabel", icon: Table2, dropdown: true },
   { label: "Tautan", icon: Link },
   { label: "Gambar", icon: Image },
   { label: "Video", icon: Video },
   { label: "Layar penuh", icon: Maximize },
-  { label: "Kode", icon: Italic },
+  { label: "Kode", icon: Code2 },
   { label: "Bantuan", icon: HelpCircle },
 ];
 
@@ -44,10 +45,10 @@ export default function MBankingBannerCreate() {
           <label className="pt-1 text-[13px]">Konten<span className="text-red-600">*</span></label>
           <div className="overflow-hidden rounded border border-[#c7d3e4]">
             <div className="flex flex-wrap border-b border-[#d4d4d4] bg-[#f5f5f5] p-1">
-              {toolbarButtons.map(({ label, icon: Icon }, index) => (
+              {toolbarButtons.map(({ label, icon: Icon, accent, dropdown }, index) => (
                 <button key={label} type="button" aria-label={label} className={`flex h-9 min-w-[40px] items-center justify-center gap-1 border-r border-[#d6dce5] px-2 text-[#1d3858] hover:bg-white ${index === 0 ? "rounded-l-md" : ""}`}>
-                  <Icon className="h-4 w-4" strokeWidth={2.2} />
-                  {(index === 0 || index === 6 || index === 7) && <span className="text-[10px]">⌄</span>}
+                  <Icon className={accent ? "h-4 w-4 rounded-sm bg-yellow-300 p-0.5 text-black" : "h-4 w-4"} strokeWidth={2.2} />
+                  {dropdown && <span className="text-[10px]">⌄</span>}
                 </button>
               ))}
             </div>
