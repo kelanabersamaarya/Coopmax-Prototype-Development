@@ -55,8 +55,8 @@ export default function MBankingBannerCreate() {
           </div>
 
           <label className="pt-1 text-[13px]">Status<span className="text-red-600">*</span></label>
-          <button type="button" aria-pressed={active} onClick={() => setActive((value) => !value)} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${active ? "bg-[#5b42f5]" : "bg-[#9aa7ba]"}`}>
-            <span className="pl-1">{active ? "ON" : "OFF"}</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" />
+          <button type="button" aria-pressed={active} onClick={() => setActive((value) => !value)} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${active ? "bg-[#5b42f5]" : "bg-[#9f91ef]"}`}>
+            {active ? <><span className="pl-1">ON</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" /></> : <><span className="h-[18px] w-[18px] rounded-full bg-white" /><span className="ml-auto pr-1">OFF</span></>}
           </button>
         </div>
 
