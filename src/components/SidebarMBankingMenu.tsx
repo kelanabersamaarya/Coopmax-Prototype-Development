@@ -7,7 +7,9 @@ import { cn } from "@/lib/utils";
 
 export default function SidebarMBankingMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/mobile/mbanking-transactions");
+  const isActive =
+    location.pathname.startsWith("/mobile/mbanking-transactions") ||
+    location.pathname.startsWith("/mobile/m-banking");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
@@ -50,6 +52,20 @@ export default function SidebarMBankingMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
+              <NavLink
+                to="/mobile/m-banking"
+                className={({ isActive: linkActive }) =>
+                  cn(
+                    "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                    linkActive
+                      ? "bg-violet-600 text-white"
+                      : "text-slate-800 hover:bg-slate-50",
+                  )
+                }
+              >
+                M-Banking
+              </NavLink>
+
               <NavLink
                 to="/mobile/mbanking-transactions"
                 className={({ isActive: linkActive }) =>
