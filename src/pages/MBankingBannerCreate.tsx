@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AlignLeft, Bold, ChevronLeft, ChevronRight, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Save, Table2, Underline, Video, WandSparkles, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -28,12 +28,22 @@ const calendarDays = [null, null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 
 function DateCalendar({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
   const [month, setMonth] = useState(8);
   const [year, setYear] = useState(2026);
   const monthName = new Intl.DateTimeFormat("en-US", { month: "short" }).format(new Date(year, month, 1));
 
+  useEffect(() => {
+    if (!open) return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [open]);
+
   return (
-    <div className="relative">
+    <div ref={calendarRef} className="relative">
       <Input
         value={value}
         placeholder="mm/dd/yyyy"
