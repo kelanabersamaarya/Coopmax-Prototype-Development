@@ -135,7 +135,7 @@ export default function MBankingBannerCreate() {
         </div>
 
         {showSaveConfirmation && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="banner-save-confirmation-modal fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
             <div className="w-full max-w-[528px] rounded-md bg-white px-6 py-10 text-center shadow-2xl">
               <div
                 aria-hidden="true"
