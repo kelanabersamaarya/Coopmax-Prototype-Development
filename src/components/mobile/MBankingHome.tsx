@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import MBankingBottomNav from "@/components/mobile/MBankingBottomNav";
+import MBankingHomeBanner from "@/components/mobile/MBankingHomeBanner";
 import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
 import MBankingInfoPage from "@/components/mobile/MBankingInfoPage";
 import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
@@ -55,7 +56,8 @@ export default function MBankingHome({
         <MBankingHomeHeader onProfileClick={() => setScreen("profile")} />
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
-        <MBankingTransactionHistoryEmpty />
+        <MBankingHomeBanner />
+        <MBankingTransactionHistoryEmpty transactions={transactions} />
       </main>
 
       <MBankingBottomNav
