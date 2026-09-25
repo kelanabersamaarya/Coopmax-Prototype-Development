@@ -25,7 +25,10 @@ export default function MBankingBanners() {
 
   useEffect(() => {
     const storedBanners = window.localStorage.getItem(bannerStorageKey);
-    if (storedBanners) setBanners([...defaultBanners, ...(JSON.parse(storedBanners) as Banner[])]);
+    if (storedBanners) {
+      const savedBanners = JSON.parse(storedBanners) as Banner[];
+      setBanners([...savedBanners.reverse(), ...defaultBanners]);
+    }
   }, []);
 
   return (
