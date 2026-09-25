@@ -39,7 +39,6 @@ function DateCalendar({ value, onChange }: { value: string; onChange: (value: st
   const calendarRef = useRef<HTMLDivElement>(null);
   const [month, setMonth] = useState(8);
   const [year, setYear] = useState(2026);
-  const monthName = new Intl.DateTimeFormat("en-US", { month: "short" }).format(new Date(year, month, 1));
 
   useEffect(() => {
     if (!open) return;
