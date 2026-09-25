@@ -24,6 +24,7 @@ const toolbarButtons = [
 export default function MBankingBannerCreate() {
   const navigate = useNavigate();
   const [active, setActive] = useState(true);
+  const [content, setContent] = useState("");
 
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#062c63] md:px-8 md:py-8">
@@ -50,7 +51,12 @@ export default function MBankingBannerCreate() {
                 </button>
               ))}
             </div>
-            <div className="h-[135px] bg-white" />
+            <textarea
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+              aria-label="Konten banner"
+              className="h-[135px] w-full resize-none border-0 bg-white p-3 text-[13px] text-[#1d3858] outline-none"
+            />
             <div className="h-2 border-t border-[#d4d4d4] bg-[#f5f5f5]" />
           </div>
 
