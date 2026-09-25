@@ -13,10 +13,22 @@ export type SavedBanner = {
 
 const bannerStorageKey = "mbanking-banners";
 
+function normalizeBanner(banner: Partial<SavedBanner>, index: number): SavedBanner {
+  return {
+    id: banner.id || `saved-${index}`,
+    name: banner.name || "Banner Baru",
+    start: banner.start || "-",
+    end: banner.end || "-",
+    active: Boolean(banner.active),
+    content: banner.content || "",
+    images: Array.isArray(banner.images) ? banner.images : [],
+  };
+}
+
 export default function MBankingBannerDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const banners = JSON.parse(window.localStorage.getItem(bannerStorageKey) || "[]") as SavedBanner[];
+  const banners = (JSON.parse(window.localStorage.getItem(bannerStorageKey) || "[]") as Partial<SavedBanner>[]).map(normalizeBanner);
   const banner = banners.find((item) => item.id === id);
 
   if (!banner) {

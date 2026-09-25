@@ -20,13 +20,28 @@ const defaultBanners: Banner[] = [
 const bannerStorageKey = "mbanking-banners";
 const headerClass = "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
 
+function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
+  return {
+    id: banner.id || `saved-${index}`,
+    name: banner.name || "Banner Baru",
+    start: banner.start || "-",
+    end: banner.end || "-",
+    active: Boolean(banner.active),
+    content: banner.content || "",
+    images: Array.isArray(banner.images) ? banner.images : [],
+  };
+}
+
 export default function MBankingBanners() {
   const navigate = useNavigate();
   const [banners, setBanners] = useState<Banner[]>(defaultBanners);
 
   useEffect(() => {
     const storedBanners = window.localStorage.getItem(bannerStorageKey);
-    if (storedBanners) setBanners([...(JSON.parse(storedBanners) as Banner[]).reverse(), ...defaultBanners]);
+    if (storedBanners) {
+      const savedBanners = (JSON.parse(storedBanners) as Partial<Banner>[]).map(normalizeBanner).reverse();
+      setBanners([...savedBanners, ...defaultBanners]);
+    }
   }, []);
 
   return (
