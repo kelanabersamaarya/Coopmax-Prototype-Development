@@ -63,7 +63,7 @@ export default function MBankingBannerDetail() {
         <div className="mt-9 border-t border-[#d8dde7] pt-4">
           <h2 className="text-[15px] font-bold uppercase">Daftar Gambar Banner</h2>
           <div className="mt-4 grid grid-cols-[230px_1fr] border-b border-[#cbd5e1] pb-2 text-[12px] font-semibold uppercase text-[#7184a2]"><span className="pl-4">No.</span><span>Gambar</span></div>
-          {banner.images.length > 0 ? banner.images.map((image, index) => <div key={`${image}-${index}`} className="grid min-h-[190px] grid-cols-[230px_1fr] items-center border-b border-[#e2e6ed] text-[12px]"><span className="pl-4">{index + 1}</span><img src={image} alt={`${banner.name} ${index + 1}`} className="h-[170px] w-[140px] object-cover" /></div>) : <div className="py-8 text-[13px] text-[#7184a2]">Tidak ada gambar banner.</div>}
+          {banner.images.length > 0 ? banner.images.map((image, index) => <div key={`${image}-${index}`} className="grid min-h-[190px] grid-cols-[230px_1fr] items-center border-b border-[#e2e6ed] text-[12px]"><span className="pl-4">{index + 1}</span><img src={image} alt={`${banner.name} ${index + 1}`} className="h-[170px] w-[140px] object-cover" /></div>) : null}
         </div>
 
         <div className="mt-4 border-t border-[#d8dde7] pt-4">
