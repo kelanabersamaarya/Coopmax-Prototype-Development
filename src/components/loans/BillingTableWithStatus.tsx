@@ -408,7 +408,7 @@ export default function BillingTableWithStatus({
                         <Td className="w-[130px] pr-[17px]" align="right">
                           {showPenalty ? (
                             <div className="flex items-center justify-end gap-2">
-                              <span className="num-sans-tabular -translate-x-[2px]">
+                              <span className="num-sans-tabular">
                                 {formatIdrLike(PENALTY_AMOUNT)}
                               </span>
                               {showPenaltyDetailAction ? (
