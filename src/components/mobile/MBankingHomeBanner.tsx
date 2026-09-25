@@ -8,6 +8,8 @@ const banners = [
   { src: "/bannersample3.jpeg", alt: "Layanan terbaru M-Banking" },
 ];
 
+const sliderStartInset = 16;
+
 export default function MBankingHomeBanner() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const sliderRef = React.useRef<HTMLDivElement>(null);
@@ -20,9 +22,13 @@ export default function MBankingHomeBanner() {
     const closestIndex = slideRefs.current.reduce(
       (closest, slide, index) => {
         if (!slide) return closest;
-        const currentDistance = Math.abs(slide.offsetLeft - slider.scrollLeft);
+        const currentDistance = Math.abs(
+          slide.offsetLeft - sliderStartInset - slider.scrollLeft,
+        );
         const closestDistance = Math.abs(
-          (slideRefs.current[closest]?.offsetLeft ?? 0) - slider.scrollLeft,
+          (slideRefs.current[closest]?.offsetLeft ?? 0) -
+            sliderStartInset -
+            slider.scrollLeft,
         );
         return currentDistance < closestDistance ? index : closest;
       },
@@ -33,29 +39,32 @@ export default function MBankingHomeBanner() {
   }
 
   function goToSlide(index: number) {
-    slideRefs.current[index]?.scrollIntoView({
+    const slider = sliderRef.current;
+    const slide = slideRefs.current[index];
+    if (!slider || !slide) return;
+
+    slider.scrollTo({
+      left: slide.offsetLeft - sliderStartInset,
       behavior: "smooth",
-      block: "nearest",
-      inline: "start",
     });
   }
 
   return (
-    <section className="pt-7" aria-label="Banner informasi">
+    <section className="px-6 pt-7" aria-label="Banner informasi">
       <div
         ref={sliderRef}
         onScroll={updateActiveSlide}
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
+        <div aria-hidden="true" className="w-4 shrink-0" />
+
         {banners.map((banner, index) => (
           <div
             key={banner.src}
             ref={(element) => {
               slideRefs.current[index] = element;
             }}
-            className={`w-[87%] shrink-0 snap-start overflow-hidden rounded-[18px] shadow-[0_8px_18px_rgba(24,45,91,0.14)] ${
-              index === 0 ? "ml-3" : ""
-            }`}
+            className="w-[87%] shrink-0 snap-start overflow-hidden rounded-[18px] shadow-[0_8px_18px_rgba(24,45,91,0.14)]"
           >
             <img
               src={banner.src}
