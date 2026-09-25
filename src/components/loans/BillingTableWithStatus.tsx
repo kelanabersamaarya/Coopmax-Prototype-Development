@@ -380,11 +380,11 @@ export default function BillingTableWithStatus({
                     const showPenalty = globalIdx < PENALTY_ROWS;
                     const penaltyCellClass = cn(
                       alignedPenaltyCellClass,
-                      globalIdx === 2 && "pr-0",
+                      globalIdx >= 2 && globalIdx <= 3 && "pr-0",
                     );
                     const penaltyNumberClass = cn(
                       "num-sans-tabular",
-                      globalIdx === 2 && "-translate-x-[2px]",
+                      globalIdx >= 2 && globalIdx <= 3 && "-translate-x-[2px]",
                     );
 
                     return (
