@@ -18,9 +18,12 @@ export default function MBankingBannerDetail({
         >
           <ArrowLeft className="h-8 w-8" strokeWidth={2.2} />
         </button>
+        <h1 className="mt-5 text-[22px] font-extrabold leading-tight text-[#23305A]">
+          Spesial Harpelnas
+        </h1>
       </header>
 
-      <main className="px-6 pb-12 pt-14">
+      <main className="px-6 pb-12 pt-8">
         <img
           src="/banner_sample.jpeg"
           alt="Informasi banner M-Banking"
