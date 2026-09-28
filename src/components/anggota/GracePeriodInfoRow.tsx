@@ -11,7 +11,7 @@ export default function GracePeriodInfoRow({
   colSpan: number;
   noBorder?: boolean;
 }) {
-  const outerPad = noBorder ? "py-1" : "py-1.5";
+  const outerPad = noBorder ? "px-1.5 py-1" : "px-1.5 py-1.5";
   const boxPad = noBorder ? "px-3 py-2" : "px-2.5 py-2";
 
   const iconSize = noBorder ? "h-6 w-6" : "h-6 w-6";

@@ -361,8 +361,8 @@ export default function BillingTableWithStatus({
                 <>
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="w-full bg-white p-2">
-                        <div className="w-full overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
+                      <div className="bg-white p-2">
+                        <div className="overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
                           <InnerGraceTable
                             rows={graceRows}
                             startGlobalIndex={penaltyIndexOffset}
