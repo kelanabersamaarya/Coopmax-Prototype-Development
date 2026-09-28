@@ -3,17 +3,17 @@ import {
   CalendarClock,
   CheckCircle2,
   Circle,
-  CircleDollarSign,
+  PieChart,
   type LucideIcon,
 } from "lucide-react";
 import type { BillingStatus } from "@/domain/loans/types/billing";
 
 const statusStyles: Record<BillingStatus, string> = {
   "Belum Dibayar": "text-black font-normal",
-  Lunas: "text-black font-semibold",
-  "Jatuh Tempo": "text-black font-bold",
-  Terlambat: "text-black font-bold",
-  "Dibayar Sebagian": "text-black font-semibold",
+  Lunas: "text-black font-normal",
+  "Jatuh Tempo": "text-black font-normal",
+  Terlambat: "text-black font-normal",
+  "Dibayar Sebagian": "text-black font-normal",
 };
 
 const statusIcons: Record<BillingStatus, LucideIcon> = {
@@ -21,7 +21,7 @@ const statusIcons: Record<BillingStatus, LucideIcon> = {
   Lunas: CheckCircle2,
   "Jatuh Tempo": CalendarClock,
   Terlambat: AlertTriangle,
-  "Dibayar Sebagian": CircleDollarSign,
+  "Dibayar Sebagian": PieChart,
 };
 
 const statusIconStyles: Record<BillingStatus, string> = {
