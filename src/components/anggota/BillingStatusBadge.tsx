@@ -11,8 +11,8 @@ import type { BillingStatus } from "@/domain/loans/types/billing";
 const statusStyles: Record<BillingStatus, string> = {
   "Belum Dibayar": "text-slate-700 font-normal",
   Lunas: "text-emerald-700 font-semibold",
-  "Jatuh Tempo": "text-amber-700 bg-amber-50 font-bold",
-  Terlambat: "text-red-600 bg-[#FF4C4C]/10 font-bold",
+  "Jatuh Tempo": "text-amber-700 font-bold",
+  Terlambat: "text-red-600 font-bold",
   "Dibayar Sebagian": "text-blue-700 font-semibold",
 };
 
