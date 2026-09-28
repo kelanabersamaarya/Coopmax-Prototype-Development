@@ -144,6 +144,7 @@ function Td({
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
         "border-b border-slate-200",
+        "[&:last-child]:border-b-0",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
           : "text-left",
@@ -175,7 +176,7 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full min-w-[983px] max-w-none table-fixed border-separate border-spacing-0 text-[13px]">
+    <table className="w-max min-w-[983px] table-fixed border-separate border-spacing-0 text-[13px]">
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -287,7 +288,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-full min-w-[983px] max-w-none table-fixed border-separate border-spacing-0 text-[13px]">
+          <table className="w-max min-w-[983px] table-fixed border-separate border-spacing-0 text-[13px]">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
