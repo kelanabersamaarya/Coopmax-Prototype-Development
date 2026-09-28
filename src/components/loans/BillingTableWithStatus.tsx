@@ -298,9 +298,9 @@ export default function BillingTableWithStatus({
               <col className="w-[112px]" />
               <col className="w-[145px]" />
             </colgroup>
-            <thead className="bg-white">
+            <thead className="bg-white [&>tr>th]:border-b [&>tr>th]:border-slate-200">
               <tr className="border-b border-slate-200">
-                <th className={cn(thBase, "w-[110px]")}>
+                <th className={cn(thBase, "w-[110px] border-b border-slate-200")}>
                   Jatuh
                   <br />
                   Tempo
