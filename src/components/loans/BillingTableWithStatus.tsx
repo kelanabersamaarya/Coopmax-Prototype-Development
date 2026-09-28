@@ -196,7 +196,7 @@ function InnerGraceTable({
           return (
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
-              className="border-t border-slate-200 [&>td]:border-t [&>td]:border-slate-200"
+              className="bg-white"
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
