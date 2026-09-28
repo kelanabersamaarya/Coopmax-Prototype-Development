@@ -1,7 +1,7 @@
 import {
   AlertTriangle,
   CalendarClock,
-  CheckCircle2,
+  Check,
   Circle,
   PieChart,
   type LucideIcon,
@@ -18,7 +18,7 @@ const statusStyles: Record<BillingStatus, string> = {
 
 const statusIcons: Record<BillingStatus, LucideIcon> = {
   "Belum Dibayar": Circle,
-  Lunas: CheckCircle2,
+  Lunas: Check,
   "Jatuh Tempo": CalendarClock,
   Terlambat: AlertTriangle,
   "Dibayar Sebagian": PieChart,
@@ -26,7 +26,7 @@ const statusIcons: Record<BillingStatus, LucideIcon> = {
 
 const statusIconStyles: Record<BillingStatus, string> = {
   "Belum Dibayar": "text-slate-700",
-  Lunas: "text-emerald-700",
+  Lunas: "text-[#3bb001]",
   "Jatuh Tempo": "text-amber-700",
   Terlambat: "text-red-600",
   "Dibayar Sebagian": "text-amber-500",
