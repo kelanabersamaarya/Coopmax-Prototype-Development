@@ -7,6 +7,7 @@ export type SavedBanner = {
   start: string;
   end: string;
   active: boolean;
+  userNotification?: boolean;
   content: string;
   images: string[];
 };
@@ -20,6 +21,7 @@ function normalizeBanner(banner: Partial<SavedBanner>, index: number): SavedBann
     start: banner.start || "-",
     end: banner.end || "-",
     active: Boolean(banner.active),
+    userNotification: Boolean(banner.userNotification),
     content: banner.content || "",
     images: Array.isArray(banner.images) ? banner.images : [],
   };
@@ -57,6 +59,7 @@ export default function MBankingBannerDetail() {
           <dt className="text-[#7184a2]">Judul Banner</dt><dd>: {banner.name}</dd>
           <dt className="text-[#7184a2]">Tanggal Publikasi</dt><dd>: {banner.start}</dd>
           <dt className="text-[#7184a2]">Tanggal Kadaluarsa</dt><dd>: {banner.end}</dd>
+          <dt className="text-[#7184a2]">Notifikasi Pengguna</dt><dd>: {banner.userNotification ? "Aktif" : "Tidak Aktif"}</dd>
           <dt className="text-[#7184a2]">Status</dt><dd><span className={`rounded px-3 py-1 text-[11px] font-bold text-white ${banner.active ? "bg-green-600" : "bg-red-500"}`}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></dd>
         </dl>
 

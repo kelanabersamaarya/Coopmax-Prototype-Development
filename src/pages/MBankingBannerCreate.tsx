@@ -78,6 +78,7 @@ export default function MBankingBannerCreate() {
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const [active, setActive] = useState(true);
+  const [userNotification, setUserNotification] = useState(false);
   const [content, setContent] = useState("");
   const [bannerDate, setBannerDate] = useState("");
   const [bannerImages, setBannerImages] = useState<File[]>([]);
@@ -91,13 +92,14 @@ export default function MBankingBannerCreate() {
 
   useEffect(() => {
     if (!id) return;
-    const banners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] }>;
+    const banners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; userNotification?: boolean; content: string; images: string[] }>;
     const banner = banners.find((item) => item.id === id);
     if (!banner) return;
     setBannerName(banner.name);
     setBannerDate(banner.start === "-" ? "" : banner.start);
     setExpiryDate(banner.end === "-" ? "" : banner.end);
     setActive(banner.active);
+    setUserNotification(banner.userNotification ?? false);
     setContent(banner.content);
     setSavedImages(banner.images || []);
   }, [id]);
@@ -143,6 +145,11 @@ export default function MBankingBannerCreate() {
             <div className="h-2 border-t border-[#d4d4d4] bg-[#f5f5f5]" />
           </div>
 
+          <label className="pt-1 text-[13px]">Notifikasi Pengguna</label>
+          <button type="button" aria-pressed={userNotification} onClick={() => setUserNotification((value) => !value)} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${userNotification ? "bg-[#5b42f5]" : "bg-[#9f91ef]"}`}>
+            {userNotification ? <><span className="pl-1">ON</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" /></> : <><span className="h-[18px] w-[18px] rounded-full bg-white" /><span className="ml-auto pr-1">OFF</span></>}
+          </button>
+
           <label className="pt-1 text-[13px]">Status<span className="text-red-600">*</span></label>
           <button type="button" aria-pressed={active} onClick={() => setActive((value) => !value)} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${active ? "bg-[#5b42f5]" : "bg-[#9f91ef]"}`}>
             {active ? <><span className="pl-1">ON</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" /></> : <><span className="h-[18px] w-[18px] rounded-full bg-white" /><span className="ml-auto pr-1">OFF</span></>}
@@ -185,9 +192,9 @@ export default function MBankingBannerCreate() {
               <h2 className="mt-8 text-[30px] font-bold text-[#526070]">Yakin untuk menyimpan data ?</h2>
               <div className="mt-7 flex justify-center gap-2">
                 <button type="button" onClick={async () => {
-                  const storedBanners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] }>;
+                  const storedBanners = JSON.parse(window.localStorage.getItem("mbanking-banners") || "[]") as Array<{ id: string; name: string; start: string; end: string; active: boolean; userNotification?: boolean; content: string; images: string[] }>;
                   const images = await Promise.all(bannerImages.map(readFileAsDataUrl));
-                  const nextBanner = { id: id || crypto.randomUUID(), name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active, content, images: bannerImages.length > 0 ? images : savedImages };
+                  const nextBanner = { id: id || crypto.randomUUID(), name: bannerName || "Banner Baru", start: bannerDate || "-", end: expiryDate || "-", active, userNotification, content, images: bannerImages.length > 0 ? images : savedImages };
                   const nextBanners = isEditMode ? storedBanners.map((item) => item.id === id ? nextBanner : item) : [...storedBanners, nextBanner];
                   window.localStorage.setItem("mbanking-banners", JSON.stringify(nextBanners));
                   setShowSaveConfirmation(false);
