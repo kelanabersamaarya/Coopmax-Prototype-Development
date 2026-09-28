@@ -4,6 +4,7 @@ import { AlignLeft, Bold, CheckSquare, ChevronLeft, ChevronRight, Code2, Eraser,
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const toolbarButtons = [
   { label: "Format", icon: WandSparkles, dropdown: true },
@@ -145,7 +146,18 @@ export default function MBankingBannerCreate() {
             <div className="h-2 border-t border-[#d4d4d4] bg-[#f5f5f5]" />
           </div>
 
-          <label className="pt-1 text-[13px]">Notifikasi Pengguna</label>
+          <label className="flex items-center gap-1 pt-1 text-[13px]">Notifikasi Pengguna
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button type="button" aria-label="Informasi Notifikasi Pengguna" className="flex h-4 w-4 items-center justify-center rounded-full border border-[#7184a2] text-[10px] font-bold text-[#7184a2] hover:border-[#3768f5] hover:text-[#3768f5]">?</button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-[280px] bg-[#102d58] text-center text-[12px] text-white">
+                  Aktifkan agar pengguna mendapatkan notifikasi promo, ucapan dan informasi lainnya
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </label>
           <button type="button" aria-pressed={userNotification} onClick={() => setUserNotification((value) => !value)} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${userNotification ? "bg-[#5b42f5]" : "bg-[#9f91ef]"}`}>
             {userNotification ? <><span className="pl-1">ON</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" /></> : <><span className="h-[18px] w-[18px] rounded-full bg-white" /><span className="ml-auto pr-1">OFF</span></>}
           </button>
