@@ -143,7 +143,7 @@ function Td({
     <td
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
-        "border-t-0 border-slate-200",
+        "border-t-0",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
           : "text-left",
@@ -386,7 +386,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${rowIndex}`}
-                        className="bg-white [&>td]:border-t [&>td]:border-slate-200"
+                        className="border-t border-slate-200 bg-white"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
@@ -445,7 +445,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${idx}`}
-                        className="bg-white [&>td]:border-t [&>td]:border-slate-200"
+                        className="border-t border-slate-200 bg-white"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
