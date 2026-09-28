@@ -9,11 +9,11 @@ import {
 import type { BillingStatus } from "@/domain/loans/types/billing";
 
 const statusStyles: Record<BillingStatus, string> = {
-  "Belum Dibayar": "text-slate-700 font-normal",
-  Lunas: "text-emerald-700 font-semibold",
-  "Jatuh Tempo": "text-amber-700 font-bold",
-  Terlambat: "text-red-600 font-bold",
-  "Dibayar Sebagian": "text-blue-700 font-semibold",
+  "Belum Dibayar": "text-black font-normal",
+  Lunas: "text-black font-semibold",
+  "Jatuh Tempo": "text-black font-bold",
+  Terlambat: "text-black font-bold",
+  "Dibayar Sebagian": "text-black font-semibold",
 };
 
 const statusIcons: Record<BillingStatus, LucideIcon> = {
