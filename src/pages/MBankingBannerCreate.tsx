@@ -150,7 +150,7 @@ export default function MBankingBannerCreate() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button type="button" aria-label="Informasi Notifikasi Pengguna" className="flex h-4 w-4 items-center justify-center rounded-full border border-[#7184a2] text-[10px] font-bold text-[#7184a2] hover:border-[#3768f5] hover:text-[#3768f5]">?</button>
+                  <button type="button" aria-label="Informasi Notifikasi Pengguna" className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#3768f5] text-[13px] font-bold leading-none text-white transition-colors hover:bg-[#2e58d8]">?</button>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-[280px] bg-[#102d58] text-center text-[12px] text-white">
                   Aktifkan agar pengguna mendapatkan notifikasi promo, ucapan dan informasi lainnya
