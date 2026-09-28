@@ -176,7 +176,7 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full min-w-[983px] max-w-none table-fixed border-collapse text-[13px]">
+    <table className="w-full min-w-full max-w-none table-fixed border-collapse text-[13px]">
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -288,7 +288,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-full min-w-[983px] max-w-none table-fixed border-collapse text-[13px]">
+          <table className="w-full min-w-full max-w-none table-fixed border-collapse text-[13px]">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
@@ -361,8 +361,8 @@ export default function BillingTableWithStatus({
                 <>
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="w-full min-w-[983px] bg-white py-2 pl-2 pr-2">
-                        <div className="w-full overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
+                      <div className="box-border w-full bg-white py-2 pl-2 pr-2">
+                        <div className="box-border w-full overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
                           <InnerGraceTable
                             rows={graceRows}
                             startGlobalIndex={penaltyIndexOffset}
