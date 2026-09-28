@@ -29,7 +29,7 @@ const statusIconStyles: Record<BillingStatus, string> = {
   Lunas: "text-emerald-700",
   "Jatuh Tempo": "text-amber-700",
   Terlambat: "text-red-600",
-  "Dibayar Sebagian": "text-blue-700",
+  "Dibayar Sebagian": "text-amber-500",
 };
 
 export default function BillingStatusBadge({ status }: { status: BillingStatus }) {
