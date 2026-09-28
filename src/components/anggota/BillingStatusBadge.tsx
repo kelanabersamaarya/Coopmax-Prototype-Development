@@ -32,15 +32,25 @@ const statusIconStyles: Record<BillingStatus, string> = {
   "Dibayar Sebagian": "text-amber-500",
 };
 
-export default function BillingStatusBadge({ status }: { status: BillingStatus }) {
-  const StatusIcon = statusIcons[status];
+export default function BillingStatusBadge({
+  status,
+  variant = "default",
+}: {
+  status: BillingStatus;
+  variant?: "default" | "nasabah-2";
+}) {
+  const StatusIcon = variant === "nasabah-2" && status === "Lunas" ? Circle : statusIcons[status];
+  const iconStyle =
+    variant === "nasabah-2" && status === "Lunas"
+      ? "text-[#3bb001] fill-current"
+      : statusIconStyles[status];
 
   return (
     <span
       className={`mr-2 inline-flex min-h-7 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[status]}`}
     >
       <StatusIcon
-        className={`h-3.5 w-3.5 shrink-0 ${statusIconStyles[status]}`}
+        className={`h-3.5 w-3.5 shrink-0 ${iconStyle}`}
         strokeWidth={2.25}
         aria-hidden="true"
       />

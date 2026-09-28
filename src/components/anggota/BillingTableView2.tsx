@@ -207,6 +207,7 @@ export default function BillingTableView2({
   hideSelection = false,
   showPenaltyColumn = false,
   showStatusColumn = false,
+  statusBadgeVariant = "default",
   penaltyContentEnabled = true,
   penaltyIndexOffset = 0,
   penaltyDialogVariant = "default",
@@ -229,6 +230,7 @@ export default function BillingTableView2({
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   showStatusColumn?: boolean;
+  statusBadgeVariant?: "default" | "nasabah-2";
   penaltyContentEnabled?: boolean;
   penaltyIndexOffset?: number;
   penaltyDialogVariant?: "default" | "read-only";
@@ -724,7 +726,10 @@ export default function BillingTableView2({
 
                                   {showStatusColumn ? (
                                     <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
-                                      <BillingStatusBadge status={statusForRow(r)} />
+                                      <BillingStatusBadge
+                                        status={statusForRow(r)}
+                                        variant={statusBadgeVariant}
+                                      />
                                     </div>
                                   ) : null}
                                 </div>
@@ -814,7 +819,10 @@ export default function BillingTableView2({
 
                             {showStatusColumn ? (
                               <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
-                                <BillingStatusBadge status={statusForRow(r)} />
+                                <BillingStatusBadge
+                                  status={statusForRow(r)}
+                                  variant={statusBadgeVariant}
+                                />
                               </div>
                             ) : null}
                           </div>
@@ -909,7 +917,10 @@ export default function BillingTableView2({
 
                               {showStatusColumn ? (
                                 <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
-                                  <BillingStatusBadge status={statusForRow(r)} />
+                                  <BillingStatusBadge
+                                    status={statusForRow(r)}
+                                    variant={statusBadgeVariant}
+                                  />
                                 </div>
                               ) : null}
                             </div>

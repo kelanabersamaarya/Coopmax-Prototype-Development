@@ -481,6 +481,7 @@ export default function TransaksiAnggotaView2({
                   hideSelection={isPenurunanBakiDebetMode}
                   showPenaltyColumn={!isPenurunanBakiDebetMode}
                   showStatusColumn
+                  statusBadgeVariant="nasabah-2"
                   disableRowActiveRing={true}
                   disableRowRings={disableRowChrome}
                   penaltyIndexOffset={penaltyIndexOffset}
