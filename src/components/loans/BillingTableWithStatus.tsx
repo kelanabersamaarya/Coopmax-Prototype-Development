@@ -143,7 +143,7 @@ function Td({
     <td
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
-        "border-t-0",
+        "border-b border-slate-200",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
           : "text-left",
@@ -175,7 +175,7 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full min-w-[983px] table-fixed border-collapse text-[13px]">
+    <table className="w-full min-w-[983px] table-fixed border-separate border-spacing-0 text-[13px]">
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -287,7 +287,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll">
-          <table className="w-full min-w-[983px] table-fixed border-collapse text-[13px]">
+          <table className="w-full min-w-[983px] table-fixed border-separate border-spacing-0 text-[13px]">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
@@ -386,7 +386,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${rowIndex}`}
-                        className="border-t border-slate-200 bg-white"
+                        className="bg-white"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
@@ -445,7 +445,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${idx}`}
-                        className="border-t border-slate-200 bg-white"
+                        className="bg-white"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
