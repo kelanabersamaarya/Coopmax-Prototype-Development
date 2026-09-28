@@ -144,6 +144,7 @@ function Td({
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
         "border-b border-slate-200",
+        "w-full",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
           : "text-left",
@@ -175,7 +176,7 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full min-w-[983px] max-w-none table-fixed border-separate border-spacing-0 text-[13px]">
+    <table className="w-full min-w-[983px] max-w-none table-fixed border-collapse text-[13px]">
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -287,7 +288,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-full min-w-[983px] max-w-none table-fixed border-separate border-spacing-0 text-[13px]">
+          <table className="w-full min-w-[983px] max-w-none table-fixed border-collapse text-[13px]">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
@@ -299,8 +300,8 @@ export default function BillingTableWithStatus({
               <col className="w-[145px]" />
             </colgroup>
             <thead className="bg-white [&>tr>th]:border-b [&>tr>th]:border-slate-200">
-              <tr className="border-b border-slate-200">
-                <th className={cn(thBase, "w-[110px] border-b border-slate-200")}>
+              <tr>
+                <th className={cn(thBase, "w-[110px]")}>
                   Jatuh
                   <br />
                   Tempo
