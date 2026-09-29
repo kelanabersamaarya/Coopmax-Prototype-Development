@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import SidebarMBankingMenu from "@/components/SidebarMBankingMenu";
 
 const memberItems = [
   { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran" },
@@ -134,6 +135,8 @@ export default function SidebarMitraKaryaMenu() {
           </div>
         </div>
       </div>
+
+      <SidebarMBankingMenu />
 
       <NavLink
         to="/mitra-karya/akunting"
