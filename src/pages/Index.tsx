@@ -124,7 +124,10 @@ export default function Index() {
     location.pathname === "/mitra-karya/dashboard";
   const isDashboardDevelopment = location.pathname === "/dashboard";
   const hideSidebar = isMitraKaryaDashboard || isDashboardDevelopment;
-  const isMobileArea = location.pathname.startsWith("/mobile");
+  const isMitraKaryaMBankingArea =
+    location.pathname.startsWith("/mitra-karya/m-banking") ||
+    location.pathname.startsWith("/mitra-karya/mbanking-");
+  const isMobileArea = location.pathname.startsWith("/mobile") || isMitraKaryaMBankingArea;
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
