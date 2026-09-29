@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 const memberItems = [
   { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran" },
   { label: "Anggota", to: "/mitra-karya/anggota" },
+  { label: "Calon Anggota", to: "/mitra-karya/calon-anggota" },
 ];
 
 const reportItems = [
@@ -24,8 +25,8 @@ const reportItems = [
 
 export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
-  const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname === "/anggota/transaksi";
-  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran";
+  const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname.startsWith("/mitra-karya/calon-anggota") || location.pathname === "/anggota/transaksi";
+  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran" || location.pathname.startsWith("/mitra-karya/calon-anggota");
   const loanActive = location.pathname.startsWith("/mitra-karya/pinjaman");
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
   const [memberOpen, setMemberOpen] = React.useState(memberActive);

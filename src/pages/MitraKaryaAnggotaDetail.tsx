@@ -1,5 +1,5 @@
 import { Ban, ChevronDown, Download, History, KeyRound, List, Pencil, Printer, UserRound, X } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 function InfoRow({ label, value }: { label: string; value: string }) {

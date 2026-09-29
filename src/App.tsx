@@ -26,6 +26,8 @@ import AstitiDanaLestariPembayaranAngsuran from "./pages/AstitiDanaLestariPembay
 import AstitiRekeningPinjaman from "./pages/AstitiRekeningPinjaman";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaAnggota from "./pages/MitraKaryaAnggota";
+import MitraKaryaCalonAnggota from "./pages/MitraKaryaCalonAnggota";
+import MitraKaryaCalonAnggotaPendaftaran from "./pages/MitraKaryaCalonAnggotaPendaftaran";
 import MitraKaryaAnggotaDetail from "./pages/MitraKaryaAnggotaDetail";
 import MitraKaryaPendaftaranAnggota from "./pages/MitraKaryaPendaftaranAnggota";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
@@ -113,6 +115,10 @@ const App = () => (
             <Route path="astiti-dana-lestari/akunting" element={<SakAkunting />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />
+            <Route path="mitra-karya/calon-anggota" element={<MitraKaryaCalonAnggota />} />
+            <Route path="mitra-karya/calon-anggota/pendaftaran" element={<MitraKaryaCalonAnggotaPendaftaran />} />
+            <Route path="mitra-karya/calon-anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="mitra-karya/calon-anggota/:id" element={<MitraKaryaAnggotaDetail />} />
             <Route path="mitra-karya/anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id" element={<MitraKaryaAnggotaDetail />} />
