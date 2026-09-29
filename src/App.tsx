@@ -116,6 +116,10 @@ const App = () => (
             <Route path="mitra-karya/anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id" element={<MitraKaryaAnggotaDetail />} />
+            <Route path="mitra-karya/calon-anggota" element={<MitraKaryaAnggota />} />
+            <Route path="mitra-karya/calon-anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="mitra-karya/calon-anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="mitra-karya/calon-anggota/:id" element={<MitraKaryaAnggotaDetail />} />
             <Route path="mitra-karya/pinjaman/pengajuan" element={<LoanApplications />} />
             <Route path="mitra-karya/pinjaman/pengajuan/tambah" element={<LoanApplicationCreate />} />
             <Route path="mitra-karya/pinjaman/rekening" element={<RekeningPinjaman />} />

@@ -1,5 +1,5 @@
 import { Ban, ChevronDown, Download, History, KeyRound, List, Pencil, Printer, UserRound, X } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 function InfoRow({ label, value }: { label: string; value: string }) {
@@ -11,8 +11,11 @@ function AccountCard({ title, code, balance, date, dark = false }: { title: stri
 
 export default function MitraKaryaAnggotaDetail() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
-  const saved = JSON.parse(localStorage.getItem("mitra-karya-members") || "[]").find((member: { id: string }) => member.id === id);
+  const isCandidate = location.pathname.startsWith("/mitra-karya/calon-anggota");
+  const memberBasePath = isCandidate ? "/mitra-karya/calon-anggota" : "/mitra-karya/anggota";
+  const saved = JSON.parse(localStorage.getItem(isCandidate ? "mitra-karya-calon-anggota" : "mitra-karya-members") || "[]").find((member: { id: string }) => member.id === id);
   const member = saved || { id: id || "A2600016", name: "Made Jaya", ktpFile: null, familyCardFile: null, supportingFile: null };
   const left = [["ID", member.id], ["NIP", "0000"], ["Nama", member.name], ["Tempat Lahir", "Bandar Jaya"], ["Tanggal Lahir", "08-09-2026"], ["Kategori Anggota", "Anggota"], ["Jenis Kelamin", "Perempuan"], ["Wilayah", ""], ["Alamat", "Tabanan"], ["Alamat Email", ""], ["Tanggal Daftar", "09-09-2026"], ["Tag", ""], ["Unit Anggota", ""]];
   const right = [["Agama", "Protestan"], ["Pekerjaan", member.occupation || ""], ["Perusahaan Tempat Bekerja", member.companyName || ""], ["Alamat Perusahaan Tempat Bekerja", member.companyAddress || ""], ["Status Pernikahan", "Kawin"], ["Jenis Identitas", "SIM A"], ["No. Identitas", "1802070711050001"], ["No. Telp/Handphone", "81236641121"], ["Nama Gadis Ibu Kandung", "NI WAYAN PEDEK"], ["Nama Pewaris", "Rama Adinata"]];

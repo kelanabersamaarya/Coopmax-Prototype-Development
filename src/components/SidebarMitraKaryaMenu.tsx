@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
 const memberItems = [
   { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran" },
   { label: "Anggota", to: "/mitra-karya/anggota" },
+  { label: "Pendaftaran Calon Anggota", to: "/mitra-karya/calon-anggota/pendaftaran" },
+  { label: "Calon Anggota", to: "/mitra-karya/calon-anggota" },
 ];
 
 const reportItems = [
@@ -24,8 +26,8 @@ const reportItems = [
 
 export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
-  const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname === "/anggota/transaksi";
-  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran";
+  const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname.startsWith("/mitra-karya/calon-anggota") || location.pathname === "/anggota/transaksi";
+  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran" || location.pathname === "/mitra-karya/calon-anggota" || location.pathname === "/mitra-karya/calon-anggota/pendaftaran";
   const loanActive = location.pathname.startsWith("/mitra-karya/pinjaman");
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
   const [memberOpen, setMemberOpen] = React.useState(memberActive);
@@ -78,7 +80,7 @@ export default function SidebarMitraKaryaMenu() {
                   to={item.to}
                   className={() => cn(
                     "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                    item.to === "/mitra-karya/anggota" && memberListActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                    item.to === (location.pathname.startsWith("/mitra-karya/calon-anggota") ? "/mitra-karya/calon-anggota" : "/mitra-karya/anggota") && memberListActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
                   )}
                 >
                   {item.label}
