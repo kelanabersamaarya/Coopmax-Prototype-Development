@@ -136,7 +136,7 @@ export default function SidebarMitraKaryaMenu() {
         </div>
       </div>
 
-      <SidebarMBankingMenu />
+      <SidebarMBankingMenu basePath="/mitra-karya" />
 
       <NavLink
         to="/mitra-karya/akunting"

@@ -5,12 +5,17 @@ import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function SidebarMBankingMenu() {
+type SidebarMBankingMenuProps = {
+  basePath?: string;
+};
+
+export default function SidebarMBankingMenu({ basePath = "" }: SidebarMBankingMenuProps) {
   const location = useLocation();
+  const route = (path: string) => `${basePath}${path}`;
   const isActive =
-    location.pathname.startsWith("/mobile/mbanking-transactions") ||
-    location.pathname.startsWith("/mobile/mbanking-banners") ||
-    location.pathname.startsWith("/mobile/m-banking");
+    location.pathname.startsWith(route("/mbanking-transactions")) ||
+    location.pathname.startsWith(route("/mbanking-banners")) ||
+    location.pathname.startsWith(route("/m-banking"));
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
@@ -54,7 +59,7 @@ export default function SidebarMBankingMenu() {
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
               <NavLink
-                to="/mobile/m-banking"
+                to={route("/m-banking")}
                 className={({ isActive: linkActive }) =>
                   cn(
                     "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
@@ -68,7 +73,7 @@ export default function SidebarMBankingMenu() {
               </NavLink>
 
               <NavLink
-                to="/mobile/mbanking-banners"
+                to={route("/mbanking-banners")}
                 className={({ isActive: linkActive }) =>
                   cn(
                     "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
@@ -82,7 +87,7 @@ export default function SidebarMBankingMenu() {
               </NavLink>
 
               <NavLink
-                to="/mobile/mbanking-transactions"
+                to={route("/mbanking-transactions")}
                 className={({ isActive: linkActive }) =>
                   cn(
                     "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",

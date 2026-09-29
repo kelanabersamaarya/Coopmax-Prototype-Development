@@ -125,6 +125,12 @@ const App = () => (
             <Route path="mitra-karya/pinjaman/pengajuan" element={<LoanApplications />} />
             <Route path="mitra-karya/pinjaman/pengajuan/tambah" element={<LoanApplicationCreate />} />
             <Route path="mitra-karya/pinjaman/rekening" element={<RekeningPinjaman />} />
+            <Route path="mitra-karya/m-banking" element={<MobileMBanking />} />
+            <Route path="mitra-karya/mbanking-transactions" element={<MobileMBankingTransactions />} />
+            <Route path="mitra-karya/mbanking-banners" element={<MBankingBanners />} />
+            <Route path="mitra-karya/mbanking-banners/tambah" element={<MBankingBannerCreate />} />
+            <Route path="mitra-karya/mbanking-banners/:id/ubah" element={<MBankingBannerCreate />} />
+            <Route path="mitra-karya/mbanking-banners/:id" element={<MBankingBannerDetail />} />
             <Route path="mitra-karya/akunting" element={<SakAkunting />} />
             <Route
               path="mitra-karya/laporan/anggota"
