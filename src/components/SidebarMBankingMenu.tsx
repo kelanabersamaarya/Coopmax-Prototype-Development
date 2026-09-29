@@ -9,7 +9,7 @@ type SidebarMBankingMenuProps = {
   basePath?: string;
 };
 
-export default function SidebarMBankingMenu({ basePath = "" }: SidebarMBankingMenuProps) {
+export default function SidebarMBankingMenu({ basePath = "/mobile" }: SidebarMBankingMenuProps) {
   const location = useLocation();
   const route = (path: string) => `${basePath}${path}`;
   const isActive =
