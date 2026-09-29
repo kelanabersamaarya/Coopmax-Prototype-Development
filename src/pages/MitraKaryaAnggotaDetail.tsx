@@ -1,9 +1,12 @@
-import { List, Pencil } from "lucide-react";
+import { Ban, ChevronDown, Download, History, KeyRound, List, Pencil, Printer, UserRound, X } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return <div className="grid grid-cols-[190px_1fr] gap-2 text-[13px] leading-8"><span className="text-[#7184a5]">{label}</span><span className="font-medium text-[#06255a]">: {value}</span></div>;
+}
+function AccountCard({ title, code, balance, date, dark = false }: { title: string; code?: string; balance: string; date?: string; dark?: boolean }) {
+  return <div className={`overflow-hidden rounded-[10px] ${dark ? "bg-[#3d4b68]" : "bg-[#7040c4]"} text-white`}><div className="min-h-[220px] p-5"><h3 className="text-[16px] font-bold">{title}</h3>{code ? <div className="mt-5 grid grid-cols-2 gap-4 text-[12px]"><div><p className="text-white/75">Kode Tabungan</p><p className="font-bold">{code} ↗</p></div><div><p className="text-white/75">Tanggal Dibuat</p><p className="font-bold">{date}</p></div><div><p className="text-white/75">Saldo</p><p className="font-bold">{balance}</p></div><div><p className="text-white/75">Status</p><span className="rounded-[3px] bg-green-500 px-1.5 py-0.5 text-[10px] font-bold">Aktif</span></div></div> : <div className="mt-5 text-[12px]"><p className="text-white/75">Saldo</p><p className="font-bold">{balance}</p></div>}</div><div className="border-t border-white/30 p-3"><Button className="h-10 w-full rounded-[5px] bg-white text-[#7040c4] hover:bg-white/90"><History className="mr-1 h-4 w-4" />Riwayat Transaksi</Button></div></div>;
 }
 
 export default function MitraKaryaAnggotaDetail() {
@@ -11,24 +14,13 @@ export default function MitraKaryaAnggotaDetail() {
   const location = useLocation();
   const { id } = useParams();
   const isCandidate = location.pathname.startsWith("/mitra-karya/calon-anggota");
-  const basePath = isCandidate ? "/mitra-karya/calon-anggota" : "/mitra-karya/anggota";
-  const storageKey = isCandidate ? "mitra-karya-calon-anggota" : "mitra-karya-members";
-  const saved = JSON.parse(localStorage.getItem(storageKey) || "[]").find((member: { id: string }) => member.id === id);
-  const member = saved || { id: id || "A2600016", name: "Made Jaya" };
-  const title = isCandidate ? "Calon Anggota" : "Anggota";
-
-  return <div className="min-h-screen bg-[#f7f8fd] px-4 py-6 text-[#06255a] sm:px-8 lg:px-9">
-    <h1 className="text-[21px] font-semibold">{title} <span className="font-normal">Detail</span></h1>
-    <div className="mt-7 flex flex-wrap gap-2">
-      <Button onClick={() => navigate(basePath)} className="rounded-full bg-white text-[#526b92] shadow-sm hover:bg-violet-600 hover:text-white"><List className="mr-2 h-4 w-4" />Kembali ke Daftar</Button>
-      <Button onClick={() => navigate(`${basePath}/${member.id}/ubah`)} className="rounded-full bg-white text-[#526b92] shadow-sm hover:bg-violet-600 hover:text-white"><Pencil className="mr-2 h-4 w-4" />Ubah</Button>
-    </div>
-    <main className="mt-5 rounded-[20px] bg-white p-5 shadow-[0_4px_22px_rgba(49,65,105,0.06)] sm:p-6">
-      <h2 className="text-[15px] font-bold uppercase">Informasi {title}</h2>
-      <div className="mt-4 grid gap-x-12 lg:grid-cols-2">
-        <div><InfoRow label="ID" value={member.id} /><InfoRow label="Nama" value={member.name} /><InfoRow label="Kategori Anggota" value={isCandidate ? "Calon Anggota" : "Anggota"} /><InfoRow label="Tanggal Daftar" value={member.registeredAt || ""} /><InfoRow label="Alamat" value={member.address || ""} /></div>
-        <div><InfoRow label="No. Identitas" value={member.identity || ""} /><InfoRow label="No. Telp/Handphone" value={member.phone || ""} /><InfoRow label="Status" value="Aktif" /></div>
-      </div>
-    </main>
-  </div>;
+  const memberBasePath = isCandidate ? "/mitra-karya/calon-anggota" : "/mitra-karya/anggota";
+  const saved = JSON.parse(localStorage.getItem(isCandidate ? "mitra-karya-calon-anggota" : "mitra-karya-members") || "[]").find((member: { id: string }) => member.id === id);
+  const member = saved || { id: id || "A2600016", name: "Made Jaya", ktpFile: null, familyCardFile: null, supportingFile: null };
+  const left = [["ID", member.id], ["NIP", "0000"], ["Nama", member.name], ["Tempat Lahir", "Bandar Jaya"], ["Tanggal Lahir", "08-09-2026"], ["Kategori Anggota", "Anggota"], ["Jenis Kelamin", "Perempuan"], ["Wilayah", ""], ["Alamat", "Tabanan"], ["Alamat Email", ""], ["Tanggal Daftar", "09-09-2026"], ["Tag", ""], ["Unit Anggota", ""]];
+  const right = [["Agama", "Protestan"], ["Pekerjaan", member.occupation || ""], ["Perusahaan Tempat Bekerja", member.companyName || ""], ["Alamat Perusahaan Tempat Bekerja", member.companyAddress || ""], ["Status Pernikahan", "Kawin"], ["Jenis Identitas", "SIM A"], ["No. Identitas", "1802070711050001"], ["No. Telp/Handphone", "81236641121"], ["Nama Gadis Ibu Kandung", "NI WAYAN PEDEK"], ["Nama Pewaris", "Rama Adinata"]];
+  const file = (item: { name: string; type: string; dataUrl?: string } | null) => item && <div className="mt-4 w-fit max-w-full overflow-hidden rounded-[10px] border border-slate-100 bg-white text-left shadow-[0_3px_14px_rgba(49,65,105,0.05)]">{item.dataUrl && item.type.startsWith("image/") ? <img src={item.dataUrl} alt={item.name} className="block max-h-64 max-w-[520px] object-contain object-left" /> : item.dataUrl && item.type === "application/pdf" ? <iframe src={item.dataUrl} title={item.name} className="block h-64 w-[520px]" /> : <p className="p-4 text-[13px] text-slate-500">Preview tidak tersedia untuk file ini.</p>}<div className="flex items-center gap-2 border-t border-slate-100 p-3"><a href={item.dataUrl} download={item.name} className={`inline-flex h-8 w-9 shrink-0 items-center justify-center rounded-[5px] bg-[#3567f5] text-white hover:bg-[#2858df] ${!item.dataUrl ? "pointer-events-none opacity-50" : ""}`} aria-label={`Download ${item.name}`}><Download className="h-4 w-4" /></a><span className="truncate text-[13px] text-[#06255a]" title={item.name}>{item.name}</span></div></div>;
+  const actionClass = "rounded-full bg-white text-[#526b92] shadow-sm hover:bg-violet-600 hover:text-white";
+  const actions: [typeof Pencil, string][] = [[UserRound, "Berhenti menjadi Anggota"], [KeyRound, "Atur Pin"], [KeyRound, "Reset Pin"], [History, "Riwayat Perubahan Data Member"], [X, "Tutup Rekening"], [Pencil, "Ubah"], [Ban, "Blokir Transaksi"]];
+  return <div className="min-h-screen bg-[#f7f8fd] px-4 py-6 text-[#06255a] sm:px-8 lg:px-9"><h1 className="text-[21px] font-semibold">Anggota <span className="font-normal">Detail</span></h1><div className="mt-7 flex flex-wrap gap-2"><Button className={actionClass}><Printer className="mr-2 h-4 w-4" />Dokumen <ChevronDown className="ml-1 h-3 w-3" /></Button><Button onClick={() => navigate("/mitra-karya/anggota")} className={actionClass}><List className="mr-2 h-4 w-4" />Kembali ke Daftar</Button>{actions.map(([Icon, label]) => <Button key={label} onClick={label === "Ubah" ? () => navigate(`/mitra-karya/anggota/${member.id}/ubah`) : undefined} className={actionClass}><Icon className="mr-2 h-4 w-4" />{label}</Button>)}</div><main className="mt-5 rounded-[20px] bg-white p-5 shadow-[0_4px_22px_rgba(49,65,105,0.06)] sm:p-6"><h2 className="text-[15px] font-bold uppercase">Informasi Anggota</h2><div className="mt-4 grid gap-x-12 lg:grid-cols-2"><div><div className="grid grid-cols-[190px_1fr] gap-2 text-[13px] leading-8"><span className="text-[#7184a5]">PIN</span><span>: <span className="rounded bg-red-500 px-1.5 py-1 text-xs font-bold text-white">Pin Belum Di Atur</span></span></div>{left.map(([label,value]) => <InfoRow key={label} label={label} value={value} />)}<InfoRow label="Status Verifikasi KTP" value="" /><InfoRow label="Status" value="Aktif" /></div><div>{right.map(([label,value]) => <InfoRow key={label} label={label} value={value} />)}</div></div><div className="my-6 border-t border-slate-200" /><h2 className="text-[15px] font-bold uppercase">Informasi Rekening</h2><div className="mt-5 grid gap-5 lg:grid-cols-3"><AccountCard title="SIMPANAN WAJIB" code="P002260016" date="09 Sep 2026" balance="50.000,00" /><AccountCard title="SIMPANAN POKOK" code="P001260017" date="09 Sep 2026" balance="200.000,00" /><AccountCard title="SHU" balance="0,00" dark /></div><div className="my-6 border-t border-slate-200" /><h2 className="text-[15px] font-bold uppercase">File KTP</h2>{file(member.ktpFile)}<div className="my-6 border-t border-slate-200" /><h2 className="text-[15px] font-bold uppercase">File KK</h2>{file(member.familyCardFile)}<div className="my-6 border-t border-slate-200" /><h2 className="text-[15px] font-bold uppercase">File Pendukung</h2>{file(member.supportingFile)}<div className="my-6 border-t border-slate-200" /><h2 className="text-[15px] font-bold uppercase">Riwayat Status Keanggotaan</h2><div className="mt-5 overflow-x-auto"><table className="w-full min-w-[760px] border-collapse text-left text-xs"><tbody><tr className="border border-slate-300"><td className="p-2">1</td><td className="p-2">Anggota</td><td className="p-2">-</td><td className="p-2">09-09-2026</td><td className="p-2">arya_djoin</td><td className="p-2"></td></tr></tbody></table></div></main></div>;
 }
