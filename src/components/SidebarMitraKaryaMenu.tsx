@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 const memberItems = [
   { label: "Pendaftaran Anggota", to: "/mitra-karya/anggota/pendaftaran" },
   { label: "Anggota", to: "/mitra-karya/anggota" },
+  { label: "Pendaftaran Calon Anggota", to: "/mitra-karya/calon-anggota/pendaftaran" },
   { label: "Calon Anggota", to: "/mitra-karya/calon-anggota" },
 ];
 
