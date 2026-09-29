@@ -26,7 +26,7 @@ const reportItems = [
 export default function SidebarMitraKaryaMenu() {
   const location = useLocation();
   const memberActive = location.pathname.startsWith("/mitra-karya/anggota") || location.pathname.startsWith("/mitra-karya/calon-anggota") || location.pathname === "/anggota/transaksi";
-  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname === "/mitra-karya/anggota/pendaftaran" || location.pathname.startsWith("/mitra-karya/calon-anggota");
+  const memberListActive = location.pathname === "/mitra-karya/anggota" || location.pathname.startsWith("/mitra-karya/calon-anggota");
   const loanActive = location.pathname.startsWith("/mitra-karya/pinjaman");
   const reportActive = location.pathname.startsWith("/mitra-karya/laporan");
   const [memberOpen, setMemberOpen] = React.useState(memberActive);
@@ -77,6 +77,7 @@ export default function SidebarMitraKaryaMenu() {
                 <NavLink
                   key={item.to}
                   to={item.to}
+                  end={item.to === "/mitra-karya/anggota" || item.to === "/mitra-karya/calon-anggota"}
                   className={({ isActive }) => cn(
                     "flex items-center rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
                     isActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
