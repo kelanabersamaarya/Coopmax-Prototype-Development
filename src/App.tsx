@@ -27,6 +27,7 @@ import AstitiRekeningPinjaman from "./pages/AstitiRekeningPinjaman";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaAnggota from "./pages/MitraKaryaAnggota";
 import MitraKaryaCalonAnggota from "./pages/MitraKaryaCalonAnggota";
+import MitraKaryaCalonAnggotaDetail from "./pages/MitraKaryaCalonAnggotaDetail";
 import MitraKaryaAnggotaDetail from "./pages/MitraKaryaAnggotaDetail";
 import MitraKaryaPendaftaranAnggota from "./pages/MitraKaryaPendaftaranAnggota";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
@@ -117,7 +118,7 @@ const App = () => (
             <Route path="mitra-karya/calon-anggota" element={<MitraKaryaCalonAnggota />} />
             <Route path="mitra-karya/calon-anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/calon-anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
-            <Route path="mitra-karya/calon-anggota/:id" element={<MitraKaryaAnggotaDetail />} />
+            <Route path="mitra-karya/calon-anggota/:id" element={<MitraKaryaCalonAnggotaDetail />} />
             <Route path="mitra-karya/anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id" element={<MitraKaryaAnggotaDetail />} />
