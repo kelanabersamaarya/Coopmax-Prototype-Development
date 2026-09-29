@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AlignLeft, Bold, CheckSquare, ChevronLeft, ChevronRight, Code2, Eraser, HelpCircle, Image, Link, List, ListOrdered, Maximize, Plus, Table2, Trash2, Underline, Video, WandSparkles, X } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -76,6 +76,10 @@ function DateCalendar({ value, onChange }: { value: string; onChange: (value: st
 
 export default function MBankingBannerCreate() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const bannerListRoute = location.pathname.startsWith("/mitra-karya/")
+    ? "/mitra-karya/mbanking-banners"
+    : "/mobile/mbanking-banners";
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const [active, setActive] = useState(true);
@@ -176,7 +180,7 @@ export default function MBankingBannerCreate() {
         {(savedImages.length > 0 || bannerImages.length > 0) && <div className="mt-3 border-t border-[#d5ddeb] pt-2"><div className="flex items-start gap-4"><div className="flex flex-wrap gap-4">{savedImages.map((image, index) => <img key={`saved-${index}`} src={image} alt={`${bannerName} ${index + 1}`} className="h-[130px] w-[104px] object-cover" />)}{bannerImages.map((file) => <img key={`${file.name}-${file.lastModified}`} src={URL.createObjectURL(file)} alt={file.name} className="h-[130px] w-[104px] object-cover" />)}</div><button type="button" aria-label="Hapus gambar" onClick={() => { setSavedImages([]); setBannerImages([]); }} className="mt-[48px] ml-auto mr-[200px] flex h-8 w-11 items-center justify-center rounded-md bg-[#df3048] text-white hover:bg-[#c62239]"><Trash2 className="h-4 w-4" /></button></div></div>}
 
         <div className="mt-10 flex justify-end gap-1">
-          <Button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
+          <Button type="button" onClick={() => navigate(bannerListRoute)} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button>
           <Button type="button" onClick={() => { if (bannerImages.length === 0 && savedImages.length === 0) { setShowImageAlert(true); return; } setShowSaveConfirmation(true); }} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" strokeWidth={3} />Simpan</Button>
         </div>
 
@@ -225,7 +229,7 @@ export default function MBankingBannerCreate() {
                 <span className="text-[64px] font-light leading-none">✓</span>
               </div>
               <h2 className="mt-8 text-[30px] font-bold text-[#5b5b5b]">{isEditMode ? "Berhasil mengubah data" : "Berhasil menambahkan data"}</h2>
-              <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="mt-8 h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">OK</button>
+              <button type="button" onClick={() => navigate(bannerListRoute)} className="mt-8 h-12 min-w-[102px] rounded-md bg-[#398fd6] px-6 text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">OK</button>
             </div>
           </div>
         )}

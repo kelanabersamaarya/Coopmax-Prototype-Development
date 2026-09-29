@@ -1,5 +1,5 @@
 import { List, Pencil, Trash2 } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export type SavedBanner = {
   id: string;
@@ -29,6 +29,10 @@ function normalizeBanner(banner: Partial<SavedBanner>, index: number): SavedBann
 
 export default function MBankingBannerDetail() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const bannerListRoute = location.pathname.startsWith("/mitra-karya/")
+    ? "/mitra-karya/mbanking-banners"
+    : "/mobile/mbanking-banners";
   const { id } = useParams();
   const banners = (JSON.parse(window.localStorage.getItem(bannerStorageKey) || "[]") as Partial<SavedBanner>[]).map(normalizeBanner);
   const banner = banners.find((item) => item.id === id);
@@ -36,7 +40,7 @@ export default function MBankingBannerDetail() {
   if (!banner) {
     return (
       <div className="min-h-screen bg-[#f4f6fc] px-5 py-8 text-[#062c63] md:px-10">
-        <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff]"><List className="h-4 w-4" />Kembali ke Daftar</button>
+        <button type="button" onClick={() => navigate(bannerListRoute)} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff]"><List className="h-4 w-4" />Kembali ke Daftar</button>
         <div className="mt-8 rounded-[22px] bg-white p-8">Data banner tidak ditemukan.</div>
       </div>
     );
@@ -47,8 +51,8 @@ export default function MBankingBannerDetail() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-[22px] font-semibold">Banner <span className="text-[16px] font-normal">Detail</span></h1>
         <div className="flex flex-wrap gap-3">
-          <button type="button" onClick={() => navigate("/mobile/mbanking-banners")} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff]"><List className="h-4 w-4" />Kembali ke Daftar</button>
-          <button type="button" onClick={() => navigate(`/mobile/mbanking-banners/${banner.id}/ubah`)} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Pencil className="h-4 w-4" />Ubah</button>
+          <button type="button" onClick={() => navigate(bannerListRoute)} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm transition-colors hover:bg-[#f8faff]"><List className="h-4 w-4" />Kembali ke Daftar</button>
+          <button type="button" onClick={() => navigate(`${bannerListRoute}/${banner.id}/ubah`)} className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Pencil className="h-4 w-4" />Ubah</button>
           <button type="button" className="flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[13px] text-[#526784] shadow-sm"><Trash2 className="h-4 w-4" />Hapus</button>
         </div>
       </div>
