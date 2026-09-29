@@ -116,7 +116,7 @@ const App = () => (
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />
             <Route path="mitra-karya/calon-anggota" element={<MitraKaryaCalonAnggota />} />
-            <Route path="mitra-karya/calon-anggota/pendaftaran" element={<MitraKaryaCalonAnggotaPendaftaran />} />
+            <Route path="mitra-karya/calon-anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/calon-anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/calon-anggota/:id" element={<MitraKaryaAnggotaDetail />} />
             <Route path="mitra-karya/anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
