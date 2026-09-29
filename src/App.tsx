@@ -27,7 +27,6 @@ import AstitiRekeningPinjaman from "./pages/AstitiRekeningPinjaman";
 import MitraKaryaDashboard from "./pages/MitraKaryaDashboard";
 import MitraKaryaAnggota from "./pages/MitraKaryaAnggota";
 import MitraKaryaCalonAnggota from "./pages/MitraKaryaCalonAnggota";
-import MitraKaryaCalonAnggotaPendaftaran from "./pages/MitraKaryaCalonAnggotaPendaftaran";
 import MitraKaryaAnggotaDetail from "./pages/MitraKaryaAnggotaDetail";
 import MitraKaryaPendaftaranAnggota from "./pages/MitraKaryaPendaftaranAnggota";
 import MitraKaryaLaporanAnggota from "./pages/MitraKaryaLaporanAnggota";
