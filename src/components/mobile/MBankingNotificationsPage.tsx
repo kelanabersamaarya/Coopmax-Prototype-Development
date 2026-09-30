@@ -88,7 +88,7 @@ export default function MBankingNotificationsPage({
                 : "text-[#004FC7]"
             }`}
           >
-            Transfer
+            Transaksi
           </button>
           <button
             type="button"
