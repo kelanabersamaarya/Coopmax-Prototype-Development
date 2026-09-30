@@ -25,7 +25,7 @@ function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
 
 export default function PengaturanNotifikasiTambah() {
   const navigate = useNavigate();
-  const [notificationType, setNotificationType] = useState("Transaksi");
+  const [notificationType, setNotificationType] = useState("Informasi Transaksi");
   const [smsActive, setSmsActive] = useState(false);
   const [pushActive, setPushActive] = useState(false);
   const [status, setStatus] = useState(true);
@@ -39,7 +39,7 @@ export default function PengaturanNotifikasiTambah() {
 
         <span className="pt-1 text-[13px]">Jenis Notifikasi<span className="text-red-600">*</span></span>
         <div className="flex flex-wrap items-center gap-4 text-[13px]">
-          {["Transaksi", "Pengingat", "Custom"].map((type) => <label key={type} className="flex items-center gap-1.5"><input type="radio" name="notification-type" checked={notificationType === type} onChange={() => setNotificationType(type)} className="h-4 w-4 accent-blue-500" />{type}</label>)}
+          {["Informasi Transaksi", "Informasi Pengingat", "Push Notifikasi"].map((type) => <label key={type} className="flex items-center gap-1.5"><input type="radio" name="notification-type" checked={notificationType === type} onChange={() => setNotificationType(type)} className="h-4 w-4 accent-blue-500" />{type}</label>)}
         </div>
 
         <label htmlFor="transaction-type" className="pt-1 text-[13px]">Jenis Transaksi<span className="text-red-600">*</span></label>
