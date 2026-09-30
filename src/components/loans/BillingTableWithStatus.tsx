@@ -299,7 +299,7 @@ export default function BillingTableWithStatus({
               <col className="w-[112px]" />
               <col className="w-[145px]" />
             </colgroup>
-            <thead className="bg-white [&>tr>th]:border-b [&>tr>th]:border-slate-200">
+            <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
                 <th className={cn(thBase, "w-[110px]")}>
                   Jatuh
