@@ -1,4 +1,5 @@
-import { ArrowLeft, Check, Info, X } from "lucide-react";
+import { useState } from "react";
+import { AlertTriangle, ArrowLeft, Check, Info, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -16,6 +17,7 @@ export default function MBankingBannerNotificationPreview({
 }) {
   const image = "/banner_sample.jpeg";
   const notificationTitle = "Spesial Harpelnas";
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
@@ -70,9 +72,26 @@ export default function MBankingBannerNotificationPreview({
 
         <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
           <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]"><X className="h-4 w-4" strokeWidth={2.5} />Batal</button>
-          <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><Check className="h-4 w-4" strokeWidth={2.8} />Aktifkan</button>
+          <button type="button" onClick={() => setShowConfirmation(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><Check className="h-4 w-4" strokeWidth={2.8} />Aktifkan</button>
         </footer>
       </div>
+
+      {showConfirmation ? (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/60 p-4">
+          <div className="w-full max-w-[530px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
+            <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#F7C9A4] text-[#F7B77D]">
+              <AlertTriangle className="h-12 w-12" strokeWidth={1.5} />
+            </div>
+            <p className="mt-7 text-[30px] font-semibold leading-tight text-[#46576B]">
+              Yakin mengaktifkan push notifikasi banner?
+            </p>
+            <div className="mt-7 flex justify-center gap-2">
+              <button type="button" onClick={() => setShowConfirmation(false)} className="h-12 rounded-[5px] bg-[#A7A7A7] px-8 text-[18px] font-semibold text-white transition hover:bg-[#929292]">Batal</button>
+              <button type="button" onClick={onClose} className="h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white transition hover:bg-[#2679B9]">Ya</button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
