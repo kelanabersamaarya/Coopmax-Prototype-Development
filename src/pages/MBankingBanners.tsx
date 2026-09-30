@@ -37,7 +37,7 @@ function formatBannerDate(value: string) {
 }
 
 function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
-  return { id: banner.id || `saved-${index}`, name: banner.name || "Banner Baru", start: formatBannerDate(banner.start || "-"), end: formatBannerDate(banner.end || "-"), active: Boolean(banner.active), userNotification: Boolean(banner.userNotification), content: banner.content || "", images: Array.isArray(banner.images) ? banner.images : [] };
+  return { id: banner.id || `saved-${index}`, name: banner.name || "Banner Baru", start: "09-24-2026", end: "09-24-2026", active: Boolean(banner.active), userNotification: Boolean(banner.userNotification), content: banner.content || "", images: Array.isArray(banner.images) ? banner.images : [] };
 }
 
 export default function MBankingBanners() {
@@ -52,7 +52,8 @@ export default function MBankingBanners() {
     if (storedBanners) {
       const savedBanners = (JSON.parse(storedBanners) as Partial<Banner>[]).map(normalizeBanner);
       const savedById = new Map(savedBanners.map((banner) => [banner.id, banner]));
-      setBanners([...savedBanners.filter((banner) => !banner.id.startsWith("default-")), ...defaultBanners.map((banner) => savedById.get(banner.id) || banner)]);
+      const mergedBanners = [...savedBanners.filter((banner) => !banner.id.startsWith("default-")), ...defaultBanners.map((banner) => savedById.get(banner.id) || banner)];
+      setBanners(mergedBanners.map((banner) => ({ ...banner, start: "09-24-2026", end: "09-24-2026" })));
     }
   }, []);
 
