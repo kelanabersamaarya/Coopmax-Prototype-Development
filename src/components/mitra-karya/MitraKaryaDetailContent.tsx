@@ -10,7 +10,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 }
 
 function FilePreview({ item, fallback }: { item: FileItem; fallback: FileItem }) {
-  const file = item || fallback;
+  const file = fallback || item;
   if (!file) return null;
   return <div className="mt-4 w-fit max-w-full overflow-hidden rounded-[10px] border border-slate-100 bg-white text-left shadow-[0_3px_14px_rgba(49,65,105,0.05)]"><img src={file.dataUrl} alt={file.name} className="block max-h-64 max-w-[520px] object-contain object-left" /><div className="flex items-center gap-2 border-t border-slate-100 p-3"><a href={file.dataUrl} download={file.name} className="inline-flex h-8 w-9 items-center justify-center rounded-[5px] bg-[#3567f5] text-white hover:bg-[#2858df]" aria-label={`Download ${file.name}`}><Download className="h-4 w-4" /></a><span className="truncate text-[13px] text-[#06255a]">{file.name}</span></div></div>;
 }
