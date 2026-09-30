@@ -143,49 +143,50 @@ export default function MBankingBanners() {
             <thead>
               <tr className="bg-white">
                 <th className={headerClass}>No.</th>
-                <th className={cn(headerClass, "bg-[#eef0f4]")}>
-                  Judul Banner <span className="float-right">⌄</span>
+                <th className={cn(headerClass, "relative bg-[#eef0f4]")}>
+                  Judul Banner
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2">⌄</span>
                 </th>
-                <th className={headerClass}>
+                <th className={cn(headerClass, "relative")}>
                   Tanggal
                   <br />
                   Publikasi
                   <ChevronsUpDown
-                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
                     strokeWidth={2.2}
                   />
                 </th>
-                <th className={headerClass}>
+                <th className={cn(headerClass, "relative")}>
                   Tanggal
                   <br />
                   Kedaluwarsa
                   <ChevronsUpDown
-                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
                     strokeWidth={2.2}
                   />
                 </th>
-                <th className={headerClass}>
+                <th className={cn(headerClass, "relative")}>
                   Status
                   <br />
                   Banner
                   <ChevronsUpDown
-                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
                     strokeWidth={2.2}
                   />
                 </th>
-                <th className={headerClass}>
+                <th className={cn(headerClass, "relative")}>
                   Status Push
                   <br />
                   Notifikasi
                   <ChevronsUpDown
-                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
                     strokeWidth={2.2}
                   />
                 </th>
-                <th className={headerClass}>
+                <th className={cn(headerClass, "relative")}>
                   Aksi
                   <ChevronsUpDown
-                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
                     strokeWidth={2.2}
                   />
                 </th>
