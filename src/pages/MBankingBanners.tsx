@@ -10,13 +10,13 @@ import MBankingBannerNotificationPreview from "@/components/mitra-karya/MBanking
 type Banner = { id: string; name: string; start: string; end: string; active: boolean; userNotification?: boolean; content: string; images: string[] };
 
 const defaultBanners: Banner[] = [
-  ["Selamat Hari Suci Galungan dan Kuningan", "24-09-2026", "24-09-2026", true],
-  ["Selamat Hari Raya Nyepi", "24-09-2026", "30-09-2026", true],
-  ["Selamat Hari Raya Galungan", "10-06-2025", "30-06-2025", false],
-  ["Selamat Hari Raya", "01-10-2022", "14-10-2022", true],
-  ["Promo Deposito Seru", "11-06-2025", "30-06-2025", true],
-  ["Hari raya", "24-09-2026", "24-09-2026", true],
-  ["Galungan", "24-09-2026", "30-09-2026", true],
+  ["Selamat Hari Suci Galungan dan Kuningan", "09-24-2026", "09-24-2026", true],
+  ["Selamat Hari Raya Nyepi", "09-24-2026", "09-30-2026", true],
+  ["Selamat Hari Raya Galungan", "06-10-2025", "06-30-2025", false],
+  ["Selamat Hari Raya", "10-01-2022", "10-14-2022", true],
+  ["Promo Deposito Seru", "06-11-2025", "06-30-2025", true],
+  ["Hari raya", "09-24-2026", "09-24-2026", true],
+  ["Galungan", "09-24-2026", "09-30-2026", true],
 ].map(([name, start, end, active], index) => ({ id: `default-${index + 1}`, name: name as string, start: start as string, end: end as string, active: active as boolean, content: "", images: [] }));
 
 const bannerStorageKey = "mbanking-banners";
@@ -24,8 +24,17 @@ const headerClass = "px-2.5 py-2 text-left text-[12px] font-bold uppercase track
 const notificationTooltip = "Klik untuk mengaktifkan push notifikasi banner agar pengguna M-Banking mendapatkan notifikasi promo, ucapan dan informasi lainnya";
 const activeNotificationTooltip = "Push notifikasi banner sudah diaktifkan, klik untuk menonaktifkan push notifikasi banner";
 
+function formatBannerDate(value: string) {
+  if (!value || value === "-") return value || "-";
+  const match = /^(\d{2})[-/](\d{2})[-/](\d{4})$/.exec(value);
+  if (!match) return value;
+  const [, first, separator, second, year] = match;
+  if (separator === "/") return `${first}-${second}-${year}`;
+  return Number(first) > 12 ? `${second}-${first}-${year}` : `${first}-${second}-${year}`;
+}
+
 function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
-  return { id: banner.id || `saved-${index}`, name: banner.name || "Banner Baru", start: banner.start || "-", end: banner.end || "-", active: Boolean(banner.active), userNotification: Boolean(banner.userNotification), content: banner.content || "", images: Array.isArray(banner.images) ? banner.images : [] };
+  return { id: banner.id || `saved-${index}`, name: banner.name || "Banner Baru", start: formatBannerDate(banner.start || "-"), end: formatBannerDate(banner.end || "-"), active: Boolean(banner.active), userNotification: Boolean(banner.userNotification), content: banner.content || "", images: Array.isArray(banner.images) ? banner.images : [] };
 }
 
 export default function MBankingBanners() {

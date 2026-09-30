@@ -14,12 +14,21 @@ export type SavedBanner = {
 
 const bannerStorageKey = "mbanking-banners";
 
+function formatBannerDate(value: string) {
+  if (!value || value === "-") return value || "-";
+  const match = /^(\d{2})([-/])(\d{2})[-/](\d{4})$/.exec(value);
+  if (!match) return value;
+  const [, first, separator, second, year] = match;
+  if (separator === "/") return `${first}-${second}-${year}`;
+  return Number(first) > 12 ? `${second}-${first}-${year}` : `${first}-${second}-${year}`;
+}
+
 function normalizeBanner(banner: Partial<SavedBanner>, index: number): SavedBanner {
   return {
     id: banner.id || `saved-${index}`,
     name: banner.name || "Banner Baru",
-    start: banner.start || "-",
-    end: banner.end || "-",
+    start: formatBannerDate(banner.start || "-"),
+    end: formatBannerDate(banner.end || "-"),
     active: Boolean(banner.active),
     userNotification: Boolean(banner.userNotification),
     content: banner.content || "",
