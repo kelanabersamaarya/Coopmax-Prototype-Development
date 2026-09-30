@@ -191,31 +191,31 @@ function RowCells({
 
   return (
     <>
-      <td className="w-[100px] px-2 py-2 text-[13px] font-medium tabular-nums text-slate-900 whitespace-nowrap">
+      <td className="w-[100px] px-2 py-2 text-[13px] font-normal tabular-nums text-slate-900 whitespace-nowrap">
         {row.jatuhTempo}
       </td>
 
-      <td className="w-[116px] px-2 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[116px] px-2 py-2 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
         <RightNum value={row.totalBelumDibayar} />
       </td>
 
-      <td className="w-[118px] px-2 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[118px] px-2 py-2 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
         <RightNum value={hasBasePenalty ? "0,00" : row.tagihanPokok} />
       </td>
 
-      <td className="w-[108px] px-2 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[108px] px-2 py-2 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
         <RightNum value={row.tagihanBunga} />
       </td>
 
-      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
         <RightNum value={hasBasePenalty ? "0,00" : row.sisaPokok} />
       </td>
 
-      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
         <RightNum value={row.sisaBunga} />
       </td>
 
-      <td className="w-[130px] px-4 py-2 pr-1 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[130px] px-4 py-2 pr-1 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
         <div className="flex items-center justify-end gap-2">
           {penaltyTotal > 0 ? (
             <span className="num-sans-tabular">{formatIdrLike(penaltyTotal)}</span>

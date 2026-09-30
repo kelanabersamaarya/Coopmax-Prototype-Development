@@ -300,10 +300,10 @@ export default function BillingTableView2({
     : effectiveDensity;
 
   const dateTextClass =
-    "text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
+    "text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
-    "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
+    "text-right text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
 
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
