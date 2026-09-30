@@ -288,7 +288,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-full min-w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+          <table className="w-[calc(100%+2rem)] min-w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
@@ -361,7 +361,7 @@ export default function BillingTableWithStatus({
                 <>
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="box-border ml-2 w-[calc(100%+0.5rem)] bg-white py-2 pl-0 pr-0">
+                      <div className="box-border ml-2 w-[calc(100%+2rem)] bg-white py-2 pl-0 pr-0">
                         <div className="box-border w-full overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
                           <InnerGraceTable
                             rows={graceRows}
