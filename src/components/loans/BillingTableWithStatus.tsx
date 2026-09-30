@@ -386,7 +386,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${rowIndex}`}
-                        className="bg-white [&>td]:border-b [&>td]:border-slate-200"
+                        className="border-b border-slate-200 bg-white [&>td]:border-b [&>td]:border-slate-200"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
@@ -445,7 +445,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${idx}`}
-                        className="bg-white [&>td]:border-b [&>td]:border-slate-200"
+                        className="border-b border-slate-200 bg-white [&>td]:border-b [&>td]:border-slate-200"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
