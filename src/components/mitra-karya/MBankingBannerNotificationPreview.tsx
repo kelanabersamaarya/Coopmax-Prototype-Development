@@ -39,7 +39,7 @@ export default function MBankingBannerNotificationPreview({
             </div>
           </div>
 
-          <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
+          <div className="relative z-0 mx-auto -mt-1 w-[min(100%,390px)] translate-y-8">
             <MobileMockupFrame edgeToEdge squareBottom>
               <div className="flex min-h-[540px] flex-col overflow-y-auto bg-white text-[#23305A]">
                 <header className="px-6 pb-5 pt-8">
