@@ -191,7 +191,7 @@ function RowCells({
 
   return (
     <>
-      <td className="w-[100px] px-2 py-2 text-[13px] font-semibold tabular-nums text-slate-900 whitespace-nowrap">
+      <td className="w-[100px] px-2 py-2 text-[13px] font-medium tabular-nums text-slate-900 whitespace-nowrap">
         {row.jatuhTempo}
       </td>
 

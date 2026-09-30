@@ -300,7 +300,7 @@ export default function BillingTableView2({
     : effectiveDensity;
 
   const dateTextClass =
-    "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
+    "text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
     "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
