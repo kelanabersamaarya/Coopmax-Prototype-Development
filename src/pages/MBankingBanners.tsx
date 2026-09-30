@@ -293,7 +293,7 @@ export default function MBankingBanners() {
                               className={cn(
                                 "flex h-[22px] w-[22px] items-center justify-center rounded-full transition-colors",
                                 banner.userNotification
-                                  ? "bg-[#3768f5] text-white"
+                                  ? "text-[#315fff]"
                                   : "text-[#7b879d] hover:bg-[#e9efff] hover:text-[#315fff]",
                               )}
                             >
