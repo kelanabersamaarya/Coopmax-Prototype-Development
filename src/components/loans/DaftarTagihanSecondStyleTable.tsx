@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
 import BillingStatusBadge from "@/components/anggota/BillingStatusBadge";
+import type { BillingStatus } from "@/domain/loans/types/billing";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyDetailDialog, {
@@ -31,7 +32,7 @@ export type DaftarTagihanSecondStyleRow = {
   tagihanBunga: string;
   sisaPokok: string;
   sisaBunga: string;
-  statusTagihan?: "Belum Dibayar" | "Lunas" | "Jatuh Tempo" | "Terlambat" | "Dibayar Sebagian";
+  statusTagihan?: BillingStatus;
 };
 
 const PENALTY_AMOUNT = 75000;
@@ -177,13 +178,14 @@ function RowCells({
   const hasBasePenalty = rowIndex < BASE_PENALTY_ROWS;
   const hasManualPenalty = manualPenaltyTotal > 0;
   const penaltyTotal = hasBasePenalty ? PENALTY_AMOUNT : manualPenaltyTotal;
-  const status = rowIndex === 3
-    ? "Jatuh Tempo"
-    : rowIndex === 2
-      ? "Dibayar Sebagian"
-      : row.statusTagihan === "Terlambat"
-        ? "Belum Dibayar"
-        : row.statusTagihan ?? "Belum Dibayar";
+  const status: BillingStatus =
+    rowIndex === 3
+      ? "Jatuh Tempo"
+      : rowIndex === 2
+        ? "Dibayar Sebagian"
+        : row.statusTagihan === "Terlambat"
+          ? "Belum Dibayar"
+          : row.statusTagihan ?? "Belum Dibayar";
 
   return (
     <>
