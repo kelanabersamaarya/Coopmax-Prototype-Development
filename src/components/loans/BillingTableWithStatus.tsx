@@ -176,7 +176,7 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-max min-w-0 max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+    <table className="w-full min-w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -288,7 +288,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-max min-w-0 max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+          <table className="w-full min-w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
