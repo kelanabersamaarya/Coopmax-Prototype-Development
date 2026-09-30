@@ -59,6 +59,7 @@ import LaporanProduktivitas from "./pages/LaporanProduktivitas";
 import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 import PengaturanUmum from "./pages/PengaturanUmum";
 import PengaturanNotifikasi from "./pages/PengaturanNotifikasi";
+import PengaturanNotifikasiTambah from "./pages/PengaturanNotifikasiTambah";
 import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsPengaturanUmum from "./pages/ObsPengaturanUmum";
@@ -308,6 +309,7 @@ const App = () => (
 
             <Route path="pengaturan-umum" element={<PengaturanUmum />} />
             <Route path="pengaturan-notifikasi" element={<PengaturanNotifikasi />} />
+            <Route path="pengaturan-notifikasi/tambah" element={<PengaturanNotifikasiTambah />} />
 
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
             <Route path="mobile/e-kolektor-wajah" element={<MobileEKolektorFace />} />
