@@ -29,6 +29,30 @@ export default function MBankingLoanPasswordPage({
     setPassword((current) => current.slice(0, -1));
   }
 
+  React.useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (/^\d$/.test(event.key)) {
+        event.preventDefault();
+        addNumber(event.key);
+        return;
+      }
+
+      if (event.key === "Backspace" || event.key === "Delete") {
+        event.preventDefault();
+        backspace();
+        return;
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submit();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [password]);
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="flex min-h-0 flex-1 flex-col bg-[#004FC7]">
