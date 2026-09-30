@@ -21,7 +21,7 @@ export default function MBankingBannerNotificationPreview({
 }) {
   const image = "/banner_sample.jpeg";
   const notificationTitle = "Spesial Harpelnas";
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(isActive);
   const [showSuccess, setShowSuccess] = useState(false);
   const confirmationText = isActive ? "Yakin menonaktifkan push notifikasi banner?" : "Yakin mengaktifkan push notifikasi banner?";
 
@@ -78,7 +78,7 @@ export default function MBankingBannerNotificationPreview({
 
         <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
           <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]"><X className="h-4 w-4" strokeWidth={2.5} />Batal</button>
-          <button type="button" onClick={() => setShowConfirmation(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border-2 border-white"><Check className="h-[14px] w-[14px]" strokeWidth={3.2} /></span>Aktifkan</button>
+          <button type="button" onClick={() => setShowConfirmation(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border-2 border-white"><Check className="h-[14px] w-[14px]" strokeWidth={3.2} /></span>{isActive ? "Nonaktifkan" : "Aktifkan"}</button>
         </footer>
       </div>
 
