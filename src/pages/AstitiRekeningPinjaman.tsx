@@ -24,6 +24,7 @@ export default function AstitiRekeningPinjaman() {
             accountNo={selectedAccountNo}
             onBack={() => setSelectedAccountNo(null)}
             showBillingSection={false}
+            showHistoryNoteColumn={true}
           />
         ) : (
           <LoanAccountsListView onSelectAccount={setSelectedAccountNo} />

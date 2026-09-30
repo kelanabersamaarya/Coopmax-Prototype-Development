@@ -97,10 +97,12 @@ export default function LoanTransactionHistoryDialog({
   open,
   onOpenChange,
   accountNo,
+  showNoteColumn = false,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   accountNo: string;
+  showNoteColumn?: boolean;
 }) {
   const navigate = useNavigate();
   const [dateStart, setDateStart] = React.useState("");
@@ -301,20 +303,10 @@ export default function LoanTransactionHistoryDialog({
 
               <div className={cn("mt-2 overflow-hidden border-y border-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[1600px] border-collapse">
-                    <thead className="bg-white">
-                      <tr className="border-b border-[#d5dce7]">
+                  <table className="w-full min-w-[1100px] border-collapse">
+                  <thead className="bg-white">
+                    <tr className="border-b border-[#d5dce7]">
                         <th className={cn(headerTh, "w-[58px] whitespace-nowrap")}>No.</th>
-
-                        <th className={cn(headerTh, "w-[130px] whitespace-nowrap")}>
-                          No. Transaksi
-                        </th>
-
-                        <th className={cn(headerTh, "w-[105px]")}>
-                          Periode
-                          <br />
-                          Angsuran
-                        </th>
 
                         <th className={cn(headerTh, "w-[90px] whitespace-nowrap")}>
                           <span className="block whitespace-nowrap">Angsuran</span>
@@ -363,7 +355,9 @@ export default function LoanTransactionHistoryDialog({
 
                         <th className={cn(headerTh, "w-[220px] whitespace-nowrap")}>Keterangan</th>
 
-                        <th className={cn(headerTh, "w-[220px] whitespace-nowrap")}>Catatan</th>
+                        {showNoteColumn ? (
+                          <th className={cn(headerTh, "w-[220px] whitespace-nowrap")}>Catatan</th>
+                        ) : null}
 
                         <th className={cn(headerTh, "w-[130px] text-left")}>
                           DETAIL
@@ -377,7 +371,7 @@ export default function LoanTransactionHistoryDialog({
                       {paged.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={15}
+                            colSpan={showNoteColumn ? 13 : 12}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada transaksi.
@@ -397,16 +391,6 @@ export default function LoanTransactionHistoryDialog({
                             >
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
                                 {derivedNo}
-                              </td>
-
-                              <td className={cn(tdBase, "text-slate-700 whitespace-nowrap")}>
-                                {trxNo}
-                              </td>
-
-                              <td className={cn(tdBase, "text-slate-700 whitespace-nowrap")}>
-                                {INSTALLMENT_PERIODS[
-                                  Math.min(derivedNo - 1, INSTALLMENT_PERIODS.length - 1)
-                                ]}
                               </td>
 
                               <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
@@ -488,11 +472,13 @@ export default function LoanTransactionHistoryDialog({
                                 </div>
                               </td>
 
-                              <td className={cn(tdBase, "max-w-[220px] text-slate-700")}>
-                                <div className="whitespace-normal leading-snug">
-                                  {r.keterangan || "-"}
-                                </div>
-                              </td>
+                              {showNoteColumn ? (
+                                <td className={cn(tdBase, "max-w-[220px] text-slate-700")}>
+                                  <div className="whitespace-normal leading-snug">
+                                    {r.keterangan || "-"}
+                                  </div>
+                                </td>
+                              ) : null}
 
                               <td className={cn(tdBase, "text-center")}>
                                 <button

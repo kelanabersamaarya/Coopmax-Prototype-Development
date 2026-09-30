@@ -6,16 +6,19 @@ export default function LoanAccountDetailView({
   accountNo,
   onBack,
   showBillingSection = true,
+  showHistoryNoteColumn = false,
 }: {
   accountNo: string;
   onBack: () => void;
   showBillingSection?: boolean;
+  showHistoryNoteColumn?: boolean;
 }) {
   return (
     <>
       <LoanAccountDetailHeader
         accountNo={accountNo}
         onBack={onBack}
+        showHistoryNoteColumn={showHistoryNoteColumn}
         onAction={(label) =>
           toast(`${label} (prototype)`, {
             description: `Rekening: ${accountNo}`,

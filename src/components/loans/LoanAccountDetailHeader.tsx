@@ -128,10 +128,12 @@ export default function LoanAccountDetailHeader({
   accountNo,
   onBack,
   onAction,
+  showHistoryNoteColumn = false,
 }: {
   accountNo: string;
   onBack: () => void;
   onAction: (label: string) => void;
+  showHistoryNoteColumn?: boolean;
 }) {
   const navigate = useNavigate();
   const [alertAction, setAlertAction] = React.useState<AlertAction | null>(null);
@@ -180,6 +182,7 @@ export default function LoanAccountDetailHeader({
           open={txHistoryOpen}
           onOpenChange={setTxHistoryOpen}
           accountNo={accountNo}
+          showNoteColumn={showHistoryNoteColumn}
         />
       ) : null}
 
