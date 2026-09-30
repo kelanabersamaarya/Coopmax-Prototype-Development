@@ -36,11 +36,11 @@ export default function BillingTablePelunasanView2({
   return (
     <div
       className={cn(
-        "mt-3 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200",
+        "mt-3 overflow-x-auto rounded-2xl bg-white ring-1 ring-slate-200",
         className,
       )}
     >
-      <table className="w-full table-fixed border-collapse text-[13px]">
+      <table className="w-full min-w-[920px] table-fixed border-collapse text-[13px]">
         <thead className="bg-white">
           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
             <th className={cn(checkboxColW, thClass, edgeL)}>

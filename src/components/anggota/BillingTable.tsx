@@ -308,8 +308,8 @@ export default function BillingTable({
         rows={penaltyRows}
       />
 
-      <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-        <table className="w-full border-collapse">
+      <div className="overflow-x-auto rounded-[5px] border border-slate-200 bg-white">
+        <table className="w-full min-w-[920px] border-collapse">
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyCol}

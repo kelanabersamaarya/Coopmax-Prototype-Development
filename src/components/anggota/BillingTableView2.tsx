@@ -610,10 +610,10 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          "overflow-hidden rounded-[5px] border border-slate-200 bg-white",
+          "overflow-x-auto rounded-[5px] border border-slate-200 bg-white",
         )}
       >
-        <table className="w-full border-collapse text-[13px]">
+        <table className="w-full min-w-[1040px] border-collapse text-[13px]">
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
