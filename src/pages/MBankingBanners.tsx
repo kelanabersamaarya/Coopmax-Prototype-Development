@@ -146,17 +146,49 @@ export default function MBankingBanners() {
                 <th className={cn(headerClass, "bg-[#eef0f4]")}>
                   Judul Banner <span className="float-right">⌄</span>
                 </th>
-                {["Tanggal Publikasi", "Tanggal Kedaluwarsa", "Status Banner", "Status Push Notifikasi", "Aksi"].map(
-                  (label) => (
-                    <th key={label} className={headerClass}>
-                      {label}
-                      <ChevronsUpDown
-                        className="float-right h-3.5 w-3.5 text-[#102d58]"
-                        strokeWidth={2.2}
-                      />
-                    </th>
-                  ),
-                )}
+                <th className={headerClass}>
+                  Tanggal
+                  <br />
+                  Publikasi
+                  <ChevronsUpDown
+                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    strokeWidth={2.2}
+                  />
+                </th>
+                <th className={headerClass}>
+                  Tanggal
+                  <br />
+                  Kedaluwarsa
+                  <ChevronsUpDown
+                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    strokeWidth={2.2}
+                  />
+                </th>
+                <th className={headerClass}>
+                  Status
+                  <br />
+                  Banner
+                  <ChevronsUpDown
+                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    strokeWidth={2.2}
+                  />
+                </th>
+                <th className={headerClass}>
+                  Status Push
+                  <br />
+                  Notifikasi
+                  <ChevronsUpDown
+                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    strokeWidth={2.2}
+                  />
+                </th>
+                <th className={headerClass}>
+                  Aksi
+                  <ChevronsUpDown
+                    className="float-right h-3.5 w-3.5 text-[#102d58]"
+                    strokeWidth={2.2}
+                  />
+                </th>
               </tr>
               <tr className="border-b border-slate-300">
                 <th />
