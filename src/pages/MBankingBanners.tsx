@@ -133,9 +133,9 @@ export default function MBankingBanners() {
           <table className="w-full min-w-[1100px] table-fixed border-collapse text-[12px]">
             <colgroup>
               <col className="w-[5%]" />
-              <col className="w-[28%]" />
-              <col className="w-[15%]" />
-              <col className="w-[15%]" />
+              <col className="w-[22%]" />
+              <col className="w-[16%]" />
+              <col className="w-[16%]" />
               <col className="w-[12%]" />
               <col className="w-[15%]" />
               <col className="w-[10%]" />
