@@ -379,7 +379,10 @@ export default function BillingTableWithStatus({
                     const rowIndex = graceCount + idx;
                     const globalIdx = penaltyIndexOffset + rowIndex;
                     const showPenalty = globalIdx < PENALTY_ROWS;
-                    const penaltyNumberClass = "num-sans-tabular";
+                    const penaltyNumberClass =
+                      globalIdx === 2 || globalIdx === 3
+                        ? "num-sans-tabular translate-x-[6px]"
+                        : "num-sans-tabular";
 
                     return (
                       <tr
