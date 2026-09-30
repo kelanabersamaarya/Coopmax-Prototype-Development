@@ -48,12 +48,16 @@ export default function PengaturanNotifikasiTambah() {
         <span className="pt-1 text-[13px]">Aktifkan SMS</span><Toggle value={smsActive} onChange={() => setSmsActive((value) => !value)} />
         <span className="pt-1 text-[13px]">Aktifkan (Push Notification)</span><Toggle value={pushActive} onChange={() => setPushActive((value) => !value)} />
 
-        <label htmlFor="message-format" className="pt-1 text-[13px]">Format Pesan<span className="text-red-600">*</span></label>
-        <div className="grid gap-6 lg:grid-cols-[365px_minmax(0,1fr)]"><textarea id="message-format" placeholder="Tulis contoh pesan anda disini. Anda dapat menggunakan variabel yang tersedia di sebelah kanan" className="h-[212px] resize-none rounded border border-[#c7d3e4] p-2 text-[13px] text-[#5d7194] outline-none placeholder:text-[#7083a2] focus:border-blue-400" /><div className="text-[13px] leading-5"><p>Daftar variabel pesan:</p><ul className="list-disc pl-5">{messageVariables.map(([variable, description]) => <li key={variable}><strong>{variable}</strong>: {description}</li>)}</ul></div></div>
+        {!pushActive && <>
+          <label htmlFor="message-format" className="pt-1 text-[13px]">Format Pesan<span className="text-red-600">*</span></label>
+          <div className="grid gap-6 lg:grid-cols-[365px_minmax(0,1fr)]"><textarea id="message-format" placeholder="Tulis contoh pesan anda disini. Anda dapat menggunakan variabel yang tersedia di sebelah kanan" className="h-[212px] resize-none rounded border border-[#c7d3e4] p-2 text-[13px] text-[#5d7194] outline-none placeholder:text-[#7083a2] focus:border-blue-400" /><div className="text-[13px] leading-5"><p>Daftar variabel pesan:</p><ul className="list-disc pl-5">{messageVariables.map(([variable, description]) => <li key={variable}><strong>{variable}</strong>: {description}</li>)}</ul></div></div>
+        </>}
 
         <label htmlFor="minimum-amount" className="pt-1 text-[13px]">Jumlah Minimal</label><Input id="minimum-amount" defaultValue="0,00" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" />
         <label htmlFor="maximum-amount" className="pt-1 text-[13px]">Jumlah Maksimal</label><Input id="maximum-amount" defaultValue="0,00" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" />
-        <label htmlFor="reminder-days" className="pt-1 text-[13px]">Hari Pengingat</label><div><Input id="reminder-days" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" /><p className="mt-1 text-[13px] text-[#637ba3]">Jumlah hari sebelum tanggal jadwal. Contoh : hari pengingat diatur "1", tanggal angsuran adalah "25", maka notifikasi dikirim pada tanggal 24</p></div>
+        {!pushActive && <>
+          <label htmlFor="reminder-days" className="pt-1 text-[13px]">Hari Pengingat</label><div><Input id="reminder-days" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" /><p className="mt-1 text-[13px] text-[#637ba3]">Jumlah hari sebelum tanggal jadwal. Contoh : hari pengingat diatur "1", tanggal angsuran adalah "25", maka notifikasi dikirim pada tanggal 24</p></div>
+        </>}
         <span className="pt-1 text-[13px]">Status</span><Toggle value={status} onChange={() => setStatus((value) => !value)} />
       </div>
       <div className="mt-7 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/pengaturan-notifikasi")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button type="button" onClick={() => navigate("/pengaturan-notifikasi")} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" />Simpan</Button></div>
