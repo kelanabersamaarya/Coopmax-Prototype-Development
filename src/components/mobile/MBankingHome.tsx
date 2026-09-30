@@ -36,13 +36,19 @@ export default function MBankingHome({
     src: string;
     alt: string;
   } | null>(null);
+  const [bannerReturn, setBannerReturn] = React.useState<"home" | "notifications">("home");
 
   if (notificationsOpen) {
     return (
       <MBankingNotificationsPage
-        onBack={() => setNotificationsOpen(false)}
+        initialTab={bannerReturn === "notifications" ? "info" : "transfer"}
+        onBack={() => {
+          setNotificationsOpen(false);
+          setBannerReturn("home");
+        }}
         onBannerClick={(banner) => {
           setNotificationsOpen(false);
+          setBannerReturn("notifications");
           setSelectedBanner(banner);
         }}
       />
@@ -54,7 +60,10 @@ export default function MBankingHome({
       <MBankingBannerDetail
         bannerSrc={selectedBanner.src}
         bannerTitle={selectedBanner.alt}
-        onBack={() => setSelectedBanner(null)}
+        onBack={() => {
+          setSelectedBanner(null);
+          if (bannerReturn === "notifications") setNotificationsOpen(true);
+        }}
       />
     );
   }
@@ -63,7 +72,10 @@ export default function MBankingHome({
     return (
       <MBankingAllBanners
         onBack={() => setAllBannersOpen(false)}
-        onBannerClick={(banner) => setSelectedBanner(banner)}
+        onBannerClick={(banner) => {
+          setBannerReturn("home");
+          setSelectedBanner(banner);
+        }}
       />
     );
   }
@@ -105,7 +117,10 @@ export default function MBankingHome({
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
         <MBankingHomeBanner
-          onBannerClick={() => setBannerDetailOpen(true)}
+          onBannerClick={() => {
+            setBannerReturn("home");
+            setBannerDetailOpen(true);
+          }}
           onViewAll={() => setAllBannersOpen(true)}
         />
         <MBankingTransactionHistoryEmpty transactions={transactions} />

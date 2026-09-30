@@ -53,11 +53,13 @@ const infoNotifications = [
 export default function MBankingNotificationsPage({
   onBack,
   onBannerClick,
+  initialTab = "transfer",
 }: {
   onBack: () => void;
   onBannerClick: (banner: { src: string; alt: string }) => void;
+  initialTab?: "transfer" | "info";
 }) {
-  const [activeTab, setActiveTab] = useState<"transfer" | "info">("transfer");
+  const [activeTab, setActiveTab] = useState<"transfer" | "info">(initialTab);
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-y-auto bg-white text-[#23305A] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
