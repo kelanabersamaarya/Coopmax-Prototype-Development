@@ -185,7 +185,7 @@ function InnerGraceTable({
         <col className="w-[132px]" />
         <col className="w-[132px]" />
         <col className="w-[112px]" />
-        <col className="w-[190px]" />
+        <col className="w-[145px]" />
       </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -238,7 +238,7 @@ function InnerGraceTable({
                 ) : null}
               </Td>
 
-              <Td className="w-[190px] px-4">
+              <Td className="w-[145px] px-4">
                 <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
               </Td>
             </tr>
@@ -297,7 +297,7 @@ export default function BillingTableWithStatus({
               <col className="w-[132px]" />
               <col className="w-[132px]" />
               <col className="w-[112px]" />
-              <col className="w-[190px]" />
+              <col className="w-[145px]" />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
@@ -343,7 +343,7 @@ export default function BillingTableWithStatus({
                   Denda
                 </th>
 
-                <th className={cn(thBase, "w-[190px]")}>Status Tagihan</th>
+                <th className={cn(thBase, "w-[145px]")}>Status Tagihan</th>
               </tr>
             </thead>
 
@@ -426,18 +426,18 @@ export default function BillingTableWithStatus({
                               ) : null}
                             </div>
                           ) : null}
-                    </Td>
+                        </Td>
 
-                    <Td className="w-[190px]">
-                      <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
-                    </Td>
-                  </tr>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {showGraceInfo ? <GracePeriodInfoRow colSpan={colCount} /> : null}
+                        <Td className="w-[145px]">
+                          <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
+                        </Td>
+                      </tr>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  {showGraceInfo ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
                   {rows.map((r, idx) => {
                     const globalIdx = penaltyIndexOffset + idx;
@@ -485,18 +485,18 @@ export default function BillingTableWithStatus({
                               ) : null}
                             </div>
                           ) : null}
-                    </Td>
+                        </Td>
 
-                    <Td className="w-[190px]">
-                      <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
-                    </Td>
-                  </tr>
-                );
-              })}
-            </>
-          )}
-        </tbody>
-      </table>
+                        <Td className="w-[145px]">
+                          <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
+                        </Td>
+                      </tr>
+                    );
+                  })}
+                </>
+              )}
+            </tbody>
+          </table>
         </div>
 
         <div className="sr-only">
