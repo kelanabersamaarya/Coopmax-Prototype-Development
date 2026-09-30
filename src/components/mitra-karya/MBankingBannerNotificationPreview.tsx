@@ -26,7 +26,7 @@ export default function MBankingBannerNotificationPreview({
         </div>
 
         <div className="relative min-h-0 flex-1 overflow-hidden bg-white px-4 pt-5 sm:px-8">
-          <div className="mb-[15px] rounded-[6px] border border-[#72A7FF] bg-[#EFF6FF] px-3 py-3 text-[#073B88]">
+          <div className="mb-0 rounded-[6px] border border-[#72A7FF] bg-[#EFF6FF] px-3 py-3 text-[#073B88]">
             <div className="flex items-start gap-3">
               <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white">
                 <Info className="h-4 w-4" strokeWidth={2.8} />
