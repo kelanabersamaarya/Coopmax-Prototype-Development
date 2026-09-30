@@ -6,8 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import MitraKaryaMemberFileCard from "@/components/mitra-karya/MitraKaryaMemberFileCard";
-import "@/components/mitra-karya/member-save-success.css";
-
 const fieldClass = "h-8 rounded-[5px] border-[#c8d2e3] bg-white text-[13px] text-[#536b91] shadow-none focus-visible:ring-1 focus-visible:ring-violet-400";
 type StoredFile = { name: string; type: string; dataUrl: string | null };
 type SavedMember = { id: string; name?: string; registeredAt?: string; identity?: string; phone?: string; address?: string; category?: string; occupation?: string; companyName?: string; companyAddress?: string; ktpFile?: StoredFile | null; familyCardFile?: StoredFile | null; supportingFile?: StoredFile[] | null };
