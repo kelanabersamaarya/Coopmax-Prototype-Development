@@ -159,7 +159,7 @@ function Td({
 const thBase =
   "border-b-0 px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const thRight =
-  "border-b-0 px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  "border-b-0 px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const alignedPenaltyCellClass = "w-[112px] pr-[17px]";
 
 function InnerGraceTable({
