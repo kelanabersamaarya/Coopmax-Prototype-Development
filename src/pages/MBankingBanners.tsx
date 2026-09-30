@@ -10,14 +10,14 @@ import MBankingBannerNotificationPreview from "@/components/mitra-karya/MBanking
 type Banner = { id: string; name: string; start: string; end: string; active: boolean; userNotification?: boolean; content: string; images: string[] };
 
 const defaultBanners: Banner[] = [
-  ["Selamat Hari Suci Galungan dan Kuningan", "09-24-2026", "09-24-2026", true],
-  ["Selamat Hari Raya Nyepi", "09-24-2026", "09-30-2026", true],
-  ["Selamat Hari Raya Galungan", "06-10-2025", "06-30-2025", false],
-  ["Selamat Hari Raya", "10-01-2022", "10-14-2022", true],
-  ["Promo Deposito Seru", "06-11-2025", "06-30-2025", true],
-  ["Hari raya", "09-24-2026", "09-24-2026", true],
-  ["Galungan", "09-24-2026", "09-30-2026", true],
-].map(([name, start, end, active], index) => ({ id: `default-${index + 1}`, name: name as string, start: start as string, end: end as string, active: active as boolean, content: "", images: [] }));
+  ["Selamat Hari Suci Galungan dan Kuningan", true],
+  ["Selamat Hari Raya Nyepi", true],
+  ["Selamat Hari Raya Galungan", false],
+  ["Selamat Hari Raya", true],
+  ["Promo Deposito Seru", true],
+  ["Hari raya", true],
+  ["Galungan", true],
+].map(([name, active], index) => ({ id: `default-${index + 1}`, name: name as string, start: "09-24-2026", end: "09-24-2026", active: active as boolean, content: "", images: [] }));
 
 const bannerStorageKey = "mbanking-banners";
 const headerClass = "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
@@ -25,11 +25,12 @@ const notificationTooltip = "Klik untuk mengaktifkan push notifikasi banner agar
 const activeNotificationTooltip = "Push notifikasi banner sudah diaktifkan, klik untuk menonaktifkan push notifikasi banner";
 
 function formatBannerDate(value: string) {
-  if (!value || value === "-" || value.includes("undefined")) return "-";
+  const dummyDate = "09-24-2026";
+  if (!value || value === "-" || value.includes("undefined")) return dummyDate;
   const isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
   if (isoMatch) return `${isoMatch[2]}-${isoMatch[3]}-${isoMatch[1]}`;
   const match = /^(\d{2})[-/](\d{2})[-/](\d{4})$/.exec(value);
-  if (!match) return value;
+  if (!match) return dummyDate;
   const [, first, separator, second, year] = match;
   if (separator === "/") return `${first}-${second}-${year}`;
   return Number(first) > 12 ? `${second}-${first}-${year}` : `${first}-${second}-${year}`;
