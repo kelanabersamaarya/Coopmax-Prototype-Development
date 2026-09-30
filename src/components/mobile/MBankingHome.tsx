@@ -38,7 +38,15 @@ export default function MBankingHome({
   } | null>(null);
 
   if (notificationsOpen) {
-    return <MBankingNotificationsPage onBack={() => setNotificationsOpen(false)} />;
+    return (
+      <MBankingNotificationsPage
+        onBack={() => setNotificationsOpen(false)}
+        onBannerClick={(banner) => {
+          setNotificationsOpen(false);
+          setSelectedBanner(banner);
+        }}
+      />
+    );
   }
 
   if (selectedBanner) {

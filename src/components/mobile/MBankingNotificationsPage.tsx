@@ -52,8 +52,10 @@ const infoNotifications = [
 
 export default function MBankingNotificationsPage({
   onBack,
+  onBannerClick,
 }: {
   onBack: () => void;
+  onBannerClick: (banner: { src: string; alt: string }) => void;
 }) {
   const [activeTab, setActiveTab] = useState<"transfer" | "info">("transfer");
 
@@ -140,7 +142,11 @@ export default function MBankingNotificationsPage({
             : infoNotifications.map((notification) => (
                 <article
                   key={`${notification.type}-${notification.date}-${notification.time}`}
-                  className="rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onBannerClick({ src: notification.image, alt: notification.type })}
+                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") onBannerClick({ src: notification.image, alt: notification.type }); }}
+                  className="cursor-pointer rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)] transition active:scale-[0.99]"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <p className="text-[16px] font-bold leading-tight text-[#23305A]">
