@@ -178,14 +178,14 @@ function InnerGraceTable({
   return (
     <table className="w-max min-w-0 max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
       <colgroup>
-        <col className="w-[88px]" />
-        <col className="w-[120px]" />
-        <col className="w-[110px]" />
-        <col className="w-[100px]" />
-        <col className="w-[120px]" />
-        <col className="w-[120px]" />
-        <col className="w-[100px]" />
+        <col className="w-[96px]" />
         <col className="w-[132px]" />
+        <col className="w-[122px]" />
+        <col className="w-[112px]" />
+        <col className="w-[132px]" />
+        <col className="w-[132px]" />
+        <col className="w-[112px]" />
+        <col className="w-[145px]" />
       </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -290,14 +290,14 @@ export default function BillingTableWithStatus({
         <div className="safe-x-scroll w-full">
           <table className="w-max min-w-0 max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
             <colgroup>
-              <col className="w-[88px]" />
-              <col className="w-[120px]" />
-              <col className="w-[110px]" />
-              <col className="w-[100px]" />
-              <col className="w-[120px]" />
-              <col className="w-[120px]" />
-              <col className="w-[100px]" />
+              <col className="w-[96px]" />
               <col className="w-[132px]" />
+              <col className="w-[122px]" />
+              <col className="w-[112px]" />
+              <col className="w-[132px]" />
+              <col className="w-[132px]" />
+              <col className="w-[112px]" />
+              <col className="w-[145px]" />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
