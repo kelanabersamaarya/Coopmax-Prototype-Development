@@ -1,4 +1,4 @@
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft, Info, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -26,6 +26,20 @@ export default function MBankingBannerNotificationPreview({
         </div>
 
         <div className="relative min-h-0 flex-1 overflow-hidden bg-[#eef2f8] px-4 pt-5 sm:px-8">
+          <div className="mb-4 rounded-[6px] border border-[#72A7FF] bg-[#EFF6FF] px-3 py-3 text-[#073B88]">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white">
+                <Info className="h-4 w-4" strokeWidth={2.8} />
+              </span>
+              <div>
+                <p className="text-[14px] font-bold leading-tight">Informasi Push Notifikasi</p>
+                <p className="mt-1 text-[12px] leading-relaxed">
+                  Dengan mengaktifkan notifikasi push notifikasi banner, pengguna M-Banking akan menerima informasi promo, ucapan, serta pemberitahuan penting lainnya secara langsung melalui aplikasi M-Banking.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
             <MobileMockupFrame edgeToEdge squareBottom>
               <div className="flex min-h-[540px] flex-col overflow-y-auto bg-white text-[#23305A]">
