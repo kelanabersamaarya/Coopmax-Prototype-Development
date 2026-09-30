@@ -21,7 +21,7 @@ const defaultBanners: Banner[] = [
 
 const bannerStorageKey = "mbanking-banners";
 const headerClass = "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
-const notificationTooltip = "Aktifkan agar pengguna mendapatkan notifikasi promo, ucapan dan informasi lainnya";
+const notificationTooltip = "Klik untuk mengaktifkan push notifikasi banner agar pengguna M-Banking mendapatkan notifikasi promo, ucapan dan informasi lainnya";
 const activeNotificationTooltip = "Push notifikasi banner sudah diaktifkan, klik untuk menonaktifkan push notifikasi banner";
 
 function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
