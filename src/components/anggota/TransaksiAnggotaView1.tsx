@@ -287,7 +287,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               ]}
             />
 
-            <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
+            <div className="absolute right-6 top-3 sm:right-7 sm:top-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
