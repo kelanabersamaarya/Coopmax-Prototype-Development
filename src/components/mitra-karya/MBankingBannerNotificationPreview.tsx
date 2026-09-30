@@ -19,8 +19,8 @@ export default function MBankingBannerNotificationPreview({
   isActive?: boolean;
   onToggle?: () => void;
 }) {
-  const image = "/banner_sample.jpeg";
-  const notificationTitle = "Spesial Harpelnas";
+  const image = "/bannerhariraya.jpg";
+  const notificationTitle = "Hari Raya Galungan";
   const [showConfirmation, setShowConfirmation] = useState(isActive);
   const [showSuccess, setShowSuccess] = useState(false);
   const confirmationText = isActive ? "Yakin menonaktifkan push notifikasi banner?" : "Yakin mengaktifkan push notifikasi banner?";
