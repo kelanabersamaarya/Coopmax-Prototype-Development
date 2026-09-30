@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { ChevronsUpDown, Eye, Pencil, Plus, X } from "lucide-react";
+import { Bell, ChevronsUpDown, Eye, Pencil, Plus, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-type Banner = { id: string; name: string; start: string; end: string; active: boolean; content: string; images: string[] };
+type Banner = { id: string; name: string; start: string; end: string; active: boolean; userNotification?: boolean; content: string; images: string[] };
 
 const defaultBanners: Banner[] = [
   ["Selamat Hari Suci Galungan dan Kuningan", "24-09-2026", "24-09-2026", true],
@@ -27,10 +28,13 @@ function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
     start: banner.start || "-",
     end: banner.end || "-",
     active: Boolean(banner.active),
+    userNotification: Boolean(banner.userNotification),
     content: banner.content || "",
     images: Array.isArray(banner.images) ? banner.images : [],
   };
 }
+
+const notificationTooltip = "Aktifkan agar pengguna mendapatkan notifikasi promo, ucapan dan informasi lainnya";
 
 export default function MBankingBanners() {
   const navigate = useNavigate();
@@ -46,6 +50,16 @@ export default function MBankingBanners() {
     }
   }, []);
 
+  const toggleUserNotification = (id: string) => {
+    setBanners((currentBanners) => {
+      const nextBanners = currentBanners.map((banner) => banner.id === id ? { ...banner, userNotification: !banner.userNotification } : banner);
+      const storedBanners = JSON.parse(window.localStorage.getItem(bannerStorageKey) || "[]") as Partial<Banner>[];
+      const updatedStoredBanners = storedBanners.map((banner) => banner.id === id ? { ...banner, userNotification: !banner.userNotification } : banner);
+      window.localStorage.setItem(bannerStorageKey, JSON.stringify(updatedStoredBanners));
+      return nextBanners;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#102d58] md:px-8 md:py-8">
       <div className="flex items-center justify-between gap-4 px-1"><h1 className="text-[22px] font-semibold tracking-tight">Banner <span className="text-[16px] font-normal">Daftar</span></h1><Button onClick={() => navigate(route("/mbanking-banners/tambah"))} className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50"><Plus className="mr-2 h-4 w-4" />Tambah</Button></div>
@@ -54,7 +68,7 @@ export default function MBankingBanners() {
         <div className="overflow-x-auto"><table className="w-full min-w-[920px] table-fixed border-collapse text-[12px]"><colgroup><col className="w-[5%]" /><col className="w-[27%]" /><col className="w-[20%]" /><col className="w-[20%]" /><col className="w-[20%]" /><col className="w-[8%]" /></colgroup>
           <thead><tr className="bg-white"><th className={headerClass}>No.</th><th className={cn(headerClass, "bg-[#eef0f4]")}>Judul Banner <span className="float-right">⌄</span></th>{["Tanggal Publikasi", "Tanggal Kadaluarsa", "Status", "Aksi"].map((label) => <th key={label} className={headerClass}>{label}<ChevronsUpDown className="float-right h-3.5 w-3.5 text-[#102d58]" strokeWidth={2.2} /></th>)}</tr>
             <tr className="border-b border-slate-300"><th /><th className="px-2.5 py-2"><Input className="h-8 text-[12px]" /></th><th className="px-2.5 py-2"><div className="flex h-8 overflow-hidden rounded border border-slate-300"><Input className="h-full min-w-0 flex-1 rounded-none border-0 text-[12px] shadow-none focus-visible:ring-0" /><button className="w-8 bg-[#8494af] text-white">×</button></div></th><th className="px-2.5 py-2"><div className="flex h-8 overflow-hidden rounded border border-slate-300"><Input className="h-full min-w-0 flex-1 rounded-none border-0 text-[12px] shadow-none focus-visible:ring-0" /><button className="w-8 bg-[#8494af] text-white">×</button></div></th><th className="px-2.5 py-2"><select className="h-8 w-full rounded border border-slate-300 bg-white px-2 text-[12px] text-slate-500"><option>-- Semua --</option></select></th><th /></tr></thead>
-          <tbody>{banners.map((banner, index) => <tr key={banner.id} className="border-b border-[#cbd5e1] text-[#123664]"><td className="px-1 py-2">{index + 1}</td><td className="bg-[#f0f1f4] px-2.5 py-2">{banner.name}</td><td className="px-2.5 py-2">{banner.start}</td><td className="px-2.5 py-2">{banner.end}</td><td className="px-2.5 py-2"><span className={cn("rounded px-1.5 py-1 text-[10px] font-bold text-white", banner.active ? "bg-green-600" : "bg-red-500")}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></td><td className="px-2.5 py-2"><div className="flex min-w-[78px] items-center gap-2"><button type="button" aria-label="Lihat banner" onClick={() => navigate(route(`/mbanking-banners/${banner.id}`))} className="text-[#7b879d] transition-colors hover:text-[#526784]"><Eye className="h-[18px] w-[18px]" strokeWidth={2.2} /></button><button type="button" aria-label="Edit banner" onClick={() => navigate(route(`/mbanking-banners/${banner.id}/ubah`))} className="text-[#315fff] transition-colors hover:text-[#2448c7]"><Pencil className="h-[19px] w-[19px]" strokeWidth={2.3} /></button><button type="button" aria-label="Hapus banner" className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#e52d4f] text-white transition-colors hover:bg-[#c91f3e]"><X className="h-[11px] w-[11px]" strokeWidth={3} /></button></div></td></tr>)}</tbody>
+          <tbody><TooltipProvider delayDuration={150}>{banners.map((banner, index) => <tr key={banner.id} className="border-b border-[#cbd5e1] text-[#123664]"><td className="px-1 py-2">{index + 1}</td><td className="bg-[#f0f1f4] px-2.5 py-2">{banner.name}</td><td className="px-2.5 py-2">{banner.start}</td><td className="px-2.5 py-2">{banner.end}</td><td className="px-2.5 py-2"><span className={cn("rounded px-1.5 py-1 text-[10px] font-bold text-white", banner.active ? "bg-green-600" : "bg-red-500")}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></td><td className="px-2.5 py-2"><div className="flex min-w-[102px] items-center gap-2"><button type="button" aria-label="Lihat banner" onClick={() => navigate(route(`/mbanking-banners/${banner.id}`))} className="text-[#7b879d] transition-colors hover:text-[#526784]"><Eye className="h-[18px] w-[18px]" strokeWidth={2.2} /></button><button type="button" aria-label="Edit banner" onClick={() => navigate(route(`/mbanking-banners/${banner.id}/ubah`))} className="text-[#315fff] transition-colors hover:text-[#2448c7]"><Pencil className="h-[19px] w-[19px]" strokeWidth={2.3} /></button><Tooltip><TooltipTrigger asChild><button type="button" aria-label="Aktifkan notifikasi pengguna" onClick={() => toggleUserNotification(banner.id)} className={cn("flex h-[22px] w-[22px] items-center justify-center rounded-full transition-colors", banner.userNotification ? "bg-[#3768f5] text-white" : "text-[#7b879d] hover:bg-[#e9efff] hover:text-[#315fff]")}><Bell className="h-[16px] w-[16px]" strokeWidth={2.3} /></button></TooltipTrigger><TooltipContent side="top" sideOffset={8} className="max-w-[255px] rounded-none bg-[#102d58] px-3 py-2 text-center text-[12px] leading-4 text-white shadow-lg">{notificationTooltip}</TooltipContent></Tooltip><button type="button" aria-label="Hapus banner" className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#e52d4f] text-white transition-colors hover:bg-[#c91f3e]"><X className="h-[11px] w-[11px]" strokeWidth={3} /></button></div></td></tr>)}</TooltipProvider></tbody>
         </table></div>
         <div className="mt-5 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-700"><span>Menampilkan 1 sampai {banners.length} dari {banners.length} entri</span><div className="flex items-center"><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Sebelumnya</button><button className="bg-violet-600 px-3 py-2 text-white">1</button><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Selanjutnya</button></div></div>
       </section>
