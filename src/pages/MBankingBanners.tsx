@@ -48,10 +48,6 @@ export default function MBankingBanners() {
     });
   };
 
-  const handleNotificationClick = (banner: Banner) => {
-    setPreviewBanner(banner);
-  };
-
   return (
     <div className="min-h-screen bg-[#f4f6fc] px-4 py-6 text-[#102d58] md:px-8 md:py-8">
       <div className="flex items-center justify-between gap-4 px-1"><h1 className="text-[22px] font-semibold tracking-tight">Banner <span className="text-[16px] font-normal">Daftar</span></h1><Button onClick={() => navigate(route("/mbanking-banners/tambah"))} className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50"><Plus className="mr-2 h-4 w-4" />Tambah</Button></div>
@@ -63,7 +59,7 @@ export default function MBankingBanners() {
         </table></div>
         <div className="mt-5 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-700"><span>Menampilkan 1 sampai {banners.length} dari {banners.length} entri</span><div className="flex items-center"><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Sebelumnya</button><button className="bg-violet-600 px-3 py-2 text-white">1</button><button className="bg-[#eef1f5] px-3 py-2 text-slate-300">Selanjutnya</button></div></div>
       </section>
-      {previewBanner ? <MBankingBannerNotificationPreview banner={previewBanner} isActive={previewBanner.userNotification} onToggle={() => { toggleUserNotification(previewBanner.id); setPreviewBanner(null); }} onClose={() => setPreviewBanner(null)} /> : null}
+      {previewBanner ? <MBankingBannerNotificationPreview banner={previewBanner} isActive={previewBanner.userNotification} onToggle={() => toggleUserNotification(previewBanner.id)} onClose={() => setPreviewBanner(null)} /> : null}
     </div>
   );
 }
