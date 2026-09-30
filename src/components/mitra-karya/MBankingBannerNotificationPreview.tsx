@@ -1,4 +1,4 @@
-import { ArrowLeft, Info, X } from "lucide-react";
+import { ArrowLeft, Check, Info, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -69,8 +69,8 @@ export default function MBankingBannerNotificationPreview({
         </div>
 
         <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
-          <button type="button" onClick={onClose} className="h-9 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]">Batal</button>
-          <button type="button" onClick={onClose} className="h-9 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]">Aktifkan</button>
+          <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]"><X className="h-4 w-4" strokeWidth={2.5} />Batal</button>
+          <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><Check className="h-4 w-4" strokeWidth={2.8} />Aktifkan</button>
         </footer>
       </div>
     </div>
