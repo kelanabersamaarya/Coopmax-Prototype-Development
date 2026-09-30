@@ -18,6 +18,7 @@ export default function MBankingBannerNotificationPreview({
   const image = "/banner_sample.jpeg";
   const notificationTitle = "Spesial Harpelnas";
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
@@ -86,9 +87,23 @@ export default function MBankingBannerNotificationPreview({
               Yakin mengaktifkan push notifikasi banner?
             </p>
             <div className="mt-7 flex justify-center gap-2">
-              <button type="button" onClick={onClose} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
+              <button type="button" onClick={() => { setShowConfirmation(false); setShowSuccess(true); }} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
               <button type="button" onClick={() => setShowConfirmation(false)} className="order-2 h-12 rounded-[5px] bg-[#A7A7A7] px-8 text-[18px] font-semibold text-white transition hover:bg-[#929292]">Cancel</button>
             </div>
+          </div>
+        </div>
+      ) : null}
+
+      {showSuccess ? (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/60 p-4">
+          <div className="w-full max-w-[530px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
+            <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[5px] border-[#DFF0D4] text-[#9EDB7D]">
+              <Check className="h-12 w-12" strokeWidth={2.5} />
+            </div>
+            <p className="mt-7 text-[30px] font-semibold leading-tight text-[#5B5B5B]">
+              Berhasil mengaktifkan push notifikasi banner
+            </p>
+            <button type="button" onClick={onClose} className="mt-8 h-12 rounded-[5px] bg-[#348DD3] px-10 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">OK</button>
           </div>
         </div>
       ) : null}
