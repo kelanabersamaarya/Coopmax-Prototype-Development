@@ -86,8 +86,8 @@ export default function MBankingBannerNotificationPreview({
               Yakin mengaktifkan push notifikasi banner?
             </p>
             <div className="mt-7 flex justify-center gap-2">
-              <button type="button" onClick={() => setShowConfirmation(false)} className="h-12 rounded-[5px] bg-[#A7A7A7] px-8 text-[18px] font-semibold text-white transition hover:bg-[#929292]">Batal</button>
-              <button type="button" onClick={onClose} className="h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white transition hover:bg-[#2679B9]">Ya</button>
+              <button type="button" onClick={onClose} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
+              <button type="button" onClick={() => setShowConfirmation(false)} className="order-2 h-12 rounded-[5px] bg-[#A7A7A7] px-8 text-[18px] font-semibold text-white transition hover:bg-[#929292]">Cancel</button>
             </div>
           </div>
         </div>
