@@ -15,9 +15,9 @@ export default function BillingTableHeader({
   className?: string;
 }) {
   const thBase =
-    "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+    "px-2 py-3 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-700";
   const thRight =
-    "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+    "px-2 py-3 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-700";
 
   return (
     <thead className={cn("bg-white", className)}>
@@ -28,44 +28,44 @@ export default function BillingTableHeader({
           </th>
         ) : null}
 
-        <th className={cn(thBase, "w-[110px]")}>
+        <th className={cn(thBase, "w-[100px]")}>
           Jatuh
           <br />
           Tempo
         </th>
 
-        <th className={cn(thRight, "w-[128px]")}>
+        <th className={cn(thRight, "w-[116px]")}>
           Total Tagihan
           <br />
           Belum Dibayar
         </th>
 
-        <th className={cn(thRight, "w-[130px]")}>
+        <th className={cn(thRight, "w-[118px]")}>
           Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[120px]")}>
+        <th className={cn(thRight, "w-[108px]")}>
           Tagihan
           <br />
           Bunga
         </th>
 
-        <th className={cn(thRight, "w-[140px]")}>
+        <th className={cn(thRight, "w-[126px]")}>
           Sisa Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[140px]")}>
+        <th className={cn(thRight, "w-[126px]")}>
           Sisa Tagihan
           <br />
           Bunga
         </th>
 
         {showPenaltyColumn ? (
-          <th className={cn(thRight, "w-[130px]")}>
+          <th className={cn(thRight, "w-[118px]")}>
             Tagihan
             <br />
             Denda
@@ -73,7 +73,7 @@ export default function BillingTableHeader({
         ) : null}
 
         {showStatusColumn ? (
-          <th className={cn(thBase, "w-[145px]")}>Status Tagihan</th>
+          <th className={cn(thBase, "w-[132px]")}>Status Tagihan</th>
         ) : null}
       </tr>
     </thead>

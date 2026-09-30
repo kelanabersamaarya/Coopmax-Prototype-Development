@@ -191,27 +191,27 @@ function RowCells({
 
   return (
     <>
-      <td className="w-[110px] px-4 py-2 text-[13px] font-semibold tabular-nums text-slate-900 whitespace-nowrap">
+      <td className="w-[100px] px-2 py-2 text-[13px] font-semibold tabular-nums text-slate-900 whitespace-nowrap">
         {row.jatuhTempo}
       </td>
 
-      <td className="w-[128px] px-4 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[116px] px-2 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
         <RightNum value={row.totalBelumDibayar} />
       </td>
 
-      <td className="w-[130px] px-4 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[118px] px-2 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
         <RightNum value={hasBasePenalty ? "0,00" : row.tagihanPokok} />
       </td>
 
-      <td className="w-[120px] px-4 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[108px] px-2 py-2 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
         <RightNum value={row.tagihanBunga} />
       </td>
 
-      <td className="w-[140px] px-4 py-2 pr-6 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
         <RightNum value={hasBasePenalty ? "0,00" : row.sisaPokok} />
       </td>
 
-      <td className="w-[140px] px-4 py-2 pr-6 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
+      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-medium text-slate-900 whitespace-nowrap">
         <RightNum value={row.sisaBunga} />
       </td>
 
