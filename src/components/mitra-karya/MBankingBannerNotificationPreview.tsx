@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, X } from "lucide-react";
+import { ArrowLeft, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -17,7 +17,7 @@ export default function MBankingBannerNotificationPreview({
   const image = banner.images[0];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#102d58]/60 p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
       <div className="relative flex max-h-[94vh] w-full max-w-[510px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
           <h2 className="text-[17px] font-bold text-[#102d58]">Aktifkan Push Notifikasi Banner</h2>
@@ -26,27 +26,27 @@ export default function MBankingBannerNotificationPreview({
 
         <div className="min-h-0 flex-1 overflow-auto bg-[#eef2f8] px-4 py-5 sm:px-8">
           <MobileMockupFrame edgeToEdge>
-            <div className="flex min-h-full flex-col bg-white text-[#23305A]">
-              <header className="px-6 pb-4 pt-8">
+            <div className="flex min-h-full flex-col overflow-y-auto bg-white text-[#23305A]">
+              <header className="px-6 pb-5 pt-8">
                 <div className="flex items-center gap-3">
                   <ArrowLeft className="h-7 w-7 text-[#004FC7]" strokeWidth={2.2} />
                   <h1 className="text-[23px] font-extrabold text-[#004FC7]">Notifikasi</h1>
                 </div>
               </header>
-              <main className="px-5 pb-8">
-                <div className="rounded-[20px] bg-white p-3 shadow-[0_6px_18px_rgba(30,47,83,0.12)]">
-                  {image ? <img src={image} alt={banner.name} className="h-[145px] w-full rounded-[14px] object-cover" /> : <div className="flex h-[145px] items-center justify-center rounded-[14px] bg-[#dbe8ff] px-5 text-center text-[18px] font-bold text-[#164a9c]">{banner.name}</div>}
-                  <div className="px-1 pb-1 pt-4">
-                    <div className="flex items-start gap-3">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff] text-[#004FC7]"><Bell className="h-5 w-5 fill-current" /></span>
-                      <div className="min-w-0">
-                        <p className="text-[16px] font-bold leading-tight text-[#23305A]">{banner.name}</p>
-                        <p className="mt-1 text-[13px] leading-relaxed text-slate-600">{banner.content || "Promo, ucapan, dan informasi terbaru dari koperasi."}</p>
-                        <p className="mt-3 text-[11px] font-semibold text-[#004FC7]">Hari ini • Informasi M-Banking</p>
-                      </div>
-                    </div>
-                  </div>
+
+              <main className="px-6 pb-12">
+                <div className="flex items-center gap-8">
+                  <span className="px-2 py-3 text-[16px] font-bold text-[#004FC7]">Transfer</span>
+                  <span className="rounded-full bg-[#004FC7] px-7 py-3 text-[16px] font-bold text-white shadow-sm">Info</span>
                 </div>
+
+                <article className="mt-4 rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-[16px] font-bold leading-tight text-[#23305A]">{banner.name}</p>
+                    <p className="shrink-0 whitespace-nowrap text-right text-[13px] leading-tight text-[#23305A]">20 Jul 2026 • 12:00</p>
+                  </div>
+                  {image ? <img src={image} alt={banner.name} className="mt-3 block w-full rounded-[12px] object-cover" /> : <div className="mt-3 flex h-[145px] w-full items-center justify-center rounded-[12px] bg-[#dbe8ff] px-5 text-center text-[18px] font-bold text-[#164a9c]">{banner.name}</div>}
+                </article>
               </main>
             </div>
           </MobileMockupFrame>
