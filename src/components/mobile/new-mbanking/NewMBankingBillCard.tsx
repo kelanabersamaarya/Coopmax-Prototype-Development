@@ -19,7 +19,7 @@ function DetailAmountRow({
   value: string;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[8px]">
+    <div className="flex items-start justify-between gap-4 border-b border-[#E5E7EB] py-[8px] last:border-b-0">
       <div className="min-w-0 text-[13px] font-normal leading-tight text-[#8F8F8F]">
         {label}
       </div>

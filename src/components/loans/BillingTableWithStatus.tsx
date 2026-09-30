@@ -143,7 +143,6 @@ function Td({
     <td
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
-        "border-b border-slate-200",
         "w-full",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
@@ -197,7 +196,7 @@ function InnerGraceTable({
           return (
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
-              className="bg-white"
+              className="bg-white [&>td]:border-b [&>td]:border-slate-200"
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
@@ -387,7 +386,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${rowIndex}`}
-                        className="bg-white"
+                        className="bg-white [&>td]:border-b [&>td]:border-slate-200"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
@@ -446,7 +445,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${idx}`}
-                        className="bg-white"
+                        className="bg-white [&>td]:border-b [&>td]:border-slate-200"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
