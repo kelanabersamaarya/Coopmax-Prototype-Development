@@ -5,6 +5,7 @@ import { Eye, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
+import BillingStatusBadge from "@/components/anggota/BillingStatusBadge";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyDetailDialog, {
@@ -30,6 +31,7 @@ export type DaftarTagihanSecondStyleRow = {
   tagihanBunga: string;
   sisaPokok: string;
   sisaBunga: string;
+  statusTagihan?: "Belum Dibayar" | "Lunas" | "Jatuh Tempo" | "Terlambat" | "Dibayar Sebagian";
 };
 
 const PENALTY_AMOUNT = 75000;
@@ -175,6 +177,13 @@ function RowCells({
   const hasBasePenalty = rowIndex < BASE_PENALTY_ROWS;
   const hasManualPenalty = manualPenaltyTotal > 0;
   const penaltyTotal = hasBasePenalty ? PENALTY_AMOUNT : manualPenaltyTotal;
+  const status = rowIndex === 3
+    ? "Jatuh Tempo"
+    : rowIndex === 2
+      ? "Dibayar Sebagian"
+      : row.statusTagihan === "Terlambat"
+        ? "Belum Dibayar"
+        : row.statusTagihan ?? "Belum Dibayar";
 
   return (
     <>
@@ -222,6 +231,10 @@ function RowCells({
             />
           )}
         </div>
+      </td>
+
+      <td className="w-[145px] px-4 py-2 text-left">
+        <BillingStatusBadge status={status} />
       </td>
     </>
   );
@@ -277,7 +290,7 @@ export default function DaftarTagihanSecondStyleTable({
     }
   }
 
-  const colCount = 7;
+  const colCount = 8;
   const graceRows = rows.slice(0, 2);
   const restRows = rows.slice(2);
 
@@ -327,7 +340,11 @@ export default function DaftarTagihanSecondStyleTable({
 
       <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
         <table className="w-full border-collapse text-[13px]">
-          <BillingTableHeader hideSelection showPenaltyColumn />
+          <BillingTableHeader
+            hideSelection
+            showPenaltyColumn
+            showStatusColumn
+          />
 
           <tbody className="bg-white">
             {graceRows.length > 0 ? (
