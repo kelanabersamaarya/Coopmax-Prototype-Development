@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertTriangle, ArrowLeft, Check, Info, X } from "lucide-react";
+import { ArrowLeft, Check, Info, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -79,8 +79,8 @@ export default function MBankingBannerNotificationPreview({
       {showConfirmation ? (
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/60 p-4">
           <div className="w-full max-w-[530px] rounded-[5px] bg-white px-6 py-8 text-center shadow-2xl">
-            <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#F7C9A4] text-[#F7B77D]">
-              <AlertTriangle className="h-12 w-12" strokeWidth={1.5} />
+            <div className="mx-auto flex h-[126px] w-[126px] items-center justify-center rounded-full border-[5px] border-[#F7C9A4] text-[#F7B77D]">
+              <span className="text-[62px] font-light leading-none">!</span>
             </div>
             <p className="mt-7 text-[30px] font-semibold leading-tight text-[#46576B]">
               Yakin mengaktifkan push notifikasi banner?
