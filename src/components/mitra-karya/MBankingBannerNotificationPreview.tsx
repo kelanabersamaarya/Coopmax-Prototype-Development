@@ -60,7 +60,7 @@ export default function MBankingBannerNotificationPreview({
 
                 <main className="px-6 pb-12">
                   <div className="flex items-center gap-8">
-                    <span className="px-2 py-3 text-[16px] font-bold text-[#004FC7]">Transfer</span>
+                    <span className="px-2 py-3 text-[16px] font-bold text-[#004FC7]">Transaksi</span>
                     <span className="rounded-full bg-[#004FC7] px-7 py-3 text-[16px] font-bold text-white shadow-sm">Info</span>
                   </div>
 
