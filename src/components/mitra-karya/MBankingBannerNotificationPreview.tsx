@@ -19,7 +19,7 @@ export default function MBankingBannerNotificationPreview({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
-      <div className="relative flex max-h-[82vh] w-full max-w-[525px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl">
+      <div className="relative flex h-[450px] w-full max-w-[525px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
           <h2 className="text-[17px] font-bold text-[#102d58]">Aktifkan Push Notifikasi Banner</h2>
           <button type="button" onClick={onClose} aria-label="Tutup preview" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-[#102d58]"><X className="h-5 w-5" /></button>
