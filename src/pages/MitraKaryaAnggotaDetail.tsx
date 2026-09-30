@@ -1,5 +1,5 @@
 import { Ban, ChevronDown, Download, History, KeyRound, List, Pencil, Printer, UserRound, X } from "lucide-react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 function InfoRow({ label, value }: { label: string; value: string }) { return <div className="grid grid-cols-[190px_1fr] gap-2 text-[13px] leading-8"><span className="text-[#7184a5]">{label}</span><span className="font-medium text-[#06255a]">: {value}</span></div>; }
