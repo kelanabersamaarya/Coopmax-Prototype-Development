@@ -455,6 +455,7 @@ export default function DaftarTagihanDialog({
                     keepGraceShellWithoutInfo={false}
                     hideSelection={true}
                     showPenaltyColumn={showPenaltyColumn}
+                    showStatusColumn={true}
                     disableRowRings={true}
                     disableRowActiveRing={true}
                     penaltyIndexOffset={(page - 1) * pageSize}
