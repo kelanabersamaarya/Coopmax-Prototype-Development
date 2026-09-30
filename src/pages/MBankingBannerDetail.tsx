@@ -63,7 +63,7 @@ export default function MBankingBannerDetail() {
           <dt className="text-[#7184a2]">Judul Banner</dt><dd>: {banner.name}</dd>
           <dt className="text-[#7184a2]">Tanggal Publikasi</dt><dd>: {banner.start}</dd>
           <dt className="text-[#7184a2]">Tanggal Kadaluarsa</dt><dd>: {banner.end}</dd>
-          <dt className="text-[#7184a2]">Notifikasi Pengguna</dt><dd>: {banner.userNotification ? "Aktif" : "Tidak Aktif"}</dd>
+          <dt className="text-[#7184a2]">Push Notifikasi Banner</dt><dd><span className={`rounded px-3 py-1 text-[11px] font-bold text-white ${banner.userNotification ? "bg-green-600" : "bg-red-500"}`}>{banner.userNotification ? "Aktif" : "Tidak Aktif"}</span></dd>
           <dt className="text-[#7184a2]">Status</dt><dd><span className={`rounded px-3 py-1 text-[11px] font-bold text-white ${banner.active ? "bg-green-600" : "bg-red-500"}`}>{banner.active ? "Aktif" : "Tidak Aktif"}</span></dd>
         </dl>
 
