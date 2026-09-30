@@ -32,8 +32,7 @@ export default function MBankingBannerNotificationPreview({
                 <Info className="h-4 w-4" strokeWidth={2.8} />
               </span>
               <div>
-                <p className="text-[14px] font-bold leading-tight">Informasi Push Notifikasi</p>
-                <p className="mt-1 text-[12px] leading-relaxed">
+                <p className="text-[12px] leading-relaxed">
                   Dengan mengaktifkan notifikasi push notifikasi banner, pengguna M-Banking akan menerima informasi promo, ucapan, serta pemberitahuan penting lainnya secara langsung melalui aplikasi M-Banking.
                 </p>
               </div>
