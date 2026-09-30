@@ -65,7 +65,7 @@ function DateCalendar({ value, onChange }: { value: string; onChange: (value: st
         placeholder="dd-mm-yyyy"
         onFocus={() => setOpen(true)}
         onChange={(event) => onChange(event.target.value)}
-        className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400"
+        className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-black shadow-none focus-visible:ring-1 focus-visible:ring-blue-400"
       />
       {open && <div className="absolute left-0 top-9 z-20 w-[308px] rounded border border-[#cbd2dc] bg-white p-2.5 shadow-lg">
         <div className="mb-2 flex h-7 items-center justify-between rounded bg-[#eeeeee] px-1 text-[#142b50]">
