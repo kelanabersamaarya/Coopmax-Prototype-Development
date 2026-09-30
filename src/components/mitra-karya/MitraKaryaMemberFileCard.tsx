@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, CheckCircle2, Contact, FileText, FileUp, Trash2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Contact, FileText, FileUp, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 
 type Props = {
@@ -7,6 +7,11 @@ type Props = {
   file: File | null;
   onChange: (file: File | null) => void;
 };
+
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  return `${Math.round(bytes / 1024)} KB`;
+}
 
 export default function MitraKaryaMemberFileCard({ title, file, onChange }: Props) {
   const isKtp = title === "Upload KTP";
@@ -87,6 +92,26 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
     </div>
   );
 
+  const supportingFilePreview = file && (
+    <div className="mt-3 flex items-center gap-3 rounded-[14px] border border-[#e0e4ec] bg-white px-3 py-3 text-left shadow-[0_2px_8px_rgba(45,68,110,0.03)]">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#f0f4ff]">
+        <FileText className="h-5 w-5 text-[#3567f5]" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-[14px] font-semibold text-[#202b3c]">{file.name}</p>
+        <p className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#7c8491]">
+          {formatFileSize(file.size)}
+          <span>•</span>
+          <CheckCircle2 className="h-3.5 w-3.5 text-[#4ca866]" />
+          <span className="font-medium text-[#4ca866]">Completed</span>
+        </p>
+      </div>
+      <button type="button" onClick={() => onChange(null)} aria-label="Hapus file pendukung" className="shrink-0 rounded-full p-1.5 text-[#7c7f86] transition hover:bg-red-50 hover:text-red-500">
+        <X className="h-5 w-5" />
+      </button>
+    </div>
+  );
+
   return (
     <div className="rounded-[14px] border border-[#d5ddeb] bg-white p-5 text-[#002060]">
       <h3 className="text-[16px] font-semibold">{sectionTitle}</h3>
@@ -107,7 +132,15 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
           <div className="mt-4 rounded-[9px] border border-[#f1d28a] bg-[#fff7dd] p-3 text-[11px] text-[#4d3b13]"><p className="flex items-center gap-1 font-semibold"><AlertTriangle className="h-3.5 w-3.5" />Perhatikan Foto {documentLabel} yang Anda Unggah</p><ol className="mt-2 list-decimal pl-5"><li>{documentLabel} harus merupakan dokumen asli.</li><li>Informasi dalam {documentLabel} harus terlihat jelas.</li><li>Pastikan foto tidak buram dan seluruh dokumen terlihat.</li><li>Format file JPG, JPEG, PNG, atau PDF.</li><li>Maksimal ukuran file 1 MB.</li></ol></div>
         </>
       ) : (
-        <div className="mt-5 rounded-[9px] border border-dashed border-[#c8d2e3] p-6"><div className="flex min-h-[180px] flex-col items-center justify-center text-center">{file ? filePreview("Preview file pendukung") : <><FileUp className="mb-2 h-7 w-7 text-black" /><p className="text-[14px] font-semibold text-black">File Pendukung</p><p className="mt-2 text-[12px] text-black">Unggah file pendukung untuk melengkapi data anggota.</p><label className="mt-3 inline-flex h-[30px] cursor-pointer items-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah File{input}</label></>}</div></div>
+        <div className="mt-5">
+          <div className="flex min-h-[180px] flex-col items-center justify-center rounded-[9px] border border-dashed border-[#c8d2e3] p-6 text-center">
+            <FileUp className="mb-2 h-7 w-7 text-black" />
+            <p className="text-[14px] font-semibold text-black">File Pendukung</p>
+            <p className="mt-2 text-[12px] text-black">Unggah file pendukung untuk melengkapi data anggota.</p>
+            <label className="mt-3 inline-flex h-[30px] cursor-pointer items-center gap-1 rounded-[4px] bg-[#3567f5] px-3 text-[12px] font-medium text-white"><FileUp className="h-4 w-4" />Unggah File{input}</label>
+          </div>
+          {supportingFilePreview}
+        </div>
       )}
     </div>
   );
