@@ -12,6 +12,7 @@ type MobileMockupFrameProps = {
   screenshots?: MobileScreenshot[];
   children?: ReactNode;
   edgeToEdge?: boolean;
+  squareBottom?: boolean;
 };
 
 export default function MobileMockupFrame({
@@ -20,6 +21,7 @@ export default function MobileMockupFrame({
   screenshots = [],
   children,
   edgeToEdge = false,
+  squareBottom = false,
 }: MobileMockupFrameProps) {
   const hasCustomContent = Boolean(children);
   const isMobile = useIsMobile();
@@ -75,7 +77,7 @@ export default function MobileMockupFrame({
         {subtitle ? ` ${subtitle}` : ""}
       </div>
 
-      <div className="relative h-full max-h-full w-[min(100%,460px)] rounded-[3.35rem] bg-slate-950 p-3 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-3.5">
+      <div className={`relative h-full max-h-full w-[min(100%,460px)] bg-slate-950 p-3 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-3.5 ${squareBottom ? "rounded-t-[3.35rem]" : "rounded-[3.35rem]"}`}>
         {!edgeToEdge ? (
           <div className="pointer-events-none absolute left-1/2 top-3 z-20 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-slate-950 shadow-sm sm:top-3.5">
             <div className="mx-auto mt-2 h-1.5 w-14 rounded-full bg-slate-700" />
@@ -84,7 +86,7 @@ export default function MobileMockupFrame({
 
         <div
           data-mobile-screen="true"
-          className="relative h-full overflow-hidden rounded-[2.65rem] bg-slate-100 ring-1 ring-white/10"
+          className={`relative h-full overflow-hidden bg-slate-100 ring-1 ring-white/10 ${squareBottom ? "rounded-t-[2.65rem]" : "rounded-[2.65rem]"}`}
         >
           {!edgeToEdge ? (
             <>
@@ -104,7 +106,7 @@ export default function MobileMockupFrame({
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 rounded-[3.35rem] ring-1 ring-white/10" />
+        <div className={`pointer-events-none absolute inset-0 ring-1 ring-white/10 ${squareBottom ? "rounded-t-[3.35rem]" : "rounded-[3.35rem]"}`} />
       </div>
     </section>
   );

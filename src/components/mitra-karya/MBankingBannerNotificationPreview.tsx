@@ -27,8 +27,8 @@ export default function MBankingBannerNotificationPreview({
 
         <div className="relative min-h-0 flex-1 overflow-hidden bg-[#eef2f8] px-4 pt-5 sm:px-8">
           <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
-            <MobileMockupFrame edgeToEdge>
-              <div className="flex min-h-full flex-col overflow-y-auto bg-white text-[#23305A]">
+            <MobileMockupFrame edgeToEdge squareBottom>
+              <div className="flex min-h-[620px] flex-col overflow-y-auto bg-white text-[#23305A]">
                 <header className="px-6 pb-5 pt-8">
                   <div className="flex items-center gap-3">
                     <ArrowLeft className="h-7 w-7 text-[#004FC7]" strokeWidth={2.2} />
