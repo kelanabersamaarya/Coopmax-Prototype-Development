@@ -562,7 +562,6 @@ export default function MitraKaryaLaporanAnggota() {
   const [selectedReport, setSelectedReport] = React.useState("Laporan Ketersediaan KTP Anggota");
   const [reportRefreshKey, setReportRefreshKey] = React.useState(0);
   const [ktpStatus, setKtpStatus] = React.useState<KtpStatus>("Semua");
-  const [kkStatus, setKkStatus] = React.useState<KtpStatus>("Semua");
   const [searched, setSearched] = React.useState(false);
 
   const memberReportOptions = React.useMemo(() => {
@@ -620,7 +619,6 @@ export default function MitraKaryaLaporanAnggota() {
           `${member.name} ${member.id}`.toLowerCase().includes(nameQuery)) &&
         (category === "Semua" || member.category === category) &&
         (!selectedReportHasKtpFields || ktpStatus === "Semua" || member.ktpStatus === ktpStatus) &&
-        (!selectedReportHasKtpFields || kkStatus === "Semua" || getKkStatus(member) === kkStatus) &&
         (product === "Semua" || member.product === product) &&
         (wilayah === "Semua" || member.wilayah === wilayah) &&
         (tag === "Semua" || member.tag === tag) &&
@@ -628,7 +626,7 @@ export default function MitraKaryaLaporanAnggota() {
         totalBalance <= max
       );
     });
-  }, [category, kkStatus, ktpStatus, maxBalance, minBalance, name, product, selectedReportHasKtpFields, tag, wilayah]);
+  }, [category, ktpStatus, maxBalance, minBalance, name, product, selectedReportHasKtpFields, tag, wilayah]);
 
   const inputClassName = cn(
     "h-[32px] rounded-[5px] border-slate-300 bg-white px-3",
@@ -848,13 +846,6 @@ export default function MitraKaryaLaporanAnggota() {
             {selectedReportHasKtpFields ? <>
               <FormRow label="Ketersediaan File KTP">
                 <FilterSelect value={ktpStatus} onChange={(value) => setKtpStatus(value as KtpStatus)} placeholder="Semua">
-                  <SelectItem value="Semua">Semua</SelectItem>
-                  <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
-                  <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
-                </FilterSelect>
-              </FormRow>
-              <FormRow label="Ketersediaan File KK">
-                <FilterSelect value={kkStatus} onChange={(value) => setKkStatus(value as KtpStatus)} placeholder="Semua">
                   <SelectItem value="Semua">Semua</SelectItem>
                   <SelectItem value="Tersedia">Sudah Tersedia</SelectItem>
                   <SelectItem value="Belum Tersedia">Belum Tersedia</SelectItem>
