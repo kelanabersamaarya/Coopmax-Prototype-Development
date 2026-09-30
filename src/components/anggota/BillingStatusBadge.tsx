@@ -39,13 +39,14 @@ export default function BillingStatusBadge({
   status: BillingStatus;
   variant?: "default" | "nasabah-2";
 }) {
-  const StatusIcon = statusIcons[status];
+  const displayStatus = status === "Terlambat" ? "Belum Dibayar" : status;
+  const StatusIcon = statusIcons[displayStatus];
 
   return (
     <span
-      className={`mr-2 inline-flex min-h-7 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[status]}`}
+      className={`mr-2 inline-flex min-h-7 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
     >
-      {status === "Lunas" ? (
+      {displayStatus === "Lunas" ? (
         <span
           className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#3bb001] text-[#3bb001]"
           aria-hidden="true"
@@ -54,12 +55,12 @@ export default function BillingStatusBadge({
         </span>
       ) : (
         <StatusIcon
-          className={`h-3.5 w-3.5 shrink-0 ${statusIconStyles[status]}`}
+          className={`h-3.5 w-3.5 shrink-0 ${statusIconStyles[displayStatus]}`}
           strokeWidth={2.25}
           aria-hidden="true"
         />
       )}
-      {status.toUpperCase()}
+      {displayStatus.toUpperCase()}
     </span>
   );
 }
