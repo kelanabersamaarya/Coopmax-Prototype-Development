@@ -11,14 +11,19 @@ type BannerPreview = {
 export default function MBankingBannerNotificationPreview({
   banner,
   onClose,
+  isActive = false,
+  onToggle,
 }: {
   banner: BannerPreview;
   onClose: () => void;
+  isActive?: boolean;
+  onToggle?: () => void;
 }) {
   const image = "/banner_sample.jpeg";
   const notificationTitle = "Spesial Harpelnas";
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const confirmationText = isActive ? "Yakin menonaktifkan push notifikasi banner?" : "Yakin mengaktifkan push notifikasi banner?";
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
@@ -84,10 +89,10 @@ export default function MBankingBannerNotificationPreview({
               <span className="text-[62px] font-light leading-none">!</span>
             </div>
             <p className="mt-7 text-[30px] font-semibold leading-tight text-[#46576B]">
-              Yakin mengaktifkan push notifikasi banner?
+              {confirmationText}
             </p>
             <div className="mt-7 flex justify-center gap-2">
-              <button type="button" onClick={() => { setShowConfirmation(false); setShowSuccess(true); }} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
+              <button type="button" onClick={() => { setShowConfirmation(false); if (isActive) { onToggle?.(); } else { setShowSuccess(true); } }} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
               <button type="button" onClick={() => setShowConfirmation(false)} className="order-2 h-12 rounded-[5px] bg-[#A7A7A7] px-8 text-[18px] font-semibold text-white transition hover:bg-[#929292]">Cancel</button>
             </div>
           </div>
