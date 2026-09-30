@@ -121,7 +121,7 @@ export default function MBankingBannerCreate() {
           <label htmlFor="banner-date" className="pt-1 text-[13px]">Tanggal Publikasi<span className="text-red-600">*</span></label>
           <DateCalendar value={bannerDate} onChange={setBannerDate} />
 
-          <label htmlFor="banner-expiry" className="pt-1 text-[13px]">Tanggal Kadaluarsa</label>
+          <label htmlFor="banner-expiry" className="pt-1 text-[13px]">Tanggal Kedaluwarsa</label>
           <DateCalendar value={expiryDate} onChange={setExpiryDate} />
 
           <label className="pt-1 text-[13px]">Konten<span className="text-red-600">*</span></label>
