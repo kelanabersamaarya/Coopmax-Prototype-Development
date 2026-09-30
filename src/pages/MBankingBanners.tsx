@@ -37,14 +37,17 @@ export default function MBankingBanners() {
 
   useEffect(() => {
     const storedBanners = window.localStorage.getItem(bannerStorageKey);
-    if (storedBanners) setBanners([...(JSON.parse(storedBanners) as Partial<Banner>[]).map(normalizeBanner).reverse(), ...defaultBanners]);
+    if (storedBanners) {
+      const savedBanners = (JSON.parse(storedBanners) as Partial<Banner>[]).map(normalizeBanner);
+      const savedById = new Map(savedBanners.map((banner) => [banner.id, banner]));
+      setBanners([...savedBanners.filter((banner) => !banner.id.startsWith("default-")), ...defaultBanners.map((banner) => savedById.get(banner.id) || banner)]);
+    }
   }, []);
 
   const toggleUserNotification = (id: string) => {
     setBanners((currentBanners) => {
       const nextBanners = currentBanners.map((banner) => banner.id === id ? { ...banner, userNotification: !banner.userNotification } : banner);
-      const storedBanners = JSON.parse(window.localStorage.getItem(bannerStorageKey) || "[]") as Partial<Banner>[];
-      window.localStorage.setItem(bannerStorageKey, JSON.stringify(storedBanners.map((banner) => banner.id === id ? { ...banner, userNotification: !banner.userNotification } : banner)));
+      window.localStorage.setItem(bannerStorageKey, JSON.stringify(nextBanners));
       return nextBanners;
     });
   };
