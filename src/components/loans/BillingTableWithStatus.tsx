@@ -143,7 +143,7 @@ function Td({
     <td
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
-        "border-b border-slate-200",
+        "border-b-0",
         "w-full",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
@@ -238,7 +238,7 @@ function InnerGraceTable({
                 ) : null}
               </Td>
 
-              <Td className="w-[145px] border-l border-slate-200 px-4">
+              <Td className="w-[145px] px-4">
                 <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
               </Td>
             </tr>
@@ -428,7 +428,7 @@ export default function BillingTableWithStatus({
                           ) : null}
                         </Td>
 
-                        <Td className="w-[145px] border-l border-slate-200">
+                        <Td className="w-[145px]">
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
@@ -487,7 +487,7 @@ export default function BillingTableWithStatus({
                           ) : null}
                         </Td>
 
-                        <Td className="w-[145px] border-l border-slate-200">
+                        <Td className="w-[145px]">
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
