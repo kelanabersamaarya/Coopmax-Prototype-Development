@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, CheckCircle2, Contact, FileText, FileUp, Trash2, X } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Contact, FileText, FileUp, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 type Props = {
@@ -7,11 +7,6 @@ type Props = {
   file: File | null;
   onChange: (file: File | null) => void;
 };
-
-function formatFileSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`;
-  return `${Math.round(bytes / 1024)} KB`;
-}
 
 export default function MitraKaryaMemberFileCard({ title, file, onChange }: Props) {
   const isKtp = title === "Upload KTP";
@@ -98,16 +93,22 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
         <FileText className="h-5 w-5 text-[#3567f5]" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-[14px] font-semibold text-[#202b3c]">{file.name}</p>
-        <p className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#7c8491]">
-          {formatFileSize(file.size)}
-          <span>•</span>
-          <CheckCircle2 className="h-3.5 w-3.5 text-[#4ca866]" />
-          <span className="font-medium text-[#4ca866]">Completed</span>
-        </p>
+        <input
+          type="text"
+          aria-label="Nama file pendukung"
+          value={fileName}
+          onChange={(event) => renameFile(event.target.value)}
+          className="h-8 w-full rounded-[5px] border border-[#c8d2e3] bg-white px-2.5 text-[14px] font-semibold text-[#202b3c] outline-none transition focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15"
+        />
       </div>
-      <button type="button" onClick={() => onChange(null)} aria-label="Hapus file pendukung" className="shrink-0 rounded-full p-1.5 text-[#7c7f86] transition hover:bg-red-50 hover:text-red-500">
-        <X className="h-5 w-5" />
+      <button
+        type="button"
+        onClick={() => onChange(null)}
+        aria-label="Hapus file pendukung"
+        className="shrink-0 inline-flex items-center gap-1.5 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"
+      >
+        <Trash2 className="h-3.5 w-3.5" />
+        Hapus
       </button>
     </div>
   );
