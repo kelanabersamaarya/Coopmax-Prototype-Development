@@ -25,8 +25,8 @@ export default function MBankingBannerNotificationPreview({
           <button type="button" onClick={onClose} aria-label="Tutup preview" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-[#102d58]"><X className="h-5 w-5" /></button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-hidden bg-[#eef2f8] px-4 pt-5 sm:px-8">
-          <div className="mx-auto w-[min(100%,390px)]">
+        <div className="relative min-h-0 flex-1 overflow-hidden bg-[#eef2f8] px-4 pt-5 sm:px-8">
+          <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
             <MobileMockupFrame edgeToEdge>
               <div className="flex min-h-full flex-col overflow-y-auto bg-white text-[#23305A]">
                 <header className="px-6 pb-5 pt-8">
@@ -55,7 +55,7 @@ export default function MBankingBannerNotificationPreview({
           </div>
         </div>
 
-        <footer className="flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
+        <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
           <button type="button" onClick={onClose} className="h-9 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]">Batal</button>
           <button type="button" onClick={onClose} className="h-9 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]">Aktifkan</button>
         </footer>
