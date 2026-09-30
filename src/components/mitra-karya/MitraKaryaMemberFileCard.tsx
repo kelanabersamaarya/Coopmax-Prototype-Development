@@ -4,11 +4,14 @@ import { toast } from "sonner";
 
 type Props = {
   title: string;
-  file: File | null;
-  onChange: (file: File | null) => void;
+  file: File | null | File[];
+  onChange: (file: any) => void;
 };
 
 export default function MitraKaryaMemberFileCard({ title, file, onChange }: Props) {
+  const isSupportingUpload = title === "Upload File Pendukung";
+  const supportingFiles = isSupportingUpload ? (Array.isArray(file) ? file : file ? [file] : []) : [];
+  const singleFile = isSupportingUpload ? null : (file as File | null);
   const isKtp = title === "Upload KTP";
   const isFamilyCard = title === "Upload Foto Kartu Keluarga" || title === "Upload KK";
   const isDocumentUpload = isKtp || isFamilyCard;
@@ -19,18 +22,18 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
     ? "Unggah foto kartu keluarga anggota. Pastikan terlihat jelas untuk melengkapi data anggota"
     : "Unggah foto KTP anggota. Pastikan terlihat jelas untuk melengkapi data anggota";
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
-  const [fileName, setFileName] = React.useState(file?.name ?? "");
+  const [fileName, setFileName] = React.useState(singleFile?.name ?? "");
 
   React.useEffect(() => {
-    setFileName(file?.name ?? "");
-  }, [file]);
+    setFileName(singleFile?.name ?? "");
+  }, [singleFile]);
 
   React.useEffect(() => {
-    if (!file || !file.type.startsWith("image/")) {
+    if (!singleFile || !singleFile.type.startsWith("image/")) {
       setPreviewUrl(null);
       return;
     }
-    const url = URL.createObjectURL(file);
+    const url = URL.createObjectURL(singleFile);
     setPreviewUrl(url);
     return () => URL.revokeObjectURL(url);
   }, [file]);
@@ -47,15 +50,20 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
           event.currentTarget.value = "";
           return;
         }
-        onChange(selected);
+        if (isSupportingUpload) {
+          if (selected) onChange([...supportingFiles, selected]);
+        } else {
+          onChange(selected);
+        }
       }}
+      multiple={isSupportingUpload}
     />
   );
 
-  const renameFile = (name: string) => {
+  const renameFile = (name: string, targetFile = singleFile) => {
     setFileName(name);
-    if (file && name.trim()) {
-      onChange(new File([file], name.trim(), { type: file.type, lastModified: file.lastModified }));
+    if (targetFile && name.trim()) {
+      onChange(new File([targetFile], name.trim(), { type: targetFile.type, lastModified: targetFile.lastModified }));
     }
   };
 
@@ -87,31 +95,15 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
     </div>
   );
 
-  const supportingFilePreview = file && (
-    <div className="mt-3 flex items-center gap-3 rounded-[14px] border border-[#e0e4ec] bg-white px-3 py-3 text-left shadow-[0_2px_8px_rgba(45,68,110,0.03)]">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#f0f4ff]">
-        <FileText className="h-5 w-5 text-[#3567f5]" />
-      </div>
+  const supportingFilePreview = supportingFiles.map((supportingFile, index) => (
+    <div key={`${supportingFile.name}-${index}`} className="mt-3 flex items-center gap-3 rounded-[14px] border border-[#e0e4ec] bg-white px-3 py-3 text-left shadow-[0_2px_8px_rgba(45,68,110,0.03)]">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-[#f0f4ff]"><FileText className="h-5 w-5 text-[#3567f5]" /></div>
       <div className="min-w-0 flex-1">
-        <input
-          type="text"
-          aria-label="Nama file pendukung"
-          value={fileName}
-          onChange={(event) => renameFile(event.target.value)}
-          className="h-8 w-full rounded-[5px] border border-[#c8d2e3] bg-white px-2.5 text-[14px] font-semibold text-[#202b3c] outline-none transition focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15"
-        />
+        <input type="text" aria-label={`Nama file pendukung ${index + 1}`} value={supportingFile.name} onChange={(event) => { const renamed = new File([supportingFile], event.target.value, { type: supportingFile.type, lastModified: supportingFile.lastModified }); onChange(supportingFiles.map((item, itemIndex) => itemIndex === index ? renamed : item)); }} className="h-8 w-full rounded-[5px] border border-[#c8d2e3] bg-white px-2.5 text-[14px] font-semibold text-[#202b3c] outline-none transition focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15" />
       </div>
-      <button
-        type="button"
-        onClick={() => onChange(null)}
-        aria-label="Hapus file pendukung"
-        className="shrink-0 inline-flex items-center gap-1.5 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"
-      >
-        <Trash2 className="h-3.5 w-3.5" />
-        Hapus
-      </button>
+      <button type="button" onClick={() => onChange(supportingFiles.filter((_, itemIndex) => itemIndex !== index))} aria-label={`Hapus file pendukung ${index + 1}`} className="inline-flex shrink-0 items-center gap-1.5 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"><Trash2 className="h-3.5 w-3.5" />Hapus</button>
     </div>
-  );
+  ));
 
   return (
     <div className="rounded-[14px] border border-[#d5ddeb] bg-white p-5 text-[#002060]">
