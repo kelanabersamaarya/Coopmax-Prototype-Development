@@ -39,21 +39,26 @@ export default function BillingStatusBadge({
   status: BillingStatus;
   variant?: "default" | "nasabah-2";
 }) {
-  const StatusIcon = variant === "nasabah-2" && status === "Lunas" ? Circle : statusIcons[status];
-  const iconStyle =
-    variant === "nasabah-2" && status === "Lunas"
-      ? "text-[#3bb001] fill-current"
-      : statusIconStyles[status];
+  const StatusIcon = statusIcons[status];
 
   return (
     <span
       className={`mr-2 inline-flex min-h-7 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[status]}`}
     >
-      <StatusIcon
-        className={`h-3.5 w-3.5 shrink-0 ${iconStyle}`}
-        strokeWidth={2.25}
-        aria-hidden="true"
-      />
+      {status === "Lunas" ? (
+        <span
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#3bb001] text-[#3bb001]"
+          aria-hidden="true"
+        >
+          <Check className="h-3 w-3" strokeWidth={2.75} />
+        </span>
+      ) : (
+        <StatusIcon
+          className={`h-3.5 w-3.5 shrink-0 ${statusIconStyles[status]}`}
+          strokeWidth={2.25}
+          aria-hidden="true"
+        />
+      )}
       {status.toUpperCase()}
     </span>
   );
