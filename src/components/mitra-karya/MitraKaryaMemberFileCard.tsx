@@ -8,6 +8,48 @@ type Props = {
   onChange: (file: File | null | File[]) => void;
 };
 
+type SupportingFileRowProps = {
+  file: File;
+  index: number;
+  files: File[];
+  onChange: (file: File[]) => void;
+};
+
+function SupportingFileRow({ file, index, files, onChange }: SupportingFileRowProps) {
+  const [thumbnailUrl, setThumbnailUrl] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!file.type.startsWith("image/")) {
+      setThumbnailUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    setThumbnailUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  return (
+    <div className="mt-3 flex items-center gap-3 rounded-[14px] border border-[#e0e4ec] bg-white px-3 py-3 text-left shadow-[0_2px_8px_rgba(45,68,110,0.03)]">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[9px] bg-[#f0f4ff]">
+        {thumbnailUrl ? <img src={thumbnailUrl} alt="Preview file" className="h-full w-full object-cover" /> : <FileText className="h-5 w-5 text-[#3567f5]" />}
+      </div>
+      <input
+        type="text"
+        aria-label={`Nama file pendukung ${index + 1}`}
+        defaultValue={file.name}
+        onBlur={(event) => {
+          if (event.target.value.trim()) {
+            const renamed = new File([file], event.target.value.trim(), { type: file.type, lastModified: file.lastModified });
+            onChange(files.map((item, itemIndex) => itemIndex === index ? renamed : item));
+          }
+        }}
+        className="h-8 min-w-0 flex-1 rounded-[5px] border border-[#c8d2e3] bg-white px-2.5 text-[14px] font-normal text-[#202b3c] outline-none focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15"
+      />
+      <button type="button" onClick={() => onChange(files.filter((_, itemIndex) => itemIndex !== index))} aria-label={`Hapus file pendukung ${index + 1}`} className="inline-flex shrink-0 items-center gap-1.5 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"><Trash2 className="h-3.5 w-3.5" />Hapus</button>
+    </div>
+  );
+}
+
 export default function MitraKaryaMemberFileCard({ title, file, onChange }: Props) {
   const isKtp = title === "Upload KTP";
   const isFamilyCard = title === "Upload Foto Kartu Keluarga" || title === "Upload KK";
@@ -73,25 +115,13 @@ export default function MitraKaryaMemberFileCard({ title, file, onChange }: Prop
   );
 
   const supportingFilePreview = supportingFiles.map((supportingFile, index) => (
-    <SupportingFileRow key={`${supportingFile.name}-${index}`} file={supportingFile} index={index} />
-  ));
-
-  function SupportingFileRow({ file: supportingFile, index }: { file: File; index: number }) {
-    const [thumbnailUrl, setThumbnailUrl] = React.useState<string | null>(null);
-    React.useEffect(() => {
-      if (!supportingFile.type.startsWith("image/")) {
-        setThumbnailUrl(null);
-        return;
-      }
-      const url = URL.createObjectURL(supportingFile);
-      setThumbnailUrl(url);
-      return () => URL.revokeObjectURL(url);
-    }, [supportingFile]);
-    return <div className="mt-3 flex items-center gap-3 rounded-[14px] border border-[#e0e4ec] bg-white px-3 py-3 text-left shadow-[0_2px_8px_rgba(45,68,110,0.03)]">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-[9px] bg-[#f0f4ff]">{thumbnailUrl ? <img src={thumbnailUrl} alt="Preview file" className="h-full w-full object-cover" /> : <FileText className="h-5 w-5 text-[#3567f5]" />}</div>
-      <input type="text" aria-label={`Nama file pendukung ${index + 1}`} defaultValue={supportingFile.name} onBlur={(event) => { if (event.target.value.trim()) { const renamed = new File([supportingFile], event.target.value.trim(), { type: supportingFile.type, lastModified: supportingFile.lastModified }); onChange(supportingFiles.map((item, itemIndex) => itemIndex === index ? renamed : item)); } }} className="h-8 min-w-0 flex-1 rounded-[5px] border border-[#c8d2e3] bg-white px-2.5 text-[14px] font-normal text-[#202b3c] outline-none focus:border-[#3567f5] focus:ring-2 focus:ring-[#3567f5]/15" />
-      <button type="button" onClick={() => onChange(supportingFiles.filter((_, itemIndex) => itemIndex !== index))} aria-label={`Hapus file pendukung ${index + 1}`} className="inline-flex shrink-0 items-center gap-1.5 rounded-[5px] bg-red-500 px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-red-600"><Trash2 className="h-3.5 w-3.5" />Hapus</button>
-    </div>
+    <SupportingFileRow
+      key={`${supportingFile.name}-${index}`}
+      file={supportingFile}
+      index={index}
+      files={supportingFiles}
+      onChange={(nextFiles) => onChange(nextFiles)}
+    />
   ));
 
   return (
