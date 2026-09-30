@@ -10,11 +10,16 @@ type SubItem = {
   to: string;
 };
 
-const items: SubItem[] = [{ label: "Pengaturan", to: "/pengaturan-umum" }];
+const items: SubItem[] = [
+  { label: "Pengaturan", to: "/pengaturan-umum" },
+  { label: "Notifikasi", to: "/pengaturan-notifikasi" },
+];
 
 export default function SidebarPengaturanUmumMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/pengaturan-umum");
+  const isActive =
+    location.pathname.startsWith("/pengaturan-umum") ||
+    location.pathname.startsWith("/pengaturan-notifikasi");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
