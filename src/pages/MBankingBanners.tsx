@@ -25,7 +25,9 @@ const notificationTooltip = "Klik untuk mengaktifkan push notifikasi banner agar
 const activeNotificationTooltip = "Push notifikasi banner sudah diaktifkan, klik untuk menonaktifkan push notifikasi banner";
 
 function formatBannerDate(value: string) {
-  if (!value || value === "-") return value || "-";
+  if (!value || value === "-" || value.includes("undefined")) return "-";
+  const isoMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (isoMatch) return `${isoMatch[2]}-${isoMatch[3]}-${isoMatch[1]}`;
   const match = /^(\d{2})[-/](\d{2})[-/](\d{4})$/.exec(value);
   if (!match) return value;
   const [, first, separator, second, year] = match;
