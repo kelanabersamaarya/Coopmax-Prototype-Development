@@ -96,7 +96,7 @@ export default function NewMBankingBillCard({
 
       <div className="px-5 pb-5 pt-4">
         {inGracePeriod ? (
-          <div className="mb-4 flex items-start gap-3 rounded-[16px] bg-[#EEF6FF] px-4 py-3 ring-1 ring-[#CFE4FF]">
+          <div className="-mx-2 mb-4 flex items-start gap-3 rounded-[16px] bg-[#EEF6FF] px-4 py-3 ring-1 ring-[#CFE4FF]">
             <span className="mt-[1px] grid h-[28px] w-[28px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
               <Info className="h-[15px] w-[15px]" strokeWidth={2.7} />
             </span>
