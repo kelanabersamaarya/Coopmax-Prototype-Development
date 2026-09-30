@@ -142,21 +142,18 @@ export default function MBankingNotificationsPage({
                   className="rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[16px] font-bold leading-tight text-[#23305A]">
-                        {notification.type}
-                      </p>
-                      <img
-                        src={notification.image}
-                        alt={notification.type}
-                        className="mt-3 w-full rounded-[12px] object-cover"
-                      />
-                    </div>
-                    <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
-                      <p>{notification.date}</p>
-                      <p>{notification.time}</p>
-                    </div>
+                    <p className="text-[16px] font-bold leading-tight text-[#23305A]">
+                      {notification.type}
+                    </p>
+                    <p className="shrink-0 whitespace-nowrap text-right text-[13px] leading-tight text-[#23305A]">
+                      {notification.date} • {notification.time}
+                    </p>
                   </div>
+                  <img
+                    src={notification.image}
+                    alt={notification.type}
+                    className="mt-3 block w-full rounded-[12px] object-cover"
+                  />
                 </article>
               ))}
         </div>
