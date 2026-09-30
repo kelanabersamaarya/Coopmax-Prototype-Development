@@ -24,15 +24,6 @@ type NotificationItem = {
 
 const notificationsSeed: NotificationItem[] = [
   {
-    id: "notif-1",
-    type: "transaction",
-    title: "Setoran Berhasil",
-    description:
-      "Setoran ke Simpanan Kaya sebesar Rp. 500.000,00 telah berhasil diproses.",
-    time: "Hari ini, 10:24",
-    unread: true,
-  },
-  {
     id: "notif-2",
     type: "security",
     title: "Login Baru Terdeteksi",

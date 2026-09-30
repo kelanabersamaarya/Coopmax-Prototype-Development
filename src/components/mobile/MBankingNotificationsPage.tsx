@@ -32,20 +32,6 @@ const notifications = [
     status: "Berhasil",
   },
   {
-    type: "Setoran Simpanan",
-    amount: "Rp300.000",
-    date: "16 Jul 2026",
-    time: "10:35",
-    status: "Berhasil",
-  },
-  {
-    type: "Penarikan Simpanan",
-    amount: "Rp1.000.000",
-    date: "15 Jul 2026",
-    time: "13:47",
-    status: "Berhasil",
-  },
-  {
     type: "Transfer Out Antar Bank",
     amount: "Rp1.250.000",
     date: "14 Jul 2026",
