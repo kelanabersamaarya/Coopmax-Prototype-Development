@@ -24,6 +24,7 @@ export default function MBankingBannerNotificationPreview({
   const [showConfirmation, setShowConfirmation] = useState(isActive);
   const [showSuccess, setShowSuccess] = useState(false);
   const confirmationText = isActive ? "Yakin menonaktifkan push notifikasi banner?" : "Yakin mengaktifkan push notifikasi banner?";
+  const successText = isActive ? "Berhasil menonaktifkan push notifikasi banner" : "Berhasil mengaktifkan push notifikasi banner";
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
@@ -92,7 +93,7 @@ export default function MBankingBannerNotificationPreview({
               {confirmationText}
             </p>
             <div className="mt-7 flex justify-center gap-2">
-              <button type="button" onClick={() => { setShowConfirmation(false); onToggle?.(); if (!isActive) { setShowSuccess(true); } }} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
+              <button type="button" onClick={() => { setShowConfirmation(false); onToggle?.(); setShowSuccess(true); }} className="order-1 h-12 rounded-[5px] bg-[#348DD3] px-8 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">Yes</button>
               <button type="button" onClick={() => setShowConfirmation(false)} className="order-2 h-12 rounded-[5px] bg-[#A7A7A7] px-8 text-[18px] font-semibold text-white transition hover:bg-[#929292]">Cancel</button>
             </div>
           </div>
@@ -106,7 +107,7 @@ export default function MBankingBannerNotificationPreview({
               <Check className="h-12 w-12" strokeWidth={2.5} />
             </div>
             <p className="mt-7 text-[30px] font-semibold leading-tight text-[#5B5B5B]">
-              Berhasil mengaktifkan push notifikasi banner
+              {successText}
             </p>
             <button type="button" onClick={onClose} className="mt-8 h-12 rounded-[5px] bg-[#348DD3] px-10 text-[18px] font-semibold text-white ring-2 ring-[#B9D4EA] ring-offset-2 transition hover:bg-[#2679B9]">OK</button>
           </div>
