@@ -179,13 +179,15 @@ function RowCells({
   const hasManualPenalty = manualPenaltyTotal > 0;
   const penaltyTotal = hasBasePenalty ? PENALTY_AMOUNT : manualPenaltyTotal;
   const status: BillingStatus =
-    rowIndex === 3
-      ? "Jatuh Tempo"
-      : rowIndex === 2
-        ? "Dibayar Sebagian"
-        : row.statusTagihan === "Terlambat"
-          ? "Belum Dibayar"
-          : row.statusTagihan ?? "Belum Dibayar";
+    rowIndex < 2
+      ? "Lunas"
+      : rowIndex === 3
+        ? "Jatuh Tempo"
+        : rowIndex === 2
+          ? "Dibayar Sebagian"
+          : row.statusTagihan === "Terlambat"
+            ? "Belum Dibayar"
+            : row.statusTagihan ?? "Belum Dibayar";
 
   return (
     <>

@@ -546,10 +546,12 @@ export default function BillingTableView2({
     return toIdr00(raw);
   }
 
-  function statusForRow(row: BillingRow) {
-    if (row.jatuhTempo === "25-04-2026") return "Jatuh Tempo";
+  function statusForRow(row: BillingRow, rowIndex: number) {
+    if (rowIndex < 2) return "Lunas" as const;
+    if (rowIndex === 2) return "Dibayar Sebagian" as const;
+    if (rowIndex === 3) return "Jatuh Tempo" as const;
     return row.statusTagihan === "Terlambat"
-      ? "Belum Dibayar"
+      ? "Belum Dibayar" as const
       : row.statusTagihan ?? "Belum Dibayar";
   }
 
@@ -728,7 +730,7 @@ export default function BillingTableView2({
                                   {showStatusColumn ? (
                                     <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
                                       <BillingStatusBadge
-                                        status={statusForRow(r)}
+                                        status={statusForRow(r, rowIndex)}
                                         variant={statusBadgeVariant}
                                       />
                                     </div>
@@ -821,7 +823,7 @@ export default function BillingTableView2({
                             {showStatusColumn ? (
                               <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
                                 <BillingStatusBadge
-                                  status={statusForRow(r)}
+                                  status={statusForRow(r, rowIndex)}
                                   variant={statusBadgeVariant}
                                 />
                               </div>
@@ -919,7 +921,7 @@ export default function BillingTableView2({
                               {showStatusColumn ? (
                                 <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
                                   <BillingStatusBadge
-                                    status={statusForRow(r)}
+                                    status={statusForRow(r, rowIndex)}
                                     variant={statusBadgeVariant}
                                   />
                                 </div>
