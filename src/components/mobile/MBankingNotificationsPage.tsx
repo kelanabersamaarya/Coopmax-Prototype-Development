@@ -119,8 +119,9 @@ export default function MBankingNotificationsPage({
                           </p>
                         </div>
                         <div className="shrink-0 text-right text-[13px] leading-[1.2] text-[#23305A]">
-                          <p>{notification.date}</p>
-                          <p>{notification.time}</p>
+                          <p className="whitespace-nowrap">
+                            {notification.date} • {notification.time}
+                          </p>
                           <p
                             className={`mt-1 font-bold ${
                               notification.status === "Gagal"
