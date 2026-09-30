@@ -64,19 +64,19 @@ export default function PengaturanNotifikasiTambah() {
       <div className="mt-7 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/pengaturan-notifikasi")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button type="button" onClick={() => setShowConfirmation(true)} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" />Simpan</Button></div>
     </section>
     {showConfirmation && (
-      <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-0 pt-[13px] sm:items-start">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="save-confirmation-title"
-          className="min-h-[302px] w-[calc(100vw-14px)] max-w-[528px] rounded-[5px] bg-white px-4 pb-[17px] pt-[40px] text-center shadow-2xl sm:w-[528px] sm:px-6"
+          className="w-[calc(100vw-14px)] max-w-[528px] rounded-[5px] bg-white px-4 pb-[17px] pt-[40px] text-center shadow-2xl sm:w-[528px] sm:px-6"
         >
-          <span
+          <div
             aria-hidden="true"
             className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f8c9a4] text-[58px] font-light leading-none text-[#f8b37d]"
           >
             !
-          </span>
+          </div>
           <h2
             id="save-confirmation-title"
             className="mt-[31px] text-[30px] font-bold leading-[36px] text-[#526070]"
