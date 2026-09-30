@@ -44,7 +44,7 @@ const billRows: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    statusTagihan: "Belum Dibayar",
+    statusTagihan: "Jatuh Tempo",
   },
   {
     jatuhTempo: "25-05-2026",

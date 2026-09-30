@@ -61,6 +61,7 @@ export default function NewMBankingBillCard({
   const inGracePeriod = isGracePeriodBill(row);
   const hasPenalty = globalIndex < PENALTY_ROWS;
   const penalty = hasPenalty ? PENALTY_AMOUNT : "0,00";
+  const isDue = globalIndex === 3;
 
   return (
     <article className="overflow-hidden rounded-[22px] bg-white shadow-[0_4px_14px_rgba(15,23,42,0.12)] ring-1 ring-[#EEF0F4]">
@@ -86,10 +87,12 @@ export default function NewMBankingBillCard({
               "text-[11px] font-bold leading-none",
               inGracePeriod
                 ? "bg-white text-[#2563EB]"
-                : "bg-white/18 text-white ring-1 ring-white/20",
+                : isDue
+                  ? "bg-amber-100 text-amber-800 ring-1 ring-amber-200"
+                  : "bg-white/18 text-white ring-1 ring-white/20",
             )}
           >
-            {inGracePeriod ? "Grace Period" : "Tagihan Aktif"}
+            {inGracePeriod ? "Grace Period" : isDue ? "Jatuh Tempo" : "Tagihan Aktif"}
           </span>
         </div>
       </div>
