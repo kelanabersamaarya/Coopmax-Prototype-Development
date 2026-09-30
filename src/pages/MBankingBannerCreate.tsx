@@ -36,6 +36,13 @@ function readFileAsDataUrl(file: File) {
   });
 }
 
+function formatBannerDateForInput(value: string) {
+  const match = /^(\d{2})[-/](\d{2})[-/](\d{4})$/.exec(value);
+  if (!match) return value;
+  const [, first, second, year] = match;
+  return `${Number(first) > 12 ? first : second}-${Number(first) > 12 ? second : first}-${year}`;
+}
+
 function DateCalendar({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const [open, setOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -54,8 +61,8 @@ function DateCalendar({ value, onChange }: { value: string; onChange: (value: st
   return (
     <div ref={calendarRef} className="relative">
       <Input
-        value={value}
-        placeholder="mm/dd/yyyy"
+        value={formatBannerDateForInput(value)}
+        placeholder="dd-mm-yyyy"
         onFocus={() => setOpen(true)}
         onChange={(event) => onChange(event.target.value)}
         className="h-8 rounded border-[#c7d3e4] px-2 text-[13px] text-[#8494a8] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400"
@@ -68,7 +75,7 @@ function DateCalendar({ value, onChange }: { value: string; onChange: (value: st
           <button type="button" onClick={() => setMonth((current) => current === 11 ? 0 : current + 1)} className="flex h-6 w-6 items-center justify-center rounded bg-[#3d3d3d] text-white"><ChevronRight className="h-3.5 w-3.5" /></button>
         </div>
         <div className="grid grid-cols-7 text-center text-[12px] font-bold text-[#405273]">{["SU", "MO", "TU", "WE", "TH", "FR", "SA"].map((day) => <span key={day} className="py-1">{day}</span>)}</div>
-        <div className="grid grid-cols-7 gap-px bg-white">{calendarDays.map((day, index) => <button key={`${month}-${year}-${index}`} type="button" disabled={!day} onClick={() => { if (day) { onChange(`${String(month + 1).padStart(2, "0")}/${String(day).padStart(2, "0")}/${year}`); setOpen(false); } }} className={`h-8 text-[12px] ${day === 25 ? "bg-[#fffef0] text-[#6f5cff]" : day ? "bg-[#f0f1f2] text-[#18345c] hover:bg-[#dce7f8]" : "bg-white"}`}>{day}</button>)}</div>
+        <div className="grid grid-cols-7 gap-px bg-white">{calendarDays.map((day, index) => <button key={`${month}-${year}-${index}`} type="button" disabled={!day} onClick={() => { if (day) { onChange(`${String(day).padStart(2, "0")}-${String(month + 1).padStart(2, "0")}-${year}`); setOpen(false); } }} className={`h-8 text-[12px] ${day === 25 ? "bg-[#fffef0] text-[#6f5cff]" : day ? "bg-[#f0f1f2] text-[#18345c] hover:bg-[#dce7f8]" : "bg-white"}`}>{day}</button>)}</div>
       </div>}
     </div>
   );
