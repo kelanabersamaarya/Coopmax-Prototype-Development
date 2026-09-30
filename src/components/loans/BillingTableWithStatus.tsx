@@ -361,7 +361,7 @@ export default function BillingTableWithStatus({
                 <>
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="box-border ml-2 w-[calc(100%+0.5rem)] bg-white py-2 pl-0 pr-0">
+                      <div className="box-border mx-2 w-[calc(100%-1rem)] bg-white py-2 pl-0 pr-0">
                         <div className="box-border w-full overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
                           <InnerGraceTable
                             rows={graceRows}
@@ -387,7 +387,7 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${rowIndex}`}
-                        className="relative left-2 bg-white"
+                        className="bg-white"
                       >
                         <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
