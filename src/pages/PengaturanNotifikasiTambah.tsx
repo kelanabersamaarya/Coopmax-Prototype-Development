@@ -18,6 +18,47 @@ const messageVariables = [
   ["{HariPengingat}", "Untuk menampilkan Jumlah Hari Pengingat"],
 ];
 
+const transactionTypes = [
+  "Transaksi Setoran Simpanan",
+  "Pembukaan Rekening Simpanan",
+  "Bunga Simpanan Sukarela",
+  "Transaksi Penarikan Simpanan",
+  "Penutupan Rekening Simpanan",
+  "Transfer",
+  "Pembukaan Rekening SIJAKOP",
+  "Penarikan bunga SIJAKOP",
+  "Penarikan Bunga SIJAKOP",
+  "Bunga SIJAKOP",
+  "Pencarian Rekening Sijakop",
+  "Bayar Angsuran",
+  "Transaksi Biaya Admin",
+  "Biaya Pinalti Simpanan",
+  "Pinalty Sijakop",
+  "Bunga RC",
+  "Biaya Admin RC",
+  "Penarikan RC",
+  "Pemutihan Pinjaman",
+  "Pencairan Pinjaman",
+  "Perpanjangan Pinjaman",
+  "Bunga Simpanan Program",
+  "Transaksi PPOB",
+  "Pajak Bunga Simpanan",
+  "Penerimaan Jasa SHU",
+  "Penarikan SHU",
+  "Transfer SHU",
+  "Perpanjangan Pinjaman RC",
+  "Bunga Rc Over Draf",
+  "Pembayaran Gaji Pegawai",
+  "Penempatan Modal Penyertaan",
+  "Penarikan Modal Penyertaan",
+  "Pemutihan Pinjaman RC",
+  "Transaksi Refund PPOB",
+  "Pendapatan Jasa Pinjaman RC",
+  "Biaya Admin Pinjaman",
+  "Pembukaan rekening via bank",
+  "Setoran via BRI",
+];
+
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return <button type="button" aria-pressed={value} onClick={onChange} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${value ? "bg-[#5b42f5]" : "bg-[#a297ee]"}`}>
     {value ? <><span className="pl-1">ON</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" /></> : <><span className="h-[18px] w-[18px] rounded-full bg-white" /><span className="ml-auto pr-1">OFF</span></>}
@@ -46,7 +87,7 @@ export default function PengaturanNotifikasiTambah() {
         </div>
 
         <label htmlFor="transaction-type" className="pt-1 text-[13px]">Jenis Transaksi<span className="text-red-600">*</span></label>
-        <div className="relative"><select id="transaction-type" className="h-8 w-full appearance-none rounded border border-[#c7d3e4] bg-white px-3 text-[13px] text-[#71809b]"><option>Pilih Jenis Transaksi</option></select><ChevronDown className="pointer-events-none absolute right-2 top-2 h-4 w-4 text-slate-500" /></div>
+        <div className="relative"><select id="transaction-type" className="h-8 w-full appearance-none rounded border border-[#c7d3e4] bg-white px-3 text-[13px] text-[#71809b]"><option>Pilih Jenis Transaksi</option>{notificationType === "Informasi Transaksi" && transactionTypes.map((type) => <option key={type}>{type}</option>)}</select><ChevronDown className="pointer-events-none absolute right-2 top-2 h-4 w-4 text-slate-500" /></div>
 
         {notificationType === "Push Notifikasi" ? (
           <>
