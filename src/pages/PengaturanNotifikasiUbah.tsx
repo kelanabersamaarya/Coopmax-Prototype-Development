@@ -188,7 +188,7 @@ export default function PengaturanNotifikasiUbah() {
             id="save-success-title"
             className="mt-[31px] text-[30px] font-bold leading-[36px] text-[#5b5b5b]"
           >
-            Berhasil mengubah data
+            Berhasil Menyimpan Data
           </h2>
           <button
             type="button"
