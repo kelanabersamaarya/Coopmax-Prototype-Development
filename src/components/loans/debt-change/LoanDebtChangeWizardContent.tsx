@@ -406,17 +406,16 @@ export default function LoanDebtChangeWizard({
             </button>
           </header>
 
-          <div className="shrink-0">
-            <StepIndicator step={step} />
-            <Separator className="bg-slate-200" />
-          </div>
-
           <main
-            className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-5 py-6 sm:px-8"
+            className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
             style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
           >
-            {step === 1 ? (
-              <div className="grid gap-6">
+            <StepIndicator step={step} />
+            <Separator className="bg-slate-200" />
+
+            <div className="px-5 py-6 sm:px-8">
+              {step === 1 ? (
+                <div className="grid gap-6">
                 <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
                   <div className="flex items-center justify-between gap-4">
                     <div className="text-[14px] font-extrabold tracking-wide">
@@ -470,6 +469,7 @@ export default function LoanDebtChangeWizard({
             {step === 2 && savedAdjustment ? (
               <UnifiedBillingSimulationTable adjustedBill={savedAdjustment} />
             ) : null}
+            </div>
           </main>
 
           <footer className="flex shrink-0 items-center gap-[10px] border-t border-slate-200 px-6 py-4">
