@@ -22,7 +22,6 @@ const accountFields: AccountField[] = [
   { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
   { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
   { label: "Periode Waktu", value: "12 Bulan" },
-  { label: "Sisa Tenor", value: "11 Bulan" },
   { label: "Suku Bunga Saat Ini (%)", value: "12,00%" },
   { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
   { label: "Angsuran Pokok", value: "1.000.000,00" },
@@ -50,18 +49,7 @@ function AccountFields() {
     "Nama Nasabah",
     "Sektor Pinjaman",
     "Tujuan Pinjaman",
-    "Kolektor",
-    "Tanggal Dibuat",
-    "Tanggal Jatuh Tempo",
-    "Tanggal Pinjaman Aktif",
-    "Tanggal Transaksi Terakhir",
-    "Selisih Tanggal Transaksi",
-    "Tanggal Pembayaran Setiap Bulan",
-    "Periode Waktu",
-    "Sisa Tenor",
-    "Produk Pinjaman",
-    "Suku Bunga Saat Ini (%)",
-    "Metode Bunga Pinjaman",
+    "Status",
   ]);
 
   const visibleFields = expanded
