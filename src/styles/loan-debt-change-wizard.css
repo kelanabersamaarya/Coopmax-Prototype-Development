@@ -37,13 +37,13 @@
 */
 .loan-debt-billing-preview .grid.items-center.gap-0 {
   grid-template-columns:
-    110px
-    128px
-    130px
-    120px
-    140px
-    140px
-    130px !important;
+    125px
+    150px
+    145px
+    145px
+    155px
+    165px
+    145px !important;
 }
 
 /*

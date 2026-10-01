@@ -205,42 +205,42 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="w-full min-w-[1130px] border-collapse">
+        <table className="w-full min-w-[1370px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[100px] px-4 py-3">Angsuran Ke</th>
-              <th className="w-[110px] px-4 py-3">Jatuh Tempo</th>
-              <th className="w-[128px] px-4 py-3">
+              <th className="w-[110px] px-4 py-3">Angsuran Ke</th>
+              <th className="w-[125px] px-4 py-3">Jatuh Tempo</th>
+              <th className="w-[150px] px-4 py-3">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[130px] px-4 py-3">
+              <th className="w-[145px] px-4 py-3">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[120px] px-4 py-3">
+              <th className="w-[145px] px-4 py-3">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[140px] px-4 py-3">
+              <th className="w-[155px] px-4 py-3">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[140px] px-4 py-3">
+              <th className="w-[165px] px-4 py-3">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[130px] px-4 py-3">
+              <th className="w-[145px] px-4 py-3">
                 Tagihan
                 <br />
                 Denda
               </th>
-              <th className="w-[140px] px-4 py-3">
+              <th className="w-[160px] px-4 py-3">
                 Status
                 <br />
                 Tagihan

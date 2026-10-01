@@ -30,7 +30,7 @@ function syncTable(table: HTMLTableElement) {
   const interestHeader = headerCells[4];
   if (!interestHeader) return;
 
-  interestHeader.textContent = CURRENT_HEADER;
+  interestHeader.innerHTML = "Tagihan Bunga<br />Saat Ini";
   interestHeader.className =
     "w-[165px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
   interestHeader.style.setProperty("text-align", "left", "important");
@@ -45,10 +45,10 @@ function syncTable(table: HTMLTableElement) {
     adjustedHeader.className =
       "w-[175px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
     adjustedHeader.style.setProperty("text-align", "left", "important");
-    adjustedHeader.textContent = ADJUSTED_HEADER;
+    adjustedHeader.innerHTML = "Tagihan Bunga<br />Sesudah Penyesuaian";
     interestHeader.insertAdjacentElement("afterend", adjustedHeader);
   } else {
-    adjustedHeader.textContent = ADJUSTED_HEADER;
+    adjustedHeader.innerHTML = "Tagihan Bunga<br />Sesudah Penyesuaian";
     adjustedHeader.className =
       "w-[175px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
     adjustedHeader.style.setProperty("text-align", "left", "important");
