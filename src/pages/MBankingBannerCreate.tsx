@@ -123,7 +123,7 @@ export default function MBankingBannerCreate() {
       <section className="mt-8 rounded-[22px] bg-white px-5 py-7 shadow-[0_5px_24px_rgba(58,77,126,0.04)] md:px-12 md:py-8">
         <div className="grid gap-x-8 gap-y-2 md:grid-cols-[170px_minmax(0,1fr)]">
           <label htmlFor="banner-name" className="pt-1 text-[13px]">Judul Banner<span className="text-red-600">*</span></label>
-          <Input id="banner-name" value={bannerName} onChange={(event) => setBannerName(event.target.value)} className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
+          <Input id="banner-name" value={bannerName} onChange={(event) => setBannerName(event.target.value)} placeholder="Masukkan Judul Banner" className="h-8 rounded border-[#c7d3e4] bg-white text-[13px] shadow-none placeholder:text-white focus-visible:ring-1 focus-visible:ring-blue-400" />
 
           <label htmlFor="banner-date" className="pt-1 text-[13px]">Tanggal Publikasi<span className="text-red-600">*</span></label>
           <DateCalendar value={bannerDate} onChange={setBannerDate} />
