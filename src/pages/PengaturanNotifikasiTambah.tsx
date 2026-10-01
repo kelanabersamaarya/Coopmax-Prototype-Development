@@ -68,6 +68,9 @@ function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
 export default function PengaturanNotifikasiTambah() {
   const navigate = useNavigate();
   const [notificationType, setNotificationType] = useState("Informasi Transaksi");
+  const [transactionType, setTransactionType] = useState("");
+  const [transactionSearch, setTransactionSearch] = useState("");
+  const [transactionDropdownOpen, setTransactionDropdownOpen] = useState(false);
   const [smsActive, setSmsActive] = useState(false);
   const [pushActive, setPushActive] = useState(false);
   const [status, setStatus] = useState(true);
@@ -87,7 +90,20 @@ export default function PengaturanNotifikasiTambah() {
         </div>
 
         <label htmlFor="transaction-type" className="pt-1 text-[13px]">Jenis Transaksi<span className="text-red-600">*</span></label>
-        <div className="relative"><select id="transaction-type" className="h-8 w-full appearance-none rounded border border-[#c7d3e4] bg-white px-3 text-[13px] text-[#71809b]"><option>Pilih Jenis Transaksi</option>{notificationType === "Informasi Transaksi" && transactionTypes.map((type) => <option key={type}>{type}</option>)}</select><ChevronDown className="pointer-events-none absolute right-2 top-2 h-4 w-4 text-slate-500" /></div>
+        <div className="relative">
+          <button type="button" id="transaction-type" onClick={() => setTransactionDropdownOpen((open) => !open)} className="flex h-8 w-full items-center justify-between rounded border border-[#c7d3e4] bg-white px-3 text-left text-[13px] text-[#71809b]">
+            <span>{transactionType || "Pilih Jenis Transaksi"}</span>
+            <ChevronDown className="h-4 w-4 text-slate-500" />
+          </button>
+          {transactionDropdownOpen && notificationType === "Informasi Transaksi" && (
+            <div className="absolute left-0 right-0 top-9 z-20 rounded border border-[#c7d3e4] bg-white p-1 shadow-lg">
+              <Input autoFocus value={transactionSearch} onChange={(event) => setTransactionSearch(event.target.value)} placeholder="Cari jenis transaksi" className="mb-1 h-8 rounded border-slate-400 px-2 text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
+              <div className="max-h-32 overflow-y-auto">
+                {transactionTypes.filter((type) => type.toLowerCase().includes(transactionSearch.toLowerCase())).map((type) => <button type="button" key={type} onClick={() => { setTransactionType(type); setTransactionSearch(""); setTransactionDropdownOpen(false); }} className="block w-full px-2 py-1.5 text-left text-[13px] text-[#123664] hover:bg-[#5b42f5] hover:text-white">{type}</button>)}
+              </div>
+            </div>
+          )}
+        </div>
 
         {notificationType === "Push Notifikasi" ? (
           <>
