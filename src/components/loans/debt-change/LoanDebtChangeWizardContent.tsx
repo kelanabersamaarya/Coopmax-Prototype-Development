@@ -409,7 +409,10 @@ export default function LoanDebtChangeWizard({
           <StepIndicator step={step} />
           <Separator className="bg-slate-200" />
 
-          <main className="max-h-[62vh] overflow-auto px-5 py-6 sm:px-8">
+          <main
+            className="min-h-0 max-h-[62vh] overflow-x-hidden overflow-y-auto overscroll-contain px-5 py-6 sm:px-8"
+            style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
+          >
             {step === 1 ? (
               <div className="grid gap-6">
                 <div className="rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm">
