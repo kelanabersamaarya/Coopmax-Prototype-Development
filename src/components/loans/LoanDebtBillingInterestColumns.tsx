@@ -32,7 +32,7 @@ function syncTable(table: HTMLTableElement) {
 
   interestHeader.textContent = CURRENT_HEADER;
   interestHeader.className =
-    "w-[165px] px-4 py-3 text-right font-extrabold uppercase tracking-wide text-slate-700";
+    "w-[165px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
 
   let adjustedHeader = headerRow.querySelector< HTMLTableCellElement>(
     `th[${ADJUSTED_CELL_ATTRIBUTE}]`,
@@ -42,7 +42,7 @@ function syncTable(table: HTMLTableElement) {
     adjustedHeader = document.createElement("th");
     adjustedHeader.setAttribute(ADJUSTED_CELL_ATTRIBUTE, "true");
     adjustedHeader.className =
-      "w-[175px] px-4 py-3 text-right font-extrabold uppercase tracking-wide text-slate-700";
+      "w-[175px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
     adjustedHeader.textContent = ADJUSTED_HEADER;
     interestHeader.insertAdjacentElement("afterend", adjustedHeader);
   } else {
