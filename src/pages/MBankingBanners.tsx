@@ -175,9 +175,9 @@ export default function MBankingBanners() {
                   />
                 </th>
                 <th className={cn(headerClass, "relative")}>
-                  Status Push Notifikasi
+                  Status Push
                   <br />
-                  Banner
+                  Notifikasi Banner
                   <ChevronsUpDown
                     className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
                     strokeWidth={2.2}
