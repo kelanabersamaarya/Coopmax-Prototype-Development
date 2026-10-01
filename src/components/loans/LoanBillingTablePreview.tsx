@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BillingStatusBadge from "@/components/anggota/BillingStatusBadge";
 import type { BillingRow } from "@/components/anggota/BillingTableView2";
 import LoanInterestAdjustmentDialog, {
   type InterestAdjustment,
@@ -204,7 +205,7 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="w-full min-w-[990px] border-collapse">
+        <table className="w-full min-w-[1130px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
               <th className="w-[100px] px-4 py-3">Angsuran Ke</th>
@@ -238,6 +239,11 @@ export default function LoanBillingTablePreview({
                 Tagihan
                 <br />
                 Denda
+              </th>
+              <th className="w-[140px] px-4 py-3">
+                Status
+                <br />
+                Tagihan
               </th>
             </tr>
           </thead>
@@ -299,6 +305,9 @@ export default function LoanBillingTablePreview({
                   </td>
                   <td className="px-4 py-3 text-right">
                     <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
+                  </td>
+                  <td className="px-4 py-3">
+                    <BillingStatusBadge status="Belum Dibayar" />
                   </td>
                 </tr>
               );
