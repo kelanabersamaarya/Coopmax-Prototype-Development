@@ -6,12 +6,11 @@ import { ChevronDown } from "lucide-react";
 
 type AccountField = {
   label: string;
-  value: string;
+  value: React.ReactNode;
 };
 
 const accountFields: AccountField[] = [
   { label: "Kode Pinjaman", value: "SMG260004" },
-  { label: "Nama Nasabah", value: "Agus" },
   { label: "Sektor Pinjaman", value: "Umum" },
   { label: "Tujuan Pinjaman", value: "Konsumtif" },
   { label: "Kolektor", value: "Gina Farida M.M." },
@@ -22,54 +21,65 @@ const accountFields: AccountField[] = [
   { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
   { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
   { label: "Periode Waktu", value: "12 Bulan" },
-  { label: "Sisa Tenor", value: "12 Bulan" },
-  { label: "Suku Bunga Saat Ini (%)", value: "12,00%" },
+  { label: "Produk Pinjaman", value: "Pinjaman Billing" },
+  {
+    label: "Suku Bunga Saat Ini (%)",
+    value: (
+      <span className="inline-flex rounded-[5px] bg-[#3BB001] px-2.5 py-1 text-white">
+        12,00%
+      </span>
+    ),
+  },
   { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
+  { label: "Jumlah Pinjaman Diajukan", value: "12.000.000,00" },
+  { label: "Jumlah Pinjaman Disetujui", value: "12.000.000,00" },
+  { label: "Sisa Pinjaman", value: "10.553.571,00" },
   { label: "Angsuran Pokok", value: "1.000.000,00" },
   { label: "Angsuran Bunga", value: "120.000,00" },
-  { label: "Sisa Pinjaman", value: "10.553.571,00" },
-  { label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
-  { label: "Total Harus Bayar", value: "1.120.000,00" },
-  { label: "Total Bayar Bunga", value: "120.000,00" },
   { label: "Jumlah Hutang Pokok", value: "0 Kali" },
+  { label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
+  { label: "Hutang Bunga", value: "0,00" },
   { label: "Jumlah Hutang Bunga", value: "0 Kali" },
   { label: "Hutang Pokok", value: "0,00" },
-  { label: "Hutang Bunga", value: "0,00" },
+  { label: "Total Harus Bayar", value: "1.120.000,00" },
+  { label: "Total Bayar Bunga", value: "120.000,00" },
   { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
+  {
+    label: "Status",
+    value: (
+      <span className="inline-flex rounded-[5px] bg-[#3BB001] px-2.5 py-1 text-[11px] font-extrabold leading-none text-white">
+        Aktif / Sudah Dicairkan
+      </span>
+    ),
+  },
   { label: "Kolektibilitas", value: "-" },
   { label: "Satuan Grace Period", value: "Bulan" },
   { label: "Durasi Grace Period", value: "3" },
-  { label: "Status", value: "Aktif / Sudah Disalurkan" },
 ];
 
 function AccountFields() {
   const [expanded, setExpanded] = React.useState(false);
 
-  const compactLabels = new Set([
-    "Kode Pinjaman",
-    "Nama Nasabah",
-    "Sektor Pinjaman",
-    "Tujuan Pinjaman",
-    "Kolektor",
-    "Tanggal Dibuat",
-    "Tanggal Jatuh Tempo",
-    "Tanggal Pinjaman Aktif",
-    "Tanggal Transaksi Terakhir",
-    "Selisih Tanggal Transaksi",
-    "Tanggal Pembayaran Setiap Bulan",
-    "Periode Waktu",
-    "Sisa Tenor",
-    "Produk Pinjaman",
-    "Metode Bunga Pinjaman",
-  ]);
+  const compactFields = [
+    accountFields[0],
+    accountFields[1],
+    accountFields[2],
+    accountFields[3],
+    accountFields[4],
+    accountFields[5],
+    accountFields[6],
+    accountFields[7],
+    accountFields[12],
+    accountFields[13],
+    accountFields[15],
+    accountFields[16],
+  ];
 
-  const visibleFields = expanded
-    ? accountFields
-    : accountFields.filter((field) => compactLabels.has(field.label));
+  const visibleFields = expanded ? accountFields : compactFields;
 
   return (
     <>
-      <div className="loan-debt-reference-fields grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="loan-debt-reference-fields grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
         {visibleFields.map((field) => (
           <div key={field.label} className="min-w-0">
             <div className="text-[11px] font-semibold leading-tight text-white/85">
