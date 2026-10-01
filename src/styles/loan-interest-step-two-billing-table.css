@@ -133,6 +133,19 @@
   text-align: right !important;
 }
 
+/* Status Tagihan di sebelah kanan Tagihan Denda */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  th:nth-child(11),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  td:nth-child(11) {
+  display: block !important;
+  order: 8 !important;
+  flex: 1 1 15% !important;
+  text-align: left !important;
+}
+
 /* Sembunyikan kolom simulasi tambahan yang tidak ada pada tabel billing. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
@@ -154,16 +167,16 @@
   td:nth-child(8),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  th:nth-child(11),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(11),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
   th:nth-child(12),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  td:nth-child(12) {
+  td:nth-child(12),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  th:nth-child(13),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  td:nth-child(13) {
   display: none !important;
 }
 
@@ -200,6 +213,13 @@
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
+  th:nth-child(11) {
+  padding-left: 10px !important;
+  text-align: left !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
   td {
   min-height: 46px !important;
   padding-top: 13px !important;
@@ -224,4 +244,11 @@
   table[class*="min-w-[1780px]"]
   td:nth-child(10) {
   padding-right: 22px !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  td:nth-child(11) {
+  padding-left: 10px !important;
+  text-align: left !important;
 }
