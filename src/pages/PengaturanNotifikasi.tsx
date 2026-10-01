@@ -15,9 +15,9 @@ export default function PengaturanNotifikasi() {
 
   return (
     <div className="min-h-screen bg-[#f5f7fc] px-4 py-7 text-[#002060] md:px-8">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4 px-1">
         <h1 className="text-[22px] font-semibold">Pengaturan Notifikasi <span className="text-[16px] font-normal">Daftar</span></h1>
-        <Button onClick={() => navigate("/pengaturan-notifikasi/tambah")} className="h-9 bg-transparent text-[#526784] shadow-none hover:bg-white"><Plus className="mr-2 h-4 w-4" />Tambah</Button>
+        <Button onClick={() => navigate("/pengaturan-notifikasi/tambah")} className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50"><Plus className="mr-2 h-4 w-4" />Tambah</Button>
       </div>
       <section className="mt-8 rounded-[22px] bg-white px-3 py-6 shadow-sm md:px-5">
         <div className="mb-4 text-[13px] text-slate-800">Tampilkan <select className="mx-1 h-7 rounded border border-slate-300 bg-white px-1"><option>5</option></select> entri</div>
