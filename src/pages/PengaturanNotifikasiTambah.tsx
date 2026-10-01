@@ -106,7 +106,7 @@ export default function PengaturanNotifikasiTambah() {
     <section className="mt-8 rounded-[22px] bg-white px-5 py-8 shadow-sm md:px-12">
       <div className="grid gap-x-8 gap-y-3 md:grid-cols-[170px_minmax(0,1fr)]">
         <label htmlFor="notification-title" className="pt-1 text-[13px]">Judul<span className="text-red-600">*</span></label>
-        <Input id="notification-title" placeholder="Masukkan Judul Notifikasi" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
+        <Input id="notification-title" placeholder="Masukkan Judul Notifikasi" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none placeholder:text-white focus-visible:ring-1 focus-visible:ring-blue-400" />
 
         <span className="pt-1 text-[13px]">Jenis Notifikasi<span className="text-red-600">*</span></span>
         <div className="flex flex-wrap items-center gap-4 text-[13px]">
