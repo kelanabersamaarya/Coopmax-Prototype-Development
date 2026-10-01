@@ -47,10 +47,19 @@ export default function PengaturanNotifikasiTambah() {
         <label htmlFor="transaction-type" className="pt-1 text-[13px]">Jenis Transaksi<span className="text-red-600">*</span></label>
         <div className="relative"><select id="transaction-type" className="h-8 w-full appearance-none rounded border border-[#c7d3e4] bg-white px-3 text-[13px] text-[#71809b]"><option>Pilih Jenis Transaksi</option></select><ChevronDown className="pointer-events-none absolute right-2 top-2 h-4 w-4 text-slate-500" /></div>
 
-        <span className="pt-1 text-[13px]">Aktifkan SMS</span><Toggle value={smsActive} onChange={() => setSmsActive((value) => !value)} />
-        <span className="pt-1 text-[13px]">Aktifkan (Push Notification)</span><Toggle value={pushActive} onChange={() => setPushActive((value) => !value)} />
+        {notificationType === "Push Notifikasi" ? (
+          <>
+            <span className="pt-1 text-[13px]">Aktifkan (Push Notification)</span>
+            <Toggle value={pushActive} onChange={() => setPushActive((value) => !value)} />
+          </>
+        ) : (
+          <>
+            <span className="pt-1 text-[13px]">Aktifkan SMS</span>
+            <Toggle value={smsActive} onChange={() => setSmsActive((value) => !value)} />
+          </>
+        )}
 
-        {!pushActive && <>
+        {notificationType !== "Push Notifikasi" && <>
           <label htmlFor="message-format" className="pt-1 text-[13px]">Format Pesan<span className="text-red-600">*</span></label>
           <div className="grid gap-6 lg:grid-cols-[365px_minmax(0,1fr)]"><textarea id="message-format" placeholder="Tulis contoh pesan anda disini. Anda dapat menggunakan variabel yang tersedia di sebelah kanan" className="h-[212px] resize-none rounded border border-[#c7d3e4] p-2 text-[13px] text-[#5d7194] outline-none placeholder:text-[#7083a2] focus:border-blue-400" /><div className="text-[13px] leading-5"><p>Daftar variabel pesan:</p><ul className="list-disc pl-5">{messageVariables.map(([variable, description]) => <li key={variable}><strong>{variable}</strong>: {description}</li>)}</ul></div></div>
         </>}
