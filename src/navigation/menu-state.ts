@@ -7,7 +7,6 @@ export function isLoanSectionActive(pathname: string) {
     pathname.startsWith("/loans") ||
     pathname.startsWith("/anggota/transaksi") ||
     pathname.startsWith("/laporan") ||
-    pathname.startsWith("/pengaturan-umum") ||
     pathname.startsWith("/sak-ep-cabang")
   );
 }

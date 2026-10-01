@@ -144,7 +144,6 @@ export default function Index() {
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
     location.pathname.startsWith("/laporan") ||
-    location.pathname.startsWith("/pengaturan-umum") ||
     location.pathname.startsWith("/sak-ep-cabang");
 
   const isObsArea =
