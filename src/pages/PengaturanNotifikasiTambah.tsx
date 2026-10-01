@@ -3,6 +3,7 @@ import { Check, CheckSquare, ChevronDown, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import NotificationSaveConfirmationModal from "@/components/settings/NotificationSaveConfirmationModal";
 
 const messageVariables = [
   ["{DariProduk}", "Untuk menampilkan nama produk sumber (transaksi pemindahbukuan)"],
@@ -73,47 +74,14 @@ export default function PengaturanNotifikasiTambah() {
       </div>
       <div className="mt-7 flex justify-end gap-1"><Button type="button" onClick={() => navigate("/pengaturan-notifikasi")} className="h-10 rounded-md bg-[#8494af] px-5 text-[13px] font-semibold text-white hover:bg-[#6f7f9a]"><X className="mr-1 h-3 w-3" />Batalkan</Button><Button type="button" onClick={() => setShowConfirmation(true)} className="h-10 rounded-md bg-[#31b900] px-5 text-[13px] font-semibold text-white hover:bg-[#279b00]"><CheckSquare className="mr-1 h-4 w-4" />Simpan</Button></div>
     </section>
-    {showConfirmation && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="save-confirmation-title"
-          className="w-[calc(100vw-14px)] max-w-[528px] rounded-[5px] bg-white px-4 pb-[17px] pt-[40px] text-center shadow-2xl sm:w-[528px] sm:px-6"
-        >
-          <svg aria-hidden="true" viewBox="0 0 92 92" className="mx-auto h-[92px] w-[92px] text-[#f8b37d]">
-            <circle cx="46" cy="46" r="44" fill="none" stroke="#f8c9a4" strokeWidth="4" />
-            <path d="M46 23v30M46 66v1" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="6" />
-          </svg>
-          <h2
-            id="save-confirmation-title"
-            className="mt-[31px] text-[30px] font-bold leading-[36px] text-[#526070]"
-          >
-            Yakin untuk menyimpan data ?
-          </h2>
-          <div className="mx-auto mt-[29px] flex w-fit items-center gap-2">
-            <button
-              type="button"
-              autoFocus
-              onClick={() => {
-                setShowConfirmation(false);
-                setShowSuccess(true);
-              }}
-              className="h-[48px] w-[104px] rounded-[5px] bg-[#398fd6] text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]"
-            >
-              Yes
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowConfirmation(false)}
-              className="h-[48px] w-[126px] rounded-[5px] bg-[#ababab] text-[16px] font-semibold text-white hover:bg-[#969696]"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
+    <NotificationSaveConfirmationModal
+      open={showConfirmation}
+      onConfirm={() => {
+        setShowConfirmation(false);
+        setShowSuccess(true);
+      }}
+      onCancel={() => setShowConfirmation(false)}
+    />
     {showSuccess && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
         <div
