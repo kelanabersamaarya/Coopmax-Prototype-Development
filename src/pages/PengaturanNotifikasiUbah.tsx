@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, CheckSquare, ChevronDown, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -100,6 +100,19 @@ export default function PengaturanNotifikasiUbah() {
   const [status, setStatus] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setTransactionDropdownOpen(false);
+        setReminderDropdownOpen(false);
+        setPushDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   return <div className="min-h-screen bg-[#f5f7fc] px-4 py-7 text-[#002060] md:px-8">
     <h1 className="px-1 text-[22px] font-semibold">Pengaturan Notifikasi <span className="text-[16px] font-normal">Ubah</span></h1>
@@ -114,7 +127,7 @@ export default function PengaturanNotifikasiUbah() {
         </div>
 
         <label htmlFor="transaction-type" className="pt-1 text-[13px]">{notificationType !== "Informasi Transaksi" ? "Key Notifikasi" : "Jenis Transaksi"}<span className="text-red-600">*</span></label>
-        <div className="relative">
+        <div ref={dropdownRef} className="relative">
           <button type="button" id="transaction-type" onClick={() => notificationType === "Informasi Pengingat" ? setReminderDropdownOpen((open) => !open) : notificationType === "Push Notifikasi" ? setPushDropdownOpen((open) => !open) : setTransactionDropdownOpen((open) => !open)} className="flex h-8 w-full items-center justify-between rounded border border-[#c7d3e4] bg-white px-3 text-left text-[13px] text-[#71809b]">
             <span>{notificationType === "Informasi Pengingat" ? (reminderKey || "Pilih Key Pengingat") : notificationType === "Push Notifikasi" ? (pushKey || "Pilih Key Custom") : (transactionType || "Pilih Jenis Transaksi")}</span>
             <ChevronDown className="h-4 w-4 text-slate-500" />
