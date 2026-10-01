@@ -124,13 +124,9 @@ function UnifiedBillingSimulationTable({
 }) {
   const [page, setPage] = React.useState(1);
   const pageSize = 10;
-  const visibleBillingRows = billingRows.slice(1);
-  const pageCount = Math.max(1, Math.ceil(visibleBillingRows.length / pageSize));
+  const pageCount = Math.max(1, Math.ceil(billingRows.length / pageSize));
   const start = (page - 1) * pageSize;
-  const pagedRows = visibleBillingRows.slice(start, start + pageSize).map((row, index) => ({
-    row,
-    installmentNo: start + index + 2,
-  }));
+  const pagedRows = billingRows.slice(start, start + pageSize);
 
   const previousInterest = parseIdr(
     adjustedBill.adjustment.previousInterest ?? "0",
@@ -204,7 +200,7 @@ function UnifiedBillingSimulationTable({
           </thead>
 
           <tbody>
-            {pagedRows.map(({ row, installmentNo }, index) => {
+            {pagedRows.map((row, index) => {
               const [
                 dueDate,
                 totalBill,
@@ -215,6 +211,7 @@ function UnifiedBillingSimulationTable({
                 penalty,
               ] = row;
 
+              const installmentNo = start + index + 1;
               const isAdjustedRow = installmentNo === adjustedBill.installmentNo;
               const totalBefore = parseIdr(totalBill);
               const totalAfter = isAdjustedRow
