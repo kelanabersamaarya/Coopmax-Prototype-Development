@@ -408,7 +408,13 @@ export default function LoanDebtChangeWizard({
 
           <main
             className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
-            style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
+            onWheel={(event) => {
+              if (event.deltaY === 0) return;
+
+              event.preventDefault();
+              event.currentTarget.scrollTop += event.deltaY;
+            }}
+            style={{ WebkitOverflowScrolling: "touch", touchAction: "auto" }}
           >
             <StepIndicator step={step} />
             <Separator className="bg-slate-200" />
