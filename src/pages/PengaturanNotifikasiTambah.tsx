@@ -59,6 +59,14 @@ const transactionTypes = [
   "Setoran via BRI",
 ];
 
+const reminderKeys = [
+  "pengingat_simpanan_wajib",
+  "pengingat_simpanan_berjangka",
+  "pengingat_angsuran",
+  "pengingat_jatuh_tempo_pinjaman",
+  "info_pencairan_pinjaman",
+];
+
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return <button type="button" aria-pressed={value} onClick={onChange} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${value ? "bg-[#5b42f5]" : "bg-[#a297ee]"}`}>
     {value ? <><span className="pl-1">ON</span><span className="ml-auto h-[18px] w-[18px] rounded-full bg-white" /></> : <><span className="h-[18px] w-[18px] rounded-full bg-white" /><span className="ml-auto pr-1">OFF</span></>}
@@ -71,6 +79,9 @@ export default function PengaturanNotifikasiTambah() {
   const [transactionType, setTransactionType] = useState("");
   const [transactionSearch, setTransactionSearch] = useState("");
   const [transactionDropdownOpen, setTransactionDropdownOpen] = useState(false);
+  const [reminderKey, setReminderKey] = useState("");
+  const [reminderSearch, setReminderSearch] = useState("");
+  const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
   const [smsActive, setSmsActive] = useState(false);
   const [pushActive, setPushActive] = useState(false);
   const [status, setStatus] = useState(true);
@@ -86,21 +97,25 @@ export default function PengaturanNotifikasiTambah() {
 
         <span className="pt-1 text-[13px]">Jenis Notifikasi<span className="text-red-600">*</span></span>
         <div className="flex flex-wrap items-center gap-4 text-[13px]">
-          {["Informasi Transaksi", "Informasi Pengingat", "Push Notifikasi"].map((type) => <label key={type} className="flex items-center gap-1.5"><input type="radio" name="notification-type" checked={notificationType === type} onChange={() => setNotificationType(type)} className="h-4 w-4 accent-blue-500" />{type}</label>)}
+          {["Informasi Transaksi", "Informasi Pengingat", "Push Notifikasi"].map((type) => <label key={type} className="flex items-center gap-1.5"><input type="radio" name="notification-type" checked={notificationType === type} onChange={() => { setNotificationType(type); setTransactionType(""); setReminderKey(""); setTransactionDropdownOpen(false); setReminderDropdownOpen(false); }} className="h-4 w-4 accent-blue-500" />{type}</label>)}
         </div>
 
-        <label htmlFor="transaction-type" className="pt-1 text-[13px]">Jenis Transaksi<span className="text-red-600">*</span></label>
+        <label htmlFor="transaction-type" className="pt-1 text-[13px]">{notificationType === "Informasi Pengingat" ? "Key Notifikasi" : "Jenis Transaksi"}<span className="text-red-600">*</span></label>
         <div className="relative">
-          <button type="button" id="transaction-type" onClick={() => setTransactionDropdownOpen((open) => !open)} className="flex h-8 w-full items-center justify-between rounded border border-[#c7d3e4] bg-white px-3 text-left text-[13px] text-[#71809b]">
-            <span>{transactionType || "Pilih Jenis Transaksi"}</span>
+          <button type="button" id="transaction-type" onClick={() => notificationType === "Informasi Pengingat" ? setReminderDropdownOpen((open) => !open) : setTransactionDropdownOpen((open) => !open)} className="flex h-8 w-full items-center justify-between rounded border border-[#c7d3e4] bg-white px-3 text-left text-[13px] text-[#71809b]">
+            <span>{notificationType === "Informasi Pengingat" ? (reminderKey || "Pilih Key Pengingat") : (transactionType || "Pilih Jenis Transaksi")}</span>
             <ChevronDown className="h-4 w-4 text-slate-500" />
           </button>
-          {transactionDropdownOpen && notificationType === "Informasi Transaksi" && (
+          {notificationType === "Informasi Pengingat" && reminderDropdownOpen && (
+            <div className="absolute left-0 right-0 top-9 z-20 rounded border border-[#c7d3e4] bg-white p-1 shadow-lg">
+              <Input autoFocus value={reminderSearch} onChange={(event) => setReminderSearch(event.target.value)} placeholder="Cari key pengingat" className="mb-1 h-8 rounded border-slate-400 px-2 text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
+              <div className="max-h-40 overflow-y-auto">{reminderKeys.filter((key) => key.toLowerCase().includes(reminderSearch.toLowerCase())).map((key) => <button type="button" key={key} onClick={() => { setReminderKey(key); setReminderSearch(""); setReminderDropdownOpen(false); }} className="block w-full px-2 py-1.5 text-left text-[13px] text-[#123664] hover:bg-[#5b42f5] hover:text-white">{key}</button>)}</div>
+            </div>
+          )}
+          {notificationType === "Informasi Transaksi" && transactionDropdownOpen && (
             <div className="absolute left-0 right-0 top-9 z-20 rounded border border-[#c7d3e4] bg-white p-1 shadow-lg">
               <Input autoFocus value={transactionSearch} onChange={(event) => setTransactionSearch(event.target.value)} placeholder="Cari jenis transaksi" className="mb-1 h-8 rounded border-slate-400 px-2 text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
-              <div className="max-h-40 overflow-y-auto">
-                {transactionTypes.filter((type) => type.toLowerCase().includes(transactionSearch.toLowerCase())).map((type) => <button type="button" key={type} onClick={() => { setTransactionType(type); setTransactionSearch(""); setTransactionDropdownOpen(false); }} className="block w-full px-2 py-1.5 text-left text-[13px] text-[#123664] hover:bg-[#5b42f5] hover:text-white">{type}</button>)}
-              </div>
+              <div className="max-h-40 overflow-y-auto">{transactionTypes.filter((type) => type.toLowerCase().includes(transactionSearch.toLowerCase())).map((type) => <button type="button" key={type} onClick={() => { setTransactionType(type); setTransactionSearch(""); setTransactionDropdownOpen(false); }} className="block w-full px-2 py-1.5 text-left text-[13px] text-[#123664] hover:bg-[#5b42f5] hover:text-white">{type}</button>)}</div>
             </div>
           )}
         </div>
