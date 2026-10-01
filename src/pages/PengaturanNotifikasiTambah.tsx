@@ -98,7 +98,7 @@ export default function PengaturanNotifikasiTambah() {
           {transactionDropdownOpen && notificationType === "Informasi Transaksi" && (
             <div className="absolute left-0 right-0 top-9 z-20 rounded border border-[#c7d3e4] bg-white p-1 shadow-lg">
               <Input autoFocus value={transactionSearch} onChange={(event) => setTransactionSearch(event.target.value)} placeholder="Cari jenis transaksi" className="mb-1 h-8 rounded border-slate-400 px-2 text-[13px] shadow-none focus-visible:ring-1 focus-visible:ring-blue-400" />
-              <div className="max-h-32 overflow-y-auto">
+              <div className="max-h-40 overflow-y-auto">
                 {transactionTypes.filter((type) => type.toLowerCase().includes(transactionSearch.toLowerCase())).map((type) => <button type="button" key={type} onClick={() => { setTransactionType(type); setTransactionSearch(""); setTransactionDropdownOpen(false); }} className="block w-full px-2 py-1.5 text-left text-[13px] text-[#123664] hover:bg-[#5b42f5] hover:text-white">{type}</button>)}
               </div>
             </div>
