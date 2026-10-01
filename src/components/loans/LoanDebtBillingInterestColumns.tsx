@@ -33,6 +33,7 @@ function syncTable(table: HTMLTableElement) {
   interestHeader.textContent = CURRENT_HEADER;
   interestHeader.className =
     "w-[165px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
+  interestHeader.style.setProperty("text-align", "left", "important");
 
   let adjustedHeader = headerRow.querySelector< HTMLTableCellElement>(
     `th[${ADJUSTED_CELL_ATTRIBUTE}]`,
@@ -43,10 +44,14 @@ function syncTable(table: HTMLTableElement) {
     adjustedHeader.setAttribute(ADJUSTED_CELL_ATTRIBUTE, "true");
     adjustedHeader.className =
       "w-[175px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
+    adjustedHeader.style.setProperty("text-align", "left", "important");
     adjustedHeader.textContent = ADJUSTED_HEADER;
     interestHeader.insertAdjacentElement("afterend", adjustedHeader);
   } else {
     adjustedHeader.textContent = ADJUSTED_HEADER;
+    adjustedHeader.className =
+      "w-[175px] px-4 py-3 text-left font-extrabold uppercase tracking-wide text-slate-700";
+    adjustedHeader.style.setProperty("text-align", "left", "important");
   }
 
   Array.from(table.tBodies).forEach((tbody) => {
