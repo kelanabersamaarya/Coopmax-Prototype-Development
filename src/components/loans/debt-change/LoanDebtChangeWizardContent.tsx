@@ -457,18 +457,6 @@ export default function LoanDebtChangeWizard({
                   onInterestAdjustmentSaved={setSavedAdjustment}
                 />
 
-                {savedAdjustment ? (
-                  <div className="rounded-[8px] bg-emerald-50 px-4 py-3 text-[13px] font-semibold text-emerald-800 ring-1 ring-emerald-200">
-                    Penyesuaian bunga pada angsuran ke-
-                    {savedAdjustment.installmentNo} ({savedAdjustment.dueDate})
-                    sudah disimpan.
-                  </div>
-                ) : (
-                  <div className="rounded-[8px] bg-amber-50 px-4 py-3 text-[13px] font-semibold text-amber-800 ring-1 ring-amber-200">
-                    Simpan satu penyesuaian pada kolom Tagihan Bunga untuk
-                    melanjutkan ke pratinjau.
-                  </div>
-                )}
               </div>
             ) : null}
 
