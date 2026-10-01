@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, CheckSquare, ChevronDown, X } from "lucide-react";
+import { Check, CheckSquare, ChevronDown, CircleAlert, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,11 +81,8 @@ export default function PengaturanNotifikasiTambah() {
           aria-labelledby="save-confirmation-title"
           className="w-[calc(100vw-14px)] max-w-[528px] rounded-[5px] bg-white px-4 pb-[17px] pt-[40px] text-center shadow-2xl sm:w-[528px] sm:px-6"
         >
-          <div
-            aria-hidden="true"
-            className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#f8c9a4] text-[58px] font-light leading-none text-[#f8b37d]"
-          >
-            !
+          <div aria-hidden="true" className="mx-auto flex h-[92px] w-[92px] items-center justify-center text-[#f8b37d]">
+            <CircleAlert className="h-[92px] w-[92px]" strokeWidth={1.8} />
           </div>
           <h2
             id="save-confirmation-title"
