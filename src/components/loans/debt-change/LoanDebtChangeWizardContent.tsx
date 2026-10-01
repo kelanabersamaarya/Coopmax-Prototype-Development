@@ -146,16 +146,16 @@ function UnifiedBillingSimulationTable({
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
-        Simulasi Perubahan Nominal Bunga
+        SIMULASI PERUBAHAN HUTANG BUNGA
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[1880px] border-collapse">
+        <table className="w-full min-w-[1880px] border-collapse [&_th]:text-left">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[86px] px-3 py-3">Angsuran Ke</th>
               <th className="w-[112px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[132px] px-3 py-3 text-right">
+              <th className="w-[132px] px-3 py-3 text-left">
                 Tagihan
                 <br />
                 Pokok
@@ -393,7 +393,12 @@ export default function LoanDebtChangeWizard({
         <DialogContent
           data-loan-debt-wizard="true"
           data-loan-debt-step={step}
-          className="flex h-[calc(100vh-2rem)] max-h-[calc(100vh-2rem)] min-h-0 w-[calc(100vw-1rem)] max-w-[1040px] flex-col gap-0 overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden"
+          className={cn(
+            "flex min-h-0 w-[calc(100vw-1rem)] max-w-[1040px] flex-col gap-0 overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden",
+            step === 2
+              ? "h-auto max-h-[calc(100vh-2rem)]"
+              : "h-[calc(100vh-2rem)] max-h-[calc(100vh-2rem)]",
+          )}
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
             <h2 className="text-[18px] font-extrabold tracking-tight text-slate-900">
