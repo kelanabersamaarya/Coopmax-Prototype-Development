@@ -19,12 +19,14 @@ export default function SidebarMobileMenu() {
   const location = useLocation();
   const isPaymentLinkStatusMobile =
     location.pathname === "/mobile/status-pembayaran-payment-link";
-  const isMBankingTransactions =
-    location.pathname === "/mobile/mbanking-transactions";
+  const isMBankingArea =
+    location.pathname === "/mobile/m-banking" ||
+    location.pathname.startsWith("/mobile/mbanking-") ||
+    location.pathname.startsWith("/mobile/new-mbanking");
   const isActive =
     location.pathname.startsWith("/mobile") &&
     !isPaymentLinkStatusMobile &&
-    !isMBankingTransactions;
+    !isMBankingArea;
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const [open, setOpen] = React.useState<boolean>(isActive);
 

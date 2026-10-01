@@ -15,7 +15,8 @@ export default function SidebarMBankingMenu({ basePath = "/mobile" }: SidebarMBa
   const isActive =
     location.pathname.startsWith(route("/mbanking-transactions")) ||
     location.pathname.startsWith(route("/mbanking-banners")) ||
-    location.pathname.startsWith(route("/m-banking"));
+    location.pathname.startsWith(route("/m-banking")) ||
+    location.pathname.startsWith("/mobile/new-mbanking");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
