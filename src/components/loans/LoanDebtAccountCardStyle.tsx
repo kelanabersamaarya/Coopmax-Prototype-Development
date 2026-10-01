@@ -49,6 +49,16 @@ function AccountFields() {
     "Nama Nasabah",
     "Sektor Pinjaman",
     "Tujuan Pinjaman",
+    "Tanggal Jatuh Tempo",
+    "Tanggal Pinjaman Aktif",
+    "Tanggal Pembayaran Setiap Bulan",
+    "Periode Waktu",
+    "Suku Bunga Saat Ini (%)",
+    "Metode Bunga Pinjaman",
+    "Angsuran Pokok",
+    "Angsuran Bunga",
+    "Sisa Pinjaman",
+    "Total Harus Bayar",
     "Status",
   ]);
 
