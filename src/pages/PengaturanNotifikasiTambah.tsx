@@ -49,7 +49,7 @@ export default function PengaturanNotifikasiTambah() {
 
         {notificationType === "Push Notifikasi" ? (
           <>
-            <span className="pt-1 text-[13px]">Aktifkan (Push Notification)</span>
+            <span className="pt-1 text-[13px]">Push Notifikasi via M-Banking</span>
             <Toggle value={pushActive} onChange={() => setPushActive((value) => !value)} />
           </>
         ) : (
