@@ -100,10 +100,10 @@ export default function PengaturanNotifikasiTambah() {
           {["Informasi Transaksi", "Informasi Pengingat", "Push Notifikasi"].map((type) => <label key={type} className="flex items-center gap-1.5"><input type="radio" name="notification-type" checked={notificationType === type} onChange={() => { setNotificationType(type); setTransactionType(""); setReminderKey(""); setTransactionDropdownOpen(false); setReminderDropdownOpen(false); }} className="h-4 w-4 accent-blue-500" />{type}</label>)}
         </div>
 
-        <label htmlFor="transaction-type" className="pt-1 text-[13px]">{notificationType === "Informasi Pengingat" ? "Key Notifikasi" : "Jenis Transaksi"}<span className="text-red-600">*</span></label>
+        <label htmlFor="transaction-type" className="pt-1 text-[13px]">{notificationType !== "Informasi Transaksi" ? "Key Notifikasi" : "Jenis Transaksi"}<span className="text-red-600">*</span></label>
         <div className="relative">
           <button type="button" id="transaction-type" onClick={() => notificationType === "Informasi Pengingat" ? setReminderDropdownOpen((open) => !open) : setTransactionDropdownOpen((open) => !open)} className="flex h-8 w-full items-center justify-between rounded border border-[#c7d3e4] bg-white px-3 text-left text-[13px] text-[#71809b]">
-            <span>{notificationType === "Informasi Pengingat" ? (reminderKey || "Pilih Key Pengingat") : (transactionType || "Pilih Jenis Transaksi")}</span>
+            <span>{notificationType === "Informasi Pengingat" ? (reminderKey || "Pilih Key Pengingat") : (transactionType || "Pilih Key Notifikasi")}</span>
             <ChevronDown className="h-4 w-4 text-slate-500" />
           </button>
           {notificationType === "Informasi Pengingat" && reminderDropdownOpen && (
