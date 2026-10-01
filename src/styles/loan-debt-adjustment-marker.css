@@ -1,9 +1,4 @@
-/*
-  Ubah Nominal Bunga Pinjaman:
-  Penanda dan tooltip hanya tampil pada baris yang benar-benar mengalami
-  penyesuaian bunga. Nilai setelah label di dalam tooltip tampil tebal.
-*/
-
+/* Detail penyesuaian hanya ditampilkan ketika ikon informasi diarahkan mouse. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
@@ -11,14 +6,13 @@
   position: relative !important;
   overflow: visible !important;
   padding-right: 34px !important;
-  font-weight: 700 !important;
 }
 
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell.text-\[\#2563EB\]::before {
-  content: "i";
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]
+  .loan-debt-adjustment-info {
   position: absolute;
   right: 8px;
   top: 50%;
@@ -43,10 +37,11 @@
   tbody
   td.loan-debt-adjustment-cell.text-\[\#2563EB\]
   .loan-debt-adjustment-tooltip {
-  position: absolute;
+  position: absolute !important;
   right: 0;
   top: calc(100% + 9px);
   z-index: 100;
+  display: block !important;
   width: 280px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -58,10 +53,11 @@
   font-weight: 400;
   line-height: 1.45;
   text-align: left;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
   transform: translateY(-4px);
-  transition: opacity 150ms ease, transform 150ms ease;
+  transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
 }
 
 [data-loan-debt-wizard="true"]
@@ -98,15 +94,14 @@
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
-  td.loan-debt-adjustment-cell.text-\[\#2563EB\]:hover
+  td.loan-debt-adjustment-cell.text-\[\#2563EB\]:has(.loan-debt-adjustment-info:hover)
   .loan-debt-adjustment-tooltip {
-  opacity: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
   transform: translateY(0);
 }
 
-/* Tooltip hanya muncul pada kolom Nominal Bunga Setelah Penyesuaian.
-   Kolom sisa bunga menyimpan marker visual tanpa salinan detail tooltip,
-   sehingga informasi tidak lagi bertumpuk. */
+/* Kolom sisa bunga tidak menampilkan tooltip kedua. */
 [data-loan-debt-wizard="true"]
   table.min-w-\[1880px\]
   tbody
