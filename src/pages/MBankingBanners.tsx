@@ -257,7 +257,7 @@ export default function MBankingBanners() {
                             Ubah
                           </TooltipContent>
                         </Tooltip>
-                        <Tooltip>
+                        {banner.active && <Tooltip>
                           <TooltipTrigger asChild>
                             <button
                               type="button"
@@ -271,7 +271,7 @@ export default function MBankingBanners() {
                           <TooltipContent side="top" sideOffset={8} className="w-[260px] rounded-none bg-[#153766] px-4 py-2.5 text-center text-[12px] font-semibold leading-[15px] text-white shadow-lg">
                             {notificationTooltip}
                           </TooltipContent>
-                        </Tooltip>
+                        </Tooltip>}
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button type="button" aria-label="Hapus banner" className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#e52d4f] text-white transition-colors hover:bg-[#c91f3e]">
