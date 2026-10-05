@@ -86,6 +86,34 @@ export default function MBankingBannerDetail() {
           <h2 className="text-[15px] font-bold uppercase">Konten Banner</h2>
           <p className="mt-5 whitespace-pre-wrap text-[13px] text-[#123664]">{banner.content || "-"}</p>
         </div>
+
+        <div className="mt-8 border-t border-[#d8dde7] pt-4">
+          <h2 className="text-[15px] font-bold uppercase">Riwayat Push Notifikasi</h2>
+          <div className="mt-4 overflow-x-auto rounded border border-[#cbd5e1]">
+            <table className="w-full min-w-[620px] border-collapse text-left text-[12px]">
+              <thead className="bg-[#f7f9fc] uppercase text-[#7184a2]">
+                <tr>
+                  <th className="w-[80px] border-b border-r border-[#cbd5e1] px-3 py-2 font-semibold">No.</th>
+                  <th className="border-b border-r border-[#cbd5e1] px-3 py-2 font-semibold">User</th>
+                  <th className="border-b border-[#cbd5e1] px-3 py-2 font-semibold">Tanggal &amp; Waktu Push Notifikasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["1", "Arya", "24-09-2026 10:15:32"],
+                  ["2", "Budi", "23-09-2026 14:28:07"],
+                  ["3", "Citra", "22-09-2026 09:42:18"],
+                ].map(([number, user, pushedAt]) => (
+                  <tr key={number} className="text-[#123664]">
+                    <td className="border-b border-r border-[#d8e0ec] px-3 py-2">{number}</td>
+                    <td className="border-b border-r border-[#d8e0ec] px-3 py-2">{user}</td>
+                    <td className="border-b border-[#d8e0ec] px-3 py-2">{pushedAt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
     </div>
   );
