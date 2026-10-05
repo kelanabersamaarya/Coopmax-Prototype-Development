@@ -173,8 +173,10 @@ export default function PengaturanNotifikasiTambah() {
 
         {notificationType === "Push Notifikasi" && <PushMessageFormatFields />}
 
-        <label htmlFor="minimum-amount" className="pt-1 text-[13px]">Jumlah Minimal</label><Input id="minimum-amount" defaultValue="0,00" readOnly={notificationType === "Push Notifikasi"} className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none read-only:cursor-not-allowed read-only:bg-slate-100 read-only:text-slate-400" />
-        <label htmlFor="maximum-amount" className="pt-1 text-[13px]">Jumlah Maksimal</label><Input id="maximum-amount" defaultValue="0,00" readOnly={notificationType === "Push Notifikasi"} className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none read-only:cursor-not-allowed read-only:bg-slate-100 read-only:text-slate-400" />
+        {notificationType !== "Push Notifikasi" && <>
+          <label htmlFor="minimum-amount" className="pt-1 text-[13px]">Jumlah Minimal</label><Input id="minimum-amount" defaultValue="0,00" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" />
+          <label htmlFor="maximum-amount" className="pt-1 text-[13px]">Jumlah Maksimal</label><Input id="maximum-amount" defaultValue="0,00" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" />
+        </>}
         {notificationType !== "Push Notifikasi" && <>
           <label htmlFor="reminder-days" className="pt-1 text-[13px]">Hari Pengingat</label><div><Input id="reminder-days" className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none" /><p className="mt-1 text-[13px] text-[#637ba3]">Jumlah hari sebelum tanggal jadwal. Contoh : hari pengingat diatur "1", tanggal angsuran adalah "25", maka notifikasi dikirim pada tanggal 24</p></div>
         </>}
