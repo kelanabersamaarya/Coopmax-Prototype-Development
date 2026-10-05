@@ -90,11 +90,11 @@ export default function MBankingBannerDetail() {
         <div className="mt-8 border-t border-[#d8dde7] pt-4">
           <h2 className="text-[15px] font-bold uppercase">Riwayat Push Notifikasi</h2>
           <div className="mt-4 overflow-x-auto rounded border border-[#cbd5e1]">
-            <table className="w-full min-w-[620px] border-collapse text-left text-[12px]">
-              <thead className="bg-[#f7f9fc] uppercase text-[#7184a2]">
+            <table className="w-full min-w-[620px] border-collapse bg-white text-left text-[12px]">
+              <thead className="bg-white uppercase text-[#7184a2]">
                 <tr>
-                  <th className="w-[80px] border-b border-r border-[#cbd5e1] px-3 py-2 font-semibold">No.</th>
-                  <th className="border-b border-r border-[#cbd5e1] px-3 py-2 font-semibold">User</th>
+                  <th className="w-[80px] border-b border-r border-[#cbd5e1] bg-white px-3 py-2 font-semibold">No.</th>
+                  <th className="border-b border-r border-[#cbd5e1] bg-white px-3 py-2 font-semibold">User</th>
                   <th className="border-b border-[#cbd5e1] px-3 py-2 font-semibold">Tanggal &amp; Waktu Push Notifikasi</th>
                 </tr>
               </thead>
