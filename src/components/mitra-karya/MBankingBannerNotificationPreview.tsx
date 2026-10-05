@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, BatteryFull, Check, Info, Signal, Sparkles, Wifi, X } from "lucide-react";
+import { Bell, Check, Info, Signal, Sparkles, Wifi, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -49,33 +49,28 @@ export default function MBankingBannerNotificationPreview({
 
           <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
             <MobileMockupFrame edgeToEdge squareBottom>
-              <div className="relative flex min-h-[520px] flex-col overflow-hidden bg-[#f5f6fb] text-[#161922]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_4%,rgba(244,206,215,0.9),transparent_42%),radial-gradient(circle_at_85%_20%,rgba(209,220,245,0.8),transparent_46%)]" />
-                <div className="relative px-6 pb-5 pt-4">
-                  <div className="flex items-center justify-between text-[13px] font-semibold">
-                    <span>9:41</span>
-                    <div className="flex items-center gap-1.5"><Signal className="h-3.5 w-3.5" strokeWidth={3} /><Wifi className="h-3.5 w-3.5" strokeWidth={2.5} /><BatteryFull className="h-4 w-4" strokeWidth={2.5} /></div>
+              <div className="relative min-h-[610px] overflow-hidden bg-[#77736f] text-white">
+                <img src="/bannerhariraya.jpg" alt="" className="absolute inset-0 h-full w-full scale-125 object-cover opacity-35 blur-[18px]" />
+                <div className="absolute inset-0 bg-[#302d2b]/55" />
+                <div className="relative px-5 pb-4 pt-3">
+                  <div className="flex items-center justify-between text-[12px] font-medium">
+                    <span>XL</span>
+                    <div className="flex items-center gap-1.5"><span className="text-[10px]">⌁</span><Wifi className="h-3.5 w-3.5" strokeWidth={2.5} /><span className="text-[9px]">Vo LTE</span><Signal className="h-3.5 w-3.5" strokeWidth={3} /><span className="rounded-full bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-700">82</span></div>
                   </div>
-                  <div className="mt-8 flex items-center gap-2">
-                    <Bell className="h-7 w-7" strokeWidth={2.4} />
-                    <h1 className="text-[26px] font-bold tracking-tight">Notifications</h1>
-                  </div>
+                  <div className="mt-7 flex items-baseline gap-2"><span className="text-[27px] font-semibold tracking-tight">17.43</span><span className="text-[15px]">Sen, 5 Okt</span></div>
                 </div>
 
-                <main className="relative mx-3 mb-5 overflow-hidden rounded-[20px] bg-white/95 px-4 py-5 shadow-[0_12px_28px_rgba(38,43,70,0.1)]">
-                  <div className="mb-4 text-[13px] font-bold">Today</div>
-                  <div className="flex gap-3 border-b border-slate-100 pb-4">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f9d8df] text-[#8b4357]"><Sparkles className="h-5 w-5" /></span>
-                    <div className="min-w-0"><p className="text-[13px] font-semibold leading-tight">{notificationTitle}</p><p className="mt-1 text-[12px] text-slate-400">Informasi banner terbaru</p><p className="mt-0.5 text-[11px] text-slate-400">Hari ini pukul 12:00</p></div>
+                <main className="relative space-y-3 px-2 pb-24">
+                  <div className="flex min-h-[91px] items-center gap-3 rounded-[32px] bg-white/75 px-3 py-3 text-[#262626] shadow-[0_5px_0_rgba(255,255,255,0.12)] backdrop-blur-md">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-white text-[#16a34a] shadow-sm"><Bell className="h-7 w-7" fill="currentColor" /></span>
+                    <div className="min-w-0 flex-1"><div className="flex items-baseline gap-2"><p className="truncate text-[13px] font-bold">{notificationTitle}</p><span className="text-[10px] text-slate-600">17.12</span></div><p className="mt-1 text-[12px] leading-tight">Informasi banner terbaru untuk Anda</p><p className="text-[12px] leading-tight">Promo dan ucapan hari raya.</p></div><span className="text-xl text-slate-600">4</span>
                   </div>
-                  <div className="mt-4 text-[13px] font-bold">Tomorrow</div>
-                  <div className="mt-3 space-y-4">
-                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8ebf3] text-slate-500"><Bell className="h-4 w-4" /></span><div><p className="text-[13px] font-semibold leading-tight">Promo spesial untuk Anda</p><p className="text-[11px] text-slate-400">Dijadwalkan besok pukul 08:00</p></div></div>
-                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8ebf3] text-slate-500"><Info className="h-4 w-4" /></span><div><p className="text-[13px] font-semibold leading-tight">Pengingat pembayaran angsuran</p><p className="text-[11px] text-slate-400">Kemarin pukul 15:00</p></div></div>
-                  </div>
-                  <div className="mt-5 border-t border-slate-100 pt-4 text-[13px] font-bold">Tuesday</div>
-                  <div className="mt-3 flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8ebf3] text-slate-500"><Check className="h-4 w-4" /></span><div><p className="text-[13px] font-semibold leading-tight">Notifikasi berhasil dikirim</p><p className="text-[11px] text-slate-400">Tuesday at 5 PM</p></div></div>
+                  <div className="flex min-h-[68px] items-center gap-3 rounded-[32px] bg-white/75 px-3 py-3 text-[#262626] shadow-[0_5px_0_rgba(255,255,255,0.12)] backdrop-blur-md"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-white text-[#2563eb] shadow-sm"><Info className="h-7 w-7" /></span><div className="min-w-0 flex-1"><div className="flex items-baseline gap-2"><p className="text-[13px] font-bold">28° di Denpasar</p><span className="text-[10px] text-slate-600">17.09</span></div></div><span className="text-2xl text-slate-600">⌄</span></div>
+                  <div className="flex min-h-[83px] items-center gap-3 rounded-[32px] bg-white/75 px-3 py-3 text-[#262626] shadow-[0_5px_0_rgba(255,255,255,0.12)] backdrop-blur-md"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-white text-[#08a975] shadow-sm"><Sparkles className="h-7 w-7" /></span><div className="min-w-0 flex-1"><div className="flex items-baseline gap-2"><p className="truncate text-[13px] font-bold">Let Your Money Work Harder</p><span className="text-[10px] text-slate-600">17.08</span></div><p className="mt-1 text-[12px] leading-tight">I Made, simpan tabunganmu di Top Reksa</p><p className="text-[12px] leading-tight">Dana Pasar Uang yang naik stabil...</p></div><span className="text-xl text-slate-600">4</span></div>
+                  <div className="flex min-h-[68px] items-center gap-3 rounded-[32px] bg-white/75 px-3 py-3 text-[#262626] shadow-[0_5px_0_rgba(255,255,255,0.12)] backdrop-blur-md"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-gradient-to-br from-fuchsia-500 via-red-500 to-yellow-400 text-white shadow-sm"><Bell className="h-7 w-7" /></span><div className="min-w-0 flex-1"><div className="flex items-baseline gap-2"><p className="text-[13px] font-bold">5+ suka baru</p><span className="truncate text-[11px] text-slate-600">yow... 16.40</span></div><p className="text-[12px]">Di postingan Anda</p></div><span className="text-2xl text-slate-600">⌄</span></div>
+                  <div className="flex min-h-[68px] items-center gap-3 rounded-[32px] bg-white/75 px-3 py-3 text-[#262626] shadow-[0_5px_0_rgba(255,255,255,0.12)] backdrop-blur-md"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-slate-900 text-white shadow-sm"><Check className="h-7 w-7" /></span><div className="min-w-0 flex-1"><p className="text-[13px] font-bold">Menunggu Anda: 9 pesan.</p><p className="text-[12px]">dan 7 pemberitahuan baru</p></div><span className="text-2xl text-slate-600">⌄</span></div>
                 </main>
+                <div className="absolute inset-x-2 bottom-3 flex justify-between gap-3"><button type="button" className="rounded-full bg-black/20 px-4 py-2 text-[11px] text-white">Pengaturan notifikasi</button><button type="button" className="rounded-full bg-black/20 px-5 py-2 text-[11px] text-white">Hapus</button></div>
               </div>
             </MobileMockupFrame>
           </div>
