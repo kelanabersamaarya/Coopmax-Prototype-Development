@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import NotificationSaveConfirmationModal from "@/components/settings/NotificationSaveConfirmationModal";
+import PushMessageFormatFields from "@/components/settings/PushMessageFormatFields";
 
 const messageVariables = [
   ["{DariProduk}", "Untuk menampilkan nama produk sumber (transaksi pemindahbukuan)"],
@@ -75,6 +76,15 @@ const pushNotificationKeys = [
   "push_notif_sukses_transfer_antar_bank",
   "push_notif_pengembalian_dana_transfer_antar_bank",
   "push_notif_gagal_transfer_antar_bank",
+];
+
+const pushMessageVariables = [
+  ["{Nama}", "Untuk menampilkan nama nasabah"],
+  ["{StatusPinjaman}", "Untuk menampilkan status pinjaman"],
+  ["{NoRekeningPengirim}", "Untuk menampilkan nomor rekening nasabah yang mengirimkan transfer"],
+  ["{NoRekeningPenerima}", "Untuk menampilkan nomor rekening nasabah yang menerima transfer"],
+  ["{Nominal}", "Untuk menampilkan nominal transfer"],
+  ["{TanggalTransfer}", "Untuk menampilkan tanggal transfer"],
 ];
 
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
@@ -168,6 +178,8 @@ export default function PengaturanNotifikasiUbah() {
           <label htmlFor="message-format" className="pt-1 text-[13px]">Format Pesan<span className="text-red-600">*</span></label>
           <div className="grid gap-6 lg:grid-cols-[365px_minmax(0,1fr)]"><textarea id="message-format" placeholder="Tulis contoh pesan anda disini. Anda dapat menggunakan variabel yang tersedia di sebelah kanan" className="h-[212px] resize-none rounded border border-[#c7d3e4] p-2 text-[13px] text-[#5d7194] outline-none placeholder:text-[#7083a2] focus:border-blue-400" /><div className="text-[13px] leading-5"><p>Daftar variabel pesan:</p><ul className="list-disc pl-5">{messageVariables.map(([variable, description]) => <li key={variable}><strong>{variable}</strong>: {description}</li>)}</ul></div></div>
         </>}
+
+        {notificationType === "Push Notifikasi" && <PushMessageFormatFields />}
 
         <label htmlFor="minimum-amount" className="pt-1 text-[13px]">Jumlah Minimal</label><Input id="minimum-amount" defaultValue="0,00" readOnly={notificationType === "Push Notifikasi"} className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none read-only:cursor-not-allowed read-only:bg-slate-100 read-only:text-slate-400" />
         <label htmlFor="maximum-amount" className="pt-1 text-[13px]">Jumlah Maksimal</label><Input id="maximum-amount" defaultValue="0,00" readOnly={notificationType === "Push Notifikasi"} className="h-8 rounded border-[#c7d3e4] text-[13px] shadow-none read-only:cursor-not-allowed read-only:bg-slate-100 read-only:text-slate-400" />
