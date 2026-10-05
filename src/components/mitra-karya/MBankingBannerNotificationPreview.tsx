@@ -63,7 +63,7 @@ export default function MBankingBannerNotificationPreview({
                 <main className="relative space-y-3 px-2 pb-24">
                   <div className="flex min-h-[91px] items-center gap-3 rounded-[32px] bg-white/75 px-3 py-3 text-[#262626] shadow-[0_5px_0_rgba(255,255,255,0.12)] backdrop-blur-md">
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[17px] bg-white text-[#16a34a] shadow-sm"><Bell className="h-7 w-7" fill="currentColor" /></span>
-                    <div className="min-w-0 flex-1"><div className="flex items-baseline gap-2"><p className="truncate text-[13px] font-bold">{notificationTitle}</p><span className="text-[10px] text-slate-600">17.12</span></div><p className="mt-1 text-[12px] leading-tight">Semoga Dharma senantiasa menang atas Adharma, dan kedamaian selalu menyertai kita semua. Mari kita jadikan momentum ini sebagai pengingat akan pentingnya kebersamaan, kejujuran, dan gotong royong dalam kehidupan dan berkoperasi.</p></div>
+                    <div className="min-w-0 flex-1"><div className="flex items-baseline gap-2"><p className="truncate text-[13px] font-bold">{notificationTitle}</p><span className="text-[10px] text-slate-600">17.12</span></div><p className="mt-1 text-[12px] leading-tight">Semoga Dharma senantiasa menang atas Adharma, dan kedamaian selalu menyertai kita semua.</p></div>
                   </div>
                 </main>
                 <div className="absolute inset-x-2 bottom-3 flex justify-between gap-3"><button type="button" className="rounded-full bg-black/20 px-4 py-2 text-[11px] text-white">Pengaturan notifikasi</button><button type="button" className="rounded-full bg-black/20 px-5 py-2 text-[11px] text-white">Hapus</button></div>
