@@ -23,8 +23,8 @@ export default function MBankingBannerNotificationPreview({
   const notificationTitle = "Hari Raya Galungan";
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const confirmationText = isActive ? "Yakin menonaktifkan push notifikasi banner?" : "Yakin mengaktifkan push notifikasi banner?";
-  const successText = isActive ? "Berhasil menonaktifkan push notifikasi banner" : "Berhasil mengaktifkan push notifikasi banner";
+  const confirmationText = "Yakin melakukan push notifikasi banner?";
+  const successText = "Berhasil melakukan push notifikasi banner";
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
