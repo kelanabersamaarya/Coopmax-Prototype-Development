@@ -67,7 +67,9 @@ export default function MBankingBanners() {
     location.pathname.startsWith("/mitra-karya/")
       ? `/mitra-karya${path}`
       : `/mobile${path}`;
-  const [banners, setBanners] = useState<Banner[]>(defaultBanners);
+  const [banners, setBanners] = useState<Banner[]>(() =>
+    [...defaultBanners].sort((first, second) => Number(second.active) - Number(first.active)),
+  );
   const [previewBanner, setPreviewBanner] = useState<Banner | null>(null);
 
   useEffect(() => {
@@ -82,11 +84,13 @@ export default function MBankingBanners() {
         ...defaultBanners.map((banner) => savedById.get(banner.id) || banner),
       ];
       setBanners(
-        mergedBanners.map((banner) => ({
-          ...banner,
-          start: "09-24-2026",
-          end: "09-24-2026",
-        })),
+        mergedBanners
+          .map((banner) => ({
+            ...banner,
+            start: "09-24-2026",
+            end: "09-24-2026",
+          }))
+          .sort((first, second) => Number(second.active) - Number(first.active)),
       );
     }
   }, []);
