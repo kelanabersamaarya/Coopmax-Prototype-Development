@@ -78,14 +78,6 @@ const pushNotificationKeys = [
   "push_notif_gagal_transfer_antar_bank",
 ];
 
-const pushMessageVariables = [
-  ["{Nama}", "Untuk menampilkan nama nasabah"],
-  ["{StatusPinjaman}", "Untuk menampilkan status pinjaman"],
-  ["{NoRekeningPengirim}", "Untuk menampilkan nomor rekening nasabah yang mengirimkan transfer"],
-  ["{NoRekeningPenerima}", "Untuk menampilkan nomor rekening nasabah yang menerima transfer"],
-  ["{Nominal}", "Untuk menampilkan nominal transfer"],
-  ["{TanggalTransfer}", "Untuk menampilkan tanggal transfer"],
-];
 
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return <button type="button" aria-pressed={value} onClick={onChange} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${value ? "bg-[#5b42f5]" : "bg-[#a297ee]"}`}>
@@ -176,7 +168,7 @@ export default function PengaturanNotifikasiTambah() {
 
         {notificationType !== "Push Notifikasi" && <>
           <label htmlFor="message-format" className="pt-1 text-[13px]">Format Pesan<span className="text-red-600">*</span></label>
-          <div className="grid gap-6 lg:grid-cols-[365px_minmax(0,1fr)]"><textarea id="message-format" placeholder="Tulis contoh pesan anda disini. Anda dapat menggunakan variabel yang tersedia di sebelah kanan" className="h-[212px] resize-none rounded border border-[#c7d3e4] p-2 text-[13px] text-[#5d7194] outline-none placeholder:text-[#7083a2] focus:border-blue-400" /><div className="text-[13px] leading-5"><p>Daftar variabel pesan:</p><ul className="list-disc pl-5">{(notificationType === "Push Notifikasi" ? pushMessageVariables : messageVariables).map(([variable, description]) => <li key={variable}><strong>{variable}</strong>: {description}</li>)}</ul></div></div>
+          <div className="grid gap-6 lg:grid-cols-[365px_minmax(0,1fr)]"><textarea id="message-format" placeholder="Tulis contoh pesan anda disini. Anda dapat menggunakan variabel yang tersedia di sebelah kanan" className="h-[212px] resize-none rounded border border-[#c7d3e4] p-2 text-[13px] text-[#5d7194] outline-none placeholder:text-[#7083a2] focus:border-blue-400" /><div className="text-[13px] leading-5"><p>Daftar variabel pesan:</p><ul className="list-disc pl-5">{messageVariables.map(([variable, description]) => <li key={variable}><strong>{variable}</strong>: {description}</li>)}</ul></div></div>
         </>}
 
         {notificationType === "Push Notifikasi" && <PushMessageFormatFields />}

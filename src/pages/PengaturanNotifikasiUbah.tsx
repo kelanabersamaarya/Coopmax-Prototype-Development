@@ -78,14 +78,6 @@ const pushNotificationKeys = [
   "push_notif_gagal_transfer_antar_bank",
 ];
 
-const pushMessageVariables = [
-  ["{Nama}", "Untuk menampilkan nama nasabah"],
-  ["{StatusPinjaman}", "Untuk menampilkan status pinjaman"],
-  ["{NoRekeningPengirim}", "Untuk menampilkan nomor rekening nasabah yang mengirimkan transfer"],
-  ["{NoRekeningPenerima}", "Untuk menampilkan nomor rekening nasabah yang menerima transfer"],
-  ["{Nominal}", "Untuk menampilkan nominal transfer"],
-  ["{TanggalTransfer}", "Untuk menampilkan tanggal transfer"],
-];
 
 function Toggle({ value, onChange }: { value: boolean; onChange: () => void }) {
   return <button type="button" aria-pressed={value} onClick={onChange} className={`flex h-[26px] w-[62px] items-center rounded-full p-1 text-[10px] font-bold text-white transition-colors ${value ? "bg-[#5b42f5]" : "bg-[#a297ee]"}`}>
