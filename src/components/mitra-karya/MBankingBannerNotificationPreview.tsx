@@ -27,13 +27,13 @@ export default function MBankingBannerNotificationPreview({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
-      <div className={showConfirmation || showSuccess ? "hidden" : "relative flex max-h-[calc(100vh-18px)] w-full max-w-[542px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl"}>
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+      <div className={showConfirmation || showSuccess ? "hidden" : "relative flex max-h-[calc(100vh-48px)] w-full max-w-[542px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl"}>
+        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3">
           <h2 className="text-[17px] font-bold text-[#102d58]">Push Notifikasi Banner</h2>
           <button type="button" onClick={onClose} aria-label="Tutup preview" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-[#102d58]"><X className="h-5 w-5" /></button>
         </div>
 
-        <div className="relative min-h-0 flex-1 overflow-hidden bg-white px-4 pt-5 sm:px-8">
+        <div className="relative h-[500px] min-h-0 flex-none overflow-hidden bg-white px-4 pt-5 sm:px-8">
           <div className="mb-0 rounded-[6px] border border-[#72A7FF] bg-[#EFF6FF] px-3 py-3 text-[#073B88]">
             <div className="flex items-start gap-3">
               <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white">
@@ -47,9 +47,9 @@ export default function MBankingBannerNotificationPreview({
             </div>
           </div>
 
-          <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
+          <div className="relative z-0 mx-auto h-[420px] w-[min(100%,350px)] translate-y-3">
             <MobileMockupFrame edgeToEdge squareBottom>
-              <div className="relative min-h-[610px] overflow-hidden bg-[#77736f] text-white">
+              <div className="relative min-h-[420px] overflow-hidden bg-[#77736f] text-white">
                 <img src="/bannerhariraya.jpg" alt="" className="absolute inset-0 h-full w-full scale-125 object-cover opacity-35 blur-[18px]" />
                 <div className="absolute inset-0 bg-[#302d2b]/55" />
                 <div className="relative px-5 pb-4 pt-3">
@@ -72,7 +72,7 @@ export default function MBankingBannerNotificationPreview({
           </div>
         </div>
 
-        <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
+        <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-3">
           <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]"><X className="h-4 w-4" strokeWidth={2.5} />Batal</button>
           <button type="button" onClick={() => setShowConfirmation(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border-2 border-white"><Check className="h-[14px] w-[14px]" strokeWidth={3.2} /></span>Push Notifikasi Sekarang</button>
         </footer>
