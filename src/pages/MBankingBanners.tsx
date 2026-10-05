@@ -46,8 +46,6 @@ const headerClass =
   "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
 const notificationTooltip =
   "Klik untuk mengaktifkan push notifikasi banner agar pengguna M-Banking mendapatkan notifikasi promo, ucapan dan informasi lainnya";
-const activeNotificationTooltip =
-  "Push notifikasi banner sudah diaktifkan, klik untuk menonaktifkan push notifikasi banner";
 
 function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
   return {
@@ -263,15 +261,15 @@ export default function MBankingBanners() {
                           <TooltipTrigger asChild>
                             <button
                               type="button"
-                              aria-label={banner.userNotification ? "Nonaktifkan notifikasi pengguna" : "Aktifkan notifikasi pengguna"}
+                              aria-label="Notifikasi banner"
                               onClick={() => setPreviewBanner({ ...banner })}
                               className="flex h-[22px] w-[22px] items-center justify-center rounded-full text-[#7b879d] transition-colors hover:bg-[#e9efff] hover:text-[#526784]"
                             >
                               <Bell className="h-[16px] w-[16px]" strokeWidth={2.3} />
                             </button>
                           </TooltipTrigger>
-                          <TooltipContent side="top" sideOffset={8} className="max-w-[255px] rounded-none bg-[#102d58] px-3 py-2 text-center text-[12px] leading-4 text-white shadow-lg">
-                            {banner.userNotification ? activeNotificationTooltip : notificationTooltip}
+                          <TooltipContent side="top" sideOffset={8} className="w-[260px] rounded-none bg-[#153766] px-4 py-2.5 text-center text-[12px] font-semibold leading-[15px] text-white shadow-lg">
+                            {notificationTooltip}
                           </TooltipContent>
                         </Tooltip>
                         <Tooltip>
