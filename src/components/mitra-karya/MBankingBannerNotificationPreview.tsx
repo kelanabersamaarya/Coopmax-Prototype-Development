@@ -21,14 +21,14 @@ export default function MBankingBannerNotificationPreview({
 }) {
   const image = "/bannerhariraya.jpg";
   const notificationTitle = "Hari Raya Galungan";
-  const [showConfirmation, setShowConfirmation] = useState(isActive);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const confirmationText = isActive ? "Yakin menonaktifkan push notifikasi banner?" : "Yakin mengaktifkan push notifikasi banner?";
   const successText = isActive ? "Berhasil menonaktifkan push notifikasi banner" : "Berhasil mengaktifkan push notifikasi banner";
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4">
-      <div className={showConfirmation || showSuccess ? "hidden" : "relative flex max-h-[76vh] w-full max-w-[525px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl"}>
+      <div className={showConfirmation || showSuccess ? "hidden" : "relative flex max-h-[calc(100vh-18px)] w-full max-w-[542px] flex-col overflow-hidden rounded-[5px] bg-white shadow-2xl"}>
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
           <h2 className="text-[17px] font-bold text-[#102d58]">Push Notifikasi Banner</h2>
           <button type="button" onClick={onClose} aria-label="Tutup preview" className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-[#102d58]"><X className="h-5 w-5" /></button>
@@ -79,7 +79,7 @@ export default function MBankingBannerNotificationPreview({
 
         <footer className="relative z-10 flex justify-end gap-2 border-t border-slate-200 bg-white px-5 py-4">
           <button type="button" onClick={onClose} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#8494af] px-5 text-[13px] font-semibold text-white transition hover:bg-[#6f7f9a]"><X className="h-4 w-4" strokeWidth={2.5} />Batal</button>
-          <button type="button" onClick={() => setShowConfirmation(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border-2 border-white"><Check className="h-[14px] w-[14px]" strokeWidth={3.2} /></span>{isActive ? "Nonaktifkan" : "Aktifkan"}</button>
+          <button type="button" onClick={() => setShowConfirmation(true)} className="inline-flex h-9 items-center gap-1.5 rounded-[5px] bg-[#31b900] px-5 text-[13px] font-semibold text-white transition hover:bg-[#279b00]"><span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border-2 border-white"><Check className="h-[14px] w-[14px]" strokeWidth={3.2} /></span>Aktifkan</button>
         </footer>
       </div>
 
