@@ -261,7 +261,7 @@ export default function MBankingBanners() {
                             Ubah
                           </TooltipContent>
                         </Tooltip>
-                        {banner.active === true && <Tooltip>
+                        {banner.active === true && index !== 6 && index !== 7 && <Tooltip>
                           <TooltipTrigger asChild>
                             <button
                               type="button"
