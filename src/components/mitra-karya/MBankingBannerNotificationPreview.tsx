@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Check, Info, X } from "lucide-react";
+import { Bell, BatteryFull, Check, Info, Signal, Sparkles, Wifi, X } from "lucide-react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 
 type BannerPreview = {
@@ -19,7 +19,6 @@ export default function MBankingBannerNotificationPreview({
   isActive?: boolean;
   onToggle?: () => void;
 }) {
-  const image = "/bannerhariraya.jpg";
   const notificationTitle = "Hari Raya Galungan";
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -50,27 +49,32 @@ export default function MBankingBannerNotificationPreview({
 
           <div className="relative z-0 mx-auto w-[min(100%,390px)] translate-y-8">
             <MobileMockupFrame edgeToEdge squareBottom>
-              <div className="flex min-h-[460px] flex-col overflow-y-auto bg-white text-[#23305A]">
-                <header className="px-6 pb-5 pt-8">
-                  <div className="flex items-center gap-3">
-                    <ArrowLeft className="h-7 w-7 text-[#004FC7]" strokeWidth={2.2} />
-                    <h1 className="text-[23px] font-extrabold text-[#004FC7]">Notifikasi</h1>
+              <div className="relative flex min-h-[520px] flex-col overflow-hidden bg-[#f5f6fb] text-[#161922]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_4%,rgba(244,206,215,0.9),transparent_42%),radial-gradient(circle_at_85%_20%,rgba(209,220,245,0.8),transparent_46%)]" />
+                <div className="relative px-6 pb-5 pt-4">
+                  <div className="flex items-center justify-between text-[13px] font-semibold">
+                    <span>9:41</span>
+                    <div className="flex items-center gap-1.5"><Signal className="h-3.5 w-3.5" strokeWidth={3} /><Wifi className="h-3.5 w-3.5" strokeWidth={2.5} /><BatteryFull className="h-4 w-4" strokeWidth={2.5} /></div>
                   </div>
-                </header>
-
-                <main className="px-6 pb-12">
-                  <div className="flex items-center gap-8">
-                    <span className="px-2 py-3 text-[16px] font-bold text-[#004FC7]">Transaksi</span>
-                    <span className="rounded-full bg-[#004FC7] px-7 py-3 text-[16px] font-bold text-white shadow-sm">Info</span>
+                  <div className="mt-8 flex items-center gap-2">
+                    <Bell className="h-7 w-7" strokeWidth={2.4} />
+                    <h1 className="text-[26px] font-bold tracking-tight">Notifications</h1>
                   </div>
+                </div>
 
-                  <article className="mt-4 rounded-[20px] bg-white px-4 py-4 shadow-[0_6px_18px_rgba(30,47,83,0.09)]">
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="text-[16px] font-bold leading-tight text-[#23305A]">{notificationTitle}</p>
-                      <p className="shrink-0 whitespace-nowrap text-right text-[13px] leading-tight text-[#23305A]">20 Jul 2026 • 12:00</p>
-                    </div>
-                    <img src={image} alt={notificationTitle} className="mt-3 block w-full rounded-[12px] object-cover" />
-                  </article>
+                <main className="relative mx-3 mb-5 overflow-hidden rounded-[20px] bg-white/95 px-4 py-5 shadow-[0_12px_28px_rgba(38,43,70,0.1)]">
+                  <div className="mb-4 text-[13px] font-bold">Today</div>
+                  <div className="flex gap-3 border-b border-slate-100 pb-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f9d8df] text-[#8b4357]"><Sparkles className="h-5 w-5" /></span>
+                    <div className="min-w-0"><p className="text-[13px] font-semibold leading-tight">{notificationTitle}</p><p className="mt-1 text-[12px] text-slate-400">Informasi banner terbaru</p><p className="mt-0.5 text-[11px] text-slate-400">Hari ini pukul 12:00</p></div>
+                  </div>
+                  <div className="mt-4 text-[13px] font-bold">Tomorrow</div>
+                  <div className="mt-3 space-y-4">
+                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8ebf3] text-slate-500"><Bell className="h-4 w-4" /></span><div><p className="text-[13px] font-semibold leading-tight">Promo spesial untuk Anda</p><p className="text-[11px] text-slate-400">Dijadwalkan besok pukul 08:00</p></div></div>
+                    <div className="flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8ebf3] text-slate-500"><Info className="h-4 w-4" /></span><div><p className="text-[13px] font-semibold leading-tight">Pengingat pembayaran angsuran</p><p className="text-[11px] text-slate-400">Kemarin pukul 15:00</p></div></div>
+                  </div>
+                  <div className="mt-5 border-t border-slate-100 pt-4 text-[13px] font-bold">Tuesday</div>
+                  <div className="mt-3 flex gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8ebf3] text-slate-500"><Check className="h-4 w-4" /></span><div><p className="text-[13px] font-semibold leading-tight">Notifikasi berhasil dikirim</p><p className="text-[11px] text-slate-400">Tuesday at 5 PM</p></div></div>
                 </main>
               </div>
             </MobileMockupFrame>
