@@ -45,7 +45,7 @@ const bannerStorageKey = "mbanking-banners";
 const headerClass =
   "px-2.5 py-2 text-left text-[12px] font-bold uppercase tracking-wide text-[#102d58]";
 const notificationTooltip =
-  "Klik untuk mengaktifkan push notifikasi banner agar pengguna M-Banking mendapatkan notifikasi promo, ucapan dan informasi lainnya";
+  "Klik untuk melakukan push notifikasi banner agar pengguna M-Banking mendapatkan notifikasi promo, ucapan dan informasi lainnya";
 
 function normalizeBanner(banner: Partial<Banner>, index: number): Banner {
   return {
