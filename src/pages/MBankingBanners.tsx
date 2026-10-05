@@ -133,12 +133,11 @@ export default function MBankingBanners() {
           <table className="w-full min-w-[1100px] table-fixed border-collapse text-[12px]">
             <colgroup>
               <col className="w-[5%]" />
-              <col className="w-[22%]" />
-              <col className="w-[16%]" />
-              <col className="w-[16%]" />
-              <col className="w-[12%]" />
+              <col className="w-[27%]" />
+              <col className="w-[19%]" />
+              <col className="w-[19%]" />
               <col className="w-[15%]" />
-              <col className="w-[10%]" />
+              <col className="w-[15%]" />
             </colgroup>
             <thead>
               <tr className="bg-white">
@@ -175,15 +174,6 @@ export default function MBankingBanners() {
                   />
                 </th>
                 <th className={cn(headerClass, "relative")}>
-                  Status Push
-                  <br />
-                  Notifikasi Banner
-                  <ChevronsUpDown
-                    className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
-                    strokeWidth={2.2}
-                  />
-                </th>
-                <th className={cn(headerClass, "relative")}>
                   Aksi
                   <ChevronsUpDown
                     className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#102d58]"
@@ -213,11 +203,6 @@ export default function MBankingBanners() {
                     <option>-- Semua --</option>
                   </select>
                 </th>
-                <th className="px-2.5 py-2">
-                  <select className="h-8 w-full rounded border border-slate-300 bg-white px-2 text-[12px] text-slate-500">
-                    <option>-- Semua --</option>
-                  </select>
-                </th>
                 <th />
               </tr>
             </thead>
@@ -240,16 +225,6 @@ export default function MBankingBanners() {
                         )}
                       >
                         {banner.active ? "Aktif" : "Tidak Aktif"}
-                      </span>
-                    </td>
-                    <td className="px-2.5 py-2">
-                      <span
-                        className={cn(
-                          "rounded px-1 py-1 text-[10px] font-bold text-white",
-                          banner.userNotification ? "bg-green-600" : "bg-red-500",
-                        )}
-                      >
-                        {banner.userNotification ? "Aktif" : "Tidak Aktif"}
                       </span>
                     </td>
                     <td className="px-1.5 py-2">
