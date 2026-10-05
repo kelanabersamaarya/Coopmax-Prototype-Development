@@ -218,7 +218,7 @@ export default function MBankingBanners() {
                     <td className="px-1 py-2">{index + 1}</td>
                     <td className="bg-[#f0f1f4] px-2.5 py-2">{banner.name}</td>
                     <td className="px-2.5 py-2">24-09-26</td>
-                    <td className="px-2.5 py-2">{index < 3 ? "20-10-2026" : "24-09-26"}</td>
+                    <td className="px-2.5 py-2">{index < 7 ? "20-10-2026" : "24-09-26"}</td>
                     <td className="px-2.5 py-2">
                       <span
                         className={cn(
