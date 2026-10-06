@@ -183,7 +183,7 @@ function CollateralDetailModal({
 
   return createPortal(
     <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/70 p-3">
-      <div className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-2xl bg-white text-[#102b5c]">
+      <div className="flex h-[620px] max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-2xl bg-white text-[#102b5c]">
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
           <h2 className="text-lg font-bold">Detail Agunan</h2>
           <button type="button" aria-label="Tutup" onClick={onClose} className="text-2xl font-bold text-slate-500 hover:text-slate-800">×</button>
