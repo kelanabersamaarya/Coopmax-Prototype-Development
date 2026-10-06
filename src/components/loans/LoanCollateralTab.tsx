@@ -25,7 +25,11 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [deleteFile, setDeleteFile] = React.useState<DeleteFile | null>(null);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = React.useState(false);
-  const [previewFile, setPreviewFile] = React.useState<PreviewFile | null>(null);
+  const [previewFile] = React.useState<PreviewFile | null>(null);
+  const setPreviewFile = (value: PreviewFile) => {
+    const previewUrl = URL.createObjectURL(value.file);
+    window.open(previewUrl, "_blank", "noopener,noreferrer");
+  };
   const [attribute, setAttribute] = React.useState("");
   const [activeAttributeTab, setActiveAttributeTab] = React.useState<"attribute" | "document">("attribute");
   const [attributeValues, setAttributeValues] = React.useState<Record<string, string>>({});
