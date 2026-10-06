@@ -14,6 +14,10 @@ const notificationRows = [
 export default function PengaturanNotifikasi() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
+  const [jenisFilter, setJenisFilter] = useState("");
+  const filteredRows = jenisFilter
+    ? notificationRows.filter((row) => row[1] === jenisFilter)
+    : notificationRows;
   const totalPages = 1;
 
   return (
@@ -35,14 +39,14 @@ export default function PengaturanNotifikasi() {
                 <th className="px-1 py-2">No.</th><th className="bg-[#eef0f4] px-1 py-2">Judul</th><th className="px-1 py-2">Jenis</th><th className="px-1 py-2">Key</th><th className="px-1 py-2">SMS</th><th className="px-1 py-2">Push Notification</th><th className="px-1 py-2">Status</th><th className="px-1 py-2">Aksi</th>
               </tr>
               <tr className="border-b border-slate-300">
-                <th /><th className="px-1 py-2"><input aria-label="Cari judul" className="h-7 w-full min-w-0 rounded border border-slate-300 px-1" /></th><th className="px-1 py-2"><select aria-label="Filter jenis" className="h-7 w-full min-w-0 rounded border border-slate-300 bg-white text-slate-500"><option>-- Semua --</option></select></th><th colSpan={5} />
+                <th /><th className="px-1 py-2"><input aria-label="Cari judul" className="h-7 w-full min-w-0 rounded border border-slate-300 px-1" /></th><th className="px-1 py-2"><select aria-label="Filter jenis" value={jenisFilter} onChange={(event) => setJenisFilter(event.target.value)} className="h-7 w-full min-w-0 rounded border border-slate-300 bg-white text-slate-500"><option value="">-- Semua --</option><option value="Transaksi">Transaksi</option><option value="Pengingat">Pengingat</option><option value="Push Notifikasi">Push Notifikasi</option></select></th><th colSpan={5} />
               </tr>
             </thead>
-            <tbody>{notificationRows.map((row, index) => <tr key={row[0]} className="border-b border-slate-200"><td className="break-words px-1 py-2 align-top">{index + 1}</td>{row.map((value, cellIndex) => <td key={`${row[0]}-${cellIndex}`} className="break-words px-1 py-2 align-top">{cellIndex >= 3 ? <span className={`inline-flex rounded px-1.5 py-1 text-[10px] font-bold leading-none text-white ${value === "Aktif" ? "bg-green-600" : "bg-red-500"}`}>{value}</span> : value}</td>)}<td className="whitespace-nowrap px-1 py-2 align-top"><button type="button" aria-label={`Ubah ${row[0]}`} onClick={() => navigate(`/pengaturan-notifikasi/ubah/${index + 1}`)}><Pencil className="inline h-4 w-4 text-blue-600" /></button><button type="button" aria-label={`Hapus ${row[0]}`}><X className="ml-1 inline h-4 w-4 rounded-full bg-rose-500 p-0.5 text-white" /></button></td></tr>)}</tbody>
+            <tbody>{filteredRows.map((row) => { const originalIndex = notificationRows.indexOf(row); return <tr key={row[0]} className="border-b border-slate-200"><td className="break-words px-1 py-2 align-top">{originalIndex + 1}</td>{row.map((value, cellIndex) => <td key={`${row[0]}-${cellIndex}`} className="break-words px-1 py-2 align-top">{cellIndex >= 3 ? <span className={`inline-flex rounded px-1.5 py-1 text-[10px] font-bold leading-none text-white ${value === "Aktif" ? "bg-green-600" : "bg-red-500"}`}>{value}</span> : value}</td>)}<td className="whitespace-nowrap px-1 py-2 align-top"><button type="button" aria-label={`Ubah ${row[0]}`} onClick={() => navigate(`/pengaturan-notifikasi/ubah/${originalIndex + 1}`)}><Pencil className="inline h-4 w-4 text-blue-600" /></button><button type="button" aria-label={`Hapus ${row[0]}`}><X className="ml-1 inline h-4 w-4 rounded-full bg-rose-500 p-0.5 text-white" /></button></td></tr>; })}</tbody>
           </table>
         </div>
         <div className="mt-5 flex flex-col gap-4 text-[13px] text-slate-700 sm:flex-row sm:items-center sm:justify-between">
-          <span>Menampilkan 1 sampai 5 dari 5 entri</span>
+          <span>Menampilkan {filteredRows.length ? 1 : 0} sampai {filteredRows.length} dari {filteredRows.length} entri</span>
           <nav aria-label="Pagination" className="flex items-center gap-1">
             <button type="button" onClick={() => setCurrentPage((page) => Math.max(1, page - 1))} disabled={currentPage === 1} className="h-9 rounded-l bg-[#eef1f5] px-3 text-[#c7d3e4] transition-colors enabled:hover:bg-[#e1e6ed]">Sebelumnya</button>
             {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => <button key={page} type="button" onClick={() => setCurrentPage(page)} aria-current={currentPage === page ? "page" : undefined} className={`h-9 min-w-9 px-3 font-semibold transition-colors ${currentPage === page ? "bg-[#7138e8] text-white" : "bg-[#eef1f5] text-[#c7d3e4] hover:bg-[#e1e6ed]"}`}>{page}</button>)}
