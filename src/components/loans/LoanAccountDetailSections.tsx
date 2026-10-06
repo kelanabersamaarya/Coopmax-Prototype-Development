@@ -10,6 +10,8 @@ import {
   Printer,
   Eye,
   Pencil,
+  ChevronLeft,
+  ChevronRight,
   ExternalLink,
   AlertTriangle,
   ShieldCheck,
@@ -164,6 +166,7 @@ function CollateralDetailModal({
   onClose: () => void;
 }) {
   const [tab, setTab] = React.useState<"attribute" | "document">("attribute");
+  const [previewIndexes, setPreviewIndexes] = React.useState<Record<string, number>>({});
   const isShm = collateral === "shm";
   const title = isShm
     ? "(SHM) Sertifikat Hak Milik / Tanah dan Bangunan"
@@ -204,14 +207,19 @@ function CollateralDetailModal({
             <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-5">{fields.map(([label, value]) => <div key={label} className="min-w-0"><div className="text-sm text-[#17233b]">{label}</div><div className="mt-2 text-sm font-bold text-[#17233b]">{value}</div></div>)}</div>
           </div> : <div className="space-y-3">
             {(isShm
-              ? [{ category: "Sertifikat SHM", src: null }, { category: "Foto Agunan", src: null }]
-              : [{ category: "BPKB", src: "/bpkb_sample.jpg" }, { category: "STNK", src: "/stnk_sample.jpg" }, { category: "Foto Agunan", src: "/motor%20sample.jpg" }]
-            ).map(({ category, src }) => (
-              <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
+              ? [{ category: "Sertifikat SHM", srcs: null }, { category: "Foto Agunan", srcs: null }]
+              : [{ category: "BPKB", srcs: ["/bpkb_sample.jpg", "/bpkb_sample.jpg"] }, { category: "STNK", srcs: ["/stnk_sample.jpg", "/stnk_sample.jpg"] }, { category: "Foto Agunan", srcs: ["/motor%20sample.jpg", "/moto_sample2.jpg"] }]
+            ).map(({ category, srcs }) => {
+              const currentIndex = previewIndexes[category] ?? 0;
+              const currentSrc = srcs?.[currentIndex];
+              const showCarousel = Boolean(srcs && srcs.length > 1);
+              return <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
                 <div className="text-sm font-bold text-[#123267]">{category}</div>
-                {src ? (
-                  <div className="mt-3 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 p-2">
-                    <img src={src} alt={`Preview ${category}`} className="max-h-48 w-full rounded-md object-contain" />
+                {currentSrc ? (
+                  <div className="relative mt-3 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 p-2">
+                    <img src={currentSrc} alt={`Preview ${category} ${currentIndex + 1}`} className="h-48 w-full rounded-md object-contain" />
+                    {showCarousel && <><button type="button" aria-label={`Foto ${category} sebelumnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex - 1 + srcs.length) % srcs.length }))} className="absolute left-3 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#123267] text-white hover:bg-[#0d254c]"><ChevronLeft className="h-4 w-4" /></button><button type="button" aria-label={`Foto ${category} berikutnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex + 1) % srcs.length }))} className="absolute right-3 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#123267] text-white hover:bg-[#0d254c]"><ChevronRight className="h-4 w-4" /></button></>}
+                    {showCarousel && <div className="mt-2 text-center text-xs text-slate-500">{currentIndex + 1} / {srcs.length}</div>}
                   </div>
                 ) : (
                   <div className="mt-3 rounded-lg border border-dashed border-slate-300 px-4 py-5 text-center text-sm text-slate-500">Belum ada dokumen {category.toLowerCase()}.</div>
