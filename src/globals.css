@@ -6,6 +6,10 @@ button.bg-blue-600:hover {
   background-color: #2563eb !important;
 }
 
+button.bg-rose-600:hover {
+  background-color: #e11d48 !important;
+}
+
 /* Product Sans (requires you to provide the font files in /public/fonts) */
 @font-face {
   font-family: "Product Sans";
