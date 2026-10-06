@@ -225,7 +225,7 @@ function CollateralDetailModal({
                   <div className="mt-3 rounded-lg border border-dashed border-slate-300 px-4 py-5 text-center text-sm text-slate-500">Belum ada dokumen {category.toLowerCase()}.</div>
                 )}
               </div>
-            ))}
+            })}
           </div>}
         </div>
         <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]">× Tutup</button></div>
