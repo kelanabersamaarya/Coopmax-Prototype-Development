@@ -12,7 +12,7 @@ type PreviewFile = { file: File; documentName: string };
 type DeleteFile = { documentName: string; index: number; fileName: string };
 const inputClass = "h-9 w-full rounded-[5px] border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none ring-offset-white placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-blue-500";
 function SectionHeader({ title, onAdd }: { title: string; onAdd: () => void }) { return <div className="flex items-center justify-between gap-4"><h2 className="text-xl font-semibold tracking-tight text-[#06255a]">{title} <span className="font-normal">Daftar</span></h2><Button type="button" onClick={onAdd} className="h-8 rounded-[5px] bg-blue-600 px-4 text-xs font-semibold text-white hover:bg-blue-700"><Plus className="mr-1 h-4 w-4" />Tambah</Button></div>; }
-function TotalRow({ value }: { value: string }) { return <div className="flex justify-end border-t border-slate-200 pt-4 text-base text-[#06255a]"><span className="mr-2 font-medium">Total:</span><span className="min-w-[180px] bg-slate-50 px-2 text-right">{value}</span></div>; }
+function TotalRow({ value, showBorder = false }: { value: string; showBorder?: boolean }) { return <div className={`flex justify-end ${showBorder ? "border-t border-slate-200" : ""} pt-4 text-base text-[#06255a]`}><span className="mr-2 font-medium">Total:</span><span className="min-w-[180px] bg-slate-50 px-2 text-right">{value}</span></div>; }
 
 export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () => void; onSave: () => void }) {
   const [collaterals, setCollaterals] = React.useState<CollateralRow[]>([]);
