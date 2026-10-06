@@ -45,7 +45,7 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
     : attribute === "Deposito"
       ? ["Bilyet Deposito"]
       : attribute === "Tabungan"
-        ? ["Buku Tabungan", "Foto agunan"]
+        ? ["Buku Tabungan"]
         : ["BPKB", "STNK", "Foto agunan"];
   const attributeFields = attribute === "SHM"
     ? [["Nama", "name"], ["Alamat", "address"], ["No. SHM", "shmNumber"], ["Surat Ukur", "surveyLetter"], ["Luas", "area"], ["NIB", "nib"]]
