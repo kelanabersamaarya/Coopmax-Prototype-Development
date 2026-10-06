@@ -209,7 +209,7 @@ function CollateralDetailModal({
             <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-5">{fields.map(([label, value]) => <div key={label} className="min-w-0"><div className="text-sm text-[#17233b]">{label}</div><div className="mt-2 text-sm font-bold text-[#17233b]">{value}</div></div>)}</div>
           </div> : <div className="space-y-3">
             {(isShm
-              ? [{ category: "Sertifikat SHM", srcs: null }, { category: "Foto Agunan", srcs: null }]
+              ? [{ category: "Sertifikat SHM", srcs: [{ type: "image", src: "/shm_sample.jpg", name: "shm_sample.jpg" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/lahan_sample.jpg", name: "lahan_sample.jpg" }] }]
               : [{ category: "BPKB", srcs: [{ type: "image", src: "/bpkb_sample.jpg", name: "bpkb_sample.jpg" }, { type: "pdf", src: null, name: "bpkb_sample.pdf" }] }, { category: "STNK", srcs: [{ type: "image", src: "/stnk_sample.jpg", name: "stnk_sample.jpg" }, { type: "pdf", src: null, name: "stnk_sample.pdf" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/motor%20sample.jpg", name: "motor sample.jpg" }, { type: "image", src: "/moto_sample2.jpg", name: "moto_sample2.jpg" }] }]
             ).map(({ category, srcs }) => {
               const currentIndex = previewIndexes[category] ?? 0;
