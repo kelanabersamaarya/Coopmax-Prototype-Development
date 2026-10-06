@@ -1,0 +1,13 @@
+#collateral-attribute {
+  appearance: none;
+  padding-left: 3rem;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7L7 17' fill='none' stroke='%23ef1111' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  background-size: 1.25rem 1.25rem;
+}
+
+#collateral-attribute:focus {
+  background-position: 1rem center;
+}

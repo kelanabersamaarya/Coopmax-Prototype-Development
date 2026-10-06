@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { OperationalConfirmDialog } from "@/components/OperationalConfirmDialog";
 import { OperationalSuccessDialog } from "@/components/OperationalSuccessDialog";
+import "@/styles/collateral-attribute-select.css";
 
 type CollateralRow = { id: number; name: string; nominal: string; percentage: string; claimedNominal: string; description: string };
 type SavingsRow = { id: number; name: string; nominal: string; description: string };
