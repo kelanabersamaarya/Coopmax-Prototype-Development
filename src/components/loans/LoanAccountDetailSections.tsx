@@ -169,7 +169,7 @@ function CollateralDetailModal({
   const title = isShm ? "(SHM) Sertifikat Hak Milik / Tanah dan Bangunan" : "Sepeda Motor";
   const fields = isShm
     ? [["Nama", "1111111"], ["Alamat", "1111111"], ["No. SHM", "11111111"], ["Surat Ukur", "11111111"], ["Luas", "1.500 m²"], ["NIB", "1111111"]]
-    : [["Nama", "Honda"], ["Alamat", "1111111"], ["Merek", "Honda"], ["Tahun Pembuatan", "2022"], ["No. Rangka", "11111111"], ["No. Mesin", "11111111"], ["No. Plat", "DK 1111 XX"]];
+    : [["Nama", "Honda"], ["Alamat", "1111111"], ["Merek", "Honda"], ["Tahun Pembuatan", "2022"], ["No. Rangka", "11111111"], ["No. Mesin", "11111111"], ["No. BPKB", "11111111"], ["No. Plat", "DK 1111 XX"]];
 
   React.useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -212,9 +212,8 @@ function CollateralDetailModal({
                   </div>
                 ) : (
                   <div className="divide-y divide-slate-200">
-                    <div className="py-3"><div className="text-[12px] text-slate-500">Luas</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">1.500 m²</div></div>
                     {fields.map(renderField)}
-                    <div className="py-3"><div className="text-[12px] text-slate-500">Keterangan</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">Tanah 15 Are, posisi di pinggir jalan, ada bangunan permanen 2 lantai</div></div>
+                    <div className="py-3"><div className="text-[12px] text-slate-500">Keterangan</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">Sepeda motor Honda tahun 2022 dalam kondisi baik</div></div>
                   </div>
                 )}
               </div>
