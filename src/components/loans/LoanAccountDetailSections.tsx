@@ -203,10 +203,19 @@ function CollateralDetailModal({
             </div>
             <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-5">{fields.map(([label, value]) => <div key={label} className="min-w-0"><div className="text-sm text-[#17233b]">{label}</div><div className="mt-2 text-sm font-bold text-[#17233b]">{value}</div></div>)}</div>
           </div> : <div className="space-y-3">
-            {(isShm ? ["Sertifikat SHM", "Foto Agunan"] : ["BPKB", "STNK", "Foto Agunan"]).map((category) => (
+            {(isShm
+              ? [{ category: "Sertifikat SHM", src: null }, { category: "Foto Agunan", src: null }]
+              : [{ category: "BPKB", src: "/bpkb_sample.jpg" }, { category: "STNK", src: "/stnk_sample.jpg" }, { category: "Foto Agunan", src: "/motor%20sample.jpg" }]
+            ).map(({ category, src }) => (
               <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
                 <div className="text-sm font-bold text-[#123267]">{category}</div>
-                <div className="mt-3 rounded-lg border border-dashed border-slate-300 px-4 py-5 text-center text-sm text-slate-500">Belum ada dokumen {category.toLowerCase()}.</div>
+                {src ? (
+                  <div className="mt-3 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 p-2">
+                    <img src={src} alt={`Preview ${category}`} className="max-h-48 w-full rounded-md object-contain" />
+                  </div>
+                ) : (
+                  <div className="mt-3 rounded-lg border border-dashed border-slate-300 px-4 py-5 text-center text-sm text-slate-500">Belum ada dokumen {category.toLowerCase()}.</div>
+                )}
               </div>
             ))}
           </div>}
