@@ -10,9 +10,6 @@ import {
   Printer,
   Eye,
   Pencil,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
   ExternalLink,
   AlertTriangle,
   ShieldCheck,
@@ -169,18 +166,25 @@ function CollateralDetailModal({
   const [tab, setTab] = React.useState<"attribute" | "document">("attribute");
   const [previewIndexes, setPreviewIndexes] = React.useState<Record<string, number>>({});
   const isShm = collateral === "shm";
-  const title = isShm
-    ? "(SHM) Sertifikat Hak Milik / Tanah dan Bangunan"
-    : "Sepeda Motor";
+  const title = isShm ? "(SHM) Sertifikat Hak Milik / Tanah dan Bangunan" : "Sepeda Motor";
   const fields = isShm
-    ? [["Nama", "1111111"], ["Alamat", "1111111"], ["No. SHM", "11111111"], ["Surat Ukur", "11111111"], ["Luas", "111111"], ["NIB", "1111111"]]
+    ? [["Nama", "1111111"], ["Alamat", "1111111"], ["No. SHM", "11111111"], ["Surat Ukur", "11111111"], ["Luas", "1.500 m²"], ["NIB", "1111111"]]
     : [["Nama", "Honda"], ["Alamat", "1111111"], ["Merek", "Honda"], ["Tahun Pembuatan", "2022"], ["No. Rangka", "11111111"], ["No. Mesin", "11111111"], ["No. Plat", "DK 1111 XX"]];
 
   React.useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previousOverflow; };
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, []);
+
+  const renderField = ([label, value]: string[]) => (
+    <div key={label} className="py-3">
+      <div className="text-[12px] text-slate-500">{label}</div>
+      <div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div>
+    </div>
+  );
 
   return createPortal(
     <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/70 p-3">
@@ -195,49 +199,32 @@ function CollateralDetailModal({
             <button type="button" onClick={() => setTab("document")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "document" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Dokumen Agunan</button>
           </div>
           <div className="px-6 py-6">
-          {tab === "attribute" ? <div className="px-1 py-1">
-            <div className="rounded-xl border border-slate-200 bg-white px-5 py-4">
-              <div className="border-b border-slate-200 pb-4">
-                <div className="text-[12px] text-slate-500">Jenis agunan</div>
-                <h3 className="mt-1 text-[14px] font-bold leading-snug text-[#17233b]">{title}</h3>
-              </div>
-              {isShm ? <div className="divide-y divide-slate-200">
-                {[...fields.filter(([label]) => label === "Nama" || label === "Alamat"), ["No. SHM", "11111111"], ["Surat Ukur", "11111111"], ["Luas", "1.500 m²"], ["NIB", "1111111"]].map(([label, value]) => <div key={label} className="py-3"><div className="text-[12px] text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}
-              </div> : <>
-                <div className="border-b border-slate-200 py-3"><div className="text-[12px] text-slate-500">Keterangan</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">Tanah 15 Are, posisi di pinggir jalan, ada bangunan permanen 2 lantai</div></div>
-                <div className="border-b border-slate-200 py-3"><div className="text-[12px] text-slate-500">Luas</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">1.500 m²</div></div>
-                <div className="grid grid-cols-1 gap-0 border-b border-slate-200">{fields.filter(([label]) => label === "Nama" || label === "Alamat").map(([label, value]) => <div key={label} className="py-3"><div className="text-[12px] text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}</div>
-                <div className="grid grid-cols-1 gap-x-8">{fields.filter(([label]) => label !== "Nama" && label !== "Alamat").map(([label, value]) => <div key={label} className="py-3"><div className="text-[12px] text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}</div>
-              </>
-            </div>
-          </div> : <div className="space-y-3">
-            {(isShm
-              ? [{ category: "Sertifikat SHM", srcs: [{ type: "image", src: "/shm_sample.jpg", name: "shm_sample.jpg" }, { type: "image", src: "/shm_sample.jpg", name: "shm_sample_2.jpg" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/lahan_sample.jpg", name: "lahan_sample.jpg" }, { type: "image", src: "/lahan_sample.jpg", name: "lahan_sample_2.jpg" }] }]
-              : [{ category: "BPKB", srcs: [{ type: "image", src: "/bpkb_sample.jpg", name: "bpkb_sample.jpg" }, { type: "pdf", src: null, name: "bpkb_sample.pdf" }] }, { category: "STNK", srcs: [{ type: "image", src: "/stnk_sample.jpg", name: "stnk_sample.jpg" }, { type: "pdf", src: null, name: "stnk_sample.pdf" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/motor%20sample.jpg", name: "motor sample.jpg" }, { type: "image", src: "/moto_sample2.jpg", name: "moto_sample2.jpg" }] }]
-            ).map(({ category, srcs }) => {
-              const currentIndex = previewIndexes[category] ?? 0;
-              const currentFile = srcs?.[currentIndex];
-              const currentSrc = currentFile?.src;
-              const showCarousel = Boolean(srcs && srcs.length > 1);
-              return <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
-                <div className="text-sm font-bold text-[#123267]">{category}</div>
-                {currentFile ? (
-                  <div className="relative mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white p-2">
-                    <button type="button" title="Lihat File" onClick={() => currentSrc && window.open(currentSrc, "_blank", "noopener,noreferrer")} className="group relative block w-full cursor-pointer rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                      {currentFile.type === "pdf" ? <div className="flex h-48 flex-col items-center justify-center gap-3 text-center"><FileText className="h-16 w-16 text-blue-600 transition group-hover:scale-105" /><span className="max-w-full truncate px-4 text-sm font-semibold text-slate-700">{currentFile.name}</span></div> : <><img src={currentSrc || ""} alt={`Preview ${category} ${currentIndex + 1}`} className="h-48 w-full rounded-md object-contain transition group-hover:opacity-70" /><span className="mt-2 block truncate text-center text-xs text-slate-500">{currentFile.name}</span></>}
-                    </button>
-                    {showCarousel && <><button type="button" aria-label={`Foto ${category} sebelumnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex - 1 + srcs.length) % srcs.length }))} className="absolute left-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronLeft className="h-4 w-4" /></button><button type="button" aria-label={`Foto ${category} berikutnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex + 1) % srcs.length }))} className="absolute right-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronRight className="h-4 w-4" /></button></>}
-                    {showCarousel && <div className="mt-2 text-center text-xs text-slate-500">{currentIndex + 1} / {srcs.length}</div>}
-                  </div>
+            {tab === "attribute" ? (
+              <div className="rounded-xl border border-slate-200 bg-white px-5 py-4">
+                <div className="border-b border-slate-200 pb-4">
+                  <div className="text-[12px] text-slate-500">Jenis agunan</div>
+                  <h3 className="mt-1 text-[14px] font-bold leading-snug text-[#17233b]">{title}</h3>
+                </div>
+                {isShm ? (
+                  <div className="divide-y divide-slate-200">{fields.map(renderField)}</div>
                 ) : (
-                  <div className="mt-3 rounded-lg border border-dashed border-slate-300 px-4 py-5 text-center text-sm text-slate-500">Belum ada dokumen {category.toLowerCase()}.</div>
+                  <div className="divide-y divide-slate-200">
+                    <div className="py-3"><div className="text-[12px] text-slate-500">Keterangan</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">Tanah 15 Are, posisi di pinggir jalan, ada bangunan permanen 2 lantai</div></div>
+                    <div className="py-3"><div className="text-[12px] text-slate-500">Luas</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">1.500 m²</div></div>
+                    {fields.map(renderField)}
+                  </div>
                 )}
               </div>
-            })}
-          </div>}
+            ) : (
+              <div className="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-600">
+                Dokumen agunan tersedia untuk ditinjau.
+              </div>
+            )}
           </div>
         </div>
-        <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1.5 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]"><span className="text-lg font-extrabold leading-none">×</span><span>Tutup</span></button></div>
+        <div className="flex justify-end border-t border-slate-200 px-6 py-4">
+          <button type="button" onClick={onClose} className="inline-flex items-center gap-1.5 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]"><span className="text-lg font-extrabold leading-none">×</span><span>Tutup</span></button>
+        </div>
       </div>
     </div>,
     document.body,
