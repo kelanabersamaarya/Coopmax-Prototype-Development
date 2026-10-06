@@ -234,7 +234,7 @@ function CollateralDetailModal({
           </div>}
           </div>
         </div>
-        <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1.5 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]"><span className="text-base font-extrabold leading-none">×</span><span>Tutup</span></button></div>
+        <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1.5 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]"><span className="text-lg font-extrabold leading-none">×</span><span>Tutup</span></button></div>
       </div>
     </div>,
     document.body,
