@@ -12,6 +12,7 @@ import {
   Pencil,
   ChevronLeft,
   ChevronRight,
+  FileText,
   ExternalLink,
   AlertTriangle,
   ShieldCheck,
@@ -209,16 +210,17 @@ function CollateralDetailModal({
           </div> : <div className="space-y-3">
             {(isShm
               ? [{ category: "Sertifikat SHM", srcs: null }, { category: "Foto Agunan", srcs: null }]
-              : [{ category: "BPKB", srcs: ["/bpkb_sample.jpg", "/bpkb_sample.jpg"] }, { category: "STNK", srcs: ["/stnk_sample.jpg", "/stnk_sample.jpg"] }, { category: "Foto Agunan", srcs: ["/motor%20sample.jpg", "/moto_sample2.jpg"] }]
+              : [{ category: "BPKB", srcs: [{ type: "image", src: "/bpkb_sample.jpg", name: "bpkb_sample.jpg" }, { type: "pdf", src: null, name: "bpkb_sample.pdf" }] }, { category: "STNK", srcs: [{ type: "image", src: "/stnk_sample.jpg", name: "stnk_sample.jpg" }, { type: "pdf", src: null, name: "stnk_sample.pdf" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/motor%20sample.jpg", name: "motor sample.jpg" }, { type: "image", src: "/moto_sample2.jpg", name: "moto_sample2.jpg" }] }]
             ).map(({ category, srcs }) => {
               const currentIndex = previewIndexes[category] ?? 0;
-              const currentSrc = srcs?.[currentIndex];
+              const currentFile = srcs?.[currentIndex];
+              const currentSrc = currentFile?.src;
               const showCarousel = Boolean(srcs && srcs.length > 1);
               return <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
                 <div className="text-sm font-bold text-[#123267]">{category}</div>
-                {currentSrc ? (
+                {currentFile ? (
                   <div className="relative mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white p-2">
-                    <img src={currentSrc} alt={`Preview ${category} ${currentIndex + 1}`} className="h-48 w-full rounded-md object-contain" />
+                    {currentFile.type === "pdf" ? <div className="flex h-48 flex-col items-center justify-center gap-3 text-center"><FileText className="h-16 w-16 text-red-600" /><span className="max-w-full truncate px-4 text-sm font-semibold text-slate-700">{currentFile.name}</span></div> : <><img src={currentSrc || ""} alt={`Preview ${category} ${currentIndex + 1}`} className="h-48 w-full rounded-md object-contain" /><span className="mt-2 block truncate text-center text-xs text-slate-500">{currentFile.name}</span></>}
                     {showCarousel && <><button type="button" aria-label={`Foto ${category} sebelumnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex - 1 + srcs.length) % srcs.length }))} className="absolute left-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronLeft className="h-4 w-4" /></button><button type="button" aria-label={`Foto ${category} berikutnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex + 1) % srcs.length }))} className="absolute right-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronRight className="h-4 w-4" /></button></>}
                     {showCarousel && <div className="mt-2 text-center text-xs text-slate-500">{currentIndex + 1} / {srcs.length}</div>}
                   </div>
