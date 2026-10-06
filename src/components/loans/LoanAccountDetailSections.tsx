@@ -216,7 +216,7 @@ function CollateralDetailModal({
               return <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
                 <div className="text-sm font-bold text-[#123267]">{category}</div>
                 {currentSrc ? (
-                  <div className="relative mt-3 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 p-2">
+                  <div className="relative mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white p-2">
                     <img src={currentSrc} alt={`Preview ${category} ${currentIndex + 1}`} className="h-48 w-full rounded-md object-contain" />
                     {showCarousel && <><button type="button" aria-label={`Foto ${category} sebelumnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex - 1 + srcs.length) % srcs.length }))} className="absolute left-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronLeft className="h-4 w-4" /></button><button type="button" aria-label={`Foto ${category} berikutnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex + 1) % srcs.length }))} className="absolute right-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronRight className="h-4 w-4" /></button></>}
                     {showCarousel && <div className="mt-2 text-center text-xs text-slate-500">{currentIndex + 1} / {srcs.length}</div>}
