@@ -195,7 +195,7 @@ function CollateralDetailModal({
             <p className="mt-3 text-sm text-[#123267]">Tanah 15 Are</p>
             <div className="mt-9">
               <h3 className="text-lg font-extrabold leading-tight text-[#123267]">{title}</h3>
-              <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">{fields.map(([label, value]) => <div key={label} className="grid grid-cols-[minmax(100px,150px)_14px_minmax(0,1fr)] items-baseline text-sm"><strong className="font-semibold text-[#17233b]">{label}</strong><span className="text-center text-[#123267]">:</span><span className="font-semibold text-[#17233b]">{value}</span></div>)}</div>
+              <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-5">{fields.map(([label, value]) => <div key={label} className="min-w-0"><div className="text-sm text-[#17233b]">{label}</div><div className="mt-2 text-sm font-bold text-[#17233b]">{value}</div></div>)}</div>
             </div>
           </div> : <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada dokumen agunan.</div>}
         </div>
