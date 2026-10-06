@@ -10,11 +10,11 @@ button.bg-rose-600:hover {
   background-color: #e11d48 !important;
 }
 
-div.fixed.z-\[9999px\] > div > div:last-child button {
+[class*="z-[9999px]"] > div > div.flex.shrink-0.justify-end.gap-2 button {
   height: 28px !important;
   width: 90px !important;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
+  min-width: 90px !important;
+  padding: 0 0.5rem !important;
   font-size: 11px !important;
   font-weight: 700 !important;
 }
