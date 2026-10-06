@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ChevronDown, ChevronUp, SquarePlus, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
