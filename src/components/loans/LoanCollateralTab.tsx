@@ -36,7 +36,7 @@ export default function LoanCollateralTab({ onCancel, onSave }: { onCancel: () =
   const [activeAttributeTab, setActiveAttributeTab] = React.useState<"attribute" | "document">("attribute");
   const [attributeValues, setAttributeValues] = React.useState<Record<string, string>>({});
   const [documents, setDocuments] = React.useState<Record<string, File[]>>({});
-  const documentNames = attribute === "SHM" ? ["Sertifikat SHM", "Foto agunan"] : ["BPKB", "STNK", "Foto agunan"];
+  const documentNames = attribute === "SHM" ? ["Sertifikat SHM", "Foto agunan"] : attribute === "Deposito" ? ["Bilyet Deposito"] : ["BPKB", "STNK", "Foto agunan"];
   const attributeFields = attribute === "SHM" ? [["Nama", "name"], ["Alamat", "address"], ["No. SHM", "shmNumber"], ["Surat Ukur", "surveyLetter"], ["Luas", "area"], ["NIB", "nib"]] : attribute === "Deposito" ? [["Nama", "name"], ["Alamat", "address"], ["No. Rekening Deposito", "depositAccountNumber"], ["Nominal Deposito", "depositAmount"]] : attribute === "Tabungan" ? [["Nama", "name"], ["Alamat", "address"], ["No. Rekening Tabungan", "savingsAccountNumber"], ["Nominal Tabungan", "savingsAmount"]] : [["Nama", "name"], ["Alamat", "address"], ["Merek", "brand"], ["Tahun Pembuatan", "year"], ["No. Rangka", "chassisNumber"], ["No. Mesin", "engineNumber"], ["No. BPKB", "bpkbNumber"], ["No. Plat", "plateNumber"]];
   const addCollateral = () => setCollaterals((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", percentage: "0", claimedNominal: "0,00", description: "" }]);
   const addSavings = (setRows: React.Dispatch<React.SetStateAction<SavingsRow[]>>) => setRows((rows) => [...rows, { id: Date.now(), name: "", nominal: "0,00", description: "" }]);
