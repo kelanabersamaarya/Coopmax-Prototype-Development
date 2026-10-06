@@ -206,7 +206,10 @@ function CollateralDetailModal({
                   <h3 className="mt-1 text-[14px] font-bold leading-snug text-[#17233b]">{title}</h3>
                 </div>
                 {isShm ? (
-                  <div className="divide-y divide-slate-200">{fields.map(renderField)}</div>
+                  <div className="divide-y divide-slate-200">
+                    {fields.map(renderField)}
+                    <div className="py-3"><div className="text-[12px] text-slate-500">Keterangan</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">Tanah 15 Are, posisi di pinggir jalan, ada bangunan permanen 2 lantai</div></div>
+                  </div>
                 ) : (
                   <div className="divide-y divide-slate-200">
                     <div className="py-3"><div className="text-[12px] text-slate-500">Luas</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">1.500 m²</div></div>
