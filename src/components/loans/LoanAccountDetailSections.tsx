@@ -156,6 +156,54 @@ function SuccessBadge({ children }: { children: React.ReactNode }) {
   );
 }
 
+function CollateralDetailModal({
+  collateral,
+  onClose,
+}: {
+  collateral: "shm" | "motor";
+  onClose: () => void;
+}) {
+  const [tab, setTab] = React.useState<"attribute" | "document">("attribute");
+  const isShm = collateral === "shm";
+  const title = isShm
+    ? "(SHM) Sertifikat Hak Milik / Tanah dan Bangunan"
+    : "Sepeda Motor";
+  const fields = isShm
+    ? [["Nama", "1111111"], ["Alamat", "1111111"], ["No. SHM", "11111111"], ["Surat Ukur", "11111111"], ["Luas", "111111"], ["NIB", "1111111"]]
+    : [["Nama", "Honda"], ["Alamat", "1111111"], ["Merek", "Honda"], ["Tahun Pembuatan", "2022"], ["No. Rangka", "11111111"], ["No. Mesin", "11111111"], ["No. Plat", "DK 1111 XX"]];
+
+  React.useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, []);
+
+  return createPortal(
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/70 p-3">
+      <div className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-2xl bg-white text-[#102b5c]">
+        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+          <h2 className="text-lg font-bold">Detail Agunan</h2>
+          <button type="button" aria-label="Tutup" onClick={onClose} className="text-2xl font-bold text-slate-500 hover:text-slate-800">×</button>
+        </div>
+        <div className="flex gap-2 border-b border-slate-200 px-6 pt-4">
+          <button type="button" onClick={() => setTab("attribute")} className={cn("rounded-t-lg px-4 py-2 text-sm font-semibold", tab === "attribute" ? "bg-[#1b9fb4] text-white" : "text-slate-500")}>Atribut Agunan</button>
+          <button type="button" onClick={() => setTab("document")} className={cn("rounded-t-lg px-4 py-2 text-sm font-semibold", tab === "document" ? "bg-[#1b9fb4] text-white" : "text-slate-500")}>Dokumen Agunan</button>
+        </div>
+        <div className="min-h-[280px] overflow-y-auto px-6 py-6">
+          {tab === "attribute" ? <>
+            <h3 className="text-base font-semibold">Keterangan</h3>
+            <p className="mt-2 text-sm text-slate-700">Tanah 15 Are</p>
+            <h3 className="mt-8 text-lg font-semibold">{title}</h3>
+            <div className="mt-3 space-y-2 text-sm">{fields.map(([label, value]) => <div key={label} className="grid grid-cols-[150px_14px_1fr]"><strong>{label}</strong><span>:</span><span>{value}</span></div>)}</div>
+          </> : <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada dokumen agunan.</div>}
+        </div>
+        <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]">× Tutup</button></div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 type StatusHistoryRow = {
   no: number;
   status: string;
@@ -211,6 +259,7 @@ export default function LoanAccountDetailSections({
   const [showRollbackBlocked, setShowRollbackBlocked] = React.useState(false);
   const [rollbackTab, setRollbackTab] = React.useState<"informasi" | "amortisasi">("informasi");
   const [amortizationPage, setAmortizationPage] = React.useState(1);
+  const [detailCollateral, setDetailCollateral] = React.useState<"shm" | "motor" | null>(null);
   const interestRate = useLoanInterestRate(accountNo, 12);
 
   React.useEffect(() => {
@@ -498,7 +547,7 @@ export default function LoanAccountDetailSections({
           nominal="500.000.000,00"
           recognition="80,00%"
           recognizedNominal="400.000.000,00"
-          onView={() => toast("Detail Agunan (prototype)")}
+          onView={() => setDetailCollateral("shm")}
           onEdit={() => toast("Ubah Agunan (prototype)")}
         />
         <CollateralSummaryCard
@@ -507,10 +556,11 @@ export default function LoanAccountDetailSections({
           nominal="15.000.000,00"
           recognition="80,00%"
           recognizedNominal="12.000.000,00"
-          onView={() => toast("Detail Agunan (prototype)")}
+          onView={() => setDetailCollateral("motor")}
           onEdit={() => toast("Ubah Agunan (prototype)")}
         />
       </div>
+      {detailCollateral && <CollateralDetailModal collateral={detailCollateral} onClose={() => setDetailCollateral(null)} />}
 
       <Separator className="my-6 bg-slate-200/70" />
 
