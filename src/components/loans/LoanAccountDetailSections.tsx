@@ -539,9 +539,13 @@ export default function LoanAccountDetailSections({
 
       <Separator className="my-6 bg-slate-200/70" />
 
-      <SubSectionHeader title="INFORMASI AGUNAN" />
-      <div className="mt-4 flex flex-wrap gap-[30px]">
-        <CollateralSummaryCard
+      <div className="mt-4 overflow-hidden rounded-md border border-slate-200 bg-white">
+        <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
+          <h2 className="text-sm font-extrabold tracking-wide text-slate-800">INFORMASI AGUNAN</h2>
+        </div>
+        <div className="p-4 sm:p-6">
+          <div className="flex flex-wrap gap-[30px]">
+            <CollateralSummaryCard
           title="(SHM) SERTIFIKAT HAK MILIK / TANAH DAN BANGUNAN"
           code="SHM"
           nominal="500.000.000,00"
@@ -557,8 +561,10 @@ export default function LoanAccountDetailSections({
           recognition="80,00%"
           recognizedNominal="12.000.000,00"
           onView={() => setDetailCollateral("motor")}
-          onEdit={() => toast("Ubah Agunan (prototype)")}
-        />
+            onEdit={() => toast("Ubah Agunan (prototype)")}
+          />
+          </div>
+        </div>
       </div>
       {detailCollateral && <CollateralDetailModal collateral={detailCollateral} onClose={() => setDetailCollateral(null)} />}
 
