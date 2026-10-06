@@ -185,9 +185,9 @@ function CollateralDetailModal({
           <h2 className="text-lg font-bold">Detail Agunan</h2>
           <button type="button" aria-label="Tutup" onClick={onClose} className="text-2xl font-bold text-slate-500 hover:text-slate-800">×</button>
         </div>
-        <div className="flex gap-2 border-b border-slate-200 px-6 pt-4">
-          <button type="button" onClick={() => setTab("attribute")} className={cn("rounded-t-lg px-4 py-2 text-sm font-semibold", tab === "attribute" ? "bg-[#1b9fb4] text-white" : "text-slate-500")}>Atribut Agunan</button>
-          <button type="button" onClick={() => setTab("document")} className={cn("rounded-t-lg px-4 py-2 text-sm font-semibold", tab === "document" ? "bg-[#1b9fb4] text-white" : "text-slate-500")}>Dokumen Agunan</button>
+        <div className="flex gap-3 px-6 pt-4">
+          <button type="button" onClick={() => setTab("attribute")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "attribute" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Atribut Agunan</button>
+          <button type="button" onClick={() => setTab("document")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "document" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Dokumen Agunan</button>
         </div>
         <div className="min-h-[280px] overflow-y-auto px-6 py-6">
           {tab === "attribute" ? <>
