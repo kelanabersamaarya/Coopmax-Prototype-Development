@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+button.bg-blue-600:hover {
+  background-color: #2563eb !important;
+}
+
 /* Product Sans (requires you to provide the font files in /public/fonts) */
 @font-face {
   font-family: "Product Sans";
