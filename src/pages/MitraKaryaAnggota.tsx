@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ChevronDown, ChevronUp, SquarePlus, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,8 @@ const inputClass = "h-8 rounded-[5px] border-slate-300 bg-white text-[12px] shad
 
 export default function MitraKaryaAnggota() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const billingArea = location.pathname.startsWith("/anggota");
   const [query, setQuery] = React.useState("");
   const [verification, setVerification] = React.useState("semua");
   const [pageSize, setPageSize] = React.useState("20");
@@ -50,7 +52,7 @@ export default function MitraKaryaAnggota() {
   });
 
   function showAddMember() {
-    navigate("/mitra-karya/anggota/pendaftaran");
+    navigate(billingArea ? "/anggota/pendaftaran" : "/mitra-karya/anggota/pendaftaran");
   }
 
   const totalPages = Math.max(1, Math.ceil(filteredMembers.length / Number(pageSize)));
@@ -102,7 +104,7 @@ export default function MitraKaryaAnggota() {
               </tr>
             </thead>
             <tbody>
-              {paginatedMembers.map((member, index) => <tr key={member.id} onClick={() => navigate(`/mitra-karya/anggota/${member.id}`)} className="cursor-pointer border-b border-slate-300 text-[#08265a] hover:bg-blue-50/40">
+              {paginatedMembers.map((member, index) => <tr key={member.id} onClick={() => navigate(`${billingArea ? "/anggota" : "/mitra-karya/anggota"}/${member.id}`)} className="cursor-pointer border-b border-slate-300 text-[#08265a] hover:bg-blue-50/40">
                 <td className="px-3 py-2.5">{index + 1}</td><td className="px-3 py-2.5 text-[#155eef]">{member.id}</td><td className="px-3 py-2.5 capitalize">{member.name}</td><td className="bg-[#f1f3f7] px-3 py-2.5">{member.registeredAt}</td><td className="px-3 py-2.5">{member.identity}</td><td className="px-3 py-2.5">{member.phone}</td><td className="px-3 py-2.5 uppercase">{member.address}</td><td className="px-3 py-2.5"><span className="inline-flex items-center gap-1.5 rounded-[5px] bg-red-100 px-2 py-1 text-[9px] font-medium text-red-700"><span className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-red-500 text-white"><X className="h-3 w-3" strokeWidth={3} /></span>{member.verified ? "TERVERIFIKASI" : "BELUM TERVERIFIKASI"}</span></td><td className="px-3 py-2.5"><span className="rounded-[5px] bg-green-600 px-1.5 py-1 text-[10px] font-bold text-white">Aktif</span></td>
               </tr>)}
               {filteredMembers.length === 0 && <tr><td colSpan={9} className="py-10 text-center text-slate-500">Data anggota tidak ditemukan.</td></tr>}

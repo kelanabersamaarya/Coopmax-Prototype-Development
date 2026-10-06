@@ -25,7 +25,8 @@ const supportingFallback = { name: "Formulir Pendaftaran-1.jpg", type: "image/jp
 
 export default function MitraKaryaDetailContent({ record, isCandidate }: { record: DetailRecord; isCandidate: boolean }) {
   const navigate = useNavigate();
-  const base = isCandidate ? "/mitra-karya/calon-anggota" : "/mitra-karya/anggota";
+  const isBillingArea = window.location.pathname.startsWith("/anggota");
+  const base = isBillingArea ? (isCandidate ? "/anggota/calon-anggota" : "/anggota") : (isCandidate ? "/mitra-karya/calon-anggota" : "/mitra-karya/anggota");
   const left = [["ID", record.id], ["NIP", "0000"], ["Nama", record.name], ["Tempat Lahir", isCandidate ? "" : "Bandar Jaya"], ["Tanggal Lahir", isCandidate ? "" : "08-09-2026"], ["Kategori Anggota", isCandidate ? "Calon Anggota" : "Anggota"], ["Jenis Kelamin", isCandidate ? "" : "Perempuan"], ["Wilayah", ""], ["Alamat", record.address || (isCandidate ? "" : "Tabanan")], ["Alamat Email", ""], ["Tanggal Daftar", record.registeredAt || (isCandidate ? "" : "09-09-2026")], ["Tag", ""], ["Unit Anggota", ""]];
   const right = [["Agama", isCandidate ? "" : "Protestan"], ["Pekerjaan", record.occupation || ""], ["Perusahaan Tempat Bekerja", record.companyName || ""], ["Alamat Perusahaan Tempat Bekerja", record.companyAddress || ""], ["Status Pernikahan", isCandidate ? "" : "Kawin"], ["Jenis Identitas", isCandidate ? "" : "SIM A"], ["No. Identitas", record.identity || (isCandidate ? "" : "1802070711050001")], ["No. Telp/Handphone", record.phone || (isCandidate ? "" : "81236641121")], ["Nama Gadis Ibu Kandung", isCandidate ? "" : "NI WAYAN PEDEK"], ["Nama Pewaris", isCandidate ? "" : "Rama Adinata"]];
   const actionClass = "rounded-full bg-white text-[#526b92] shadow-sm hover:bg-violet-600 hover:text-white";

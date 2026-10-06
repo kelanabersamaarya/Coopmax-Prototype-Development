@@ -10,7 +10,13 @@ type SubItem = {
   to: string;
 };
 
-const items: SubItem[] = [{ label: "Transaksi", to: "/anggota/transaksi" }];
+const items: SubItem[] = [
+  { label: "Pendaftaran Anggota", to: "/anggota/pendaftaran" },
+  { label: "Anggota", to: "/anggota" },
+  { label: "Pendaftaran Calon Anggota", to: "/anggota/calon-anggota/pendaftaran" },
+  { label: "Calon Anggota", to: "/anggota/calon-anggota" },
+  { label: "Transaksi", to: "/anggota/transaksi" },
+];
 
 export default function SidebarAnggotaMenu() {
   const location = useLocation();

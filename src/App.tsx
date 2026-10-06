@@ -409,6 +409,14 @@ const App = () => (
               element={<LoanInstallmentPaymentV2 />}
             />
 
+            <Route path="anggota" element={<MitraKaryaAnggota />} />
+            <Route path="anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="anggota/:id" element={<MitraKaryaAnggotaDetail />} />
+            <Route path="anggota/calon-anggota" element={<MitraKaryaCalonAnggota />} />
+            <Route path="anggota/calon-anggota/pendaftaran" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="anggota/calon-anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
+            <Route path="anggota/calon-anggota/:id" element={<MitraKaryaCalonAnggotaDetail />} />
             <Route path="anggota/transaksi" element={<AnggotaTransaksi />} />
 
             <Route
