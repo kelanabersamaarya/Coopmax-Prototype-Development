@@ -202,7 +202,14 @@ function CollateralDetailModal({
               </div>
             </div>
             <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-5">{fields.map(([label, value]) => <div key={label} className="min-w-0"><div className="text-sm text-[#17233b]">{label}</div><div className="mt-2 text-sm font-bold text-[#17233b]">{value}</div></div>)}</div>
-          </div> : <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada dokumen agunan.</div>}
+          </div> : <div className="space-y-3">
+            {(isShm ? ["Sertifikat SHM", "Foto Agunan"] : ["BPKB", "STNK", "Foto Agunan"]).map((category) => (
+              <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
+                <div className="text-sm font-bold text-[#123267]">{category}</div>
+                <div className="mt-3 rounded-lg border border-dashed border-slate-300 px-4 py-5 text-center text-sm text-slate-500">Belum ada dokumen {category.toLowerCase()}.</div>
+              </div>
+            ))}
+          </div>}
         </div>
         <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]">× Tutup</button></div>
       </div>
