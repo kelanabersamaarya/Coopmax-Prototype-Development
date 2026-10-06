@@ -276,7 +276,7 @@ export default function PenaltyAdjustDialog({
                 onClick={() => onOpenChange(false)}
                 className={cn(
                   actionBtnBase,
-                  "bg-[#77839A] ring-1 ring-[#77839A]/25 hover:bg-[#6b768c]",
+                  "bg-[#7987B6] ring-1 ring-[#7987B6]/25 hover:bg-[#6d7aa7]",
                 )}
               >
                 <X className="h-4.5 w-4.5" strokeWidth={3} />

@@ -177,7 +177,7 @@ export default function PenaltyCancelReasonDialog({
                   onClick={() => onOpenChange(false)}
                   className={cn(
                     footerBtnBase,
-                    "bg-[#6B7A90] ring-1 ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
+                    "bg-[#7987B6] ring-1 ring-[#7987B6]/25 hover:bg-[#6d7aa7]",
                   )}
                 >
                   <X className="h-4 w-4" strokeWidth={3} />
@@ -192,7 +192,7 @@ export default function PenaltyCancelReasonDialog({
                   }}
                   className={cn(
                     footerBtnBase,
-                    "bg-emerald-600 ring-1 ring-emerald-600/20 hover:bg-emerald-700",
+                    "bg-[#3BB001] ring-1 ring-[#3BB001]/20 hover:bg-[#349d01]",
                   )}
                 >
                   <CheckSquare className="h-4 w-4" strokeWidth={3} />
