@@ -199,16 +199,16 @@ function CollateralDetailModal({
             <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-5">
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-[minmax(0,1fr)_190px] sm:items-start">
                 <div className="min-w-0">
-                  <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Jenis Agunan</div>
-                  <h3 className="mt-2 text-lg font-extrabold leading-snug text-[#123267]">{title}</h3>
+                  <div className="text-[12px] font-bold uppercase tracking-wide text-slate-500">Jenis Agunan</div>
+                  <h3 className="mt-2 text-[14px] font-extrabold leading-snug text-[#123267]">{title}</h3>
                 </div>
                 <div className="sm:border-l sm:border-slate-200 sm:pl-5 sm:text-right">
-                  <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Keterangan</div>
-                  <p className="mt-2 text-sm font-semibold text-[#123267]">Tanah 15 Are</p>
+                  <div className="text-[12px] font-bold uppercase tracking-wide text-slate-500">Keterangan</div>
+                  <p className="mt-2 text-[14px] font-semibold text-[#123267]">Tanah 15 Are</p>
                 </div>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">{fields.map(([label, value]) => <div key={label} className="rounded-lg border border-slate-100 bg-white px-3 py-2.5"><div className="text-xs font-medium text-slate-500">{label}</div><div className="mt-1 text-sm font-bold text-[#17233b]">{value}</div></div>)}</div>
+            <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">{fields.map(([label, value]) => <div key={label} className="rounded-lg border border-slate-100 bg-white px-3 py-2.5"><div className="text-[12px] font-medium text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}</div>
           </div> : <div className="space-y-3">
             {(isShm
               ? [{ category: "Sertifikat SHM", srcs: [{ type: "image", src: "/shm_sample.jpg", name: "shm_sample.jpg" }, { type: "image", src: "/shm_sample.jpg", name: "shm_sample_2.jpg" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/lahan_sample.jpg", name: "lahan_sample.jpg" }, { type: "image", src: "/lahan_sample.jpg", name: "lahan_sample_2.jpg" }] }]
