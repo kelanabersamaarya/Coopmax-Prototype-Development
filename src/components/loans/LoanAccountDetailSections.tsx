@@ -9,6 +9,7 @@ import {
   QrCode,
   Printer,
   Eye,
+  Pencil,
   ExternalLink,
   AlertTriangle,
   ShieldCheck,
@@ -41,6 +42,50 @@ function SubSectionHeader({
   return (
     <div className={cn("flex items-center justify-between gap-3", className)}>
       <SectionTitle>{title}</SectionTitle>
+    </div>
+  );
+}
+
+function CollateralSummaryCard({
+  title,
+  code,
+  nominal,
+  recognition,
+  recognizedNominal,
+  onView,
+  onEdit,
+}: {
+  title: string;
+  code: string;
+  nominal: string;
+  recognition: string;
+  recognizedNominal: string;
+  onView: () => void;
+  onEdit: () => void;
+}) {
+  return (
+    <div className="overflow-hidden rounded-xl bg-[#1b9fb4] text-white shadow-[0_14px_32px_rgba(27,159,180,0.16)]">
+      <div className="px-5 pb-5 pt-5">
+        <h3 className="min-h-[34px] text-[15px] font-extrabold leading-[1.05] tracking-tight">
+          {title}
+        </h3>
+        <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-3 text-[13px]">
+          <div><p className="text-white/80">Kode Agunan</p><p className="font-bold">{code}</p></div>
+          <div><p className="text-white/80">Nominal Agunan</p><p className="font-bold">{nominal}</p></div>
+          <div><p className="text-white/80">Pengakuan (%)</p><p className="font-bold">{recognition}</p></div>
+          <div><p className="text-white/80">Nominal Pengakuan</p><p className="font-bold">{recognizedNominal}</p></div>
+        </div>
+      </div>
+      <div className="border-t border-white/60 px-3 py-3">
+        <div className="grid gap-2">
+          <button type="button" onClick={onView} className="inline-flex h-10 items-center justify-center gap-1 rounded-md bg-white text-sm font-medium text-[#149bb4] transition hover:bg-slate-50">
+            <Eye className="h-5 w-5" /> Detail Agunan
+          </button>
+          <button type="button" onClick={onEdit} className="inline-flex h-10 items-center justify-center gap-1 rounded-md bg-white text-sm font-medium text-[#149bb4] transition hover:bg-slate-50">
+            <Pencil className="h-5 w-5" /> Ubah Agunan
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -446,7 +491,26 @@ export default function LoanAccountDetailSections({
       <Separator className="my-6 bg-slate-200/70" />
 
       <SubSectionHeader title="INFORMASI AGUNAN" />
-      <div className="mt-4 text-sm text-slate-700">Tidak ada agunan</div>
+      <div className="mt-4 grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <CollateralSummaryCard
+          title="(SHM) SERTIFIKAT HAK MILIK / TANAH DAN BANGUNAN"
+          code="SHM"
+          nominal="500.000.000,00"
+          recognition="80,00%"
+          recognizedNominal="400.000.000,00"
+          onView={() => toast("Detail Agunan (prototype)")}
+          onEdit={() => toast("Ubah Agunan (prototype)")}
+        />
+        <CollateralSummaryCard
+          title="SEPEDA MOTOR"
+          code="SPD"
+          nominal="15.000.000,00"
+          recognition="80,00%"
+          recognizedNominal="12.000.000,00"
+          onView={() => toast("Detail Agunan (prototype)")}
+          onEdit={() => toast("Ubah Agunan (prototype)")}
+        />
+      </div>
 
       <Separator className="my-6 bg-slate-200/70" />
 
