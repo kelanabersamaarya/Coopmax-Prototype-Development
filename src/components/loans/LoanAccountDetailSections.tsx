@@ -196,19 +196,15 @@ function CollateralDetailModal({
           </div>
           <div className="px-6 py-6">
           {tab === "attribute" ? <div className="px-1 py-1">
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-5">
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-[minmax(0,1fr)_190px] sm:items-start">
-                <div className="min-w-0">
-                  <div className="text-[12px] font-bold uppercase tracking-wide text-slate-500">Jenis Agunan</div>
-                  <h3 className="mt-2 text-[14px] font-extrabold leading-snug text-[#123267]">{title}</h3>
-                </div>
-                <div className="sm:border-l sm:border-slate-200 sm:pl-5 sm:text-right">
-                  <div className="text-[12px] font-bold uppercase tracking-wide text-slate-500">Keterangan</div>
-                  <p className="mt-2 text-[14px] font-semibold text-[#123267]">Tanah 15 Are</p>
-                </div>
+            <div className="rounded-xl border border-slate-200 bg-white px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
+                <h3 className="text-[14px] font-bold leading-snug text-[#17233b]">{title}</h3>
+                <span className="rounded-lg bg-blue-100 px-3 py-1 text-[12px] font-medium text-blue-800">Tanah 15 Are</span>
+              </div>
+              <div className="mt-1 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+                {fields.map(([label, value]) => <div key={label} className="flex items-center justify-between gap-4 border-b border-slate-200 py-2.5 text-[12px]"><span className="text-slate-600">{label}</span><span className="text-right font-bold text-[#17233b]">{value}</span></div>)}
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">{fields.map(([label, value]) => <div key={label} className="rounded-lg border border-slate-100 bg-white px-3 py-2.5"><div className="text-[12px] font-medium text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}</div>
           </div> : <div className="space-y-3">
             {(isShm
               ? [{ category: "Sertifikat SHM", srcs: [{ type: "image", src: "/shm_sample.jpg", name: "shm_sample.jpg" }, { type: "image", src: "/shm_sample.jpg", name: "shm_sample_2.jpg" }] }, { category: "Foto Agunan", srcs: [{ type: "image", src: "/lahan_sample.jpg", name: "lahan_sample.jpg" }, { type: "image", src: "/lahan_sample.jpg", name: "lahan_sample_2.jpg" }] }]
