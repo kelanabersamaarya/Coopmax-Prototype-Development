@@ -10,6 +10,9 @@ import {
   Printer,
   Eye,
   Pencil,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
   ExternalLink,
   AlertTriangle,
   ShieldCheck,
@@ -218,8 +221,38 @@ function CollateralDetailModal({
                 )}
               </div>
             ) : (
-              <div className="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-600">
-                Dokumen agunan tersedia untuk ditinjau.
+              <div className="space-y-3">
+                {(isShm
+                  ? [
+                      { category: "Sertifikat SHM", files: [{ type: "image", src: "/shm_sample.jpg", name: "shm_sample.jpg" }, { type: "image", src: "/shm_sample.jpg", name: "shm_sample_2.jpg" }] },
+                      { category: "Foto Agunan", files: [{ type: "image", src: "/lahan_sample.jpg", name: "lahan_sample.jpg" }, { type: "image", src: "/lahan_sample.jpg", name: "lahan_sample_2.jpg" }] },
+                    ]
+                  : [
+                      { category: "BPKB", files: [{ type: "image", src: "/bpkb_sample.jpg", name: "bpkb_sample.jpg" }, { type: "pdf", src: "", name: "bpkb_sample.pdf" }] },
+                      { category: "STNK", files: [{ type: "image", src: "/stnk_sample.jpg", name: "stnk_sample.jpg" }, { type: "pdf", src: "", name: "stnk_sample.pdf" }] },
+                      { category: "Foto Agunan", files: [{ type: "image", src: "/motor%20sample.jpg", name: "motor sample.jpg" }, { type: "image", src: "/moto_sample2.jpg", name: "moto_sample2.jpg" }] },
+                    ]
+                ).map(({ category, files }) => {
+                  const currentIndex = previewIndexes[category] ?? 0;
+                  const currentFile = files[currentIndex];
+                  const showCarousel = files.length > 1;
+                  return (
+                    <div key={category} className="rounded-xl border border-slate-200 bg-white px-4 py-4">
+                      <div className="text-sm font-bold text-[#123267]">{category}</div>
+                      <div className="relative mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white p-2">
+                        <button type="button" title="Lihat File" onClick={() => currentFile.type === "image" && window.open(currentFile.src, "_blank", "noopener,noreferrer")} className="group block w-full cursor-pointer rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                          {currentFile.type === "pdf" ? (
+                            <div className="flex h-48 flex-col items-center justify-center gap-3 text-center"><FileText className="h-16 w-16 text-blue-600" /><span className="max-w-full truncate px-4 text-sm font-semibold text-slate-700">{currentFile.name}</span></div>
+                          ) : (
+                            <><img src={currentFile.src} alt={`Preview ${category} ${currentIndex + 1}`} className="h-48 w-full rounded-md object-contain transition group-hover:opacity-70" /><span className="mt-2 block truncate text-center text-xs text-slate-500">{currentFile.name}</span></>
+                          )}
+                        </button>
+                        {showCarousel && <><button type="button" aria-label={`File ${category} sebelumnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex - 1 + files.length) % files.length }))} className="absolute left-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronLeft className="h-4 w-4" /></button><button type="button" aria-label={`File ${category} berikutnya`} onClick={() => setPreviewIndexes((current) => ({ ...current, [category]: (currentIndex + 1) % files.length }))} className="absolute right-3 top-1/2 inline-flex h-8 w-9 -translate-y-1/2 items-center justify-center rounded-[5px] bg-blue-600 text-white hover:bg-blue-700"><ChevronRight className="h-4 w-4" /></button></>}
+                        {showCarousel && <div className="mt-2 text-center text-xs text-slate-500">{currentIndex + 1} / {files.length}</div>}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
