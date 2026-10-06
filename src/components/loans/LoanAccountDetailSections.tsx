@@ -188,11 +188,12 @@ function CollateralDetailModal({
           <h2 className="text-lg font-bold">Detail Agunan</h2>
           <button type="button" aria-label="Tutup" onClick={onClose} className="text-2xl font-bold text-slate-500 hover:text-slate-800">×</button>
         </div>
-        <div className="flex gap-3 px-6 pt-4">
-          <button type="button" onClick={() => setTab("attribute")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "attribute" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Atribut Agunan</button>
-          <button type="button" onClick={() => setTab("document")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "document" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Dokumen Agunan</button>
-        </div>
-        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="flex gap-3 px-6 pt-4">
+            <button type="button" onClick={() => setTab("attribute")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "attribute" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Atribut Agunan</button>
+            <button type="button" onClick={() => setTab("document")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "document" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Dokumen Agunan</button>
+          </div>
+          <div className="px-6 py-6">
           {tab === "attribute" ? <div className="px-1 py-1">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,1.4fr)_minmax(180px,0.6fr)] sm:items-start">
               <div>
@@ -227,6 +228,7 @@ function CollateralDetailModal({
               </div>
             })}
           </div>}
+          </div>
         </div>
         <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]">× Tutup</button></div>
       </div>
