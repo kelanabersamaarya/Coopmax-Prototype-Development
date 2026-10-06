@@ -491,7 +491,7 @@ export default function LoanAccountDetailSections({
       <Separator className="my-6 bg-slate-200/70" />
 
       <SubSectionHeader title="INFORMASI AGUNAN" />
-      <div className="mt-4 grid grid-cols-1 gap-[30px] lg:grid-cols-2">
+      <div className="mt-4 flex flex-wrap gap-[30px]">
         <CollateralSummaryCard
           title="(SHM) SERTIFIKAT HAK MILIK / TANAH DAN BANGUNAN"
           code="SHM"
