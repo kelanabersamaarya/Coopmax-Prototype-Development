@@ -9,6 +9,8 @@ const notificationRows = [
   ["Simpanan Berjangka", "Pengingat", "pengingat_simpanan_berjangka", "Tidak Aktif", "Aktif", "Aktif"],
   ["Setoran Simpanan", "Transaksi", "Transaksi Setoran Simpanan", "Tidak Aktif", "Tidak Aktif", "Aktif"],
   ["Pengirim Transfer Antar Rekening", "Pengingat", "push_notif_pengirim_transfer_antar_rekening", "Tidak Aktif", "Aktif", "Aktif"],
+  ["Notifikasi Pembayaran Angsuran", "Push Notifikasi", "push_notif_pembayaran_angsuran", "Tidak Aktif", "Aktif", "Aktif"],
+  ["Notifikasi Jatuh Tempo Pinjaman", "Push Notifikasi", "push_notif_jatuh_tempo_pinjaman", "Tidak Aktif", "Aktif", "Aktif"],
 ];
 
 export default function PengaturanNotifikasi() {
@@ -27,7 +29,7 @@ export default function PengaturanNotifikasi() {
         <Button onClick={() => navigate("/pengaturan-notifikasi/tambah")} className="h-10 rounded-full bg-white px-5 text-[13px] font-medium text-[#526784] shadow-sm hover:bg-slate-50"><Plus className="mr-2 h-4 w-4" />Tambah</Button>
       </div>
       <section className="mt-8 rounded-[22px] bg-white px-3 py-6 shadow-sm md:px-5">
-        <div className="mb-4 text-[13px] text-slate-800">Tampilkan <select className="mx-1 h-7 rounded border border-slate-300 bg-white px-1"><option>5</option></select> entri</div>
+        <div className="mb-4 text-[13px] text-slate-800">Tampilkan <select className="mx-1 h-7 rounded border border-slate-300 bg-white px-1"><option>7</option></select> entri</div>
         <div className="w-full overflow-hidden">
           <table className="w-full table-fixed border-collapse text-[11px] text-[#123664] md:text-[12px]">
             <colgroup>
