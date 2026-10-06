@@ -190,12 +190,14 @@ function CollateralDetailModal({
           <button type="button" onClick={() => setTab("document")} className={cn("rounded-full px-5 py-2 text-xs font-bold transition", tab === "document" ? "bg-[#7c3aed] text-white" : "text-[#203b67] hover:bg-violet-50")}>Dokumen Agunan</button>
         </div>
         <div className="min-h-[280px] overflow-y-auto px-6 py-6">
-          {tab === "attribute" ? <>
-            <h3 className="text-base font-semibold">Keterangan</h3>
-            <p className="mt-2 text-sm text-slate-700">Tanah 15 Are</p>
-            <h3 className="mt-8 text-lg font-semibold">{title}</h3>
-            <div className="mt-3 space-y-2 text-sm">{fields.map(([label, value]) => <div key={label} className="grid grid-cols-[150px_14px_1fr]"><strong>{label}</strong><span>:</span><span>{value}</span></div>)}</div>
-          </> : <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada dokumen agunan.</div>}
+          {tab === "attribute" ? <div className="overflow-hidden rounded-xl border border-slate-200">
+            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4 text-sm font-extrabold uppercase tracking-wide text-[#17233b]">Keterangan</div>
+            <div className="px-5 py-5">
+              <p className="text-sm text-slate-700">Tanah 15 Are</p>
+              <h3 className="mt-8 text-lg font-extrabold text-[#123267]">{title}</h3>
+              <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">{fields.map(([label, value]) => <div key={label} className="grid grid-cols-[minmax(100px,150px)_14px_minmax(0,1fr)] items-baseline text-sm"><strong className="font-semibold text-[#17233b]">{label}</strong><span className="text-center text-slate-500">:</span><span className="font-semibold text-[#17233b]">{value}</span></div>)}</div>
+            </div>
+          </div> : <div className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">Belum ada dokumen agunan.</div>}
         </div>
         <div className="flex justify-end border-t border-slate-200 px-6 py-4"><button type="button" onClick={onClose} className="inline-flex items-center gap-1 rounded-md bg-[#7987b6] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6977a6]">× Tutup</button></div>
       </div>
