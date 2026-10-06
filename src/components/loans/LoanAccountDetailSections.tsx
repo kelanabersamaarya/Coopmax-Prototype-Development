@@ -197,12 +197,23 @@ function CollateralDetailModal({
           <div className="px-6 py-6">
           {tab === "attribute" ? <div className="px-1 py-1">
             <div className="rounded-xl border border-slate-200 bg-white px-5 py-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
-                <h3 className="text-[14px] font-bold leading-snug text-[#17233b]">{title}</h3>
-                <span className="rounded-lg bg-blue-100 px-3 py-1 text-[12px] font-medium text-blue-800">Tanah 15 Are</span>
+              <div className="border-b border-slate-200 pb-4">
+                <div className="text-[12px] text-slate-500">Jenis agunan</div>
+                <h3 className="mt-1 text-[14px] font-bold leading-snug text-[#17233b]">{title}</h3>
               </div>
-              <div className="mt-1 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
-                {fields.map(([label, value]) => <div key={label} className="flex items-center justify-between gap-4 border-b border-slate-200 py-2.5 text-[12px]"><span className="text-slate-600">{label}</span><span className="text-right font-bold text-[#17233b]">{value}</span></div>)}
+              <div className="border-b border-slate-200 py-3">
+                <div className="text-[12px] text-slate-500">Keterangan</div>
+                <div className="mt-1 text-[14px] font-bold text-[#17233b]">Tanah 15 Are, posisi di pinggir jalan, ada bangunan permanen 2 lantai</div>
+              </div>
+              <div className="border-b border-slate-200 py-3">
+                <div className="text-[12px] text-slate-500">Luas</div>
+                <div className="mt-1 text-[14px] font-bold text-[#17233b]">1.500 m²</div>
+              </div>
+              <div className="grid grid-cols-1 gap-0 border-b border-slate-200 sm:grid-cols-2">
+                {fields.filter(([label]) => label === "Nama" || label === "Alamat").map(([label, value]) => <div key={label} className="py-3"><div className="text-[12px] text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}
+              </div>
+              <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-3">
+                {(isShm ? fields.filter(([label]) => label === "No. SHM" || label === "Surat Ukur" || label === "NIB") : fields.filter(([label]) => label !== "Nama" && label !== "Alamat")).map(([label, value]) => <div key={label} className="py-3"><div className="text-[12px] text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}
               </div>
             </div>
           </div> : <div className="space-y-3">
