@@ -209,7 +209,7 @@ function CollateralDetailModal({
                 <div className="text-[12px] text-slate-500">Luas</div>
                 <div className="mt-1 text-[14px] font-bold text-[#17233b]">1.500 m²</div>
               </div>
-              <div className="grid grid-cols-1 gap-0 border-b border-slate-200 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-0 border-b border-slate-200">
                 {fields.filter(([label]) => label === "Nama" || label === "Alamat").map(([label, value]) => <div key={label} className="py-3"><div className="text-[12px] text-slate-500">{label}</div><div className="mt-1 text-[14px] font-bold text-[#17233b]">{value}</div></div>)}
               </div>
               <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-3">
