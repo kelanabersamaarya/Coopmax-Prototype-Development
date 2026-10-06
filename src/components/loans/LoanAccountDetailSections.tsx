@@ -64,7 +64,7 @@ function CollateralSummaryCard({
   onEdit: () => void;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl bg-[#1b9fb4] text-white shadow-[0_14px_32px_rgba(27,159,180,0.16)]">
+    <div className="overflow-hidden rounded-xl bg-[#1b9fb4] text-white">
       <div className="px-5 pb-5 pt-5">
         <h3 className="min-h-[34px] text-[15px] font-extrabold leading-[1.05] tracking-tight">
           {title}
