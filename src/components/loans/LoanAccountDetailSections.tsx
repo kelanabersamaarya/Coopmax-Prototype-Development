@@ -107,7 +107,7 @@ function KeyValueRow({
       className={cn(
         "grid items-baseline gap-x-3 gap-y-1 py-2",
         right
-          ? "[grid-template-columns:minmax(0,180px)_14px_minmax(0,1fr)]"
+          ? "[grid-template-columns:minmax(0,240px)_14px_minmax(0,1fr)]"
           : "[grid-template-columns:minmax(0,220px)_14px_minmax(0,1fr)]",
       )}
     >
