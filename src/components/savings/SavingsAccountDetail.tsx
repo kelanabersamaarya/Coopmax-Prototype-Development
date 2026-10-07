@@ -335,7 +335,9 @@ export default function SavingsAccountDetail({
 
               <div>
                 <InfoRow label="Agama" value="Hindu" />
-                <InfoRow label="Profesi" value="SWASTA" />
+                <InfoRow label="Pekerjaan" value="SWASTA" />
+                <InfoRow label="Perusahaan Tempat Bekerja" value="PT Sejahtera Abadi" />
+                <InfoRow label="Alamat Perusahaan Tempat Bekerja" value="Jl. Diponegoro No. 18, Tabanan" />
                 <InfoRow label="Jenis Identitas" value="KTP" />
                 <InfoRow label="No. Identitas" value="6203617005258715" />
                 <InfoRow label="No. Telp/Handphone" value="023 5822 6972" />
