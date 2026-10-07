@@ -67,6 +67,7 @@ export default function SidebarAnggotaMenu() {
                 <NavLink
                   key={item.label}
                   to={item.to}
+                  end
                   className={({ isActive: itemIsActive }) =>
                     cn(
                       "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
