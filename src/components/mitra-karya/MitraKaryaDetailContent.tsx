@@ -1,12 +1,13 @@
 import { Ban, ChevronDown, Download, History, KeyRound, List, Pencil, Printer, UserRound, X } from "lucide-react";
+import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 type FileItem = { name: string; type: string; dataUrl: string } | null;
 type DetailRecord = { id: string; name: string; address?: string; registeredAt?: string; identity?: string; phone?: string; occupation?: string; companyName?: string; companyAddress?: string; ktpFile?: FileItem; familyCardFile?: FileItem; supportingFile?: FileItem };
 
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return <div className="grid grid-cols-[190px_1fr] gap-2 text-[13px] leading-8"><span className="text-[#7184a5] leading-5">{label}</span><span className="font-medium text-[#06255a]">: {value}</span></div>;
+function InfoRow({ label, value }: { label: string; value: ReactNode }) {
+  return <div className="grid grid-cols-[150px_12px_minmax(0,1fr)] items-start gap-2 py-1.5 text-[13px] leading-5"><span className="text-[#7184a5]">{label}</span><span className="text-center text-[#7184a5]">:</span><span className="font-bold text-[#25334a]">{value}</span></div>;
 }
 
 function FilePreview({ item, fallback }: { item: FileItem; fallback: FileItem }) {
