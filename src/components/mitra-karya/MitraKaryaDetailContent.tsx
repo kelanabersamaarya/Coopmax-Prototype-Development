@@ -6,7 +6,7 @@ type FileItem = { name: string; type: string; dataUrl: string } | null;
 type DetailRecord = { id: string; name: string; address?: string; registeredAt?: string; identity?: string; phone?: string; occupation?: string; companyName?: string; companyAddress?: string; ktpFile?: FileItem; familyCardFile?: FileItem; supportingFile?: FileItem };
 
 function InfoRow({ label, value }: { label: string; value: string }) {
-  return <div className="grid grid-cols-[190px_1fr] gap-2 text-[13px] leading-8"><span className="text-[#7184a5]">{label}</span><span className="font-medium text-[#06255a]">: {value}</span></div>;
+  return <div className="grid grid-cols-[190px_1fr] gap-2 text-[13px] leading-8"><span className="text-[#7184a5] leading-5">{label}</span><span className="font-medium text-[#06255a]">: {value}</span></div>;
 }
 
 function FilePreview({ item, fallback }: { item: FileItem; fallback: FileItem }) {
