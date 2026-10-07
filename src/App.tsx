@@ -37,6 +37,7 @@ import MitraKaryaPenyesuaianLaporanTambah from "./pages/MitraKaryaPenyesuaianLap
 import RekeningSimpanan from "./pages/RekeningSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
+import LoanApplicationDetail from "./pages/LoanApplicationDetail";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
 import LoanProductCreate from "./pages/LoanProductCreate";
 import LoanProductDetail from "./pages/LoanProductDetail";
@@ -126,6 +127,7 @@ const App = () => (
             <Route path="mitra-karya/anggota/:id/ubah" element={<MitraKaryaPendaftaranAnggota />} />
             <Route path="mitra-karya/anggota/:id" element={<MitraKaryaAnggotaDetail />} />
             <Route path="mitra-karya/pinjaman/pengajuan" element={<LoanApplications />} />
+            <Route path="mitra-karya/pinjaman/pengajuan/:id" element={<LoanApplicationDetail />} />
             <Route path="mitra-karya/pinjaman/pengajuan/tambah" element={<LoanApplicationCreate />} />
             <Route path="mitra-karya/pinjaman/rekening" element={<RekeningPinjaman />} />
             <Route path="mitra-karya/m-banking" element={<MobileMBanking />} />
@@ -388,6 +390,7 @@ const App = () => (
 
             <Route path="loans/new" element={<NewLoan />} />
             <Route path="loans/applications" element={<LoanApplications />} />
+            <Route path="loans/applications/:id" element={<LoanApplicationDetail />} />
             <Route path="loans/applications/new" element={<LoanApplicationCreate />} />
             <Route path="loans/accounts" element={<RekeningPinjaman />} />
             <Route

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -239,6 +239,7 @@ function PaginationBar({
 
 export default function LoanApplications() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isMitraKarya = location.pathname.startsWith("/mitra-karya/");
   const rows = React.useMemo(() => seed, []);
 
@@ -557,8 +558,9 @@ export default function LoanApplications() {
                   paged.map((r, idx) => (
                     <tr
                       key={r.id}
+                      onClick={() => navigate(`${isMitraKarya ? "/mitra-karya/pinjaman/pengajuan" : "/loans/applications"}/${r.id}`)}
                       className={cn(
-                        "border-b border-slate-200 text-[13px]",
+                        "cursor-pointer border-b border-slate-200 text-[13px] transition hover:bg-blue-50/50",
                         idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                       )}
                     >
