@@ -4,7 +4,7 @@ import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { loanMenuItems, sakLoanMenuItems } from "@/navigation/menu-config";
+import { loanMenuItems, sakLoanMenuItems, termSavingsMenuItems } from "@/navigation/menu-config";
 import { isSakCabangPath, resolveLoanRoute } from "@/navigation/route-context";
 import { isLoanMenuItemActive, isLoanSectionActive } from "@/navigation/menu-state";
 
@@ -84,6 +84,25 @@ export default function SidebarPinjamanMenu() {
                   </NavLink>
                 );
               })}
+              {!sakCabangArea ? (
+                <div className="mt-1 border-t border-slate-100 pt-1">
+                  {termSavingsMenuItems.map((item) => {
+                    const active = isItemActive(item);
+                    return (
+                      <NavLink
+                        key={item.label}
+                        to={item.to}
+                        className={cn(
+                          "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                          active ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                        )}
+                      >
+                        {item.label}
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

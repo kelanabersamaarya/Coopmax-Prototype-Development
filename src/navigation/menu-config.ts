@@ -8,10 +8,13 @@ export const loanMenuItems: MenuItemConfig[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
   { label: "Transaksi Pinjaman", to: "/loans/transactions" },
-  { label: "Transaksi Simpanan Berjangka", to: "/loans/term-savings/transactions" },
-  { label: "Rekening Deposito", to: "/loans/term-savings/accounts" },
   { label: "Produk Pinjaman Konsolidasi", to: "/loan-products" },
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
+];
+
+export const termSavingsMenuItems: MenuItemConfig[] = [
+  { label: "Transaksi Simpanan Berjangka", to: "/loans/term-savings/transactions" },
+  { label: "Rekening Deposito", to: "/loans/term-savings/accounts" },
 ];
 
 export const sakLoanMenuItems: MenuItemConfig[] = [
