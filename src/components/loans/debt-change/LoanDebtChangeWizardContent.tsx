@@ -217,33 +217,22 @@ function UnifiedBillingSimulationTable({
                   </td>
                   <td
                     className={cn(
-                      "loan-debt-adjustment-cell group px-3 py-3 text-right tabular-nums",
+                      "px-3 py-3 text-right tabular-nums",
                       isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
                     )}
                   >
                     {formatIdr(interestAfter)}
-                    {isAdjustedRow ? (
-                      <>
-                        <span className="loan-debt-adjustment-info" aria-label="Lihat detail penyesuaian">
-                          i
-                        </span>
-                        <AdjustmentTooltip adjustment={adjustedBill.adjustment} />
-                      </>
-                    ) : null}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {remainingPrincipal}
                   </td>
                   <td
                     className={cn(
-                      "loan-debt-adjustment-cell px-3 py-3 text-right tabular-nums",
+                      "px-3 py-3 text-right tabular-nums",
                       isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
                     )}
                   >
                     {formatIdr(remainingInterestAfter)}
-                    {isAdjustedRow ? (
-                      <AdjustmentTooltip adjustment={adjustedBill.adjustment} />
-                    ) : null}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {penalty}
