@@ -37,6 +37,7 @@ import MitraKaryaPenyesuaianLaporanTambah from "./pages/MitraKaryaPenyesuaianLap
 import RekeningSimpanan from "./pages/RekeningSimpanan";
 import TutupRekening from "./pages/TutupRekening";
 import TutupRekeningDetail from "./pages/TutupRekeningDetail";
+import TutupRekeningBerjangka from "./pages/TutupRekeningBerjangka";
 import PerpanjanganSimpanan from "./pages/PerpanjanganSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
@@ -178,6 +179,8 @@ const App = () => (
             <Route path="anggota/simpanan/perpanjangan" element={<PerpanjanganSimpanan />} />
             <Route path="anggota/simpanan/tutup-rekening" element={<TutupRekening />} />
             <Route path="anggota/simpanan/tutup-rekening/:accountNo" element={<TutupRekeningDetail />} />
+            <Route path="astiti-dana-lestari/simpanan-berjangka/tutup-rekening" element={<TutupRekeningBerjangka />} />
+            <Route path="anggota/simpanan-berjangka/tutup-rekening" element={<TutupRekeningBerjangka />} />
 
             <Route path="payment-link" element={<PaymentLink />} />
             <Route

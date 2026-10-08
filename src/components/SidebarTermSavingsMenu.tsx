@@ -14,6 +14,7 @@ export default function SidebarTermSavingsMenu() {
   const items = [
     { label: "Transaksi Simpanan Berjangka", to: `${routePrefix}/transaksi` },
     { label: "Rekening Simpanan Berjangka", to: `${routePrefix}/rekening` },
+    { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
   const isActive = location.pathname.startsWith(routePrefix);
   const [open, setOpen] = React.useState(isActive);

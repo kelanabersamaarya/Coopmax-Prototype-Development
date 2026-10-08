@@ -135,6 +135,10 @@ export default function SidebarAstitiDanaLestariMenu() {
             label: "Rekening Simpanan Berjangka",
             to: "/astiti-dana-lestari/simpanan-berjangka/rekening",
           },
+          {
+            label: "Tutup Rekening",
+            to: "/astiti-dana-lestari/simpanan-berjangka/tutup-rekening",
+          },
         ]}
       />
 
