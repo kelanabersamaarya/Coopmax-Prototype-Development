@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
