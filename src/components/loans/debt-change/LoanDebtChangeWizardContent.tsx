@@ -145,28 +145,40 @@ function UnifiedBillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[1120px] border-collapse">
+        <table className="w-full min-w-[980px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[175px] px-3 py-3 text-right">
+              <th className="w-[105px] px-2 py-3">Jatuh Tempo</th>
+              <th className="w-[145px] px-2 py-3 text-right">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">Tagihan Pokok</th>
-              <th className="w-[135px] px-3 py-3 text-right">Tagihan Bunga</th>
-              <th className="w-[165px] px-3 py-3 text-right">
+              <th className="w-[115px] px-2 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
+              </th>
+              <th className="w-[115px] px-2 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
+              </th>
+              <th className="w-[135px] px-2 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[165px] px-3 py-3 text-right">
+              <th className="w-[135px] px-2 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[135px] px-3 py-3 text-right">Tagihan Denda</th>
+              <th className="w-[115px] px-2 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
+              </th>
             </tr>
           </thead>
 
