@@ -7,6 +7,7 @@ export type MenuItemConfig = {
 export const loanMenuItems: MenuItemConfig[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
+  { label: "Pinjaman Lunas", to: "/loans/paid" },
   { label: "Transaksi Pinjaman", to: "/loans/transactions" },
   { label: "Produk Pinjaman Konsolidasi", to: "/loan-products" },
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
