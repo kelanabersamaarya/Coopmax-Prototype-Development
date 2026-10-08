@@ -190,7 +190,9 @@ export default function LoanTransactionDetailCard({
 
         <div>
           <KVRow label="Agama" value="Hindu" right />
-          <KVRow label="Profesi" value="Asisten Presiden" right />
+          <KVRow label="Pekerjaan" value="Asisten Presiden" right />
+          <KVRow label="Perusahaan Tempat Bekerja" value="-" right />
+          <KVRow label="Alamat Perusahaan Tempat Bekerja" value="-" right />
           <KVRow label="Jenis Identitas" value="KTP" right />
           <KVRow label="No. Identitas" value="1110191003079551" right />
           <KVRow label="No. Telp/Handphone" value="0995 6291 594" right />
