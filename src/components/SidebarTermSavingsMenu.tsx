@@ -12,7 +12,7 @@ const items = [
 
 export default function SidebarTermSavingsMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/loans/term-savings");
+  const isActive = location.pathname.startsWith("/astiti-dana-lestari/simpanan-berjangka");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
