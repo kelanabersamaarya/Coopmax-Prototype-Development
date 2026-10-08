@@ -39,6 +39,7 @@ import TutupRekening from "./pages/TutupRekening";
 import TutupRekeningDetail from "./pages/TutupRekeningDetail";
 import TutupRekeningBerjangka from "./pages/TutupRekeningBerjangka";
 import TutupRekeningBerjangkaDetail from "./pages/TutupRekeningBerjangkaDetail";
+import PerpanjanganDeposito from "./pages/PerpanjanganDeposito";
 import PerpanjanganSimpanan from "./pages/PerpanjanganSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
@@ -180,8 +181,10 @@ const App = () => (
             <Route path="anggota/simpanan/perpanjangan" element={<PerpanjanganSimpanan />} />
             <Route path="anggota/simpanan/tutup-rekening" element={<TutupRekening />} />
             <Route path="anggota/simpanan/tutup-rekening/:accountNo" element={<TutupRekeningDetail />} />
+            <Route path="astiti-dana-lestari/simpanan-berjangka/perpanjangan" element={<PerpanjanganDeposito />} />
             <Route path="astiti-dana-lestari/simpanan-berjangka/tutup-rekening" element={<TutupRekeningBerjangka />} />
             <Route path="astiti-dana-lestari/simpanan-berjangka/tutup-rekening/:accountNo" element={<TutupRekeningBerjangkaDetail />} />
+            <Route path="anggota/simpanan-berjangka/perpanjangan" element={<PerpanjanganDeposito />} />
             <Route path="anggota/simpanan-berjangka/tutup-rekening" element={<TutupRekeningBerjangka />} />
             <Route path="anggota/simpanan-berjangka/tutup-rekening/:accountNo" element={<TutupRekeningBerjangkaDetail />} />
 

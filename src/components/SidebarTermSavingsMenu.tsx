@@ -14,6 +14,7 @@ export default function SidebarTermSavingsMenu() {
   const items = [
     { label: "Transaksi Simpanan Berjangka", to: `${routePrefix}/transaksi` },
     { label: "Rekening Simpanan Berjangka", to: `${routePrefix}/rekening` },
+    { label: "Perpanjangan Simpanan Berjangka", to: `${routePrefix}/perpanjangan` },
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
   const isActive = location.pathname.startsWith(routePrefix);
