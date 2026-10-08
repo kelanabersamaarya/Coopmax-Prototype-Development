@@ -6,13 +6,13 @@ import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { label: "Transaksi Simpanan Berjangka", to: "/loans/term-savings/transactions" },
-  { label: "Rekening Deposito", to: "/loans/term-savings/accounts" },
+  { label: "Transaksi Simpanan Berjangka", to: "/astiti-dana-lestari/simpanan-berjangka/transaksi" },
+  { label: "Rekening Deposito", to: "/astiti-dana-lestari/simpanan-berjangka/rekening" },
 ];
 
 export default function SidebarTermSavingsMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/loans/term-savings");
+  const isActive = location.pathname.startsWith("/astiti-dana-lestari/simpanan-berjangka");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
