@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { ChevronDown, HandCoins } from "lucide-react";
+import { ChevronDown, CreditCard, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { loanMenuItems, sakLoanMenuItems } from "@/navigation/menu-config";
 import { isSakCabangPath, resolveLoanRoute } from "@/navigation/route-context";
@@ -17,7 +17,7 @@ export default function SidebarPinjamanMenu() {
     return loanMenuItems;
   }, [sakCabangArea]);
 
-  const isActive = isLoanSectionActive(location.pathname) || location.pathname.startsWith("/loans/term-savings");
+  const isActive = isLoanSectionActive(location.pathname);
 
   const [open, setOpen] = React.useState<boolean>(isActive);
 

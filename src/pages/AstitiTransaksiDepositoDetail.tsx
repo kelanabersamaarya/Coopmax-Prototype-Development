@@ -24,7 +24,7 @@ export default function AstitiTransaksiDepositoDetail() {
     <div className="min-h-screen bg-[#f7f8fd] px-3 pb-8 pt-6 text-[#08285f] md:px-9 md:pt-8">
       <div className="px-1">
         <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Transaksi Deposito <span className="text-sm font-semibold">Detail</span></h1>
-        <div className="mt-4 flex flex-wrap justify-end gap-2"><Action icon={Printer} onClick={() => {}}>Kwitansi</Action><Action icon={Printer} onClick={() => {}}>Kwitansi Kas</Action><Action icon={List} onClick={() => navigate("/loans/term-savings/transactions")}>Kembali ke Daftar</Action><Action icon={Trash2} onClick={() => {}}>Hapus</Action></div>
+        <div className="mt-4 flex flex-wrap justify-end gap-2"><Action icon={Printer} onClick={() => {}}>Kwitansi</Action><Action icon={Printer} onClick={() => {}}>Kwitansi Kas</Action><Action icon={List} onClick={() => navigate("/astiti-dana-lestari/simpanan-berjangka/transaksi")}>Kembali ke Daftar</Action><Action icon={Trash2} onClick={() => {}}>Hapus</Action></div>
       </div>
       <Card className="mt-5 rounded-3xl border-0 bg-white p-5 shadow-sm md:p-6">
         <section>
