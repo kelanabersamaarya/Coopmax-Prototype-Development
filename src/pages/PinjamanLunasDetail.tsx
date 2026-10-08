@@ -8,7 +8,7 @@ const infoNasabahRight = [["Agama", "Islam"], ["Profesi", "SWASTA"], ["Jenis Ide
 const creditInfo = [["Tanggal Realisasi", "02-10-2026"], ["Besar Pinjaman / Plafond", "5.000.000,00"], ["Propisi", "0,00"], ["Administrasi", "0,00"], ["Biaya Asuransi", "0,00"], ["Jumlah Potongan", "0,00"], ["Penerimaan Bersih", "5.000.000,00"], ["Terbilang", "Lima Juta"], ["Dicairkan ke Rekening Tabungan", "-"]];
 
 function KeyValue({ label, value, link = false }: { label: string; value: string; link?: boolean }) { return <div className="grid grid-cols-[minmax(150px,210px)_14px_minmax(0,1fr)] items-baseline gap-x-2 py-2 text-[13px]"><span className="text-[#7184a5]">{label}</span><span>:</span><span className={link ? "font-semibold text-blue-600 underline" : "font-semibold text-[#11264d]"}>{value || " "}</span></div>; }
-function SectionTitle({ children }: { children: React.ReactNode }) { return <h2 className="border-t border-[#dbe0e8] pt-4 text-[14px] font-bold text-[#092452]">{children}</h2>; }
+function SectionTitle({ children, divider = true }: { children: React.ReactNode; divider?: boolean }) { const showDivider = divider && children !== "INFORMASI REKENING"; return <h2 className={`${showDivider ? "border-t border-[#dbe0e8] pt-4" : ""} text-[14px] font-bold text-[#092452]`}>{children}</h2>; }
 
 export default function PinjamanLunasDetail() {
   const navigate = useNavigate();
