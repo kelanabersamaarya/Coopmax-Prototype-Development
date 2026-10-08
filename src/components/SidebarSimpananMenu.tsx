@@ -19,6 +19,7 @@ export default function SidebarSimpananMenu() {
       ? [{ label: "Transaksi Simpanan", to: `${routePrefix}/transaksi` }]
       : []),
     { label: "Daftar Rekening", to: `${routePrefix}/rekening` },
+    { label: "Perpanjangan Simpanan", to: `${routePrefix}/perpanjangan` },
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
   const isActive =
