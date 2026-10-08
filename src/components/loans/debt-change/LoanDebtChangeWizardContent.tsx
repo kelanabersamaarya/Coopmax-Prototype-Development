@@ -149,7 +149,7 @@ function UnifiedBillingSimulationTable({
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[105px] px-2 py-3 text-left">Jatuh Tempo</th>
-              <th className="w-[145px] px-2 py-3 text-left">
+              <th className="w-[125px] px-2 py-3 text-left">
                 Total Tagihan
                 <br />
                 Belum Dibayar
