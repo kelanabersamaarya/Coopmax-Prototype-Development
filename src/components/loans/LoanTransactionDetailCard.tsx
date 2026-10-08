@@ -4,12 +4,12 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ExternalLink } from "lucide-react";
+import { CircleX, ExternalLink } from "lucide-react";
 import { getLoanTransaction } from "@/lib/loanTransactionStore";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[14px] font-bold uppercase tracking-wide text-slate-700">
+    <div className="text-[13px] font-extrabold uppercase tracking-normal text-[#17233b]">
       {children}
     </div>
   );
@@ -46,17 +46,17 @@ function KVRow({
   return (
     <div
       className={cn(
-        "grid items-baseline gap-x-3 gap-y-1 py-1.5",
+        "grid items-baseline gap-x-3 gap-y-1 py-2",
         right
-          ? "[grid-template-columns:minmax(0,170px)_14px_minmax(0,1fr)]"
-          : "[grid-template-columns:minmax(0,220px)_14px_minmax(0,1fr)]",
+          ? "[grid-template-columns:minmax(0,265px)_14px_minmax(0,1fr)]"
+          : "[grid-template-columns:minmax(0,232px)_14px_minmax(0,1fr)]",
       )}
     >
-      <div className="text-[12.5px] text-slate-600">{label}</div>
-      <div className="text-center text-[12.5px] font-normal text-slate-300">
+      <div className="text-[13px] text-[#53627a]">{label}</div>
+      <div className="text-center text-[13px] font-normal text-[#8da0bd]">
         :
       </div>
-      <div className="text-[12.5px] font-normal text-slate-900">{value}</div>
+      <div className="text-[13px] font-bold text-[#17233b]">{value}</div>
     </div>
   );
 }
@@ -68,20 +68,21 @@ function StatusChip({
   children: React.ReactNode;
   tone?: "ok" | "danger" | "muted";
 }) {
-  const cls =
-    tone === "danger"
-      ? "bg-rose-50 text-rose-700 ring-1 ring-rose-200"
-      : tone === "muted"
-        ? "bg-slate-100 text-slate-700 ring-1 ring-slate-200"
-        : "bg-emerald-600 text-white ring-1 ring-emerald-600/20";
+const cls =
+  tone === "danger"
+    ? "bg-rose-100 text-rose-600 ring-1 ring-rose-100"
+    : tone === "muted"
+      ? "bg-slate-100 text-slate-700 ring-1 ring-slate-200"
+      : "bg-rose-600 text-white ring-1 ring-rose-600/20";
 
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[5px] px-2 py-1 text-[11px] font-extrabold leading-none",
+        "inline-flex items-center rounded-[5px] px-3 py-2 text-[11px] font-extrabold leading-none",
         cls,
       )}
     >
+      {tone === "danger" && <CircleX className="mr-2 h-4 w-4" />}
       {children}
     </span>
   );
