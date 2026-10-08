@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Check, ChevronLeft, ChevronRight, Clock3, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import BillingStatusBadge from "@/components/anggota/BillingStatusBadge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import LoanBillingTablePreview, {
@@ -145,7 +146,7 @@ function UnifiedBillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[980px] border-collapse">
+        <table className="w-full min-w-[1105px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
               <th className="w-[105px] px-2 py-3 text-left">Jatuh Tempo</th>
@@ -178,6 +179,11 @@ function UnifiedBillingSimulationTable({
                 Tagihan
                 <br />
                 Denda
+              </th>
+              <th className="w-[125px] px-2 py-3 text-left">
+                Status
+                <br />
+                Tagihan
               </th>
             </tr>
           </thead>
@@ -248,6 +254,9 @@ function UnifiedBillingSimulationTable({
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {penalty}
+                  </td>
+                  <td className="px-2 py-3 text-left">
+                    <BillingStatusBadge status="Belum Dibayar" />
                   </td>
                 </tr>
               );
