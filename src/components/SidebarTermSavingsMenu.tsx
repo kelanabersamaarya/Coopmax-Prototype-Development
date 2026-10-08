@@ -13,7 +13,7 @@ export default function SidebarTermSavingsMenu() {
     : "/astiti-dana-lestari/simpanan-berjangka";
   const items = [
     { label: "Transaksi Simpanan Berjangka", to: `${routePrefix}/transaksi` },
-    { label: "Rekening Deposito", to: `${routePrefix}/rekening` },
+    { label: "Rekening Simpanan Berjangka", to: `${routePrefix}/rekening` },
   ];
   const isActive = location.pathname.startsWith(routePrefix);
   const [open, setOpen] = React.useState(isActive);

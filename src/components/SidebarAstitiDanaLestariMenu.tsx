@@ -132,7 +132,7 @@ export default function SidebarAstitiDanaLestariMenu() {
             to: "/astiti-dana-lestari/simpanan-berjangka/transaksi",
           },
           {
-            label: "Rekening Deposito",
+            label: "Rekening Simpanan Berjangka",
             to: "/astiti-dana-lestari/simpanan-berjangka/rekening",
           },
         ]}
