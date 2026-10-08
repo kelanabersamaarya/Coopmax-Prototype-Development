@@ -53,6 +53,7 @@ import LoanTransactions from "./pages/LoanTransactions";
 import PinjamanLunas from "./pages/PinjamanLunas";
 import PinjamanLunasDetail from "./pages/PinjamanLunasDetail";
 import PerpanjanganPinjaman from "./pages/PerpanjanganPinjaman";
+import PerpanjanganPinjamanDetail from "./pages/PerpanjanganPinjamanDetail";
 import LoanInstallmentPayment from "./pages/LoanInstallmentPayment";
 import LoanInstallmentPaymentV2 from "./pages/LoanInstallmentPaymentV2";
 import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
@@ -419,6 +420,7 @@ const App = () => (
             <Route path="loans/paid" element={<PinjamanLunas />} />
             <Route path="loans/paid/:accountNo" element={<PinjamanLunasDetail />} />
             <Route path="loans/extension" element={<PerpanjanganPinjaman />} />
+            <Route path="loans/extension/:accountNo" element={<PerpanjanganPinjamanDetail />} />
             <Route path="loans/transactions" element={<LoanTransactions />} />
             <Route
               path="loans/transactions/:trxNo"
