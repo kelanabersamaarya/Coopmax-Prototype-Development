@@ -51,6 +51,7 @@ import RekeningPinjaman from "./pages/RekeningPinjaman";
 import LoanAccountEdit from "./pages/LoanAccountEdit";
 import LoanTransactions from "./pages/LoanTransactions";
 import PinjamanLunas from "./pages/PinjamanLunas";
+import PinjamanLunasDetail from "./pages/PinjamanLunasDetail";
 import LoanInstallmentPayment from "./pages/LoanInstallmentPayment";
 import LoanInstallmentPaymentV2 from "./pages/LoanInstallmentPaymentV2";
 import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
@@ -415,6 +416,7 @@ const App = () => (
               element={<LoanAccountEdit />}
             />
             <Route path="loans/paid" element={<PinjamanLunas />} />
+            <Route path="loans/paid/:accountNo" element={<PinjamanLunasDetail />} />
             <Route path="loans/transactions" element={<LoanTransactions />} />
             <Route
               path="loans/transactions/:trxNo"
