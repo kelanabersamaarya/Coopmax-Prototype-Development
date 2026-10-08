@@ -39,7 +39,7 @@ import TutupRekening from "./pages/TutupRekening";
 import TutupRekeningDetail from "./pages/TutupRekeningDetail";
 import TutupRekeningBerjangka from "./pages/TutupRekeningBerjangka";
 import TutupRekeningBerjangkaDetail from "./pages/TutupRekeningBerjangkaDetail";
-import PerpanjanganSimpanan from "./pages/PerpanjanganSimpanan"
+import PerpanjanganSimpanan from "./pages/PerpanjanganSimpanan";
 import NewLoan from "./pages/NewLoan";
 import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationDetail from "./pages/LoanApplicationDetail";

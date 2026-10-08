@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { CircleX, History, List, ExternalLink, X } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -12,11 +13,11 @@ const accounts = {
 
 type Account = (typeof accounts)[keyof typeof accounts];
 
-function DetailRow({ label, value, children }: { label: string; value?: string; children?: React.ReactNode }) {
+function DetailRow({ label, value, children }: { label: string; value?: string; children?: ReactNode }) {
   return <div className="grid grid-cols-[minmax(190px,1fr)_14px_minmax(0,1fr)] items-center gap-x-2 py-1.5 text-[13px]"><span className="text-[#7186a8]">{label}</span><span className="font-semibold text-[#8da0bd]">:</span><span className="font-semibold text-[#14223b]">{children ?? value ?? ""}</span></div>;
 }
 
-function SummaryItem({ label, value, children }: { label: string; value?: string; children?: React.ReactNode }) {
+function SummaryItem({ label, value, children }: { label: string; value?: string; children?: ReactNode }) {
   return <div><p className="text-[13px] text-white/75">{label}</p><strong className="text-[14px]">{children ?? value}</strong></div>;
 }
 
