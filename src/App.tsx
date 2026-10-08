@@ -51,7 +51,7 @@ import RekeningPinjaman from "./pages/RekeningPinjaman";
 import LoanAccountEdit from "./pages/LoanAccountEdit";
 import LoanTransactions from "./pages/LoanTransactions";
 import PinjamanLunas from "./pages/PinjamanLunas";
-import LoanInstallmentPayment from "./pages/LoanInstallmentPayment"
+import LoanInstallmentPayment from "./pages/LoanInstallmentPayment";
 import LoanInstallmentPaymentV2 from "./pages/LoanInstallmentPaymentV2";
 import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
 import TransaksiPinjamanDetail from "./pages/TransaksiPinjamanDetail";
