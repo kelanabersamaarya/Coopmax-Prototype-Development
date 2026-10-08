@@ -11,6 +11,9 @@ import { saveDepositTransaction } from "@/lib/depositTransactionsStore";
 
 export default function AstitiTarikanBungaDeposito() {
   const navigate = useNavigate();
+  const routePrefix = window.location.pathname.startsWith("/anggota/")
+    ? "/anggota/simpanan-berjangka"
+    : "/astiti-dana-lestari/simpanan-berjangka";
   const [tanggal, setTanggal] = React.useState("13-09-2026");
   const [rekeningTabungan, setRekeningTabungan] = React.useState("-");
   const [keterangan, setKeterangan] = React.useState("");
