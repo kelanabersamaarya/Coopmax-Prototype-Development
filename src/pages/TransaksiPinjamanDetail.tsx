@@ -71,14 +71,15 @@ function KVRow({
   return (
     <div
       className={cn(
-        "grid gap-2 text-[13px] leading-8",
+        "grid items-baseline gap-x-3 gap-y-1 py-1.5",
         right
-          ? "grid-cols-[minmax(150px,185px)_1fr] sm:grid-cols-[200px_1fr]"
-          : "grid-cols-[minmax(150px,185px)_1fr] sm:grid-cols-[200px_1fr]",
+          ? "[grid-template-columns:minmax(0,170px)_14px_minmax(0,1fr)]"
+          : "[grid-template-columns:minmax(0,220px)_14px_minmax(0,1fr)]",
       )}
     >
-      <span className="text-[#7186a8]">{label}</span>
-      <span className="text-[#14284b]">: {value}</span>
+      <div className="text-[12.5px] text-slate-600">{label}</div>
+      <div className="text-center text-[12.5px] font-normal text-slate-300">:</div>
+      <div className="text-[12.5px] font-normal text-slate-900">{value}</div>
     </div>
   );
 }
@@ -213,10 +214,10 @@ export default function TransaksiPinjamanDetail() {
           </div>
           </section>
 
-          <section className="mt-8 border-t border-[#dfe3e9] pt-3">
+          <section className="mt-8 border-t border-[#dfe3e9] pt-5">
           <SectionTitle>INFORMASI NASABAH</SectionTitle>
 
-          <div className="mt-4 grid gap-x-12 lg:grid-cols-2">
+          <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div>
               <KVRow
                 label="ID"
@@ -245,7 +246,9 @@ export default function TransaksiPinjamanDetail() {
 
             <div>
               <KVRow label="Agama" value="Hindu" right />
-              <KVRow label="Profesi" value="PNS" right />
+              <KVRow label="Pekerjaan" value="PNS" right />
+              <KVRow label="Perusahaan Tempat Bekerja" value="-" right />
+              <KVRow label="Alamat Perusahaan Tempat Bekerja" value="-" right />
               <KVRow label="Jenis Identitas" value="KTP" right />
               <KVRow label="No. Identitas" value="191828282929" right />
               <KVRow label="No. Telp/Handphone" value="8133700004555" right />
