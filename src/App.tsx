@@ -112,10 +112,14 @@ const App = () => (
               path="astiti-dana-lestari/pinjaman/pembayaran-angsuran"
               element={<AstitiDanaLestariPembayaranAngsuran />}
             />
-            <Route path="astiti-dana-lestari/simpanan-berjangka/transaksi" element={<AstitiTransaksiDeposito />} />
-            <Route path="astiti-dana-lestari/simpanan-berjangka/transaksi/:id" element={<AstitiTransaksiDepositoDetail />} />
-            <Route path="astiti-dana-lestari/simpanan-berjangka/tarikan" element={<AstitiTarikanBungaDeposito />} />
-            <Route path="astiti-dana-lestari/simpanan-berjangka/rekening" element={<AstitiRekeningDeposito />} />
+            <Route path="loans/term-savings/transactions" element={<AstitiTransaksiDeposito />} />
+            <Route path="loans/term-savings/transactions/:id" element={<AstitiTransaksiDepositoDetail />} />
+            <Route path="loans/term-savings/withdrawal" element={<AstitiTarikanBungaDeposito />} />
+            <Route path="loans/term-savings/accounts" element={<AstitiRekeningDeposito />} />
+            <Route path="astiti-dana-lestari/simpanan-berjangka/transaksi" element={<Navigate to="/loans/term-savings/transactions" replace />} />
+            <Route path="astiti-dana-lestari/simpanan-berjangka/transaksi/:id" element={<Navigate to="/loans/term-savings/transactions" replace />} />
+            <Route path="astiti-dana-lestari/simpanan-berjangka/tarikan" element={<Navigate to="/loans/term-savings/withdrawal" replace />} />
+            <Route path="astiti-dana-lestari/simpanan-berjangka/rekening" element={<Navigate to="/loans/term-savings/accounts" replace />} />
             <Route path="astiti-dana-lestari/akunting" element={<SakAkunting />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />

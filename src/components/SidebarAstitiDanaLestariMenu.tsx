@@ -5,7 +5,6 @@ import {
   Calculator,
   ChevronDown,
   ChevronRight,
-  CreditCard,
   HandCoins,
   Home,
   WalletCards,
@@ -120,21 +119,6 @@ export default function SidebarAstitiDanaLestariMenu() {
         items={[
           { label: "Transaksi Pinjaman", to: "/astiti-dana-lestari/pinjaman/transaksi" },
           { label: "Rekening Pinjaman", to: "/astiti-dana-lestari/pinjaman/rekening" },
-        ]}
-      />
-      <MenuSection
-        label="Simpanan Berjangka"
-        icon={CreditCard}
-        active={location.pathname.startsWith("/astiti-dana-lestari/simpanan-berjangka")}
-        items={[
-          {
-            label: "Transaksi Simpanan Berjangka",
-            to: "/astiti-dana-lestari/simpanan-berjangka/transaksi",
-          },
-          {
-            label: "Rekening Deposito",
-            to: "/astiti-dana-lestari/simpanan-berjangka/rekening",
-          },
         ]}
       />
 

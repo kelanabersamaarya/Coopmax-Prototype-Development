@@ -30,5 +30,13 @@ export function isLoanMenuItemActive(to: string, pathname: string, search: strin
     return pathname === itemTo || (pathname.startsWith(prefix) && search === "?from=cabang");
   }
 
+  if (to === "/loans/term-savings/transactions") {
+    return pathname === itemTo || pathname.startsWith(`${itemTo}/`);
+  }
+
+  if (to === "/loans/term-savings/accounts") {
+    return pathname === itemTo || pathname.startsWith(`${itemTo}/`);
+  }
+
   return pathname === itemTo || pathname.startsWith(`${itemTo}/`);
 }
