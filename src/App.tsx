@@ -110,6 +110,7 @@ const App = () => (
             <Route path="astiti-dana-lestari/simpanan/setoran" element={<AstitiSetoranSimpanan />} />
             <Route path="astiti-dana-lestari/simpanan/tarikan" element={<AstitiTarikanSimpanan />} />
             <Route path="astiti-dana-lestari/simpanan/transaksi/detail" element={<AstitiTransaksiTabunganDetail />} />
+            <Route path="anggota/simpanan/transaksi/detail" element={<AstitiTransaksiTabunganDetail />} />
             <Route path="astiti-dana-lestari/pinjaman/transaksi" element={<LoanTransactions />} />
             <Route path="astiti-dana-lestari/pinjaman/rekening" element={<AstitiRekeningPinjaman />} />
             <Route

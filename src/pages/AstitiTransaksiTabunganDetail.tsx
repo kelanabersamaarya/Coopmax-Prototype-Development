@@ -45,6 +45,9 @@ const InfoCell = ({ label, value }: { label: string; value: string }) => (
 
 export default function AstitiTransaksiTabunganDetail() {
   const navigate = useNavigate();
+  const routePrefix = window.location.pathname.startsWith("/anggota/")
+    ? "/anggota/simpanan"
+    : "/astiti-dana-lestari/simpanan";
   const transaction = getSelectedSavingsTransaction();
 
   return (
@@ -68,7 +71,7 @@ export default function AstitiTransaksiTabunganDetail() {
           </Button>
           <Button
             variant="ghost"
-            onClick={() => navigate("/astiti-dana-lestari/simpanan/transaksi")}
+            onClick={() => navigate(`${routePrefix}/transaksi`)}
             className="h-9 rounded-[5px] px-2.5 text-[13px] font-normal hover:bg-white"
           >
             <List className="mr-2 h-[18px] w-[18px] stroke-[2.5]" />

@@ -124,7 +124,7 @@ export default function AstitiSimpananTransaksi() {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((transaction) => <tr key={transaction.id} className="cursor-pointer border-b border-slate-200 align-top transition-colors hover:bg-[#f8f7ff]" onClick={() => navigate("/astiti-dana-lestari/simpanan/transaksi/detail")}>
+                {transactions.map((transaction) => <tr key={transaction.id} className="cursor-pointer border-b border-slate-200 align-top transition-colors hover:bg-[#f8f7ff]" onClick={() => navigate(`${routePrefix}/transaksi/detail`)}>
                   <td className="px-2 py-1.5 text-[13px]">{transaction.no}</td><td className="px-2 py-1.5 font-medium text-blue-600">{transaction.id}</td><td className="px-2 py-1.5">{transaction.rekening}</td><td className="px-2 py-1.5">{transaction.nasabah}</td><td className="px-2 py-1.5">{transaction.nama}</td><td className="px-2 py-1.5">{transaction.kolektor}</td><td className="px-2 py-1.5 leading-tight">{transaction.tabungan}</td><td className="bg-[hsl(var(--app-bg))] px-2 py-1.5">{transaction.tanggal}</td><td className="px-2 py-1.5 leading-tight">{transaction.jenis}</td><td className={cn("px-2 py-1.5 font-medium", transaction.nominal.startsWith("-") ? "text-red-500" : "text-lime-600")}>{transaction.nominal}</td>
                 </tr>)}
               </tbody>

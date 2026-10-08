@@ -1,4 +1,5 @@
 import { ExternalLink, History, List, X, CircleX } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,7 +10,7 @@ const accounts: Record<string, { accountNo: string; customer: string; product: s
   SK01260015: { accountNo: "SK01260015", customer: "Jaya Kumara", product: "Simpanan Sukarela", closedAt: "02 Oct 2026" },
 };
 
-function Row({ label, value, children }: { label: string; value?: string; children?: React.ReactNode }) {
+function Row({ label, value, children }: { label: string; value?: string; children?: ReactNode }) {
   return <div className="grid grid-cols-[minmax(0,205px)_14px_minmax(0,1fr)] items-baseline gap-x-3 py-1.5 text-[13px]"><span className="text-[#7186a8]">{label}</span><span className="text-center text-[#8da0bd]">:</span><span className="font-bold text-[#17233b]">{children ?? value ?? "-"}</span></div>;
 }
 
