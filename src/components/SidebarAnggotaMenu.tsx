@@ -20,7 +20,10 @@ const items: SubItem[] = [
 
 export default function SidebarAnggotaMenu() {
   const location = useLocation();
-  const isAnggotaArea = location.pathname.startsWith("/anggota") && !location.pathname.startsWith("/anggota/simpanan-berjangka");
+  const isAnggotaArea =
+    location.pathname.startsWith("/anggota") &&
+    !location.pathname.startsWith("/anggota/simpanan") &&
+    !location.pathname.startsWith("/anggota/simpanan-berjangka");
   const isActive = isAnggotaArea;
   const [open, setOpen] = React.useState<boolean>(isActive);
 

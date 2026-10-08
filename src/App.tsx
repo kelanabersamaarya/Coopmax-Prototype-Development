@@ -102,6 +102,8 @@ const App = () => (
             <Route path="astiti-dana-lestari/dashboard" element={<AstitiDanaLestariDashboard />} />
             <Route path="astiti-dana-lestari/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />
             <Route path="astiti-dana-lestari/simpanan/rekening" element={<AstitiRekeningTabungan />} />
+            <Route path="anggota/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />
+            <Route path="anggota/simpanan/rekening" element={<AstitiRekeningTabungan />} />
             <Route path="astiti-dana-lestari/simpanan/rekening/detail" element={<AstitiRekeningTabunganDetail />} />
             <Route path="astiti-dana-lestari/simpanan/setoran" element={<AstitiSetoranSimpanan />} />
             <Route path="astiti-dana-lestari/simpanan/tarikan" element={<AstitiTarikanSimpanan />} />

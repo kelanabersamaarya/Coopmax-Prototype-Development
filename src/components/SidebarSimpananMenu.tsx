@@ -10,13 +10,19 @@ type SubItem = {
   to: string;
 };
 
-const items: SubItem[] = [
-  { label: "Daftar Rekening", to: "/simpanan/rekening" },
-];
-
 export default function SidebarSimpananMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/simpanan");
+  const isPinjamanBillingArea = location.pathname.startsWith("/anggota");
+  const routePrefix = isPinjamanBillingArea ? "/anggota/simpanan" : "/simpanan";
+  const items: SubItem[] = [
+    ...(isPinjamanBillingArea
+      ? [{ label: "Transaksi Simpanan", to: `${routePrefix}/transaksi` }]
+      : []),
+    { label: "Daftar Rekening", to: `${routePrefix}/rekening` },
+  ];
+  const isActive =
+    location.pathname.startsWith(routePrefix) &&
+    !location.pathname.startsWith("/anggota/simpanan-berjangka");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {

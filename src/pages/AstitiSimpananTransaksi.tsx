@@ -44,6 +44,9 @@ function SortableHeader({ label, className }: { label: string; className?: strin
 
 export default function AstitiSimpananTransaksi() {
   const navigate = useNavigate();
+  const routePrefix = window.location.pathname.startsWith("/anggota/")
+    ? "/anggota/simpanan"
+    : "/astiti-dana-lestari/simpanan";
   const [pageSize, setPageSize] = React.useState("20");
   const [date, setDate] = React.useState("13-09-2026");
   const [transactions, setTransactions] = React.useState<SavingsTransaction[]>(() => getSavingsTransactions());
@@ -69,8 +72,8 @@ export default function AstitiSimpananTransaksi() {
               type="button"
               variant="ghost"
               onClick={() => {
-                if (label === "Setoran") navigate("/astiti-dana-lestari/simpanan/setoran");
-                if (label === "Tarikan") navigate("/astiti-dana-lestari/simpanan/tarikan");
+                if (label === "Setoran") navigate(`${routePrefix}/setoran`);
+                                if (label === "Tarikan") navigate(`${routePrefix}/tarikan`);
               }}
               className={cn(
                 "h-[42px] rounded-full bg-white px-4 text-[14px] font-normal text-[#526784] shadow-sm hover:bg-[#eef0ff]",
