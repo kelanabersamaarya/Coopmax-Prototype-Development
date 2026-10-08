@@ -5,14 +5,17 @@ import { CreditCard, ChevronDown } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-const items = [
-  { label: "Transaksi Simpanan Berjangka", to: "/astiti-dana-lestari/simpanan-berjangka/transaksi" },
-  { label: "Rekening Deposito", to: "/astiti-dana-lestari/simpanan-berjangka/rekening" },
-];
-
 export default function SidebarTermSavingsMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/astiti-dana-lestari/simpanan-berjangka");
+  const isPinjamanBillingArea = location.pathname.startsWith("/anggota");
+  const routePrefix = isPinjamanBillingArea
+    ? "/anggota/simpanan-berjangka"
+    : "/astiti-dana-lestari/simpanan-berjangka";
+  const items = [
+    { label: "Transaksi Simpanan Berjangka", to: `${routePrefix}/transaksi` },
+    { label: "Rekening Deposito", to: `${routePrefix}/rekening` },
+  ];
+  const isActive = location.pathname.startsWith(routePrefix);
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {

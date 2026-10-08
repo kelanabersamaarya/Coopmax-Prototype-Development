@@ -116,6 +116,10 @@ const App = () => (
             <Route path="astiti-dana-lestari/simpanan-berjangka/transaksi/:id" element={<AstitiTransaksiDepositoDetail />} />
             <Route path="astiti-dana-lestari/simpanan-berjangka/tarikan" element={<AstitiTarikanBungaDeposito />} />
             <Route path="astiti-dana-lestari/simpanan-berjangka/rekening" element={<AstitiRekeningDeposito />} />
+            <Route path="anggota/simpanan-berjangka/transaksi" element={<AstitiTransaksiDeposito />} />
+            <Route path="anggota/simpanan-berjangka/transaksi/:id" element={<AstitiTransaksiDepositoDetail />} />
+            <Route path="anggota/simpanan-berjangka/tarikan" element={<AstitiTarikanBungaDeposito />} />
+            <Route path="anggota/simpanan-berjangka/rekening" element={<AstitiRekeningDeposito />} />
             <Route path="astiti-dana-lestari/akunting" element={<SakAkunting />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />
