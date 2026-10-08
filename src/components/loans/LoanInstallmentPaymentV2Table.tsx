@@ -562,9 +562,6 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
 
   return (
     <div className="mt-3 grid gap-1 bg-white text-[12px] text-[#002060]">
-      <div className="mb-1 border-b border-slate-200 pb-2 text-[12px] font-extrabold uppercase tracking-wide text-[#092c62]">
-        INFORMASI NASABAH
-      </div>
       <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
         <span>Nama :</span>
         <span className="min-w-0 break-words">{account?.namaNasabah || info?.nama || ""}</span>
@@ -574,14 +571,6 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <span className="min-w-0 break-words">
           {addressByAccount[displayAccountNo] || info?.alamat || ""}
         </span>
-      </div>
-      <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
-        <span>Perusahaan :</span>
-        <span className="min-w-0 break-words">-</span>
-      </div>
-      <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
-        <span>Alamat Perusahaan :</span>
-        <span className="min-w-0 break-words">-</span>
       </div>
       <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-3 leading-[18px]">
         <span>Produk :</span>

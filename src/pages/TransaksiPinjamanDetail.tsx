@@ -172,7 +172,7 @@ export default function TransaksiPinjamanDetail() {
 
           <div className="mt-4 overflow-hidden rounded-2xl bg-[#17a2b8] p-5 text-white ring-1 ring-white/10 md:p-6">
             <div className="text-[12px] font-extrabold tracking-wide text-white/90">
-              PINJAMAN BILLING
+              PINJAMAN BULANAN
             </div>
 
             <div
@@ -192,11 +192,9 @@ export default function TransaksiPinjamanDetail() {
                 }
               />
               <InfoHeaderField label="Rek. Tabungan" value="-" />
-              <InfoHeaderField label="Skema Tagihan" value="Tagihan Sesuai Jadwal Angsuran" />
-              <InfoHeaderField label="Satuan Grace Period" value="Bulan" />
+              <InfoHeaderField label="Sektor Pinjaman" value="-" />
               <InfoHeaderField label="Kolektor" value={kolektor} />
 
-              <InfoHeaderField label="Durasi Grace Period" value="3" />
               <InfoHeaderField label="Tanggal Dibuat" value="26 Apr 2026" />
               <InfoHeaderField label="Tanggal Jatuh Tempo" value="26 Apr 2027" />
               <InfoHeaderField label="Periode Waktu" value="12 Bulan" />
@@ -248,8 +246,6 @@ export default function TransaksiPinjamanDetail() {
             <div>
               <KVRow label="Agama" value="Hindu" right />
               <KVRow label="Profesi" value="PNS" right />
-              <KVRow label="Perusahaan Tempat Bekerja" value="-" right />
-              <KVRow label="Alamat Perusahaan Tempat Bekerja" value="-" right />
               <KVRow label="Jenis Identitas" value="KTP" right />
               <KVRow label="No. Identitas" value="191828282929" right />
               <KVRow label="No. Telp/Handphone" value="8133700004555" right />
