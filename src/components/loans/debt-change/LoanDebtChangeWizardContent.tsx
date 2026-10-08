@@ -146,56 +146,28 @@ function UnifiedBillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[1880px] border-collapse">
+        <table className="w-full min-w-[1120px] border-collapse">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[86px] px-3 py-3">Angsuran Ke</th>
-              <th className="w-[112px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[132px] px-3 py-3 text-right">
-                Tagihan
+              <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
+              <th className="w-[175px] px-3 py-3 text-right">
+                Total Tagihan
                 <br />
-                Pokok
+                Belum Dibayar
               </th>
-              <th className="w-[146px] px-3 py-3 text-right">
+              <th className="w-[135px] px-3 py-3 text-right">Tagihan Pokok</th>
+              <th className="w-[135px] px-3 py-3 text-right">Tagihan Bunga</th>
+              <th className="w-[165px] px-3 py-3 text-right">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[120px] px-3 py-3 text-right">
-                Tagihan
+              <th className="w-[165px] px-3 py-3 text-right">
+                Sisa Tagihan
                 <br />
-                Denda
+                Bunga
               </th>
-              <th className="w-[160px] px-3 py-3 text-right">
-                Total Tagihan
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[160px] px-3 py-3 text-right">
-                Tagihan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Sisa Tagihan Bunga
-                <br />
-                Sebelum Penyesuaian
-              </th>
-              <th className="w-[160px] px-3 py-3 text-right">
-                Tagihan Bunga
-                <br />
-                Sesudah Penyesuaian
-              </th>
-              <th className="w-[175px] px-3 py-3 text-right">
-                Sisa Tagihan Bunga
-                <br />
-                Sesudah Penyesuaian
-              </th>
-              <th className="w-[160px] px-3 py-3 text-right">
-                Total Tagihan
-                <br />
-                Sesudah Penyesuaian
-              </th>
+              <th className="w-[135px] px-3 py-3 text-right">Tagihan Denda</th>
             </tr>
           </thead>
 
@@ -235,29 +207,14 @@ function UnifiedBillingSimulationTable({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-3 py-3 text-left tabular-nums">
-                    {installmentNo}
-                  </td>
                   <td className="px-3 py-3 tabular-nums whitespace-nowrap">
                     {dueDate}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
+                    {formatIdr(totalAfter)}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
                     {principalBill}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {remainingPrincipal}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {penalty}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {formatIdr(totalBefore)}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {interestBill}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {remainingInterest}
                   </td>
                   <td
                     className={cn(
@@ -275,6 +232,9 @@ function UnifiedBillingSimulationTable({
                       </>
                     ) : null}
                   </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {remainingPrincipal}
+                  </td>
                   <td
                     className={cn(
                       "loan-debt-adjustment-cell px-3 py-3 text-right tabular-nums",
@@ -286,13 +246,8 @@ function UnifiedBillingSimulationTable({
                       <AdjustmentTooltip adjustment={adjustedBill.adjustment} />
                     ) : null}
                   </td>
-                  <td
-                    className={cn(
-                      "px-3 py-3 text-right tabular-nums",
-                      isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
-                    )}
-                  >
-                    {formatIdr(totalAfter)}
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {penalty}
                   </td>
                 </tr>
               );
