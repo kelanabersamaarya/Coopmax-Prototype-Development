@@ -146,7 +146,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const feeOnlyCols = isFeeOnly(jenisTransaksi);
   const isPenurunanBakiDebetMode = isPenurunanBakiDebet(jenisTransaksi);
 
-  const pageSize = 6;
+  const pageSize = 10;
   const [page, setPage] = React.useState<number>(1);
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
