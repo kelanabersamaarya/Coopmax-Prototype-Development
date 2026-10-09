@@ -95,11 +95,11 @@ const rows: BillingRow[] = [
   },
   ...Array.from({ length: 8 }).map((_, i) => ({
     jatuhTempo: `25-0${(i % 7) + 2}-2026`,
-    totalBelumDibayar: "916.667",
-    tagihanPokok: "916.667",
-    tagihanBunga: "83.333",
-    sisaPokok: "833.333",
-    sisaBunga: "33.333",
+    totalBelumDibayar: i === 0 ? "0,00" : "916.667",
+    tagihanPokok: i === 0 ? "0,00" : "916.667",
+    tagihanBunga: i === 0 ? "0,00" : "83.333",
+    sisaPokok: i === 0 ? "0,00" : "833.333",
+    sisaBunga: i === 0 ? "0,00" : "33.333",
     statusTagihan: i === 0 ? "Lunas dengan Penghapusan" : "Belum Dibayar",
   })),
 ];

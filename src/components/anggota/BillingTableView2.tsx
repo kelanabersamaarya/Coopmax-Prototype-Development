@@ -433,7 +433,7 @@ export default function BillingTableView2({
     localIdx: number;
     dueDateDmy: string;
   }) {
-    if (localIdx < 2) {
+    if (localIdx < 3) {
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
@@ -537,13 +537,23 @@ export default function BillingTableView2({
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
+    if (rowIndex === 2) return "0,00";
     if (graceCount > 0 && rowIndex < graceCount) return "0,00";
     return toIdr00(raw);
   }
 
   function displaySisaPokok(rowIndex: number, raw: string) {
+    if (rowIndex === 2) return "0,00";
     if (graceCount > 0 && rowIndex < graceCount) return "0,00";
     return toIdr00(raw);
+  }
+
+  function displayTagihanBunga(rowIndex: number, raw: string) {
+    return rowIndex === 2 ? "0,00" : raw;
+  }
+
+  function displaySisaBunga(rowIndex: number, raw: string) {
+    return rowIndex === 2 ? "0,00" : raw;
   }
 
   function statusForRow(row: BillingRow, rowIndex: number) {
@@ -705,7 +715,7 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                                    <RightNum value={r.tagihanBunga} />
+                                    <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
                                   </div>
 
                                   <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
@@ -715,7 +725,7 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                                    <RightNum value={r.sisaBunga} />
+                                    <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
                                   </div>
 
                                   {showPenaltyColumn ? (
@@ -800,7 +810,7 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                              <RightNum value={r.tagihanBunga} />
+                              <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
                             </div>
 
                             <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
@@ -808,7 +818,7 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                              <RightNum value={r.sisaBunga} />
+                              <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
                             </div>
 
                             {showPenaltyColumn ? (
