@@ -1,6 +1,7 @@
 export type BillingStatus =
   | "Belum Dibayar"
   | "Lunas"
+  | "Lunas dengan Penghapusan"
   | "Jatuh Tempo"
   | "Terlambat"
   | "Dibayar Sebagian";

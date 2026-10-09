@@ -100,7 +100,7 @@ const rows: BillingRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    statusTagihan: "Belum Dibayar",
+    statusTagihan: i === 0 ? "Lunas dengan Penghapusan" : "Belum Dibayar",
   })),
 ];
 
