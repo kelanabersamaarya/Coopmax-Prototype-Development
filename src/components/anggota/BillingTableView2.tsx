@@ -548,7 +548,6 @@ export default function BillingTableView2({
 
   function statusForRow(row: BillingRow, rowIndex: number) {
     if (rowIndex < 2) return "Lunas" as const;
-    if (rowIndex === 2) return "Dibayar Sebagian" as const;
     if (rowIndex === 3) return "Jatuh Tempo" as const;
     return row.statusTagihan === "Terlambat"
       ? "Belum Dibayar" as const
