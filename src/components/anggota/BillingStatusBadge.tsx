@@ -63,7 +63,14 @@ export default function BillingStatusBadge({
           aria-hidden="true"
         />
       )}
-      {displayStatus.toUpperCase()}
+      {displayStatus === "Lunas dengan Penghapusan" ? (
+        <span className="leading-tight">
+          LUNAS DENGAN<br />
+          PENGHAPUSAN
+        </span>
+      ) : (
+        displayStatus.toUpperCase()
+      )}
     </span>
   );
 }
