@@ -446,16 +446,27 @@ export default function BillingTableView2({
     }
 
     if (localIdx >= 4) {
+      const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
+      const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
+
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
-            <div className="flex items-center justify-end gap-2">
+            {hasManualActive && total > 0 ? (
+              <span className="tabular-nums whitespace-nowrap num-sans-tabular">
+                {formatIdrLike(total)}
+              </span>
+            ) : (
               <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
-              <PenaltyIconButton
-                icon="plus"
-                onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
-              />
-            </div>
+            )}
+            <PenaltyIconButton
+              icon={hasManualActive ? "eye" : "plus"}
+              onClick={() =>
+                hasManualActive
+                  ? openPenaltyDetailForRow(globalIdx, dueDateDmy)
+                  : openAddPenalty(dueDateDmy, globalIdx)
+              }
+            />
           </div>
         </div>
       );

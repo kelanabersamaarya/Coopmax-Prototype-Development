@@ -408,7 +408,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
                     showStatusColumn
-                    penaltyContentEnabled={page === 1}
+                    penaltyContentEnabled
+                    penaltyIndexOffset={(page - 1) * pageSize}
                     disableRowRings
                     rowDensity="default"
                     className="anggota-page-two-billing mt-0"
