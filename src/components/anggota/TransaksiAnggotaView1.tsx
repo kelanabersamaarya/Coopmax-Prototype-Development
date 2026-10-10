@@ -60,6 +60,10 @@ import {
 } from "@/components/anggota/transaction-types";
 import { makePenaltyContextKey } from "@/lib/penaltyContext";
 import {
+  getPenaltyAddedSumForRow,
+  getPenaltyCanceledItemsSumForRow,
+} from "@/lib/penaltyOverridesStore";
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -182,14 +186,43 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
+  const [penaltyRefreshTick, setPenaltyRefreshTick] = React.useState(0);
+
+  React.useEffect(() => {
+    const refresh = () => setPenaltyRefreshTick((tick) => tick + 1);
+    window.addEventListener("penalty-overrides-changed", refresh);
+    return () => window.removeEventListener("penalty-overrides-changed", refresh);
+  }, []);
+
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(isRegulerMode || isKhususMode || isPelunasanMode)) return 0;
-    return calcSelectedPenaltyTotal(selected, pagedRows.length);
+
+    return pagedRows.reduce((sum, row, index) => {
+      if (!selected[index]) return sum;
+      if (index === 3) return sum + 75_000;
+      if (index < 4) return sum;
+
+      const added = getPenaltyAddedSumForRow({
+        contextKey: penaltyContextKey,
+        dueDateDmy: row.jatuhTempo,
+        rowIndexGlobal: (page - 1) * pageSize + index,
+      });
+      const canceled = getPenaltyCanceledItemsSumForRow({
+        contextKey: penaltyContextKey,
+        dueDateDmy: row.jatuhTempo,
+        rowIndexGlobal: (page - 1) * pageSize + index,
+      });
+      return sum + Math.max(0, added - canceled);
+    }, 0);
   }, [
     isKhususMode,
     isPelunasanMode,
     isRegulerMode,
-    pagedRows.length,
+    page,
+    pageSize,
+    pagedRows,
+    penaltyContextKey,
+    penaltyRefreshTick,
     selected,
   ]);
 

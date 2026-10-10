@@ -272,6 +272,12 @@ export default function BillingTableView2({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows.length]);
 
+  React.useEffect(() => {
+    const refresh = () => setRefreshTick((tick) => tick + 1);
+    window.addEventListener("penalty-overrides-changed", refresh);
+    return () => window.removeEventListener("penalty-overrides-changed", refresh);
+  }, []);
+
   const graceCount = highlightGraceBlock ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;

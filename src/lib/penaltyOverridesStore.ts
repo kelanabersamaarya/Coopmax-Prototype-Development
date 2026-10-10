@@ -69,6 +69,7 @@ function readState(): State {
 
 function writeState(next: State) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  window.dispatchEvent(new CustomEvent("penalty-overrides-changed", { detail: { storageKey: STORAGE_KEY } }));
 }
 
 function normalizeIdrLike(input: string) {
