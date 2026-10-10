@@ -386,20 +386,23 @@ export default function BillingTableView2({
       return sum + (canceled ? 0 : parseIdrLikeToNumber(add.amountIdrLike));
     }, 0);
 
-    if (addedActiveTotal > 0) {
-      const seedActiveTotal = localIdx < 3
-        ? buildSeedPenaltyDates(dueDateDmy).reduce((sum, date) => {
-            const itemId = seedPenaltyItemId(date);
-            const canceled = canceledItems.some(
-              (item) =>
-                item.dueDateDmy === dueDateDmy &&
-                Number(item.rowIndexGlobal) === Number(globalIdx) &&
-                item.penaltyItemId === itemId,
-            );
-            return sum + (canceled ? 0 : PENALTY_PER_DAY);
-          }, 0)
-        : 0;
-      return { total: seedActiveTotal + addedActiveTotal, hasAdded: true };
+    const seedActiveTotal = localIdx < 3
+      ? buildSeedPenaltyDates(dueDateDmy).reduce((sum, date) => {
+          const itemId = seedPenaltyItemId(date);
+          const canceled = canceledItems.some(
+            (item) =>
+              Number(item.rowIndexGlobal) === Number(globalIdx) &&
+              item.penaltyItemId === itemId,
+          );
+          return sum + (canceled ? 0 : PENALTY_PER_DAY);
+        }, 0)
+      : 0;
+
+    if (addedActiveTotal > 0 || localIdx >= 3) {
+      return {
+        total: seedActiveTotal + addedActiveTotal,
+        hasAdded: addedActiveTotal > 0,
+      };
     }
 
     if (localIdx < 3) {
