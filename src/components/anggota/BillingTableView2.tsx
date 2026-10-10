@@ -398,34 +398,10 @@ export default function BillingTableView2({
         }, 0)
       : 0;
 
-    if (addedActiveTotal > 0 || localIdx >= 3) {
-      return {
-        total: seedActiveTotal + addedActiveTotal,
-        hasAdded: addedActiveTotal > 0,
-      };
-    }
-
-    if (localIdx < 3) {
-      const seedDates = buildSeedPenaltyDates(dueDateDmy);
-      const canceledSeedSum = seedDates.reduce((sum, date) => {
-        const itemId = seedPenaltyItemId(date);
-        return sum + canceledItems.some(
-          (item) =>
-            item.dueDateDmy === dueDateDmy &&
-            Number(item.rowIndexGlobal) === Number(globalIdx) &&
-            item.penaltyItemId === itemId,
-        )
-          ? PENALTY_PER_DAY
-          : 0;
-      }, 0);
-
-      return {
-        total: Math.max(0, PENALTY_DETAIL_DAYS * PENALTY_PER_DAY - canceledSeedSum),
-        hasAdded: false,
-      };
-    }
-
-    return { total: 0, hasAdded: false };
+    return {
+      total: seedActiveTotal + addedActiveTotal,
+      hasAdded: addedActiveTotal > 0,
+    };
   }
 
   function PenaltyCell({
