@@ -336,7 +336,9 @@ export default function BillingTableView2({
   function getAddsForRow(globalIdx: number, dueDateDmy: string) {
     if (!contextKey) return [];
     return getPenaltyAdds(contextKey).filter(
-      (a) => a.rowIndexGlobal === globalIdx,
+      (a) =>
+        Number(a.rowIndexGlobal) === Number(globalIdx) &&
+        a.dueDateDmy === dueDateDmy,
     );
   }
 
@@ -366,90 +368,61 @@ export default function BillingTableView2({
     dueDateDmy: string,
     localIdx: number,
   ) {
-    if (localIdx < 3) return { total: 0, hasAdded: false };
+    if (!canPersist) {
+      if (localIdx < 3) return { total: 0, hasAdded: false };
+      return { total: 0, hasAdded: false };
+    }
 
-    if (localIdx === 3) {
-      const rowAdds = contextKey
-        ? getPenaltyAdds(contextKey).filter((add) => add.dueDateDmy === dueDateDmy)
-        : [];
-      const canceledItems = contextKey ? getPenaltyCanceledItems(contextKey) : [];
-      const addedActiveTotal = rowAdds.reduce((sum, add) => {
-        const itemId = addedPenaltyItemId(add.id);
-        const canceled = canceledItems.some(
-          (item) => item.dueDateDmy === dueDateDmy && item.penaltyItemId === itemId,
-        );
-        return sum + (canceled ? 0 : parseIdrLikeToNumber(add.amountIdrLike));
+    const rowAdds = getAddsForRow(globalIdx, dueDateDmy);
+    const canceledItems = getPenaltyCanceledItems(contextKey!);
+    const addedActiveTotal = rowAdds.reduce((sum, add) => {
+      const itemId = addedPenaltyItemId(add.id);
+      const canceled = canceledItems.some(
+        (item) =>
+          item.dueDateDmy === dueDateDmy &&
+          Number(item.rowIndexGlobal) === Number(globalIdx) &&
+          item.penaltyItemId === itemId,
+      );
+      return sum + (canceled ? 0 : parseIdrLikeToNumber(add.amountIdrLike));
+    }, 0);
+
+    if (addedActiveTotal > 0) {
+      const seedActiveTotal = localIdx < 3
+        ? buildSeedPenaltyDates(dueDateDmy).reduce((sum, date) => {
+            const itemId = seedPenaltyItemId(date);
+            const canceled = canceledItems.some(
+              (item) =>
+                item.dueDateDmy === dueDateDmy &&
+                Number(item.rowIndexGlobal) === Number(globalIdx) &&
+                item.penaltyItemId === itemId,
+            );
+            return sum + (canceled ? 0 : PENALTY_PER_DAY);
+          }, 0)
+        : 0;
+      return { total: seedActiveTotal + addedActiveTotal, hasAdded: true };
+    }
+
+    if (localIdx < 3) {
+      const seedDates = buildSeedPenaltyDates(dueDateDmy);
+      const canceledSeedSum = seedDates.reduce((sum, date) => {
+        const itemId = seedPenaltyItemId(date);
+        return sum + canceledItems.some(
+          (item) =>
+            item.dueDateDmy === dueDateDmy &&
+            Number(item.rowIndexGlobal) === Number(globalIdx) &&
+            item.penaltyItemId === itemId,
+        )
+          ? PENALTY_PER_DAY
+          : 0;
       }, 0);
 
       return {
-        total: addedActiveTotal,
-        hasAdded: addedActiveTotal > 0,
+        total: Math.max(0, PENALTY_DETAIL_DAYS * PENALTY_PER_DAY - canceledSeedSum),
+        hasAdded: false,
       };
     }
 
-    if (!canPersist) {
-      if (localIdx >= PENALTY_ROWS) {
-        return localIdx === 3
-          ? { total: PENALTY_DETAIL_DAYS * PENALTY_PER_DAY, hasAdded: false }
-          : { total: 0, hasAdded: false };
-      }
-      const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
-      return { total: seedTotal, hasAdded: false };
-    }
-
-    const canceledWholeRow = isPenaltyCanceledForRow({
-      contextKey: contextKey!,
-      dueDateDmy,
-      rowIndexGlobal: globalIdx,
-    });
-    if (canceledWholeRow) return { total: 0, hasAdded: false };
-
-    const canceledItems = getPenaltyCanceledItems(contextKey!);
-
-    let seedActiveSum = 0;
-    if (localIdx < PENALTY_ROWS) {
-      const seedDates = buildSeedPenaltyDates(dueDateDmy);
-      const canceledSeedSum = seedDates.reduce((sum, d) => {
-        const pid = seedPenaltyItemId(d);
-        const isCanceled = canceledItems.some(
-          (c) =>
-            c.dueDateDmy === dueDateDmy &&
-            c.rowIndexGlobal === globalIdx &&
-            c.penaltyItemId === pid,
-        );
-        return sum + (isCanceled ? PENALTY_PER_DAY : 0);
-      }, 0);
-
-      seedActiveSum = Math.max(
-        0,
-        PENALTY_DETAIL_DAYS * PENALTY_PER_DAY - canceledSeedSum,
-      );
-    }
-
-    const addsForRow = getAddsForRow(globalIdx, dueDateDmy);
-
-    const totalAdded = addsForRow.reduce(
-      (sum, a) => sum + parseIdrLikeToNumber(a.amountIdrLike),
-      0,
-    );
-
-    const canceledAddedSum = addsForRow.reduce((sum, a) => {
-      const pid = addedPenaltyItemId(a.id);
-      const isCanceled = canceledItems.some(
-        (c) =>
-          c.dueDateDmy === dueDateDmy &&
-          c.rowIndexGlobal === globalIdx &&
-          c.penaltyItemId === pid,
-      );
-      return sum + (isCanceled ? parseIdrLikeToNumber(a.amountIdrLike) : 0);
-    }, 0);
-
-    const addedActiveSum = Math.max(0, totalAdded - canceledAddedSum);
-
-    const total = Math.max(0, seedActiveSum + addedActiveSum);
-    const hasAdded = addedActiveSum > 0;
-
-    return { total, hasAdded };
+    return { total: 0, hasAdded: false };
   }
 
   function PenaltyCell({
@@ -462,10 +435,13 @@ export default function BillingTableView2({
     dueDateDmy: string;
   }) {
     if (localIdx < 3) {
+      const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
-            <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
+            <span className="tabular-nums whitespace-nowrap num-sans-tabular">
+              {formatIdrLike(total)}
+            </span>
             <PenaltyIconButton
               icon="eye"
               onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
