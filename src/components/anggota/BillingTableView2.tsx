@@ -369,15 +369,19 @@ export default function BillingTableView2({
     if (localIdx < 3) return { total: 0, hasAdded: false };
 
     if (localIdx === 3) {
-      const rowAdds = contextKey
-        ? getPenaltyAdds(contextKey).filter((a) => a.rowIndexGlobal === globalIdx)
-        : [];
+      const allAdds = contextKey ? getPenaltyAdds(contextKey) : [];
+      const rowAdds = allAdds.filter(
+        (a) =>
+          Number(a.rowIndexGlobal) === Number(globalIdx) ||
+          a.dueDateDmy === dueDateDmy,
+      );
       const canceledItems = contextKey ? getPenaltyCanceledItems(contextKey) : [];
       const addedActiveTotal = rowAdds.reduce((sum, add) => {
         const itemId = addedPenaltyItemId(add.id);
         const canceled = canceledItems.some(
           (item) =>
-            item.rowIndexGlobal === globalIdx && item.penaltyItemId === itemId,
+            Number(item.rowIndexGlobal) === Number(globalIdx) &&
+            item.penaltyItemId === itemId,
         );
         return sum + (canceled ? 0 : parseIdrLikeToNumber(add.amountIdrLike));
       }, 0);
