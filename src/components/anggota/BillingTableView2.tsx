@@ -343,7 +343,7 @@ export default function BillingTableView2({
   }
 
   function hasActiveManualPenaltyForRow(globalIdx: number, dueDateDmy: string) {
-    if (globalIdx < 5) return false;
+    if (globalIdx < PENALTY_ROWS) return false;
     if (!canPersist) return false;
 
     const adds = getAddsForRow(globalIdx, dueDateDmy);
@@ -413,7 +413,7 @@ export default function BillingTableView2({
     localIdx: number;
     dueDateDmy: string;
   }) {
-    if (localIdx < 3) {
+    if (localIdx < PENALTY_ROWS) {
       const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
@@ -430,22 +430,7 @@ export default function BillingTableView2({
       );
     }
 
-    if (localIdx === 3) {
-      const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
-      return (
-        <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
-          <div className="flex items-center justify-end gap-2">
-            <span className="tabular-nums whitespace-nowrap num-sans-tabular">{formatIdrLike(total)}</span>
-            <PenaltyIconButton
-              icon="eye"
-              onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
-            />
-          </div>
-        </div>
-      );
-    }
-
-    if (localIdx >= 4) {
+    if (localIdx >= PENALTY_ROWS) {
       const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
@@ -472,61 +457,6 @@ export default function BillingTableView2({
       );
     }
 
-    // Seed penalty hanya berlaku untuk 3 baris pertama per halaman.
-    const isNoSeedPenaltyRow = localIdx >= PENALTY_ROWS;
-
-    if (isNoSeedPenaltyRow) {
-      const info = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
-      const total = info.total;
-      const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
-
-      return (
-        <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
-          <div className="flex items-center justify-end gap-2">
-            {hasManualActive && total > 0 ? (
-              <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-                {formatIdrLike(total)}
-              </span>
-            ) : null}
-
-            {hasManualActive ? (
-              <PenaltyIconButton
-                icon="eye"
-                onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
-              />
-            ) : (
-              <PenaltyIconButton
-                icon="plus"
-                onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
-              />
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // Baris yang punya denda bawaan (3 baris pertama): tampil nominal total + Eye
-    const info = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
-    const total = info.total;
-
-    return (
-      <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
-        <div className="flex items-center justify-end gap-2">
-          {total > 0 ? (
-            <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-              {formatIdrLike(total)}
-            </span>
-          ) : (
-            <span className="sr-only">Tidak ada denda</span>
-          )}
-
-          <PenaltyIconButton
-            icon="eye"
-            onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
-          />
-        </div>
-      </div>
-    );
   }
 
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
