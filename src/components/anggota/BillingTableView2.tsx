@@ -334,9 +334,9 @@ export default function BillingTableView2({
   }
 
   function getAddsForRow(globalIdx: number, dueDateDmy: string) {
-    if (!canPersist) return [];
-    return getPenaltyAdds(contextKey!).filter(
-      (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === globalIdx,
+    if (!contextKey) return [];
+    return getPenaltyAdds(contextKey).filter(
+      (a) => a.rowIndexGlobal === globalIdx,
     );
   }
 
