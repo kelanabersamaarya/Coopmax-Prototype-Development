@@ -366,11 +366,14 @@ export default function BillingTableView2({
     dueDateDmy: string,
     localIdx: number,
   ) {
-    if (localIdx < 2) return { total: 0, hasAdded: false };
-    if (localIdx === 3) return { total: PENALTY_DETAIL_DAYS * PENALTY_PER_DAY, hasAdded: false };
+    if (localIdx < 3) return { total: 0, hasAdded: false };
 
     if (!canPersist) {
-      if (localIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
+      if (localIdx >= PENALTY_ROWS) {
+        return localIdx === 3
+          ? { total: PENALTY_DETAIL_DAYS * PENALTY_PER_DAY, hasAdded: false }
+          : { total: 0, hasAdded: false };
+      }
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
       return { total: seedTotal, hasAdded: false };
     }
@@ -454,10 +457,11 @@ export default function BillingTableView2({
     }
 
     if (localIdx === 3) {
+      const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       return (
         <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
-            <span className="tabular-nums whitespace-nowrap num-sans-tabular">75.000</span>
+            <span className="tabular-nums whitespace-nowrap num-sans-tabular">{formatIdrLike(total)}</span>
             <PenaltyIconButton
               icon="eye"
               onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
