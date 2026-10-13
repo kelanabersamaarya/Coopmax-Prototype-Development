@@ -80,7 +80,7 @@ export default function LoanAgreementDocumentDialog({
 
           <div className="space-y-2">
             <Label htmlFor={`${inputId}-file`} className="text-sm font-semibold text-slate-800">
-              Dokumen Pinjaman <span className="text-rose-600">*</span>
+              Dokumen Perjanjian Pinjaman <span className="text-rose-600">*</span>
             </Label>
             <div className="rounded-[5px] border border-dashed border-[#C6D1E2] px-4 py-6 text-center">
               <File className="mx-auto h-10 w-10 text-slate-900" strokeWidth={1.8} />
