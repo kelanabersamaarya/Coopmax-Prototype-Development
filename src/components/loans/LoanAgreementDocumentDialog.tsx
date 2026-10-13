@@ -86,7 +86,7 @@ export default function LoanAgreementDocumentDialog({
               <p className="mt-2 text-xs text-[#8492AA]">PDF, JPG, JPEG, PNG. Maksimal 1MB.</p>
               <label
                 htmlFor={`${inputId}-file`}
-                className="mt-4 inline-flex h-8 cursor-pointer items-center rounded-[4px] bg-[#3767F5] px-3 text-xs font-semibold text-white transition hover:bg-[#2D55D6]"
+                className="mt-4 inline-flex h-8 cursor-pointer items-center rounded-[4px] bg-[#3767F5] px-3 text-xs font-semibold text-white"
               >
                 <FileUp className="mr-1.5 h-3.5 w-3.5" />
                 Unggah Dokumen Pinjaman
@@ -143,14 +143,14 @@ export default function LoanAgreementDocumentDialog({
             <Button
               type="button"
               onClick={() => handleOpenChange(false)}
-              className="h-7 w-[90px] rounded-[3px] bg-[#8b9bb8] px-1 text-xs font-bold text-white hover:bg-[#788aa8]"
+              className="h-7 w-[90px] rounded-[3px] bg-[#8b9bb8] px-1 text-xs font-bold text-white"
             >
               <X className="mr-1 h-3.5 w-3.5" />
               Batalkan
             </Button>
             <Button
               type="submit"
-              className="h-7 w-[90px] rounded-[3px] bg-[#16b600] px-1 text-xs font-bold text-white hover:bg-[#119d00]"
+              className="h-7 w-[90px] rounded-[3px] bg-[#16b600] px-1 text-xs font-bold text-white"
             >
               <CheckSquare className="mr-1 h-3.5 w-3.5" />
               Simpan
