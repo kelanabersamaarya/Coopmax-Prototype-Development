@@ -38,13 +38,13 @@ export default function LoanAgreementDocumentDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="w-[calc(100vw-1.5rem)] max-w-[560px] rounded-2xl border-slate-200 bg-white p-0 shadow-2xl">
-        <DialogHeader className="border-b border-slate-100 px-6 py-5">
+        <DialogHeader className="border-b border-slate-100 px-6 py-3">
           <DialogTitle className="text-lg font-bold text-slate-900">
             Dokumen Perjanjian Pinjaman
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-5 px-6 py-6">
+        <form onSubmit={handleSubmit} className="space-y-5 px-6 py-5">
           <div className="space-y-2">
             <Label htmlFor={`${inputId}-spk`} className="text-sm font-semibold text-slate-800">
               Nomor SPK <span className="text-rose-600">*</span>
@@ -92,7 +92,7 @@ export default function LoanAgreementDocumentDialog({
             ) : null}
           </div>
 
-          <div className="flex justify-end gap-1 border-t border-slate-100 pt-5">
+          <div className="flex justify-end gap-1 border-t border-slate-100 pt-3">
             <Button
               type="button"
               onClick={() => handleOpenChange(false)}
