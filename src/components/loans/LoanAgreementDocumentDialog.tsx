@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, FileImage, Upload, X } from "lucide-react";
+import { CheckSquare, FileImage, FileUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -76,7 +76,7 @@ export default function LoanAgreementDocumentDialog({
                 htmlFor={`${inputId}-file`}
                 className="mt-4 inline-flex h-8 cursor-pointer items-center rounded-[4px] bg-[#3767F5] px-3 text-xs font-semibold text-white transition hover:bg-[#2D55D6]"
               >
-                <Upload className="mr-1.5 h-3.5 w-3.5" />
+                <FileUp className="mr-1.5 h-3.5 w-3.5" />
                 Unggah Dokumen Pinjaman
               </label>
               <input
