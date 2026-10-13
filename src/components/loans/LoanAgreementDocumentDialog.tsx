@@ -38,7 +38,7 @@ export default function LoanAgreementDocumentDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="w-[calc(100vw-1.5rem)] max-w-[560px] rounded-2xl border-slate-200 bg-white p-0 shadow-2xl">
-        <DialogHeader className="border-b border-slate-100 px-6 py-3">
+        <DialogHeader className="border-b border-[#CDD4E0] px-6 py-3">
           <DialogTitle className="text-lg font-bold text-slate-900">
             Dokumen Perjanjian Pinjaman
           </DialogTitle>
@@ -92,7 +92,7 @@ export default function LoanAgreementDocumentDialog({
             ) : null}
           </div>
 
-          <div className="flex justify-end gap-1 border-t border-slate-100 pt-3">
+          <div className="flex justify-end gap-1 border-t border-[#CDD4E0] pt-3">
             <Button
               type="button"
               onClick={() => handleOpenChange(false)}
