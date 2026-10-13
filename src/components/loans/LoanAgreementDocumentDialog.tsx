@@ -198,13 +198,13 @@ export default function LoanAgreementDocumentDialog({
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#dff0d5] text-[#9bd879]">
             <Check className="h-14 w-14" strokeWidth={2.5} />
           </div>
-          <DialogTitle className="mt-7 text-[28px] font-extrabold leading-tight text-[#5a5a5a]">
+          <DialogTitle className="mt-4 text-[28px] font-extrabold leading-tight text-[#5a5a5a]">
             Berhasil menyimpan data
           </DialogTitle>
           <Button
             type="button"
             onClick={() => setSuccessOpen(false)}
-            className="mx-auto mt-7 h-12 w-[104px] rounded-[5px] bg-[#3380e8] text-base font-semibold text-white hover:bg-[#3380e8]"
+            className="mx-auto mt-4 h-12 w-[104px] rounded-[5px] bg-[#3380e8] text-base font-semibold text-white hover:bg-[#3380e8]"
           >
             OK
           </Button>
