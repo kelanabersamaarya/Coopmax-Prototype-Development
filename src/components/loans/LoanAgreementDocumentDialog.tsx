@@ -14,23 +14,23 @@ export default function LoanAgreementDocumentDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const [spkNumber, setSpkNumber] = React.useState("");
-  const [file, setFile] = React.useState<File | null>(null);
+  const [files, setFiles] = React.useState<File[]>([]);
   const inputId = React.useId();
 
   function handleOpenChange(nextOpen: boolean) {
     if (!nextOpen) {
       setSpkNumber("");
-      setFile(null);
+      setFiles([]);
     }
     onOpenChange(nextOpen);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!spkNumber.trim() || !file) return;
+    if (!spkNumber.trim() || files.length === 0) return;
 
     toast.success("Dokumen perjanjian pinjaman berhasil disimpan", {
-      description: `${file.name} • SPK ${spkNumber.trim()}`,
+      description: `${files.length} dokumen • SPK ${spkNumber.trim()}`,
     });
     handleOpenChange(false);
   }
@@ -84,34 +84,39 @@ export default function LoanAgreementDocumentDialog({
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
                 className="sr-only"
-                onChange={(event) => setFile(event.target.files?.[0] ?? null)}
-                required
+                onChange={(event) => setFiles(Array.from(event.target.files ?? []))}
+                multiple
+                required={files.length === 0}
               />
             </div>
-            {file ? (
-              <div className="flex min-w-0 items-center gap-2 rounded-[4px] border border-[#D7E0ED] bg-white p-3">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#EEF3FF] text-[#3767F5]">
-                  <File className="h-5 w-5" strokeWidth={1.8} />
-                </div>
-                <div className="min-w-0 flex-1 px-1 py-2 text-left text-xs text-[#456080]">
-                  <span className="block truncate">{file.name}</span>
-                </div>
-                <Button
-                  type="button"
-                  onClick={() => toast(`Pratinjau ${file.name}`)}
-                  className="h-8 shrink-0 rounded-[3px] bg-[#3767F5] px-2 text-[11px] font-semibold text-white hover:bg-[#2D55D6]"
-                >
-                  <Eye className="mr-1 h-3.5 w-3.5" />
-                  Pratinjau
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => setFile(null)}
-                  className="h-8 shrink-0 rounded-[3px] bg-[#E3262E] px-2 text-[11px] font-semibold text-white hover:bg-[#C91F27]"
-                >
-                  <Trash2 className="mr-1 h-3.5 w-3.5" />
-                  Hapus
-                </Button>
+            {files.length > 0 ? (
+              <div className="space-y-2">
+                {files.map((file, index) => (
+                  <div key={`${file.name}-${file.lastModified}-${index}`} className="flex min-w-0 items-center gap-2 rounded-[4px] border border-[#D7E0ED] bg-white p-3">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#EEF3FF] text-[#3767F5]">
+                      <File className="h-5 w-5" strokeWidth={1.8} />
+                    </div>
+                    <div className="min-w-0 flex-1 px-1 py-2 text-left text-xs text-[#456080]">
+                      <span className="block truncate">{file.name}</span>
+                    </div>
+                    <Button
+                      type="button"
+                      onClick={() => toast(`Pratinjau ${file.name}`)}
+                      className="h-8 shrink-0 rounded-[3px] bg-[#3767F5] px-2 text-[11px] font-semibold text-white hover:bg-[#2D55D6]"
+                    >
+                      <Eye className="mr-1 h-3.5 w-3.5" />
+                      Pratinjau
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => setFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))}
+                      className="h-8 shrink-0 rounded-[3px] bg-[#E3262E] px-2 text-[11px] font-semibold text-white hover:bg-[#C91F27]"
+                    >
+                      <Trash2 className="mr-1 h-3.5 w-3.5" />
+                      Hapus
+                    </Button>
+                  </div>
+                ))}
               </div>
             ) : null}
           </div>
