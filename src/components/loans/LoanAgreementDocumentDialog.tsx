@@ -59,13 +59,13 @@ export default function LoanAgreementDocumentDialog({
         <form onSubmit={handleSubmit} className="space-y-5 px-6 py-5">
           <div className="space-y-2">
             <Label htmlFor={`${inputId}-spk`} className="text-sm font-semibold text-slate-800">
-              Nomor SPK <span className="text-rose-600">*</span>
+              Nomor Perjanjian Pinjaman <span className="text-rose-600">*</span>
             </Label>
             <Input
               id={`${inputId}-spk`}
               value={spkNumber}
               onChange={(event) => setSpkNumber(event.target.value)}
-              placeholder="Masukkan nomor SPK"
+              placeholder="Masukkan nomor perjanjian pinjaman"
               required
               className="h-11 rounded-[5px] border-slate-200 bg-slate-50/60 focus-visible:ring-violet-500"
             />
