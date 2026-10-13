@@ -55,7 +55,7 @@ export default function LoanAgreementDocumentDialog({
               onChange={(event) => setSpkNumber(event.target.value)}
               placeholder="Masukkan nomor SPK"
               required
-              className="h-11 rounded-xl border-slate-200 bg-slate-50/60 focus-visible:ring-violet-500"
+              className="h-11 rounded-[5px] border-slate-200 bg-slate-50/60 focus-visible:ring-violet-500"
             />
           </div>
 
@@ -63,7 +63,7 @@ export default function LoanAgreementDocumentDialog({
             <Label htmlFor={`${inputId}-file`} className="text-sm font-semibold text-slate-800">
               Dokumen Pinjaman <span className="text-rose-600">*</span>
             </Label>
-            <div className="rounded-[10px] border border-dashed border-[#C6D1E2] px-4 py-6 text-center">
+            <div className="rounded-[5px] border border-dashed border-[#C6D1E2] px-4 py-6 text-center">
               <File className="mx-auto h-10 w-10 text-slate-900" strokeWidth={1.8} />
               <div className="mt-3 text-sm font-semibold text-slate-900">
                 Dokumen Perjanjian Pinjaman
