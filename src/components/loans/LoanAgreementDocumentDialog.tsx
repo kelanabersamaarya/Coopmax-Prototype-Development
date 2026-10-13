@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, Upload, X } from "lucide-react";
+import { CheckSquare, FileImage, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -63,15 +63,22 @@ export default function LoanAgreementDocumentDialog({
             <Label htmlFor={`${inputId}-file`} className="text-sm font-semibold text-slate-800">
               Dokumen Pinjaman <span className="text-rose-600">*</span>
             </Label>
-            <label
-              htmlFor={`${inputId}-file`}
-              className="flex min-h-28 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-violet-200 bg-violet-50/50 px-4 py-5 text-center transition hover:border-violet-400 hover:bg-violet-50"
-            >
-              <Upload className="h-6 w-6 text-violet-600" />
-              <span className="mt-2 text-sm font-semibold text-slate-800">
-                {file ? file.name : "Pilih file dokumen"}
-              </span>
-              <span className="mt-1 text-xs text-slate-500">PDF, JPG, atau PNG</span>
+            <div className="rounded-[10px] border border-dashed border-[#C6D1E2] px-4 py-8 text-center">
+              <FileImage className="mx-auto h-10 w-10 text-slate-900" strokeWidth={1.8} />
+              <div className="mt-3 text-sm font-semibold text-slate-900">
+                {file ? file.name : "Dokumen Perjanjian Pinjaman"}
+              </div>
+              <p className="mx-auto mt-3 max-w-[470px] text-xs text-slate-900">
+                Unggah dokumen perjanjian pinjaman. Pastikan dokumen terlihat jelas untuk melengkapi data pinjaman
+              </p>
+              <p className="mt-2 text-xs text-[#8492AA]">PDF, JPG, JPEG, PNG. Maksimal 1MB.</p>
+              <label
+                htmlFor={`${inputId}-file`}
+                className="mt-4 inline-flex h-8 cursor-pointer items-center rounded-[4px] bg-[#3767F5] px-3 text-xs font-semibold text-white transition hover:bg-[#2D55D6]"
+              >
+                <Upload className="mr-1.5 h-3.5 w-3.5" />
+                Unggah Dokumen Pinjaman
+              </label>
               <input
                 id={`${inputId}-file`}
                 type="file"
@@ -80,7 +87,7 @@ export default function LoanAgreementDocumentDialog({
                 onChange={(event) => setFile(event.target.files?.[0] ?? null)}
                 required
               />
-            </label>
+            </div>
             {file ? (
               <button
                 type="button"
