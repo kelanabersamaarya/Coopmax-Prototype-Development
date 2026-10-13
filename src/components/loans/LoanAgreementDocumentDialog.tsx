@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertCircle, CheckSquare, Eye, File, FileUp, Trash2, X } from "lucide-react";
+import { CheckSquare, Eye, File, FileUp, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -165,9 +165,9 @@ export default function LoanAgreementDocumentDialog({
       </DialogContent>
 
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-10 text-center shadow-2xl">
+        <DialogContent className="[&>button]:hidden w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-10 text-center shadow-2xl">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6] text-[#f2b98f]">
-            <AlertCircle className="h-14 w-14" strokeWidth={1.5} />
+            <span className="text-[54px] font-light leading-none">!</span>
           </div>
           <DialogTitle className="mt-7 text-[28px] font-extrabold leading-tight text-[#3b4863]">
             Yakin untuk menyimpan data ?
