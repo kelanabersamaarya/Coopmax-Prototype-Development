@@ -66,7 +66,7 @@ export default function LoanAgreementDocumentDialog({
             <div className="rounded-[10px] border border-dashed border-[#C6D1E2] px-4 py-6 text-center">
               <File className="mx-auto h-10 w-10 text-slate-900" strokeWidth={1.8} />
               <div className="mt-3 text-sm font-semibold text-slate-900">
-                {file ? file.name : "Dokumen Perjanjian Pinjaman"}
+                Dokumen Perjanjian Pinjaman
               </div>
               <p className="mx-auto mt-3 max-w-[470px] text-xs text-slate-900">
                 Unggah dokumen perjanjian pinjaman. Pastikan dokumen terlihat jelas untuk melengkapi data pinjaman
