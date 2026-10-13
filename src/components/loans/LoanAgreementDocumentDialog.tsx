@@ -41,9 +41,6 @@ export default function LoanAgreementDocumentDialog({
 
     if (!previewWindow) {
       URL.revokeObjectURL(previewUrl);
-      toast.error("Pratinjau tidak dapat dibuka", {
-        description: "Izinkan pop-up pada browser untuk membuka file.",
-      });
       return;
     }
 
