@@ -56,7 +56,7 @@ export default function LoanAgreementDocumentDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-5 px-6 pb-5 pt-3">
+        <form onSubmit={handleSubmit} className="space-y-5 px-6 pb-5 pt-1">
           <div className="space-y-2">
             <Label htmlFor={`${inputId}-spk`} className="text-sm font-semibold text-slate-800">
               Nomor Perjanjian Pinjaman <span className="text-rose-600">*</span>
