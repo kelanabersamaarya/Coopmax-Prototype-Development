@@ -12,7 +12,7 @@ import PaymentLinkWhatsappQrDialog from "@/components/loans/products/PaymentLink
 import PaymentLinkDisconnectConfirmDialog from "@/components/loans/products/PaymentLinkDisconnectConfirmDialog";
 import WhatsappIcon from "@/components/icons/WhatsappIcon";
 
-const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
+const SECTION_TITLE = "Konfigurasi Payment Link";
 const SECTION_TOOLTIP =
   "Aktifkan fitur ini untuk mengatur pengingat pembayaran tagihan dan tanggal berlaku Payment Link.";
 
@@ -278,16 +278,7 @@ export default function LoanProductPaymentLinkSection(
   return (
     <>
       <div ref={anchorRef} className="hidden" />
-      {portalTarget
-        ? createPortal(
-            <div>
-              <Separator className="my-6 bg-slate-200/70" />
-              <SectionTitle />
-              <div className="mt-4">{content}</div>
-            </div>,
-            portalTarget,
-          )
-        : content}
+      {portalTarget ? createPortal(content, portalTarget) : content}
     </>
   );
 }

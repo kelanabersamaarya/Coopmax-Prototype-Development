@@ -1329,20 +1329,21 @@ export default function LoanProductForm({
           </div>
         ) : null}
 
-        {shouldShowPaymentLinkSection ? (
-          <LoanProductPaymentLinkSection
-            enabled={paymentLinkEnabled}
-            onEnabledChange={setPaymentLinkEnabled}
-            publishDate={paymentLinkPublishDate}
-            onPublishDateChange={setPaymentLinkPublishDate}
-            expiryDate={paymentLinkExpiryDate}
-            onExpiryDateChange={setPaymentLinkExpiryDate}
-            inputClassName={style.inputClassName}
-            showSeparator={false}
-            showTitle={false}
-          />
-        ) : null}
       </div>
+
+      {shouldShowPaymentLinkSection ? (
+        <LoanProductPaymentLinkSection
+          enabled={paymentLinkEnabled}
+          onEnabledChange={setPaymentLinkEnabled}
+          publishDate={paymentLinkPublishDate}
+          onPublishDateChange={setPaymentLinkPublishDate}
+          expiryDate={paymentLinkExpiryDate}
+          onExpiryDateChange={setPaymentLinkExpiryDate}
+          inputClassName={style.inputClassName}
+          showSeparator
+          showTitle
+        />
+      ) : null}
 
       {useInstallmentTable ? (
         <>
