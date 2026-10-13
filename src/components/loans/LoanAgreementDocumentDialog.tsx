@@ -35,6 +35,21 @@ export default function LoanAgreementDocumentDialog({
     handleOpenChange(false);
   }
 
+  function handlePreview(file: File) {
+    const previewUrl = URL.createObjectURL(file);
+    const previewWindow = window.open(previewUrl, "_blank", "noopener,noreferrer");
+
+    if (!previewWindow) {
+      URL.revokeObjectURL(previewUrl);
+      toast.error("Pratinjau tidak dapat dibuka", {
+        description: "Izinkan pop-up pada browser untuk membuka file.",
+      });
+      return;
+    }
+
+    window.setTimeout(() => URL.revokeObjectURL(previewUrl), 60_000);
+  }
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="w-[calc(100vw-1.5rem)] max-w-[560px] overflow-hidden rounded-2xl border-slate-200 bg-white p-0 shadow-2xl">
@@ -107,7 +122,7 @@ export default function LoanAgreementDocumentDialog({
                     </div>
                     <Button
                       type="button"
-                      onClick={() => toast(`Pratinjau ${file.name}`)}
+                      onClick={() => handlePreview(file)}
                       className="h-8 shrink-0 rounded-[3px] bg-[#3767F5] px-2 text-[11px] font-semibold text-white hover:bg-[#2D55D6]"
                     >
                       <Eye className="mr-1 h-3.5 w-3.5" />
