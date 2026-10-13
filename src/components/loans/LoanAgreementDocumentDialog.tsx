@@ -84,7 +84,13 @@ export default function LoanAgreementDocumentDialog({
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
                 className="sr-only"
-                onChange={(event) => setFiles(Array.from(event.target.files ?? []))}
+                onChange={(event) => {
+                  const selectedFiles = Array.from(event.target.files ?? []);
+                  if (selectedFiles.length > 0) {
+                    setFiles((current) => [...current, ...selectedFiles]);
+                  }
+                  event.target.value = "";
+                }}
                 multiple
                 required={files.length === 0}
               />
