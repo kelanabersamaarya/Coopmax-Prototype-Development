@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Upload, X } from "lucide-react";
+import { CheckSquare, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -92,12 +92,21 @@ export default function LoanAgreementDocumentDialog({
             ) : null}
           </div>
 
-          <div className="flex justify-end gap-3 border-t border-slate-100 pt-5">
-            <Button type="button" variant="outline" onClick={() => handleOpenChange(false)} className="h-10 rounded-xl border-slate-200 px-5">
-              Batal
+          <div className="flex justify-end gap-1 border-t border-slate-100 pt-5">
+            <Button
+              type="button"
+              onClick={() => handleOpenChange(false)}
+              className="h-10 rounded-[3px] bg-[#8b9bb8] px-5 text-sm font-bold text-white hover:bg-[#788aa8]"
+            >
+              <X className="mr-2 h-4 w-4" />
+              Batalkan
             </Button>
-            <Button type="submit" className="h-10 rounded-xl bg-violet-600 px-5 text-white hover:bg-violet-700">
-              Simpan Dokumen
+            <Button
+              type="submit"
+              className="h-10 rounded-[3px] bg-[#16b600] px-5 text-sm font-bold text-white hover:bg-[#119d00]"
+            >
+              <CheckSquare className="mr-2 h-4 w-4" />
+              Simpan
             </Button>
           </div>
         </form>
