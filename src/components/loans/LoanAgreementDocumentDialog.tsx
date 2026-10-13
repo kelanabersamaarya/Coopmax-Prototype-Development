@@ -115,17 +115,17 @@ export default function LoanAgreementDocumentDialog({
             {files.length > 0 ? (
               <div className="space-y-2">
                 {files.map((file, index) => (
-                  <div key={`${file.name}-${file.lastModified}-${index}`} className="flex min-w-0 items-center gap-2 rounded-[4px] border border-[#D7E0ED] bg-white p-3">
+                  <div key={`${file.name}-${file.lastModified}-${index}`} className="flex min-w-0 items-start gap-2 rounded-[4px] border border-[#D7E0ED] bg-white p-3">
                     <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#EEF3FF] text-[#3767F5]">
                       <File className="h-5 w-5" strokeWidth={1.8} />
                     </div>
                     <div className="min-w-0 flex-1 px-1 py-2 text-left text-xs text-[#456080]">
-                      <span className="block truncate">{file.name}</span>
+                      <span className="block break-words whitespace-normal">{file.name}</span>
                     </div>
                     <Button
                       type="button"
                       onClick={() => handlePreview(file)}
-                      className="h-8 shrink-0 rounded-[3px] bg-[#3767F5] px-2 text-[11px] font-semibold text-white hover:bg-[#2D55D6]"
+                      className="h-8 shrink-0 self-center rounded-[3px] bg-[#3767F5] px-2 text-[11px] font-semibold text-white hover:bg-[#2D55D6]"
                     >
                       <Eye className="mr-1 h-3.5 w-3.5" />
                       Pratinjau
@@ -133,7 +133,7 @@ export default function LoanAgreementDocumentDialog({
                     <Button
                       type="button"
                       onClick={() => setFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))}
-                      className="h-8 shrink-0 rounded-[3px] bg-[#E3262E] px-2 text-[11px] font-semibold text-white hover:bg-[#C91F27]"
+                      className="h-8 shrink-0 self-center rounded-[3px] bg-[#E3262E] px-2 text-[11px] font-semibold text-white hover:bg-[#C91F27]"
                     >
                       <Trash2 className="mr-1 h-3.5 w-3.5" />
                       Hapus
