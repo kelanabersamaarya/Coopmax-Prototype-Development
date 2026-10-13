@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, Eye, File, FileImage, FileUp, Trash2, X } from "lucide-react";
+import { CheckSquare, Eye, File, FileUp, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -64,7 +64,7 @@ export default function LoanAgreementDocumentDialog({
               Dokumen Pinjaman <span className="text-rose-600">*</span>
             </Label>
             <div className="rounded-[10px] border border-dashed border-[#C6D1E2] px-4 py-6 text-center">
-              <FileImage className="mx-auto h-10 w-10 text-slate-900" strokeWidth={1.8} />
+              <File className="mx-auto h-10 w-10 text-slate-900" strokeWidth={1.8} />
               <div className="mt-3 text-sm font-semibold text-slate-900">
                 {file ? file.name : "Dokumen Perjanjian Pinjaman"}
               </div>
