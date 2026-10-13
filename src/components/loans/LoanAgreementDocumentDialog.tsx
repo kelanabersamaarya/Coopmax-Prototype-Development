@@ -96,14 +96,14 @@ export default function LoanAgreementDocumentDialog({
             <Button
               type="button"
               onClick={() => handleOpenChange(false)}
-              className="h-10 rounded-[3px] bg-[#8b9bb8] px-5 text-sm font-bold text-white hover:bg-[#788aa8]"
+              className="h-7 w-[90px] rounded-[3px] bg-[#8b9bb8] px-2 text-sm font-bold text-white hover:bg-[#788aa8]"
             >
               <X className="mr-2 h-4 w-4" />
               Batalkan
             </Button>
             <Button
               type="submit"
-              className="h-10 rounded-[3px] bg-[#16b600] px-5 text-sm font-bold text-white hover:bg-[#119d00]"
+              className="h-7 w-[90px] rounded-[3px] bg-[#16b600] px-2 text-sm font-bold text-white hover:bg-[#119d00]"
             >
               <CheckSquare className="mr-2 h-4 w-4" />
               Simpan
