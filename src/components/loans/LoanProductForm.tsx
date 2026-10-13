@@ -1291,58 +1291,56 @@ export default function LoanProductForm({
         </FieldRow>
 
         {useInstallmentTable ? (
-          <>
-            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-              <div className="pt-1 text-sm font-normal text-slate-900">
-                Skema Tagihan
-              </div>
-              <RadioGroup
-                value={installmentMode}
-                onValueChange={(value) =>
-                  setInstallmentMode(value as InstallmentMode)
-                }
-                className="flex flex-wrap items-center gap-x-6 gap-y-2"
-              >
-                <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
-                  <RadioGroupItem
-                    value="Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                    id={`mode-${mode}-fixed`}
-                  />
-                  Tagihan Sesuai Jadwal Angsuran
-                </label>
-
-                <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
-                  <RadioGroupItem
-                    value="Jadwal Fleksibel & Tagihan Berkala"
-                    id={`mode-${mode}-flex`}
-                  />
-                  Jadwal Fleksibel & Tagihan Berkala
-                </label>
-
-                <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
-                  <RadioGroupItem
-                    value="Dihitung dari Sisa Saldo Pokok"
-                    id={`mode-${mode}-balance`}
-                  />
-                  Tagihan Dihitung Dari Sisa Saldo Pokok
-                </label>
-              </RadioGroup>
+          <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+            <div className="pt-1 text-sm font-normal text-slate-900">
+              Skema Tagihan
             </div>
+            <RadioGroup
+              value={installmentMode}
+              onValueChange={(value) =>
+                setInstallmentMode(value as InstallmentMode)
+              }
+              className="flex flex-wrap items-center gap-x-6 gap-y-2"
+            >
+              <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
+                <RadioGroupItem
+                  value="Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                  id={`mode-${mode}-fixed`}
+                />
+                Tagihan Sesuai Jadwal Angsuran
+              </label>
 
-            {shouldShowPaymentLinkSection ? (
-              <LoanProductPaymentLinkSection
-                enabled={paymentLinkEnabled}
-                onEnabledChange={setPaymentLinkEnabled}
-                publishDate={paymentLinkPublishDate}
-                onPublishDateChange={setPaymentLinkPublishDate}
-                expiryDate={paymentLinkExpiryDate}
-                onExpiryDateChange={setPaymentLinkExpiryDate}
-                inputClassName={style.inputClassName}
-                showSeparator={false}
-                showTitle={false}
-              />
-            ) : null}
-          </>
+              <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
+                <RadioGroupItem
+                  value="Jadwal Fleksibel & Tagihan Berkala"
+                  id={`mode-${mode}-flex`}
+                />
+                Jadwal Fleksibel & Tagihan Berkala
+              </label>
+
+              <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
+                <RadioGroupItem
+                  value="Dihitung dari Sisa Saldo Pokok"
+                  id={`mode-${mode}-balance`}
+                />
+                Tagihan Dihitung Dari Sisa Saldo Pokok
+              </label>
+            </RadioGroup>
+          </div>
+        ) : null}
+
+        {shouldShowPaymentLinkSection ? (
+          <LoanProductPaymentLinkSection
+            enabled={paymentLinkEnabled}
+            onEnabledChange={setPaymentLinkEnabled}
+            publishDate={paymentLinkPublishDate}
+            onPublishDateChange={setPaymentLinkPublishDate}
+            expiryDate={paymentLinkExpiryDate}
+            onExpiryDateChange={setPaymentLinkExpiryDate}
+            inputClassName={style.inputClassName}
+            showSeparator={false}
+            showTitle={false}
+          />
         ) : null}
       </div>
 
