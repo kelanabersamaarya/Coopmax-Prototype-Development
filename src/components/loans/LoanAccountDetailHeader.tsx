@@ -12,6 +12,7 @@ import {
   ChevronDown,
   Clock3,
   Eraser,
+  FileText,
   List,
   Pencil,
   Percent,
@@ -26,6 +27,7 @@ import LoanExtensionWizard from "@/components/loans/LoanExtensionWizard";
 import LoanInterestChangeWizard from "@/components/loans/LoanInterestChangeWizard";
 import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
+import LoanAgreementDocumentDialog from "@/components/loans/LoanAgreementDocumentDialog";
 
 const UNSUPPORTED_INTEREST_CHANGE_ACCOUNT = "klpk04.07260001";
 
@@ -142,6 +144,7 @@ export default function LoanAccountDetailHeader({
   const [interestWizardOpen, setInterestWizardOpen] = React.useState(false);
   const [debtWizardOpen, setDebtWizardOpen] = React.useState(false);
   const [extensionWizardOpen, setExtensionWizardOpen] = React.useState(false);
+  const [agreementDocumentOpen, setAgreementDocumentOpen] = React.useState(false);
 
   const isUnsupportedAccount =
     accountNo.trim().toLowerCase() ===
@@ -210,6 +213,12 @@ export default function LoanAccountDetailHeader({
         />
       ) : null}
 
+      <LoanAgreementDocumentDialog
+        open={agreementDocumentOpen}
+        onOpenChange={setAgreementDocumentOpen}
+        accountNo={accountNo}
+      />
+
       <div className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
         <div className="min-w-0">
           <div className="flex items-baseline gap-2">
@@ -245,6 +254,13 @@ export default function LoanAccountDetailHeader({
             label="Dokumen"
             withCaret
             onClick={() => onAction("Dokumen")}
+          />
+
+          <ActionPill
+            icon={FileText}
+            label="Dokumen Perjanjian Pinjaman"
+            onClick={() => setAgreementDocumentOpen(true)}
+            className="bg-violet-600 text-white hover:bg-violet-700 [&>svg]:text-white"
           />
 
           <ActionPill
