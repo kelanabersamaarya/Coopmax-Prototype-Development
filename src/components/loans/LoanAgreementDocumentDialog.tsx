@@ -165,14 +165,14 @@ export default function LoanAgreementDocumentDialog({
       </DialogContent>
 
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <DialogContent className="[&>button]:hidden w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-10 text-center shadow-2xl">
-          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#f7c8a6] text-[#f2b98f]">
-            <span className="text-[54px] font-light leading-none">!</span>
+        <DialogContent className="[&>button]:hidden w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-6 text-center shadow-2xl">
+          <div className="mx-auto grid h-[82px] w-[82px] place-items-center rounded-full border-[4px] border-[#f7c8a6] text-[#f2b98f]">
+            <span className="text-[48px] font-light leading-none">!</span>
           </div>
-          <DialogTitle className="mt-7 text-[28px] font-extrabold leading-tight text-[#3b4863]">
+          <DialogTitle className="mt-5 text-[28px] font-extrabold leading-tight text-[#3b4863]">
             Yakin untuk menyimpan data ?
           </DialogTitle>
-          <div className="mt-8 flex justify-center gap-3">
+          <div className="mt-6 flex justify-center gap-3">
             <Button
               type="button"
               onClick={handleConfirmSave}
