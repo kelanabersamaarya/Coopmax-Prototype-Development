@@ -92,7 +92,7 @@ export default function LoanAgreementDocumentDialog({
             ) : null}
           </div>
 
-          <div className="flex justify-end gap-1 border-t border-slate-100 pt-3">
+          <div className="flex items-center justify-end gap-1 border-t border-slate-100 py-3">
             <Button
               type="button"
               onClick={() => handleOpenChange(false)}
