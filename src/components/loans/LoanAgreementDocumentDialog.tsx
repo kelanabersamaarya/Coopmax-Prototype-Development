@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, Eye, File, FileUp, Trash2, X } from "lucide-react";
+import { Check, CheckSquare, Eye, File, FileUp, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ export default function LoanAgreementDocumentDialog({
   const [spkNumber, setSpkNumber] = React.useState("");
   const [files, setFiles] = React.useState<File[]>([]);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
   const inputId = React.useId();
 
   function handleOpenChange(nextOpen: boolean) {
@@ -38,6 +39,7 @@ export default function LoanAgreementDocumentDialog({
     });
     setConfirmOpen(false);
     handleOpenChange(false);
+    setSuccessOpen(true);
   }
 
   function handlePreview(file: File) {
@@ -188,6 +190,24 @@ export default function LoanAgreementDocumentDialog({
               Cancel
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={successOpen} onOpenChange={setSuccessOpen}>
+        <DialogContent className="[&>button]:hidden w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-7 text-center shadow-2xl">
+          <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#dff0d5] text-[#9bd879]">
+            <Check className="h-14 w-14" strokeWidth={2.5} />
+          </div>
+          <DialogTitle className="mt-7 text-[28px] font-extrabold leading-tight text-[#5a5a5a]">
+            Berhasil menyimpan data
+          </DialogTitle>
+          <Button
+            type="button"
+            onClick={() => setSuccessOpen(false)}
+            className="mx-auto mt-7 h-12 w-[104px] rounded-[5px] bg-[#3380e8] text-base font-semibold text-white hover:bg-[#3380e8]"
+          >
+            OK
+          </Button>
         </DialogContent>
       </Dialog>
     </Dialog>
