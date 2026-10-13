@@ -15,14 +15,16 @@ export default function LoanAgreementDocumentDialog({
 }) {
   const [spkNumber, setSpkNumber] = React.useState("");
   const [files, setFiles] = React.useState<File[]>([]);
+  const [savedSpkNumber, setSavedSpkNumber] = React.useState("");
+  const [savedFiles, setSavedFiles] = React.useState<File[]>([]);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const inputId = React.useId();
 
   function handleOpenChange(nextOpen: boolean) {
-    if (!nextOpen) {
-      setSpkNumber("");
-      setFiles([]);
+    if (nextOpen) {
+      setSpkNumber(savedSpkNumber);
+      setFiles(savedFiles);
     }
     onOpenChange(nextOpen);
   }
@@ -34,6 +36,8 @@ export default function LoanAgreementDocumentDialog({
   }
 
   function handleConfirmSave() {
+    setSavedSpkNumber(spkNumber.trim());
+    setSavedFiles(files);
     toast.success("Dokumen perjanjian pinjaman berhasil disimpan", {
       description: `${files.length} dokumen • ${spkNumber.trim()}`,
     });
