@@ -194,7 +194,7 @@ export default function LoanAgreementDocumentDialog({
       </Dialog>
 
       <Dialog open={successOpen} onOpenChange={setSuccessOpen}>
-        <DialogContent className="[&>button]:hidden w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-7 text-center shadow-2xl">
+        <DialogContent className="[&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden w-[calc(100vw-1.5rem)] max-w-[530px] rounded-[5px] border-slate-200 bg-white px-6 py-7 text-center shadow-2xl">
           <div className="mx-auto grid h-[92px] w-[92px] place-items-center rounded-full border-[4px] border-[#dff0d5] text-[#9bd879]">
             <Check className="h-14 w-14" strokeWidth={2.5} />
           </div>
