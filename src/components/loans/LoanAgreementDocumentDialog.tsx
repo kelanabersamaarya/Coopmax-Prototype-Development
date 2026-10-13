@@ -93,7 +93,7 @@ export default function LoanAgreementDocumentDialog({
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#EEF3FF] text-[#3767F5]">
                   <File className="h-5 w-5" strokeWidth={1.8} />
                 </div>
-                <div className="min-w-0 flex-1 rounded-[3px] border border-[#B9CBE4] bg-[#EAF1FC] px-3 py-2 text-left text-xs text-[#456080]">
+                <div className="min-w-0 flex-1 px-1 py-2 text-left text-xs text-[#456080]">
                   <span className="block truncate">{file.name}</span>
                 </div>
                 <Button
