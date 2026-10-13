@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FileText, Upload, X } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -9,11 +9,9 @@ import { toast } from "sonner";
 export default function LoanAgreementDocumentDialog({
   open,
   onOpenChange,
-  accountNo,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  accountNo: string;
 }) {
   const [spkNumber, setSpkNumber] = React.useState("");
   const [file, setFile] = React.useState<File | null>(null);
@@ -41,13 +39,9 @@ export default function LoanAgreementDocumentDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="w-[calc(100vw-1.5rem)] max-w-[560px] rounded-2xl border-slate-200 bg-white p-0 shadow-2xl">
         <DialogHeader className="border-b border-slate-100 px-6 py-5">
-          <DialogTitle className="flex items-center gap-2 text-lg font-bold text-slate-900">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-violet-100 text-violet-700">
-              <FileText className="h-5 w-5" />
-            </span>
+          <DialogTitle className="text-lg font-bold text-slate-900">
             Dokumen Perjanjian Pinjaman
           </DialogTitle>
-          <p className="pl-11 text-sm text-slate-500">Rekening {accountNo}</p>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-5 px-6 py-6">

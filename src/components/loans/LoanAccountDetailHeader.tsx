@@ -216,7 +216,6 @@ export default function LoanAccountDetailHeader({
       <LoanAgreementDocumentDialog
         open={agreementDocumentOpen}
         onOpenChange={setAgreementDocumentOpen}
-        accountNo={accountNo}
       />
 
       <div className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
