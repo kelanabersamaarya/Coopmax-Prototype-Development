@@ -260,7 +260,6 @@ export default function LoanAccountDetailHeader({
             icon={FileText}
             label="Dokumen Perjanjian Pinjaman"
             onClick={() => setAgreementDocumentOpen(true)}
-            className="bg-violet-600 text-white hover:bg-violet-700 [&>svg]:text-white"
           />
 
           <ActionPill
