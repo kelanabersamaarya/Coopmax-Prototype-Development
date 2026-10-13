@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CheckSquare, FileImage, FileUp, X } from "lucide-react";
+import { CheckSquare, Eye, FileImage, FileUp, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -89,13 +89,30 @@ export default function LoanAgreementDocumentDialog({
               />
             </div>
             {file ? (
-              <button
-                type="button"
-                onClick={() => setFile(null)}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 hover:text-rose-700"
-              >
-                <X className="h-3.5 w-3.5" /> Hapus file
-              </button>
+              <div className="flex items-center gap-3 rounded-[4px] border border-[#D7E0ED] bg-white p-3">
+                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-[#EEF3FF] text-[#3767F5]">
+                  <FileImage className="h-7 w-7" strokeWidth={1.8} />
+                </div>
+                <div className="min-w-0 flex-1 rounded-[3px] border border-[#B9CBE4] bg-[#EAF1FC] px-3 py-2 text-left text-xs text-[#456080]">
+                  <span className="block truncate">{file.name}</span>
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => toast(`Pratinjau ${file.name}`)}
+                  className="h-8 shrink-0 rounded-[3px] bg-[#3767F5] px-3 text-xs font-semibold text-white hover:bg-[#2D55D6]"
+                >
+                  <Eye className="mr-1 h-3.5 w-3.5" />
+                  Pratinjau
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => setFile(null)}
+                  className="h-8 shrink-0 rounded-[3px] bg-[#E3262E] px-3 text-xs font-semibold text-white hover:bg-[#C91F27]"
+                >
+                  <Trash2 className="mr-1 h-3.5 w-3.5" />
+                  Hapus
+                </Button>
+              </div>
             ) : null}
           </div>
 
