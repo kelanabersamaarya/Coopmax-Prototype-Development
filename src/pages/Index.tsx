@@ -133,8 +133,7 @@ export default function Index() {
     location.pathname.startsWith("/mobile/e-kolektor/") ||
     location.pathname === "/mobile/e-kolektor-wajah";
   const isMobileArea =
-    ((!isEKolektorArea && location.pathname.startsWith("/mobile")) ||
-      isMitraKaryaMBankingArea);
+    isEKolektorArea || location.pathname.startsWith("/mobile") || isMitraKaryaMBankingArea;
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
