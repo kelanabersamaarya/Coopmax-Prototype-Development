@@ -23,9 +23,6 @@ type SavingsProductSeed = {
   kode: string;
   tabunganKhususAnggota: string;
   namaProduk: string;
-  prosesBungaOtomatis: boolean;
-  prosesBiayaAdminOtomatis: boolean;
-  prosesBiayaAdminMbankingOtomatis: boolean;
   setoranAwal: string;
   setoranMinimal: string;
   saldoMinimal: string;
@@ -61,9 +58,6 @@ const defaultEditSeed: SavingsProductSeed = {
   kode: "S001",
   tabunganKhususAnggota: "semua",
   namaProduk: "Simpanan Sukarela",
-  prosesBungaOtomatis: true,
-  prosesBiayaAdminOtomatis: true,
-  prosesBiayaAdminMbankingOtomatis: false,
   setoranAwal: "100.000,00",
   setoranMinimal: "10.000,00",
   saldoMinimal: "25.000,00",
@@ -151,14 +145,6 @@ export default function ProdukTabunganTambah() {
     editSeed?.tabunganKhususAnggota ?? "",
   );
   const [namaProduk, setNamaProduk] = React.useState(editSeed?.namaProduk ?? "");
-  const [prosesBungaOtomatis, setProsesBungaOtomatis] = React.useState(
-    editSeed?.prosesBungaOtomatis ?? false,
-  );
-  const [prosesBiayaAdminOtomatis, setProsesBiayaAdminOtomatis] = React.useState(
-    editSeed?.prosesBiayaAdminOtomatis ?? false,
-  );
-  const [prosesBiayaAdminMbankingOtomatis, setProsesBiayaAdminMbankingOtomatis] =
-    React.useState(editSeed?.prosesBiayaAdminMbankingOtomatis ?? false);
   const [setoranAwal, setSetoranAwal] = React.useState(
     editSeed?.setoranAwal ?? "0,00",
   );
@@ -359,26 +345,6 @@ export default function ProdukTabunganTambah() {
                 onChange={(event) => setNamaProduk(event.target.value)}
                 className={formInputClassName}
               />
-            </div>
-
-            <div className="mt-2 rounded-[8px] border border-blue-100 bg-blue-50/50 p-4">
-              <div className="mb-3 text-[14px] font-semibold text-[#002060]">
-                Proses Otomatis
-              </div>
-              <div className="grid gap-3">
-                <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-                  <label className={labelClassName}>Proses Bunga Otomatis</label>
-                  <SavingsTogglePill checked={prosesBungaOtomatis} onChange={setProsesBungaOtomatis} />
-                </div>
-                <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-                  <label className={labelClassName}>Proses Biaya Admin Otomatis</label>
-                  <SavingsTogglePill checked={prosesBiayaAdminOtomatis} onChange={setProsesBiayaAdminOtomatis} />
-                </div>
-                <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-                  <label className={labelClassName}>Proses Biaya Admin M-Banking Otomatis</label>
-                  <SavingsTogglePill checked={prosesBiayaAdminMbankingOtomatis} onChange={setProsesBiayaAdminMbankingOtomatis} />
-                </div>
-              </div>
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
