@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
@@ -29,14 +29,6 @@ export default function EKolektorTransactionDetailModal({
         aria-labelledby="transaction-detail-title"
         className="relative w-full max-w-[340px] rounded-[22px] bg-white px-5 pb-6 pt-5 shadow-[0_12px_34px_rgba(15,23,42,0.25)]"
       >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Tutup"
-          className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full text-[#8A8A8A] hover:bg-[#F4F4F4]"
-        >
-          <X className="h-4 w-4" />
-        </button>
 
         <div className="flex justify-center">
           <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full bg-[rgba(75,186,222,0.12)]">
