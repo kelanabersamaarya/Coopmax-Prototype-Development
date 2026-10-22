@@ -95,6 +95,7 @@ import PaymentLinkTransactionDetail from "./pages/PaymentLinkTransactionDetail";
 import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
 import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
 import SakAkunting from "./pages/SakAkunting";
+import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 
 const queryClient = new QueryClient();
 
@@ -114,6 +115,24 @@ const App = () => (
             <Route path="astiti-dana-lestari/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />
             <Route path="astiti-dana-lestari/simpanan/rekening" element={<AstitiRekeningTabungan />} />
             <Route path="anggota/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />
+            <Route
+              path="anggota/simpanan/jadwal-bunga-admin-otomatis"
+              element={
+                <SakProductPlaceholder
+                  title="Jadwal Bunga dan Admin Otomatis"
+                  subtitle="Simpanan"
+                />
+              }
+            />
+            <Route
+              path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
+              element={
+                <SakProductPlaceholder
+                  title="Monitoring Proses Bunga dan Admin Simpanan Otomatis"
+                  subtitle="Simpanan"
+                />
+              }
+            />
             <Route path="anggota/simpanan/rekening" element={<AstitiRekeningTabungan />} />
             <Route path="astiti-dana-lestari/simpanan/rekening/detail" element={<AstitiRekeningTabunganDetail />} />
             <Route path="astiti-dana-lestari/simpanan/setoran" element={<AstitiSetoranSimpanan />} />

@@ -16,7 +16,17 @@ export default function SidebarSimpananMenu() {
   const routePrefix = isPinjamanBillingArea ? "/anggota/simpanan" : "/simpanan";
   const items: SubItem[] = [
     ...(isPinjamanBillingArea
-      ? [{ label: "Transaksi Simpanan", to: `${routePrefix}/transaksi` }]
+      ? [
+          { label: "Transaksi Simpanan", to: `${routePrefix}/transaksi` },
+          {
+            label: "Jadwal Bunga dan Admin Otomatis",
+            to: `${routePrefix}/jadwal-bunga-admin-otomatis`,
+          },
+          {
+            label: "Monitoring Proses Bunga dan Admin Simpanan Otomatis",
+            to: `${routePrefix}/monitoring-bunga-admin-simpanan-otomatis`,
+          },
+        ]
       : []),
     { label: "Daftar Rekening", to: `${routePrefix}/rekening` },
     { label: "Perpanjangan Simpanan", to: `${routePrefix}/perpanjangan` },
