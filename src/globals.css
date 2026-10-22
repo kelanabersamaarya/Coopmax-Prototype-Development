@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+#save-success-title {
+  font-size: 30px !important;
+}
+
 button.bg-blue-600:hover {
   background-color: #2563eb !important;
 }
