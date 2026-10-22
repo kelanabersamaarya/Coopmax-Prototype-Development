@@ -9,6 +9,7 @@ import EKolektorHomeSummaryCards from "@/components/mobile/EKolektorHomeSummaryC
 import EKolektorProfilePage from "@/components/mobile/EKolektorProfilePage";
 import EKolektorSyncInfoCard from "@/components/mobile/EKolektorSyncInfoCard";
 import EKolektorTodayHistorySection from "@/components/mobile/EKolektorTodayHistorySection";
+import EKolektorTransactionDetailModal from "@/components/mobile/EKolektorTransactionDetailModal";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
 export default function EKolektorHome({
@@ -30,6 +31,7 @@ export default function EKolektorHome({
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
+  const [selectedTransaction, setSelectedTransaction] = React.useState<EKolektorTodayTransaction | null>(null);
 
   if (showProfile) {
     return (
@@ -50,7 +52,10 @@ export default function EKolektorHome({
         <EKolektorHomeHeader onProfileClick={() => setShowProfile(true)} />
         <EKolektorHomeSummaryCards />
         <EKolektorSyncInfoCard />
-        <EKolektorTodayHistorySection transactions={transactions} />
+        <EKolektorTodayHistorySection
+          transactions={transactions}
+          onSelectTransaction={setSelectedTransaction}
+        />
       </div>
 
       <EKolektorBottomNav
@@ -64,6 +69,13 @@ export default function EKolektorHome({
         }
         onAndroidBack={() => setExitOpen(true)}
       />
+
+      {selectedTransaction ? (
+        <EKolektorTransactionDetailModal
+          transaction={selectedTransaction}
+          onClose={() => setSelectedTransaction(null)}
+        />
+      ) : null}
 
       <EKolektorExitConfirmModal
         open={exitOpen}
