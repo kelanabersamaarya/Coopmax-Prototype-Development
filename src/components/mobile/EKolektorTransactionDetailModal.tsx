@@ -36,7 +36,7 @@ export default function EKolektorTransactionDetailModal({
           </div>
           <h2
             id="transaction-detail-title"
-            className="text-center text-[20px] font-extrabold leading-none tracking-tight text-[#004FC7]"
+            className="text-center text-[20px] font-extrabold leading-none tracking-tight text-[#203064]"
           >
             Sukses
           </h2>
