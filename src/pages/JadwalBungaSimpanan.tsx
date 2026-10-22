@@ -39,7 +39,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
             className={`inline-flex w-[62px] items-center rounded-full py-1 text-[10px] font-semibold text-white transition-colors ${isActive ? "bg-[#6047ff]" : "bg-[#9b92ee]"}`}
           >
             <span className={`flex-1 text-center ${isActive ? "order-1" : "order-2"}`}>{isActive ? "ON" : "OFF"}</span>
-            <span className={`h-5 w-5 shrink-0 rounded-full bg-white transition-transform ${isActive ? "order-2" : "order-1"}`} />
+            <span className={`h-5 w-5 shrink-0 rounded-full bg-white transition-transform ${isActive ? "order-2 -translate-x-1" : "order-1 translate-x-1"}`} />
           </button>
         </div>
         <div className="mt-6 flex justify-end gap-2">
