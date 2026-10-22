@@ -76,5 +76,5 @@ function MonitoringTable({ title, rows }: { title: string; rows: MonitoringRow[]
 }
 
 export default function MonitoringBungaSimpanan() {
-  return <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8"><h1 className="mb-8 text-[22px] font-medium tracking-[-0.02em] text-[#00245f]">Monitoring Proses Kolektif</h1><div className="space-y-12"><MonitoringTable title="Daftar Monitoring Bunga Tabungan" rows={savingsRows} /><MonitoringTable title="Daftar Monitoring Bunga Deposito" rows={depositRows} /></div></div>;
+  return <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8"><h1 className="mb-8 text-[22px] font-medium tracking-[-0.02em] text-[#00245f]">Monitoring Proses Kolektif</h1><div className="space-y-12"><MonitoringTable title="Daftar Monitoring Bunga Tabungan" rows={savingsRows} /><MonitoringTable title="Daftar Monitoring Admin Tabungan" rows={savingsRows} /><MonitoringTable title="Daftar Monitoring Bunga Deposito" rows={depositRows} /></div></div>;
 }
