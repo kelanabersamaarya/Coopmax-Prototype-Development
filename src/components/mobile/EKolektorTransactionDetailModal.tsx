@@ -1,6 +1,7 @@
 "use client";
 
-import { Check } from "lucide-react";
+import * as React from "react";
+import { Check, Mail, MessageCircle, Send, Share2, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
@@ -13,6 +14,7 @@ export default function EKolektorTransactionDetailModal({
   onClose: () => void;
 }) {
   const amount = transaction.amount.replace(/^\+/, "");
+  const [shareOpen, setShareOpen] = React.useState(false);
 
   return (
     <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/35 px-4 py-5">
@@ -102,11 +104,7 @@ export default function EKolektorTransactionDetailModal({
           </button>
           <button
             type="button"
-            onClick={() =>
-              toast.success("Bagikan Bukti (prototype)", {
-                description: "Bukti transaksi siap dibagikan.",
-              })
-            }
+            onClick={() => setShareOpen(true)}
             className={cn(
               "h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white",
               "transition hover:bg-[#0046B3] active:translate-y-px",
@@ -123,6 +121,47 @@ export default function EKolektorTransactionDetailModal({
           </button>
         </div>
       </section>
+
+      {shareOpen ? (
+        <div className="absolute inset-x-0 bottom-0 z-50 rounded-t-[26px] bg-white px-4 pb-7 pt-3 shadow-[0_-8px_28px_rgba(15,23,42,0.2)]">
+          <button
+            type="button"
+            aria-label="Tutup opsi berbagi"
+            className="mx-auto mb-6 block h-1.5 w-14 rounded-full bg-[#B8B8B8]"
+            onClick={() => setShareOpen(false)}
+          />
+          <div className="mb-5 text-[22px] font-extrabold text-[#202020]">1 item</div>
+          <div className="flex items-center gap-3 rounded-[15px] bg-[#E5E5E7] px-4 py-3">
+            <div className="flex h-14 w-14 items-center justify-center rounded-[14px] bg-[#E53238] text-white">
+              <Share2 className="h-8 w-8" />
+            </div>
+            <div className="truncate text-[16px] font-medium text-[#202020]">
+              Bukti Setoran {transaction.accountNo}.pdf
+            </div>
+          </div>
+          <div className="mt-5 grid grid-cols-5 gap-3 text-center">
+            {[
+              { label: "Quick Share", icon: Zap, color: "bg-[#2879F5]" },
+              { label: "WhatsApp", icon: MessageCircle, color: "bg-[#25D366]" },
+              { label: "Message", icon: MessageCircle, color: "bg-[#8AA8F0]" },
+              { label: "Gmail", icon: Mail, color: "bg-[#EA4335]" },
+              { label: "Telegram", icon: Send, color: "bg-[#2AABEE]" },
+            ].map(({ label, icon: Icon, color }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => toast.success(`${label} dipilih`)}
+                className="flex min-w-0 flex-col items-center gap-2"
+              >
+                <span className={cn("flex h-14 w-14 items-center justify-center rounded-full text-white", color)}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <span className="truncate text-[11px] text-[#202020]">{label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
