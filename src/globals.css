@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-#save-success-title {
+#save-success-title,
+#save-confirm-title {
   font-size: 30px !important;
+}
+
+#save-confirm-title + div {
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
 }
 
 button.bg-blue-600:hover {
