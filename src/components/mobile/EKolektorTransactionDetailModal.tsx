@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, Mail, MessageCircle, Send, Share2, Zap } from "lucide-react";
+import { Check, FileText, Mail, MessageCircle, Send, Share2, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
@@ -132,11 +132,12 @@ export default function EKolektorTransactionDetailModal({
           />
           <div className="mb-5 text-[22px] font-extrabold text-[#202020]">1 item</div>
           <div className="flex items-center gap-3 rounded-[15px] bg-[#E5E5E7] px-4 py-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-[14px] bg-[#E53238] text-white">
-              <Share2 className="h-8 w-8" />
+            <div className="relative flex h-14 w-14 items-center justify-center rounded-[14px] bg-[#E53238] text-white">
+              <FileText className="h-8 w-8" />
+              <span className="absolute bottom-1 text-[8px] font-extrabold tracking-tight text-white">PDF</span>
             </div>
             <div className="truncate text-[16px] font-medium text-[#202020]">
-              Bukti Setoran {transaction.accountNo}.pdf
+              Bukti Pembayaran Angsuran.pdf
             </div>
           </div>
           <div className="mt-5 grid grid-cols-5 gap-3 text-center">
