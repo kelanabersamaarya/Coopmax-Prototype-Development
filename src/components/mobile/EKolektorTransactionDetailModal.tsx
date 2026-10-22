@@ -106,8 +106,8 @@ export default function EKolektorTransactionDetailModal({
             type="button"
             onClick={() => setShareOpen(true)}
             className={cn(
-              "h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white",
-              "transition hover:bg-[#0046B3] active:translate-y-px",
+              "h-[39px] w-full rounded-full bg-[#A5A5A5] text-[13px] font-semibold text-white",
+              "transition hover:bg-[#969696] active:translate-y-px",
             )}
           >
             Bagikan
@@ -115,7 +115,7 @@ export default function EKolektorTransactionDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="h-[39px] w-full rounded-full bg-[#A5A5A5] text-[13px] font-semibold text-white transition hover:bg-[#969696] active:translate-y-px"
+            className="h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white transition hover:bg-[#0046B3] active:translate-y-px"
           >
             Kembali
           </button>
