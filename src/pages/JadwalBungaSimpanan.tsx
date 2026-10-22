@@ -50,7 +50,14 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
   const [mobile, setMobile] = useState(false);
   const [mobilePeriod, setMobilePeriod] = useState("");
   const [mainOnly, setMainOnly] = useState(false);
-  const [processOrder, setProcessOrder] = useState<ProcessKey[]>(["interest", "admin", "mobile"]);
+  const [processOrder, setProcessOrder] = useState<ProcessKey[]>([]);
+  const enabledProcessKeys = [interest && "interest", admin && "admin", mobile && "mobile"].filter(Boolean) as ProcessKey[];
+  useEffect(() => {
+    setProcessOrder((currentOrder) => [
+      ...currentOrder.filter((key) => enabledProcessKeys.includes(key)),
+      ...enabledProcessKeys.filter((key) => !currentOrder.includes(key)),
+    ]);
+  }, [interest, admin, mobile]);
   const helperText = interestPeriod === "Harian" ? "Proses otomatis akan berjalan setiap hari sesuai dengan waktu spesifik yang diatur oleh pengguna." : interestPeriod === "Bulan Berlangsung" ? "Proses otomatis suatu periode akan berjalan setiap bulan berlangsung sesuai dengan waktu spesifik yang diatur oleh pengguna." : interestPeriod === "Bulan Berikutnya" ? "Proses otomatis suatu periode akan berjalan setiap bulan berikutnya sesuai dengan waktu spesifik yang diatur oleh pengguna." : "";
   const adminHelperText = adminPeriod === "Bulan Berlangsung" ? "Proses otomatis suatu periode akan berjalan setiap bulan berlangsung sesuai dengan waktu spesifik yang diatur oleh pengguna." : adminPeriod === "Bulan Berikutnya" ? "Proses otomatis suatu periode akan berjalan setiap bulan berikutnya sesuai dengan waktu spesifik yang diatur oleh pengguna." : "";
   const mobileHelperText = mobilePeriod === "Bulan Berlangsung" ? "Proses otomatis suatu periode akan berjalan setiap bulan berlangsung sesuai dengan waktu spesifik yang diatur oleh pengguna." : mobilePeriod === "Bulan Berikutnya" ? "Proses otomatis suatu periode akan berjalan setiap bulan berikutnya sesuai dengan waktu spesifik yang diatur oleh pengguna." : "";
