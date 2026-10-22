@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AlertCircle, CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2, CheckSquare as Check } from "lucide-react";
+import { CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2, CheckSquare as Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -42,7 +42,7 @@ function ProcessOrderEditor({ order, onChange }: { order: ProcessKey[]; onChange
 }
 
 function SaveConfirmModal({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) {
-  return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2" role="presentation"><div role="dialog" aria-modal="true" aria-labelledby="save-confirm-title" className="w-full max-w-[546px] rounded-[5px] bg-white px-6 py-9 text-center shadow-2xl sm:px-8"><AlertCircle className="mx-auto h-[96px] w-[96px] text-[#ffbd88]" strokeWidth={1.5} /><h2 id="save-confirm-title" className="mt-8 text-[28px] font-bold leading-tight text-[#405878] sm:text-[30px]">Yakin untuk menyimpan data?</h2><div className="mt-8 flex flex-row flex-nowrap items-center justify-center gap-2"><Button onClick={onConfirm} className="h-[52px] w-[134px] shrink-0 rounded-[6px] border-2 border-[#b7d5ec] bg-[#3189d4] px-5 text-[17px] font-semibold text-white shadow-[0_0_0_1px_#3189d4] hover:bg-[#287abd]">Yes</Button><Button onClick={onCancel} className="h-[52px] w-[130px] shrink-0 rounded-[6px] bg-[#aaa] px-5 text-[17px] font-semibold text-white hover:bg-[#999]">Cancel</Button></div></div></div>;
+  return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2" role="presentation"><div role="dialog" aria-modal="true" aria-labelledby="save-confirm-title" className="w-full max-w-[546px] rounded-[5px] bg-white px-6 py-9 text-center shadow-2xl sm:px-8"><div className="mx-auto flex h-[96px] w-[96px] items-center justify-center rounded-full border-[4px] border-[#ffbd88] text-[58px] font-normal leading-none text-[#ffbd88]">!</div><h2 id="save-confirm-title" className="mt-8 text-[28px] font-bold leading-tight text-[#405878] sm:text-[30px]">Yakin untuk menyimpan data?</h2><div className="mt-8 flex flex-row flex-nowrap items-center justify-center gap-2"><Button onClick={onConfirm} className="h-[52px] w-[134px] shrink-0 rounded-[6px] border-2 border-[#b7d5ec] bg-[#3189d4] px-5 text-[17px] font-semibold text-white shadow-[0_0_0_1px_#3189d4] hover:bg-[#287abd]">Yes</Button><Button onClick={onCancel} className="h-[52px] w-[130px] shrink-0 rounded-[6px] bg-[#aaa] px-5 text-[17px] font-semibold text-white hover:bg-[#999]">Cancel</Button></div></div></div>;
 }
 
 function AddScheduleForm({ onBack }: { onBack: () => void }) {
