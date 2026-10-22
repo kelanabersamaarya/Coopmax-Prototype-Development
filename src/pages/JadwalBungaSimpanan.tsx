@@ -11,14 +11,32 @@ const schedules = [
   { product: "Simpanan Pokok", period: "Bulan Berlangsung", next: "01-11-2026 03:00:00", status: "Aktif" },
 ];
 
+function ProcessToggle({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
+  return (
+    <div className="contents">
+      <span className="text-[13px] text-[#002b68]">{label}</span>
+      <button type="button" role="switch" aria-checked={checked} onClick={onChange} className={`inline-flex w-[62px] items-center rounded-full py-1 text-[10px] font-semibold text-white transition-colors ${checked ? "bg-[#6047ff]" : "bg-[#9b92ee]"}`}>
+        <span className={`flex-1 text-center ${checked ? "order-1" : "order-2"}`}>{checked ? "ON" : "OFF"}</span>
+        <span className={`h-5 w-5 shrink-0 rounded-full bg-white transition-transform ${checked ? "order-2 -translate-x-1" : "order-1 translate-x-1"}`} />
+      </button>
+    </div>
+  );
+}
+
 function AddScheduleForm({ onBack }: { onBack: () => void }) {
   const [isActive, setIsActive] = useState(true);
+  const [processInterest, setProcessInterest] = useState(true);
+  const [processAdmin, setProcessAdmin] = useState(true);
+  const [processMobileAdmin, setProcessMobileAdmin] = useState(true);
   return (
     <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8">
       <div className="flex items-baseline gap-2"><h1 className="text-[21px] font-medium tracking-[-0.02em] text-[#00245f] md:text-[22px]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[15px] text-[#173b70]">Tambah</span></div>
       <Card className="mt-8 rounded-[22px] border-0 bg-white px-6 py-7 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-12 md:py-8">
         <div className="grid gap-3 md:grid-cols-[185px_minmax(0,1fr)] md:items-center md:gap-x-2">
           <label htmlFor="product" className="text-[13px] text-[#002b68]">Produk Simpanan<span className="text-red-600">*</span></label><select id="product" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-[#6980a4] outline-none"><option>Pilih Produk Simpanan</option>{schedules.map((item) => <option key={item.product}>{item.product}</option>)}</select>
+          <ProcessToggle label="Proses Bunga Otomatis" checked={processInterest} onChange={() => setProcessInterest((value) => !value)} />
+          <ProcessToggle label="Proses Biaya Admin Otomatis" checked={processAdmin} onChange={() => setProcessAdmin((value) => !value)} />
+          <ProcessToggle label="Proses Biaya Admin M-Banking Otomatis" checked={processMobileAdmin} onChange={() => setProcessMobileAdmin((value) => !value)} />
           <label htmlFor="period" className="text-[13px] text-[#002b68]">Periode<span className="text-red-600">*</span></label><select id="period" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-[#6980a4] outline-none"><option>Pilih Periode Proses</option><option>Bulan Berlangsung</option><option>Bulan Berikutnya</option></select>
           <label htmlFor="time" className="text-[13px] text-[#002b68]">Waktu<span className="text-red-600">*</span></label><select id="time" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-[#6980a4] outline-none"><option>Pilih Waktu Proses</option><option>00:00</option><option>03:00</option><option>20:00</option></select>
           <label htmlFor="transaction" className="text-[13px] text-[#002b68]">Jenis Transaksi<span className="text-red-600">*</span></label><select id="transaction" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-[#6980a4] outline-none"><option>Pilih Jenis Transaksi</option><option>Bunga</option><option>Admin</option></select>
