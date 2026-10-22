@@ -12,6 +12,29 @@
   flex-wrap: nowrap !important;
 }
 
+#save-confirm-title + div button:first-child,
+#save-success-title + button {
+  box-sizing: border-box !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  width: 112px !important;
+  min-width: 112px !important;
+  border: 2px solid #a9cef0 !important;
+  border-radius: 6px !important;
+  background: #318bd7 !important;
+  padding: 0 24px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  box-shadow: 0 0 0 1px #318bd7 !important;
+}
+
+#save-confirm-title + div button:first-child:hover,
+#save-success-title + button:hover {
+  background: #287abd !important;
+}
+
 button.bg-blue-600:hover {
   background-color: #2563eb !important;
 }
