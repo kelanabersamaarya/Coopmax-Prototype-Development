@@ -53,7 +53,10 @@ export default function EKolektorTransactionDetailModal({
           className="mt-7 flex h-[81px] w-full items-center justify-center rounded-[12px] px-4"
           style={{ backgroundColor: "#F6F6F6" }}
         >
-          <div className="flex flex-col items-center justify-center text-center">
+          <div
+            className="flex flex-col items-center justify-center text-center"
+            style={{ backgroundColor: "#F6F6F6" }}
+          >
             <div
               className="text-[25px] font-extrabold leading-tight tracking-tight text-[#203064]"
               style={{ backgroundColor: "#F6F6F6" }}
