@@ -1,7 +1,18 @@
 import { useMemo, useState } from "react";
-import { CircleX, Eye, Pencil, Plus, Save, Undo2 } from "lucide-react";
+import { Check, ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+
+const savingsProducts = [
+  "Simpanan Sukarela - Penampung Pendapatan Bunga",
+  "Simpanan Pokok",
+  "Simpanan Wajib",
+  "Simpanan Program",
+  "tabungan",
+  "Mandiri Tabungan Rupiah- Bank Mandiri",
+  "TabunganKu - Bank BPD Bali",
+  "SIMPEDA - BANK BPD BALI",
+];
 
 const schedules = [
   { product: "tabungan", period: "Bulan Berikutnya", next: "21-11-2026 20:00:00", status: "Aktif" },
@@ -10,6 +21,29 @@ const schedules = [
   { product: "Simpanan Sukarela - Penampung Pendapatan Bunga", period: "Bulan Berlangsung", next: "19-11-2026 00:00:00", status: "Aktif" },
   { product: "Simpanan Pokok", period: "Bulan Berlangsung", next: "01-11-2026 03:00:00", status: "Aktif" },
 ];
+
+function ProductDropdown() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [query, setQuery] = useState("");
+  const filteredProducts = savingsProducts.filter((item) => item.toLowerCase().includes(query.toLowerCase()));
+
+  return (
+    <div className="relative w-full">
+      <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] text-black outline-none">
+        <span className={value ? "text-black" : "text-[#6980a4]"}>{value || "Pilih Produk Simpanan"}</span>
+        <ChevronDown className="h-4 w-4 text-[#6d7d96]" />
+      </button>
+      {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
+        <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="" className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
+        <div role="listbox" className="max-h-[210px] overflow-y-auto">
+          {filteredProducts.map((item) => <button type="button" role="option" aria-selected={value === item} key={item} onClick={() => { setValue(item); setOpen(false); setQuery(""); }} className={`flex w-full items-center justify-between px-2 py-1.5 text-left text-[13px] text-[#002b68] hover:bg-[#5942f5] hover:text-white ${value === item ? "bg-[#5942f5] text-white" : ""}`}><span>{item}</span>{value === item && <Check className="h-4 w-4" />}</button>)}
+          {!filteredProducts.length && <div className="px-2 py-3 text-[13px] text-[#6980a4]">Produk tidak ditemukan</div>}
+        </div>
+      </div>}
+    </div>
+  );
+}
 
 function ProcessToggle({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
   return (
@@ -33,7 +67,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
       <div className="flex items-baseline gap-2"><h1 className="text-[21px] font-medium tracking-[-0.02em] text-[#00245f] md:text-[22px]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[15px] text-[#173b70]">Tambah</span></div>
       <Card className="mt-8 rounded-[22px] border-0 bg-white px-6 py-7 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-12 md:py-8">
         <div className="grid gap-3 md:grid-cols-[185px_minmax(0,1fr)] md:items-center md:gap-x-2">
-          <label htmlFor="product" className="text-[13px] text-[#002b68]">Produk Simpanan<span className="text-red-600">*</span></label><select id="product" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-black outline-none"><option>Pilih Produk Simpanan</option>{schedules.map((item) => <option key={item.product}>{item.product}</option>)}</select>
+          <label htmlFor="product" className="text-[13px] text-[#002b68]">Produk Simpanan<span className="text-red-600">*</span></label><ProductDropdown />
           <ProcessToggle label="Proses Bunga Otomatis" checked={processInterest} onChange={() => setProcessInterest((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin Otomatis" checked={processAdmin} onChange={() => setProcessAdmin((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin M-Banking Otomatis" checked={processMobileAdmin} onChange={() => setProcessMobileAdmin((value) => !value)} />
