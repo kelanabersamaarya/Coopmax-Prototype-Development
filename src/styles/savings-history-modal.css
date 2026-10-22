@@ -44,7 +44,7 @@
   stroke-width: 1.8;
 }
 
-#root [role="dialog"]:not(:has(.save-confirmation-modal)) h2 {
+#root [role="dialog"]:not(:has(.save-confirmation-modal)):not(:has(#save-success-title)) h2 {
   font-size: 18px !important;
   line-height: 1.5;
 }
