@@ -54,6 +54,36 @@ function ProductDropdown() {
   );
 }
 
+function PeriodDropdown() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const options = ["Bulan Berlangsung", "Bulan Berikutnya"];
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative w-full">
+      <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] outline-none">
+        <span className={value ? "text-black" : "text-[#6980a4]"}>{value || "Pilih Periode Proses"}</span>
+        <ChevronDown className="h-4 w-4 text-[#6d7d96]" />
+      </button>
+      {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
+        <input autoFocus className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
+        <div role="listbox">
+          {options.map((item) => <button type="button" role="option" key={item} onClick={() => { setValue(item); setOpen(false); }} className="flex w-full px-2 py-1.5 text-left text-[13px] text-[#002b68] hover:bg-[#5942f5] hover:text-white">{item}</button>)}
+        </div>
+      </div>}
+    </div>
+  );
+}
+
 function ProcessToggle({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
   return (
     <div className="contents">
@@ -80,7 +110,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
           <ProcessToggle label="Proses Bunga Otomatis" checked={processInterest} onChange={() => setProcessInterest((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin Otomatis" checked={processAdmin} onChange={() => setProcessAdmin((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin M-Banking Otomatis" checked={processMobileAdmin} onChange={() => setProcessMobileAdmin((value) => !value)} />
-          <label htmlFor="period" className="text-[13px] text-[#002b68]">Periode<span className="text-red-600">*</span></label><select id="period" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-black outline-none"><option>Pilih Periode Proses</option><option>Bulan Berlangsung</option><option>Bulan Berikutnya</option></select>
+          <label htmlFor="period" className="text-[13px] text-[#002b68]">Periode<span className="text-red-600">*</span></label><PeriodDropdown />
           <label htmlFor="time" className="text-[13px] text-[#002b68]">Waktu<span className="text-red-600">*</span></label><select id="time" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-black outline-none"><option>Pilih Waktu Proses</option><option>00:00</option><option>03:00</option><option>20:00</option></select>
           <label htmlFor="transaction" className="text-[13px] text-[#002b68]">Jenis Transaksi<span className="text-red-600">*</span></label><select id="transaction" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-black outline-none"><option>Pilih Jenis Transaksi</option><option>Bunga</option><option>Admin</option></select>
           <span className="text-[13px] text-[#002b68]">Status</span><button type="button" role="switch" aria-checked={isActive} onClick={() => setIsActive((active) => !active)} className={`inline-flex w-[62px] items-center rounded-full py-1 text-[10px] font-semibold text-white transition-colors ${isActive ? "bg-[#6047ff]" : "bg-[#9b92ee]"}`}><span className={`flex-1 text-center ${isActive ? "order-1" : "order-2"}`}>{isActive ? "ON" : "OFF"}</span><span className={`h-5 w-5 shrink-0 rounded-full bg-white transition-transform ${isActive ? "order-2 -translate-x-1" : "order-1 translate-x-1"}`} /></button>
