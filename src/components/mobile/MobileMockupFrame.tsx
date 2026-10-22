@@ -71,7 +71,7 @@ export default function MobileMockupFrame({
   }
 
   return (
-    <section className="flex h-[calc(100dvh-40px)] min-h-0 max-h-[900px] w-full items-center justify-center px-1 py-0 sm:px-2">
+    <section className="flex h-[calc(100dvh-16px)] min-h-0 max-h-[940px] w-full items-center justify-center px-1 py-0 sm:px-2">
       <div className="sr-only">
         {title}
         {subtitle ? ` ${subtitle}` : ""}
