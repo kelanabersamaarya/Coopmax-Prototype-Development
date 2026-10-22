@@ -43,7 +43,7 @@ export default function JadwalBungaSimpanan() {
         </Button>
       </div>
 
-      <Card className="mt-6 min-h-[516px] rounded-[22px] border-0 bg-white px-5 py-5 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-5">
+      <Card className="mt-6 rounded-[22px] border-0 bg-white px-5 py-5 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-5">
         <div className="mb-4 flex items-center gap-1 text-[13px] text-[#163765]">
           <span>Tampilkan</span>
           <select className="h-6 rounded border border-[#8494ad] bg-white px-1 text-[13px] text-[#163765] outline-none" defaultValue="20">
