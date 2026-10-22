@@ -123,7 +123,14 @@ export default function EKolektorTransactionDetailModal({
       </section>
 
       {shareOpen ? (
-        <div className="absolute inset-x-0 bottom-0 z-50 rounded-t-[26px] bg-white px-4 pb-7 pt-3 shadow-[0_-8px_28px_rgba(15,23,42,0.2)]">
+        <>
+          <button
+            type="button"
+            aria-label="Tutup panel berbagi"
+            className="absolute inset-0 z-40 bg-black/20"
+            onClick={() => setShareOpen(false)}
+          />
+          <div className="absolute inset-x-0 bottom-0 z-50 rounded-t-[26px] bg-white px-4 pb-7 pt-3 shadow-[0_-8px_28px_rgba(15,23,42,0.2)]">
           <button
             type="button"
             aria-label="Tutup opsi berbagi"
@@ -161,7 +168,8 @@ export default function EKolektorTransactionDetailModal({
               </button>
             ))}
           </div>
-        </div>
+          </div>
+        </>
       ) : null}
     </div>
   );
