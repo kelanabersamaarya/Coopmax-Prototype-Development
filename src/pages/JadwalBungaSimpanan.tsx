@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2, Check } from "lucide-react";
+import { CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -49,7 +49,7 @@ function ProcessOrderEditor({ order, onChange }: { order: ProcessKey[]; onChange
     [next[index], next[target]] = [next[target], next[index]];
     onChange(next);
   };
-  return <div className="space-y-2 rounded-[10px] border border-[#d8e0ec] bg-[#f8faff] p-2">{order.map((key, index) => <div key={key} draggable onDragStart={() => setDragged(key)} onDragOver={(event) => event.preventDefault()} onDrop={() => { if (!dragged || dragged === key) return; const next = [...order]; const from = next.indexOf(dragged); const to = next.indexOf(key); next.splice(from, 1); next.splice(to, 0, dragged); onChange(next); setDragged(null); }} className="flex items-center gap-2 rounded-[7px] border border-[#d8e0ec] bg-white px-2 py-2 text-[13px] text-[#002b68]"><GripVertical className="h-4 w-4 cursor-grab text-[#8795a9]" /><span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#6047ff] text-xs font-semibold text-white">{index + 1}</span><span className="flex-1 font-medium">{processLabels[key]}</span><button type="button" aria-label={`Pindahkan ${processLabels[key]} ke atas`} onClick={() => move(index, -1)} disabled={index === 0} className="rounded p-1 text-[#3854a3] hover:bg-[#eef1ff] disabled:opacity-30"><ArrowUp className="h-4 w-4" /></button><button type="button" aria-label={`Pindahkan ${processLabels[key]} ke bawah`} onClick={() => move(index, 1)} disabled={index === order.length - 1} className="rounded p-1 text-[#3854a3] hover:bg-[#eef1ff] disabled:opacity-30"><ArrowDown className="h-4 w-4" /></button></div>)}</div>;
+  return <div className="space-y-2 rounded-[10px] border border-[#d8e0ec] bg-[#f8faff] p-2">{order.map((key, index) => <div key={key} draggable onDragStart={() => setDragged(key)} onDragOver={(event) => event.preventDefault()} onDrop={() => { if (!dragged || dragged === key) return; const next = [...order]; const from = next.indexOf(dragged); const to = next.indexOf(key); next.splice(from, 1); next.splice(to, 0, dragged); onChange(next); setDragged(null); }} className="flex items-center gap-2 rounded-[7px] border border-[#d8e0ec] bg-white px-2 py-2 text-[13px] text-[#002b68]"><GripVertical className="h-4 w-4 cursor-grab text-[#8795a9]" /><span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#6047ff] text-xs font-semibold text-white">{index + 1}</span><span className="flex-1 font-medium">{processLabels[key]}</span></div>)}</div>;
 }
 
 function AddScheduleForm({ onBack }: { onBack: () => void }) {
