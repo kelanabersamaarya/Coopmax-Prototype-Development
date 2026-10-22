@@ -231,7 +231,7 @@ export default function Index() {
                                 {!isObsArea ? <SidebarAnggotaMenu /> : null}
                                 <SidebarPinjamanMenu />
                                 {!isObsArea ? <SidebarTermSavingsMenu /> : null}
-                                {!isObsArea && !isEKolektorArea ? <SidebarMobileMenu /> : null}
+                                {!isObsArea ? <SidebarMobileMenu /> : null}
                                 {!isObsArea ? <SidebarMBankingMenu /> : null}
                                 {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarObsMenu />
