@@ -12,6 +12,8 @@ const schedules = [
 ];
 
 function AddScheduleForm({ onBack }: { onBack: () => void }) {
+  const [isActive, setIsActive] = useState(true);
+
   return (
     <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8">
       <div className="flex items-baseline gap-2">
@@ -29,7 +31,16 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
           <label htmlFor="transaction" className="text-[13px] text-[#002b68]">Jenis Transaksi<span className="text-red-600">*</span></label>
           <select id="transaction" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-[#6980a4] outline-none"><option>Pilih Jenis Transaksi</option><option>Bunga</option><option>Admin</option></select>
           <span className="text-[13px] text-[#002b68]">Status</span>
-          <label className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-full bg-[#6047f5] py-1 pl-3 pr-1 text-[11px] font-semibold text-white"><span>ON</span><input type="checkbox" defaultChecked className="peer sr-only" /><span className="h-5 w-5 rounded-full bg-white ring-1 ring-white" /></label>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={isActive}
+            onClick={() => setIsActive((active) => !active)}
+            className={`inline-flex w-fit items-center gap-2 rounded-full py-1 pl-3 pr-1 text-[11px] font-semibold text-white transition-colors ${isActive ? "bg-[#6047f5]" : "bg-[#8292ae]"}`}
+          >
+            <span>{isActive ? "ON" : "OFF"}</span>
+            <span className={`h-5 w-5 rounded-full bg-white transition-transform ${isActive ? "translate-x-0" : "-translate-x-5"}`} />
+          </button>
         </div>
         <div className="mt-6 flex justify-end gap-2">
           <Button type="button" onClick={onBack} className="h-10 rounded-[7px] bg-[#8292ae] px-4 text-[14px] text-white hover:bg-[#71829f]"><Undo2 className="h-3.5 w-3.5" />Kembali</Button>
