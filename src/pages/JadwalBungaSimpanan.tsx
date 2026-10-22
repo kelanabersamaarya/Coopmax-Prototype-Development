@@ -133,6 +133,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
   const [processInterest, setProcessInterest] = useState(true);
   const [processAdmin, setProcessAdmin] = useState(true);
   const [processMobileAdmin, setProcessMobileAdmin] = useState(true);
+  const [onlyMainSavings, setOnlyMainSavings] = useState(true);
   return (
     <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8">
       <div className="flex items-baseline gap-2"><h1 className="text-[21px] font-medium tracking-[-0.02em] text-[#00245f] md:text-[22px]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[15px] text-[#173b70]">Tambah</span></div>
@@ -142,6 +143,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
           <ProcessToggle label="Proses Bunga Otomatis" checked={processInterest} onChange={() => setProcessInterest((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin Otomatis" checked={processAdmin} onChange={() => setProcessAdmin((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin M-Banking Otomatis" checked={processMobileAdmin} onChange={() => setProcessMobileAdmin((value) => !value)} />
+          {processMobileAdmin && <ProcessToggle label="Hanya Tabungan Utama" checked={onlyMainSavings} onChange={() => setOnlyMainSavings((value) => !value)} />}
           <label htmlFor="period" className="text-[13px] text-[#002b68]">Periode<span className="text-red-600">*</span></label><PeriodDropdown />
           <label htmlFor="date" className="text-[13px] text-[#002b68]">Tanggal<span className="text-red-600">*</span></label><ClearableSelect id="date" placeholder="Pilih Tanggal Proses" options={Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, "0"))} />
           <label htmlFor="time" className="text-[13px] text-[#002b68]">Waktu<span className="text-red-600">*</span></label><ClearableSelect id="time" placeholder="Pilih Waktu Proses" options={["03:00", "20:00"]} clearable={false} />
