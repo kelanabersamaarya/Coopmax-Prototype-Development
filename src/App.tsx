@@ -97,6 +97,7 @@ import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
 import SakAkunting from "./pages/SakAkunting";
 import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 import JadwalBungaSimpanan from "./pages/JadwalBungaSimpanan";
+import MonitoringBungaSimpanan from "./pages/MonitoringBungaSimpanan";
 
 const queryClient = new QueryClient();
 
@@ -122,12 +123,7 @@ const App = () => (
             />
             <Route
               path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
-              element={
-                <SakProductPlaceholder
-                  title="Monitoring Proses Bunga dan Admin Simpanan Otomatis"
-                  subtitle="Simpanan"
-                />
-              }
+              element={<MonitoringBungaSimpanan />}
             />
             <Route path="anggota/simpanan/rekening" element={<AstitiRekeningTabungan />} />
             <Route path="astiti-dana-lestari/simpanan/rekening/detail" element={<AstitiRekeningTabunganDetail />} />

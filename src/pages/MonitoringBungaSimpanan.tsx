@@ -1,0 +1,80 @@
+import { useMemo, useState } from "react";
+import { Eye, RefreshCw, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
+type MonitoringRow = {
+  date: string;
+  product: string;
+  period: string;
+  percentage: number;
+  processed: number;
+  shouldProcess: number;
+  processedNominal: string;
+  shouldNominal: string;
+};
+
+const savingsRows: MonitoringRow[] = [
+  { date: "02-01-2026", product: "Simpanan Program", period: "Januari 2026", percentage: 100, processed: 4, shouldProcess: 4, processedNominal: "46.151,25", shouldNominal: "46.151,25" },
+  { date: "15-03-2024", product: "Simpanan Sukarela - Penampung Pendapatan Bunga", period: "Maret 2024", percentage: 100, processed: 22, shouldProcess: 22, processedNominal: "4.150.546,92", shouldNominal: "4.150.546,92" },
+  { date: "21-10-2023", product: "Simpanan Sukarela - Penampung Pendapatan Bunga", period: "Oktober 2023", percentage: 100, processed: 22, shouldProcess: 22, processedNominal: "8.423.577,07", shouldNominal: "8.423.577,07" },
+];
+
+const depositRows: MonitoringRow[] = [
+  { date: "08-10-2026", product: "SIJAKOP", period: "Januari 2026", percentage: 100, processed: 2, shouldProcess: 2, processedNominal: "1.066.600,00", shouldNominal: "1.066.600,00" },
+  { date: "21-08-2025", product: "SIJAKOP", period: "Agustus 2025", percentage: 100, processed: 1, shouldProcess: 1, processedNominal: "83.300,00", shouldNominal: "83.300,00" },
+  { date: "30-09-2023", product: "SIJAKOP", period: "September 2023", percentage: 44.44, processed: 4, shouldProcess: 9, processedNominal: "7.758.170,00", shouldNominal: "8.300.510,00" },
+];
+
+function Progress({ value }: { value: number }) {
+  const complete = value === 100;
+  return (
+    <div className="flex h-4 w-[122px] overflow-hidden rounded-[3px] bg-[#e1e5eb]">
+      <div className={`${complete ? "bg-[#19ad00]" : "bg-[#df3048]"} flex items-center justify-center text-[8px] font-bold text-white`} style={{ width: `${value}%` }}>
+        {value.toFixed(value === 100 ? 0 : 2)} %
+      </div>
+    </div>
+  );
+}
+
+function MonitoringTable({ title, rows }: { title: string; rows: MonitoringRow[] }) {
+  const [date, setDate] = useState("");
+  const [product, setProduct] = useState("");
+  const [period, setPeriod] = useState("");
+  const [processed, setProcessed] = useState("");
+  const [shouldProcess, setShouldProcess] = useState("");
+
+  const filteredRows = useMemo(() => rows.filter((row) =>
+    row.date.includes(date) && row.product.toLowerCase().includes(product.toLowerCase()) &&
+    row.period.toLowerCase().includes(period.toLowerCase()) && row.processed.toString().includes(processed) &&
+    row.shouldProcess.toString().includes(shouldProcess),
+  ), [date, product, period, processed, shouldProcess, rows]);
+
+  const clearFilters = () => { setDate(""); setProduct(""); setPeriod(""); setProcessed(""); setShouldProcess(""); };
+
+  return (
+    <Card className="rounded-[22px] border-0 bg-white px-5 py-6 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-5">
+      <h2 className="mb-6 text-[18px] font-medium text-[#00245f]">{title}</h2>
+      <Button onClick={clearFilters} className="mb-2 h-10 rounded-md bg-[#16a8bd] px-5 text-sm font-normal text-white hover:bg-[#1297aa]"><RefreshCw className="h-4 w-4" />Refresh</Button>
+      <div className="mb-5 flex items-center gap-1 text-[13px] text-[#163765]">Tampilkan <select className="h-6 rounded border border-[#8494ad] px-1" defaultValue="10"><option>10</option><option>20</option></select> entri</div>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[1120px] border-collapse text-left text-[12px] text-[#173765]">
+          <thead>
+            <tr className="h-12 border-b border-[#c7d1e2] text-[12px] font-semibold uppercase leading-[1.05] tracking-[0.03em] text-[#002b68]">
+              <th className="w-12 px-2">No.</th><th className="w-[130px] px-2">Tanggal<br />Transaksi</th><th className="w-[165px] px-2">Nama Produk</th><th className="w-[135px] px-2">Periode Bunga</th><th className="w-[135px] px-2">Persentase<br />Proses Bunga</th><th className="w-[135px] px-2">Jumlah<br />Rekening<br />Diproses</th><th className="w-[145px] px-2">Jumlah<br />Rekening<br />Harus Diproses</th><th className="w-[140px] px-2">Total Nominal<br />Diproses</th><th className="w-[145px] px-2">Total Nominal<br />Harus Diproses</th><th className="w-16 px-2">Aksi</th>
+            </tr>
+            <tr className="h-11 border-b border-[#c7d1e2]">
+              <th /><th className="px-2"><div className="flex"><input value={date} onChange={(e) => setDate(e.target.value)} className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /><button onClick={() => setDate("")} className="-ml-7 w-7 bg-[#8192b0] text-white"><X className="mx-auto h-4 w-4" /></button></div></th><th className="px-2"><input value={product} onChange={(e) => setProduct(e.target.value)} className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /></th><th className="px-2"><input value={period} onChange={(e) => setPeriod(e.target.value)} className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /></th><th /><th className="px-2"><input value={processed} onChange={(e) => setProcessed(e.target.value)} className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /></th><th className="px-2"><input value={shouldProcess} onChange={(e) => setShouldProcess(e.target.value)} className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /></th><th className="px-2"><input placeholder="0,00" className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /></th><th className="px-2"><input placeholder="0,00" className="h-8 w-full rounded-md border border-[#ccd5e4] px-2" /></th><th />
+            </tr>
+          </thead>
+          <tbody>{filteredRows.map((row, index) => <tr key={`${row.date}-${row.product}`} className="border-b border-[#d6deea]"><td className="px-2 py-2">{index + 1}</td><td className="px-2 py-2">{row.date}</td><td className="px-2 py-2 leading-[1.05]">{row.product}</td><td className="px-2 py-2">{row.period}</td><td className="px-2 py-2"><Progress value={row.percentage} /></td><td className="px-2 py-2 text-right">{row.processed}</td><td className="px-2 py-2 text-right">{row.shouldProcess}</td><td className="px-2 py-2 text-right">{row.processedNominal}</td><td className="px-2 py-2 text-right">{row.shouldNominal}</td><td className="px-2 py-2"><button aria-label={`Lihat ${row.product}`} className="text-[#4d79d9]"><Eye className="h-4 w-4" /></button></td></tr>)}</tbody>
+        </table>
+      </div>
+      <div className="mt-5 flex items-center justify-between text-[13px] text-[#173765]"><span>Menampilkan {filteredRows.length ? 1 : 0} sampai {filteredRows.length} dari {filteredRows.length} entri</span><div className="flex gap-1"><Button variant="ghost" className="h-8 rounded-none bg-[#c9c5c5] px-3 text-xs text-[#514b4b]">Sebelumnya</Button><Button variant="ghost" className="h-8 rounded-none bg-[#c9c5c5] px-3 text-xs text-[#514b4b]">Selanjutnya</Button></div></div>
+    </Card>
+  );
+}
+
+export default function MonitoringBungaSimpanan() {
+  return <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8"><h1 className="mb-8 text-[22px] font-medium tracking-[-0.02em] text-[#00245f]">Monitoring Proses Kolektif</h1><div className="space-y-12"><MonitoringTable title="Daftar Monitoring Bunga Tabungan" rows={savingsRows} /><MonitoringTable title="Daftar Monitoring Bunga Deposito" rows={depositRows} /></div></div>;
+}
