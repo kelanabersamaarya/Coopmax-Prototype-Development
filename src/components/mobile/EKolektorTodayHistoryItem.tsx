@@ -19,15 +19,21 @@ const detailItems = [
 
 export default function EKolektorTodayHistoryItem({
   transaction,
+  onClick,
 }: {
   transaction: EKolektorTodayTransaction;
+  onClick?: () => void;
 }) {
   const displayAmount = transaction.amount.trim().startsWith("+")
     ? transaction.amount
     : `+${transaction.amount}`;
 
   return (
-    <div className="rounded-[12px] bg-white px-[15px] py-[13px] shadow-[0_3px_12px_rgba(15,23,42,0.08)]">
+    <button
+      type="button"
+      onClick={onClick}
+      className="block w-full rounded-[12px] bg-white px-[15px] py-[13px] text-left shadow-[0_3px_12px_rgba(15,23,42,0.08)] transition hover:shadow-[0_5px_16px_rgba(15,23,42,0.12)] active:scale-[0.99]"
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="truncate text-[16px] font-extrabold leading-tight tracking-tight text-black">
@@ -72,6 +78,6 @@ export default function EKolektorTodayHistoryItem({
           ))}
         </div>
       </div>
-    </div>
+    </button>
   );
 }

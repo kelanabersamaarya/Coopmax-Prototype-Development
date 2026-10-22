@@ -1,7 +1,9 @@
 "use client";
 
+import * as React from "react";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 import EKolektorTodayHistoryItem from "@/components/mobile/EKolektorTodayHistoryItem";
+import EKolektorTransactionDetailModal from "@/components/mobile/EKolektorTransactionDetailModal";
 
 export default function EKolektorTodayHistorySection({
   transactions = [],
@@ -9,6 +11,7 @@ export default function EKolektorTodayHistorySection({
   transactions?: EKolektorTodayTransaction[];
 }) {
   const hasTransactions = transactions.length > 0;
+  const [selectedTransaction, setSelectedTransaction] = React.useState<EKolektorTodayTransaction | null>(null);
 
   return (
     <section className="mt-[22px] flex min-h-[260px] w-full flex-1 flex-col rounded-t-[34px] bg-[#F4F4F4] px-5 pb-10 pt-7">
@@ -24,6 +27,7 @@ export default function EKolektorTodayHistorySection({
             <EKolektorTodayHistoryItem
               key={transaction.id}
               transaction={transaction}
+              onClick={() => setSelectedTransaction(transaction)}
             />
           ))}
         </div>
@@ -67,6 +71,13 @@ export default function EKolektorTodayHistorySection({
           </div>
         </div>
       )}
+
+      {selectedTransaction ? (
+        <EKolektorTransactionDetailModal
+          transaction={selectedTransaction}
+          onClose={() => setSelectedTransaction(null)}
+        />
+      ) : null}
     </section>
   );
 }
