@@ -31,14 +31,14 @@ export default function EKolektorTransactionDetailModal({
       >
 
         <div className="flex justify-center">
-          <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full bg-[rgba(0,79,199,0.12)]">
-            <Check className="h-[46px] w-[46px] text-[#004FC7]" strokeWidth={3.2} />
+          <div className="flex h-[96px] w-[96px] items-center justify-center rounded-full bg-[#EAF7FB]">
+            <Check className="h-[56px] w-[56px] text-[#004FC7]" strokeWidth={3.5} />
           </div>
         </div>
 
         <h2
           id="transaction-detail-title"
-          className="mt-4 text-center text-[20px] font-extrabold leading-tight tracking-tight text-[#203064]"
+          className="mt-3 text-center text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]"
         >
           Sukses
         </h2>
