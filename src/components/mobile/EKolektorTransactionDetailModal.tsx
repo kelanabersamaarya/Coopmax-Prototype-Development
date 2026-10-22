@@ -31,8 +31,15 @@ export default function EKolektorTransactionDetailModal({
       >
 
         <div className="-mt-1 flex flex-col items-center gap-3">
-          <div className="relative z-10 flex h-[96px] w-[96px] shrink-0 items-center justify-center rounded-full bg-[#C9DAF3]">
-            <Check className="relative z-20 h-[56px] w-[56px] shrink-0 text-[#0057C8]" strokeWidth={3.5} />
+          <div
+            className="relative z-10 flex h-[96px] w-[96px] shrink-0 items-center justify-center rounded-full"
+            style={{ backgroundColor: "#C9DAF3" }}
+          >
+            <Check
+              className="relative z-20 h-[56px] w-[56px] shrink-0"
+              style={{ color: "#0057C8" }}
+              strokeWidth={3.5}
+            />
           </div>
           <h2
             id="transaction-detail-title"
