@@ -136,7 +136,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
   const [onlyMainSavings, setOnlyMainSavings] = useState(false);
   return (
     <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8">
-      <div className="flex items-baseline gap-2"><h1 className="text-[21px] font-medium tracking-[-0.02em] text-[#00245f] md:text-[22px]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[15px] text-[#173b70]">Tambah</span></div>
+      <div className="flex items-baseline gap-2"><h1 className="text-[21px] font-bold tracking-[-0.02em] text-[#00245f]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[15px] text-[#173b70]">Tambah</span></div>
       <Card className="mt-8 rounded-[22px] border-0 bg-white px-6 py-7 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-12 md:py-8">
         <div className="grid gap-3 md:grid-cols-[185px_minmax(0,1fr)] md:items-center md:gap-x-2">
           <label htmlFor="product" className="text-[13px] text-[#002b68]">Produk Simpanan<span className="text-red-600">*</span></label><ProductDropdown />
