@@ -40,9 +40,9 @@ export default function EKolektorTransactionSuccessPage({
             </div>
 
             <div className="mt-10 flex justify-center">
-              <div className="flex h-[94px] w-[94px] items-center justify-center rounded-full bg-[rgba(75,186,222,0.12)]">
+              <div className="flex h-[94px] w-[94px] items-center justify-center rounded-full bg-[rgba(0,79,199,0.2)]">
                 <Check
-                  className="h-[52px] w-[52px] text-[#4BBADE]"
+                  className="h-[52px] w-[52px] text-[#004FC7]"
                   strokeWidth={3.2}
                 />
               </div>
