@@ -75,7 +75,7 @@ export default function EKolektorTransactionDetailModal({
             }
             className={cn(
               "h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white",
-              "shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px",
+              "transition hover:bg-[#0046B3] active:translate-y-px",
             )}
           >
             Cetak Bukti
@@ -89,7 +89,7 @@ export default function EKolektorTransactionDetailModal({
             }
             className={cn(
               "h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white",
-              "shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px",
+              "transition hover:bg-[#0046B3] active:translate-y-px",
             )}
           >
             Bagikan
