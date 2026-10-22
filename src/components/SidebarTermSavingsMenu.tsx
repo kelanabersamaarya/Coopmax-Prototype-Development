@@ -22,11 +22,11 @@ export default function SidebarTermSavingsMenu() {
     { label: "Perpanjangan Simpanan Berjangka", to: `${routePrefix}/perpanjangan` },
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
-  const isActive = isEKolektorArea || location.pathname.startsWith(routePrefix);
+  const isActive = location.pathname.startsWith(routePrefix);
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
-    if (isActive) setOpen(true);
+    setOpen(isActive);
   }, [isActive]);
 
   return (

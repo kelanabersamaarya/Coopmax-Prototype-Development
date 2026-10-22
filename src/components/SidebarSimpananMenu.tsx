@@ -38,13 +38,12 @@ export default function SidebarSimpananMenu() {
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
   const isActive =
-    isEKolektorArea ||
-    (location.pathname.startsWith(routePrefix) &&
-      !location.pathname.startsWith("/anggota/simpanan-berjangka"));
+    location.pathname.startsWith(routePrefix) &&
+    !location.pathname.startsWith("/anggota/simpanan-berjangka");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
-    if (isActive) setOpen(true);
+    setOpen(isActive);
   }, [isActive]);
 
   return (
