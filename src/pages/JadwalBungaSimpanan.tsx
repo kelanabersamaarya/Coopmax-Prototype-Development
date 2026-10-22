@@ -33,7 +33,7 @@ export default function JadwalBungaSimpanan() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-baseline gap-2">
           <h1 className="text-[21px] font-medium tracking-[-0.02em] text-[#00245f] md:text-[22px]">
-            Jadwal Bunga Simpanan Otomatis dan Admin Otomatis
+            Jadwal Bunga Simpanan dan Admin Otomatis
           </h1>
           <span className="text-[15px] text-[#173b70]">Daftar</span>
         </div>
