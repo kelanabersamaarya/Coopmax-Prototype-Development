@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckSquare, ChevronDown, CircleX, Eye, Pencil, Plus, Undo2, X } from "lucide-react";
+import { CheckSquare, CircleX, Eye, Pencil, Plus, Undo2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -41,7 +41,7 @@ function ProductDropdown() {
     <div ref={dropdownRef} className="relative w-full">
       <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] text-black outline-none">
         {value ? <><X className="h-3 w-3 shrink-0 text-[#ef3340]" onClick={(event) => { event.stopPropagation(); setValue(""); }} /><span className="min-w-0 flex-1 truncate pl-2 text-black">{value}</span></> : <span className="flex-1 text-[#6980a4]">Pilih Produk Simpanan</span>}
-        <ChevronDown className="h-4 w-4 shrink-0 text-[#6d7d96]" />
+        <span className="ml-2 h-0 w-0 border-x-[8px] border-t-[10px] border-x-transparent border-t-[#8d8d8d]" />
       </button>
       {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
         <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="" className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
@@ -72,7 +72,7 @@ function PeriodDropdown() {
     <div ref={dropdownRef} className="relative w-full">
       <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] outline-none">
         {value ? <><X className="h-3 w-3 shrink-0 text-[#ef3340]" onClick={(event) => { event.stopPropagation(); setValue(""); }} /><span className="flex-1 pl-2 text-black">{value}</span></> : <span className="flex-1 text-[#6980a4]">Pilih Periode Proses</span>}
-        <ChevronDown className="h-4 w-4 shrink-0 text-[#6d7d96]" />
+        <span className="ml-2 h-0 w-0 border-x-[8px] border-t-[10px] border-x-transparent border-t-[#8d8d8d]" />
       </button>
       {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
         <input autoFocus className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
@@ -103,7 +103,7 @@ function ClearableSelect({ id, placeholder, options, clearable = true }: { id: s
     <div ref={dropdownRef} className="relative w-full">
       <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] outline-none">
         {value && clearable ? <><span role="button" tabIndex={0} aria-label={`Hapus ${placeholder}`} onClick={(event) => { event.stopPropagation(); setValue(""); }} className="shrink-0 cursor-pointer text-[16px] leading-none text-[#ef3340]">×</span><span className="flex-1 truncate pl-2 text-black">{value}</span></> : <span className={`flex-1 truncate ${value ? "text-black" : "text-[#6980a4]"}`}>{value || placeholder}</span>}
-        <ChevronDown className="h-4 w-4 shrink-0 text-[#6d7d96]" />
+        <span className="ml-2 h-0 w-0 border-x-[8px] border-t-[10px] border-x-transparent border-t-[#8d8d8d]" />
       </button>
       {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
         <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
