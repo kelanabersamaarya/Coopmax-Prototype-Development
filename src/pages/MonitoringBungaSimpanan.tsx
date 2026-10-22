@@ -55,7 +55,7 @@ function MonitoringTable({ title, rows }: { title: string; rows: MonitoringRow[]
   return (
     <Card className="rounded-[22px] border-0 bg-white px-5 py-6 shadow-[0_2px_12px_rgba(39,67,116,0.025)] md:px-5">
       <h2 className="mb-6 text-[18px] font-medium text-[#00245f]">{title}</h2>
-      <Button onClick={clearFilters} className="mb-2 h-10 rounded-md bg-[#16a8bd] px-5 text-sm font-normal text-white hover:bg-[#1297aa]"><RefreshCw className="h-4 w-4" />Refresh</Button>
+      <Button onClick={clearFilters} className="mb-2 h-10 rounded-[5px] bg-[#16a8bd] px-5 text-sm font-normal text-white hover:bg-[#1297aa]"><RefreshCw className="h-4 w-4" />Refresh</Button>
       <div className="mb-5 flex items-center gap-1 text-[13px] text-[#163765]">Tampilkan <select className="h-6 rounded border border-[#8494ad] px-1" defaultValue="10"><option>10</option><option>20</option></select> entri</div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1120px] border-collapse text-left text-[12px] text-[#173765]">
