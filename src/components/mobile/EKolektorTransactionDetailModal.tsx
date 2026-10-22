@@ -49,11 +49,11 @@ export default function EKolektorTransactionDetailModal({
           </h2>
         </div>
 
-        <div className="mt-5 flex h-[84px] w-full shrink-0 flex-col items-center justify-center rounded-[14px] bg-[#F5F5F5] px-3 text-center">
-          <div className="text-[20px] font-extrabold leading-none tracking-tight text-[#203064]">
+        <div className="mt-7 flex h-[81px] w-full flex-col items-center justify-center rounded-[12px] bg-[#F6F6F6] px-4">
+          <div className="text-[25px] font-extrabold leading-tight tracking-tight text-[#203064]">
             {amount}
           </div>
-          <div className="mt-3 text-[11px] font-normal leading-none text-[#8A8A8A]">
+          <div className="mt-2 text-[12px] font-normal leading-tight tracking-tight text-[#828282]">
             Jumlah Transaksi
           </div>
         </div>
