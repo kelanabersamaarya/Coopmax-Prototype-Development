@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -26,10 +26,19 @@ function ProductDropdown() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [query, setQuery] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const filteredProducts = savingsProducts.filter((item) => item.toLowerCase().includes(query.toLowerCase()));
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
   return (
-    <div className="relative w-full">
+    <div ref={dropdownRef} className="relative w-full">
       <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] text-black outline-none">
         <span className={value ? "text-black" : "text-[#6980a4]"}>{value || "Pilih Produk Simpanan"}</span>
         <ChevronDown className="h-4 w-4 text-[#6d7d96]" />
