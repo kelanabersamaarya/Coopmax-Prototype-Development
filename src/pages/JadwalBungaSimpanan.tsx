@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2 } from "lucide-react";
+import { ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -40,8 +40,8 @@ function ProductDropdown() {
   return (
     <div ref={dropdownRef} className="relative w-full">
       <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] text-black outline-none">
-        <span className={value ? "text-black" : "text-[#6980a4]"}>{value || "Pilih Produk Simpanan"}</span>
-        <ChevronDown className="h-4 w-4 text-[#6d7d96]" />
+        {value ? <><X className="h-3 w-3 shrink-0 text-[#ef3340]" onClick={(event) => { event.stopPropagation(); setValue(""); }} /><span className="min-w-0 flex-1 truncate pl-2 text-black">{value}</span></> : <span className="flex-1 text-[#6980a4]">Pilih Produk Simpanan</span>}
+        <ChevronDown className="h-4 w-4 shrink-0 text-[#6d7d96]" />
       </button>
       {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
         <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="" className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
@@ -71,8 +71,8 @@ function PeriodDropdown() {
   return (
     <div ref={dropdownRef} className="relative w-full">
       <button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="flex h-8 w-full items-center justify-between rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-left text-[13px] outline-none">
-        <span className={value ? "text-black" : "text-[#6980a4]"}>{value || "Pilih Periode Proses"}</span>
-        <ChevronDown className="h-4 w-4 text-[#6d7d96]" />
+        {value ? <><X className="h-3 w-3 shrink-0 text-[#ef3340]" onClick={(event) => { event.stopPropagation(); setValue(""); }} /><span className="flex-1 pl-2 text-black">{value}</span></> : <span className="flex-1 text-[#6980a4]">Pilih Periode Proses</span>}
+        <ChevronDown className="h-4 w-4 shrink-0 text-[#6d7d96]" />
       </button>
       {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
         <input autoFocus className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
@@ -80,6 +80,19 @@ function PeriodDropdown() {
           {options.map((item) => <button type="button" role="option" key={item} onClick={() => { setValue(item); setOpen(false); }} className="flex w-full px-2 py-1.5 text-left text-[13px] text-[#002b68] hover:bg-[#5942f5] hover:text-white">{item}</button>)}
         </div>
       </div>}
+    </div>
+  );
+}
+
+function ClearableSelect({ id, placeholder, options }: { id: string; placeholder: string; options: string[] }) {
+  const [value, setValue] = useState("");
+  return (
+    <div className="relative">
+      <select id={id} value={value} onChange={(event) => setValue(event.target.value)} className="h-8 w-full appearance-none rounded-[5px] border border-[#ccd5e4] bg-white px-8 text-[13px] text-black outline-none">
+        <option value="">{placeholder}</option>
+        {options.map((option) => <option key={option} value={option}>{option}</option>)}
+      </select>
+      {value && <button type="button" aria-label={`Hapus ${placeholder}`} onClick={() => setValue("")} className="absolute left-2 top-1/2 -translate-y-1/2 text-[16px] leading-none text-[#ef3340]">×</button>}
     </div>
   );
 }
@@ -111,8 +124,9 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
           <ProcessToggle label="Proses Biaya Admin Otomatis" checked={processAdmin} onChange={() => setProcessAdmin((value) => !value)} />
           <ProcessToggle label="Proses Biaya Admin M-Banking Otomatis" checked={processMobileAdmin} onChange={() => setProcessMobileAdmin((value) => !value)} />
           <label htmlFor="period" className="text-[13px] text-[#002b68]">Periode<span className="text-red-600">*</span></label><PeriodDropdown />
-          <label htmlFor="time" className="text-[13px] text-[#002b68]">Waktu<span className="text-red-600">*</span></label><select id="time" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-black outline-none"><option>Pilih Waktu Proses</option><option>00:00</option><option>03:00</option><option>20:00</option></select>
-          <label htmlFor="transaction" className="text-[13px] text-[#002b68]">Jenis Transaksi<span className="text-red-600">*</span></label><select id="transaction" className="h-8 w-full rounded-[5px] border border-[#ccd5e4] bg-white px-3 text-[13px] text-black outline-none"><option>Pilih Jenis Transaksi</option><option>Bunga</option><option>Admin</option></select>
+          <label htmlFor="date" className="text-[13px] text-[#002b68]">Tanggal<span className="text-red-600">*</span></label><ClearableSelect id="date" placeholder="Pilih Tanggal Proses" options={Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, "0"))} />
+          <label htmlFor="time" className="text-[13px] text-[#002b68]">Waktu<span className="text-red-600">*</span></label><ClearableSelect id="time" placeholder="Pilih Waktu Proses" options={["00:00", "03:00", "20:00"]} />
+          <label htmlFor="transaction" className="text-[13px] text-[#002b68]">Jenis Transaksi<span className="text-red-600">*</span></label><ClearableSelect id="transaction" placeholder="Pilih Jenis Transaksi" options={["Bunga", "Admin"]} />
           <span className="text-[13px] text-[#002b68]">Status</span><button type="button" role="switch" aria-checked={isActive} onClick={() => setIsActive((active) => !active)} className={`inline-flex w-[62px] items-center rounded-full py-1 text-[10px] font-semibold text-white transition-colors ${isActive ? "bg-[#6047ff]" : "bg-[#9b92ee]"}`}><span className={`flex-1 text-center ${isActive ? "order-1" : "order-2"}`}>{isActive ? "ON" : "OFF"}</span><span className={`h-5 w-5 shrink-0 rounded-full bg-white transition-transform ${isActive ? "order-2 -translate-x-1" : "order-1 translate-x-1"}`} /></button>
         </div>
         <div className="mt-6 flex justify-end gap-2"><Button type="button" onClick={onBack} className="h-10 rounded-[7px] bg-[#8292ae] px-4 text-[14px] text-white hover:bg-[#71829f]"><Undo2 className="h-3.5 w-3.5" />Kembali</Button><Button type="button" className="h-10 rounded-[7px] bg-[#18ad00] px-5 text-[14px] text-white hover:bg-[#139600]"><Save className="h-3.5 w-3.5" />Simpan</Button></div>
