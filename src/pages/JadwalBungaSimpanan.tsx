@@ -130,10 +130,10 @@ function ProcessToggle({ label, checked, onChange }: { label: string; checked: b
 
 function AddScheduleForm({ onBack }: { onBack: () => void }) {
   const [isActive, setIsActive] = useState(true);
-  const [processInterest, setProcessInterest] = useState(true);
-  const [processAdmin, setProcessAdmin] = useState(true);
-  const [processMobileAdmin, setProcessMobileAdmin] = useState(true);
-  const [onlyMainSavings, setOnlyMainSavings] = useState(true);
+  const [processInterest, setProcessInterest] = useState(false);
+  const [processAdmin, setProcessAdmin] = useState(false);
+  const [processMobileAdmin, setProcessMobileAdmin] = useState(false);
+  const [onlyMainSavings, setOnlyMainSavings] = useState(false);
   return (
     <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10 md:py-8">
       <div className="flex items-baseline gap-2"><h1 className="text-[21px] font-medium tracking-[-0.02em] text-[#00245f] md:text-[22px]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[15px] text-[#173b70]">Tambah</span></div>
