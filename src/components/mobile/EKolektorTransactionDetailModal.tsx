@@ -31,8 +31,8 @@ export default function EKolektorTransactionDetailModal({
       >
 
         <div className="flex justify-center">
-          <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full bg-[rgba(75,186,222,0.12)]">
-            <Check className="h-[46px] w-[46px] text-[#4BBADE]" strokeWidth={3.2} />
+          <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full bg-[rgba(0,79,199,0.12)]">
+            <Check className="h-[46px] w-[46px] text-[#004FC7]" strokeWidth={3.2} />
           </div>
         </div>
 
@@ -72,8 +72,8 @@ export default function EKolektorTransactionDetailModal({
               })
             }
             className={cn(
-              "h-[39px] w-full rounded-full bg-[#4BBADE] text-[13px] font-semibold text-white",
-              "shadow-[0_3px_8px_rgba(75,186,222,0.22)] transition hover:bg-[#3EA9CD] active:translate-y-px",
+              "h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white",
+              "shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px",
             )}
           >
             Cetak Bukti
