@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2 } from "lucide-react";
+import type { ComponentProps } from "react";
+import { Check as CheckMark, CheckSquare as SaveIcon, CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2 } from "lucide-react";
+
+function Check({ className, ...props }: ComponentProps<typeof CheckMark>) {
+  return className?.includes("h-[15px]") ? <SaveIcon className={className} /> : <CheckMark className={className} {...props} />;
+}
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
