@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2, Check } from "lucide-react";
+import { CircleX, Eye, GripVertical, Pencil, Plus, Reply as Undo2, CheckSquare as Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
