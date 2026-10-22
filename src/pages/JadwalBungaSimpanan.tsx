@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Check, ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2 } from "lucide-react";
+import { ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -37,7 +37,7 @@ function ProductDropdown() {
       {open && <div className="absolute left-0 top-10 z-20 w-full rounded-[3px] border border-[#cbd4e2] bg-white p-1 shadow-[0_4px_12px_rgba(25,44,80,0.16)]">
         <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="" className="mb-1 h-8 w-full rounded-[3px] border-2 border-[#1c1c1c] px-2 text-[13px] text-black outline-none" />
         <div role="listbox" className="max-h-[210px] overflow-y-auto">
-          {filteredProducts.map((item) => <button type="button" role="option" aria-selected={value === item} key={item} onClick={() => { setValue(item); setOpen(false); setQuery(""); }} className="flex w-full items-center justify-between px-2 py-1.5 text-left text-[13px] text-[#002b68] hover:bg-[#5942f5] hover:text-white"><span>{item}</span>{value === item && <Check className="h-4 w-4" />}</button>)}
+          {filteredProducts.map((item) => <button type="button" role="option" aria-selected={value === item} key={item} onClick={() => { setValue(item); setOpen(false); setQuery(""); }} className="flex w-full items-center justify-between px-2 py-1.5 text-left text-[13px] text-[#002b68] hover:bg-[#5942f5] hover:text-white"><span>{item}</span></button>)}
           {!filteredProducts.length && <div className="px-2 py-3 text-[13px] text-[#6980a4]">Produk tidak ditemukan</div>}
         </div>
       </div>}
