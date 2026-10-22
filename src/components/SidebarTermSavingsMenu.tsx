@@ -7,7 +7,12 @@ import { cn } from "@/lib/utils";
 
 export default function SidebarTermSavingsMenu() {
   const location = useLocation();
-  const isPinjamanBillingArea = location.pathname.startsWith("/anggota");
+  const isEKolektorArea =
+    location.pathname === "/mobile/e-kolektor" ||
+    location.pathname.startsWith("/mobile/e-kolektor/") ||
+    location.pathname === "/mobile/e-kolektor-wajah";
+  const isPinjamanBillingArea =
+    location.pathname.startsWith("/anggota") || isEKolektorArea;
   const routePrefix = isPinjamanBillingArea
     ? "/anggota/simpanan-berjangka"
     : "/astiti-dana-lestari/simpanan-berjangka";
@@ -17,7 +22,7 @@ export default function SidebarTermSavingsMenu() {
     { label: "Perpanjangan Simpanan Berjangka", to: `${routePrefix}/perpanjangan` },
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
-  const isActive = location.pathname.startsWith(routePrefix);
+  const isActive = isEKolektorArea || location.pathname.startsWith(routePrefix);
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {

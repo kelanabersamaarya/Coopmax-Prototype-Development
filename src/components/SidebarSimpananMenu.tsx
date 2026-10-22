@@ -12,7 +12,12 @@ type SubItem = {
 
 export default function SidebarSimpananMenu() {
   const location = useLocation();
-  const isPinjamanBillingArea = location.pathname.startsWith("/anggota");
+  const isEKolektorArea =
+    location.pathname === "/mobile/e-kolektor" ||
+    location.pathname.startsWith("/mobile/e-kolektor/") ||
+    location.pathname === "/mobile/e-kolektor-wajah";
+  const isPinjamanBillingArea =
+    location.pathname.startsWith("/anggota") || isEKolektorArea;
   const routePrefix = isPinjamanBillingArea ? "/anggota/simpanan" : "/simpanan";
   const items: SubItem[] = [
     ...(isPinjamanBillingArea
@@ -33,8 +38,9 @@ export default function SidebarSimpananMenu() {
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
   const isActive =
-    location.pathname.startsWith(routePrefix) &&
-    !location.pathname.startsWith("/anggota/simpanan-berjangka");
+    isEKolektorArea ||
+    (location.pathname.startsWith(routePrefix) &&
+      !location.pathname.startsWith("/anggota/simpanan-berjangka"));
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {

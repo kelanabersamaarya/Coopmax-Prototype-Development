@@ -128,7 +128,13 @@ export default function Index() {
   const isMitraKaryaMBankingArea =
     location.pathname.startsWith("/mitra-karya/m-banking") ||
     location.pathname.startsWith("/mitra-karya/mbanking-");
-  const isMobileArea = location.pathname.startsWith("/mobile") || isMitraKaryaMBankingArea;
+  const isEKolektorArea =
+    location.pathname === "/mobile/e-kolektor" ||
+    location.pathname.startsWith("/mobile/e-kolektor/") ||
+    location.pathname === "/mobile/e-kolektor-wajah";
+  const isMobileArea =
+    ((!isEKolektorArea && location.pathname.startsWith("/mobile")) ||
+      isMitraKaryaMBankingArea);
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isMitraKaryaArea = location.pathname.startsWith("/mitra-karya");
@@ -140,6 +146,7 @@ export default function Index() {
     location.pathname.startsWith("/obs-web");
 
   const isPinjamanArea =
+    isEKolektorArea ||
     location.pathname.startsWith("/payment-link") ||
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
@@ -225,7 +232,7 @@ export default function Index() {
                                 {!isObsArea ? <SidebarAnggotaMenu /> : null}
                                 <SidebarPinjamanMenu />
                                 {!isObsArea ? <SidebarTermSavingsMenu /> : null}
-                                {!isObsArea ? <SidebarMobileMenu /> : null}
+                                {!isObsArea && !isEKolektorArea ? <SidebarMobileMenu /> : null}
                                 {!isObsArea ? <SidebarMBankingMenu /> : null}
                                 {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarObsMenu />
