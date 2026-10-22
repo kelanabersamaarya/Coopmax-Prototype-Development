@@ -108,6 +108,24 @@ export default function EKolektorTransactionSuccessPage({
 
               <button
                 type="button"
+                onClick={() =>
+                  toast.success("Bagikan Bukti (prototype)", {
+                    description: "Bukti transaksi siap dibagikan.",
+                  })
+                }
+                className={cn(
+                  "h-[43px] w-full rounded-[9px]",
+                  "bg-[#9E9E9E] text-[14px] font-semibold text-white",
+                  "shadow-[0_3px_8px_rgba(158,158,158,0.22)]",
+                  "transition hover:bg-[#8E8E8E] active:translate-y-px",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#9E9E9E]/25",
+                )}
+              >
+                Bagikan
+              </button>
+
+              <button
+                type="button"
                 onClick={goHomeWithHistory}
                 className={cn(
                   "h-[43px] w-full rounded-[9px]",
