@@ -33,7 +33,7 @@ export default function EKolektorTransactionDetailModal({
         <div className="-mt-1 flex flex-col items-center gap-3">
           <div
             className="relative z-10 flex h-[96px] w-[96px] shrink-0 items-center justify-center rounded-full"
-            style={{ backgroundColor: "#C9DAF3" }}
+            style={{ backgroundColor: "rgba(201, 218, 243, 0.7)" }}
           >
             <Check
               className="relative z-20 h-[56px] w-[56px] shrink-0"
