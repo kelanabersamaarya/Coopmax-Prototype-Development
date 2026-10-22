@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, CircleX, Eye, Pencil, Plus, Save, Undo2, X } from "lucide-react";
+import { CheckSquare, ChevronDown, CircleX, Eye, Pencil, Plus, Undo2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -151,7 +151,7 @@ function AddScheduleForm({ onBack }: { onBack: () => void }) {
           {processAdmin && <><label htmlFor="admin-transaction" className="text-[13px] text-[#002b68]">Jenis Transaksi Biaya Admin Otomatis<span className="text-red-600">*</span></label><ClearableSelect id="admin-transaction" placeholder="Pilih Jenis Transaksi Biaya Admin Otomatis" options={["Transaksi Biaya Admin Simpanan", "Transaksi Biaya Admin M-Banking"]} /></>}
           <span className="text-[13px] text-[#002b68]">Status</span><button type="button" role="switch" aria-checked={isActive} onClick={() => setIsActive((active) => !active)} className={`inline-flex w-[62px] items-center rounded-full py-1 text-[10px] font-semibold text-white transition-colors ${isActive ? "bg-[#6047ff]" : "bg-[#9b92ee]"}`}><span className={`flex-1 text-center ${isActive ? "order-1" : "order-2"}`}>{isActive ? "ON" : "OFF"}</span><span className={`h-5 w-5 shrink-0 rounded-full bg-white transition-transform ${isActive ? "order-2 -translate-x-1" : "order-1 translate-x-1"}`} /></button>
         </div>
-        <div className="mt-6 flex justify-end gap-2"><Button type="button" onClick={onBack} className="h-10 rounded-[7px] bg-[#8292ae] px-4 text-[14px] text-white hover:bg-[#71829f]"><Undo2 className="h-3.5 w-3.5" />Kembali</Button><Button type="button" className="h-10 rounded-[7px] bg-[#18ad00] px-5 text-[14px] text-white hover:bg-[#139600]"><Save className="h-3.5 w-3.5" />Simpan</Button></div>
+        <div className="mt-6 flex justify-end gap-2"><Button type="button" onClick={onBack} className="h-10 rounded-[7px] bg-[#8292ae] px-4 text-[14px] text-white hover:bg-[#71829f]"><Undo2 className="h-[18px] w-[18px]" />Kembali</Button><Button type="button" className="h-10 rounded-[7px] bg-[#18ad00] px-5 text-[14px] text-white hover:bg-[#139600]"><CheckSquare className="h-[18px] w-[18px]" />Simpan</Button></div>
       </Card>
     </div>
   );
