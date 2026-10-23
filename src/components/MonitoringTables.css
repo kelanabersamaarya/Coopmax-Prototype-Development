@@ -36,3 +36,7 @@
 .monitoring-table tbody td.text-right {
   text-align: right !important;
 }
+
+.monitoring-table button[aria-label^="Lihat"] {
+  color: #7987A1 !important;
+}
