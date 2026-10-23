@@ -968,7 +968,6 @@ export default function BillingTableView2({
             )}
           </tbody>
           <tfoot>
-            <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
             <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
             {tableFooter ? (
               <tr>
