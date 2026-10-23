@@ -33,10 +33,12 @@
   width: 100%;
 }
 
-.monitoring-table tbody td.text-right {
+.monitoring-table tbody td.text-right,
+#monitoring-proses-kolektif ~ div table tbody td.text-right {
   text-align: right !important;
 }
 
-.monitoring-table button[aria-label^="Lihat"] {
+.monitoring-table button[aria-label^="Lihat"],
+#monitoring-proses-kolektif ~ div table button[aria-label^="Lihat"] {
   color: #7987A1 !important;
 }
