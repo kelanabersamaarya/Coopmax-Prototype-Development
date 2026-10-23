@@ -16,7 +16,7 @@ export function MonitoringDetailModal({ row, onClose }: MonitoringDetailModalPro
         </div>
         <div className="overflow-x-auto px-6 py-6">
           <div className="mb-7 flex items-center gap-1 text-[13px]">Tampilkan <select className="h-7 rounded border border-[#68778f] px-1" defaultValue="10"><option>10</option><option>20</option></select> entri</div>
-          <table className="w-full min-w-[1080px] border-collapse text-left text-[12px] text-[#263b61]">
+          <table className="w-full min-w-[1080px] border-collapse text-left text-[12px] text-[#263b61] [&_thead>tr:first-child>th]:text-left">
             <thead>
               <tr className="h-12 border-b border-[#c7d1e2] text-left text-[12px] font-semibold uppercase leading-[1.05] tracking-[0.03em] text-[#24324a]">
                 <th className="w-[4%] px-1">No.</th><th className="w-[13%] px-1">Tanggal<br />Transaksi</th><th className="w-[14%] px-1">Nama Produk</th><th className="w-[13%] px-1">Periode Bunga</th><th className="w-[14%] px-1">Persentase<br />Proses Bunga</th><th className="w-[13%] px-1">Jumlah Rekening<br />Diproses</th><th className="w-[13%] px-1">Jumlah Rekening<br />Harus Diproses</th><th className="w-[14%] px-1">Total Nominal<br />Diproses</th><th className="w-[14%] px-1">Total Nominal<br />Harus Diproses</th>
