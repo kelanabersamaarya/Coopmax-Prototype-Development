@@ -10,7 +10,7 @@ function Pencil({ className = "" }: { className?: string }) {
 }
 
 function CircleX({ className = "" }: { className?: string }) {
-  return <span className={`flex h-7 w-7 items-center justify-center rounded-full bg-[#df3043] text-white ${className}`}><XIcon className="h-[18px] w-[18px]" strokeWidth={3.5} /></span>;
+  return <span className={`flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#df3043] text-white ${className}`}><XIcon className="h-[12px] w-[12px]" strokeWidth={3.5} /></span>;
 }
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
