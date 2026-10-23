@@ -3,4 +3,13 @@
 #monitoring-proses-kolektif ~ div table th,
 #monitoring-proses-kolektif ~ div table th > div {
   text-align: left !important;
+  vertical-align: top;
+}
+
+.monitoring-table thead tr:first-child th > div,
+#monitoring-proses-kolektif ~ div table thead tr:first-child th > div {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
