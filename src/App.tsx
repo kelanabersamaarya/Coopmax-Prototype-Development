@@ -123,11 +123,15 @@ const App = () => (
                           element={<JadwalBungaSimpanan />}
                         />
                         <Route
-                          path="anggota/simpanan/jadwal-bunga-admin-otomatis/detail"
-                          element={<JadwalBungaSimpananDetail />}
-                        />
-            <Route
-              path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
+                                      path="anggota/simpanan/jadwal-bunga-admin-otomatis/detail"
+                                      element={<JadwalBungaSimpananDetail />}
+                                    />
+                        <Route
+                                      path="anggota/simpanan/jadwal-bunga-admin-otomatis/edit"
+                                      element={<JadwalBungaSimpanan />}
+                                    />
+                        <Route
+                          path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
               element={<MonitoringBungaSimpanan />}
             />
             <Route path="anggota/simpanan/rekening" element={<AstitiRekeningTabungan />} />

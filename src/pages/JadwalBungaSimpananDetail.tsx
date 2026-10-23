@@ -44,7 +44,7 @@ export default function JadwalBungaSimpananDetail() {
       <div className="flex w-full justify-end">
         <div className="flex flex-wrap items-center gap-8 text-[16px] font-normal text-[#506587]">
           <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><List className="h-5 w-5 stroke-[3]" />Kembali ke Daftar</button>
-          <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><SquarePen className="h-5 w-5 stroke-[2.5]" />Ubah</button>
+          <button type="button" onClick={() => { sessionStorage.setItem("jadwal-bunga-edit", "true"); navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis/edit"); }} className="flex items-center gap-3"><SquarePen className="h-5 w-5 stroke-[2.5]" />Ubah</button>
           <button type="button" className="flex items-center gap-3"><Trash className="h-5 w-5 stroke-[#506587]" />Hapus</button>
         </div>
       </div>
