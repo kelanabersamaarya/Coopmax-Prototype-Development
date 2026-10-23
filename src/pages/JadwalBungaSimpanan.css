@@ -11,3 +11,11 @@ table thead tr:first-child th {
   display: inline-block;
   font-size: 21px;
 }
+
+.min-h-screen button[class~="bg-[#8292ae]"]:hover {
+  background-color: #8292ae !important;
+}
+
+.min-h-screen button[class~="bg-[#18ad00]"]:hover {
+  background-color: #18ad00 !important;
+}
