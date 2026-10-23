@@ -17,7 +17,7 @@ export default function BillingTableHeader({
   const thBase =
     "px-2 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
   const thRight =
-    "px-2 py-3 text-right align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
+    "px-2 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
 
   return (
     <thead className={cn("bg-white", className)}>
