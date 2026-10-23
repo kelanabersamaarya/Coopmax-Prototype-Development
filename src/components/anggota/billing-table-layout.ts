@@ -3,7 +3,7 @@ export const BILLING_COLUMN_WIDTHS = {
   dueDate: "120px",
   amount: "128px",
   action: "56px",
-  status: "140px",
+  status: "170px",
 } as const;
 
 export const BILLING_TABLE_MIN_WIDTH = "1242px";
