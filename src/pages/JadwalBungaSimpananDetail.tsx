@@ -38,7 +38,7 @@ function StatusValue({ value }: { value: string }) {
 
 export default function JadwalBungaSimpananDetail() {
   const navigate = useNavigate();
-  return <main className="min-h-screen bg-[#f4f6fd] px-5 py-8 text-[#17243d] md:px-8 lg:px-10">
+  return <main className="min-h-screen bg-[#f4f6fd] px-4 py-8 text-[#17243d] md:px-6 lg:px-8">
     <header className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
       <div className="flex items-baseline gap-2"><h1 className="text-[25px] font-bold text-[#071f55]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[16px]">Detail</span></div>
       <div className="flex flex-wrap items-center gap-7 text-[13px] font-semibold text-[#243c61]">
