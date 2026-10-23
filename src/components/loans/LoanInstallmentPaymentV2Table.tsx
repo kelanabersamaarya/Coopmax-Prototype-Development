@@ -1395,7 +1395,7 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const fixedPx = 20 + 200;
+  const fixedPx = 50 + 285;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -1560,10 +1560,10 @@ export default function LoanInstallmentPaymentV2Table({
 
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
-          <col style={{ width: 20 }} />
-          <col style={{ width: 200 }} />
-          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.35)` }} />
-          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65 - 50px)` }} />
+          <col style={{ width: 50 }} />
+          <col style={{ width: 285 }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.42)` }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.58)` }} />
           <col style={{ width: 50 }} />
         </colgroup>
 
@@ -1603,7 +1603,7 @@ export default function LoanInstallmentPaymentV2Table({
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
 
-                <Td className="pl-3 pr-4">
+                <Td className="pl-3 pr-4 align-top">
                   <NasabahRow
                     accountNo={row.accountNo}
                     onAccountNoChange={(value) =>
@@ -1620,7 +1620,7 @@ export default function LoanInstallmentPaymentV2Table({
                   <SelectedNasabahInfo accountNo={row.accountNo} />
                 </Td>
 
-                <Td className="bg-white">
+                <Td className="bg-white align-top">
                   <SelectedPinjamanInfo
                     accountNo={row.accountNo}
                     disabled={lockRowUi}
@@ -1633,7 +1633,7 @@ export default function LoanInstallmentPaymentV2Table({
                   />
                 </Td>
 
-                <Td className="bg-white">
+                <Td className="bg-white align-top">
                   {!isPinjamanBulanan && !hideBillingDetails ? (
                     <>
                       <DaftarTagihanDialog
@@ -1736,8 +1736,8 @@ export default function LoanInstallmentPaymentV2Table({
                   ) : null}
                 </Td>
 
-                <Td align="center" className="px-3">
-                  <div className="pt-[26px]">
+                <Td align="center" className="px-3 align-top">
+                  <div className="pt-1">
                     <RowActionButtons
                       onAdd={() => addRow(row.id)}
                       onDelete={() => deleteRow(row.id)}
