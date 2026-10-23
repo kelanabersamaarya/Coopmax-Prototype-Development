@@ -123,6 +123,7 @@ function parseDmyToDate(value: string): Date | undefined {
 }
 
 function formatRupiahValue(n: number) {
+  if (n === 0) return "0,00";
   const s = Math.round(n).toString();
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -439,7 +440,7 @@ export default function BillingTableView2({
         <>
           <div className={cn("pr-1 pl-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
-              {hasManualActive && total > 0 ? formatRupiah(total) : "0"}
+              {hasManualActive && total > 0 ? formatRupiah(total) : "0,00"}
             </span>
           </div>
           <div className={cn("flex items-center justify-start pl-0 pr-0", cellY)}>
@@ -461,23 +462,23 @@ export default function BillingTableView2({
   const rowDividerClass = hideRowDividers ? "" : "border-t border-[#CDD4E0]";
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
-    if (rowIndex === 2) return "0";
-    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    if (rowIndex === 2) return "0,00";
+    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
     return formatRupiah(raw);
   }
 
   function displaySisaPokok(rowIndex: number, raw: string) {
-    if (rowIndex === 2) return "0";
-    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    if (rowIndex === 2) return "0,00";
+    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
     return formatRupiah(raw);
   }
 
   function displayTagihanBunga(rowIndex: number, raw: string) {
-    return rowIndex === 2 ? "0" : formatRupiah(raw);
+    return rowIndex === 2 ? "0,00" : formatRupiah(raw);
   }
 
   function displaySisaBunga(rowIndex: number, raw: string) {
-    return rowIndex === 2 ? "0" : formatRupiah(raw);
+    return rowIndex === 2 ? "0,00" : formatRupiah(raw);
   }
 
   function statusForRow(row: BillingRow, rowIndex: number) {
@@ -972,7 +973,7 @@ export default function BillingTableView2({
         </table>
 
         <div className="sr-only">
-          <NumericCell>0</NumericCell>
+          <NumericCell>0,00</NumericCell>
           <span>{refreshTick}</span>
         </div>
       </div>
