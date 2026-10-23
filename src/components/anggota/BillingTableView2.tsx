@@ -553,23 +553,50 @@ export default function BillingTableView2({
     denda: totalForPenalty(grandRows, 0),
   };
 
-  function TotalCell({
-    pageValue,
-    grandValue,
+  function TotalRow({
+    label,
+    values,
   }: {
-    pageValue: number;
-    grandValue: number;
+    label: string;
+    values: {
+      totalBelumDibayar: number;
+      tagihanPokok: number;
+      tagihanBunga: number;
+      sisaPokok: number;
+      sisaBunga: number;
+      denda: number;
+    };
   }) {
     return (
-      <div className="space-y-1 text-right tabular-nums">
-        <div>
-          <span className="mr-1 text-[10px] font-semibold text-slate-500">Hal.</span>
-          <span className="font-extrabold text-blue-700">Rp {formatIdrLike(pageValue)}</span>
+      <div
+        className="grid items-center gap-0 border-t border-slate-300 bg-white"
+        style={{ gridTemplateColumns }}
+      >
+        {!hideSelection ? <div /> : null}
+        <div className="px-4 py-2 text-[12px] font-bold text-slate-800">
+          {label}
         </div>
-        <div>
-          <span className="mr-1 text-[10px] font-semibold text-slate-500">Total</span>
-          <span className="font-extrabold text-slate-800">Rp {formatIdrLike(grandValue)}</span>
+        <div className={cn(totalColPad, "py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800")}>
+          {formatIdrLike(values.totalBelumDibayar)}
         </div>
+        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+          {formatIdrLike(values.tagihanPokok)}
+        </div>
+        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+          {formatIdrLike(values.tagihanBunga)}
+        </div>
+        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+          {formatIdrLike(values.sisaPokok)}
+        </div>
+        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+          {formatIdrLike(values.sisaBunga)}
+        </div>
+        {showPenaltyColumn ? (
+          <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+            {formatIdrLike(values.denda)}
+          </div>
+        ) : null}
+        {showStatusColumn ? <div /> : null}
       </div>
     );
   }
@@ -945,37 +972,9 @@ export default function BillingTableView2({
           </tbody>
         </table>
 
-        <div className="border-t border-slate-200 bg-slate-50/80 px-3 py-3">
-          <div
-            className="grid items-start gap-0"
-            style={{ gridTemplateColumns }}
-          >
-            {!hideSelection ? <div /> : null}
-            <div className="px-4 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">
-              Total
-            </div>
-            <div className={cn(totalColPad, "py-1")}>
-              <TotalCell pageValue={pageTotals.totalBelumDibayar} grandValue={grandTotals.totalBelumDibayar} />
-            </div>
-            <div className="px-4 py-1">
-              <TotalCell pageValue={pageTotals.tagihanPokok} grandValue={grandTotals.tagihanPokok} />
-            </div>
-            <div className="px-4 py-1">
-              <TotalCell pageValue={pageTotals.tagihanBunga} grandValue={grandTotals.tagihanBunga} />
-            </div>
-            <div className="px-4 py-1">
-              <TotalCell pageValue={pageTotals.sisaPokok} grandValue={grandTotals.sisaPokok} />
-            </div>
-            <div className="px-4 py-1">
-              <TotalCell pageValue={pageTotals.sisaBunga} grandValue={grandTotals.sisaBunga} />
-            </div>
-            {showPenaltyColumn ? (
-              <div className="px-4 py-1">
-                <TotalCell pageValue={pageTotals.denda} grandValue={grandTotals.denda} />
-              </div>
-            ) : null}
-            {showStatusColumn ? <div /> : null}
-          </div>
+        <div className="border-t border-slate-200 bg-white">
+          <TotalRow label="Total per Halaman" values={pageTotals} />
+          <TotalRow label="Total" values={grandTotals} />
         </div>
 
         <div className="sr-only">
