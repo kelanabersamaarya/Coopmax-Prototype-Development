@@ -933,6 +933,13 @@ function TabunganField({
   );
 }
 
+const LOCKED_BILL_TOTALS: BillTotals = {
+  pokok: "833.333",
+  bunga: "83.333",
+  denda: "75.000",
+  total: "991.666",
+};
+
 function BillTotalsBlock({
   totals,
   totalLabel = "Total Tagihan",
@@ -940,22 +947,23 @@ function BillTotalsBlock({
   totals: BillTotals;
   totalLabel?: string;
 }) {
+  const displayTotals =
+    totals.pokok === "0,00" &&
+    totals.bunga === "0,00" &&
+    totals.denda === "0,00" &&
+    totals.total === "0,00"
+      ? LOCKED_BILL_TOTALS
+      : totals;
+
   return (
     <div className="grid gap-4">
-      <InfoStack layout="inline" label="Tagihan Pokok" value={totals.pokok} />
-      <InfoStack layout="inline" label="Tagihan Bunga" value={totals.bunga} />
-      <InfoStack layout="inline" label="Tagihan Denda" value={totals.denda} />
-      <InfoStack layout="inline" label={totalLabel} value={totals.total} strong />
+      <InfoStack layout="inline" label="Tagihan Pokok" value={displayTotals.pokok} />
+      <InfoStack layout="inline" label="Tagihan Bunga" value={displayTotals.bunga} />
+      <InfoStack layout="inline" label="Tagihan Denda" value={displayTotals.denda} />
+      <InfoStack layout="inline" label={totalLabel} value={displayTotals.total} strong />
     </div>
   );
 }
-
-const LOCKED_BILL_TOTALS: BillTotals = {
-  pokok: "833.333",
-  bunga: "83.333",
-  denda: "75.000",
-  total: "991.666",
-};
 
 function BillTotalsTitlesOnly({
   totalLabel = "Total Tagihan",
