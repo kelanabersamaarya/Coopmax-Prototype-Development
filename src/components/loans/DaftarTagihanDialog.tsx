@@ -468,41 +468,43 @@ export default function DaftarTagihanDialog({
                     penaltyIndexOffset={(page - 1) * pageSize}
                     className="mt-0"
                     contextKey={contextKey}
+                    tableFooter={
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="text-[14px] text-slate-900">
+                          Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+                          {rowsAll.length} entri
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <button
+                            type="button"
+                            className={pagerBtn(page <= 1)}
+                            disabled={page <= 1}
+                            onClick={() => setPage((p) => Math.max(1, p - 1))}
+                          >
+                            <ChevronLeft className="h-5 w-5 text-slate-500" />
+                            Sebelumnya
+                          </button>
+
+                          <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-[5px] bg-violet-600 px-5 text-[14px] font-extrabold text-white">
+                            {page}
+                          </div>
+
+                          <button
+                            type="button"
+                            className={pagerBtn(page >= pageCount)}
+                            disabled={page >= pageCount}
+                            onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                          >
+                            Selanjutnya
+                            <ChevronRight className="h-5 w-5 text-slate-500" />
+                          </button>
+                        </div>
+                      </div>
+                    }
                   />
                 </div>
 
-                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-[14px] text-slate-900">
-                    Menampilkan {showingStart} sampai {showingEnd} dari{" "}
-                    {rowsAll.length} entri
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      className={pagerBtn(page <= 1)}
-                      disabled={page <= 1}
-                      onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    >
-                      <ChevronLeft className="h-5 w-5 text-slate-500" />
-                      Sebelumnya
-                    </button>
-
-                    <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-[5px] bg-violet-600 px-5 text-[14px] font-extrabold text-white">
-                      {page}
-                    </div>
-
-                    <button
-                      type="button"
-                      className={pagerBtn(page >= pageCount)}
-                      disabled={page >= pageCount}
-                      onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-                    >
-                      Selanjutnya
-                      <ChevronRight className="h-5 w-5 text-slate-500" />
-                    </button>
-                  </div>
-                </div>
               </>
             )}
           </div>
