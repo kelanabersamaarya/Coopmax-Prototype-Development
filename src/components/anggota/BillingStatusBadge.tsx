@@ -71,7 +71,15 @@ export default function BillingStatusBadge({
           aria-hidden="true"
         />
       )}
-      <span className="whitespace-normal text-left leading-tight">
+      <span
+        className="whitespace-normal text-left leading-tight"
+        style={{
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+          WebkitLineClamp: 3,
+          overflow: "hidden",
+        }}
+      >
         {(statusLines[displayStatus.toUpperCase()] ?? [displayStatus.toUpperCase()]).map(
           (line) => (
             <span key={line} className="block">
