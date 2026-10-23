@@ -39,64 +39,28 @@ table thead tr:first-child th {
   color: #38547c !important;
 }
 
-/* Jadwal proses ditampilkan sebagai header grup dengan tiga subkolom. */
-table {
-  min-width: 1380px;
-}
-
+/* Jadwal proses ditampilkan sebagai tiga informasi terpisah pada daftar. */
 table thead tr:first-child th:nth-child(4) {
+  font-size: 0;
   min-width: 570px;
-  text-align: center;
 }
 
 table thead tr:first-child th:nth-child(4)::after {
-  content: "Jadwal Proses Berikutnya";
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-table thead tr:first-child th:nth-child(4) {
-  font-size: 0;
-}
-
-table thead tr:nth-child(2) th:nth-child(4) {
-  min-width: 570px;
-  padding: 8px 0;
-  font-size: 0;
-}
-
-table thead tr:nth-child(2) th:nth-child(4)::before {
   content: "Jadwal Bunga Berikutnya                 Jadwal Biaya Admin Berikutnya                 Jadwal Biaya Admin M-Banking Berikutnya";
   display: block;
-  padding: 0 0 8px;
-  color: #002b68;
   font-size: 12px;
-  font-weight: 600;
-  line-height: 1.25;
   white-space: pre;
-}
-
-table thead tr:nth-child(2) th:nth-child(4) input {
-  display: block;
-  width: calc(100% - 16px);
-  margin: 0 8px;
-  font-size: 12px;
 }
 
 table tbody td:nth-child(4) {
   min-width: 570px;
-  padding: 8px 0;
   font-size: 0;
-  text-align: center;
   white-space: nowrap;
 }
 
 table tbody td:nth-child(4)::after {
   content: "21-11-2026 20:00:00                 21-11-2026 20:00:00                 21-11-2026 20:00:00";
   display: block;
-  color: #102a5c;
   font-size: 12px;
-  line-height: 1.25;
   white-space: pre;
 }
