@@ -504,18 +504,75 @@ export default function BillingTableView2({
 
   const totalColPad = "pl-4 pr-12";
 
-  const pageTotal = React.useMemo(
-    () => rows.reduce((sum, row) => sum + parseIdrLike(row.totalBelumDibayar), 0),
-    [rows],
-  );
+  const grandRows = grandTotalRows ?? rows;
 
-  const grandTotal = React.useMemo(
-    () => (grandTotalRows ?? rows).reduce(
-      (sum, row) => sum + parseIdrLike(row.totalBelumDibayar),
+  function totalForField(
+    sourceRows: BillingRow[],
+    field: keyof BillingRow,
+    indexOffset: number,
+  ) {
+    return sourceRows.reduce(
+      (sum, row, index) => {
+        const rowIndex = indexOffset + index;
+        let value = row[field] ?? "0";
+
+        if (field === "tagihanPokok") value = displayTagihanPokok(rowIndex, value);
+        if (field === "tagihanBunga") value = displayTagihanBunga(rowIndex, value);
+        if (field === "sisaPokok") value = displaySisaPokok(rowIndex, value);
+        if (field === "sisaBunga") value = displaySisaBunga(rowIndex, value);
+
+        return sum + parseIdrLike(value);
+      },
       0,
-    ),
-    [grandTotalRows, rows],
-  );
+    );
+  }
+
+  function totalForPenalty(sourceRows: BillingRow[], indexOffset: number) {
+    return sourceRows.reduce(
+      (sum, row, index) =>
+        sum + penaltyValueForRow(indexOffset + index, row.jatuhTempo, index).total,
+      0,
+    );
+  }
+
+  const pageTotals = {
+    totalBelumDibayar: totalForField(rows, "totalBelumDibayar", penaltyIndexOffset),
+    tagihanPokok: totalForField(rows, "tagihanPokok", penaltyIndexOffset),
+    tagihanBunga: totalForField(rows, "tagihanBunga", penaltyIndexOffset),
+    sisaPokok: totalForField(rows, "sisaPokok", penaltyIndexOffset),
+    sisaBunga: totalForField(rows, "sisaBunga", penaltyIndexOffset),
+    denda: totalForPenalty(rows, penaltyIndexOffset),
+  };
+
+  const grandTotals = {
+    totalBelumDibayar: totalForField(grandRows, "totalBelumDibayar", 0),
+    tagihanPokok: totalForField(grandRows, "tagihanPokok", 0),
+    tagihanBunga: totalForField(grandRows, "tagihanBunga", 0),
+    sisaPokok: totalForField(grandRows, "sisaPokok", 0),
+    sisaBunga: totalForField(grandRows, "sisaBunga", 0),
+    denda: totalForPenalty(grandRows, 0),
+  };
+
+  function TotalCell({
+    pageValue,
+    grandValue,
+  }: {
+    pageValue: number;
+    grandValue: number;
+  }) {
+    return (
+      <div className="space-y-1 text-right tabular-nums">
+        <div>
+          <span className="mr-1 text-[10px] font-semibold text-slate-500">Hal.</span>
+          <span className="font-extrabold text-blue-700">Rp {formatIdrLike(pageValue)}</span>
+        </div>
+        <div>
+          <span className="mr-1 text-[10px] font-semibold text-slate-500">Total</span>
+          <span className="font-extrabold text-slate-800">Rp {formatIdrLike(grandValue)}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("mt-3", className)}>
@@ -888,24 +945,36 @@ export default function BillingTableView2({
           </tbody>
         </table>
 
-        <div className="border-t border-slate-200 bg-slate-50/80 px-4 py-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                Ringkasan Tagihan
-              </p>
-              <p className="mt-1 text-sm font-semibold text-slate-800">
-                Total tagihan per halaman
-              </p>
+        <div className="border-t border-slate-200 bg-slate-50/80 px-3 py-3">
+          <div
+            className="grid items-start gap-0"
+            style={{ gridTemplateColumns }}
+          >
+            {!hideSelection ? <div /> : null}
+            <div className="px-4 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">
+              Total
             </div>
-            <div className="text-left sm:text-right">
-              <p className="text-lg font-extrabold tabular-nums text-blue-700">
-                Rp {formatIdrLike(pageTotal)}
-              </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Total tagihan keseluruhan: <span className="font-bold text-slate-700">Rp {formatIdrLike(grandTotal)}</span>
-              </p>
+            <div className={cn(totalColPad, "py-1")}>
+              <TotalCell pageValue={pageTotals.totalBelumDibayar} grandValue={grandTotals.totalBelumDibayar} />
             </div>
+            <div className="px-4 py-1">
+              <TotalCell pageValue={pageTotals.tagihanPokok} grandValue={grandTotals.tagihanPokok} />
+            </div>
+            <div className="px-4 py-1">
+              <TotalCell pageValue={pageTotals.tagihanBunga} grandValue={grandTotals.tagihanBunga} />
+            </div>
+            <div className="px-4 py-1">
+              <TotalCell pageValue={pageTotals.sisaPokok} grandValue={grandTotals.sisaPokok} />
+            </div>
+            <div className="px-4 py-1">
+              <TotalCell pageValue={pageTotals.sisaBunga} grandValue={grandTotals.sisaBunga} />
+            </div>
+            {showPenaltyColumn ? (
+              <div className="px-4 py-1">
+                <TotalCell pageValue={pageTotals.denda} grandValue={grandTotals.denda} />
+              </div>
+            ) : null}
+            {showStatusColumn ? <div /> : null}
           </div>
         </div>
 
