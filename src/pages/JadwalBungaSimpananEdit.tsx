@@ -6,7 +6,7 @@ import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 const productOptions = ["Simpanan Sukarela - Penampung Pendapatan Bunga", "Simpanan Pokok", "Simpanan Wajib", "Simpanan Program", "tabungan", "Mandiri Tabungan Rupiah- Bank Mandiri", "TabunganKu - Bank BPD Bali"];
 const transactionOptions = ["Pilih Jenis Transaksi", "Transaksi Bunga Simpanan", "Transaksi Biaya Admin Simpanan"];
 const periodOptions = ["Pilih Periode Proses", "Bulan Berikutnya", "Bulan Berlangsung"];
-const dateOptions = ["Pilih Tanggal Proses", "01", "21", "Akhir Bulan"];
+const dateOptions = ["Pilih Tanggal Proses", ...Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, "0"))];
 const timeOptions = ["Pilih Waktu Proses", "03:00", "20:00"];
 
 function CustomSelect({ options, searchable = true }: { options: string[]; searchable?: boolean }) {
