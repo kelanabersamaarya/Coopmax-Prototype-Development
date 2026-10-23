@@ -440,12 +440,12 @@ function InfoStack({
   if (layout === "inline") {
     return (
       <div className="grid grid-cols-[minmax(0,1fr)_minmax(92px,auto)] items-start gap-3">
-        <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
+        <div className="min-w-0 whitespace-nowrap text-[13px] font-normal leading-snug text-[#002060]">
           {label} :
         </div>
         <div
           className={cn(
-            "min-w-0 text-right text-[14px] font-normal leading-snug text-slate-700",
+            "min-w-0 whitespace-nowrap text-right text-[13px] font-normal leading-snug text-slate-700",
             strong ? "font-bold text-slate-900" : "",
           )}
         >
@@ -1395,7 +1395,7 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const fixedPx = 20 + 100 + 150 + 50;
+  const fixedPx = 20 + 100 + 120 + 50;
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [pickerOpen, setPickerOpen] = React.useState(false);
@@ -1562,7 +1562,7 @@ export default function LoanInstallmentPaymentV2Table({
           <col style={{ width: 20 }} />
           <col style={{ width: 100 }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.42)` }} />
-          <col style={{ width: 150, minWidth: 150, maxWidth: 150 }} />
+          <col style={{ width: 120, minWidth: 120, maxWidth: 120 }} />
           <col style={{ width: 50, minWidth: 50, maxWidth: 50 }} />
         </colgroup>
 
