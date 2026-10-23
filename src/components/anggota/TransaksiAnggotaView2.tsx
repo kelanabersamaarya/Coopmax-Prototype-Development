@@ -486,6 +486,7 @@ export default function TransaksiAnggotaView2({
                   disableRowRings={disableRowChrome}
                   penaltyIndexOffset={penaltyIndexOffset}
                   contextKey={penaltyContextKey}
+                  grandTotalRows={allRowsForMode}
                 />
               </div>
 

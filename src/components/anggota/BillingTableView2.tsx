@@ -26,6 +26,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { formatIdrLike, parseIdrLike } from "@/components/anggota/anggota-money";
 import type { BillingRow } from "@/domain/loans/types/billing";
 
 export type { BillingRow } from "@/domain/loans/types/billing";
@@ -218,6 +219,7 @@ export default function BillingTableView2({
   rowDensity = "default",
   className,
   contextKey,
+  grandTotalRows,
 }: {
   rows: BillingRow[];
   selected: boolean[];
@@ -241,6 +243,7 @@ export default function BillingTableView2({
   rowDensity?: "default" | "roomy";
   className?: string;
   contextKey?: string;
+  grandTotalRows?: BillingRow[];
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
@@ -500,6 +503,19 @@ export default function BillingTableView2({
   );
 
   const totalColPad = "pl-4 pr-12";
+
+  const pageTotal = React.useMemo(
+    () => rows.reduce((sum, row) => sum + parseIdrLike(row.totalBelumDibayar), 0),
+    [rows],
+  );
+
+  const grandTotal = React.useMemo(
+    () => (grandTotalRows ?? rows).reduce(
+      (sum, row) => sum + parseIdrLike(row.totalBelumDibayar),
+      0,
+    ),
+    [grandTotalRows, rows],
+  );
 
   return (
     <div className={cn("mt-3", className)}>
@@ -855,7 +871,7 @@ export default function BillingTableView2({
                               {showStatusColumn ? (
                                 <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
                                   <BillingStatusBadge
-                                    status={statusForRow(r, rowIndex)}
+                                    status={statusForRow(r, idx)}
                                     variant={statusBadgeVariant}
                                   />
                                 </div>
@@ -871,6 +887,27 @@ export default function BillingTableView2({
             )}
           </tbody>
         </table>
+
+        <div className="border-t border-slate-200 bg-slate-50/80 px-4 py-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                Ringkasan Tagihan
+              </p>
+              <p className="mt-1 text-sm font-semibold text-slate-800">
+                Total tagihan per halaman
+              </p>
+            </div>
+            <div className="text-left sm:text-right">
+              <p className="text-lg font-extrabold tabular-nums text-blue-700">
+                Rp {formatIdrLike(pageTotal)}
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Total tagihan keseluruhan: <span className="font-bold text-slate-700">Rp {formatIdrLike(grandTotal)}</span>
+              </p>
+            </div>
+          </div>
+        </div>
 
         <div className="sr-only">
           <NumericCell>0</NumericCell>
