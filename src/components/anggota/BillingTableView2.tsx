@@ -287,7 +287,7 @@ export default function BillingTableView2({
 
   const gridTemplateColumns = (() => {
     const columns = hideSelection ? [] : ["44px"];
-    columns.push("minmax(0,1fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
+    columns.push("minmax(0,0.78fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
     if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
     if (showStatusColumn) columns.push("minmax(0,1.1fr)");
     return columns.join(" ");
