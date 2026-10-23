@@ -565,6 +565,7 @@ export default function BillingTableView2({
     };
   }) {
     const totalCellClass = "border-t border-[#CDD4E0] px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
+    const penaltyTotalCellClass = "border-t border-[#CDD4E0] pr-1 pl-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
     return (
       <tr className="bg-white">
         <td colSpan={hideSelection ? 1 : 2} className="border-t border-[#CDD4E0] px-4 py-2 text-left text-[13px] font-bold leading-tight text-slate-800 whitespace-normal break-words">
@@ -575,7 +576,7 @@ export default function BillingTableView2({
         <td className={totalCellClass}>{formatRupiah(values.tagihanBunga)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
-        {showPenaltyColumn ? <td className={totalCellClass}>{formatRupiah(values.denda)}</td> : null}
+        {showPenaltyColumn ? <td className={penaltyTotalCellClass}>{formatRupiah(values.denda)}</td> : null}
         {showPenaltyColumn ? <td className="border-t border-[#CDD4E0] px-4 py-2" /> : null}
         {showStatusColumn ? <td className="border-t border-[#CDD4E0] px-4 py-2" /> : null}
       </tr>
