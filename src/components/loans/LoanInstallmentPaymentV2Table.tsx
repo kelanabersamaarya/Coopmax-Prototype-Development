@@ -1558,11 +1558,11 @@ export default function LoanInstallmentPaymentV2Table({
 
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
-          <col style={{ width: 20 }} />
-          <col style={{ width: 100, minWidth: 100, maxWidth: 100 }} />
-          <col style={{ width: `calc((100% - 250px) * 0.42)` }} />
-          <col style={{ width: 90, minWidth: 90, maxWidth: 90 }} />
-          <col style={{ width: 30, minWidth: 30, maxWidth: 30 }} />
+          <col style={{ width: 20, minWidth: 20, maxWidth: 20 }} />
+          <col style={{ width: 70, minWidth: 70, maxWidth: 70 }} />
+          <col style={{ width: `calc((100% - 210px) * 0.42)` }} />
+          <col style={{ width: 120, minWidth: 120, maxWidth: 120 }} />
+          <col style={{ width: 20, minWidth: 20, maxWidth: 20 }} />
         </colgroup>
 
         <thead className="bg-white">
@@ -1601,7 +1601,7 @@ export default function LoanInstallmentPaymentV2Table({
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
 
-                <Td className="pl-3 pr-4 align-top">
+                <Td className="px-1 align-top">
                   <NasabahRow
                     accountNo={row.accountNo}
                     onAccountNoChange={(value) =>
@@ -1734,7 +1734,7 @@ export default function LoanInstallmentPaymentV2Table({
                   ) : null}
                 </Td>
 
-                <Td align="center" className="px-3 align-top">
+                <Td align="center" className="px-0 align-top">
                   <div className="pt-1">
                     <RowActionButtons
                       onAdd={() => addRow(row.id)}
