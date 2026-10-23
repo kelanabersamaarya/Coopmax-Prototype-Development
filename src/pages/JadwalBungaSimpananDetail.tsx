@@ -45,7 +45,7 @@ export default function JadwalBungaSimpananDetail() {
         <div className="flex flex-wrap items-center gap-8 text-[16px] font-normal text-[#506587]">
           <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><List className="h-5 w-5 stroke-[3]" />Daftar</button>
           <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><SquarePen className="h-5 w-5 stroke-[2.5]" />Ubah</button>
-          <button type="button" className="flex items-center gap-3"><Trash2 className="h-7 w-7 fill-[#506587] stroke-[#506587] stroke-[1.5]" />Hapus</button>
+          <button type="button" className="flex items-center gap-3"><Trash2 className="h-5 w-5 fill-[#506587] stroke-[#506587]" />Hapus</button>
         </div>
       </div>
     </header>
