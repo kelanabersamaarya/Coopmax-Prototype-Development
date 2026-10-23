@@ -18,10 +18,24 @@ export default function BillingTableHeader({
     "px-2 py-3 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-700";
   const thRight =
     "px-2 py-3 text-left text-[10px] font-extrabold uppercase tracking-wide text-slate-700";
+  const gridTemplateColumns = [
+    ...(hideSelection ? [] : ["44px"]),
+    "100px",
+    "minmax(0,1.2fr)",
+    "minmax(0,1fr)",
+    "minmax(0,0.9fr)",
+    "minmax(0,1.1fr)",
+    "minmax(0,1.1fr)",
+    ...(showPenaltyColumn ? ["minmax(0,0.95fr)"] : []),
+    ...(showStatusColumn ? ["minmax(0,1.1fr)"] : []),
+  ].join(" ");
 
   return (
-    <thead className={cn("bg-white", className)}>
-      <tr className="border-b border-slate-200">
+    <thead className={cn("block bg-white", className)}>
+      <tr
+        className="grid border-b border-slate-200"
+        style={{ gridTemplateColumns }}
+      >
         {!hideSelection ? (
           <th className={cn(thBase, "w-[44px]")}>
             <span className="sr-only">Pilih</span>
