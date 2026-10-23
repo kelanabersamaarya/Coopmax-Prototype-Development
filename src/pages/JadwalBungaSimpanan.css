@@ -18,7 +18,7 @@ table thead tr:first-child th .header-chevron {
   stroke-width: 2.5;
 }
 
-table thead tr:first-child th:last-child .header-chevron {
+table thead tr:first-child th:nth-child(8) .header-chevron {
   display: none;
 }
 
