@@ -1710,7 +1710,7 @@ export default function LoanInstallmentPaymentV2Table({
                         ) : (
                           <BillTotalsTitlesOnly
                             totalLabel={totalsLabel}
-                            totals={totals}
+                            totals={LOCKED_BILL_TOTALS}
                           />
                         )
                       ) : isBakiDebet ? (
