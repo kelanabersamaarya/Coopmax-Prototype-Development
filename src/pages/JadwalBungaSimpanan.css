@@ -31,14 +31,9 @@ table thead tr:first-child th {
 }
 
 @media (min-width: 768px) {
-  table {
-    min-width: 1500px;
-  }
-
   table th:nth-child(4),
   table td:nth-child(4) {
-    width: 720px;
-    min-width: 720px;
+    min-width: 630px;
   }
 
   table thead tr:first-child th:nth-child(4),
@@ -46,47 +41,42 @@ table thead tr:first-child th {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
-    column-gap: 20px;
-    white-space: nowrap;
+    column-gap: 16px;
   }
 
   table thead tr:first-child th:nth-child(4) {
-    font-size: 12px;
-    line-height: 1.35;
+    color: #002b68;
   }
 
   table thead tr:first-child th:nth-child(4)::before {
-    content: "";
+    content: "JADWAL BIAYA ADMIN BERIKUTNYA";
     display: block;
     grid-column: 2;
+    white-space: nowrap;
   }
 
   table thead tr:first-child th:nth-child(4)::after {
     content: "JADWAL BIAYA ADMIN M-BANKING BERIKUTNYA";
     display: block;
     grid-column: 3;
-    white-space: normal;
-  }
-
-  table tbody td:nth-child(4) {
-    min-height: 42px;
-    line-height: 1.5;
+    white-space: nowrap;
   }
 
   table tbody td:nth-child(4)::before {
     content: "21-11-2026 20:00:00";
     display: block;
     grid-column: 2;
+    white-space: nowrap;
   }
 
   table tbody td:nth-child(4)::after {
     content: "21-11-2026 20:00:00";
     display: block;
     grid-column: 3;
+    white-space: nowrap;
   }
 
   table thead tr:nth-child(2) th:nth-child(4) {
-    width: 720px;
-    min-width: 720px;
+    min-width: 630px;
   }
 }
