@@ -286,17 +286,10 @@ export default function BillingTableView2({
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
   const gridTemplateColumns = (() => {
-    const columns = hideSelection ? [] : ["minmax(24px,0.35fr)"];
-    columns.push(
-      "minmax(62px,0.8fr)",
-      "minmax(88px,1.2fr)",
-      "minmax(76px,1fr)",
-      "minmax(76px,1fr)",
-      "minmax(82px,1.1fr)",
-      "minmax(82px,1.1fr)",
-    );
-    if (showPenaltyColumn) columns.push("minmax(76px,0.95fr)");
-    if (showStatusColumn) columns.push("minmax(92px,1.1fr)");
+    const columns = hideSelection ? [] : ["44px"];
+    columns.push("minmax(0,1fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
+    if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
+    if (showStatusColumn) columns.push("minmax(0,1.1fr)");
     return columns.join(" ");
   })();
 
