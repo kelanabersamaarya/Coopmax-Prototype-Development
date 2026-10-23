@@ -41,15 +41,6 @@ table thead tr:nth-child(2) input::placeholder {
   opacity: 1;
 }
 
-.min-h-screen > div:first-child h1 {
-  font-size: 0;
-}
-
-.min-h-screen > div:first-child h1::after {
-  content: "Jadwal Bunga Simpanan dan Biaya Admin Otomatis";
-  display: inline-block;
-  font-size: 21px;
-}
 
 @media (min-width: 768px) {
   table {
