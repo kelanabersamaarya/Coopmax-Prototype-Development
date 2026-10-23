@@ -1,11 +1,19 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import JadwalBungaSimpanan from "./JadwalBungaSimpanan";
 
 export default function JadwalBungaSimpananEdit() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     sessionStorage.setItem("jadwal-bunga-edit", "true");
-    const addButton = Array.from(document.querySelectorAll("button")).find((button) => button.textContent?.includes("Tambah"));
-    addButton?.click();
+
+    const openEditForm = () => {
+      const addButton = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+        (button) => button.textContent?.trim().includes("Tambah"),
+      );
+      addButton?.click();
+    };
+
+    const frame = window.requestAnimationFrame(openEditForm);
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   return <JadwalBungaSimpanan />;
