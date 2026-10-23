@@ -73,12 +73,16 @@ export default function BillingStatusBadge({
       )}
       <span
         className="whitespace-normal text-left leading-tight"
-        style={{
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
-          WebkitLineClamp: 3,
-          overflow: "hidden",
-        }}
+        style={
+          displayStatus === "Lunas dengan Penghapusan"
+            ? undefined
+            : {
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 3,
+                overflow: "hidden",
+              }
+        }
       >
         {(statusLines[displayStatus.toUpperCase()] ?? [displayStatus.toUpperCase()]).map(
           (line) => (
