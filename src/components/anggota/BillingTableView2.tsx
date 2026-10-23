@@ -18,7 +18,6 @@ import {
   addedPenaltyItemId,
   getPenaltyAdds,
   getPenaltyCanceledItems,
-  isPenaltyCanceledForRow,
   parseIdrLikeToNumber,
   seedPenaltyItemId,
 } from "@/lib/penaltyOverridesStore";
@@ -27,7 +26,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { formatIdrLike, parseIdrLike } from "@/components/anggota/anggota-money";
+import { parseIdrLike } from "@/components/anggota/anggota-money";
 import type { BillingRow } from "@/domain/loans/types/billing";
 
 export type { BillingRow } from "@/domain/loans/types/billing";
@@ -123,7 +122,7 @@ function parseDmyToDate(value: string): Date | undefined {
   return d;
 }
 
-function formatIdrLike(n: number) {
+function formatRupiahValue(n: number) {
   const s = Math.round(n).toString();
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -134,7 +133,7 @@ function buildPenaltyDetailRows(dueDateDmy: string) {
   const rows: PenaltyDetailRow[] = Array.from({ length: PENALTY_DETAIL_DAYS }).map(
     (_v, i) => ({
       tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
-      nominalDenda: formatIdrLike(PENALTY_PER_DAY),
+      nominalDenda: formatRupiahValue(PENALTY_PER_DAY),
     }),
   );
 
@@ -185,7 +184,7 @@ function PenaltyIconButton({
 }
 
 function formatRupiah(v: string | number) {
-  return formatIdrLike(parseIdrLike(v));
+  return formatRupiahValue(parseIdrLike(v));
 }
 
 function buildSeedPenaltyDates(dueDateDmy: string) {
@@ -500,6 +499,7 @@ export default function BillingTableView2({
   );
 
   const totalColPad = "px-4";
+  const dataCellClass = "px-4";
 
   const grandRows = grandTotalRows ?? rows;
 
