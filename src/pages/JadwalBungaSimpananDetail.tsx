@@ -6,7 +6,6 @@ const fieldGroups = [
   {
     title: "KONFIGURASI PROSES BUNGA OTOMATIS",
     fields: [
-      ["Proses Bunga Otomatis", "ON"],
       ["Jenis Transaksi Proses Bunga Otomatis", "Transaksi Bunga Simpanan"],
       ["Periode Proses Bunga Otomatis", "Bulan Berlangsung"],
       ["Tanggal Proses Bunga Otomatis", "15"],
@@ -15,7 +14,6 @@ const fieldGroups = [
   {
     title: "KONFIGURASI PROSES BIAYA ADMIN OTOMATIS",
     fields: [
-      ["Proses Biaya Admin Otomatis", "ON"],
       ["Jenis Transaksi Biaya Admin Otomatis", "Transaksi Biaya Admin Simpanan"],
       ["Periode Proses Biaya Admin Otomatis", "Bulan Berikutnya"],
       ["Tanggal Proses Biaya Admin Otomatis", "20"],
@@ -24,8 +22,6 @@ const fieldGroups = [
   {
     title: "KONFIGURASI PROSES BIAYA ADMIN M-BANKING OTOMATIS",
     fields: [
-      ["Proses Biaya Admin M-Banking Otomatis", "ON"],
-      ["Hanya Tabungan Utama", "ON"],
       ["Jenis Transaksi Biaya Admin M-Banking Otomatis", "Transaksi Biaya Admin M-Banking"],
       ["Periode Proses Biaya Admin M-Banking Otomatis", "Bulan Berlangsung"],
       ["Tanggal Proses Biaya Admin M-Banking Otomatis", "25"],
@@ -34,7 +30,7 @@ const fieldGroups = [
 ];
 
 function StatusValue({ value }: { value: string }) {
-  return <span className={`inline-flex rounded-[5px] px-2.5 py-1 text-xs font-bold ${value === "ON" ? "bg-[#21ad05] text-white" : "text-[#17243d]"}`}>{value}</span>;
+  return <span className="inline-flex rounded-[5px] px-2.5 py-1 text-xs font-bold text-[#17243d]">{value}</span>;
 }
 
 export default function JadwalBungaSimpananDetail() {
