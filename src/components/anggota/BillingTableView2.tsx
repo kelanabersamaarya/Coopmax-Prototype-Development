@@ -631,7 +631,7 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[1242px] table-fixed border-separate border-spacing-0 text-[13px]">
+        <table className="w-full min-w-[1160px] table-fixed border-separate border-spacing-0 text-[13px]">
           <colgroup>
             {!hideSelection ? <col className="w-[44px]" /> : null}
             <col className="w-[120px]" />

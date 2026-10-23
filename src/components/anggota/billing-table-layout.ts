@@ -6,7 +6,7 @@ export const BILLING_COLUMN_WIDTHS = {
   status: "170px",
 } as const;
 
-export const BILLING_TABLE_MIN_WIDTH = "1242px";
+export const BILLING_TABLE_MIN_WIDTH = "1160px";
 
 export function getBillingGridTemplateColumns({
   hideSelection,
