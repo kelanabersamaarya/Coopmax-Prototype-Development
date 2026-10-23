@@ -360,12 +360,9 @@ export default function TransaksiAnggotaView2({
   const disableRowChrome = !isPenurunanBakiDebetMode;
 
   const compactTableWrap = cn(
-    "min-w-0",
     "[&_.bg-white.px-3.py-3]:!py-1.5",
     "[&_.px-4.py-4]:!py-2",
     "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
-    "[&_table]:text-[11px] [&_th]:!w-auto [&_th]:px-1 [&_td]:px-1",
-    "[&_th]:leading-[1.05] [&_td]:whitespace-nowrap",
   );
 
   return (

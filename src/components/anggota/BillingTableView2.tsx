@@ -651,10 +651,10 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          "w-full overflow-hidden rounded-[5px] border border-slate-200 bg-white",
+          "overflow-x-auto rounded-[5px] border border-slate-200 bg-white",
         )}
       >
-        <table className="w-full table-fixed border-collapse text-[13px]">
+        <table className="w-full min-w-[1040px] border-collapse text-[13px]">
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
@@ -976,7 +976,7 @@ export default function BillingTableView2({
           </tbody>
         </table>
 
-        <div className="w-full border-t border-slate-200 bg-white">
+        <div className="min-w-[1040px] border-t border-slate-200 bg-white">
           <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
           <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
         </div>
