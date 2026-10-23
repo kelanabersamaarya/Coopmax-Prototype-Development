@@ -1,3 +1,4 @@
-.monitoring-table th {
+.monitoring-table th,
+#monitoring-proses-kolektif ~ div table th {
   text-align: left !important;
 }
