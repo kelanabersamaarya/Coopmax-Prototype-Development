@@ -3,6 +3,7 @@ import { Eye, RefreshCw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MonitoringDetailModal } from "@/components/MonitoringDetailModal";
+import "@/components/MonitoringTables.css";
 
 export type MonitoringRow = { date: string; product: string; period: string; percentage: number; processed: number; shouldProcess: number; processedNominal: string; shouldNominal: string };
 const savingsRows: MonitoringRow[] = [

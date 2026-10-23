@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import type { MonitoringRow } from "@/pages/MonitoringBungaSimpanan";
+import "./MonitoringTables.css";
 
 type MonitoringDetailModalProps = {
   row: MonitoringRow;
@@ -8,7 +9,7 @@ type MonitoringDetailModalProps = {
 
 export function MonitoringDetailModal({ row, onClose }: MonitoringDetailModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#101828]/75 p-2 pt-5 md:p-5" role="dialog" aria-modal="true" aria-labelledby="monitoring-detail-title">
+    <div className="monitoring-table fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#101828]/75 p-2 pt-5 md:p-5" role="dialog" aria-modal="true" aria-labelledby="monitoring-detail-title">
       <div className="w-full max-w-[1176px] overflow-hidden rounded-[18px] bg-white text-[#26334a] shadow-2xl">
         <div className="flex items-center justify-between border-b border-[#d7deea] px-6 py-5">
           <h2 id="monitoring-detail-title" className="text-[19px] font-bold">Detail Monitoring Bunga Simpanan</h2>
