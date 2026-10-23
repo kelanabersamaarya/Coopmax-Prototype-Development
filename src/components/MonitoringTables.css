@@ -15,9 +15,16 @@
 }
 
 .monitoring-table thead tr:nth-child(2) th,
-.monitoring-table tbody td {
+.monitoring-table tbody td,
+#monitoring-proses-kolektif ~ div table thead tr:nth-child(2) th {
   padding-left: 4px !important;
   padding-right: 4px !important;
+}
+
+#monitoring-proses-kolektif ~ div table thead tr:nth-child(2) th {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  vertical-align: middle;
 }
 
 .monitoring-table thead tr:nth-child(2) input {
