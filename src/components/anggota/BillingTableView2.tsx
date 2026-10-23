@@ -973,8 +973,8 @@ export default function BillingTableView2({
         </table>
 
         <div className="border-t border-slate-200 bg-white">
-          <TotalRow label="Total per Halaman" values={pageTotals} />
-          <TotalRow label="Total" values={grandTotals} />
+          <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
+          <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
         </div>
 
         <div className="sr-only">
