@@ -1,4 +1,4 @@
-import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
+import { List, SquarePen, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./JadwalBungaSimpananDetail.css";
 
@@ -41,10 +41,10 @@ export default function JadwalBungaSimpananDetail() {
   return <main className="min-h-screen bg-[#f4f6fd] px-2 py-8 text-[#17243d] md:px-3 lg:px-4">
     <header className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
       <div className="flex items-baseline gap-2"><h1 className="text-[25px] font-bold text-[#071f55]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[16px]">Detail</span></div>
-      <div className="flex flex-wrap items-center gap-7 text-[13px] font-semibold text-[#243c61]">
-        <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-2"><ArrowLeft className="h-5 w-5" />Kembali ke Daftar</button>
-        <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-2"><Pencil className="h-5 w-5" />Ubah</button>
-        <button type="button" className="flex items-center gap-2"><Trash2 className="h-5 w-5" />Hapus</button>
+      <div className="flex flex-wrap items-center gap-8 text-[16px] font-normal text-[#506587]">
+        <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><List className="h-5 w-5 stroke-[3]" />Daftar</button>
+        <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><SquarePen className="h-5 w-5 stroke-[2.5]" />Ubah</button>
+        <button type="button" className="flex items-center gap-3"><Trash2 className="h-5 w-5 fill-[#506587] stroke-[#506587]" />Hapus</button>
       </div>
     </header>
     <section className="mt-8 w-full rounded-[22px] border border-[#e1e7f0] bg-white px-5 pb-5 pt-2 shadow-[0_2px_7px_rgba(34,55,90,0.04)] md:px-7 md:pb-7 md:pt-2">
