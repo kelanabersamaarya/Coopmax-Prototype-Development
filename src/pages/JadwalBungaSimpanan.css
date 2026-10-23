@@ -14,10 +14,10 @@
   white-space: nowrap;
 }
 
-button.bg-white,
-button.bg-white:hover,
-button.bg-white:focus,
-button.bg-white:active {
+button.add-schedule-button,
+button.add-schedule-button:hover,
+button.add-schedule-button:focus,
+button.add-schedule-button:active {
   background-color: #ffffff !important;
   color: #38547c !important;
   box-shadow: none !important;
