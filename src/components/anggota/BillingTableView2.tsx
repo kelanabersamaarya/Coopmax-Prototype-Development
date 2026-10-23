@@ -631,7 +631,7 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[1242px] table-fixed border-separate border-spacing-0 text-[13px]">
+        <table className="w-full min-w-[1158px] table-fixed border-separate border-spacing-0 text-[13px]">
           <colgroup>
             {!hideSelection ? <col className="w-[44px]" /> : null}
             <col className="w-[120px]" />
@@ -642,7 +642,7 @@ export default function BillingTableView2({
             <col className="w-[128px]" />
             {showPenaltyColumn ? <col className="w-[128px]" /> : null}
             {showPenaltyColumn ? <col className="w-[56px]" /> : null}
-            {showStatusColumn ? <col className="min-w-[170px]" /> : null}
+            {showStatusColumn ? <col className="w-[140px]" /> : null}
           </colgroup>
           <BillingTableHeader
             hideSelection={hideSelection}
