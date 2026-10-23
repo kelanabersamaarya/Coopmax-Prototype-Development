@@ -87,9 +87,24 @@ function buildPenaltyDetailRows(dueDateDmy: string): PenaltyDetailRow[] {
   }));
 }
 
+function TableColumns() {
+  return (
+    <colgroup>
+      <col className="w-[10%]" />
+      <col className="w-[14%]" />
+      <col className="w-[12%]" />
+      <col className="w-[11%]" />
+      <col className="w-[14%]" />
+      <col className="w-[14%]" />
+      <col className="w-[12%]" />
+      <col className="w-[13%]" />
+    </colgroup>
+  );
+}
+
 function RightNum({ value }: { value: string }) {
   return (
-    <NumericCell align="right" className="w-full">
+    <NumericCell align="right" className="w-full whitespace-nowrap">
       {value}
     </NumericCell>
   );
@@ -117,7 +132,7 @@ function PenaltyIconButton({
             onClick();
           }}
           className={cn(
-            "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+            "inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
             "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
             "transition hover:bg-[#1d4ed8]",
             "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
@@ -191,36 +206,29 @@ function RowCells({
 
   return (
     <>
-      <td className="w-[100px] px-2 py-2 text-[13px] font-normal tabular-nums text-slate-900 whitespace-nowrap">
-        {row.jatuhTempo}
+      <td className="px-3 py-3 text-left text-[13px] font-normal tabular-nums text-slate-900">
+        <span className="whitespace-nowrap">{row.jatuhTempo}</span>
       </td>
-
-      <td className="w-[116px] px-2 py-2 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
+      <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
         <RightNum value={row.totalBelumDibayar} />
       </td>
-
-      <td className="w-[118px] px-2 py-2 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
+      <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
         <RightNum value={hasBasePenalty ? "0,00" : row.tagihanPokok} />
       </td>
-
-      <td className="w-[108px] px-2 py-2 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
+      <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
         <RightNum value={row.tagihanBunga} />
       </td>
-
-      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
+      <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
         <RightNum value={hasBasePenalty ? "0,00" : row.sisaPokok} />
       </td>
-
-      <td className="w-[126px] px-2 py-2 pr-3 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
+      <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
         <RightNum value={row.sisaBunga} />
       </td>
-
-      <td className="w-[130px] px-4 py-2 pr-1 text-right text-[13px] font-normal text-slate-900 whitespace-nowrap">
+      <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
         <div className="flex items-center justify-end gap-2">
           {penaltyTotal > 0 ? (
-            <span className="num-sans-tabular">{formatIdrLike(penaltyTotal)}</span>
+            <span className="whitespace-nowrap tabular-nums">{formatIdrLike(penaltyTotal)}</span>
           ) : null}
-
           {hasBasePenalty || hasManualPenalty ? (
             <PenaltyIconButton
               icon="eye"
@@ -236,8 +244,7 @@ function RowCells({
           )}
         </div>
       </td>
-
-      <td className="w-[145px] px-4 py-2 text-left">
+      <td className="px-3 py-3 text-left text-[13px] text-slate-900">
         <BillingStatusBadge status={status} />
       </td>
     </>
@@ -258,14 +265,12 @@ export default function DaftarTagihanSecondStyleTable({
     rowIndex: number;
     dueDateDmy: string;
   } | null>(null);
-
   const [detailOpen, setDetailOpen] = React.useState(false);
   const [detailRows, setDetailRows] = React.useState<PenaltyDetailRow[]>([]);
   const [detailContext, setDetailContext] = React.useState<{
     rowIndex: number;
     dueDateDmy: string;
   } | null>(null);
-
   const [localAdds, setLocalAdds] = React.useState<
     Record<string, Array<{ amountIdrLike: string; addDateDmy: string; reason: string }>>
   >({});
@@ -286,7 +291,6 @@ export default function DaftarTagihanSecondStyleTable({
 
   function handleDetailOpenChange(open: boolean) {
     setDetailOpen(open);
-
     if (!open) {
       setRefreshTick((value) => value + 1);
       setDetailContext(null);
@@ -308,7 +312,6 @@ export default function DaftarTagihanSecondStyleTable({
         }}
         onConfirm={(reason, date, nominalDenda) => {
           if (!addTarget) return;
-
           if (contextKey) {
             addPenaltyOverride(contextKey, {
               dueDateDmy: addTarget.dueDateDmy,
@@ -328,7 +331,6 @@ export default function DaftarTagihanSecondStyleTable({
               ],
             }));
           }
-
           setRefreshTick((value) => value + 1);
         }}
       />
@@ -342,29 +344,26 @@ export default function DaftarTagihanSecondStyleTable({
         rowIndexGlobal={detailContext?.rowIndex}
       />
 
-      <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-        <table className="w-full border-collapse text-[13px]">
-          <BillingTableHeader
-            hideSelection
-            showPenaltyColumn
-            showStatusColumn
-          />
-
+      <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
+        <table className="w-full table-fixed border-collapse text-[13px]">
+          <TableColumns />
+          <BillingTableHeader hideSelection showPenaltyColumn showStatusColumn />
           <tbody className="bg-white">
             {graceRows.length > 0 ? (
               <tr className="border-t border-slate-200">
                 <td colSpan={colCount} className="p-0">
                   <div className="bg-white p-0">
-                    <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
+                    <div className="overflow-hidden rounded-[8px] border-2 border-blue-600/70 bg-white">
                       <div className="p-1">
-                        <table className="w-full border-collapse text-[13px]">
+                        <table className="w-full table-fixed border-collapse text-[13px]">
+                          <TableColumns />
                           <tbody>
                             <GracePeriodInfoRow colSpan={colCount} noBorder />
                           </tbody>
                         </table>
                       </div>
-
-                      <table className="w-full border-collapse text-[13px]">
+                      <table className="w-full table-fixed border-collapse text-[13px]">
+                        <TableColumns />
                         <tbody className="bg-white">
                           {graceRows.map((row, index) => (
                             <tr
@@ -388,7 +387,6 @@ export default function DaftarTagihanSecondStyleTable({
                 </td>
               </tr>
             ) : null}
-
             {restRows.map((row, index) => {
               const rowIndex = index + graceRows.length;
               return (
@@ -409,7 +407,6 @@ export default function DaftarTagihanSecondStyleTable({
             })}
           </tbody>
         </table>
-
         <div className="sr-only">
           {Object.keys(localAdds).length}
           {refreshTick}

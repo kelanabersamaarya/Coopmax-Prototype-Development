@@ -429,10 +429,11 @@ export default function DaftarTagihanDialog({
               <div>
                 <NextBillInfoBannerLikeReference />
 
-                <div className="mt-4">
+                <div className="mt-4 overflow-x-auto rounded-[10px]">
                   <DaftarTagihanSecondStyleTable
                     rows={rows}
                     contextKey={contextKey}
+                    className="min-w-[980px]"
                   />
                 </div>
               </div>
