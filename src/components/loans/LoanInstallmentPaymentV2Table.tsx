@@ -1211,9 +1211,11 @@ function PaymentInputBlock({
 
 function TransactionStatusBadge() {
   return (
-    <div>
-      <div className="text-[12px] font-normal text-slate-900">Status Transaksi</div>
-      <div className="mt-2">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
+      <div className="text-[12px] font-normal leading-tight text-slate-900">
+        Status Transaksi
+      </div>
+      <div>
         <span className="inline-flex items-center rounded-[5px] bg-[#DC3545] px-3 py-1 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">
           Belum diproses
         </span>
