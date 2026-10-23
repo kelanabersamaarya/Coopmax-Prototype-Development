@@ -21,6 +21,15 @@ table thead tr:first-child th {
   box-shadow: none !important;
 }
 
+.min-h-screen button.bg-\[\#8292ae\] {
+  font-size: 0;
+}
+
+.min-h-screen button.bg-\[\#8292ae\]::after {
+  content: "Batal";
+  font-size: 14px;
+}
+
 .min-h-screen button.bg-\[\#18ad00\]:hover {
   background-color: #18ad00 !important;
 }
