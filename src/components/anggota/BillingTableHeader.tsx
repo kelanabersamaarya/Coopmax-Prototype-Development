@@ -17,9 +17,8 @@ export default function BillingTableHeader({
   className?: string;
 }) {
   const thBase =
-    "px-2 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
-  const thRight =
-    "px-2 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
+    "px-4 py-3 text-left align-bottom text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
+  const thRight = thBase;
 
   return (
     <thead className={cn("bg-white", className)}>
@@ -36,38 +35,38 @@ export default function BillingTableHeader({
           Tempo
         </th>
 
-        <th className={cn(thRight, "w-[140px]", "text-right")}>
+        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
           Total Tagihan
           <br />
           Belum Dibayar
         </th>
 
-        <th className={cn(thRight, "w-[118px]")}>
+        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
           Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[108px]")}>
+        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
           Tagihan
           <br />
           Bunga
         </th>
 
-        <th className={cn(thRight, "w-[126px]")}>
+        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
           Sisa Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[126px]")}>
+        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
           Sisa Tagihan
           <br />
           Bunga
         </th>
 
         {showPenaltyColumn ? (
-          <th className={cn(thRight, "w-[120px]")}>
+          <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
             Tagihan
             <br />
             Denda
@@ -75,13 +74,13 @@ export default function BillingTableHeader({
         ) : null}
 
         {showActionColumn ? (
-          <th className="w-[48px] px-2 py-3 text-left align-bottom text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
+          <th className="w-[56px] min-w-[56px] max-w-[56px] px-4 py-3 text-left align-bottom text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
             <span className="sr-only">Aksi</span>
           </th>
         ) : null}
 
         {showStatusColumn ? (
-          <th className={cn(thBase, "w-[120px] whitespace-nowrap")}>Status Tagihan</th>
+          <th className={cn(thBase, "min-w-[170px] whitespace-nowrap")}>Status Tagihan</th>
         ) : null}
       </tr>
     </thead>

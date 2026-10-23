@@ -11,6 +11,7 @@ import PenaltyDetailDialog, {
 } from "@/components/anggota/PenaltyDetailDialog";
 import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
+import { getBillingGridTemplateColumns } from "@/components/anggota/billing-table-layout";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import {
   addPenaltyOverride,
@@ -55,7 +56,7 @@ function RowShell({
   return (
     <div
       className={cn(
-        "bg-white px-3",
+        "bg-white px-0",
         compact ? "py-1.5" : density === "roomy" ? "py-4" : "py-3",
       )}
     >
@@ -183,10 +184,8 @@ function PenaltyIconButton({
   );
 }
 
-function toIdr00(v: string) {
-  const s = (v ?? "").trim();
-  if (s === "" || s === "0" || s === "0,00" || s === "0.00") return "0,00";
-  return s;
+function formatRupiah(v: string | number) {
+  return formatIdrLike(parseIdrLike(v));
 }
 
 function buildSeedPenaltyDates(dueDateDmy: string) {
@@ -285,13 +284,11 @@ export default function BillingTableView2({
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
-  const gridTemplateColumns = (() => {
-    const columns = hideSelection ? [] : ["44px"];
-    columns.push("120px", "140px", "118px", "108px", "126px", "126px");
-    if (showPenaltyColumn) columns.push("120px", "48px");
-    if (showStatusColumn) columns.push("120px");
-    return columns.join(" ");
-  })();
+  const gridTemplateColumns = getBillingGridTemplateColumns({
+    hideSelection,
+    showPenaltyColumn,
+    showStatusColumn,
+  });
 
   const isCompact = hideSelection;
 
@@ -309,7 +306,7 @@ export default function BillingTableView2({
     : effectiveDensity;
 
   const dateTextClass =
-    "text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+    "text-left text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
     "text-right text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
@@ -422,7 +419,7 @@ export default function BillingTableView2({
         <>
           <div className={cn("px-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
-              {formatIdrLike(total)}
+              {formatRupiah(total)}
             </span>
           </div>
           <div className={cn("flex items-center justify-center px-2", cellY)}>
@@ -443,7 +440,7 @@ export default function BillingTableView2({
         <>
           <div className={cn("px-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
-              {hasManualActive && total > 0 ? formatIdrLike(total) : "0,00"}
+              {hasManualActive && total > 0 ? formatRupiah(total) : "0"}
             </span>
           </div>
           <div className={cn("flex items-center justify-center px-2", cellY)}>
@@ -465,23 +462,23 @@ export default function BillingTableView2({
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
-    if (rowIndex === 2) return "0,00";
-    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
-    return toIdr00(raw);
+    if (rowIndex === 2) return "0";
+    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    return formatRupiah(raw);
   }
 
   function displaySisaPokok(rowIndex: number, raw: string) {
-    if (rowIndex === 2) return "0,00";
-    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
-    return toIdr00(raw);
+    if (rowIndex === 2) return "0";
+    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    return formatRupiah(raw);
   }
 
   function displayTagihanBunga(rowIndex: number, raw: string) {
-    return rowIndex === 2 ? "0,00" : raw;
+    return rowIndex === 2 ? "0" : formatRupiah(raw);
   }
 
   function displaySisaBunga(rowIndex: number, raw: string) {
-    return rowIndex === 2 ? "0,00" : raw;
+    return rowIndex === 2 ? "0" : formatRupiah(raw);
   }
 
   function statusForRow(row: BillingRow, rowIndex: number) {
@@ -502,7 +499,7 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const totalColPad = "pl-3 pr-6";
+  const totalColPad = "px-4";
 
   const grandRows = grandTotalRows ?? rows;
 
@@ -567,42 +564,21 @@ export default function BillingTableView2({
       denda: number;
     };
   }) {
+    const totalCellClass = "px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
     return (
-      <div
-        className="grid items-center gap-0 border-t border-slate-300 bg-white"
-        style={{ gridTemplateColumns }}
-      >
-        <div
-          className={cn(
-            "px-4 py-2 text-left text-[13px] font-bold text-slate-800",
-            hideSelection ? "col-span-1" : "col-span-2",
-          )}
-        >
+      <tr className="border-t border-slate-300 bg-white">
+        <td colSpan={hideSelection ? 1 : 2} className="px-4 py-2 text-left text-[13px] font-bold text-slate-800 whitespace-nowrap">
           {label}
-        </div>
-        <div className={cn(totalColPad, "py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800")}>
-          {formatIdrLike(values.totalBelumDibayar)}
-        </div>
-        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
-          {formatIdrLike(values.tagihanPokok)}
-        </div>
-        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
-          {formatIdrLike(values.tagihanBunga)}
-        </div>
-        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
-          {formatIdrLike(values.sisaPokok)}
-        </div>
-        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
-          {formatIdrLike(values.sisaBunga)}
-        </div>
-        {showPenaltyColumn ? (
-          <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
-            {formatIdrLike(values.denda)}
-          </div>
-        ) : null}
-        {showPenaltyColumn ? <div /> : null}
-        {showStatusColumn ? <div /> : null}
-      </div>
+        </td>
+        <td className={totalCellClass}>{formatRupiah(values.totalBelumDibayar)}</td>
+        <td className={totalCellClass}>{formatRupiah(values.tagihanPokok)}</td>
+        <td className={totalCellClass}>{formatRupiah(values.tagihanBunga)}</td>
+        <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
+        <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
+        {showPenaltyColumn ? <td className={totalCellClass}>{formatRupiah(values.denda)}</td> : null}
+        {showPenaltyColumn ? <td className="px-4 py-2" /> : null}
+        {showStatusColumn ? <td className="px-4 py-2" /> : null}
+      </tr>
     );
   }
 
@@ -655,7 +631,19 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-slate-200 bg-white",
         )}
       >
-        <table className="w-full min-w-[1040px] table-fixed border-collapse text-[13px]">
+        <table className="w-full min-w-[1242px] table-fixed border-separate border-spacing-0 text-[13px]">
+          <colgroup>
+            {!hideSelection ? <col className="w-[44px]" /> : null}
+            <col className="w-[120px]" />
+            <col className="w-[128px]" />
+            <col className="w-[128px]" />
+            <col className="w-[128px]" />
+            <col className="w-[128px]" />
+            <col className="w-[128px]" />
+            {showPenaltyColumn ? <col className="w-[128px]" /> : null}
+            {showPenaltyColumn ? <col className="w-[56px]" /> : null}
+            {showStatusColumn ? <col className="min-w-[170px]" /> : null}
+          </colgroup>
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
@@ -669,7 +657,7 @@ export default function BillingTableView2({
                 <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-0">
-                      <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
+                      <div className="overflow-hidden rounded-[5px] bg-white shadow-[inset_0_0_0_2px_rgb(37_99_235_/_70%)]">
                         {shouldShowGraceInfoRow ? (
                           <div className="p-1">
                             <table className="w-full border-collapse text-[13px]">
@@ -736,28 +724,28 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn(totalColPad, cellY, numberTextClass)}>
-                                    <RightNum value={r.totalBelumDibayar} />
+                                    <RightNum value={formatRupiah(r.totalBelumDibayar)} />
                                   </div>
 
-                                  <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                                    <RightNum
-                                      value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
-                                    />
-                                  </div>
+                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                   <RightNum
+                                     value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
+                                   />
+                                 </div>
 
-                                  <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                                    <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
-                                  </div>
+                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                   <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
+                                 </div>
 
-                                  <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                                    <RightNum
-                                      value={displaySisaPokok(rowIndex, r.sisaPokok)}
-                                    />
-                                  </div>
+                                 <div className={cn("px-4", cellY, numberTextClass)}>
+                                   <RightNum
+                                     value={displaySisaPokok(rowIndex, r.sisaPokok)}
+                                   />
+                                 </div>
 
-                                  <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                                    <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
-                                  </div>
+                                 <div className={cn("px-4", cellY, numberTextClass)}>
+                                   <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
+                                 </div>
 
                                   {showPenaltyColumn ? (
                                     <PenaltyCell
@@ -768,8 +756,8 @@ export default function BillingTableView2({
                                   ) : null}
 
                                   {showStatusColumn ? (
-                                    <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
-                                      <BillingStatusBadge
+                                    <div className={cn("px-4 text-left", cellY)}>
+                                    <BillingStatusBadge
                                         status={statusForRow(r, rowIndex)}
                                         variant={statusBadgeVariant}
                                       />
@@ -833,24 +821,24 @@ export default function BillingTableView2({
                             <div className={cn("px-4", cellY, dateTextClass)}>{r.jatuhTempo}</div>
 
                             <div className={cn(totalColPad, cellY, numberTextClass)}>
-                              <RightNum value={r.totalBelumDibayar} />
+                              <RightNum value={formatRupiah(r.totalBelumDibayar)} />
                             </div>
 
-                            <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                              <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
-                            </div>
+                            <div className={cn(dataCellClass, cellY, numberTextClass)}>
+                             <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
+                           </div>
 
-                            <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                              <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
-                            </div>
+                           <div className={cn("px-4", cellY, numberTextClass)}>
+                             <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
+                           </div>
 
-                            <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                              <RightNum value={displaySisaPokok(rowIndex, r.sisaPokok)} />
-                            </div>
+                           <div className={cn("px-4", cellY, numberTextClass)}>
+                             <RightNum value={displaySisaPokok(rowIndex, r.sisaPokok)} />
+                           </div>
 
-                            <div className={cn("pl-4 pr-10", cellY, numberTextClass)}>
-                              <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
-                            </div>
+                           <div className={cn("px-4", cellY, numberTextClass)}>
+                             <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
+                           </div>
 
                             {showPenaltyColumn ? (
                               <PenaltyCell
@@ -861,7 +849,7 @@ export default function BillingTableView2({
                             ) : null}
 
                             {showStatusColumn ? (
-                              <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
+                              <div className={cn("px-4 text-left", cellY)}>
                                 <BillingStatusBadge
                                   status={statusForRow(r, rowIndex)}
                                   variant={statusBadgeVariant}
@@ -931,24 +919,24 @@ export default function BillingTableView2({
                               <div className={cn("px-4", cellY, dateTextClass)}>{r.jatuhTempo}</div>
 
                               <div className={cn(totalColPad, cellY, numberTextClass)}>
-                                <RightNum value={r.totalBelumDibayar} />
+                                <RightNum value={formatRupiah(r.totalBelumDibayar)} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum value={toIdr00(r.tagihanPokok)} />
+                                <RightNum value={formatRupiah(r.tagihanPokok)} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum value={toIdr00(r.tagihanBunga)} />
+                                <RightNum value={formatRupiah(r.tagihanBunga)} />
                               </div>
 
-                              <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                                <RightNum value={toIdr00(r.sisaPokok)} />
-                              </div>
-
-                              <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                                <RightNum value={toIdr00(r.sisaBunga)} />
-                              </div>
+                              <div className={cn("px-4", cellY, numberTextClass)}>
+                                 <RightNum value={formatRupiah(r.sisaPokok)} />
+                               </div>
+ 
+                               <div className={cn("px-4", cellY, numberTextClass)}>
+                                 <RightNum value={formatRupiah(r.sisaBunga)} />
+                               </div>
 
                               {showPenaltyColumn ? (
                                 <PenaltyCell
@@ -959,7 +947,7 @@ export default function BillingTableView2({
                               ) : null}
 
                               {showStatusColumn ? (
-                                <div className={cn("-ml-2 pl-1 pr-8", cellY)}>
+                                <div className={cn("px-4 text-left", cellY)}>
                                   <BillingStatusBadge
                                     status={statusForRow(r, idx)}
                                     variant={statusBadgeVariant}
@@ -976,12 +964,11 @@ export default function BillingTableView2({
               </>
             )}
           </tbody>
+          <tfoot>
+            <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
+            <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
+          </tfoot>
         </table>
-
-        <div className="min-w-[1040px] border-t border-slate-200 bg-white">
-          <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
-          <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
-        </div>
 
         <div className="sr-only">
           <NumericCell>0</NumericCell>
