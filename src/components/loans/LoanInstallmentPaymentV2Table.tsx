@@ -1559,9 +1559,9 @@ export default function LoanInstallmentPaymentV2Table({
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
           <col style={{ width: 20 }} />
-          <col style={{ width: 70, minWidth: 70, maxWidth: 70 }} />
-          <col style={{ width: `calc((100% - 220px) * 0.42)` }} />
-          <col style={{ width: 120, minWidth: 120, maxWidth: 120 }} />
+          <col style={{ width: 100, minWidth: 100, maxWidth: 100 }} />
+          <col style={{ width: `calc((100% - 250px) * 0.42)` }} />
+          <col style={{ width: 90, minWidth: 90, maxWidth: 90 }} />
           <col style={{ width: 30, minWidth: 30, maxWidth: 30 }} />
         </colgroup>
 
