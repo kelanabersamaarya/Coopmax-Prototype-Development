@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import "./JadwalBungaSimpanan.css";
 
-function Eye({ className = "" }: { className?: string }) { return <EyeIcon className={`h-[18px] w-[18px] text-[#7d8da9] ${className}`} strokeWidth={2.5} />; }
+function Eye({ className = "", onClick }: { className?: string; onClick?: () => void }) { return <button type="button" aria-label="Lihat detail jadwal" onClick={onClick ?? (() => { window.location.href = "/anggota/simpanan/jadwal-bunga-admin-otomatis/detail"; })}><EyeIcon className={`h-[18px] w-[18px] text-[#7d8da9] ${className}`} strokeWidth={2.5} /></button>; }
 function Pencil({ className = "", onClick }: { className?: string; onClick?: () => void }) { return <button type="button" aria-label="Ubah jadwal" onClick={onClick}><SquarePen className={`h-[18px] w-[18px] text-[#3568ed] ${className}`} strokeWidth={2.5} /></button>; }
 function CircleX({ className = "" }: { className?: string }) { return <span className={`flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#df3043] text-white ${className}`}><XIcon className="h-[12px] w-[12px]" strokeWidth={3.5} /></span>; }
 

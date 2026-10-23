@@ -97,6 +97,7 @@ import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
 import SakAkunting from "./pages/SakAkunting";
 import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 import JadwalBungaSimpanan from "./pages/JadwalBungaSimpanan";
+import JadwalBungaSimpananDetail from "./pages/JadwalBungaSimpananDetail";
 import MonitoringBungaSimpanan from "./pages/MonitoringBungaSimpanan";
 
 const queryClient = new QueryClient();
@@ -118,9 +119,13 @@ const App = () => (
             <Route path="astiti-dana-lestari/simpanan/rekening" element={<AstitiRekeningTabungan />} />
             <Route path="anggota/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />
             <Route
-              path="anggota/simpanan/jadwal-bunga-admin-otomatis"
-              element={<JadwalBungaSimpanan />}
-            />
+                          path="anggota/simpanan/jadwal-bunga-admin-otomatis"
+                          element={<JadwalBungaSimpanan />}
+                        />
+                        <Route
+                          path="anggota/simpanan/jadwal-bunga-admin-otomatis/detail"
+                          element={<JadwalBungaSimpananDetail />}
+                        />
             <Route
               path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
               element={<MonitoringBungaSimpanan />}
