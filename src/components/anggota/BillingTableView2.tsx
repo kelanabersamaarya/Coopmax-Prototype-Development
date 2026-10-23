@@ -218,6 +218,7 @@ export default function BillingTableView2({
   className,
   contextKey,
   grandTotalRows,
+  showPageTotal = false,
   tableFooter,
 }: {
   rows: BillingRow[];
@@ -243,6 +244,7 @@ export default function BillingTableView2({
   className?: string;
   contextKey?: string;
   grandTotalRows?: BillingRow[];
+  showPageTotal?: boolean;
   tableFooter?: React.ReactNode;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -968,6 +970,9 @@ export default function BillingTableView2({
             )}
           </tbody>
           <tfoot>
+            {showPageTotal ? (
+              <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
+            ) : null}
             <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
             {tableFooter ? (
               <tr>

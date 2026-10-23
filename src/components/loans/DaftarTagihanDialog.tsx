@@ -468,6 +468,7 @@ export default function DaftarTagihanDialog({
                     penaltyIndexOffset={(page - 1) * pageSize}
                     className="mt-0"
                     contextKey={contextKey}
+                    showPageTotal={normalizedAccountNo === "09260003"}
                     tableFooter={
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div className="text-[14px] text-slate-900">
