@@ -1002,7 +1002,7 @@ function PaymentTextInput({
 }) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
-      <div className="text-[12px] font-normal leading-tight text-slate-900">
+      <div className="whitespace-nowrap text-[12px] font-normal leading-tight text-slate-900">
         {label} :
       </div>
 
