@@ -43,7 +43,7 @@ export default function JadwalBungaSimpananDetail() {
       <div className="flex items-baseline gap-2"><h1 className="text-[25px] font-bold text-[#071f55]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[16px]">Detail</span></div>
       <div className="flex w-full justify-end">
         <div className="flex flex-wrap items-center gap-8 text-[16px] font-normal text-[#506587]">
-          <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><List className="h-5 w-5 stroke-[3]" />Daftar</button>
+          <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><List className="h-5 w-5 stroke-[3]" />Kembali ke Daftar</button>
           <button type="button" onClick={() => navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis")} className="flex items-center gap-3"><SquarePen className="h-5 w-5 stroke-[2.5]" />Ubah</button>
           <button type="button" className="flex items-center gap-3"><Trash className="h-5 w-5 stroke-[#506587]" />Hapus</button>
         </div>
