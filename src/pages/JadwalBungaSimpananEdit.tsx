@@ -32,7 +32,7 @@ function CustomSelect({ options, searchable = true }: { options: string[]; searc
       <span>{value || placeholder}</span><ChevronDown className={`h-4 w-4 text-[#7b8ba5] transition-transform ${open ? "rotate-180" : ""}`} />
     </button>
     {open && <div className="absolute left-0 right-0 top-[43px] z-30 border border-[#c9d4e5] bg-white p-1 shadow-[0_4px_10px_rgba(25,50,90,0.12)]">
-      {searchable && <input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari produk simpanan" className="mb-1 h-8 w-full rounded-[2px] border border-[#17243d] px-2 text-[13px] text-[#173b79] outline-none" />}
+      {searchable && <input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="" aria-label="Cari pilihan" className="mb-1 h-8 w-full rounded-[2px] border border-[#17243d] px-2 text-[13px] text-[#173b79] outline-none" />}
       <div className="max-h-[210px] overflow-y-auto">{filteredOptions.map((option) => <button type="button" key={option} onClick={() => { setValue(option); setOpen(false); setSearch(""); }} className="block w-full px-2 py-1.5 text-left text-[13px] text-[#003b83] hover:bg-[#635bff] hover:text-white">{option}</button>)}</div>
     </div>}
   </div>;
