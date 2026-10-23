@@ -9,7 +9,7 @@ const periodOptions = ["Pilih Periode Proses", "Bulan Berikutnya", "Bulan Berlan
 const dateOptions = ["Pilih Tanggal Proses", "01", "21", "Akhir Bulan"];
 const timeOptions = ["Pilih Waktu Proses", "03:00", "20:00"];
 
-function CustomSelect({ options, searchable = false }: { options: string[]; searchable?: boolean }) {
+function CustomSelect({ options, searchable = true }: { options: string[]; searchable?: boolean }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [search, setSearch] = useState("");
