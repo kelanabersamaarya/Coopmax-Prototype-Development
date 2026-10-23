@@ -416,12 +416,12 @@ export default function BillingTableView2({
       const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       return (
         <>
-          <div className={cn("pr-2 pl-4", cellY, numberTextClass)}>
+          <div className={cn("pr-1 pl-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
               {formatRupiah(total)}
             </span>
           </div>
-          <div className={cn("flex items-center justify-start pl-0.5 pr-0", cellY)}>
+          <div className={cn("flex items-center justify-start pl-0 pr-0", cellY)}>
             <PenaltyIconButton
               icon="eye"
               onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
@@ -437,12 +437,12 @@ export default function BillingTableView2({
 
       return (
         <>
-          <div className={cn("pr-2 pl-4", cellY, numberTextClass)}>
+          <div className={cn("pr-1 pl-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
               {hasManualActive && total > 0 ? formatRupiah(total) : "0"}
             </span>
           </div>
-          <div className={cn("flex items-center justify-start pl-0.5 pr-0", cellY)}>
+          <div className={cn("flex items-center justify-start pl-0 pr-0", cellY)}>
             <PenaltyIconButton
               icon={hasManualActive ? "eye" : "plus"}
               onClick={() =>
@@ -631,7 +631,7 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[1112px] table-fixed border-separate border-spacing-0 text-[13px]">
+        <table className="w-full min-w-[1108px] table-fixed border-separate border-spacing-0 text-[13px]">
           <colgroup>
             {!hideSelection ? <col className="w-[44px]" /> : null}
             <col className="w-[120px]" />
@@ -641,7 +641,7 @@ export default function BillingTableView2({
             <col className="w-[128px]" />
             <col className="w-[128px]" />
             {showPenaltyColumn ? <col className="w-[128px]" /> : null}
-            {showPenaltyColumn ? <col className="w-[32px]" /> : null}
+            {showPenaltyColumn ? <col className="w-[28px]" /> : null}
             {showStatusColumn ? <col className="min-w-[130px]" /> : null}
           </colgroup>
           <BillingTableHeader

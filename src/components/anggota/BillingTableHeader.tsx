@@ -74,7 +74,7 @@ export default function BillingTableHeader({
         ) : null}
 
         {showActionColumn ? (
-          <th className="w-[32px] min-w-[32px] max-w-[32px] px-1 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
+          <th className="w-[28px] min-w-[28px] max-w-[28px] px-0 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
             <span className="sr-only">Aksi</span>
           </th>
         ) : null}
