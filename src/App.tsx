@@ -98,6 +98,7 @@ import SakAkunting from "./pages/SakAkunting";
 import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 import JadwalBungaSimpanan from "./pages/JadwalBungaSimpanan";
 import JadwalBungaSimpananDetail from "./pages/JadwalBungaSimpananDetail";
+import JadwalBungaSimpananEdit from "./pages/JadwalBungaSimpananEdit";
 import MonitoringBungaSimpanan from "./pages/MonitoringBungaSimpanan";
 
 const queryClient = new QueryClient();
@@ -128,7 +129,7 @@ const App = () => (
                                     />
                         <Route
                                       path="anggota/simpanan/jadwal-bunga-admin-otomatis/edit"
-                                      element={<JadwalBungaSimpanan />}
+                                      element={<JadwalBungaSimpananEdit />}
                                     />
                         <Route
                           path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
