@@ -293,6 +293,17 @@ export default function BillingTableView2({
     return columns.join(" ");
   })();
 
+  const tableWidth =
+    (hideSelection ? 0 : 44) +
+    120 +
+    140 +
+    118 +
+    108 +
+    126 +
+    126 +
+    (showPenaltyColumn ? 120 + 48 : 0) +
+    (showStatusColumn ? 120 : 0);
+
   const isCompact = hideSelection;
 
   const effectiveDensity: "default" | "roomy" = hideSelection
@@ -655,7 +666,10 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-slate-200 bg-white",
         )}
       >
-        <table className="w-full min-w-[1040px] table-fixed border-collapse text-[13px]">
+        <table
+          className="table-fixed border-collapse text-[13px]"
+          style={{ width: `${tableWidth}px`, minWidth: `${tableWidth}px` }}
+        >
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
