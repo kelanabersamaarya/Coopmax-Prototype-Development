@@ -123,9 +123,8 @@ function parseDmyToDate(value: string): Date | undefined {
 }
 
 function formatRupiahValue(n: number) {
-  if (n === 0) return "0,00";
   const s = Math.round(n).toString();
-  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${s.replace(/\B(?=(\d{3})+(?!\d))/g, ".")},00`;
 }
 
 function buildPenaltyDetailRows(dueDateDmy: string) {
