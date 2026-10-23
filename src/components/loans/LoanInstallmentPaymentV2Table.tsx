@@ -950,17 +950,26 @@ function BillTotalsBlock({
   );
 }
 
+const LOCKED_BILL_TOTALS: BillTotals = {
+  pokok: "833.333",
+  bunga: "83.333",
+  denda: "75.000",
+  total: "991.666",
+};
+
 function BillTotalsTitlesOnly({
   totalLabel = "Total Tagihan",
+  totals = LOCKED_BILL_TOTALS,
 }: {
   totalLabel?: string;
+  totals?: BillTotals;
 }) {
   return (
     <div className="grid gap-4">
-      <InfoStack layout="inline" label="Tagihan Pokok" value="833.333" />
-      <InfoStack layout="inline" label="Tagihan Bunga" value="83.333" />
-      <InfoStack layout="inline" label="Tagihan Denda" value="75.000" />
-      <InfoStack layout="inline" label={totalLabel} value="991.666" strong />
+      <InfoStack layout="inline" label="Tagihan Pokok" value={totals.pokok} />
+      <InfoStack layout="inline" label="Tagihan Bunga" value={totals.bunga} />
+      <InfoStack layout="inline" label="Tagihan Denda" value={totals.denda} />
+      <InfoStack layout="inline" label={totalLabel} value={totals.total} strong />
     </div>
   );
 }
@@ -1699,7 +1708,10 @@ export default function LoanInstallmentPaymentV2Table({
                         isBakiDebet ? (
                           <RemainingLoanTitlesOnly />
                         ) : (
-                          <BillTotalsTitlesOnly totalLabel={totalsLabel} />
+                          <BillTotalsTitlesOnly
+                            totalLabel={totalsLabel}
+                            totals={totals}
+                          />
                         )
                       ) : isBakiDebet ? (
                         <RemainingLoanBlock sisaPinjaman="9.116.000,00" />
