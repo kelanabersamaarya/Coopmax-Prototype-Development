@@ -942,10 +942,10 @@ function BillTotalsBlock({
 }) {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={totals.pokok} />
-      <InfoStack label="Tagihan Bunga" value={totals.bunga} />
-      <InfoStack label="Tagihan Denda" value={totals.denda} />
-      <InfoStack label={totalLabel} value={totals.total} strong />
+      <InfoStack layout="inline" label="Tagihan Pokok" value={totals.pokok} />
+      <InfoStack layout="inline" label="Tagihan Bunga" value={totals.bunga} />
+      <InfoStack layout="inline" label="Tagihan Denda" value={totals.denda} />
+      <InfoStack layout="inline" label={totalLabel} value={totals.total} strong />
     </div>
   );
 }
@@ -957,10 +957,10 @@ function BillTotalsTitlesOnly({
 }) {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value="0,00" />
-      <InfoStack label="Tagihan Bunga" value="0,00" />
-      <InfoStack label="Tagihan Denda" value="0,00" />
-      <InfoStack label={totalLabel} value="0,00" strong />
+      <InfoStack layout="inline" label="Tagihan Pokok" value="0,00" />
+      <InfoStack layout="inline" label="Tagihan Bunga" value="0,00" />
+      <InfoStack layout="inline" label="Tagihan Denda" value="0,00" />
+      <InfoStack layout="inline" label={totalLabel} value="0,00" strong />
     </div>
   );
 }
@@ -968,7 +968,7 @@ function BillTotalsTitlesOnly({
 function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong />
+      <InfoStack layout="inline" label="Sisa Pinjaman" value={sisaPinjaman} strong />
     </div>
   );
 }
@@ -976,7 +976,7 @@ function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
 function RemainingLoanTitlesOnly() {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value="0,00" strong />
+      <InfoStack layout="inline" label="Sisa Pinjaman" value="0,00" strong />
     </div>
   );
 }
