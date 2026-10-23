@@ -1395,7 +1395,7 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const fixedPx = 10 + 150;
+  const fixedPx = 20 + 150;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
@@ -1560,7 +1560,7 @@ export default function LoanInstallmentPaymentV2Table({
 
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
-          <col style={{ width: 10 }} />
+          <col style={{ width: 20 }} />
           <col style={{ width: 150 }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.35)` }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65 - 100px)` }} />
