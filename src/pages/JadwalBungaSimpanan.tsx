@@ -5,8 +5,8 @@ function Eye({ className = "" }: { className?: string }) {
   return <EyeIcon className={`h-[18px] w-[18px] text-[#7d8da9] ${className}`} strokeWidth={2.5} />;
 }
 
-function Pencil({ className = "" }: { className?: string }) {
-  return <SquarePen className={`h-[18px] w-[18px] text-[#3568ed] ${className}`} strokeWidth={2.5} />;
+function Pencil({ className = "", onClick }: { className?: string; onClick?: () => void }) {
+  return <button type="button" aria-label="Ubah jadwal" onClick={onClick ?? (() => { sessionStorage.setItem("jadwal-bunga-edit", "true"); Array.from(document.querySelectorAll("button")).find((button) => button.textContent?.includes("Tambah"))?.click(); })}><SquarePen className={`h-[18px] w-[18px] text-[#3568ed] ${className}`} strokeWidth={2.5} /></button>;
 }
 
 function CircleX({ className = "" }: { className?: string }) {
@@ -33,8 +33,8 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
   return <div className="contents"><span className="text-[13px] text-[#002b68]">{label}</span><button type="button" role="switch" aria-checked={checked} onClick={onChange} className={`inline-flex w-[62px] items-center rounded-full py-1 text-[10px] font-semibold text-white ${checked ? "bg-[#6047ff]" : "bg-[#9b92ee]"}`}><span className={`flex-1 text-center ${checked ? "order-1" : "order-2"}`}>{checked ? "ON" : "OFF"}</span><span className={`h-5 w-5 rounded-full bg-white ${checked ? "order-2 -translate-x-1" : "order-1 translate-x-1"}`} /></button></div>;
 }
 
-function SelectField({ placeholder, options, clearable = true, value: controlledValue, onChange }: { placeholder: string; options: string[]; clearable?: boolean; value?: string; onChange?: (value: string) => void }) {
-  const [internalValue, setInternalValue] = useState("");
+function SelectField({ placeholder, options, clearable = true, value: controlledValue, defaultValue = "", onChange }: { placeholder: string; options: string[]; clearable?: boolean; value?: string; defaultValue?: string; onChange?: (value: string) => void }) {
+  const [internalValue, setInternalValue] = useState(defaultValue);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const ref = useRef<HTMLDivElement>(null);
@@ -59,17 +59,19 @@ function SaveConfirmModal({ onConfirm, onCancel }: { onConfirm: () => void; onCa
   return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-2" role="presentation"><div role="dialog" aria-modal="true" aria-labelledby={success ? "save-success-title" : "save-confirm-title"} className="w-full max-w-[546px] rounded-[5px] bg-white px-6 py-9 text-center shadow-2xl sm:px-8">{success ? <><div aria-hidden="true" className="mx-auto flex h-[132px] w-[132px] items-center justify-center rounded-full border-[6px] border-[#e1f2d9] text-[#9ddd7b]"><CheckMark className="h-[76px] w-[76px]" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round" /></div><h2 id="save-success-title" className="mt-8 text-[30px] font-bold leading-tight text-[#5a5a5a]">Berhasil menambahkan data</h2><Button onClick={onConfirm} className="mt-8 h-[52px] min-w-[104px] rounded-[6px] border-2 border-[#9fc8f1] bg-[#3189d7] px-8 text-[17px] font-semibold text-white shadow-[0_0_0_1px_#3189d7] hover:bg-[#2478c7]">OK</Button></> : <><div aria-hidden="true" className="mx-auto flex h-[96px] w-[96px] items-center justify-center rounded-full border-4 border-[#ffbd88] text-[58px] leading-none text-[#ffbd88]">!</div><h2 id="save-confirm-title" className="mt-8 text-[28px] font-bold leading-tight text-[#405878] sm:text-[30px]">Yakin untuk menyimpan data?</h2><div className="mt-8 flex items-center justify-center gap-2"><Button onClick={() => setSuccess(true)} className="h-[52px] w-[134px] rounded-[6px] border-2 border-[#b7d5ec] bg-[#3189d4] px-5 text-[17px] font-semibold text-white shadow-[0_0_0_1px_#3189d4] hover:bg-[#287abd]">Yes</Button><Button onClick={onCancel} className="h-[52px] w-[130px] rounded-[6px] bg-[#aaa] px-5 text-[17px] font-semibold text-white hover:bg-[#999]">Cancel</Button></div></>}</div></div>;
 }
 
-function AddScheduleForm({ onBack }: { onBack: () => void }) {
+function AddScheduleForm({ onBack, editing = false }: { onBack: () => void; editing?: boolean }) {
   const [active, setActive] = useState(true);
-  const [interest, setInterest] = useState(false);
-  const [interestPeriod, setInterestPeriod] = useState("");
-  const [admin, setAdmin] = useState(false);
-  const [adminPeriod, setAdminPeriod] = useState("");
-  const [mobile, setMobile] = useState(false);
-  const [mobilePeriod, setMobilePeriod] = useState("");
-  const [mainOnly, setMainOnly] = useState(false);
+  const isEditing = editing || sessionStorage.getItem("jadwal-bunga-edit") === "true";
+  const [interest, setInterest] = useState(isEditing);
+  const [interestPeriod, setInterestPeriod] = useState(isEditing ? "Bulan Berlangsung" : "");
+  const [admin, setAdmin] = useState(isEditing);
+  const [adminPeriod, setAdminPeriod] = useState(isEditing ? "Bulan Berikutnya" : "");
+  const [mobile, setMobile] = useState(isEditing);
+  const [mobilePeriod, setMobilePeriod] = useState(isEditing ? "Bulan Berlangsung" : "");
+  const [mainOnly, setMainOnly] = useState(isEditing);
   const [processOrder, setProcessOrder] = useState<ProcessKey[]>([]);
   const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+  useEffect(() => () => sessionStorage.removeItem("jadwal-bunga-edit"), []);
   const enabledProcessKeys = [interest && "interest", admin && "admin", mobile && "mobile"].filter(Boolean) as ProcessKey[];
   useEffect(() => { setProcessOrder((currentOrder) => [...currentOrder.filter((key) => enabledProcessKeys.includes(key)), ...enabledProcessKeys.filter((key) => !currentOrder.includes(key))]); }, [interest, admin, mobile]);
   const helperText = interestPeriod === "Harian" ? "Proses otomatis akan berjalan setiap hari sesuai dengan waktu spesifik yang diatur oleh pengguna." : interestPeriod === "Bulan Berlangsung" ? "Proses otomatis suatu periode akan berjalan setiap bulan berlangsung sesuai dengan waktu spesifik yang diatur oleh pengguna." : interestPeriod === "Bulan Berikutnya" ? "Proses otomatis suatu periode akan berjalan setiap bulan berikutnya sesuai dengan waktu spesifik yang diatur oleh pengguna." : "";
