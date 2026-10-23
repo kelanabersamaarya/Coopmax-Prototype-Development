@@ -391,8 +391,8 @@ export default function DaftarTagihanDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[1130px]",
-          "max-w-[1130px]",
+          "w-[calc(100vw-1rem)] sm:w-[1120px]",
+          "max-w-[1120px]",
           "max-h-[85vh]",
           "overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
