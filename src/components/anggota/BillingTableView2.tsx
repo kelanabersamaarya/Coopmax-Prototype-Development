@@ -572,8 +572,12 @@ export default function BillingTableView2({
         className="grid items-center gap-0 border-t border-slate-300 bg-white"
         style={{ gridTemplateColumns }}
       >
-        {!hideSelection ? <div /> : null}
-        <div className="px-4 py-2 text-[13px] font-bold text-slate-800">
+        <div
+          className={cn(
+            "px-4 py-2 text-left text-[13px] font-bold text-slate-800",
+            hideSelection ? "col-span-1" : "col-span-2",
+          )}
+        >
           {label}
         </div>
         <div className={cn(totalColPad, "py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800")}>
