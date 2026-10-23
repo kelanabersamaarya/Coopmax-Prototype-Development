@@ -18,6 +18,10 @@ table thead tr:first-child th .header-chevron {
   stroke-width: 2.5;
 }
 
+table thead tr:first-child th:last-child .header-chevron {
+  display: none;
+}
+
 table thead tr:nth-child(2) select,
 table thead tr:nth-child(2) input {
   border-radius: 5px;
