@@ -829,7 +829,7 @@ function DaftarTagihanTopButton({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
       <div className="text-[12px] font-normal leading-tight text-slate-900">
-        Daftar Tagihan dan Denda
+        Daftar Tagihan dan Denda :
       </div>
 
       <button
@@ -862,7 +862,7 @@ function TransactionPaymentMethodField({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
       <div className="text-[12px] font-normal leading-tight text-slate-900">
-        Metode Pembayaran
+        Metode Pembayaran :
       </div>
 
       <Select
@@ -905,7 +905,7 @@ function TabunganField({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
       <div className="text-[12px] font-normal leading-tight text-slate-900">
-        Tabungan
+        Tabungan :
       </div>
 
       <Select
@@ -1003,7 +1003,7 @@ function PaymentTextInput({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
       <div className="text-[12px] font-normal leading-tight text-slate-900">
-        {label}
+        {label} :
       </div>
 
       {formatNominal ? (
@@ -1152,7 +1152,7 @@ function PaymentInputBlock({
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-            Nominal Denda{required}
+            Nominal Denda{required} :
           </div>
           <KhususDendaFieldWithInfo
             value={row.nominalDendaKhusus}
@@ -1213,7 +1213,7 @@ function TransactionStatusBadge() {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
       <div className="text-[12px] font-normal leading-tight text-slate-900">
-        Status Transaksi
+        Status Transaksi :
       </div>
       <div>
         <span className="inline-flex items-center rounded-[5px] bg-[#DC3545] px-3 py-1 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">

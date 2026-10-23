@@ -78,7 +78,7 @@ function PeriodInfoButton({ periode }: { periode: string }) {
               className="grid grid-cols-[115px_minmax(0,1fr)] gap-3"
             >
               <div className="text-[12px] font-normal text-slate-500">
-                {row.label}
+                {row.label} :
               </div>
               <div className="text-[12px] font-semibold leading-snug text-slate-900">
                 {row.value}
