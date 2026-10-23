@@ -289,7 +289,7 @@ export default function BillingTableView2({
     const columns = hideSelection ? [] : ["44px"];
     columns.push("120px", "140px", "118px", "108px", "126px", "126px");
     if (showPenaltyColumn) columns.push("120px", "48px");
-    if (showStatusColumn) columns.push("150px");
+    if (showStatusColumn) columns.push("120px");
     return columns.join(" ");
   })();
 
