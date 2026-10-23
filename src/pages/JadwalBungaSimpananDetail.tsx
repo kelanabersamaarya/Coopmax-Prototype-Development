@@ -7,7 +7,7 @@ const fieldGroups = [
     title: "KONFIGURASI PROSES BUNGA OTOMATIS",
     fields: [
       ["Jenis Transaksi Proses Bunga Otomatis", "Transaksi Bunga Simpanan"],
-      ["Periode Proses Bunga Otomatis", "Bulan Berlangsung"],
+      ["Periode Proses Bunga Otomatis", "Bulan Berikutnya"],
       ["Tanggal Proses Bunga Otomatis", "21"],
       ["Jadwal Proses Bunga Otomatis Berikutnya", "21-11-2026 03:00:00"],
     ],
@@ -25,7 +25,7 @@ const fieldGroups = [
     title: "KONFIGURASI PROSES BIAYA ADMIN M-BANKING OTOMATIS",
     fields: [
       ["Jenis Transaksi Biaya Admin M-Banking Otomatis", "Transaksi Biaya Admin M-Banking"],
-      ["Periode Proses Biaya Admin M-Banking Otomatis", "Bulan Berlangsung"],
+      ["Periode Proses Biaya Admin M-Banking Otomatis", "Bulan Berikutnya"],
       ["Tanggal Proses Biaya Admin M-Banking Otomatis", "21"],
       ["Jadwal Proses Biaya Admin M-Banking Otomatis Berikutnya", "21-11-2026 03:00:00"],
     ],
