@@ -18,14 +18,14 @@ export default function GracePeriodInfoRow({
   const iconWrap = noBorder ? "h-9 w-9" : "h-9 w-9";
 
   return (
-    <tr className={cn(noBorder ? "" : "border-t border-slate-200")}>
+    <tr className={cn(noBorder ? "" : "border-t border-[#CDD4E0]")}>
       <td colSpan={colSpan} className={cn("py-1.5", noBorder ? "px-0" : "px-0")}>
         <div className={cn("bg-white", outerPad)}>
           <div
             className={cn(
               "rounded-2xl text-xs",
               boxPad,
-              noBorder ? "bg-blue-50" : "border border-blue-200 bg-blue-50",
+              noBorder ? "bg-blue-50" : "border border-[#CDD4E0] bg-blue-50",
             )}
           >
             <div className="flex items-start gap-3">

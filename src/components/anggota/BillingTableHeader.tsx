@@ -22,7 +22,7 @@ export default function BillingTableHeader({
 
   return (
     <thead className={cn("bg-white", className)}>
-      <tr className="border-b border-slate-200">
+      <tr className="border-b border-[#CDD4E0]">
         {!hideSelection ? (
           <th className={cn(thBase, "w-[44px]")}>
             <span className="sr-only">Pilih</span>

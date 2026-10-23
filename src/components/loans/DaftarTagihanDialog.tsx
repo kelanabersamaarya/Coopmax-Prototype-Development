@@ -419,7 +419,7 @@ export default function DaftarTagihanDialog({
             </button>
           </div>
 
-          <Separator className="bg-slate-200" />
+          <Separator className="bg-[#CDD4E0]" />
 
           <div
             className="overflow-auto px-5 py-5 sm:px-6"
@@ -501,7 +501,7 @@ export default function DaftarTagihanDialog({
             )}
           </div>
 
-          <Separator className="bg-slate-200" />
+          <Separator className="bg-[#CDD4E0]" />
 
           <div className="px-6 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">

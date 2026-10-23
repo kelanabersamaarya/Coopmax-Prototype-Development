@@ -458,7 +458,7 @@ export default function BillingTableView2({
 
   }
 
-  const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
+  const rowDividerClass = hideRowDividers ? "" : "border-t border-[#CDD4E0]";
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
     if (rowIndex === 2) return "0";
@@ -566,7 +566,7 @@ export default function BillingTableView2({
   }) {
     const totalCellClass = "px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
     return (
-      <tr className="border-t border-slate-300 bg-white">
+      <tr className="border-t border-[#CDD4E0] bg-white">
         <td colSpan={hideSelection ? 1 : 2} className="px-4 py-2 text-left text-[13px] font-bold text-slate-800 whitespace-nowrap">
           {label}
         </td>
@@ -628,7 +628,7 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          "overflow-x-auto rounded-[5px] border border-slate-200 bg-white",
+          "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
         <table className="w-full min-w-[1242px] table-fixed border-separate border-spacing-0 text-[13px]">
@@ -679,7 +679,7 @@ export default function BillingTableView2({
                           return (
                             <div
                               key={`${r.jatuhTempo}-grace-flat-${idx}`}
-                              className={cn(idx === 0 ? "" : "border-t border-slate-200")}
+                              className={cn(idx === 0 ? "" : "border-t border-[#CDD4E0]")}
                             >
                               <RowShell
                                 active={active}
