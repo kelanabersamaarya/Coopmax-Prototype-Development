@@ -2,7 +2,7 @@ export const BILLING_COLUMN_WIDTHS = {
   selection: "44px",
   dueDate: "120px",
   amount: "128px",
-  action: "56px",
+  action: "40px",
   status: "140px",
 } as const;
 

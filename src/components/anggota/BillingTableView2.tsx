@@ -416,12 +416,12 @@ export default function BillingTableView2({
       const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       return (
         <>
-          <div className={cn("px-4", cellY, numberTextClass)}>
+          <div className={cn("pr-2 pl-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
               {formatRupiah(total)}
             </span>
           </div>
-          <div className={cn("flex items-center justify-center px-2", cellY)}>
+          <div className={cn("flex items-center justify-center px-1", cellY)}>
             <PenaltyIconButton
               icon="eye"
               onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
@@ -437,12 +437,12 @@ export default function BillingTableView2({
 
       return (
         <>
-          <div className={cn("px-4", cellY, numberTextClass)}>
+          <div className={cn("pr-2 pl-4", cellY, numberTextClass)}>
             <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
               {hasManualActive && total > 0 ? formatRupiah(total) : "0"}
             </span>
           </div>
-          <div className={cn("flex items-center justify-center px-2", cellY)}>
+          <div className={cn("flex items-center justify-center px-1", cellY)}>
             <PenaltyIconButton
               icon={hasManualActive ? "eye" : "plus"}
               onClick={() =>
@@ -641,7 +641,7 @@ export default function BillingTableView2({
             <col className="w-[128px]" />
             <col className="w-[128px]" />
             {showPenaltyColumn ? <col className="w-[128px]" /> : null}
-            {showPenaltyColumn ? <col className="w-[56px]" /> : null}
+            {showPenaltyColumn ? <col className="w-[40px]" /> : null}
             {showStatusColumn ? <col className="min-w-[140px]" /> : null}
           </colgroup>
           <BillingTableHeader
