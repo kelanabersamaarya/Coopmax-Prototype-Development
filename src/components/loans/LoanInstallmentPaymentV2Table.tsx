@@ -827,8 +827,8 @@ function DaftarTagihanTopButton({
   onClick: () => void;
 }) {
   return (
-    <div className="grid gap-2">
-      <div className="text-[12px] font-normal text-slate-900">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
+      <div className="text-[12px] font-normal leading-tight text-slate-900">
         Daftar Tagihan dan Denda
       </div>
 
@@ -837,14 +837,14 @@ function DaftarTagihanTopButton({
         onClick={onClick}
         disabled={disabled}
         className={cn(
-          "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
-          "bg-[#0b5bd3] text-[14px] font-semibold text-white",
+          "inline-flex h-10 w-full items-center justify-center gap-2 rounded-[5px] px-2",
+          "bg-[#0b5bd3] text-[13px] font-semibold text-white",
           "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
           disabled ? "pointer-events-none opacity-60" : "",
         )}
       >
-        <Eye className="h-5 w-5" />
-        Lihat Tagihan & Denda
+        <Eye className="h-4 w-4" />
+        <span className="whitespace-nowrap">Lihat Tagihan & Denda</span>
       </button>
     </div>
   );
@@ -860,8 +860,8 @@ function TransactionPaymentMethodField({
   disabled?: boolean;
 }) {
   return (
-    <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
+      <div className="text-[12px] font-normal leading-tight text-slate-900">
         Metode Pembayaran
       </div>
 
@@ -903,8 +903,8 @@ function TabunganField({
   disabled: boolean;
 }) {
   return (
-    <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
+      <div className="text-[12px] font-normal leading-tight text-slate-900">
         Tabungan
       </div>
 
@@ -1001,8 +1001,8 @@ function PaymentTextInput({
   formatNominal?: boolean;
 }) {
   return (
-    <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
+      <div className="text-[12px] font-normal leading-tight text-slate-900">
         {label}
       </div>
 
