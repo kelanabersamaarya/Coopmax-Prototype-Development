@@ -19,11 +19,11 @@ function ProcessSection({ title, children, enabled, onToggle }: { title: string;
 
 export default function JadwalBungaSimpananEdit() {
   const navigate = useNavigate();
-  const [interestEnabled, setInterestEnabled] = useState(true);
-  const [adminEnabled, setAdminEnabled] = useState(true);
-  const [mobileEnabled, setMobileEnabled] = useState(true);
+  const [interestEnabled, setInterestEnabled] = useState(false);
+  const [adminEnabled, setAdminEnabled] = useState(false);
+  const [mobileEnabled, setMobileEnabled] = useState(false);
   const [mainOnly, setMainOnly] = useState(false);
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(false);
 
   return <main className="min-h-screen bg-[#f5f7fe] px-4 py-8 text-[#003b83] md:px-10 lg:px-12">
     <header className="mb-8 flex items-baseline gap-2"><h1 className="text-[21px] font-bold text-[#002b68]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[14px]">Tambah</span></header>
