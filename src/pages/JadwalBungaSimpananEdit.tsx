@@ -14,7 +14,7 @@ function SelectField({ options }: { options: string[] }) {
 }
 
 function ProcessSection({ title, children, enabled, onToggle }: { title: string; children: React.ReactNode; enabled: boolean; onToggle: (value: boolean) => void }) {
-  return <section className="border-b border-[#d8e1ef] py-5 last:border-b-0"><div className="grid gap-3 md:grid-cols-[180px_minmax(0,1fr)] md:items-start"><label className="pt-2 text-[13px] font-normal leading-5 text-[#003b83]">{title}</label><div className="min-w-0"><SavingsTogglePill checked={enabled} onChange={onToggle} />{enabled && <div className="process-fields mt-3 grid w-full gap-3 md:-ml-[190px] md:w-[calc(100%+190px)]">{children}</div>}</div></div></section>;
+  return <section className="border-b border-[#d8e1ef] py-5 last:border-b-0"><div className="grid gap-3 md:grid-cols-[180px_minmax(0,1fr)] md:items-start"><label className="pt-2 text-[13px] font-normal leading-5 text-[#003b83]">{title}</label><div className="min-w-0"><SavingsTogglePill checked={enabled} onChange={onToggle} />{enabled && <div className="process-fields mt-3 grid w-full gap-3 md:-ml-[193px] md:w-[calc(100%+193px)]">{children}</div>}</div></div></section>;
 }
 
 export default function JadwalBungaSimpananEdit() {
