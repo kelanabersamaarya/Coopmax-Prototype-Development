@@ -972,7 +972,7 @@ export default function BillingTableView2({
           </tbody>
         </table>
 
-        <div className="border-t border-slate-200 bg-white">
+        <div className="min-w-[1040px] border-t border-slate-200 bg-white">
           <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
           <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
         </div>
