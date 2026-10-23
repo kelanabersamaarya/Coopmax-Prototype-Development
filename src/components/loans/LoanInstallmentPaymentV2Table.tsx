@@ -1564,7 +1564,7 @@ export default function LoanInstallmentPaymentV2Table({
           <col style={{ width: 100 }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.42)` }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.58)` }} />
-          <col style={{ width: 50 }} />
+          <col style={{ width: 50, minWidth: 50, maxWidth: 50 }} />
         </colgroup>
 
         <thead className="bg-white">
