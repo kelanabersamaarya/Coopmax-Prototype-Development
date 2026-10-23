@@ -19,3 +19,8 @@ table thead tr:first-child th {
 .min-h-screen button[class~="bg-[#18ad00]"]:hover {
   background-color: #18ad00 !important;
 }
+
+.min-h-screen button[class~="bg-white"]:hover {
+  background-color: white !important;
+  color: #38547c !important;
+}
