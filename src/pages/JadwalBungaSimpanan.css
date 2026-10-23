@@ -1,24 +1,65 @@
-.header-label {
+table thead tr:first-child th {
+  text-transform: uppercase;
+}
+
+table thead tr:first-child th .header-label {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
 }
 
-.header-chevron {
-  height: 14px;
-  width: 14px;
+table thead tr:first-child th .header-chevron {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  color: #123b70;
+  stroke-width: 2.5;
 }
 
-.cell-text {
+table thead tr:first-child th:nth-child(8) .header-chevron {
+  display: none;
+}
+
+table thead tr:nth-child(2) select,
+table thead tr:nth-child(2) input {
+  border-radius: 5px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+table thead tr:nth-child(2) input::placeholder {
+  color: #8a94a6;
+  opacity: 1;
+}
+
+.min-h-screen > div:first-child h1 {
+  font-size: 0;
+}
+
+.min-h-screen > div:first-child h1::after {
+  content: "Jadwal Bunga Simpanan dan Biaya Admin Otomatis";
   display: inline-block;
-  white-space: nowrap;
+  font-size: 21px;
 }
 
-button.bg-white,
-button.bg-white:hover,
-button.bg-white:focus,
-button.bg-white:active {
-  background-color: #ffffff !important;
-  color: #38547c !important;
-  box-shadow: none !important;
+@media (min-width: 768px) {
+  table {
+    min-width: 0 !important;
+    table-layout: fixed;
+  }
+
+  table th:nth-child(1), table td:nth-child(1) { width: 42px; min-width: 42px; max-width: 42px; }
+  table th:nth-child(2), table td:nth-child(2) { width: 150px; min-width: 150px; max-width: 150px; }
+  table th:nth-child(3), table td:nth-child(3) { width: 105px; min-width: 105px; max-width: 105px; }
+  table th:nth-child(4), table td:nth-child(4) { width: 145px; min-width: 145px; max-width: 145px; }
+  table th:nth-child(5), table td:nth-child(5) { width: 125px; min-width: 125px; max-width: 125px; }
+  table th:nth-child(6), table td:nth-child(6) { width: 155px; min-width: 155px; max-width: 155px; }
+  table th:nth-child(7), table td:nth-child(7) { width: 100px; min-width: 100px; max-width: 100px; }
+  table th:nth-child(8), table td:nth-child(8) { width: 78px; min-width: 78px; max-width: 78px; }
+  table th, table td { overflow: hidden; white-space: normal; vertical-align: middle; }
+  table td .cell-text { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: anywhere; line-height: 1.35; }
+  table thead tr:first-child th:nth-child(4), table thead tr:first-child th:nth-child(5), table thead tr:first-child th:nth-child(6) { line-height: 1.35; white-space: normal; }
+  table td:nth-child(8) > div { gap: 4px; }
 }
