@@ -12,24 +12,6 @@ table thead tr:first-child th {
   font-size: 21px;
 }
 
-.min-h-screen button.bg-\[\#8292ae\],
-.min-h-screen button.bg-\[\#8292ae\]:hover,
-.min-h-screen button.bg-\[\#8292ae\]:focus,
-.min-h-screen button.bg-\[\#8292ae\]:active {
-  background-color: #8292ae !important;
-  color: white !important;
-  box-shadow: none !important;
-}
-
-.min-h-screen button.bg-\[\#18ad00\]:hover {
-  background-color: #18ad00 !important;
-}
-
-.min-h-screen button.bg-white:hover {
-  background-color: white !important;
-  color: #38547c !important;
-}
-
 @media (min-width: 768px) {
   table th:nth-child(2),
   table td:nth-child(2) {
@@ -53,14 +35,17 @@ table thead tr:first-child th {
   }
 
   table th:nth-child(5),
-  table td:nth-child(5) {
-    width: 145px;
-    min-width: 145px;
-    max-width: 145px;
+  table td:nth-child(5),
+  table th:nth-child(6),
+  table td:nth-child(6) {
+    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
   }
 
   table thead tr:first-child th:nth-child(4),
-  table thead tr:first-child th:nth-child(5) {
+  table thead tr:first-child th:nth-child(5),
+  table thead tr:first-child th:nth-child(6) {
     line-height: 1.45;
     white-space: normal;
   }
