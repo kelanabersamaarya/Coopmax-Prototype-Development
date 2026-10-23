@@ -4,15 +4,16 @@ import "./MonitoringTables.css";
 
 type MonitoringDetailModalProps = {
   row: MonitoringRow;
+  title?: string;
   onClose: () => void;
 };
 
-export function MonitoringDetailModal({ row, onClose }: MonitoringDetailModalProps) {
+export function MonitoringDetailModal({ row, title = "Detail Monitoring Bunga Simpanan", onClose }: MonitoringDetailModalProps) {
   return (
     <div className="monitoring-table fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#101828]/75 p-2 pt-5 md:p-5" role="dialog" aria-modal="true" aria-labelledby="monitoring-detail-title">
       <div className="w-full max-w-[1176px] overflow-hidden rounded-[18px] bg-white text-[#26334a] shadow-2xl">
         <div className="flex items-center justify-between border-b border-[#d7deea] px-6 py-5">
-          <h2 id="monitoring-detail-title" className="text-[19px] font-bold">Detail Monitoring Bunga Simpanan</h2>
+          <h2 id="monitoring-detail-title" className="text-[19px] font-bold">{title}</h2>
           <button type="button" onClick={onClose} aria-label="Tutup modal" className="text-[#7b7b7b] transition-colors hover:text-[#26334a]"><X className="h-6 w-6 stroke-[3]" /></button>
         </div>
         <div className="overflow-x-auto px-6 py-6">
