@@ -1560,8 +1560,8 @@ export default function LoanInstallmentPaymentV2Table({
         <colgroup>
           <col style={{ width: 20 }} />
           <col style={{ width: 70, minWidth: 70, maxWidth: 70 }} />
-          <col style={{ width: `calc((100% - 250px) * 0.42)` }} />
-          <col style={{ width: 150, minWidth: 150, maxWidth: 150 }} />
+          <col style={{ width: `calc((100% - 220px) * 0.42)` }} />
+          <col style={{ width: 120, minWidth: 120, maxWidth: 120 }} />
           <col style={{ width: 30, minWidth: 30, maxWidth: 30 }} />
         </colgroup>
 
