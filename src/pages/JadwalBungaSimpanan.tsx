@@ -2,15 +2,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Check as CheckMark, CheckSquare as SaveIcon, Eye as EyeIcon, GripVertical, Plus, Reply as Undo2, SquarePen, X as XIcon } from "lucide-react";
 
 function Eye({ className = "" }: { className?: string }) {
-  return <EyeIcon className={`h-7 w-7 text-[#7d8da9] ${className}`} strokeWidth={2.5} />;
+  return <EyeIcon className={`h-6 w-6 text-[#7d8da9] ${className}`} strokeWidth={2.5} />;
 }
 
 function Pencil({ className = "" }: { className?: string }) {
-  return <SquarePen className={`h-7 w-7 text-[#3568ed] ${className}`} strokeWidth={2.5} />;
+  return <SquarePen className={`h-6 w-6 text-[#3568ed] ${className}`} strokeWidth={2.5} />;
 }
 
 function CircleX({ className = "" }: { className?: string }) {
-  return <span className={`flex h-10 w-10 items-center justify-center rounded-full bg-[#df3043] text-white ${className}`}><XIcon className="h-6 w-6" strokeWidth={3.5} /></span>;
+  return <span className={`flex h-8 w-8 items-center justify-center rounded-full bg-[#df3043] text-white ${className}`}><XIcon className="h-5 w-5" strokeWidth={3.5} /></span>;
 }
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
