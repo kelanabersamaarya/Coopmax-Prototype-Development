@@ -1395,6 +1395,7 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const fixedPx = 20 + 100 + 150 + 50;
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [pickerOpen, setPickerOpen] = React.useState(false);
@@ -1556,11 +1557,11 @@ export default function LoanInstallmentPaymentV2Table({
         accountNo={historyAccountNo || ""}
       />
 
-      <table className="w-auto table-fixed border-collapse bg-white">
+      <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
-          <col style={{ width: 20, minWidth: 20, maxWidth: 20 }} />
-          <col style={{ width: 100, minWidth: 100, maxWidth: 100 }} />
-          <col style={{ width: 420, minWidth: 420, maxWidth: 420 }} />
+          <col style={{ width: 20 }} />
+          <col style={{ width: 100 }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.42)` }} />
           <col style={{ width: 150, minWidth: 150, maxWidth: 150 }} />
           <col style={{ width: 50, minWidth: 50, maxWidth: 50 }} />
         </colgroup>
