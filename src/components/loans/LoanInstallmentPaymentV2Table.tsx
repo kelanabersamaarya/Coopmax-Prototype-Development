@@ -1395,8 +1395,7 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const fixedPx = 20 + 100;
-
+  const fixedPx = 20 + 100 + 150 + 50;
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [pickerOpen, setPickerOpen] = React.useState(false);
