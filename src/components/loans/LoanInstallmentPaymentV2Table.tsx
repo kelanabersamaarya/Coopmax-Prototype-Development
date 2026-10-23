@@ -1395,7 +1395,7 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const fixedPx = 20 + 100 + 100 + 40;
+  const fixedPx = 20 + 100 + 100 + 30;
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [pickerOpen, setPickerOpen] = React.useState(false);
@@ -1563,7 +1563,7 @@ export default function LoanInstallmentPaymentV2Table({
           <col style={{ width: 100 }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.42)` }} />
           <col style={{ width: 100, minWidth: 100, maxWidth: 100 }} />
-          <col style={{ width: 40, minWidth: 40, maxWidth: 40 }} />
+          <col style={{ width: 30, minWidth: 30, maxWidth: 30 }} />
         </colgroup>
 
         <thead className="bg-white">
