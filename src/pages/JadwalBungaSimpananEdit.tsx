@@ -48,16 +48,17 @@ export default function JadwalBungaSimpananEdit() {
   const [mobileEnabled, setMobileEnabled] = useState(isUpdate);
   const [mainOnly, setMainOnly] = useState(isUpdate);
   const [status, setStatus] = useState(true);
-  const [processingOrder, setProcessingOrder] = useState(["Bunga Simpanan", "Biaya Admin", "Admin M-Banking"]);
+  const [processingOrderState, setProcessingOrder] = useState(["Bunga Simpanan", "Biaya Admin", "Admin M-Banking"]);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const processingOrder = useMemo(() => processingOrderState.filter((item) => (item === "Bunga Simpanan" && interestEnabled) || (item === "Biaya Admin" && adminEnabled) || (item === "Admin M-Banking" && mobileEnabled)), [processingOrderState, interestEnabled, adminEnabled, mobileEnabled]);
 
   const moveProcessingItem = (targetIndex: number) => {
     if (draggedIndex === null || draggedIndex === targetIndex) return;
     setProcessingOrder((current) => {
-      const next = [...current];
-      const [draggedItem] = next.splice(draggedIndex, 1);
-      next.splice(targetIndex, 0, draggedItem);
-      return next;
+      const nextActive = [...processingOrder];
+      const [draggedItem] = nextActive.splice(draggedIndex, 1);
+      nextActive.splice(targetIndex, 0, draggedItem);
+      return [...nextActive, ...current.filter((item) => !processingOrder.includes(item))];
     });
     setDraggedIndex(null);
   };
