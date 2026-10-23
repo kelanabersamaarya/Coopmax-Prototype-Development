@@ -9,11 +9,11 @@ function Pencil({ className = "", onClick }: { className?: string; onClick?: () 
 function CircleX({ className = "" }: { className?: string }) { return <span className={`flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#df3043] text-white ${className}`}><XIcon className="h-[12px] w-[12px]" strokeWidth={3.5} /></span>; }
 
 const schedules = [
-  { product: "tabungan", period: "Bulan Berikutnya", next: "21-11-2026 20:00:00", status: "Aktif" },
-  { product: "SIMPEDA - BANK BPD BALI", period: "Bulan Berikutnya", next: "21-11-2026 03:00:00", status: "Aktif" },
-  { product: "Simpanan Wajib", period: "Bulan Berlangsung", next: "21-11-2026 20:00:00", status: "Aktif" },
-  { product: "Simpanan Sukarela - Penampung Pendapatan Bunga", period: "Bulan Berlangsung", next: "19-11-2026 00:00:00", status: "Aktif" },
-  { product: "Simpanan Pokok", period: "Bulan Berlangsung", next: "01-11-2026 03:00:00", status: "Aktif" },
+  { product: "tabungan", period: "Bulan Berikutnya", next: "21-11-2026 20:00:00", adminNext: "21-11-2026 20:00:00", status: "Aktif" },
+  { product: "SIMPEDA - BANK BPD BALI", period: "Bulan Berikutnya", next: "21-11-2026 03:00:00", adminNext: "21-11-2026 20:00:00", status: "Aktif" },
+  { product: "Simpanan Wajib", period: "Bulan Berlangsung", next: "21-11-2026 20:00:00", adminNext: "21-11-2026 20:00:00", status: "Aktif" },
+  { product: "Simpanan Sukarela - Penampung Pendapatan Bunga", period: "Bulan Berlangsung", next: "19-11-2026 00:00:00", adminNext: "21-11-2026 20:00:00", status: "Aktif" },
+  { product: "Simpanan Pokok", period: "Bulan Berlangsung", next: "01-11-2026 03:00:00", adminNext: "21-11-2026 20:00:00", status: "Aktif" },
 ];
 const productOptions = ["Semua", ...new Set(schedules.map((item) => item.product))];
 const periodOptions = ["Semua", ...new Set(schedules.map((item) => item.period))];

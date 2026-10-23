@@ -21,15 +21,6 @@ table thead tr:first-child th {
   box-shadow: none !important;
 }
 
-.min-h-screen button.bg-\[\#8292ae\] {
-  font-size: 0;
-}
-
-.min-h-screen button.bg-\[\#8292ae\]::after {
-  content: "Batal";
-  font-size: 14px;
-}
-
 .min-h-screen button.bg-\[\#18ad00\]:hover {
   background-color: #18ad00 !important;
 }
@@ -37,4 +28,25 @@ table thead tr:first-child th {
 .min-h-screen button.bg-white:hover {
   background-color: white !important;
   color: #38547c !important;
+}
+
+@media (min-width: 768px) {
+  table th:nth-child(4),
+  table td:nth-child(4) {
+    min-width: 210px;
+  }
+
+  table th:nth-child(4)::after {
+    content: "JADWAL BIAYA ADMIN BERIKUTNYA";
+    display: inline-block;
+    margin-left: 48px;
+    white-space: nowrap;
+  }
+
+  table td:nth-child(4)::after {
+    content: "21-11-2026 20:00:00";
+    display: inline-block;
+    margin-left: 48px;
+    white-space: nowrap;
+  }
 }
