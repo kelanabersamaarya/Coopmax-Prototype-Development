@@ -573,26 +573,26 @@ export default function BillingTableView2({
         style={{ gridTemplateColumns }}
       >
         {!hideSelection ? <div /> : null}
-        <div className="px-4 py-2 text-[12px] font-bold text-slate-800">
+        <div className="px-4 py-2 text-[13px] font-bold text-slate-800">
           {label}
         </div>
-        <div className={cn(totalColPad, "py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800")}>
+        <div className={cn(totalColPad, "py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800")}>
           {formatIdrLike(values.totalBelumDibayar)}
         </div>
-        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
           {formatIdrLike(values.tagihanPokok)}
         </div>
-        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
           {formatIdrLike(values.tagihanBunga)}
         </div>
-        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
           {formatIdrLike(values.sisaPokok)}
         </div>
-        <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+        <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
           {formatIdrLike(values.sisaBunga)}
         </div>
         {showPenaltyColumn ? (
-          <div className="px-4 py-2 text-right text-[12px] font-semibold tabular-nums text-slate-800">
+          <div className="px-4 py-2 text-right text-[13px] font-semibold tabular-nums text-slate-800">
             {formatIdrLike(values.denda)}
           </div>
         ) : null}
