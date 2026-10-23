@@ -287,7 +287,7 @@ export default function BillingTableView2({
 
   const gridTemplateColumns = (() => {
     const columns = hideSelection ? [] : ["44px"];
-    columns.push("100px", "116px", "118px", "108px", "126px", "126px");
+    columns.push("120px", "140px", "118px", "108px", "126px", "126px");
     if (showPenaltyColumn) columns.push("120px", "48px");
     if (showStatusColumn) columns.push("150px");
     return columns.join(" ");

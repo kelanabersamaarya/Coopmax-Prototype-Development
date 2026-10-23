@@ -30,13 +30,13 @@ export default function BillingTableHeader({
           </th>
         ) : null}
 
-        <th className={cn(thBase, "w-[100px] min-w-[100px] max-w-[100px]")}>
+        <th className={cn(thBase, "w-[120px] min-w-[120px] max-w-[120px] whitespace-nowrap")}>
           Jatuh
           <br />
           Tempo
         </th>
 
-        <th className={cn(thRight, "w-[116px]", "text-right")}>
+        <th className={cn(thRight, "w-[140px]", "text-right")}>
           Total Tagihan
           <br />
           Belum Dibayar
