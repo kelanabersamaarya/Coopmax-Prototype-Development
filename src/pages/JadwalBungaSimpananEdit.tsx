@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Check, ChevronDown, GripVertical, List } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 
-const productOptions = ["Pilih Produk Simpanan", "Tabungan Simpanan Utama", "Simpanan Sukarela"];
+const productOptions = ["Simpanan Sukarela - Penampung Pendapatan Bunga", "Simpanan Pokok", "Simpanan Wajib", "Simpanan Program", "tabungan", "Mandiri Tabungan Rupiah- Bank Mandiri", "TabunganKu - Bank BPD Bali"];
 const transactionOptions = ["Pilih Jenis Transaksi", "Transaksi Bunga Simpanan", "Transaksi Biaya Admin Simpanan"];
 const periodOptions = ["Pilih Periode Proses", "Bulan Berikutnya", "Bulan Berlangsung"];
 const dateOptions = ["Pilih Tanggal Proses", "01", "21", "Akhir Bulan"];
 const timeOptions = ["Pilih Waktu Proses", "03:00", "20:00"];
 
+function ProductSelect() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [search, setSearch] = useState("");
+  const filteredOptions = useMemo(() => productOptions.filter((option) => option.toLowerCase().includes(search.toLowerCase())), [search]);
+
+  return <div className="relative"><button type="button" onClick={() => setOpen((current) => !current)} className="flex h-10 w-full items-center justify-between rounded-[4px] border border-[#b8c8df] bg-white px-3 text-left text-[13px] font-normal text-[#536b91]"><span>{value || "Pilih Produk Simpanan"}</span><ChevronDown className={`h-4 w-4 text-[#7b8ba5] transition-transform ${open ? "rotate-180" : ""}`} /></button>{open && <div className="absolute left-0 right-0 top-[43px] z-20 border border-[#c9d4e5] bg-white p-1 shadow-[0_4px_10px_rgba(25,50,90,0.12)]"><input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari produk simpanan" className="mb-1 h-8 w-full rounded-[2px] border border-[#17243d] px-2 text-[13px] text-[#173b79] outline-none" /> <div className="max-h-[210px] overflow-y-auto">{filteredOptions.map((option, index) => <button type="button" key={option} onClick={() => { setValue(option); setOpen(false); setSearch(""); }} className={`block w-full px-2 py-1.5 text-left text-[13px] text-[#003b83] hover:bg-[#635bff] hover:text-white ${index === 0 && !value && !search ? "bg-[#635bff] text-white" : ""}`}>{option}</button>)}</div></div>}</div>;
+}
+
 function SelectField({ options }: { options: string[] }) {
-  return <div className="relative"><select defaultValue={options[0]} className="h-10 w-full appearance-none rounded-[4px] border border-[#b8c8df] bg-white px-3 text-[13px] font-normal text-[#536b91] outline-none focus:border-[#635bff]">{options.map((option) => <option key={option}>{option}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-[#7b8ba5]" /></div>;
+  return <div className="relative"><select defaultValue={options[0]} className="h-10 w-full appearance-none rounded-[4px] border border-[#b8c8df] bg-white px-3 text-[13px] font-normal text-[#536b91] outline-none focus:border-[#635bff]"><option disabled>{options[0]}</option>{options.slice(1).map((option) => <option key={option}>{option}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-[#7b8ba5]" /></div>;
 }
 
 function ProcessSection({ title, children, enabled, onToggle }: { title: string; children: React.ReactNode; enabled: boolean; onToggle: (value: boolean) => void }) {
@@ -28,7 +37,7 @@ export default function JadwalBungaSimpananEdit() {
   return <main className="min-h-screen bg-[#f5f7fe] px-4 py-8 text-[#003b83] md:px-10 lg:px-12">
     <header className="mb-8 flex items-baseline gap-2"><h1 className="text-[21px] font-bold text-[#002b68]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[14px]">Tambah</span></header>
     <form onSubmit={(event) => { event.preventDefault(); navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis"); }} className="rounded-[22px] bg-white px-6 py-6 shadow-[0_1px_2px_rgba(20,50,100,0.06)] md:px-12 md:py-7">
-      <div className="grid gap-5 border-b border-[#d8e1ef] pb-5 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Produk Simpanan<span className="text-red-500">*</span></label><SelectField options={productOptions} /></div>
+      <div className="grid gap-5 border-b border-[#d8e1ef] pb-5 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Produk Simpanan<span className="text-red-500">*</span></label><ProductSelect /></div>
       <ProcessSection title="Proses Bunga Otomatis" enabled={interestEnabled} onToggle={setInterestEnabled}><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Jenis Transaksi Proses Bunga Otomatis<span className="text-red-500">*</span></label><SelectField options={transactionOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Periode Proses Bunga Otomatis<span className="text-red-500">*</span></label><SelectField options={periodOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Tanggal Proses Bunga Otomatis<span className="text-red-500">*</span></label><SelectField options={dateOptions} /></div></ProcessSection>
       <ProcessSection title="Proses Biaya Admin Otomatis" enabled={adminEnabled} onToggle={setAdminEnabled}><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Jenis Transaksi Biaya Admin Otomatis<span className="text-red-500">*</span></label><SelectField options={transactionOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Periode Proses Biaya Admin Otomatis<span className="text-red-500">*</span></label><SelectField options={periodOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Tanggal Proses Biaya Admin Otomatis<span className="text-red-500">*</span></label><SelectField options={dateOptions} /></div></ProcessSection>
       <ProcessSection title="Proses Biaya Admin M-Banking Otomatis" enabled={mobileEnabled} onToggle={setMobileEnabled}><div className="flex items-center gap-4"><label className="w-[180px] text-[13px]">Hanya Tabungan Utama</label><SavingsTogglePill checked={mainOnly} onChange={setMainOnly} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Jenis Transaksi Biaya Admin M-Banking Otomatis<span className="text-red-500">*</span></label><SelectField options={transactionOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Periode Proses Biaya Admin M-Banking Otomatis<span className="text-red-500">*</span></label><SelectField options={periodOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Tanggal Proses Biaya Admin M-Banking Otomatis<span className="text-red-500">*</span></label><SelectField options={dateOptions} /></div></ProcessSection>
