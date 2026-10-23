@@ -657,7 +657,7 @@ export default function BillingTableView2({
                 <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-0">
-                      <div className="rounded-[5px] bg-white ring-2 ring-inset ring-blue-600/70">
+                      <div className="rounded-[5px] border-2 border-blue-600/70 bg-white">
                         {shouldShowGraceInfoRow ? (
                           <div className="p-1">
                             <table className="w-full border-collapse text-[13px]">
