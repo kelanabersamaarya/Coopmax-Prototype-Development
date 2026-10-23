@@ -287,7 +287,7 @@ export default function BillingTableView2({
 
   const gridTemplateColumns = (() => {
     const columns = hideSelection ? [] : ["44px"];
-    columns.push("120px", "140px", "130px", "120px", "140px", "140px");
+    columns.push("100px", "116px", "118px", "108px", "126px", "126px");
     if (showPenaltyColumn) columns.push("120px", "48px");
     if (showStatusColumn) columns.push("150px");
     return columns.join(" ");
@@ -502,7 +502,7 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const totalColPad = "pl-4 pr-12";
+  const totalColPad = "pl-3 pr-6";
 
   const grandRows = grandTotalRows ?? rows;
 
