@@ -263,11 +263,11 @@ export default function BillingTableView2({
 
   const colCount = (hideSelection
     ? showPenaltyColumn
-      ? 7
-      : 6
-    : showPenaltyColumn
       ? 8
-      : 7) + (showStatusColumn ? 1 : 0);
+      : 7
+    : showPenaltyColumn
+      ? 9
+      : 8) + (showStatusColumn ? 1 : 0);
 
   React.useEffect(() => {
     if (selected.length === rows.length) return;
@@ -287,9 +287,9 @@ export default function BillingTableView2({
 
   const gridTemplateColumns = (() => {
     const columns = hideSelection ? [] : ["44px"];
-    columns.push("100px", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
-    if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
-    if (showStatusColumn) columns.push("minmax(0,1.1fr)");
+    columns.push("120px", "140px", "130px", "120px", "140px", "140px");
+    if (showPenaltyColumn) columns.push("120px", "48px");
+    if (showStatusColumn) columns.push("150px");
     return columns.join(" ");
   })();
 
@@ -419,17 +419,19 @@ export default function BillingTableView2({
     if (localIdx < PENALTY_ROWS) {
       const { total } = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
       return (
-        <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
-          <div className="flex items-center justify-end gap-2">
-            <span className="tabular-nums whitespace-nowrap num-sans-tabular">
+        <>
+          <div className={cn("px-4", cellY, numberTextClass)}>
+            <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
               {formatIdrLike(total)}
             </span>
+          </div>
+          <div className={cn("flex items-center justify-center px-2", cellY)}>
             <PenaltyIconButton
               icon="eye"
               onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
             />
           </div>
-        </div>
+        </>
       );
     }
 
@@ -438,15 +440,13 @@ export default function BillingTableView2({
       const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
       return (
-        <div className={cn("pl-4 pr-8", cellY, numberTextClass)}>
-          <div className="flex items-center justify-end gap-2">
-            {hasManualActive && total > 0 ? (
-              <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-                {formatIdrLike(total)}
-              </span>
-            ) : (
-              <span className="tabular-nums whitespace-nowrap num-sans-tabular">0,00</span>
-            )}
+        <>
+          <div className={cn("px-4", cellY, numberTextClass)}>
+            <span className="block text-right tabular-nums whitespace-nowrap num-sans-tabular">
+              {hasManualActive && total > 0 ? formatIdrLike(total) : "0,00"}
+            </span>
+          </div>
+          <div className={cn("flex items-center justify-center px-2", cellY)}>
             <PenaltyIconButton
               icon={hasManualActive ? "eye" : "plus"}
               onClick={() =>
@@ -456,7 +456,7 @@ export default function BillingTableView2({
               }
             />
           </div>
-        </div>
+        </>
       );
     }
 
@@ -600,6 +600,7 @@ export default function BillingTableView2({
             {formatIdrLike(values.denda)}
           </div>
         ) : null}
+        {showPenaltyColumn ? <div /> : null}
         {showStatusColumn ? <div /> : null}
       </div>
     );
@@ -658,6 +659,7 @@ export default function BillingTableView2({
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
+            showActionColumn={showPenaltyColumn}
             showStatusColumn={showStatusColumn}
           />
 

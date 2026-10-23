@@ -96,8 +96,9 @@ function TableColumns() {
       <col className="w-[11%]" />
       <col className="w-[14%]" />
       <col className="w-[14%]" />
+      <col className="w-[8%]" />
+      <col className="w-[5%]" />
       <col className="w-[12%]" />
-      <col className="w-[13%]" />
     </colgroup>
   );
 }
@@ -225,26 +226,26 @@ function RowCells({
         <RightNum value={row.sisaBunga} />
       </td>
       <td className="px-3 py-3 text-right text-[13px] font-normal text-slate-900">
-        <div className="flex items-center justify-end gap-2">
-          {penaltyTotal > 0 ? (
-            <span className="whitespace-nowrap tabular-nums">{formatIdrLike(penaltyTotal)}</span>
-          ) : null}
-          {hasBasePenalty || hasManualPenalty ? (
-            <PenaltyIconButton
-              icon="eye"
-              label="Lihat Detail Denda"
-              onClick={() => onOpenDetail(rowIndex, row.jatuhTempo)}
-            />
-          ) : (
-            <PenaltyIconButton
-              icon="plus"
-              label="Tambah Denda"
-              onClick={() => onOpenAdd(rowIndex, row.jatuhTempo)}
-            />
-          )}
-        </div>
+        <span className="whitespace-nowrap tabular-nums">
+          {penaltyTotal > 0 ? formatIdrLike(penaltyTotal) : "0,00"}
+        </span>
       </td>
-      <td className="px-3 py-3 text-left text-[13px] text-slate-900">
+      <td className="px-2 py-3 text-center">
+        {hasBasePenalty || hasManualPenalty ? (
+          <PenaltyIconButton
+            icon="eye"
+            label="Lihat Detail Denda"
+            onClick={() => onOpenDetail(rowIndex, row.jatuhTempo)}
+          />
+        ) : (
+          <PenaltyIconButton
+            icon="plus"
+            label="Tambah Denda"
+            onClick={() => onOpenAdd(rowIndex, row.jatuhTempo)}
+          />
+        )}
+      </td>
+      <td className="px-3 py-3 text-left text-[13px] text-slate-900 whitespace-nowrap">
         <BillingStatusBadge status={status} />
       </td>
     </>
@@ -347,7 +348,12 @@ export default function DaftarTagihanSecondStyleTable({
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <table className="w-full table-fixed border-collapse text-[13px]">
           <TableColumns />
-          <BillingTableHeader hideSelection showPenaltyColumn showStatusColumn />
+          <BillingTableHeader
+            hideSelection
+            showPenaltyColumn
+            showActionColumn
+            showStatusColumn
+          />
           <tbody className="bg-white">
             {graceRows.length > 0 ? (
               <tr className="border-t border-slate-200">

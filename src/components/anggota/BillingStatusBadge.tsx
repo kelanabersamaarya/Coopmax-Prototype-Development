@@ -36,11 +36,11 @@ const statusIconStyles: Record<BillingStatus, string> = {
 };
 
 const statusLines: Record<string, string[]> = {
-  "BELUM DIBAYAR": ["BELUM", "DIBAYAR"],
+  "BELUM DIBAYAR": ["BELUM DIBAYAR"],
   LUNAS: ["LUNAS"],
-  "LUNAS DENGAN PENGHAPUSAN": ["LUNAS DENGAN", "PENGHAPUSAN"],
-  "JATUH TEMPO": ["JATUH", "TEMPO"],
-  "DIBAYAR SEBAGIAN": ["DIBAYAR", "SEBAGIAN"],
+  "LUNAS DENGAN PENGHAPUSAN": ["LUNAS DENGAN PENGHAPUSAN"],
+  "JATUH TEMPO": ["JATUH TEMPO"],
+  "DIBAYAR SEBAGIAN": ["DIBAYAR SEBAGIAN"],
 };
 
 export default function BillingStatusBadge({
@@ -72,17 +72,7 @@ export default function BillingStatusBadge({
         />
       )}
       <span
-        className="whitespace-normal text-left leading-tight"
-        style={
-          displayStatus === "Lunas dengan Penghapusan"
-            ? undefined
-            : {
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 3,
-                overflow: "hidden",
-              }
-        }
+        className="whitespace-nowrap text-left leading-tight"
       >
         {(statusLines[displayStatus.toUpperCase()] ?? [displayStatus.toUpperCase()]).map(
           (line) => (

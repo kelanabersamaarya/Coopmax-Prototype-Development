@@ -6,11 +6,13 @@ import { cn } from "@/lib/utils";
 export default function BillingTableHeader({
   hideSelection,
   showPenaltyColumn,
+  showActionColumn = false,
   showStatusColumn = false,
   className,
 }: {
   hideSelection: boolean;
   showPenaltyColumn: boolean;
+  showActionColumn?: boolean;
   showStatusColumn?: boolean;
   className?: string;
 }) {
@@ -65,15 +67,21 @@ export default function BillingTableHeader({
         </th>
 
         {showPenaltyColumn ? (
-          <th className={cn(thRight, "w-[118px]")}>
+          <th className={cn(thRight, "w-[120px]")}>
             Tagihan
             <br />
             Denda
           </th>
         ) : null}
 
+        {showActionColumn ? (
+          <th className="w-[48px] px-2 py-3 text-left align-bottom text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
+            <span className="sr-only">Aksi</span>
+          </th>
+        ) : null}
+
         {showStatusColumn ? (
-          <th className={cn(thBase, "w-[132px]")}>Status Tagihan</th>
+          <th className={cn(thBase, "w-[150px] whitespace-nowrap")}>Status Tagihan</th>
         ) : null}
       </tr>
     </thead>
