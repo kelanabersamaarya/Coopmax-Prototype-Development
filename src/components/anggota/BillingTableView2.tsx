@@ -781,7 +781,7 @@ export default function BillingTableView2({
 
                   return (
                     <tr key={`${r.jatuhTempo}-${rowIndex}`} className={cn(rowDividerClass)}>
-                      <td colSpan={colCount} className="p-0">
+                      <td colSpan={colCount} className={cn("p-0", rowDividerClass)}>
                         <RowShell
                           active={active}
                           disableActiveRing={disableRowActiveRing}
@@ -884,7 +884,7 @@ export default function BillingTableView2({
 
                     return (
                       <tr key={`${r.jatuhTempo}-${idx}`} className={cn(rowDividerClass)}>
-                        <td colSpan={colCount} className="p-0">
+                        <td colSpan={colCount} className={cn("p-0", rowDividerClass)}>
                           <RowShell
                             active={active}
                             disableActiveRing={disableRowActiveRing}
