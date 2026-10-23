@@ -36,7 +36,7 @@ export default function BillingTableHeader({
           Tempo
         </th>
 
-        <th className={cn(thRight, "w-[116px]")}>
+        <th className={cn(thRight, "w-[116px]", "text-right")}>
           Total Tagihan
           <br />
           Belum Dibayar
