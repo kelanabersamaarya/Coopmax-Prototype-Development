@@ -148,7 +148,7 @@ export default function PinjamanBulananTransactionFields({
     <div className="grid gap-4">
       <FieldBlock label="Nominal">
         <FormattedNominalInput
-          value={emptyWhenDisabled(nominal)}
+          value={emptyWhenDisabled(nominal || "916.666")}
           onChange={onNominalChange}
           className={inputClassName}
           placeholder="0,00"

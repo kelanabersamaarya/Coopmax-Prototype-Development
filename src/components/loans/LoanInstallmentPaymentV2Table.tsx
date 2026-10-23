@@ -1200,7 +1200,7 @@ function PaymentInputBlock({
     <div className="grid gap-4">
       <PaymentTextInput
         label={<>Nominal Pembayaran{required}</>}
-        value={row.nominalReguler}
+        value={row.nominalReguler || "916.666"}
         onChange={(v) => onChange({ nominalReguler: v })}
         className={cn(inputCls, "text-right tabular-nums")}
         placeholder="0"
@@ -1301,9 +1301,9 @@ function SummaryBlock({
   return (
     <div className="pt-[150px]">
       <div className="grid gap-4">
-        <SummaryRow label="Total Nominal" value="0,00" />
-        <SummaryRow label="Total Denda" value="0,00" />
-        <SummaryRow label="Grand Total" value="0,00" />
+        <SummaryRow label="Total Nominal" value="916.666" />
+        <SummaryRow label="Total Denda" value="75.000" />
+        <SummaryRow label="Grand Total" value="991.666" />
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-4">
