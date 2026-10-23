@@ -957,10 +957,10 @@ function BillTotalsTitlesOnly({
 }) {
   return (
     <div className="grid gap-4">
-      <InfoStack layout="inline" label="Tagihan Pokok" value="0,00" />
-      <InfoStack layout="inline" label="Tagihan Bunga" value="0,00" />
-      <InfoStack layout="inline" label="Tagihan Denda" value="0,00" />
-      <InfoStack layout="inline" label={totalLabel} value="0,00" strong />
+      <InfoStack layout="inline" label="Tagihan Pokok" value="833.333" />
+      <InfoStack layout="inline" label="Tagihan Bunga" value="83.333" />
+      <InfoStack layout="inline" label="Tagihan Denda" value="75.000" />
+      <InfoStack layout="inline" label={totalLabel} value="991.666" strong />
     </div>
   );
 }
