@@ -21,13 +21,15 @@ export default function JadwalBungaSimpanan() {
   const [interestSearch, setInterestSearch] = useState("");
   const [adminSearch, setAdminSearch] = useState("");
   const [mobileAdminSearch, setMobileAdminSearch] = useState("");
+  const [status, setStatus] = useState("Semua");
   const filtered = useMemo(() => schedules.filter((item) =>
     (product === "Semua" || item.product === product) &&
     (period === "Semua" || item.period === period) &&
+    (status === "Semua" || item.status === status) &&
     item.interestNext.toLowerCase().includes(interestSearch.toLowerCase()) &&
     item.adminNext.toLowerCase().includes(adminSearch.toLowerCase()) &&
     item.mobileAdminNext.toLowerCase().includes(mobileAdminSearch.toLowerCase()),
-  ), [product, period, interestSearch, adminSearch, mobileAdminSearch]);
+  ), [product, period, status, interestSearch, adminSearch, mobileAdminSearch]);
 
   return <div className="min-h-screen bg-[#f6f7fc] px-4 py-7 text-[#102a5c] md:px-10">
     <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><div className="flex items-baseline gap-2"><h1 className="text-[21px] font-bold text-[#00245f]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span>Daftar</span></div><Button className="h-9 w-fit gap-2 rounded-full bg-white px-4 text-[#38547c]"><Plus className="h-4 w-4" />Tambah</Button></div>
