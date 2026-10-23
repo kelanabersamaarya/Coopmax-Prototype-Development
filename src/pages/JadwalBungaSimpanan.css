@@ -33,53 +33,19 @@ table thead tr:first-child th {
 @media (min-width: 768px) {
   table th:nth-child(4),
   table td:nth-child(4) {
-    min-width: 420px;
+    min-width: 180px;
+  }
+
+  table th:nth-child(5),
+  table td:nth-child(5) {
+    width: 145px;
+    min-width: 145px;
+    max-width: 145px;
   }
 
   table thead tr:first-child th:nth-child(4),
-  table tbody td:nth-child(4) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: center;
-    column-gap: 16px;
-  }
-
-  table thead tr:first-child th:nth-child(4)::after {
-    content: "JADWAL BIAYA ADMIN BERIKUTNYA";
-    display: block;
-    grid-column: 2;
-    white-space: nowrap;
-  }
-
-  table tbody td:nth-child(4)::after {
-    content: "21-11-2026 20:00:00";
-    display: block;
-    grid-column: 2;
-    white-space: nowrap;
-  }
-
-  table thead tr:nth-child(2) th:nth-child(4) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 16px;
-    min-width: 420px;
-  }
-
-  table thead tr:nth-child(2) th:nth-child(4)::after {
-    content: "Masukan Jadwal";
-    display: block;
-    height: 32px;
-    border: 1px solid #bfcbdc;
-    background: white;
-    color: #71809a;
-    padding: 8px 12px;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  table thead tr:nth-child(2) th:nth-child(4) input {
-    grid-column: 1;
-    min-width: 0;
-    width: 100%;
+  table thead tr:first-child th:nth-child(5) {
+    line-height: 1.45;
+    white-space: normal;
   }
 }
