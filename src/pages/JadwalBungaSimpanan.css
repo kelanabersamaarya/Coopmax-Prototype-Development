@@ -25,7 +25,9 @@ table thead tr:first-child th {
   table th:nth-child(5), table td:nth-child(5), table th:nth-child(6), table td:nth-child(6) { width: 155px; min-width: 155px; max-width: 155px; }
   table th:nth-child(7), table td:nth-child(7) { width: 70px; min-width: 70px; max-width: 70px; }
   table th:nth-child(8), table td:nth-child(8) { width: 78px; min-width: 78px; max-width: 78px; }
-  table th, table td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  table th, table td { overflow: hidden; white-space: normal; }
+  table td { vertical-align: top; }
+  table td .cell-text { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: anywhere; line-height: 1.35; }
   table thead tr:first-child th:nth-child(4), table thead tr:first-child th:nth-child(5), table thead tr:first-child th:nth-child(6) { line-height: 1.35; white-space: normal; }
   table td:nth-child(8) > div { gap: 4px; }
 }
