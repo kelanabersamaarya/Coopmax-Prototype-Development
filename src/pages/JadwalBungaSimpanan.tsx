@@ -14,6 +14,7 @@ function CircleX({ className = "" }: { className?: string }) {
 }
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import "./JadwalBungaSimpanan.css";
 
 const schedules = [
   { product: "tabungan", period: "Bulan Berikutnya", next: "21-11-2026 20:00:00", status: "Aktif" },

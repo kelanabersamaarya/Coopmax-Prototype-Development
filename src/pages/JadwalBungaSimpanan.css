@@ -1,0 +1,3 @@
+table thead tr:first-child th {
+  text-transform: uppercase;
+}
