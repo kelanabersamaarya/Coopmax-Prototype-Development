@@ -47,7 +47,7 @@ export default function JadwalBungaSimpananDetail() {
         <button type="button" className="flex items-center gap-2"><Trash2 className="h-5 w-5" />Hapus</button>
       </div>
     </header>
-    <section className="mt-8 w-full rounded-[22px] border border-[#e1e7f0] bg-white p-5 shadow-[0_2px_7px_rgba(34,55,90,0.04)] md:p-7">
+    <section className="mt-8 w-full rounded-[22px] border border-[#e1e7f0] bg-white px-5 pb-5 pt-2 shadow-[0_2px_7px_rgba(34,55,90,0.04)] md:px-7 md:pb-7 md:pt-2">
       {fieldGroups.map((group) => <div key={group.title} className="mt-8 overflow-hidden rounded-[7px] border border-[#dce3ee]"><div className="border-b border-[#dce3ee] bg-[#f7f9fd] px-5 py-4 text-[15px] font-bold text-[#17243d]">{group.title}</div><div className="grid gap-x-8 gap-y-6 p-5 sm:grid-cols-2 lg:grid-cols-4">{group.fields.map(([label, value]) => <div key={label}><p className="text-xs text-[#697892]">{label}</p><div className="mt-1 font-bold"><StatusValue value={value} /></div></div>)}</div></div>)}
       <div className="mt-8 overflow-hidden rounded-[7px] border border-[#dce3ee]"><div className="border-b border-[#dce3ee] bg-[#f7f9fd] px-5 py-4 text-[15px] font-bold">KONFIGURASI PEMROSESAN</div><div className="grid gap-6 p-5 sm:grid-cols-2 lg:grid-cols-4"><div><p className="text-xs text-[#697892]">Urutan Pemrosesan</p><p className="mt-1 font-bold">Bunga Simpanan → Biaya Admin → Admin M-Banking</p></div><div><p className="text-xs text-[#697892]">Waktu</p><p className="mt-1 font-bold">20:00 - Malam</p></div><div><p className="text-xs text-[#697892]">Status</p><StatusValue value="Aktif" /></div></div></div>
     </section>
