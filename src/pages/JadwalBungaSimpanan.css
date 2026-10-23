@@ -5,6 +5,13 @@ table thead tr:first-child th {
 table thead tr:nth-child(2) select,
 table thead tr:nth-child(2) input {
   border-radius: 5px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+table thead tr:nth-child(2) input::placeholder {
+  color: #8a94a6;
+  opacity: 1;
 }
 
 .min-h-screen > div:first-child h1 {
