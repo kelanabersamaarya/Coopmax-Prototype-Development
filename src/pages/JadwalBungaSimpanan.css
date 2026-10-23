@@ -39,31 +39,42 @@ table thead tr:first-child th {
   color: #38547c !important;
 }
 
+/* Jadwal proses ditampilkan sebagai header grup dengan tiga subkolom. */
 table {
   min-width: 1380px;
 }
 
 table thead tr:first-child th:nth-child(4) {
   min-width: 570px;
-  padding: 8px 0;
-  font-size: 0;
   text-align: center;
 }
 
 table thead tr:first-child th:nth-child(4)::after {
-  content: "Jadwal Bunga Berikutnya                 Jadwal Biaya Admin Berikutnya                 Jadwal Biaya Admin M-Banking Berikutnya";
+  content: "Jadwal Proses Berikutnya";
   display: block;
-  color: #002b68;
   font-size: 12px;
   font-weight: 700;
-  line-height: 1.25;
-  white-space: pre;
+}
+
+table thead tr:first-child th:nth-child(4) {
+  font-size: 0;
 }
 
 table thead tr:nth-child(2) th:nth-child(4) {
   min-width: 570px;
   padding: 8px 0;
   font-size: 0;
+}
+
+table thead tr:nth-child(2) th:nth-child(4)::before {
+  content: "Jadwal Bunga Berikutnya                 Jadwal Biaya Admin Berikutnya                 Jadwal Biaya Admin M-Banking Berikutnya";
+  display: block;
+  padding: 0 0 8px;
+  color: #002b68;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: pre;
 }
 
 table thead tr:nth-child(2) th:nth-child(4) input {
