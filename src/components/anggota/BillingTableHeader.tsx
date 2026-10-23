@@ -28,7 +28,7 @@ export default function BillingTableHeader({
           </th>
         ) : null}
 
-        <th className={cn(thBase, "w-[100px]")}>
+        <th className={cn(thBase, "w-[100px] min-w-[100px] max-w-[100px]")}>
           Jatuh
           <br />
           Tempo

@@ -287,7 +287,7 @@ export default function BillingTableView2({
 
   const gridTemplateColumns = (() => {
     const columns = hideSelection ? [] : ["44px"];
-    columns.push("minmax(0,1fr)", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
+    columns.push("100px", "minmax(0,1.2fr)", "minmax(0,1fr)", "minmax(0,0.9fr)", "minmax(0,1.1fr)", "minmax(0,1.1fr)");
     if (showPenaltyColumn) columns.push("minmax(0,0.95fr)");
     if (showStatusColumn) columns.push("minmax(0,1.1fr)");
     return columns.join(" ");
@@ -654,7 +654,7 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-slate-200 bg-white",
         )}
       >
-        <table className="w-full min-w-[1040px] border-collapse text-[13px]">
+        <table className="w-full min-w-[1040px] table-fixed border-collapse text-[13px]">
           <BillingTableHeader
             hideSelection={hideSelection}
             showPenaltyColumn={showPenaltyColumn}
