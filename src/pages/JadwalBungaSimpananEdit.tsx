@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { Check, ChevronDown, GripVertical, List, X } from "lucide-react";
+import { Check, ChevronDown, GripVertical, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 
@@ -46,7 +46,7 @@ export default function JadwalBungaSimpananEdit() {
   const [interestEnabled, setInterestEnabled] = useState(isUpdate);
   const [adminEnabled, setAdminEnabled] = useState(isUpdate);
   const [mobileEnabled, setMobileEnabled] = useState(isUpdate);
-  const [mainOnly, setMainOnly] = useState(false);
+  const [mainOnly, setMainOnly] = useState(isUpdate);
   const [status, setStatus] = useState(true);
   const [processingOrder, setProcessingOrder] = useState(["Bunga Simpanan", "Biaya Admin", "Admin M-Banking"]);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
