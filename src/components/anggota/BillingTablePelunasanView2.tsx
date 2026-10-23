@@ -52,7 +52,11 @@ export default function BillingTablePelunasanView2({
                 className="h-4 w-4 rounded-[5px] accent-blue-600 opacity-70"
               />
             </th>
-            <th className={cn("w-[15%]", thClass)}>Jatuh Tempo</th>
+            <th className={cn("w-[15%]", thClass)}>
+              Jatuh
+              <br />
+              Tempo
+            </th>
             <th className={cn("w-[19%]", thClass, "text-right")}>
               Total Tagihan Belum Dibayar
             </th>
