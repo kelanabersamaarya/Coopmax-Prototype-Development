@@ -240,6 +240,7 @@ export default function DaftarTagihanDialog({
   const isFirstNasabah = normalizedAccountNo === "12260006";
   const isSecondNasabah = normalizedAccountNo === "12260002";
   const isThirdNasabah = normalizedAccountNo === "12260001";
+  const isSinglePageAccount = normalizedAccountNo === "09260002";
 
   const useSecondStyle = isSecondNasabah || isThirdNasabah;
   const allowRegulerChecklistSave = useSecondStyle && isReguler;
@@ -288,7 +289,7 @@ export default function DaftarTagihanDialog({
     lastAutoFillKeyRef.current = autoFillKey;
   }, [isReguler, normalizedAccountNo, paymentMethod, rowsAll]);
 
-  const [pageSize] = React.useState<number>(6);
+  const pageSize = isSinglePageAccount ? Math.max(rowsAll.length, 1) : 6;
   const [page, setPage] = React.useState(1);
 
   const pageCount = Math.max(1, Math.ceil(rowsAll.length / pageSize));
@@ -471,7 +472,8 @@ export default function DaftarTagihanDialog({
                     {rowsAll.length} entri
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  {!isSinglePageAccount ? (
+                    <div className="flex items-center gap-3">
                     <button
                       type="button"
                       className={pagerBtn(page <= 1)}
@@ -496,6 +498,7 @@ export default function DaftarTagihanDialog({
                       <ChevronRight className="h-5 w-5 text-slate-500" />
                     </button>
                   </div>
+                  ) : null}
                 </div>
               </>
             )}
