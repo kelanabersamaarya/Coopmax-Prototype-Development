@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check as CheckMark, CheckSquare as SaveIcon, Eye as EyeIcon, GripVertical, Plus, Reply as Undo2, SquarePen, X as XIcon } from "lucide-react";
+import { Check as CheckMark, CheckSquare as SaveIcon, Eye as EyeIcon, GripVertical, Plus, SquarePen, X as Undo2, X as XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import "./JadwalBungaSimpanan.css";

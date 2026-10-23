@@ -12,7 +12,16 @@ table thead tr:first-child th {
   font-size: 21px;
 }
 
-.min-h-screen button[class~="bg-[#8292ae]"]:hover {
+.min-h-screen button[class~="bg-[#8292ae"]] {
+  font-size: 0;
+}
+
+.min-h-screen button[class~="bg-[#8292ae"]]::after {
+  content: "Batal";
+  font-size: 14px;
+}
+
+.min-h-screen button[class~="bg-[#8292ae"]]:hover {
   background-color: #8292ae !important;
 }
 
