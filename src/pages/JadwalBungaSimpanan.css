@@ -2,6 +2,22 @@ table thead tr:first-child th {
   text-transform: uppercase;
 }
 
+table thead tr:first-child th .header-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+}
+
+table thead tr:first-child th .header-chevron {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  color: #123b70;
+  stroke-width: 2.5;
+}
+
 table thead tr:nth-child(2) select,
 table thead tr:nth-child(2) input {
   border-radius: 5px;
