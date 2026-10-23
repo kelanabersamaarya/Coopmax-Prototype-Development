@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Check, ChevronDown, GripVertical, List, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 
 const productOptions = ["Simpanan Sukarela - Penampung Pendapatan Bunga", "Simpanan Pokok", "Simpanan Wajib", "Simpanan Program", "tabungan", "Mandiri Tabungan Rupiah- Bank Mandiri", "TabunganKu - Bank BPD Bali"];
@@ -10,9 +10,10 @@ const interestPeriodOptions = ["Pilih Periode Proses", "Harian", "Bulan Berikutn
 const dateOptions = ["Pilih Tanggal Proses", ...Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, "0"))];
 const timeOptions = ["Pilih Waktu Proses", "03:00", "20:00"];
 
-function CustomSelect({ options, searchable = true }: { options: string[]; searchable?: boolean }) {
+function CustomSelect({ options, searchable = true, filled = false }: { options: string[]; searchable?: boolean; filled?: boolean }) {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(filled || pathname.endsWith("/ubah") ? options[1] : "");
   const [search, setSearch] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const placeholder = options[0];
@@ -40,9 +41,11 @@ function ProcessSection({ title, children, enabled, onToggle }: { title: string;
 
 export default function JadwalBungaSimpananEdit() {
   const navigate = useNavigate();
-  const [interestEnabled, setInterestEnabled] = useState(false);
-  const [adminEnabled, setAdminEnabled] = useState(false);
-  const [mobileEnabled, setMobileEnabled] = useState(false);
+  const { pathname } = useLocation();
+  const isUpdate = pathname.endsWith("/ubah");
+  const [interestEnabled, setInterestEnabled] = useState(isUpdate);
+  const [adminEnabled, setAdminEnabled] = useState(isUpdate);
+  const [mobileEnabled, setMobileEnabled] = useState(isUpdate);
   const [mainOnly, setMainOnly] = useState(false);
   const [status, setStatus] = useState(true);
   const [processingOrder, setProcessingOrder] = useState(["Bunga Simpanan", "Biaya Admin", "Admin M-Banking"]);
@@ -60,9 +63,9 @@ export default function JadwalBungaSimpananEdit() {
   };
 
   return <main className="min-h-screen bg-[#f5f7fe] px-4 py-8 text-[#003b83] md:px-10 lg:px-12">
-    <header className="mb-8 flex items-baseline gap-2"><h1 className="text-[21px] font-bold text-[#002b68]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[14px]">Tambah</span></header>
+    <header className="mb-8 flex items-baseline gap-2"><h1 className="text-[21px] font-bold text-[#002b68]">Jadwal Bunga Simpanan dan Biaya Admin Otomatis</h1><span className="text-[14px]">{isUpdate ? "Ubah" : "Tambah"}</span></header>
     <form onSubmit={(event) => { event.preventDefault(); navigate("/anggota/simpanan/jadwal-bunga-admin-otomatis"); }} className="rounded-[22px] bg-white px-6 py-6 shadow-[0_1px_2px_rgba(20,50,100,0.06)] md:px-12 md:py-7">
-      <div className="grid gap-5 border-b border-[#d8e1ef] pb-5 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Produk Simpanan<span className="text-red-500">*</span></label><CustomSelect options={["Pilih Produk Simpanan", ...productOptions]} searchable /></div>
+      <div className="grid gap-5 border-b border-[#d8e1ef] pb-5 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Produk Simpanan<span className="text-red-500">*</span></label><CustomSelect options={["Pilih Produk Simpanan", ...productOptions]} searchable filled={isUpdate} /></div>
       <ProcessSection title="Proses Bunga Otomatis" enabled={interestEnabled} onToggle={setInterestEnabled}><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Jenis Transaksi Proses Bunga Otomatis<span className="text-red-500">*</span></label><CustomSelect options={transactionOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Periode Proses Bunga Otomatis<span className="text-red-500">*</span></label><CustomSelect options={interestPeriodOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Tanggal Proses Bunga Otomatis<span className="text-red-500">*</span></label><CustomSelect options={dateOptions} /></div></ProcessSection>
       <ProcessSection title="Proses Biaya Admin Otomatis" enabled={adminEnabled} onToggle={setAdminEnabled}><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Jenis Transaksi Biaya Admin Otomatis<span className="text-red-500">*</span></label><CustomSelect options={transactionOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Periode Proses Biaya Admin Otomatis<span className="text-red-500">*</span></label><CustomSelect options={periodOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Tanggal Proses Biaya Admin Otomatis<span className="text-red-500">*</span></label><CustomSelect options={dateOptions} /></div></ProcessSection>
       <ProcessSection title="Proses Biaya Admin M-Banking Otomatis" enabled={mobileEnabled} onToggle={setMobileEnabled}><div className="flex items-center gap-4"><label className="w-[180px] text-[13px]">Hanya Tabungan Utama</label><SavingsTogglePill checked={mainOnly} onChange={setMainOnly} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Jenis Transaksi Biaya Admin M-Banking Otomatis<span className="text-red-500">*</span></label><CustomSelect options={transactionOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Periode Proses Biaya Admin M-Banking Otomatis<span className="text-red-500">*</span></label><CustomSelect options={periodOptions} /></div><div className="grid gap-3 md:grid-cols-[180px_1fr] md:items-center"><label className="text-[13px]">Tanggal Proses Biaya Admin M-Banking Otomatis<span className="text-red-500">*</span></label><CustomSelect options={dateOptions} /></div></ProcessSection>

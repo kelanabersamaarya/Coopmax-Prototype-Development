@@ -132,6 +132,10 @@ const App = () => (
                                       element={<JadwalBungaSimpananEdit />}
                                     />
                         <Route
+                                      path="anggota/simpanan/jadwal-bunga-admin-otomatis/ubah"
+                                      element={<JadwalBungaSimpananEdit />}
+                                    />
+                        <Route
                           path="anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"
               element={<MonitoringBungaSimpanan />}
             />
