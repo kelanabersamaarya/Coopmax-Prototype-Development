@@ -41,12 +41,12 @@ export default function LoanExtensionPaymentSchedule({
         <table className="w-full min-w-[750px] border-collapse">
           <thead>
             <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[110px] px-3 py-3">
+              <th className="w-[140px] px-3 py-3">
                 Jatuh
                 <br />
                 Tempo
               </th>
-              <th className="w-[150px] px-3 py-3 text-left">
+              <th className="w-[120px] px-3 py-3 text-left">
                 Total Tagihan
                 <br />
                 Belum Dibayar
