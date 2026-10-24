@@ -693,7 +693,7 @@ export default function LoanExtensionWizard({
                           <th className="w-[30%] px-4 py-3">Sesudah Perpanjangan</th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white">
+                      <tbody className="bg-white" style={{ backgroundColor: "#ffffff" }}>
                         {[
                           ["Tenor", `${CURRENT_TENOR} Bulan`, `${simulation.tenor} Bulan`],
                           ["Tanggal Jatuh Tempo Akhir", "07-04-2027", simulation.dueDate],
@@ -702,10 +702,11 @@ export default function LoanExtensionWizard({
                           <tr
                             key={label}
                             className="border-b border-slate-100 bg-white text-[12px] text-black"
+                            style={{ backgroundColor: "#ffffff" }}
                           >
-                            <td className="bg-white px-4 py-3 font-medium">{label}</td>
-                            <td className="bg-white px-4 py-3">{before}</td>
-                            <td className="bg-white px-4 py-3 font-semibold text-[#2563EB]">{after}</td>
+                            <td className="bg-white px-4 py-3 font-medium" style={{ backgroundColor: "#ffffff" }}>{label}</td>
+                            <td className="bg-white px-4 py-3" style={{ backgroundColor: "#ffffff" }}>{before}</td>
+                            <td className="bg-white px-4 py-3 font-semibold text-[#2563EB]" style={{ backgroundColor: "#ffffff" }}>{after}</td>
                           </tr>
                         ))}
                       </tbody>
