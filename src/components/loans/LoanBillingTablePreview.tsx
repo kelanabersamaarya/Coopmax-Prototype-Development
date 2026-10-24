@@ -320,10 +320,7 @@ export default function LoanBillingTablePreview({
               return (
                 <tr
                   key={`${row.jatuhTempo}-${globalIndex}`}
-                  className={cn(
-                    "border-t border-slate-200 text-[13px] font-normal text-slate-900",
-                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                  )}
+                  className="border-t border-slate-200 bg-white text-[13px] font-normal text-slate-900"
                 >
                   <td className="px-2 py-2 text-left font-normal tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
