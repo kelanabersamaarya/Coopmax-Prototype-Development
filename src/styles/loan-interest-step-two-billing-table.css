@@ -96,10 +96,27 @@
 
 /* Header */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th {
-  min-height: 58px !important; height: 58px !important; padding: 12px 10px !important; color: #334155 !important; font-size: 12px !important; font-weight: 800 !important; line-height: 1.25 !important; text-align: left !important; vertical-align: middle !important; white-space: normal !important;
+  min-height: 58px !important; height: auto !important; padding: 12px 10px !important; color: #334155 !important; font-size: 12px !important; font-weight: 800 !important; line-height: 1.25 !important; text-align: left !important; vertical-align: middle !important; white-space: normal !important;
 }
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(2) { padding-left: 22px !important; text-align: left !important; }
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(10) { padding-right: 22px !important; text-align: left !important; }
+
+/* Header Tagihan Bunga wajib menampilkan dua baris penuh. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(6),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(9) {
+  height: auto !important;
+  min-height: 74px !important;
+  overflow: visible !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(6) > span,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(9) > span {
+  display: block !important;
+  height: auto !important;
+  min-height: 15px !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
 
 /* Semua header kolom yang terlihat harus rata kiri; angka pada isi tetap rata kanan. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(2),
