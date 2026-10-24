@@ -214,6 +214,7 @@ export default function LoanBillingTablePreview({
             <col style={{ width: "93px", minWidth: "93px", maxWidth: "93px" }} />
             <col style={{ width: "99px", minWidth: "99px", maxWidth: "99px" }} />
             <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
+            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
             <col style={{ width: "96px", minWidth: "96px", maxWidth: "96px" }} />
           </colgroup>
           <thead>
@@ -230,9 +231,9 @@ export default function LoanBillingTablePreview({
                 Pokok
               </th>
               <th className="px-2 py-2">
-                Tagihan Bunga
+                Tagihan
                 <br />
-                Sesudah Penyesuaian
+                Bunga
               </th>
               <th className="px-2 py-2">
                 Sisa Tagihan
@@ -240,9 +241,14 @@ export default function LoanBillingTablePreview({
                 Pokok
               </th>
               <th className="px-2 py-2">
-                Tagihan Bunga
+                Sisa Tagihan Bunga
                 <br />
                 Sebelum Penyesuaian
+              </th>
+              <th className="px-2 py-2">
+                Sisa Tagihan Bunga
+                <br />
+                Sesudah Penyesuaian
               </th>
               <th className="px-2 py-2">
                 Tagihan
@@ -288,7 +294,7 @@ export default function LoanBillingTablePreview({
                     </NumericCell>
                   </td>
                   <td className="px-2 py-2 text-right">
-                    <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
+                    <NumericCell>{row.tagihanBunga}</NumericCell>
                   </td>
                   <td className="px-2 py-2 text-right">
                     <NumericCell>
@@ -296,8 +302,11 @@ export default function LoanBillingTablePreview({
                     </NumericCell>
                   </td>
                   <td className="px-2 py-2 text-right">
+                    <NumericCell>{row.sisaBunga}</NumericCell>
+                  </td>
+                  <td className="px-2 py-2 text-right">
                     <div className="flex w-full items-center justify-end gap-1">
-                      <NumericCell>{row.sisaBunga}</NumericCell>
+                      <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
                       <button
                         type="button"
                         onClick={() => setAdjustmentDueDate(row.jatuhTempo)}
