@@ -255,8 +255,8 @@ export default function LoanBillingTablePreview({
             <col style={{ width: "105px", minWidth: "105px", maxWidth: "105px" }} />
             <col style={{ width: "115px", minWidth: "115px", maxWidth: "115px" }} />
             <col style={{ width: "110px", minWidth: "110px", maxWidth: "110px" }} />
-            <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
-            <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
+            <col style={{ width: "120px", minWidth: "120px", maxWidth: "120px" }} />
+            <col style={{ width: "120px", minWidth: "120px", maxWidth: "120px" }} />
             <col style={{ width: "100px", minWidth: "100px", maxWidth: "100px" }} />
             <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
           </colgroup>
@@ -283,15 +283,19 @@ export default function LoanBillingTablePreview({
                 <br />
                 Pokok
               </th>
-              <th className="px-2 py-2 text-left">
-                Sisa Tagihan Bunga
+              <th className="px-2 py-2 text-left leading-tight">
+                Sisa Tagihan
                 <br />
-                Sebelum Penyesuaian
+                Bunga Sebelum
+                <br />
+                Penyesuaian
               </th>
-              <th className="px-2 py-2 text-left">
-                Sisa Tagihan Bunga
+              <th className="px-2 py-2 text-left leading-tight">
+                Sisa Tagihan
                 <br />
-                Sesudah Penyesuaian
+                Bunga Sesudah
+                <br />
+                Penyesuaian
               </th>
               <th className="px-2 py-2 text-left">
                 Tagihan

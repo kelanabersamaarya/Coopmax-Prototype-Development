@@ -100,9 +100,9 @@
 .loan-debt-billing-preview .loan-debt-billing-table td:nth-child(6),
 .loan-debt-billing-preview .loan-debt-billing-table th:nth-child(7),
 .loan-debt-billing-preview .loan-debt-billing-table td:nth-child(7) {
-  width: 145px !important;
-  min-width: 145px !important;
-  max-width: 145px !important;
+  width: 120px !important;
+  min-width: 120px !important;
+  max-width: 120px !important;
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table th:nth-child(8),
