@@ -79,12 +79,14 @@
   max-width: 130px !important;
 }
 
-.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(n + 2):nth-child(-n + 7),
+.loan-debt-billing-preview .loan-debt-billing-table th {
+  text-align: left !important;
+}
+
 .loan-debt-billing-preview .loan-debt-billing-table td:nth-child(n + 2):nth-child(-n + 7) {
   text-align: right !important;
 }
 
-.loan-debt-billing-preview .loan-debt-billing-table th:last-child,
 .loan-debt-billing-preview .loan-debt-billing-table td:last-child {
   text-align: center !important;
 }
