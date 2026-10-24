@@ -210,11 +210,11 @@ export default function LoanBillingTablePreview({
             <col style={{ width: "115px", minWidth: "115px", maxWidth: "115px" }} />
             <col style={{ width: "130px", minWidth: "130px", maxWidth: "130px" }} />
             <col className="w-[14%]" />
-            <col className="w-[13%]" />
-            <col className="w-[14%]" />
-            <col className="w-[14%]" />
-            <col className="w-[11%]" />
-            <col className="w-[11%]" />
+            <col className="w-[15%]" />
+            <col className="w-[15%]" />
+            <col className="w-[15%]" />
+            <col className="w-[10%]" />
+            <col className="w-[9%]" />
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
@@ -230,9 +230,9 @@ export default function LoanBillingTablePreview({
                 Pokok
               </th>
               <th className="w-[145px] px-4 py-3">
-                Tagihan
+                Tagihan Bunga
                 <br />
-                Bunga
+                Sesudah Penyesuaian
               </th>
               <th className="w-[155px] px-4 py-3">
                 Sisa Tagihan
