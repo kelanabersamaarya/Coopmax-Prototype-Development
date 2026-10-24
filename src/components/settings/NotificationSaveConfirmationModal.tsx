@@ -21,8 +21,8 @@ export default function NotificationSaveConfirmationModal({
   }, [open]);
 
   const confirmSave = () => {
-    onConfirm();
     setSuccessOpen(true);
+    window.requestAnimationFrame(onConfirm);
   };
 
   return (
@@ -47,8 +47,8 @@ export default function NotificationSaveConfirmationModal({
       </dialog>
 
       {successOpen && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4">
-          <div role="dialog" aria-modal="true" aria-labelledby="save-success-title" className="w-[calc(100vw-14px)] max-w-[528px] rounded-[5px] bg-white px-4 pb-[17px] pt-[40px] text-center shadow-2xl sm:px-6">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4">
+          <div role="dialog" aria-modal="true" aria-labelledby="save-success-title" className="relative z-[10000] w-[calc(100vw-14px)] max-w-[528px] rounded-[5px] bg-white px-4 pb-[17px] pt-[40px] text-center shadow-2xl sm:px-6">
             <div className="mx-auto flex h-[92px] w-[92px] items-center justify-center rounded-full border-[4px] border-[#dff2d5] text-[#9bd77e]"><Check className="h-[58px] w-[58px]" strokeWidth={2.5} /></div>
             <h2 id="save-success-title" className="mt-[31px] text-[30px] font-bold leading-[36px] text-[#5b5b5b]">Berhasil {"menambahkan data"}</h2>
             <button type="button" autoFocus onClick={() => { setSuccessOpen(false); window.dispatchEvent(new CustomEvent("jadwal-bunga-save-success")); }} className="mt-[29px] h-[48px] w-[104px] rounded-[5px] bg-[#398fd6] text-[16px] font-semibold text-white ring-2 ring-[#b5d4ec] ring-offset-2 hover:bg-[#2f7fbd]">OK</button>
