@@ -36,11 +36,11 @@ const statusIconStyles: Record<BillingStatus, string> = {
 };
 
 const statusLines: Record<string, string[]> = {
-  "BELUM DIBAYAR": ["BELUM DIBAYAR"],
+  "BELUM DIBAYAR": ["BELUM", "DIBAYAR"],
   LUNAS: ["LUNAS"],
-  "LUNAS DENGAN PENGHAPUSAN": ["LUNAS DENGAN PENGHAPUSAN"],
-  "JATUH TEMPO": ["JATUH TEMPO"],
-  "DIBAYAR SEBAGIAN": ["DIBAYAR SEBAGIAN"],
+  "LUNAS DENGAN PENGHAPUSAN": ["LUNAS DENGAN", "PENGHAPUSAN"],
+  "JATUH TEMPO": ["JATUH", "TEMPO"],
+  "DIBAYAR SEBAGIAN": ["DIBAYAR", "SEBAGIAN"],
 };
 
 export default function BillingStatusBadge({
@@ -55,7 +55,7 @@ export default function BillingStatusBadge({
 
   return (
     <span
-      className={`mr-2 inline-flex min-h-7 items-center gap-1.5 whitespace-nowrap rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
+      className={`mr-2 inline-flex min-h-7 items-center gap-1.5 rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
     >
       {displayStatus === "Lunas" || displayStatus === "Lunas dengan Penghapusan" ? (
         <span
