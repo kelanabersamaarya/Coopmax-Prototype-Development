@@ -205,51 +205,51 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table key="billing-table-without-current-interest" className="loan-debt-billing-table w-full min-w-[1450px] table-fixed border-collapse">
+        <table key="billing-table-without-current-interest" className="loan-debt-billing-table w-full min-w-[870px] table-fixed border-collapse">
           <colgroup>
-            <col style={{ width: "115px", minWidth: "115px", maxWidth: "115px" }} />
-            <col style={{ width: "130px", minWidth: "130px", maxWidth: "130px" }} />
-            <col className="w-[14%]" />
-            <col className="w-[15%]" />
-            <col className="w-[15%]" />
-            <col className="w-[15%]" />
-            <col className="w-[10%]" />
-            <col className="w-[9%]" />
+            <col style={{ width: "69px", minWidth: "69px", maxWidth: "69px" }} />
+            <col style={{ width: "78px", minWidth: "78px", maxWidth: "78px" }} />
+            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
+            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
+            <col style={{ width: "93px", minWidth: "93px", maxWidth: "93px" }} />
+            <col style={{ width: "99px", minWidth: "99px", maxWidth: "99px" }} />
+            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
+            <col style={{ width: "96px", minWidth: "96px", maxWidth: "96px" }} />
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[105px] px-3 py-3">Jatuh Tempo</th>
-              <th className="w-[130px] px-3 py-3">
+              <th className="px-2 py-2">Jatuh Tempo</th>
+              <th className="px-2 py-2">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[145px] px-4 py-3">
+              <th className="px-2 py-2">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[145px] px-4 py-3">
+              <th className="px-2 py-2">
                 Tagihan Bunga
                 <br />
                 Sesudah Penyesuaian
               </th>
-              <th className="w-[155px] px-4 py-3">
+              <th className="px-2 py-2">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[165px] px-4 py-3">
+              <th className="px-2 py-2">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[145px] px-4 py-3">
+              <th className="px-2 py-2">
                 Tagihan
                 <br />
                 Denda
               </th>
-              <th className="w-[160px] px-4 py-3">
+              <th className="px-2 py-2">
                 Status
                 <br />
                 Tagihan
@@ -276,43 +276,43 @@ export default function LoanBillingTablePreview({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-4 py-3 text-left font-normal tabular-nums whitespace-nowrap">
+                  <td className="px-2 py-2 text-left font-normal tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-2 py-2 text-right">
                     <NumericCell>{formatIdr(adjustedTotal)}</NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-2 py-2 text-right">
                     <NumericCell>
                       {inGracePeriod ? "0,00" : row.tagihanPokok}
                     </NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-2 py-2 text-right">
                     <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-2 py-2 text-right">
                     <NumericCell>
                       {inGracePeriod ? "0,00" : row.sisaPokok}
                     </NumericCell>
                   </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex w-full items-center justify-end gap-2">
+                  <td className="px-2 py-2 text-right">
+                    <div className="flex w-full items-center justify-end gap-1">
                       <NumericCell>{row.sisaBunga}</NumericCell>
                       <button
                         type="button"
                         onClick={() => setAdjustmentDueDate(row.jatuhTempo)}
-                        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white transition hover:bg-[#1D4ED8] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563EB]/25"
+                        className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#2563EB] text-white transition hover:bg-[#1D4ED8] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563EB]/25"
                         aria-label={`Penyesuaian bunga tagihan ${row.jatuhTempo}`}
                         title="Penyesuaian bunga"
                       >
-                        <Pencil className="h-3.5 w-3.5" strokeWidth={2.8} />
+                        <Pencil className="h-3 w-3" strokeWidth={2.8} />
                       </button>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-2 py-2 text-right">
                     <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-2 py-2">
                     <BillingStatusBadge status="Belum Dibayar" />
                   </td>
                 </tr>
