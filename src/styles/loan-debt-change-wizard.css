@@ -38,8 +38,8 @@
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table {
-  width: 1450px !important;
-  min-width: 1450px !important;
+  width: 870px !important;
+  min-width: 870px !important;
   table-layout: fixed !important;
 }
 
@@ -50,33 +50,33 @@
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table th {
-  padding: 0.7rem 0.75rem !important;
+  padding: 0.45rem 0.45rem !important;
   white-space: normal !important;
   line-height: 1.3 !important;
-  height: 68px !important;
+  height: 58px !important;
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table td {
-  padding: 0.7rem 0.75rem !important;
+  padding: 0.45rem 0.45rem !important;
   white-space: nowrap !important;
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table th:first-child,
 .loan-debt-billing-preview .loan-debt-billing-table td:first-child {
-  width: 115px !important;
-  min-width: 115px !important;
-  max-width: 115px !important;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
+  width: 69px !important;
+  min-width: 69px !important;
+  max-width: 69px !important;
+  padding-left: 0.35rem !important;
+  padding-right: 0.35rem !important;
   text-align: left !important;
 }
 
-/* Total Tagihan Belum Dibayar harus mengikuti lebar tetap 130px, bukan lebar persentase. */
+/* Total Tagihan Belum Dibayar harus mengikuti lebar tetap 78px, bukan lebar persentase. */
 .loan-debt-billing-preview .loan-debt-billing-table th:nth-child(2),
 .loan-debt-billing-preview .loan-debt-billing-table td:nth-child(2) {
-  width: 130px !important;
-  min-width: 130px !important;
-  max-width: 130px !important;
+  width: 78px !important;
+  min-width: 78px !important;
+  max-width: 78px !important;
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table th {
