@@ -291,7 +291,7 @@ function UnifiedBillingSimulationTable({
                   <td
                     className={cn(
                       "px-3 py-3 text-right tabular-nums",
-                      isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
+                      isAdjustedRow ? "font-semibold text-black" : "text-black",
                     )}
                   >
                     {formatIdr(interestAfter)}
@@ -305,7 +305,7 @@ function UnifiedBillingSimulationTable({
                   <td
                     className={cn(
                       "px-3 py-3 text-right tabular-nums",
-                      isAdjustedRow ? "font-semibold text-[#2563EB]" : "",
+                      isAdjustedRow ? "font-semibold text-black" : "text-black",
                     )}
                   >
                     {formatIdr(remainingInterestAfter)}
