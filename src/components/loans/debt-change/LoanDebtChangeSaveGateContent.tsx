@@ -193,10 +193,10 @@ export default function LoanDebtChangeSaveGate() {
       setConfirmOpen(true);
     }
 
-    document.addEventListener("loan-debt-save-request", handleSaveRequest, true);
+    window.addEventListener("loan-debt-save-request", handleSaveRequest, true);
 
     return () =>
-      document.removeEventListener("loan-debt-save-request", handleSaveRequest, true);
+      window.removeEventListener("loan-debt-save-request", handleSaveRequest, true);
   }, []);
 
   function cancelConfirmation() {
