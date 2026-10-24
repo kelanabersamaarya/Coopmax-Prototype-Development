@@ -205,21 +205,19 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="loan-debt-billing-table w-full min-w-[1550px] table-fixed border-collapse">
+        <table className="loan-debt-billing-table w-full min-w-[1450px] table-fixed border-collapse">
           <colgroup>
-            <col className="w-[8%]" />
-            <col className="w-[11%]" />
-            <col className="w-[14%]" />
             <col className="w-[12%]" />
-            <col className="w-[12%]" />
+            <col className="w-[16%]" />
+            <col className="w-[13%]" />
+            <col className="w-[13%]" />
             <col className="w-[14%]" />
             <col className="w-[14%]" />
-            <col className="w-[8%]" />
-            <col className="w-[7%]" />
+            <col className="w-[9%]" />
+            <col className="w-[9%]" />
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[110px] px-4 py-3">Angsuran Ke</th>
               <th className="w-[125px] px-4 py-3">Jatuh Tempo</th>
               <th className="w-[150px] px-4 py-3">
                 Total Tagihan
@@ -278,9 +276,6 @@ export default function LoanBillingTablePreview({
                     index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                   )}
                 >
-                  <td className="px-4 py-3 text-left font-normal tabular-nums">
-                    {globalIndex + 1}
-                  </td>
                   <td className="px-4 py-3 text-left font-normal tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
                   </td>

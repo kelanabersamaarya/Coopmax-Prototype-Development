@@ -38,8 +38,8 @@
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table {
-  width: 1550px !important;
-  min-width: 1550px !important;
+  width: 1450px !important;
+  min-width: 1450px !important;
   table-layout: fixed !important;
 }
 
@@ -63,16 +63,11 @@
 
 .loan-debt-billing-preview .loan-debt-billing-table th:first-child,
 .loan-debt-billing-preview .loan-debt-billing-table td:first-child {
-  text-align: center !important;
-}
-
-.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(2),
-.loan-debt-billing-preview .loan-debt-billing-table td:nth-child(2) {
   text-align: left !important;
 }
 
-.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(n + 3):nth-child(-n + 8),
-.loan-debt-billing-preview .loan-debt-billing-table td:nth-child(n + 3):nth-child(-n + 8) {
+.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(n + 2):nth-child(-n + 7),
+.loan-debt-billing-preview .loan-debt-billing-table td:nth-child(n + 2):nth-child(-n + 7) {
   text-align: right !important;
 }
 

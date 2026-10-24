@@ -27,7 +27,7 @@ function syncTable(table: HTMLTableElement) {
   if (!headerRow) return;
 
   const headerCells = Array.from(headerRow.cells);
-  const interestHeader = headerCells[4];
+  const interestHeader = headerCells[3];
   if (!interestHeader) return;
 
   interestHeader.innerHTML = "Tagihan Bunga<br />Saat Ini";
@@ -58,7 +58,7 @@ function syncTable(table: HTMLTableElement) {
     Array.from(tbody.rows).forEach((row) => {
       if (row.querySelector("td[colspan]")) return;
 
-      const currentInterestCell = row.cells[4];
+      const currentInterestCell = row.cells[3];
       if (!currentInterestCell) return;
 
       const existingAdjustedCell = row.querySelector<HTMLTableCellElement>(
