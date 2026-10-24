@@ -180,9 +180,7 @@ export default function LoanDebtChangeSaveGate() {
 
   React.useEffect(() => {
     function handleSaveRequest(event: Event) {
-      const wizard = (event.target as HTMLElement | null)?.closest<HTMLElement>(
-        '[data-loan-debt-wizard="true"]',
-      );
+      const wizard = (event as CustomEvent<{ wizard?: HTMLElement }>).detail?.wizard;
       if (!wizard || wizard.dataset.loanDebtStep !== "2") return;
 
       const adjustment = parseSaveData(wizard);

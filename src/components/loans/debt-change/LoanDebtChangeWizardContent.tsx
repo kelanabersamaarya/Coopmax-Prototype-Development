@@ -448,8 +448,16 @@ export default function LoanDebtChangeWizard({
   function requestSave(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     event.stopPropagation();
-    event.currentTarget.closest<HTMLElement>("[data-loan-debt-wizard=\"true\"]")?.dispatchEvent(
-      new CustomEvent("loan-debt-save-request", { bubbles: true }),
+    const wizard = event.currentTarget.closest<HTMLElement>(
+      '[data-loan-debt-wizard="true"]',
+    );
+
+    if (!wizard) return;
+
+    document.dispatchEvent(
+      new CustomEvent("loan-debt-save-request", {
+        detail: { wizard },
+      }),
     );
   }
 
