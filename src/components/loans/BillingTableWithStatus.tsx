@@ -189,7 +189,7 @@ function Td({
   return (
     <td
       className={cn(
-        "px-4 py-3 text-[13px] font-medium text-slate-900",
+        "px-4 py-3 text-[13px] font-normal text-slate-900",
         "border-b-0",
         "w-full",
         align === "right"
