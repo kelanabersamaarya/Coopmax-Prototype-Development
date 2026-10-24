@@ -55,11 +55,11 @@ export default function BillingStatusBadge({
 
   return (
     <span
-      className={`mr-2 inline-flex min-h-7 items-center gap-1.5 rounded-[5px] px-2.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
+      className={`mr-0 inline-flex min-h-7 max-w-full items-center gap-1 rounded-[5px] px-1.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
     >
       {displayStatus === "Lunas" || displayStatus === "Lunas dengan Penghapusan" ? (
         <span
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#3bb001] text-[#3bb001]"
+          className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[#3bb001] text-[#3bb001]"
           aria-hidden="true"
         >
           <Check className="h-3 w-3" strokeWidth={2.75} />
@@ -72,7 +72,7 @@ export default function BillingStatusBadge({
         />
       )}
       <span
-        className="whitespace-nowrap text-left leading-tight"
+        className="min-w-0 whitespace-normal text-left leading-tight"
       >
         {(statusLines[displayStatus.toUpperCase()] ?? [displayStatus.toUpperCase()]).map(
           (line) => (

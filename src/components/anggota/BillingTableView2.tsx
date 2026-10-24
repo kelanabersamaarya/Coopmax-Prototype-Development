@@ -854,7 +854,7 @@ export default function BillingTableView2({
                             ) : null}
 
                             {showStatusColumn ? (
-                              <div className={cn("px-4 text-left", cellY)}>
+                              <div className={cn("px-[5px] text-left", cellY)}>
                                 <BillingStatusBadge
                                   status={statusForRow(r, rowIndex)}
                                   variant={statusBadgeVariant}
@@ -952,7 +952,7 @@ export default function BillingTableView2({
                               ) : null}
 
                               {showStatusColumn ? (
-                                <div className={cn("px-4 text-left", cellY)}>
+                                <div className={cn("px-[5px] text-left", cellY)}>
                                   <BillingStatusBadge
                                     status={statusForRow(r, idx)}
                                     variant={statusBadgeVariant}
