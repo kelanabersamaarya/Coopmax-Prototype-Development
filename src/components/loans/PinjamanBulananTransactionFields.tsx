@@ -233,22 +233,22 @@ export default function PinjamanBulananTransactionFields({
           <Input
             value={emptyWhenDisabled(keterangan)}
             onChange={(event) => onKeteranganChange(event.target.value)}
-            className={cn(inputClassName, "rounded-r-none text-left")}
+            className={cn(inputClassName, "min-w-0 flex-1 rounded-r-none text-left")}
             disabled={disabled}
           />
           <button
             type="button"
             disabled={disabled}
             className={cn(
-              "inline-flex h-[30px] w-[38px] shrink-0 items-center justify-center",
-              "rounded-l-none rounded-r-[5px] bg-[#6B7A90] text-white",
-              "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+              "inline-flex h-[30px] w-[31px] shrink-0 items-center justify-center",
+              "rounded-l-none rounded-r-[5px] bg-[#7B8BA4] text-white",
+              "transition hover:bg-[#6D7D96]",
               disabled ? "pointer-events-none opacity-60" : "",
             )}
             aria-label="Catatan"
             title="Catatan"
           >
-            <FileText className="h-4.5 w-4.5" />
+            <FileText className="h-4 w-4" />
           </button>
         </div>
       </FieldBlock>

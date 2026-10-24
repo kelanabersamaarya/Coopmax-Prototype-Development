@@ -1017,13 +1017,40 @@ function PaymentTextInput({
   disabled?: boolean;
   formatNominal?: boolean;
 }) {
+  const isCatatan = label === "Catatan";
+
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-2">
       <div className="whitespace-nowrap text-[12px] font-normal leading-tight text-slate-900">
         {label} :
       </div>
 
-      {formatNominal ? (
+      {isCatatan ? (
+        <div className="flex min-w-0 items-stretch">
+          <Input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className={cn(className, "min-w-0 flex-1 rounded-r-none")}
+            placeholder={placeholder}
+            inputMode={inputMode}
+            disabled={disabled}
+          />
+          <button
+            type="button"
+            disabled={disabled}
+            className={cn(
+              "inline-flex h-[30px] w-[31px] shrink-0 items-center justify-center",
+              "rounded-l-none rounded-r-[5px] bg-[#7B8BA4] text-white",
+              "transition hover:bg-[#6D7D96]",
+              disabled ? "pointer-events-none opacity-60" : "",
+            )}
+            aria-label="Catatan"
+            title="Catatan"
+          >
+            <FileText className="h-4 w-4" />
+          </button>
+        </div>
+      ) : formatNominal ? (
         <FormattedNominalInput
           value={value}
           onChange={onChange}
