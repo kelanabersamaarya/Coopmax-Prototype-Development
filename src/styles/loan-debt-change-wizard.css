@@ -31,7 +31,15 @@
 }
 
 /* Tabel memakai lebar kolom eksplisit agar header dan isi selalu sejajar. */
+.loan-debt-billing-preview .safe-x-scroll {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: thin;
+}
+
 .loan-debt-billing-preview .loan-debt-billing-table {
+  width: 1750px !important;
+  min-width: 1750px !important;
   table-layout: fixed !important;
 }
 
@@ -42,14 +50,35 @@
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table th {
-  padding: 0.75rem 0.75rem !important;
+  padding: 0.85rem 1rem !important;
   white-space: normal !important;
   line-height: 1.35 !important;
+  height: 74px !important;
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table td {
-  padding: 0.75rem !important;
+  padding: 0.85rem 1rem !important;
   white-space: nowrap !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table th:first-child,
+.loan-debt-billing-preview .loan-debt-billing-table td:first-child {
+  text-align: center !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(2),
+.loan-debt-billing-preview .loan-debt-billing-table td:nth-child(2) {
+  text-align: left !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(n + 3):nth-child(-n + 8),
+.loan-debt-billing-preview .loan-debt-billing-table td:nth-child(n + 3):nth-child(-n + 8) {
+  text-align: right !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table th:last-child,
+.loan-debt-billing-preview .loan-debt-billing-table td:last-child {
+  text-align: center !important;
 }
 
 /*
