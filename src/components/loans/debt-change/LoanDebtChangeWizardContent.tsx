@@ -313,7 +313,7 @@ function UnifiedBillingSimulationTable({
                     {remainingInterest}
                   </td>
                   <td className="relative overflow-visible px-3 py-3 text-right tabular-nums font-normal text-black">
-                    <span className={isAdjustedRow ? "group relative inline-flex items-center gap-1 text-black" : "text-black"}>
+                    <span className={isAdjustedRow ? "group relative inline-flex items-center gap-1 text-[#2563EB]" : "text-black"}>
                       {formatIdr(remainingInterestAfter)}
                       {isAdjustedRow ? (
                         <>
