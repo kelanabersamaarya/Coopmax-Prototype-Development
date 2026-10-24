@@ -179,38 +179,26 @@ export default function LoanDebtChangeSaveGate() {
   const pendingAdjustmentRef = React.useRef<PendingAdjustment | null>(null);
 
   React.useEffect(() => {
-    function handleSaveClick(event: MouseEvent) {
-      const target = event.target as HTMLElement | null;
-      const button = target?.closest("button");
-
-      if (!button || button.disabled) return;
-
-      const wizard = button.closest<HTMLElement>('[data-loan-debt-wizard="true"]');
-      const label = (button.textContent ?? "").trim().toLowerCase();
-
-      if (
-        !wizard ||
-        wizard.dataset.loanDebtStep !== "2" ||
-        !label.includes("simpan perubahan")
-      ) {
-        return;
-      }
+    function handleSaveRequest(event: Event) {
+      const wizard = (event.target as HTMLElement | null)?.closest<HTMLElement>(
+        '[data-loan-debt-wizard="true"]',
+      );
+      if (!wizard || wizard.dataset.loanDebtStep !== "2") return;
 
       const adjustment = parseSaveData(wizard);
       if (!adjustment) return;
 
       event.preventDefault();
       event.stopPropagation();
-      event.stopImmediatePropagation();
-
       activeWizardRef.current = wizard;
       pendingAdjustmentRef.current = adjustment;
       setConfirmOpen(true);
     }
 
-    document.addEventListener("click", handleSaveClick, true);
+    document.addEventListener("loan-debt-save-request", handleSaveRequest, true);
 
-    return () => document.removeEventListener("click", handleSaveClick, true);
+    return () =>
+      document.removeEventListener("loan-debt-save-request", handleSaveRequest, true);
   }, []);
 
   function cancelConfirmation() {

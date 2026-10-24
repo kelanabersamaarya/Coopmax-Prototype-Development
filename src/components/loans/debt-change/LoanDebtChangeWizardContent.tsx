@@ -442,10 +442,15 @@ export default function LoanDebtChangeWizard({
       }
 
       setStep(2);
-      return;
     }
+  }
 
-    onOpenChange(false);
+  function requestSave(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.closest<HTMLElement>("[data-loan-debt-wizard=\"true\"]")?.dispatchEvent(
+      new CustomEvent("loan-debt-save-request", { bubbles: true }),
+    );
   }
 
   return (
@@ -583,7 +588,7 @@ export default function LoanDebtChangeWizard({
             <button
               type="button"
               disabled={step === 1 && !savedAdjustment}
-              onClick={nextStep}
+              onClick={step === 2 ? requestSave : nextStep}
               className={cn(
                 "ml-auto inline-flex h-10 items-center justify-center rounded-[5px] px-5 text-[12px] font-semibold text-white transition",
                 step === 2
