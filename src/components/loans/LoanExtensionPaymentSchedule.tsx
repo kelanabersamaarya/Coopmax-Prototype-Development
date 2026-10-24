@@ -106,7 +106,7 @@ export default function LoanExtensionPaymentSchedule({
                 <td className="px-3 py-3 text-right tabular-nums">
                   {formatIdr(row.principal)}
                 </td>
-                <td className="px-3 py-3 text-right font-semibold tabular-nums text-[#2563EB]">
+                <td className="px-3 py-3 text-right font-normal tabular-nums text-black">
                   {formatIdr(row.interest)}
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
