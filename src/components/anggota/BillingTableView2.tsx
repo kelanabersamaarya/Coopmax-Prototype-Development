@@ -639,7 +639,7 @@ export default function BillingTableView2({
         <table className="w-full min-w-[892px] table-fixed border-separate border-spacing-0 text-[12px]">
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
-            <col className="w-[82px]" />
+            <col className="w-[72px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
