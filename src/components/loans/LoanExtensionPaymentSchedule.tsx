@@ -20,11 +20,6 @@ function formatIdr(value: number) {
     .replace(/,/g, ".");
 }
 
-function formatDueDate(value: string) {
-  const [day, month, year] = value.split("-");
-  return { date: `${day}-${month}`, year };
-}
-
 export default function LoanExtensionPaymentSchedule({
   rows,
 }: {
@@ -45,27 +40,41 @@ export default function LoanExtensionPaymentSchedule({
       <div className="safe-x-scroll">
         <table className="w-full min-w-[750px] border-collapse">
           <thead>
-            <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-black">
-              <th className="w-[110px] px-3 py-3 text-left">
-                Jatuh Tempo
+            <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
+              <th className="w-[110px] px-3 py-3">
+                Jatuh
+                <br />
+                Tempo
               </th>
-              <th className="w-[150px] px-3 py-3 text-left">
-                Total Tagihan<br />Belum Dibayar
+              <th className="w-[150px] px-3 py-3 text-right">
+                Total Tagihan
+                <br />
+                Belum Dibayar
               </th>
-              <th className="w-[145px] px-3 py-3 text-left">
-                Tagihan Pokok
+              <th className="w-[145px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Pokok
               </th>
-              <th className="w-[145px] px-3 py-3 text-left">
-                Tagihan Bunga
+              <th className="w-[145px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Bunga
               </th>
-              <th className="w-[155px] px-3 py-3 text-left">
-                Sisa Tagihan Pokok
+              <th className="w-[155px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Pokok
               </th>
-              <th className="w-[155px] px-3 py-3 text-left">
-                Sisa Tagihan Bunga
+              <th className="w-[155px] px-3 py-3 text-right">
+                Sisa Tagihan
+                <br />
+                Bunga
               </th>
-              <th className="w-[145px] px-3 py-3 text-left">
-                Tagihan Denda
+              <th className="w-[145px] px-3 py-3 text-right">
+                Tagihan
+                <br />
+                Denda
               </th>
             </tr>
           </thead>
@@ -80,10 +89,7 @@ export default function LoanExtensionPaymentSchedule({
                 )}
               >
                 <td className="px-3 py-3 font-semibold tabular-nums whitespace-nowrap">
-                  <div className="flex flex-col leading-tight">
-                    <span>{formatDueDate(row.dueDate).date}</span>
-                    <span>{formatDueDate(row.dueDate).year}</span>
-                  </div>
+                  {row.dueDate}
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
                   {formatIdr(row.total)}
@@ -91,7 +97,7 @@ export default function LoanExtensionPaymentSchedule({
                 <td className="px-3 py-3 text-right tabular-nums">
                   {formatIdr(row.principal)}
                 </td>
-                <td className="px-3 py-3 text-right font-semibold tabular-nums text-black">
+                <td className="px-3 py-3 text-right font-semibold tabular-nums text-[#2563EB]">
                   {formatIdr(row.interest)}
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
