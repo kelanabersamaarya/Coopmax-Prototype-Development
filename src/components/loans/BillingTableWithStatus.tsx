@@ -150,10 +150,10 @@ function TotalRow({
     denda: number;
   };
 }) {
-  const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
+  const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
   return (
     <tr className="bg-white">
-      <td className="border-t border-slate-200 px-1 py-2 text-left text-[11px] font-bold leading-tight text-slate-800">
+      <td className="border-t border-slate-200 px-1 py-2 text-left text-[13px] font-bold leading-tight text-slate-800">
         {label === "Total Tagihan per Halaman" ? (
           <>
             <span className="block whitespace-nowrap">Total Tagihan</span>
