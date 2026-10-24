@@ -208,7 +208,7 @@ export default function LoanBillingTablePreview({
         <table className="loan-debt-billing-table w-full min-w-[1450px] table-fixed border-collapse">
           <colgroup>
             <col className="w-[9%]" />
-            <col className="w-[14%]" />
+            <col style={{ width: "130px", minWidth: "130px", maxWidth: "130px" }} />
             <col className="w-[14%]" />
             <col className="w-[13%]" />
             <col className="w-[14%]" />

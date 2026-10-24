@@ -69,6 +69,14 @@
   text-align: left !important;
 }
 
+/* Total Tagihan Belum Dibayar harus mengikuti lebar tetap 130px, bukan lebar persentase. */
+.loan-debt-billing-preview .loan-debt-billing-table th:nth-child(2),
+.loan-debt-billing-preview .loan-debt-billing-table td:nth-child(2) {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+}
+
 .loan-debt-billing-preview .loan-debt-billing-table th:nth-child(n + 2):nth-child(-n + 7),
 .loan-debt-billing-preview .loan-debt-billing-table td:nth-child(n + 2):nth-child(-n + 7) {
   text-align: right !important;
