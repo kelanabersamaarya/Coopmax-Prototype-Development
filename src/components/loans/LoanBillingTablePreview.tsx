@@ -205,7 +205,18 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="w-full min-w-[1370px] border-collapse">
+        <table className="loan-debt-billing-table w-full min-w-[1370px] table-fixed border-collapse">
+          <colgroup>
+            <col className="w-[7%]" />
+            <col className="w-[10%]" />
+            <col className="w-[14%]" />
+            <col className="w-[12%]" />
+            <col className="w-[13%]" />
+            <col className="w-[14%]" />
+            <col className="w-[14%]" />
+            <col className="w-[9%]" />
+            <col className="w-[7%]" />
+          </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
               <th className="w-[110px] px-4 py-3">Angsuran Ke</th>

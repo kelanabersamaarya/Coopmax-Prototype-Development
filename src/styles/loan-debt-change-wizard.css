@@ -30,20 +30,26 @@
   display: none !important;
 }
 
-/*
-  Samakan template kolom isi dengan BillingTableHeader:
-  Jatuh Tempo 110px, Total Tagihan 128px, Pokok 130px, Bunga 120px,
-  Sisa Pokok 140px, Sisa Bunga 140px, dan Denda 130px.
-*/
-.loan-debt-billing-preview .grid.items-center.gap-0 {
-  grid-template-columns:
-    125px
-    150px
-    145px
-    145px
-    155px
-    165px
-    145px !important;
+/* Tabel memakai lebar kolom eksplisit agar header dan isi selalu sejajar. */
+.loan-debt-billing-preview .loan-debt-billing-table {
+  table-layout: fixed !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table th,
+.loan-debt-billing-preview .loan-debt-billing-table td {
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table th {
+  padding: 0.75rem 0.75rem !important;
+  white-space: normal !important;
+  line-height: 1.35 !important;
+}
+
+.loan-debt-billing-preview .loan-debt-billing-table td {
+  padding: 0.75rem !important;
+  white-space: nowrap !important;
 }
 
 /*
