@@ -181,6 +181,49 @@ export default function LoanBillingTablePreview({
   const previousDisabled = page <= 1;
   const nextDisabled = page >= pageCount;
 
+  function getRowTotals(rowList: BillingRow[]) {
+    return rowList.reduce(
+      (totals, row, index) => {
+        const globalIndex = rows.findIndex(
+          (currentRow) => currentRow.jatuhTempo === row.jatuhTempo,
+        );
+        const adjustedInterest = getAdjustedInterest(row);
+
+        totals.totalBelumDibayar +=
+          parseIdr(row.totalBelumDibayar) -
+          parseIdr(row.tagihanBunga) +
+          adjustedInterest;
+        totals.tagihanPokok += inGracePeriodForIndex(globalIndex)
+          ? 0
+          : parseIdr(row.tagihanPokok);
+        totals.tagihanBunga += parseIdr(row.tagihanBunga);
+        totals.sisaPokok += inGracePeriodForIndex(globalIndex)
+          ? 0
+          : parseIdr(row.sisaPokok);
+        totals.sisaBunga += parseIdr(row.sisaBunga);
+        totals.adjustedInterest += adjustedInterest;
+        totals.tagihanDenda += globalIndex < 3 ? parseIdr(penaltyAmount) : 0;
+        return totals;
+      },
+      {
+        totalBelumDibayar: 0,
+        tagihanPokok: 0,
+        tagihanBunga: 0,
+        sisaPokok: 0,
+        sisaBunga: 0,
+        adjustedInterest: 0,
+        tagihanDenda: 0,
+      },
+    );
+  }
+
+  function inGracePeriodForIndex(index: number) {
+    return index < 2;
+  }
+
+  const pageTotals = getRowTotals(pagedRows);
+  const overallTotals = getRowTotals(rows);
+
   return (
     <section
       className={cn(
@@ -207,15 +250,15 @@ export default function LoanBillingTablePreview({
       <div className="safe-x-scroll p-4">
         <table key="billing-table-without-current-interest" className="loan-debt-billing-table w-full min-w-[870px] table-fixed border-collapse">
           <colgroup>
-            <col style={{ width: "69px", minWidth: "69px", maxWidth: "69px" }} />
-            <col style={{ width: "78px", minWidth: "78px", maxWidth: "78px" }} />
-            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
-            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
-            <col style={{ width: "93px", minWidth: "93px", maxWidth: "93px" }} />
-            <col style={{ width: "99px", minWidth: "99px", maxWidth: "99px" }} />
-            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
-            <col style={{ width: "87px", minWidth: "87px", maxWidth: "87px" }} />
-            <col style={{ width: "96px", minWidth: "96px", maxWidth: "96px" }} />
+            <col style={{ width: "85px", minWidth: "85px", maxWidth: "85px" }} />
+            <col style={{ width: "100px", minWidth: "100px", maxWidth: "100px" }} />
+            <col style={{ width: "105px", minWidth: "105px", maxWidth: "105px" }} />
+            <col style={{ width: "115px", minWidth: "115px", maxWidth: "115px" }} />
+            <col style={{ width: "110px", minWidth: "110px", maxWidth: "110px" }} />
+            <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
+            <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
+            <col style={{ width: "100px", minWidth: "100px", maxWidth: "100px" }} />
+            <col style={{ width: "105px", minWidth: "105px", maxWidth: "105px" }} />
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
@@ -327,6 +370,36 @@ export default function LoanBillingTablePreview({
                 </tr>
               );
             })}
+            {[
+              { label: "Total Tagihan per Halaman", totals: pageTotals },
+              { label: "Total Tagihan Keseluruhan", totals: overallTotals },
+            ].map(({ label, totals }) => (
+              <tr key={label} className="border-t border-slate-200 bg-slate-50 text-[12px] font-bold text-slate-800">
+                <td className="px-2 py-2 text-left leading-tight">
+                  {label === "Total Tagihan per Halaman" ? (
+                    <>
+                      Total Tagihan
+                      <br />
+                      per Halaman
+                    </>
+                  ) : (
+                    <>
+                      Total Tagihan
+                      <br />
+                      Keseluruhan
+                    </>
+                  )}
+                </td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.totalBelumDibayar)}</td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.tagihanPokok)}</td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.tagihanBunga)}</td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.sisaPokok)}</td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.sisaBunga)}</td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.adjustedInterest)}</td>
+                <td className="px-2 py-2 text-right">{formatIdr(totals.tagihanDenda)}</td>
+                <td className="px-2 py-2" />
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
