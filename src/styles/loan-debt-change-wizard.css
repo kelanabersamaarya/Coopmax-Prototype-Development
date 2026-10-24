@@ -63,7 +63,9 @@
 
 .loan-debt-billing-preview .loan-debt-billing-table th:first-child,
 .loan-debt-billing-preview .loan-debt-billing-table td:first-child {
-  width: 9% !important;
+  width: 115px !important;
+  min-width: 115px !important;
+  max-width: 115px !important;
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
   text-align: left !important;
