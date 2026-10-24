@@ -367,7 +367,7 @@ export default function LoanInterestChangeWizard({
       const afterInterest = (principalBefore * rate) / 100 / 12;
       const beforeRemainingInterest = (remainingAfter * currentRate) / 100 / 12;
       const afterRemainingInterest = (remainingAfter * rate) / 100 / 12;
-      const penalty = number === 3 || number === 4 ? 75_000 : 0;
+      const penalty = 0;
 
       return {
         number,
