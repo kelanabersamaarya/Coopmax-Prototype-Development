@@ -18,6 +18,7 @@ export default function AnggotaTransaksi() {
   const showView1 = selected?.nama === "Gaby";
   const showView3 = selected?.nama === "Komang Dewa";
   const showView2 = selected?.nama === "Nyoman Ariana";
+  const showView5 = selected?.id === "N2500005";
 
   return (
     <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
@@ -94,7 +95,9 @@ export default function AnggotaTransaksi() {
             <div className="overflow-x-auto px-2 pb-2 md:px-3">
               <div className="min-w-0 overflow-hidden rounded-[5px] bg-transparent">
                 <div className="min-w-0 p-2 sm:p-3">
-                  {showView1 ? (
+                  {showView5 ? (
+                    <TransaksiAnggotaView1 nasabah={selected} pageSize={20} />
+                  ) : showView1 ? (
                     <TransaksiAnggotaView1 nasabah={selected} />
                   ) : showView3 ? (
                     <TransaksiAnggotaView3 nasabah={selected} />

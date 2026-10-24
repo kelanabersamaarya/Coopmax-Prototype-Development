@@ -34,8 +34,15 @@ export type Nasabah = {
 };
 
 const seed: Nasabah[] = Array.from({ length: 28 }).map((_, i) => ({
-  id: "N2500010",
-  nama: i % 3 === 0 ? "Gaby" : i % 3 === 1 ? "Nyoman Ariana" : "Komang Dewa",
+  id: i === 4 ? "N2500005" : "N2500010",
+  nama:
+    i === 4
+      ? "Made Suryani"
+      : i % 3 === 0
+        ? "Gaby"
+        : i % 3 === 1
+          ? "Nyoman Ariana"
+          : "Komang Dewa",
   noIdentitas: "2233445",
   alamat: "Jl. Galang",
   status: i % 5 === 0 ? "Calon" : "Anggota",

@@ -76,6 +76,7 @@ type Props = {
     noIdentitas: string;
     alamat: string;
   };
+  pageSize?: number;
 };
 
 const rows: BillingRow[] = [
@@ -110,7 +111,7 @@ const rows: BillingRow[] = [
 
 const PELUNASAN_DENDA_FLAT = 215000;
 
-export default function TransaksiAnggotaView1({ nasabah }: Props) {
+export default function TransaksiAnggotaView1({ nasabah, pageSize: pageSizeProp = 10 }: Props) {
   const penaltyContextKey = React.useMemo(
     () => makePenaltyContextKey(nasabah.id, "anggota-view1"),
     [nasabah.id],
@@ -150,7 +151,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const feeOnlyCols = isFeeOnly(jenisTransaksi);
   const isPenurunanBakiDebetMode = isPenurunanBakiDebet(jenisTransaksi);
 
-  const pageSize = 10;
+  const pageSize = pageSizeProp;
   const [page, setPage] = React.useState<number>(1);
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
