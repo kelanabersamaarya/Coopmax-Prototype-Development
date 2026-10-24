@@ -29,8 +29,42 @@ export default function LoanExtensionPaymentSchedule({
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
   const start = (page - 1) * pageSize;
   const pagedRows = rows.slice(start, start + pageSize);
-  const pageTotal = pagedRows.reduce((sum, row) => sum + row.total, 0);
-  const grandTotal = rows.reduce((sum, row) => sum + row.total, 0);
+  const pageTotals = pagedRows.reduce(
+    (totals, row) => ({
+      total: totals.total + row.total,
+      principal: totals.principal + row.principal,
+      interest: totals.interest + row.interest,
+      remainingPrincipal: totals.remainingPrincipal + row.remainingPrincipal,
+      remainingInterest: totals.remainingInterest + row.remainingInterest,
+      penalty: totals.penalty + row.penalty,
+    }),
+    {
+      total: 0,
+      principal: 0,
+      interest: 0,
+      remainingPrincipal: 0,
+      remainingInterest: 0,
+      penalty: 0,
+    },
+  );
+  const grandTotals = rows.reduce(
+    (totals, row) => ({
+      total: totals.total + row.total,
+      principal: totals.principal + row.principal,
+      interest: totals.interest + row.interest,
+      remainingPrincipal: totals.remainingPrincipal + row.remainingPrincipal,
+      remainingInterest: totals.remainingInterest + row.remainingInterest,
+      penalty: totals.penalty + row.penalty,
+    }),
+    {
+      total: 0,
+      principal: 0,
+      interest: 0,
+      remainingPrincipal: 0,
+      remainingInterest: 0,
+      penalty: 0,
+    },
+  );
 
   return (
     <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
@@ -119,18 +153,27 @@ export default function LoanExtensionPaymentSchedule({
               </tr>
             ))}
           </tbody>
+          <tfoot className="text-[12px] font-bold text-slate-800">
+            <tr className="border-t border-slate-200 bg-white">
+              <td className="px-3 py-3 leading-tight">Total Tagihan<br />per Halaman</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.total)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.principal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.interest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.remainingPrincipal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.remainingInterest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.penalty)}</td>
+            </tr>
+            <tr className="border-t border-slate-200 bg-white">
+              <td className="px-3 py-3 leading-tight">Total Tagihan<br />Keseluruhan</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.total)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.principal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.interest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.remainingPrincipal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.remainingInterest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.penalty)}</td>
+            </tr>
+          </tfoot>
         </table>
-      </div>
-
-      <div className="grid gap-2 border-t border-slate-200 bg-white px-4 py-3 text-[12px] text-slate-700 sm:grid-cols-2">
-        <div className="flex items-center justify-between gap-4 sm:justify-start">
-          <span className="font-medium">Total tagihan per halaman</span>
-          <span className="font-semibold tabular-nums text-slate-900">{formatIdr(pageTotal)}</span>
-        </div>
-        <div className="flex items-center justify-between gap-4 sm:justify-start">
-          <span className="font-medium">Total tagihan keseluruhan</span>
-          <span className="font-semibold tabular-nums text-slate-900">{formatIdr(grandTotal)}</span>
-        </div>
       </div>
 
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
