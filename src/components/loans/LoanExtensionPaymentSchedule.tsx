@@ -38,15 +38,24 @@ export default function LoanExtensionPaymentSchedule({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[750px] border-collapse">
+        <table className="w-full min-w-[1005px] table-fixed border-collapse">
+          <colgroup>
+            <col style={{ width: "170px" }} />
+            <col style={{ width: "120px" }} />
+            <col style={{ width: "145px" }} />
+            <col style={{ width: "145px" }} />
+            <col style={{ width: "155px" }} />
+            <col style={{ width: "155px" }} />
+            <col style={{ width: "115px" }} />
+          </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[140px] px-3 py-3">
+              <th className="px-3 py-3">
                 Jatuh
                 <br />
                 Tempo
               </th>
-              <th className="w-[120px] px-3 py-3 text-left">
+              <th className="px-3 py-3 text-left">
                 Total Tagihan
                 <br />
                 Belum Dibayar
