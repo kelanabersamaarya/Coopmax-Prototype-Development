@@ -219,43 +219,43 @@ export default function LoanBillingTablePreview({
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="px-2 py-2">Jatuh Tempo</th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">Jatuh Tempo</th>
+              <th className="px-2 py-2 text-left">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Sisa Tagihan Bunga
                 <br />
                 Sebelum Penyesuaian
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Sisa Tagihan Bunga
                 <br />
                 Sesudah Penyesuaian
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Tagihan
                 <br />
                 Denda
               </th>
-              <th className="px-2 py-2">
+              <th className="px-2 py-2 text-left">
                 Status
                 <br />
                 Tagihan
