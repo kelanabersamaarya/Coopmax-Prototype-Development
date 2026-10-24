@@ -39,27 +39,42 @@ const billingRows = [
 
 function AdjustmentTooltip({
   adjustment,
+  previousInterest,
+  adjustedInterest,
 }: {
   adjustment: SavedBillingInterestAdjustment["adjustment"];
+  previousInterest: number;
+  adjustedInterest: number;
 }) {
   const adjustmentAmount =
     adjustment.type === "Pembebasan Seluruh Bunga"
-      ? adjustment.previousInterest ?? "0,00"
-      : adjustment.amount || "0,00";
+      ? previousInterest
+      : parseIdr(adjustment.amount || "0");
 
   return (
-    <div className="loan-debt-adjustment-tooltip">
-      <div>
-        Metode Penyesuaian: <strong>{adjustment.type}</strong>
+    <div className="pointer-events-none absolute right-0 top-[calc(100%+9px)] z-30 w-[280px] rounded-lg border border-slate-200 bg-white p-3 text-left text-[11px] font-normal leading-[1.35] text-slate-800 opacity-0 shadow-[0_8px_20px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
+      <div className="mb-2 border-b border-slate-200 pb-2 text-[14px] font-extrabold text-slate-800">
+        Detail Penyesuaian Bunga
       </div>
-      <div>
-        Nominal Penyesuaian: <strong>{adjustmentAmount}</strong>
+      <div className="mt-2">
+        <div className="font-semibold text-slate-400">Metode Penyesuaian</div>
+        <strong>{adjustment.type}</strong>
       </div>
-      <div>
-        Alasan Penyesuaian: <strong>{adjustment.reason || "-"}</strong>
+      <div className="mt-2">
+        <div className="font-semibold text-slate-400">Nominal Bunga Sebelum Penyesuaian</div>
+        <strong>Rp {formatIdr(previousInterest)}</strong>
       </div>
-      <div>
-        Disesuaikan Oleh: <strong>Arya Dharma</strong>
+      <div className="mt-2">
+        <div className="font-semibold text-slate-400">Nominal Penyesuaian</div>
+        <strong>Rp {formatIdr(adjustmentAmount)}</strong>
+      </div>
+      <div className="mt-2">
+        <div className="font-semibold text-slate-400">Nominal Bunga Sesudah Penyesuaian</div>
+        <strong>Rp {formatIdr(adjustedInterest)}</strong>
+      </div>
+      <div className="mt-2">
+        <div className="font-semibold text-slate-400">Alasan Penyesuaian</div>
+        <strong>{adjustment.reason || "-"}</strong>
       </div>
     </div>
   );
@@ -292,9 +307,24 @@ function UnifiedBillingSimulationTable({
                     className={cn(
                       "px-3 py-3 text-right tabular-nums",
                       "font-normal text-black",
+                      isAdjustedRow ? "relative overflow-visible" : "",
                     )}
                   >
-                    {formatIdr(interestAfter)}
+                    <span className={isAdjustedRow ? "group relative inline-flex items-center gap-1 text-black" : "text-black"}>
+                      {formatIdr(interestAfter)}
+                      {isAdjustedRow ? (
+                        <>
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#2563EB] text-[12px] font-extrabold text-white">
+                            i
+                          </span>
+                          <AdjustmentTooltip
+                            adjustment={adjustedBill.adjustment}
+                            previousInterest={previousInterest}
+                            adjustedInterest={adjustedInterest}
+                          />
+                        </>
+                      ) : null}
+                    </span>
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {remainingPrincipal}
