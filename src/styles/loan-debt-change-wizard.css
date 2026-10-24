@@ -38,8 +38,8 @@
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table {
-  width: 1050px !important;
-  min-width: 1050px !important;
+  width: 1090px !important;
+  min-width: 1090px !important;
   table-layout: fixed !important;
 }
 
@@ -114,9 +114,10 @@
 
 .loan-debt-billing-preview .loan-debt-billing-table th:nth-child(9),
 .loan-debt-billing-preview .loan-debt-billing-table td:nth-child(9) {
-  width: 105px !important;
-  min-width: 105px !important;
-  max-width: 105px !important;
+  width: 145px !important;
+  min-width: 145px !important;
+  max-width: 145px !important;
+  overflow: visible !important;
 }
 
 .loan-debt-billing-preview .loan-debt-billing-table th {

@@ -258,7 +258,7 @@ export default function LoanBillingTablePreview({
             <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
             <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
             <col style={{ width: "100px", minWidth: "100px", maxWidth: "100px" }} />
-            <col style={{ width: "105px", minWidth: "105px", maxWidth: "105px" }} />
+            <col style={{ width: "145px", minWidth: "145px", maxWidth: "145px" }} />
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
