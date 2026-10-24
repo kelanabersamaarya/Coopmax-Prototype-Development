@@ -223,7 +223,7 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
 }) {
   return (
-    <table className="w-full min-w-[980px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+    <table className="w-full min-w-[1080px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -283,7 +283,7 @@ function InnerGraceTable({
                 </div>
               </Td>
 
-              <Td className="w-[145px] px-4">
+              <Td className="w-[180px] px-4 whitespace-nowrap">
                 <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
               </Td>
             </tr>
@@ -499,7 +499,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className="w-[145px]">
+                        <Td className="w-[180px] whitespace-nowrap">
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
@@ -556,7 +556,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className="w-[145px]">
+                        <Td className="w-[180px] whitespace-nowrap">
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
