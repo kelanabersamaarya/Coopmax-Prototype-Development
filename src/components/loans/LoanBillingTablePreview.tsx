@@ -375,8 +375,8 @@ export default function LoanBillingTablePreview({
               { label: "Total Tagihan per Halaman", totals: pageTotals },
               { label: "Total Tagihan Keseluruhan", totals: overallTotals },
             ].map(({ label, totals }) => (
-              <tr key={label} className="border-t border-slate-200 bg-white text-[12px] font-bold text-slate-800">
-                <td className="px-2 py-2 text-left leading-tight">
+              <tr key={label} className="border-t border-slate-200 bg-white text-[11px] font-bold text-slate-800">
+                              <td className="whitespace-nowrap px-1 py-2 text-left leading-tight">
                   {label === "Total Tagihan per Halaman" ? (
                     <>
                       Total Tagihan
