@@ -205,7 +205,7 @@ export default function LoanBillingTablePreview({
       </div>
 
       <div className="safe-x-scroll p-4">
-        <table className="loan-debt-billing-table w-full min-w-[1450px] table-fixed border-collapse">
+        <table key="billing-table-without-current-interest" className="loan-debt-billing-table w-full min-w-[1450px] table-fixed border-collapse">
           <colgroup>
             <col style={{ width: "115px", minWidth: "115px", maxWidth: "115px" }} />
             <col style={{ width: "130px", minWidth: "130px", maxWidth: "130px" }} />
