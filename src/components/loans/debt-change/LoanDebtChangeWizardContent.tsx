@@ -139,6 +139,44 @@ function UnifiedBillingSimulationTable({
         ? previousInterest + parseIdr(adjustedBill.adjustment.amount)
         : Math.max(0, previousInterest - parseIdr(adjustedBill.adjustment.amount));
 
+  function getTotals(rows: typeof billingRows, offset: number) {
+    return rows.reduce(
+      (totals, row, index) => {
+        const installmentNo = offset + index + 1;
+        const isAdjustedRow = installmentNo === adjustedBill.installmentNo;
+        const totalBefore = parseIdr(row[1]);
+        const interestBefore = parseIdr(row[3]);
+        const remainingInterestBefore = parseIdr(row[5]);
+        const interestAfter = isAdjustedRow ? adjustedInterest : interestBefore;
+
+        totals.total += isAdjustedRow
+          ? totalBefore - previousInterest + adjustedInterest
+          : totalBefore;
+        totals.principal += parseIdr(row[2]);
+        totals.interest += interestAfter;
+        totals.remainingPrincipal += parseIdr(row[4]);
+        totals.remainingInterestBefore += remainingInterestBefore;
+        totals.remainingInterestAfter += isAdjustedRow
+          ? Math.max(0, remainingInterestBefore - previousInterest + adjustedInterest)
+          : remainingInterestBefore;
+        totals.penalty += parseIdr(row[6]);
+        return totals;
+      },
+      {
+        total: 0,
+        principal: 0,
+        interest: 0,
+        remainingPrincipal: 0,
+        remainingInterestBefore: 0,
+        remainingInterestAfter: 0,
+        penalty: 0,
+      },
+    );
+  }
+
+  const pageTotals = getTotals(pagedRows, start);
+  const overallTotals = getTotals(billingRows, 0);
+
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
       <div className="bg-[#F9FAFF] px-4 py-3 text-[14px] font-bold uppercase tracking-wide text-black">
@@ -281,6 +319,28 @@ function UnifiedBillingSimulationTable({
                 </tr>
               );
             })}
+            {[
+              { label: "Total Tagihan per Halaman", totals: pageTotals },
+              { label: "Total Tagihan Keseluruhan", totals: overallTotals },
+            ].map(({ label, totals }) => (
+              <tr key={label} className="border-t border-slate-200 bg-white text-[12px] font-bold text-slate-800">
+                <td className="px-3 py-2 text-left leading-tight">
+                  {label === "Total Tagihan per Halaman" ? (
+                    <>Total Tagihan<br />per Halaman</>
+                  ) : (
+                    <>Total Tagihan<br />Keseluruhan</>
+                  )}
+                </td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.total)}</td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.principal)}</td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.interest)}</td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.remainingPrincipal)}</td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.remainingInterestBefore)}</td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.remainingInterestAfter)}</td>
+                <td className="px-3 py-2 text-right">{formatIdr(totals.penalty)}</td>
+                <td className="px-2 py-2" />
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
