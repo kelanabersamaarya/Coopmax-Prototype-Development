@@ -52,8 +52,8 @@ function AdjustmentTooltip({
       : parseIdr(adjustment.amount || "0");
 
   return (
-    <div className="pointer-events-none absolute right-0 top-[calc(100%+9px)] z-30 w-[280px] rounded-lg border border-slate-200 bg-white p-3 text-left text-[11px] font-normal leading-[1.35] text-slate-800 opacity-0 shadow-[0_8px_20px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
-      <div className="mb-2 border-b border-slate-200 pb-2 text-[14px] font-extrabold text-slate-800">
+    <div className="pointer-events-none absolute right-0 top-[calc(100%+9px)] z-30 w-[300px] rounded-lg border border-slate-200 bg-white p-4 text-left text-[12px] font-normal leading-[1.4] text-slate-800 opacity-0 shadow-[0_8px_20px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
+      <div className="mb-2 border-b border-slate-200 pb-2 text-[15px] font-extrabold text-slate-800">
         Detail Penyesuaian Bunga
       </div>
       <div className="mt-2">
