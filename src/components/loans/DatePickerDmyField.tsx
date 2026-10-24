@@ -39,6 +39,7 @@ export default function DatePickerDmyField({
   popoverAlign = "start",
   placeholder = "DD-MM-YYYY",
   disabled = false,
+  calendarClassName,
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -47,6 +48,7 @@ export default function DatePickerDmyField({
   popoverAlign?: "start" | "end" | "center";
   placeholder?: string;
   disabled?: boolean;
+  calendarClassName?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const selected = React.useMemo(() => parseDmyToDate(value), [value]);
@@ -79,11 +81,28 @@ export default function DatePickerDmyField({
 
         <PopoverContent
           align={popoverAlign}
-          className="w-auto rounded-[10px] border-slate-200 bg-white p-2 shadow-xl"
+          side="bottom"
+          sideOffset={6}
+          collisionPadding={12}
+          className={cn(
+            "z-[100] w-auto rounded-[10px] border-slate-200 bg-white p-2 shadow-xl",
+            calendarClassName,
+          )}
         >
           <Calendar
             mode="single"
             selected={selected}
+            className="w-fit"
+            classNames={{
+              months: "flex w-fit flex-col",
+              month: "w-fit space-y-4",
+              month_grid: "w-[252px] border-collapse",
+              weekdays: "flex w-full",
+              weekday: "w-9 text-center text-[11px] font-normal",
+              week: "mt-2 flex w-full",
+              day: "h-9 w-9 p-0 text-center",
+              day_button: "h-9 w-9 p-0 font-normal",
+            }}
             onSelect={(d) => {
               if (!d) return;
               onChange(formatDmy(d));

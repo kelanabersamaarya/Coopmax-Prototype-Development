@@ -661,6 +661,7 @@ export default function LoanExtensionWizard({
                         onChange={setEffectiveDate}
                         inputClassName="h-[31px] rounded-[5px] border-[#CBD5E1] text-[14px] shadow-none focus-visible:ring-0"
                         placeholder="DD-MM-YYYY"
+                        calendarClassName="[&_.rdp]:p-2 [&_.rdp-month_caption]:px-2 [&_.rdp-caption_label]:text-[13px] [&_.rdp-weekday]:w-9 [&_.rdp-weekday]:text-[11px] [&_.rdp-day]:h-9 [&_.rdp-day]:w-9 [&_.rdp-day_button]:h-9 [&_.rdp-day_button]:w-9"
                       />
                     </FieldRow>
 
