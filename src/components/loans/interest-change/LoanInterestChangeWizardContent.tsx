@@ -249,7 +249,7 @@ function BillingSimulationTable({
                   <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
                 </tr>
                 {item.number === 6 ? (
-                  <tr>
+                  <tr data-interest-rate-info="true">
                     <td colSpan={10} className="px-3 py-0">
                       <div className="flex min-h-[36px] items-center gap-3 border border-[#bfdbfe] bg-[#f7fbff] px-3 py-2 text-[12px] font-normal text-[#123b71]">
                         <Info className="h-4 w-4 shrink-0 fill-[#2563eb] text-white" strokeWidth={2.5} />

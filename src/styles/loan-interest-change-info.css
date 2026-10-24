@@ -1,0 +1,34 @@
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-rate-info="true"] {
+  display: block !important;
+  width: 100% !important;
+  background: #ffffff !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-rate-info="true"]
+  td {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  padding: 0 10px 8px !important;
+  border: 0 !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  tr[data-interest-rate-info="true"]
+  td > div {
+  display: flex !important;
+  width: 100% !important;
+  min-height: 36px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
