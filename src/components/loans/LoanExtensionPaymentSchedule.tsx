@@ -40,7 +40,7 @@ export default function LoanExtensionPaymentSchedule({
       <div className="safe-x-scroll">
         <table className="w-full min-w-[1005px] table-fixed border-collapse">
           <colgroup>
-            <col style={{ width: "120px" }} />
+            <col style={{ width: "100px" }} />
             <col style={{ width: "120px" }} />
             <col style={{ width: "145px" }} />
             <col style={{ width: "145px" }} />
