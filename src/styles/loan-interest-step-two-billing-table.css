@@ -101,6 +101,17 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(2) { padding-left: 22px !important; text-align: left !important; }
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(10) { padding-right: 22px !important; text-align: left !important; }
 
+/* Semua header kolom yang terlihat harus rata kiri; angka pada isi tetap rata kanan. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(2),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(3),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(4),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(6),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(7),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(9),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(10) {
+  text-align: left !important;
+}
+
 /* Isi */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td {
   min-height: 46px !important; padding: 13px 10px !important; border-top: 1px solid #e2e8f0 !important; color: #0f172a !important; font-size: 12px !important; font-weight: 500 !important; line-height: 1.25 !important; white-space: nowrap !important;
