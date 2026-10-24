@@ -48,7 +48,7 @@ export default function LoanExtensionPaymentSchedule({
             <col style={{ width: "115px" }} />
           </colgroup>
           <thead>
-            <tr className="border-b border-slate-200 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
+            <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700">
               <th className="px-3 py-3">
                 Jatuh
                 <br />
