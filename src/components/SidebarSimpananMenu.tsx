@@ -21,25 +21,25 @@ export default function SidebarSimpananMenu() {
   const routePrefix = isPinjamanBillingArea ? "/anggota/simpanan" : "/simpanan";
   const items: SubItem[] = [
     ...(isPinjamanBillingArea
-      ? [
-          { label: "Transaksi Simpanan", to: `${routePrefix}/transaksi` },
-          {
-            label: "Jadwal Bunga dan Admin Otomatis",
-            to: `${routePrefix}/jadwal-bunga-admin-otomatis`,
-          },
-          {
-            label: "Monitoring Proses Bunga dan Admin Simpanan Otomatis",
-            to: `${routePrefix}/monitoring-bunga-admin-simpanan-otomatis`,
-          },
-        ]
+      ? [{ label: "Transaksi Simpanan", to: `${routePrefix}/transaksi` }]
       : []),
+    {
+      label: "Jadwal Bunga dan Admin Otomatis",
+      to: "/anggota/simpanan/jadwal-bunga-admin-otomatis",
+    },
+    {
+      label: "Monitoring Proses Bunga dan Admin Simpanan Otomatis",
+      to: "/anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis",
+    },
     { label: "Daftar Rekening", to: `${routePrefix}/rekening` },
     { label: "Perpanjangan Simpanan", to: `${routePrefix}/perpanjangan` },
     { label: "Tutup Rekening", to: `${routePrefix}/tutup-rekening` },
   ];
   const isActive =
-    location.pathname.startsWith(routePrefix) &&
-    !location.pathname.startsWith("/anggota/simpanan-berjangka");
+    ((location.pathname.startsWith(routePrefix) &&
+      !location.pathname.startsWith("/anggota/simpanan-berjangka")) ||
+      location.pathname.startsWith("/anggota/simpanan/jadwal-bunga-admin-otomatis") ||
+      location.pathname.startsWith("/anggota/simpanan/monitoring-bunga-admin-simpanan-otomatis"));
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {

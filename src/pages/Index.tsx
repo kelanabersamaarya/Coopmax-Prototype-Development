@@ -147,7 +147,6 @@ export default function Index() {
   const isPinjamanArea =
     isEKolektorArea ||
     location.pathname.startsWith("/payment-link") ||
-    location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/sak-ep-cabang");
 
