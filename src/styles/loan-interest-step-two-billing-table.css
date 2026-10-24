@@ -114,12 +114,12 @@
   display: block !important; min-height: 46px !important; padding: 10px !important; border-top: 1px solid #e2e8f0 !important; background: #ffffff !important; color: #1e293b !important; font-size: 12px !important; font-weight: 700 !important; line-height: 1.25 !important; text-align: right !important; white-space: nowrap !important;
 }
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:first-child { flex: 0 0 14% !important; text-align: left !important; }
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(2) { flex: 1 1 17% !important; text-align: right !important; }
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(3) { flex: 1 1 15% !important; text-align: right !important; }
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(4) { flex: 1 1 14% !important; text-align: right !important; }
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(5) { flex: 1 1 15% !important; text-align: right !important; }
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(6) { flex: 1 1 15% !important; text-align: right !important; }
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(7) { flex: 1 1 14% !important; text-align: right !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(2) { flex: 0 0 17% !important; text-align: right !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(3) { flex: 0 0 15% !important; text-align: right !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(4) { flex: 0 0 14% !important; text-align: right !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(5) { flex: 0 0 15% !important; text-align: right !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(6) { flex: 0 0 15% !important; text-align: right !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:nth-child(7) { flex: 0 0 14% !important; text-align: right !important; }
 
 /* Pastikan label footer tidak ikut tersembunyi oleh aturan kolom tabel. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
