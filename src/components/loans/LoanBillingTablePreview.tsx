@@ -302,11 +302,8 @@ export default function LoanBillingTablePreview({
                     </NumericCell>
                   </td>
                   <td className="px-2 py-2 text-right">
-                    <NumericCell>{row.sisaBunga}</NumericCell>
-                  </td>
-                  <td className="px-2 py-2 text-right">
                     <div className="flex w-full items-center justify-end gap-1">
-                      <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
+                      <NumericCell>{row.sisaBunga}</NumericCell>
                       <button
                         type="button"
                         onClick={() => setAdjustmentDueDate(row.jatuhTempo)}
@@ -317,6 +314,9 @@ export default function LoanBillingTablePreview({
                         <Pencil className="h-3 w-3" strokeWidth={2.8} />
                       </button>
                     </div>
+                  </td>
+                  <td className="px-2 py-2 text-right">
+                    <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
                   </td>
                   <td className="px-2 py-2 text-right">
                     <NumericCell>{hasPenalty ? penaltyAmount : "0,00"}</NumericCell>
