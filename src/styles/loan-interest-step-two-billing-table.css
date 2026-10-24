@@ -102,11 +102,20 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(10) { padding-right: 22px !important; text-align: left !important; }
 
 /* Header Tagihan Bunga wajib menampilkan dua baris penuh. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] thead,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] thead tr {
+  min-height: 84px !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(6),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(9) {
   height: auto !important;
-  min-height: 74px !important;
+  min-height: 84px !important;
   overflow: visible !important;
+  white-space: normal !important;
+  line-height: 1.35 !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(6) > span,
