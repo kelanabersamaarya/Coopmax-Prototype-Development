@@ -152,8 +152,9 @@ export default function TransaksiAnggotaView1({ nasabah, pageSize: pageSizeProp 
   const isPenurunanBakiDebetMode = isPenurunanBakiDebet(jenisTransaksi);
 
   const pageSize = pageSizeProp;
+  const billingRows = nasabah.id === "N2500005" ? rows.slice(0, 10) : rows;
   const [page, setPage] = React.useState<number>(1);
-  const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+  const pageCount = Math.max(1, Math.ceil(billingRows.length / pageSize));
 
   React.useEffect(() => {
     setPage(1);
@@ -161,8 +162,8 @@ export default function TransaksiAnggotaView1({ nasabah, pageSize: pageSizeProp 
 
   const pagedRows = React.useMemo(() => {
     const start = (page - 1) * pageSize;
-    return rows.slice(start, start + pageSize);
-  }, [page, pageSize]);
+    return billingRows.slice(start, start + pageSize);
+  }, [billingRows, page, pageSize]);
 
   const { selected, setSelected, hasAnySelected } = useAnggotaBillingSelection({
     rows: pagedRows,
@@ -289,8 +290,8 @@ export default function TransaksiAnggotaView1({ nasabah, pageSize: pageSizeProp 
     penurunanTotalPokok,
   ]);
 
-  const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
-  const showingEnd = Math.min(rows.length, page * pageSize);
+  const showingStart = billingRows.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(billingRows.length, page * pageSize);
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
   const useView2Style = isRegulerMode || isKhususMode || isPelunasanMode;
   const showPenaltyColumnInTable = !isPenurunanBakiDebetMode;
@@ -440,7 +441,7 @@ export default function TransaksiAnggotaView1({ nasabah, pageSize: pageSizeProp 
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
-                  Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
+                  Menampilkan {showingStart} sampai {showingEnd} dari {billingRows.length} entri
                 </div>
 
                 <AnggotaTransactionPagination
