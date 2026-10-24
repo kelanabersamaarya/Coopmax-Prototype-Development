@@ -1,158 +1,47 @@
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"] {
-  font-size: 12px !important;
-  color: #000000 !important;
-}
-
-/* Header tabel tetap 12px, hitam, dan bold. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead tr,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead th,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead th * {
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  color: #000000 !important;
-}
-
-/* Header kolom Tagihan Bunga dan Sisa Tagihan Bunga. */
+/* Tipografi tabel simulasi perubahan suku bunga. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   thead
-  th:nth-child(5),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(6),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(8),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(9),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(5) *,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(6) *,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(8) *,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  thead
-  th:nth-child(9) * {
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  color: #000000 !important;
-  line-height: 1.25 !important;
-}
-
-/* Isi tabel tetap 12px dan hitam secara default. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody td,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody td * {
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  color: #000000 !important;
-}
-
-/* Semua baris isi tabel menggunakan latar putih. */
+  th,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(even),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr:nth-child(odd),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr
   td {
-  background-color: #ffffff !important;
+  color: #000000 !important;
 }
 
-/* Nominal bunga pada periode perubahan ditampilkan berwarna biru. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr[data-interest-change="true"]
   td:nth-child(5),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr[data-interest-change="true"]
-  td:nth-child(5) *,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
   td:nth-child(6),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr[data-interest-change="true"]
-  td:nth-child(6) *,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
   td:nth-child(8),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr[data-interest-change="true"]
-  td:nth-child(8) *,
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
   td:nth-child(9),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   tbody
-  tr[data-interest-change="true"]
+  td:nth-child(5) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(6) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
+  td:nth-child(8) *,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tbody
   td:nth-child(9) * {
-  color: #2563eb !important;
-  font-weight: 700 !important;
-}
-
-/* Nilai total angsuran sesudah penyesuaian tetap biru. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
-  td:nth-child(12),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  tbody
-  tr[data-interest-change="true"]
-  td:nth-child(12) * {
-  color: #2563eb !important;
-  font-weight: 700 !important;
+  color: #000000 !important;
+  font-weight: 400 !important;
 }
