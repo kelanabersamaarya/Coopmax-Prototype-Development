@@ -97,7 +97,7 @@ export default function LoanExtensionPaymentSchedule({
                   index % 2 ? "bg-slate-50/60" : "bg-white",
                 )}
               >
-                <td className="px-3 py-3 font-semibold tabular-nums whitespace-nowrap">
+                <td className="px-3 py-3 font-normal tabular-nums whitespace-nowrap">
                   {row.dueDate}
                 </td>
                 <td className="px-3 py-3 text-right tabular-nums">
