@@ -636,7 +636,7 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[850px] table-fixed border-separate border-spacing-0 text-[12px]">
+        <table className="w-full min-w-[960px] table-fixed border-separate border-spacing-0 text-[12px]">
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[95px]" />
@@ -647,7 +647,7 @@ export default function BillingTableView2({
             <col className="w-[100px]" />
             {showPenaltyColumn ? <col className="w-[100px]" /> : null}
             {showPenaltyColumn ? <col className="w-[24px]" /> : null}
-            {showStatusColumn ? <col className="min-w-[88px]" /> : null}
+            {showStatusColumn ? <col className="w-[200px] min-w-[200px]" /> : null}
           </colgroup>
           <BillingTableHeader
             hideSelection={hideSelection}
@@ -761,7 +761,7 @@ export default function BillingTableView2({
                                   ) : null}
 
                                   {showStatusColumn ? (
-                                    <div className={cn("px-4 text-left", cellY)}>
+                                    <div className={cn("px-[5px] text-left", cellY)}>
                                     <BillingStatusBadge
                                         status={statusForRow(r, rowIndex)}
                                         variant={statusBadgeVariant}
