@@ -314,7 +314,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
                 { label: "Satuan Grace Period", value: "Bulan" },
                 { label: "Durasi Grace Period", value: "3" },
-                { label: "Tenor Pinjaman", value: "18 Bulan" },
                 { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
               ]}
             />
