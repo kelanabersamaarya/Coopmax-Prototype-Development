@@ -17,7 +17,7 @@ export default function BillingTableHeader({
   className?: string;
 }) {
   const thBase =
-    "px-[5px] py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
+    "px-[5px] py-3 text-left align-middle text-[12px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
   const thRight = thBase;
 
   return (
@@ -74,7 +74,7 @@ export default function BillingTableHeader({
         ) : null}
 
         {showActionColumn ? (
-          <th className="w-[28px] min-w-[28px] max-w-[28px] px-0 py-3 text-left align-middle text-[10px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
+          <th className="w-[24px] min-w-[24px] max-w-[24px] px-0 py-3 text-left align-middle text-[12px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
             <span className="sr-only">Aksi</span>
           </th>
         ) : null}

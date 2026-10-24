@@ -242,7 +242,7 @@ export default function BillingTable({
   }
 
   const tdY = rowDensity === "roomy" ? "py-3" : "py-2";
-  const tdBase = `px-3 ${tdY} text-[13px] text-slate-900`;
+  const tdBase = `px-3 ${tdY} text-[12px] text-slate-900`;
   const tdDate = cn(tdBase, "font-normal tabular-nums whitespace-nowrap");
 
   const tdNum = cn(

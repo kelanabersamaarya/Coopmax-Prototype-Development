@@ -309,10 +309,10 @@ export default function BillingTableView2({
     : effectiveDensity;
 
   const dateTextClass =
-    "text-left text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+    "text-left text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
-    "text-right text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
+    "text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
 
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
@@ -568,11 +568,11 @@ export default function BillingTableView2({
       denda: number;
     };
   }) {
-    const totalCellClass = "border-t border-[#CDD4E0] px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
-    const penaltyTotalCellClass = "border-t border-[#CDD4E0] pr-1 pl-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
+    const totalCellClass = "border-t border-[#CDD4E0] px-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
+    const penaltyTotalCellClass = "border-t border-[#CDD4E0] pr-1 pl-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
     return (
       <tr className="bg-white">
-        <td colSpan={hideSelection ? 1 : 2} className="border-t border-[#CDD4E0] px-4 py-2 text-left text-[13px] font-bold leading-tight text-slate-800 whitespace-normal break-words">
+        <td colSpan={hideSelection ? 1 : 2} className="border-t border-[#CDD4E0] px-4 py-2 text-left text-[12px] font-bold leading-tight text-slate-800 whitespace-normal break-words">
           {label}
         </td>
         <td className={totalCellClass}>{formatRupiah(values.totalBelumDibayar)}</td>
@@ -636,7 +636,7 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[850px] table-fixed border-separate border-spacing-0 text-[13px]">
+        <table className="w-full min-w-[850px] table-fixed border-separate border-spacing-0 text-[12px]">
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[95px]" />
@@ -665,7 +665,7 @@ export default function BillingTableView2({
                       <div className="rounded-[5px] border-2 border-blue-600/70 bg-white">
                         {shouldShowGraceInfoRow ? (
                           <div className="p-1">
-                            <table className="w-full border-collapse text-[13px]">
+                            <table className="w-full border-collapse text-[12px]">
                               <tbody className="bg-white">
                                 {showGraceInfo ? (
                                   <GracePeriodInfoRow colSpan={colCount} noBorder />
