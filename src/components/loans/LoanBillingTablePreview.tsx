@@ -207,18 +207,18 @@ export default function LoanBillingTablePreview({
       <div className="safe-x-scroll p-4">
         <table className="loan-debt-billing-table w-full min-w-[1450px] table-fixed border-collapse">
           <colgroup>
-            <col className="w-[12%]" />
-            <col className="w-[16%]" />
+            <col className="w-[9%]" />
+            <col className="w-[17%]" />
             <col className="w-[13%]" />
             <col className="w-[13%]" />
             <col className="w-[14%]" />
             <col className="w-[14%]" />
-            <col className="w-[9%]" />
-            <col className="w-[9%]" />
+            <col className="w-[10%]" />
+            <col className="w-[10%]" />
           </colgroup>
           <thead>
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[125px] px-4 py-3">Jatuh Tempo</th>
+              <th className="w-[105px] px-3 py-3">Jatuh Tempo</th>
               <th className="w-[150px] px-4 py-3">
                 Total Tagihan
                 <br />
