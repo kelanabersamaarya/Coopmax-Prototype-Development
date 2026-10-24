@@ -97,11 +97,11 @@ export default function DatePickerDmyField({
             captionLayout={calendarCaptionLayout}
             fromYear={2000}
             toYear={2100}
-            className="w-fit max-w-full overflow-hidden p-1"
+            className="w-[260px] max-w-full overflow-hidden p-1"
             classNames={{
-              months: "flex w-fit flex-col",
-              month: "w-fit space-y-2",
-              month_caption: "relative flex h-9 items-center justify-center rounded-[4px] bg-[#d9dde3] px-1",
+              months: "flex w-full flex-col",
+              month: "w-full space-y-2",
+              month_caption: "relative flex h-9 w-full items-center justify-center rounded-[4px] bg-[#d9dde3] px-1",
               caption_label: "hidden",
               caption_dropdowns: "flex w-full items-center justify-center gap-1",
               months_dropdown: "w-[108px]",
@@ -110,11 +110,11 @@ export default function DatePickerDmyField({
               nav: "pointer-events-none absolute inset-x-2 top-0 z-10 flex h-9 items-center justify-between",
               button_previous: "pointer-events-auto inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#22252b] p-0 text-white hover:bg-[#343840]",
               button_next: "pointer-events-auto inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#22252b] p-0 text-white hover:bg-[#343840]",
-              month_grid: "w-[252px] border-collapse",
-              weekdays: "flex w-full",
-              weekday: "h-7 w-9 shrink-0 text-center text-[11px] font-semibold leading-7 text-[#334155]",
-              week: "mt-0 flex w-full",
-              day: "flex h-7 w-9 shrink-0 items-center justify-center border border-white bg-[#eef0f2] p-0 text-center",
+              month_grid: "block w-[252px] table-fixed border-collapse",
+              weekdays: "grid w-full grid-cols-7",
+              weekday: "h-7 w-auto text-center text-[11px] font-semibold leading-7 text-[#334155]",
+              week: "grid w-full grid-cols-7",
+              day: "flex h-7 w-auto items-center justify-center border border-white bg-[#eef0f2] p-0 text-center",
               day_button: "h-7 w-full rounded-none p-0 text-[11px] font-normal text-[#17345f] hover:bg-slate-200",
               selected: "bg-transparent text-[#6d4aff] font-semibold",
               today: "bg-[#eef0f2] text-[#6d4aff]",
