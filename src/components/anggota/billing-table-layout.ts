@@ -1,12 +1,12 @@
 export const BILLING_COLUMN_WIDTHS = {
-  selection: "44px",
-  dueDate: "120px",
-  amount: "128px",
-  action: "28px",
-  status: "110px",
+  selection: "36px",
+  dueDate: "95px",
+  amount: "100px",
+  action: "24px",
+  status: "88px",
 } as const;
 
-export const BILLING_TABLE_MIN_WIDTH = "1088px";
+export const BILLING_TABLE_MIN_WIDTH = "850px";
 
 export function getBillingGridTemplateColumns({
   hideSelection,

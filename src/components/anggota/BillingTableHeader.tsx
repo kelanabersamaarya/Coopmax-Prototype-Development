@@ -24,49 +24,49 @@ export default function BillingTableHeader({
     <thead className={cn("bg-white", className)}>
       <tr className="border-b border-[#CDD4E0]">
         {!hideSelection ? (
-          <th className={cn(thBase, "w-[44px]")}>
+          <th className={cn(thBase, "w-[36px]")}>
             <span className="sr-only">Pilih</span>
           </th>
         ) : null}
 
-        <th className={cn(thBase, "w-[120px] min-w-[120px] max-w-[120px] whitespace-nowrap")}>
+        <th className={cn(thBase, "w-[95px] min-w-[95px] max-w-[95px] whitespace-nowrap")}>
           Jatuh
           <br />
           Tempo
         </th>
 
-        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
+        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
           Total Tagihan
           <br />
           Belum Dibayar
         </th>
 
-        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
+        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
           Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
+        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
           Tagihan
           <br />
           Bunga
         </th>
 
-        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
+        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
           Sisa Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
+        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
           Sisa Tagihan
           <br />
           Bunga
         </th>
 
         {showPenaltyColumn ? (
-          <th className={cn(thRight, "w-[128px] min-w-[128px] max-w-[128px]")}>
+          <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
             Tagihan
             <br />
             Denda
@@ -80,7 +80,7 @@ export default function BillingTableHeader({
         ) : null}
 
         {showStatusColumn ? (
-          <th className={cn(thBase, "min-w-[110px] whitespace-nowrap")}>Status Tagihan</th>
+          <th className={cn(thBase, "min-w-[88px] whitespace-nowrap")}>Status Tagihan</th>
         ) : null}
       </tr>
     </thead>

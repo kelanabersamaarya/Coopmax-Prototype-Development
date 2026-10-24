@@ -636,18 +636,18 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[1088px] table-fixed border-separate border-spacing-0 text-[13px]">
+        <table className="w-full min-w-[850px] table-fixed border-separate border-spacing-0 text-[13px]">
           <colgroup>
-            {!hideSelection ? <col className="w-[44px]" /> : null}
-            <col className="w-[120px]" />
-            <col className="w-[128px]" />
-            <col className="w-[128px]" />
-            <col className="w-[128px]" />
-            <col className="w-[128px]" />
-            <col className="w-[128px]" />
-            {showPenaltyColumn ? <col className="w-[128px]" /> : null}
-            {showPenaltyColumn ? <col className="w-[28px]" /> : null}
-            {showStatusColumn ? <col className="min-w-[110px]" /> : null}
+            {!hideSelection ? <col className="w-[36px]" /> : null}
+            <col className="w-[95px]" />
+            <col className="w-[100px]" />
+            <col className="w-[100px]" />
+            <col className="w-[100px]" />
+            <col className="w-[100px]" />
+            <col className="w-[100px]" />
+            {showPenaltyColumn ? <col className="w-[100px]" /> : null}
+            {showPenaltyColumn ? <col className="w-[24px]" /> : null}
+            {showStatusColumn ? <col className="min-w-[88px]" /> : null}
           </colgroup>
           <BillingTableHeader
             hideSelection={hideSelection}
