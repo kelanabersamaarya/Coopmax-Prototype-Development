@@ -40,22 +40,39 @@ const adjustedRow = wizard.querySelector<HTMLTableRowElement>(
   'table tbody tr[data-interest-adjusted="true"]',
 );
 
-  if (!adjustedRow) return null;
+  if (!adjustedRow) {
+    const draft = getLoanDebtAdjustmentDraft();
+    if (!draft) return null;
+
+    return {
+      accountNo,
+      installmentNo: 1,
+      interestBefore: draft.previousInterest || "0,00",
+      adjustmentType: draft.type,
+      adjustmentAmount: draft.amount || "0,00",
+      reason: draft.reason,
+      interestAfter: formatIdr(
+        getAdjustedInterest(draft.previousInterest || "0,00", draft.type, draft.amount),
+      ),
+      totalBefore: "0,00",
+      totalAfter: "0,00",
+    };
+  }
 
   const cells = Array.from(
     adjustedRow.querySelectorAll<HTMLTableCellElement>("td"),
   );
-  const installmentNo = Number(cells[0]?.textContent?.trim() ?? "0");
+  const installmentNo = Number(adjustedRow.dataset.interestInstallment ?? "1");
   const draft = getLoanDebtAdjustmentDraft();
 
-  if (!installmentNo || !draft) return null;
+  if (!draft) return null;
 
   const interestBefore =
-    draft.previousInterest || cells[6]?.textContent?.trim() || "0,00";
+    draft.previousInterest || cells[3]?.textContent?.trim() || "0,00";
   const interestAfter = formatIdr(
     getAdjustedInterest(interestBefore, draft.type, draft.amount),
   );
-  const totalBefore = cells[5]?.textContent?.trim() ?? "0,00";
+  const totalBefore = cells[1]?.textContent?.trim() ?? "0,00";
   const totalAfter = formatIdr(
     parseIdr(totalBefore) - parseIdr(interestBefore) + parseIdr(interestAfter),
   );
@@ -182,7 +199,12 @@ export default function LoanDebtChangeSaveGate() {
 
   React.useEffect(() => {
     function handleSaveRequest(event: Event) {
-      const wizard = (event as CustomEvent<{ wizard?: HTMLElement }>).detail?.wizard;
+      const requestedWizard = (event as CustomEvent<{ wizard?: HTMLElement }>).detail?.wizard;
+      const wizard =
+        requestedWizard ??
+        document.querySelector<HTMLElement>(
+          '[data-loan-debt-wizard="true"][data-loan-debt-step="2"]',
+        );
       if (!wizard || wizard.dataset.loanDebtStep !== "2") return;
 
       const adjustment = parseSaveData(wizard);

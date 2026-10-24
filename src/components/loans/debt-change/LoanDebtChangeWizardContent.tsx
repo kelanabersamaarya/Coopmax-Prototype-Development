@@ -456,6 +456,8 @@ export default function LoanDebtChangeWizard({
 
     window.dispatchEvent(
       new CustomEvent("loan-debt-save-request", {
+        bubbles: true,
+        composed: true,
         detail: { wizard },
       }),
     );
