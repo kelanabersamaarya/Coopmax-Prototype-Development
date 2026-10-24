@@ -223,8 +223,8 @@ function BillingSimulationTable({
                 index === pagedInstallments.length - 1 && inChangedPeriod;
 
               return (
-                <tr
-                  key={item.number}
+                <React.Fragment key={item.number}>
+                  <tr
                   data-interest-change={inChangedPeriod ? "true" : undefined}
                   data-interest-change-start={changeStart ? "true" : undefined}
                   data-interest-change-end={changeEnd ? "true" : undefined}
@@ -260,6 +260,7 @@ function BillingSimulationTable({
                     </td>
                   </tr>
                 ) : null}
+                </React.Fragment>
               );
             })}
           </tbody>
