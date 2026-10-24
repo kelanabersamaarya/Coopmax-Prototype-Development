@@ -240,9 +240,9 @@ export default function LoanBillingTablePreview({
                 Pokok
               </th>
               <th className="px-2 py-2">
-                Sisa Tagihan
+                Tagihan Bunga
                 <br />
-                Bunga
+                Sebelum Penyesuaian
               </th>
               <th className="px-2 py-2">
                 Tagihan
