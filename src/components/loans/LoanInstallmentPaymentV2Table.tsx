@@ -5,6 +5,7 @@ import {
   Check,
   CheckSquare,
   Eye,
+  FileText,
   History,
   Plus,
   Printer,
