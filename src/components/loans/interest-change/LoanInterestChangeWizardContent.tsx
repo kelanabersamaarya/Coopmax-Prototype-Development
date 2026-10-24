@@ -204,11 +204,11 @@ function BillingSimulationTable({
               <th className="w-[125px] px-3 py-3">Jatuh Tempo</th>
               <th className="w-[145px] px-3 py-3 text-right">Total Tagihan<br />Belum Dibayar</th>
               <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Pokok</th>
-              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sebelum Penyesuaian</th>
-              <th className="w-[165px] px-3 py-3 text-right">Tagihan Bunga<br />Sesudah Penyesuaian</th>
+              <th className="w-[165px] px-3 py-3 text-right"><span className="whitespace-nowrap">Tagihan Bunga</span><br /><span className="whitespace-nowrap">Sebelum Penyesuaian</span></th>
+              <th className="w-[165px] px-3 py-3 text-right"><span className="whitespace-nowrap">Tagihan Bunga</span><br /><span className="whitespace-nowrap">Sesudah Penyesuaian</span></th>
               <th className="w-[150px] px-3 py-3 text-right">Sisa Tagihan<br />Pokok</th>
-              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sebelum Penyesuaian</th>
-              <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sesudah Penyesuaian</th>
+              <th className="w-[175px] px-3 py-3 text-right"><span className="whitespace-nowrap">Sisa Tagihan Bunga</span><br /><span className="whitespace-nowrap">Sebelum Penyesuaian</span></th>
+              <th className="w-[175px] px-3 py-3 text-right"><span className="whitespace-nowrap">Sisa Tagihan Bunga</span><br /><span className="whitespace-nowrap">Sesudah Penyesuaian</span></th>
               <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Denda</th>
             </tr>
           </thead>
