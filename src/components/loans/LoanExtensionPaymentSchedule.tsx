@@ -29,6 +29,8 @@ export default function LoanExtensionPaymentSchedule({
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
   const start = (page - 1) * pageSize;
   const pagedRows = rows.slice(start, start + pageSize);
+  const pageTotal = pagedRows.reduce((sum, row) => sum + row.total, 0);
+  const grandTotal = rows.reduce((sum, row) => sum + row.total, 0);
 
   return (
     <section className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
@@ -118,6 +120,17 @@ export default function LoanExtensionPaymentSchedule({
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="grid gap-2 border-t border-slate-200 bg-white px-4 py-3 text-[12px] text-slate-700 sm:grid-cols-2">
+        <div className="flex items-center justify-between gap-4 sm:justify-start">
+          <span className="font-medium">Total tagihan per halaman</span>
+          <span className="font-semibold tabular-nums text-slate-900">{formatIdr(pageTotal)}</span>
+        </div>
+        <div className="flex items-center justify-between gap-4 sm:justify-start">
+          <span className="font-medium">Total tagihan keseluruhan</span>
+          <span className="font-semibold tabular-nums text-slate-900">{formatIdr(grandTotal)}</span>
+        </div>
       </div>
 
       <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
