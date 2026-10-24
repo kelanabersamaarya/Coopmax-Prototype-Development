@@ -303,15 +303,18 @@ function UnifiedBillingSimulationTable({
                   <td className="px-3 py-3 text-right tabular-nums">
                     {principalBill}
                   </td>
-                  <td
-                    className={cn(
-                      "px-3 py-3 text-right tabular-nums",
-                      "font-normal text-black",
-                      isAdjustedRow ? "relative overflow-visible" : "",
-                    )}
-                  >
+                  <td className="px-3 py-3 text-right tabular-nums font-normal text-black">
+                    {formatIdr(interestAfter)}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {remainingPrincipal}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {remainingInterest}
+                  </td>
+                  <td className="relative overflow-visible px-3 py-3 text-right tabular-nums font-normal text-black">
                     <span className={isAdjustedRow ? "group relative inline-flex items-center gap-1 text-black" : "text-black"}>
-                      {formatIdr(interestAfter)}
+                      {formatIdr(remainingInterestAfter)}
                       {isAdjustedRow ? (
                         <>
                           <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#2563EB] text-[12px] font-extrabold text-white">
@@ -325,20 +328,6 @@ function UnifiedBillingSimulationTable({
                         </>
                       ) : null}
                     </span>
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {remainingPrincipal}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {remainingInterest}
-                  </td>
-                  <td
-                    className={cn(
-                      "px-3 py-3 text-right tabular-nums",
-                      "font-normal text-black",
-                    )}
-                  >
-                    {formatIdr(remainingInterestAfter)}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {penalty}
