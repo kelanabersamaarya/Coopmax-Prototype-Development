@@ -152,6 +152,42 @@ function BillingSimulationTable({
   const showingStart =
     installments.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(installments.length, page * pageSize);
+  const pageTotals = pagedInstallments.reduce(
+    (totals, item) => ({
+      total: totals.total + item.beforeInstallment,
+      principal: totals.principal + item.principal,
+      interest: totals.interest + item.afterInterest,
+      remainingPrincipal: totals.remainingPrincipal + item.remainingPrincipal,
+      remainingInterest: totals.remainingInterest + item.afterRemainingInterest,
+      penalty: totals.penalty,
+    }),
+    {
+      total: 0,
+      principal: 0,
+      interest: 0,
+      remainingPrincipal: 0,
+      remainingInterest: 0,
+      penalty: 0,
+    },
+  );
+  const grandTotals = installments.reduce(
+    (totals, item) => ({
+      total: totals.total + item.beforeInstallment,
+      principal: totals.principal + item.principal,
+      interest: totals.interest + item.afterInterest,
+      remainingPrincipal: totals.remainingPrincipal + item.remainingPrincipal,
+      remainingInterest: totals.remainingInterest + item.afterRemainingInterest,
+      penalty: totals.penalty,
+    }),
+    {
+      total: 0,
+      principal: 0,
+      interest: 0,
+      remainingPrincipal: 0,
+      remainingInterest: 0,
+      penalty: 0,
+    },
+  );
 
   return (
     <div className="overflow-hidden rounded-[12px] border border-slate-200 bg-white">
@@ -214,6 +250,26 @@ function BillingSimulationTable({
               );
             })}
           </tbody>
+          <tfoot className="text-[12px] font-bold text-slate-800">
+            <tr className="border-t border-slate-200 bg-white">
+              <td colSpan={2} className="px-3 py-3 leading-tight">Total Tagihan<br />per Halaman</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.total)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.principal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.interest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.remainingPrincipal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.remainingInterest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.penalty)}</td>
+            </tr>
+            <tr className="border-t border-slate-200 bg-white">
+              <td colSpan={2} className="px-3 py-3 leading-tight">Total Tagihan<br />Keseluruhan</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.total)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.principal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.interest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.remainingPrincipal)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.remainingInterest)}</td>
+              <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.penalty)}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
 

@@ -12,7 +12,10 @@
   thead,
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
-  tbody {
+  tbody,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tfoot {
   display: block !important;
   width: 100% !important;
 }
@@ -40,228 +43,75 @@
 }
 
 /* Kolom Jatuh Tempo */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(2),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(2) {
-  display: block !important;
-  order: 1 !important;
-  flex: 0 0 14% !important;
-  padding-left: 22px !important;
-  text-align: left !important;
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(2),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(2) {
+  display: block !important; order: 1 !important; flex: 0 0 14% !important; padding-left: 22px !important; text-align: left !important;
 }
-
-/* Total Tagihan Belum Dibayar */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(3),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(3) {
-  display: block !important;
-  order: 2 !important;
-  flex: 1 1 17% !important;
-  text-align: right !important;
+/* Total Tagihan */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(3),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(3) {
+  display: block !important; order: 2 !important; flex: 1 1 17% !important; text-align: right !important;
 }
-
 /* Tagihan Pokok */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(4),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(4) {
-  display: block !important;
-  order: 3 !important;
-  flex: 1 1 15% !important;
-  text-align: right !important;
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(4),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(4) {
+  display: block !important; order: 3 !important; flex: 1 1 15% !important; text-align: right !important;
 }
-
-/* Tagihan Bunga Sesudah Penyesuaian */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(6),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(6) {
-  display: block !important;
-  order: 4 !important;
-  flex: 1 1 14% !important;
-  text-align: right !important;
+/* Tagihan Bunga Sesudah */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(6),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(6) {
+  display: block !important; order: 4 !important; flex: 1 1 14% !important; text-align: right !important;
 }
-
 /* Sisa Tagihan Pokok */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(7),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(7) {
-  display: block !important;
-  order: 5 !important;
-  flex: 1 1 15% !important;
-  text-align: right !important;
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(7),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(7) {
+  display: block !important; order: 5 !important; flex: 1 1 15% !important; text-align: right !important;
+}
+/* Sisa Tagihan Bunga Sesudah */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(9),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(9) {
+  display: block !important; order: 6 !important; flex: 1 1 15% !important; text-align: right !important;
+}
+/* Tagihan Denda */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(10),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(10) {
+  display: block !important; order: 7 !important; flex: 1 1 14% !important; position: relative !important; padding-right: 22px !important; text-align: right !important;
 }
 
-/* Sisa Tagihan Bunga Sesudah Penyesuaian */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(9),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(9) {
-  display: block !important;
-  order: 6 !important;
-  flex: 1 1 15% !important;
-  text-align: right !important;
-}
-
-/* Kolom Tagihan Denda */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(10),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(10) {
-  display: block !important;
-  order: 7 !important;
-  flex: 1 1 14% !important;
-  position: relative !important;
-  padding-right: 22px !important;
-  text-align: right !important;
-}
-
-/* Sembunyikan kolom simulasi tambahan yang tidak ada pada tabel billing. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(1),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(1),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(5),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(5),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(8),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(8),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(11),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(11),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(12),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(12),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(13),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(13) {
+/* Kolom yang tidak ditampilkan */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(1),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(1),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(5),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(5),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(8),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(8),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(11),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(11),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(12),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(12),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(13),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(13) {
   display: none !important;
 }
 
-/* Header dan isi tabel */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th {
-  min-height: 58px !important;
-  padding-top: 12px !important;
-  padding-right: 10px !important;
-  padding-bottom: 12px !important;
-  padding-left: 10px !important;
-  color: #334155 !important;
-  font-size: 12px !important;
-  font-weight: 800 !important;
-  line-height: 1.25 !important;
-  text-align: left !important;
-  vertical-align: middle !important;
-  white-space: normal !important;
+/* Header */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th {
+  min-height: 58px !important; padding: 12px 10px !important; color: #334155 !important; font-size: 12px !important; font-weight: 800 !important; line-height: 1.25 !important; text-align: left !important; vertical-align: middle !important; white-space: normal !important;
 }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(2) { padding-left: 22px !important; text-align: left !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] th:nth-child(10) { padding-right: 22px !important; text-align: left !important; }
 
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(2) {
-  padding-left: 22px !important;
-  text-align: left !important;
+/* Isi */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td {
+  min-height: 46px !important; padding: 13px 10px !important; border-top: 1px solid #e2e8f0 !important; color: #0f172a !important; font-size: 12px !important; font-weight: 500 !important; line-height: 1.25 !important; white-space: nowrap !important;
 }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(2) { padding-left: 22px !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] td:nth-child(10) { padding-right: 22px !important; }
 
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(10) {
-  padding-right: 22px !important;
-  text-align: left !important;
+/* Footer total */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot tr { background: #ffffff !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td {
+  display: block !important; min-height: 46px !important; padding: 10px !important; border-top: 1px solid #e2e8f0 !important; background: #ffffff !important; color: #1e293b !important; font-size: 12px !important; font-weight: 700 !important; line-height: 1.25 !important; text-align: right !important; white-space: nowrap !important;
 }
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(11) {
-  padding-left: 10px !important;
-  text-align: left !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td {
-  min-height: 46px !important;
-  padding-top: 13px !important;
-  padding-right: 10px !important;
-  padding-bottom: 13px !important;
-  padding-left: 10px !important;
-  border-top: 1px solid #e2e8f0 !important;
-  color: #0f172a !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  line-height: 1.25 !important;
-  white-space: nowrap !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(2) {
-  padding-left: 22px !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(10) {
-  padding-right: 22px !important;
-}
-
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(11) {
-  padding-left: 10px !important;
-  text-align: left !important;
-}
-
-/* Header kolom utama rata kiri. */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(2),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(4),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(6),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(7),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(9) {
-  text-align: left !important;
-}
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:first-child { flex: 0 0 16% !important; text-align: left !important; }
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:not(:first-child) { flex: 1 1 14% !important; }
