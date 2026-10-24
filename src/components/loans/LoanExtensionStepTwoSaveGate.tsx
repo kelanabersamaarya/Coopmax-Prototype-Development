@@ -58,7 +58,7 @@ function ConfirmDialog({
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
       <DialogContent
         className={cn(
-          "h-auto min-h-[270px] w-[calc(100vw-2rem)] max-w-[430px] overflow-hidden",
+          "h-auto min-h-[245px] w-[calc(100vw-2rem)] max-w-[430px] overflow-hidden",
           "rounded-[16px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
