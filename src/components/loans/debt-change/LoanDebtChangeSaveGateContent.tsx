@@ -36,19 +36,27 @@ function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
       /No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.-]+)/i,
     )?.[1] ?? "SMG260004";
 
-const adjustedRow = wizard.querySelector<HTMLTableRowElement>(
-  'table tbody tr[data-interest-adjusted="true"]',
-);
+  const draft = getLoanDebtAdjustmentDraft();
+  if (!draft) return null;
+
+  const rows = Array.from(
+    wizard.querySelectorAll<HTMLTableRowElement>(
+      'table tbody tr[data-interest-installment]',
+    ),
+  );
+  const adjustedRow =
+    rows.find((row) => row.textContent?.includes(draft.interestPeriod)) ??
+    rows.find((row) => row.dataset.interestAdjusted === "true") ??
+    rows[0];
 
   if (!adjustedRow) return null;
 
   const cells = Array.from(
     adjustedRow.querySelectorAll<HTMLTableCellElement>("td"),
   );
-  const installmentNo = Number(cells[0]?.textContent?.trim() ?? "0");
-  const draft = getLoanDebtAdjustmentDraft();
+  const installmentNo = Number(adjustedRow.dataset.interestInstallment ?? "0");
 
-  if (!installmentNo || !draft) return null;
+  if (!installmentNo) return null;
 
   const interestBefore =
     draft.previousInterest || cells[6]?.textContent?.trim() || "0,00";
