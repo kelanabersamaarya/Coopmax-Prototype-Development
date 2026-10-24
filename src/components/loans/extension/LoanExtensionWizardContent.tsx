@@ -714,7 +714,12 @@ export default function LoanExtensionWizard({
                   </div>
                 </section>
 
-                <LoanExtensionPaymentSchedule rows={simulation.rows} />
+                <LoanExtensionPaymentSchedule
+                  rows={simulation.rows}
+                  previousTenor={CURRENT_TENOR}
+                  newTenor={simulation.tenor}
+                  effectiveDate={effectiveDate}
+                />
               </div>
             )}
           </main>

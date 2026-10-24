@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 
 type ScheduleRow = {
   dueDate: string;
@@ -21,8 +21,14 @@ function formatIdr(value: number) {
 
 export default function LoanExtensionPaymentSchedule({
   rows,
+  previousTenor,
+  newTenor,
+  effectiveDate,
 }: {
   rows: ScheduleRow[];
+  previousTenor: number;
+  newTenor: number;
+  effectiveDate: string;
 }) {
   const pageSize = 12;
   const [page, setPage] = React.useState(1);
@@ -125,10 +131,10 @@ export default function LoanExtensionPaymentSchedule({
 
           <tbody>
             {pagedRows.map((row, index) => (
-              <tr
-                key={row.dueDate}
-                className="border-b border-slate-100 bg-white text-[13px] text-black last:border-b-0"
-              >
+              <React.Fragment key={row.dueDate}>
+                <tr
+                  className="border-b border-slate-100 bg-white text-[13px] text-black last:border-b-0"
+                >
                 <td className="px-3 py-3 font-normal tabular-nums whitespace-nowrap">
                   {row.dueDate}
                 </td>
@@ -151,6 +157,19 @@ export default function LoanExtensionPaymentSchedule({
                   {formatIdr(row.penalty)}
                 </td>
               </tr>
+              {index === 3 ? (
+                <tr>
+                  <td colSpan={7} className="border-b border-slate-200 bg-white px-4 py-3">
+                    <div className="flex items-center gap-3 rounded-[5px] border border-[#BDD4F7] bg-[#F4F8FF] px-3 py-2.5 text-left text-[12px] leading-5 text-[#0F2D5C]">
+                      <Info className="h-4 w-4 shrink-0 fill-[#2563EB] text-white" aria-hidden="true" />
+                      <span>
+                        Terdapat perpanjangan tenor dari {previousTenor} bulan menjadi {newTenor} bulan dan berlaku efektif sejak {effectiveDate}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ) : null}
+              </React.Fragment>
             ))}
           </tbody>
           <tfoot className="text-[12px] font-bold text-slate-800">
