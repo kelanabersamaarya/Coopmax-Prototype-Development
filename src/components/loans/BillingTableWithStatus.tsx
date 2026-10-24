@@ -361,7 +361,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-full min-w-[980px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+          <table className="w-full min-w-[1080px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
@@ -369,8 +369,8 @@ export default function BillingTableWithStatus({
               <col className="w-[112px]" />
               <col className="w-[132px]" />
               <col className="w-[132px]" />
-              <col className="w-[112px]" />
-              <col className="w-[145px]" />
+              <col className="w-[150px]" />
+              <col className="w-[180px]" />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
@@ -416,7 +416,7 @@ export default function BillingTableWithStatus({
                   Denda
                 </th>
 
-                <th className={cn(thBase, "w-[145px]")}>Status Tagihan</th>
+                <th className={cn(thBase, "w-[180px] whitespace-nowrap")}>Status Tagihan</th>
               </tr>
             </thead>
 
