@@ -360,7 +360,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             customerName={nasabah.nama}
           />
 
-          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_295px] xl:grid-cols-[minmax(0,1fr)_295px]">
             <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
@@ -448,7 +448,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
             </Card>
 
-            <div className="space-y-4 px-1">
+            <div className="w-full max-w-[295px] justify-self-end space-y-4 px-1">
               <BillSummaryCard
                 mode={isPelunasanMode ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}

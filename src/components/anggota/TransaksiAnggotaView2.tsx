@@ -460,7 +460,7 @@ export default function TransaksiAnggotaView2({
             customerName={nasabah.nama}
           />
 
-          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_300px]">
+          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_295px] xl:grid-cols-[minmax(0,1fr)_295px]">
             <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
@@ -510,7 +510,7 @@ export default function TransaksiAnggotaView2({
               </div>
             </Card>
 
-            <div className="w-full max-w-[300px] justify-self-end space-y-4 px-1">
+            <div className="w-full max-w-[295px] justify-self-end space-y-4 px-1">
               <BillSummaryCard
                 mode={isPelunasanMode ? "pelunasan" : "regular"}
                 totals={totalsForSummary}
