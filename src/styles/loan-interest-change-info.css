@@ -4,6 +4,9 @@
   tr[data-interest-rate-info="true"] {
   display: block !important;
   width: 100% !important;
+  margin: 8px 0 !important;
+  border-top: 1px solid #e2e8f0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
   background: #ffffff !important;
 }
 
@@ -15,7 +18,7 @@
   display: block !important;
   width: 100% !important;
   min-height: 0 !important;
-  padding: 0 10px 8px !important;
+  padding: 8px 10px !important;
   border: 0 !important;
   overflow: visible !important;
   white-space: normal !important;
@@ -29,6 +32,8 @@
   display: flex !important;
   width: 100% !important;
   min-height: 36px !important;
+  border: 1px solid #bfdbfe !important;
+  border-radius: 3px !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
