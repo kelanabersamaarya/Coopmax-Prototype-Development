@@ -246,7 +246,7 @@ function InnerGraceTable({
               key={`${r.jatuhTempo}-${globalIdx}`}
               className="bg-white"
             >
-              <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+              <Td className="w-[110px] tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
               </Td>
 
@@ -462,7 +462,7 @@ export default function BillingTableWithStatus({
                         key={`${r.jatuhTempo}-${rowIndex}`}
                         className="relative left-2 bg-white"
                       >
-                        <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                        <Td className="w-[110px] tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
                         </Td>
 
@@ -519,7 +519,7 @@ export default function BillingTableWithStatus({
                         key={`${r.jatuhTempo}-${idx}`}
                         className="bg-white"
                       >
-                        <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                        <Td className="w-[110px] tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
                         </Td>
 
