@@ -183,10 +183,10 @@
   padding-bottom: 12px !important;
   padding-left: 10px !important;
   color: #334155 !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
   line-height: 1.25 !important;
-  text-align: right !important;
+  text-align: left !important;
   vertical-align: middle !important;
   white-space: normal !important;
 }
@@ -202,6 +202,7 @@
   table[class*="min-w-[1780px]"]
   th:nth-child(10) {
   padding-right: 22px !important;
+  text-align: left !important;
 }
 
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
