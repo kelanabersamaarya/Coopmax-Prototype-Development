@@ -87,29 +87,31 @@ function DebtChangeConfirmDialog({
       <DialogContent
         data-loan-debt-confirm-dialog="true"
         className={cn(
-          "h-[365px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
+          "h-[338px] w-[calc(100vw-1.5rem)] max-w-[528px] overflow-hidden",
           "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
-        <div className="flex h-full flex-col items-center px-8 pb-[22px] pt-[42px] text-center">
-          <div className="grid h-[102px] w-[102px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
-            <span className="text-[58px] font-light leading-none text-[#f2b98f]">
+        <div className="flex h-full flex-col items-center px-8 pb-[20px] pt-[41px] text-center">
+          <div className="grid h-[90px] w-[90px] place-items-center rounded-full border-[4px] border-[#f7c8a6]">
+            <span className="text-[56px] font-light leading-none text-[#f2b98f]">
               !
             </span>
           </div>
 
-          <h2 className="mt-[32px] text-[30px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
-            Yakin Melakukan Perubahan Nominal Bunga?
+          <h2 className="mt-[32px] max-w-[460px] text-[30px] font-extrabold leading-[1.18] tracking-[-0.03em] text-[#3b4863]">
+            Yakin Melakukan Penyesuaian
+            <br />
+            Bunga?
           </h2>
 
-          <div className="mt-[34px] flex items-center justify-center gap-[9px]">
+          <div className="mt-[34px] flex items-center justify-center gap-[8px]">
             <button
               type="button"
               onClick={onConfirm}
-              className="h-[53px] w-[114px] rounded-[5px] bg-[#3380e8] text-[16px] font-semibold text-white transition hover:bg-[#266ed0]"
+              className="h-[48px] w-[104px] rounded-[5px] border-2 border-[#9fc5e8] bg-[#338bd3] text-[16px] font-semibold text-white shadow-[0_0_0_1px_#338bd3] transition hover:bg-[#2779bd]"
             >
               Yes
             </button>
@@ -117,7 +119,7 @@ function DebtChangeConfirmDialog({
             <button
               type="button"
               onClick={onCancel}
-              className="h-[53px] w-[138px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
+              className="h-[48px] w-[126px] rounded-[5px] bg-[#a6a6a6] text-[16px] font-semibold text-white transition hover:bg-[#969696]"
             >
               Cancel
             </button>
