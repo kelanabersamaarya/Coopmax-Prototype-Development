@@ -383,7 +383,7 @@ export default function LoanDebtChangeWizard({
             "flex max-h-[calc(100vh-2rem)] min-h-0 w-[calc(100vw-1rem)] max-w-[1040px] flex-col gap-0 overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl sm:w-[1040px] [&>button[aria-label=Close]]:hidden [&>button.absolute.right-4.top-4]:hidden [&_[data-slot=dialog-close]]:hidden",
             step === 1
               ? "h-[calc(100vh-2rem)]"
-              : "h-auto",
+              : "max-h-[calc(100vh-2rem)]",
           )}
         >
           <header className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
@@ -403,7 +403,7 @@ export default function LoanDebtChangeWizard({
           <main
             className={cn(
               "min-h-0 overflow-x-hidden overflow-y-auto overscroll-contain",
-              step === 1 ? "flex-1" : "flex-none",
+              step === 1 ? "flex-1" : "flex-1",
             )}
             onWheel={(event) => {
               if (event.deltaY === 0) return;
