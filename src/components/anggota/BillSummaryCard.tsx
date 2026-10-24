@@ -27,8 +27,8 @@ function SummaryRow({
   return (
     <div
       className={cn(
-        "grid items-center gap-x-3 py-3",
-        "[grid-template-columns:minmax(190px,1fr)_14px_minmax(0,1fr)]",
+        "grid items-center gap-x-2 py-3",
+        "[grid-template-columns:minmax(150px,1fr)_14px_minmax(0,1fr)]",
       )}
     >
       <div
@@ -74,7 +74,7 @@ function SummaryRowInline({
     <div
       className={cn(
         "grid items-center gap-x-2 py-3 text-[14px]",
-        "[grid-template-columns:minmax(190px,1fr)_14px_minmax(0,1fr)]",
+        "[grid-template-columns:minmax(150px,1fr)_14px_minmax(0,1fr)]",
         className,
       )}
     >
