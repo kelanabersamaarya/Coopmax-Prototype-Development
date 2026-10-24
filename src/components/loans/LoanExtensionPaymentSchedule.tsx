@@ -46,32 +46,32 @@ export default function LoanExtensionPaymentSchedule({
                 <br />
                 Tempo
               </th>
-              <th className="w-[150px] px-3 py-3 text-right">
+              <th className="w-[150px] px-3 py-3 text-left">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[145px] px-3 py-3 text-right">
+              <th className="w-[145px] px-3 py-3 text-left">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[145px] px-3 py-3 text-right">
+              <th className="w-[145px] px-3 py-3 text-left">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[155px] px-3 py-3 text-right">
+              <th className="w-[155px] px-3 py-3 text-left">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[155px] px-3 py-3 text-right">
+              <th className="w-[155px] px-3 py-3 text-left">
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[145px] px-3 py-3 text-right">
+              <th className="w-[145px] px-3 py-3 text-left">
                 Tagihan
                 <br />
                 Denda
