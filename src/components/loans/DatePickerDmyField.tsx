@@ -97,23 +97,25 @@ export default function DatePickerDmyField({
             captionLayout={calendarCaptionLayout}
             fromYear={2000}
             toYear={2100}
-            className="w-fit"
+            className="w-fit p-1"
             classNames={{
               months: "flex w-fit flex-col",
-              month: "w-fit space-y-4",
-              month_caption: "relative flex h-8 items-center justify-center rounded-[4px] bg-[#d9dde3] px-2",
-              caption_label: "text-[14px] font-medium text-slate-900",
-              dropdowns: "flex w-full items-center justify-center gap-1",
+              month: "w-fit space-y-2",
+              month_caption: "relative flex h-9 items-center justify-center rounded-[4px] bg-[#d9dde3] px-1",
+              caption_label: "hidden",
+              caption_dropdowns: "flex w-full items-center justify-center gap-1",
+              months_dropdown: "w-[108px]",
+              years_dropdown: "w-[78px]",
               dropdown: "h-7 rounded-[3px] border border-slate-300 bg-white px-1 text-[14px] text-slate-900 outline-none",
-              nav: "absolute inset-x-0 top-1/2 z-10 flex -translate-y-1/2 items-center justify-between px-1",
-              button_previous: "inline-flex h-6 w-6 items-center justify-center rounded-[4px] bg-[#22252b] p-0 text-white hover:bg-[#343840]",
-              button_next: "inline-flex h-6 w-6 items-center justify-center rounded-[4px] bg-[#22252b] p-0 text-white hover:bg-[#343840]",
+              nav: "pointer-events-none absolute inset-x-0 top-0 z-10 flex h-9 items-center justify-between px-1",
+              button_previous: "pointer-events-auto inline-flex h-6 w-6 items-center justify-center rounded-[4px] bg-[#22252b] p-0 text-white hover:bg-[#343840]",
+              button_next: "pointer-events-auto inline-flex h-6 w-6 items-center justify-center rounded-[4px] bg-[#22252b] p-0 text-white hover:bg-[#343840]",
               month_grid: "w-[294px] border-collapse",
-              weekdays: "flex w-full",
-              weekday: "w-[42px] text-center text-[12px] font-semibold text-[#334155]",
-              week: "mt-0 flex w-full",
-              day: "h-8 w-[42px] border border-white bg-[#eef0f2] p-0 text-center",
-              day_button: "h-8 w-full rounded-none p-0 text-[12px] font-normal text-[#17345f] hover:bg-slate-200",
+              weekdays: "grid grid-cols-7",
+              weekday: "w-auto text-center text-[12px] font-semibold text-[#334155]",
+              week: "mt-0 grid w-full grid-cols-7",
+              day: "flex h-8 w-auto items-center justify-center border border-white bg-[#eef0f2] p-0 text-center",
+              day_button: "h-8 w-8 rounded-none p-0 text-[12px] font-normal text-[#17345f] hover:bg-slate-200",
               selected: "bg-transparent text-[#6d4aff] font-semibold",
               today: "bg-[#eef0f2] text-[#6d4aff]",
               outside: "bg-[#f8f9fa] text-slate-400 opacity-100",
