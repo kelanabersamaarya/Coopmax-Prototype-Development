@@ -41,6 +41,7 @@ type SimulationInstallment = {
   afterRemainingInterest: number;
   beforeInstallment: number;
   afterInstallment: number;
+  penalty: number;
 };
 
 function formatIdr(value: number) {
@@ -159,7 +160,7 @@ function BillingSimulationTable({
       interest: totals.interest + item.afterInterest,
       remainingPrincipal: totals.remainingPrincipal + item.remainingPrincipal,
       remainingInterest: totals.remainingInterest + item.afterRemainingInterest,
-      penalty: totals.penalty,
+      penalty: totals.penalty + item.penalty,
     }),
     {
       total: 0,
@@ -177,7 +178,7 @@ function BillingSimulationTable({
       interest: totals.interest + item.afterInterest,
       remainingPrincipal: totals.remainingPrincipal + item.remainingPrincipal,
       remainingInterest: totals.remainingInterest + item.afterRemainingInterest,
-      penalty: totals.penalty,
+      penalty: totals.penalty + item.penalty,
     }),
     {
       total: 0,
@@ -377,6 +378,7 @@ export default function LoanInterestChangeWizard({
         remainingPrincipal: remainingAfter,
         beforeRemainingInterest,
         afterRemainingInterest,
+        penalty: 0,
         beforeInstallment: monthlyPrincipal + beforeInterest,
         afterInstallment: monthlyPrincipal + afterInterest,
       };
