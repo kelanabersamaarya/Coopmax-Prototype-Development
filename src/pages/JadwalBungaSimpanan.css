@@ -41,6 +41,10 @@ table thead tr:nth-child(2) input::placeholder {
   opacity: 1;
 }
 
+#schedule-delete-success-title {
+  font-size: 28px !important;
+  line-height: 34px !important;
+}
 
 @media (min-width: 768px) {
   table {
