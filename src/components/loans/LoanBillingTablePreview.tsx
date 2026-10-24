@@ -324,7 +324,11 @@ export default function LoanBillingTablePreview({
               return (
                 <tr
                   key={`${row.jatuhTempo}-${globalIndex}`}
-                  className="border-t border-slate-200 bg-white text-[13px] font-normal text-slate-900"
+                  data-interest-adjusted={interestAdjustments[row.jatuhTempo] ? "true" : undefined}
+                  className={cn(
+                    "border-t border-slate-200 bg-white text-[13px] font-normal text-slate-900",
+                    interestAdjustments[row.jatuhTempo] ? "text-[#2563EB]" : "",
+                  )}
                 >
                   <td className="px-2 py-2 text-left font-normal tabular-nums whitespace-nowrap">
                     {row.jatuhTempo}
@@ -359,7 +363,10 @@ export default function LoanBillingTablePreview({
                       </button>
                     </div>
                   </td>
-                  <td className="px-2 py-2 text-right">
+                  <td className={cn(
+                    "px-2 py-2 text-right",
+                    interestAdjustments[row.jatuhTempo] ? "text-[#2563EB]" : "",
+                  )}>
                     <NumericCell>{formatIdr(adjustedInterest)}</NumericCell>
                   </td>
                   <td className="px-2 py-2 text-right">

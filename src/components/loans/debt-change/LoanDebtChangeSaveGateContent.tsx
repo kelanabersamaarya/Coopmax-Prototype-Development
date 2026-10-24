@@ -36,13 +36,9 @@ function parseSaveData(wizard: HTMLElement): PendingAdjustment | null {
       /No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.-]+)/i,
     )?.[1] ?? "SMG260004";
 
-  const adjustedRow = Array.from(
-    wizard.querySelectorAll<HTMLTableRowElement>("table tbody tr"),
-  ).find((row) =>
-    row.querySelector(
-      'td.text-\\[\\#2563EB\\], td[class*="text-[#2563EB]"]',
-    ),
-  );
+const adjustedRow = wizard.querySelector<HTMLTableRowElement>(
+  'table tbody tr[data-interest-adjusted="true"]',
+);
 
   if (!adjustedRow) return null;
 

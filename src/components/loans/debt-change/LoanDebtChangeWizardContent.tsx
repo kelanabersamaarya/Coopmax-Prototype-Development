@@ -292,6 +292,8 @@ function UnifiedBillingSimulationTable({
               return (
                 <tr
                   key={`${dueDate}-${installmentNo}`}
+                  data-interest-installment={installmentNo}
+                  data-interest-adjusted={isAdjustedRow ? "true" : undefined}
                   className="border-b border-slate-100 bg-white text-[12px] font-normal text-black"
                 >
                   <td className="px-3 py-3 tabular-nums whitespace-nowrap">
