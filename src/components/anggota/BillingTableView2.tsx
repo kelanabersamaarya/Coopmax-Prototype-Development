@@ -497,7 +497,7 @@ export default function BillingTableView2({
     renderGraceShell && (showGraceInfo || keepGraceShellWithoutInfo);
 
   const checkboxCls = cn(
-    "h-5 w-5 rounded-[6px] accent-blue-600",
+    "h-3.5 w-3.5 rounded-[4px] accent-blue-600",
     "border-0 bg-transparent shadow-none ring-0",
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
