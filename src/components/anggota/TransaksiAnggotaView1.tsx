@@ -374,6 +374,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   applyCompactOverrides
                     ? "[&_.bg-white.px-3.py-3]:!py-1.5 [&_.px-4.py-4]:!py-2"
                     : "",
+                  "[&_.px-4]:!px-[5px]",
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
                 )}
