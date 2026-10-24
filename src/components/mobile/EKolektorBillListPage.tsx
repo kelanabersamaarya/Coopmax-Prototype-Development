@@ -240,6 +240,7 @@ export default function EKolektorBillListPage({
             <div className="max-w-full overflow-hidden">
               <BillingTableWithStatus
                 rows={pagedRows}
+                allRows={rowsForAccount}
                 showGraceHighlight={showGraceHighlight}
                 showGraceInfo={showGraceHighlight}
                 penaltyIndexOffset={(page - 1) * pageSize}

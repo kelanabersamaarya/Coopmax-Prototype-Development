@@ -67,6 +67,12 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function parseIdrLike(value: string) {
+  const normalized = (value ?? "").replace(/\./g, "").replace(",", ".");
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 function buildPenaltyDetailRows(dueDateDmy: string): PenaltyDetailRow[] {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
 
@@ -127,6 +133,37 @@ function RightNum({ value }: { value: string }) {
     <NumericCell align="right" className="w-full">
       {toIdr00(value)}
     </NumericCell>
+  );
+}
+
+function TotalRow({
+  label,
+  values,
+}: {
+  label: string;
+  values: {
+    totalBelumDibayar: number;
+    tagihanPokok: number;
+    tagihanBunga: number;
+    sisaPokok: number;
+    sisaBunga: number;
+    denda: number;
+  };
+}) {
+  const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
+  return (
+    <tr className="bg-slate-50">
+      <td className="border-t border-slate-200 px-4 py-2 text-left text-[12px] font-bold leading-tight text-slate-800">
+        {label}
+      </td>
+      <td className={cellClass}>{formatIdrLike(values.totalBelumDibayar)}</td>
+      <td className={cellClass}>{formatIdrLike(values.tagihanPokok)}</td>
+      <td className={cellClass}>{formatIdrLike(values.tagihanBunga)}</td>
+      <td className={cellClass}>{formatIdrLike(values.sisaPokok)}</td>
+      <td className={cellClass}>{formatIdrLike(values.sisaBunga)}</td>
+      <td className={cellClass}>{formatIdrLike(values.denda)}</td>
+      <td className="border-t border-slate-200 px-4 py-2" />
+    </tr>
   );
 }
 
@@ -255,6 +292,7 @@ export default function BillingTableWithStatus({
   showGraceInfo = true,
   penaltyIndexOffset = 0,
   showPenaltyDetailAction = true,
+  allRows,
   className,
 }: {
   rows: BillingRow[];
@@ -262,12 +300,39 @@ export default function BillingTableWithStatus({
   showGraceInfo?: boolean;
   penaltyIndexOffset?: number;
   showPenaltyDetailAction?: boolean;
+  allRows?: BillingRow[];
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
   const colCount = 8;
+
+  const pageTotals = rows.reduce(
+    (totals, row, index) => {
+      totals.totalBelumDibayar += parseIdrLike(row.totalBelumDibayar);
+      totals.tagihanPokok += parseIdrLike(row.tagihanPokok);
+      totals.tagihanBunga += parseIdrLike(row.tagihanBunga);
+      totals.sisaPokok += parseIdrLike(row.sisaPokok);
+      totals.sisaBunga += parseIdrLike(row.sisaBunga);
+      totals.denda += penaltyIndexOffset + index < PENALTY_ROWS ? PENALTY_AMOUNT : 0;
+      return totals;
+    },
+    { totalBelumDibayar: 0, tagihanPokok: 0, tagihanBunga: 0, sisaPokok: 0, sisaBunga: 0, denda: 0 },
+  );
+
+  const grandTotals = (allRows ?? rows).reduce(
+    (totals, row, index) => {
+      totals.totalBelumDibayar += parseIdrLike(row.totalBelumDibayar);
+      totals.tagihanPokok += parseIdrLike(row.tagihanPokok);
+      totals.tagihanBunga += parseIdrLike(row.tagihanBunga);
+      totals.sisaPokok += parseIdrLike(row.sisaPokok);
+      totals.sisaBunga += parseIdrLike(row.sisaBunga);
+      totals.denda += index < PENALTY_ROWS ? PENALTY_AMOUNT : 0;
+      return totals;
+    },
+    { totalBelumDibayar: 0, tagihanPokok: 0, tagihanBunga: 0, sisaPokok: 0, sisaBunga: 0, denda: 0 },
+  );
 
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
@@ -496,6 +561,10 @@ export default function BillingTableWithStatus({
                 </>
               )}
             </tbody>
+            <tfoot>
+              <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
+              <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
+            </tfoot>
           </table>
         </div>
 
