@@ -146,41 +146,61 @@ function UnifiedBillingSimulationTable({
       </div>
 
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[1105px] border-collapse">
+        <table className="w-full min-w-[1090px] table-fixed border-collapse">
+          <colgroup>
+            <col style={{ width: "85px" }} />
+            <col style={{ width: "100px" }} />
+            <col style={{ width: "105px" }} />
+            <col style={{ width: "115px" }} />
+            <col style={{ width: "110px" }} />
+            <col style={{ width: "120px" }} />
+            <col style={{ width: "120px" }} />
+            <col style={{ width: "100px" }} />
+            <col style={{ width: "145px" }} />
+          </colgroup>
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-bold uppercase tracking-wide text-black">
-              <th className="w-[105px] px-2 py-3 text-left">Jatuh Tempo</th>
-              <th className="w-[125px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left">Jatuh Tempo</th>
+              <th className="px-2 py-3 text-left">
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
-              <th className="w-[115px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left">
                 Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[115px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left">
                 Tagihan
                 <br />
                 Bunga
               </th>
-              <th className="w-[135px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left">
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
-              <th className="w-[135px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left leading-tight">
                 Sisa Tagihan
                 <br />
-                Bunga
+                Bunga Sebelum
+                <br />
+                Penyesuaian
               </th>
-              <th className="w-[115px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left leading-tight">
+                Sisa Tagihan
+                <br />
+                Bunga Sesudah
+                <br />
+                Penyesuaian
+              </th>
+              <th className="px-2 py-3 text-left">
                 Tagihan
                 <br />
                 Denda
               </th>
-              <th className="w-[125px] px-2 py-3 text-left">
+              <th className="px-2 py-3 text-left">
                 Status
                 <br />
                 Tagihan
@@ -219,10 +239,7 @@ function UnifiedBillingSimulationTable({
               return (
                 <tr
                   key={`${dueDate}-${installmentNo}`}
-                  className={cn(
-                    "border-b border-slate-100 text-[12px] font-normal text-black",
-                    index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                  )}
+                  className="border-b border-slate-100 bg-white text-[12px] font-normal text-black"
                 >
                   <td className="px-3 py-3 tabular-nums whitespace-nowrap">
                     {dueDate}
@@ -243,6 +260,9 @@ function UnifiedBillingSimulationTable({
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {remainingPrincipal}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums">
+                    {remainingInterest}
                   </td>
                   <td
                     className={cn(
