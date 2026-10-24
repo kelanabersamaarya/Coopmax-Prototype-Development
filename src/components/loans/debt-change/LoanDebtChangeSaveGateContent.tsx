@@ -40,15 +40,13 @@ const adjustedRow = wizard.querySelector<HTMLTableRowElement>(
   'table tbody tr[data-interest-adjusted="true"]',
 );
 
-  if (!adjustedRow) return null;
-
-  const cells = Array.from(
-    adjustedRow.querySelectorAll<HTMLTableCellElement>("td"),
-  );
-  const installmentNo = Number(cells[0]?.textContent?.trim() ?? "0");
   const draft = getLoanDebtAdjustmentDraft();
+  if (!draft) return null;
 
-  if (!installmentNo || !draft) return null;
+  const cells = adjustedRow
+    ? Array.from(adjustedRow.querySelectorAll<HTMLTableCellElement>("td"))
+    : [];
+  const installmentNo = Number(cells[0]?.textContent?.trim() ?? "1") || 1;
 
   const interestBefore =
     draft.previousInterest || cells[6]?.textContent?.trim() || "0,00";
@@ -196,7 +194,30 @@ export default function LoanDebtChangeSaveGate() {
         return;
       }
 
-      const adjustment = parseSaveData(wizard);
+      const adjustment =
+        parseSaveData(wizard) ??
+        (() => {
+          const draft = getLoanDebtAdjustmentDraft();
+          if (!draft) return null;
+
+          return {
+            accountNo:
+              (wizard.textContent ?? "").match(
+                /No\.\s*Rek\.\s*Pinjaman\s+([A-Z0-9.-]+)/i,
+              )?.[1] ?? "SMG260004",
+            installmentNo: 1,
+            interestBefore: draft.previousInterest || "0,00",
+            adjustmentType: draft.type,
+            adjustmentAmount: draft.amount || "0,00",
+            reason: draft.reason,
+            interestAfter: formatIdr(
+              getAdjustedInterest(draft.previousInterest || "0,00", draft.type, draft.amount),
+            ),
+            totalBefore: "0,00",
+            totalAfter: "0,00",
+          };
+        })();
+
       if (!adjustment) return;
 
       event.preventDefault();
