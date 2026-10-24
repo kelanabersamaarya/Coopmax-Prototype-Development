@@ -1073,6 +1073,7 @@ function PaymentInputBlock({
         onKeteranganChange={(value) => onChange({ keteranganReguler: value })}
         periode={row.pinjamanBulananPeriode}
         onPeriodeChange={(value) => onChange({ pinjamanBulananPeriode: value })}
+        showPeriodInfo={Boolean(accountNo)}
       />
     );
   }

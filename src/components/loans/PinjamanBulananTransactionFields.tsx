@@ -105,6 +105,7 @@ export default function PinjamanBulananTransactionFields({
   onKeteranganChange,
   periode,
   onPeriodeChange,
+  showPeriodInfo = true,
 }: {
   disabled: boolean;
   nominal: string;
@@ -119,6 +120,7 @@ export default function PinjamanBulananTransactionFields({
   onKeteranganChange: (value: string) => void;
   periode: string;
   onPeriodeChange: (value: string) => void;
+  showPeriodInfo?: boolean;
 }) {
   const inputClassName = cn(
     "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
@@ -259,7 +261,7 @@ export default function PinjamanBulananTransactionFields({
             className={cn(inputClassName, "min-w-0 flex-1 text-left")}
             disabled={disabled}
           />
-          <PeriodInfoButton periode={periode} />
+          {showPeriodInfo ? <PeriodInfoButton periode={periode} /> : null}
         </div>
       </FieldBlock>
     </div>
