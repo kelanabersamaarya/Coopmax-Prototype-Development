@@ -578,9 +578,9 @@ export default function LoanInterestChangeWizard({
                   <div className="safe-x-scroll">
                     <table className="loan-interest-summary w-full min-w-[620px] table-fixed border-collapse">
                       <colgroup>
-                        <col className="w-[22%]" />
-                        <col className="w-[39%]" />
-                        <col className="w-[39%]" />
+                        <col className="w-[30%]" />
+                        <col className="w-[35%]" />
+                        <col className="w-[35%]" />
                       </colgroup>
                       <thead>
                         <tr className="border-b border-slate-200 text-left">

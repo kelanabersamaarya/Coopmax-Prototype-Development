@@ -158,14 +158,14 @@
   text-transform: none !important;
 }
 
-/* Komposisi kolom ringkasan dibuat proporsional: label lebih ringkas, dua nilai utama seimbang. */
+/* Kolom Informasi diperlebar agar label panjang lebih mudah dibaca. */
 [data-loan-interest-wizard="true"] .loan-interest-summary col:nth-child(1) {
-  width: 22% !important;
+  width: 30% !important;
 }
 
 [data-loan-interest-wizard="true"] .loan-interest-summary col:nth-child(2),
 [data-loan-interest-wizard="true"] .loan-interest-summary col:nth-child(3) {
-  width: 39% !important;
+  width: 35% !important;
 }
 
 [data-loan-interest-wizard="true"] .loan-interest-summary th,
