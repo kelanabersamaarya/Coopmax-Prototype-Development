@@ -2,6 +2,7 @@ export const BILLING_COLUMN_WIDTHS = {
   selection: "36px",
   dueDate: "72px",
   amount: "100px",
+  penalty: "80px",
   action: "24px",
   status: "132px",
 } as const;
@@ -27,7 +28,7 @@ export function getBillingGridTemplateColumns({
     BILLING_COLUMN_WIDTHS.amount,
   );
   if (showPenaltyColumn) {
-    columns.push(BILLING_COLUMN_WIDTHS.amount, BILLING_COLUMN_WIDTHS.action);
+    columns.push(BILLING_COLUMN_WIDTHS.penalty, BILLING_COLUMN_WIDTHS.action);
   }
   if (showStatusColumn) columns.push(BILLING_COLUMN_WIDTHS.status);
   return columns.join(" ");
