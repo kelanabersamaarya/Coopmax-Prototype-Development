@@ -271,18 +271,16 @@ function InnerGraceTable({
               </Td>
 
               <Td className={alignedPenaltyCellClass} align="right">
-                {showPenalty ? (
-                  <div className="flex items-center justify-end gap-2">
-                    <span className="num-sans-tabular">
-                      {formatIdrLike(PENALTY_AMOUNT)}
-                    </span>
-                    {showPenaltyDetailAction ? (
-                      <PenaltyInfoButton
-                        onClick={() => onOpenPenalty(r.jatuhTempo)}
-                      />
-                    ) : null}
-                  </div>
-                ) : null}
+                <div className="flex items-center justify-end gap-2">
+                  <span className="num-sans-tabular">
+                    {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
+                  </span>
+                  {showPenalty && showPenaltyDetailAction ? (
+                    <PenaltyInfoButton
+                      onClick={() => onOpenPenalty(r.jatuhTempo)}
+                    />
+                  ) : null}
+                </div>
               </Td>
 
               <Td className="w-[145px] px-4">
@@ -489,18 +487,16 @@ export default function BillingTableWithStatus({
                         </Td>
 
                         <Td className="w-[130px] pr-[17px]" align="right">
-                          {showPenalty ? (
-                            <div className="flex items-center justify-end gap-2">
-                              <span className={penaltyNumberClass}>
-                                {formatIdrLike(PENALTY_AMOUNT)}
-                              </span>
-                              {showPenaltyDetailAction ? (
-                                <PenaltyInfoButton
-                                  onClick={() => openPenalty(r.jatuhTempo)}
-                                />
-                              ) : null}
-                            </div>
-                          ) : null}
+                          <div className="flex items-center justify-end gap-2">
+                            <span className={penaltyNumberClass}>
+                              {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
+                            </span>
+                            {showPenalty && showPenaltyDetailAction ? (
+                              <PenaltyInfoButton
+                                onClick={() => openPenalty(r.jatuhTempo)}
+                              />
+                            ) : null}
+                          </div>
                         </Td>
 
                         <Td className="w-[145px]">
@@ -548,18 +544,16 @@ export default function BillingTableWithStatus({
                         </Td>
 
                         <Td className={alignedPenaltyCellClass} align="right">
-                          {showPenalty ? (
-                            <div className="flex items-center justify-end gap-2">
-                              <span className="num-sans-tabular">
-                                {formatIdrLike(PENALTY_AMOUNT)}
-                              </span>
-                              {showPenaltyDetailAction ? (
-                                <PenaltyInfoButton
-                                  onClick={() => openPenalty(r.jatuhTempo)}
-                                />
-                              ) : null}
-                            </div>
-                          ) : null}
+                          <div className="flex items-center justify-end gap-2">
+                            <span className="num-sans-tabular">
+                              {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
+                            </span>
+                            {showPenalty && showPenaltyDetailAction ? (
+                              <PenaltyInfoButton
+                                onClick={() => openPenalty(r.jatuhTempo)}
+                              />
+                            ) : null}
+                          </div>
                         </Td>
 
                         <Td className="w-[145px]">
