@@ -158,6 +158,23 @@
   text-transform: none !important;
 }
 
+/* Komposisi kolom ringkasan dibuat proporsional: label lebih ringkas, dua nilai utama seimbang. */
+[data-loan-interest-wizard="true"] .loan-interest-summary col:nth-child(1) {
+  width: 22% !important;
+}
+
+[data-loan-interest-wizard="true"] .loan-interest-summary col:nth-child(2),
+[data-loan-interest-wizard="true"] .loan-interest-summary col:nth-child(3) {
+  width: 39% !important;
+}
+
+[data-loan-interest-wizard="true"] .loan-interest-summary th,
+[data-loan-interest-wizard="true"] .loan-interest-summary td {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  vertical-align: middle !important;
+}
+
 /* Header tabel ringkasan berwarna putih dengan ukuran 12px. */
 [data-loan-interest-wizard="true"] .loan-interest-summary thead,
 [data-loan-interest-wizard="true"] .loan-interest-summary thead tr,

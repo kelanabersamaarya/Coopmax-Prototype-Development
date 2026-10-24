@@ -576,7 +576,12 @@ export default function LoanInterestChangeWizard({
                     Ringkasan Perubahan Suku Bunga
                   </div>
                   <div className="safe-x-scroll">
-                    <table className="loan-interest-summary w-full min-w-[620px] border-collapse">
+                    <table className="loan-interest-summary w-full min-w-[620px] table-fixed border-collapse">
+                      <colgroup>
+                        <col className="w-[22%]" />
+                        <col className="w-[39%]" />
+                        <col className="w-[39%]" />
+                      </colgroup>
                       <thead>
                         <tr className="border-b border-slate-200 text-left">
                           <th className="px-4 py-3">Informasi</th>
