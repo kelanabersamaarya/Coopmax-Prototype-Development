@@ -173,7 +173,6 @@ function BillingSimulationTable({
               <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sebelum Penyesuaian</th>
               <th className="w-[175px] px-3 py-3 text-right">Sisa Tagihan Bunga<br />Sesudah Penyesuaian</th>
               <th className="w-[125px] px-3 py-3 text-right">Tagihan<br />Denda</th>
-              <th className="w-[175px] px-3 py-3 text-right">Total Angsuran<br />Sesudah Penyesuaian</th>
             </tr>
           </thead>
 
@@ -211,7 +210,6 @@ function BillingSimulationTable({
                   <td className="px-3 py-2.5 text-right tabular-nums">{formatIdr(item.beforeRemainingInterest)}</td>
                   <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#2563EB]">{formatIdr(item.afterRemainingInterest)}</td>
                   <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
-                  <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#2563EB]">{formatIdr(item.afterInstallment)}</td>
                 </tr>
               );
             })}

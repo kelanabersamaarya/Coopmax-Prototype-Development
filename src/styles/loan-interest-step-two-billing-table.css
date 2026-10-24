@@ -133,19 +133,6 @@
   text-align: right !important;
 }
 
-/* Total Angsuran Sesudah Penyesuaian */
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  th:nth-child(11),
-[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
-  table[class*="min-w-[1780px]"]
-  td:nth-child(11) {
-  display: block !important;
-  order: 8 !important;
-  flex: 1 1 15% !important;
-  text-align: right !important;
-}
-
 /* Sembunyikan kolom simulasi tambahan yang tidak ada pada tabel billing. */
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
@@ -165,6 +152,12 @@
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   td:nth-child(8),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  th:nth-child(11),
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  td:nth-child(11),
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"]
   table[class*="min-w-[1780px]"]
   th:nth-child(12),
