@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronLeft, ChevronRight, Eye, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Eye, Info, X } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -248,6 +248,18 @@ function BillingSimulationTable({
                   <td className="px-3 py-2.5 text-right font-semibold tabular-nums text-[#2563EB]">{formatIdr(item.afterRemainingInterest)}</td>
                   <td className="px-3 py-2.5 text-right tabular-nums">0,00</td>
                 </tr>
+                {item.number === 6 ? (
+                  <tr>
+                    <td colSpan={10} className="px-3 py-0">
+                      <div className="flex min-h-[36px] items-center gap-3 border border-[#bfdbfe] bg-[#f7fbff] px-3 py-2 text-[12px] font-normal text-[#123b71]">
+                        <Info className="h-4 w-4 shrink-0 fill-[#2563eb] text-white" strokeWidth={2.5} />
+                        <span>
+                          Terdapat perubahan suku bunga dari 24,00% menjadi 12,00% dan berlaku efektif sejak 24-10-2026
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ) : null}
               );
             })}
           </tbody>
