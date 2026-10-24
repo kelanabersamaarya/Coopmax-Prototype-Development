@@ -115,3 +115,25 @@
 }
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:first-child { flex: 0 0 16% !important; text-align: left !important; }
 [data-loan-interest-wizard="true"][data-loan-interest-step="2"] table[class*="min-w-[1780px]"] tfoot td:not(:first-child) { flex: 1 1 14% !important; }
+
+/* Pastikan label footer tidak ikut tersembunyi oleh aturan kolom tabel. */
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tfoot
+  td,
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tfoot
+  td:first-child {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+[data-loan-interest-wizard="true"][data-loan-interest-step="2"]
+  table[class*="min-w-[1780px]"]
+  tfoot
+  td:first-child {
+  flex: 0 0 16% !important;
+  text-align: left !important;
+}
