@@ -97,8 +97,8 @@ const rows: BillingRow[] = [
     sisaBunga: "0,00",
     statusTagihan: "Lunas",
   },
-  ...Array.from({ length: 8 }).map((_, i) => ({
-    jatuhTempo: `25-0${(i % 7) + 2}-2026`,
+  ...Array.from({ length: 18 }).map((_, i) => ({
+    jatuhTempo: `25-${String((i % 12) + 2).padStart(2, "0")}-2026`,
     totalBelumDibayar: i === 0 ? "0,00" : "916.667",
     tagihanPokok: i === 0 ? "0,00" : "916.667",
     tagihanBunga: i === 0 ? "0,00" : "83.333",
