@@ -241,23 +241,23 @@ function ConfirmDialog({
       <DialogContent
         data-loan-extension-confirm-dialog="true"
         className={cn(
-          "h-[300px] w-[calc(100vw-1.5rem)] max-w-[580px] overflow-hidden",
-          "rounded-[5px] border-slate-200 bg-white p-0 shadow-2xl",
+          "h-auto min-h-[270px] w-[calc(100vw-2rem)] max-w-[430px] overflow-hidden",
+          "rounded-[16px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
-        <div className="flex h-full flex-col items-center px-8 pb-[18px] pt-[26px] text-center">
-          <div className="grid h-[74px] w-[74px] place-items-center rounded-full border-[3px] border-[#f7c8a6]">
-            <span className="text-[42px] font-light leading-none text-[#f2b98f]">!</span>
+        <div className="flex flex-col items-center px-6 pb-7 pt-7 text-center">
+          <div className="grid h-[68px] w-[68px] place-items-center rounded-full border-[3px] border-[#f7c8a6]">
+            <span className="text-[38px] font-light leading-none text-[#f2b98f]">!</span>
           </div>
 
-          <h2 className="mt-[16px] text-[23px] font-extrabold leading-[1.2] tracking-[-0.03em] text-[#3b4863]">
+          <h2 className="mt-4 text-[20px] font-extrabold leading-[1.25] tracking-[-0.02em] text-[#3b4863]">
             Yakin untuk melakukan perubahan?
           </h2>
 
-          <div className="mt-[18px] flex items-center justify-center gap-[9px]">
+          <div className="mt-5 flex items-center justify-center gap-2">
             <button
               type="button"
               onClick={onConfirm}

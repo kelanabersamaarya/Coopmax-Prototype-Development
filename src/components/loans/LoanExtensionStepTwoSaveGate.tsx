@@ -58,25 +58,25 @@ function ConfirmDialog({
     <Dialog open={open} onOpenChange={(nextOpen) => (!nextOpen ? onCancel() : null)}>
       <DialogContent
         className={cn(
-          "h-[300px] w-[calc(100vw-2rem)] max-w-[430px] overflow-hidden",
-          "rounded-[12px] border-slate-200 bg-white p-0 shadow-2xl",
+          "h-auto min-h-[270px] w-[calc(100vw-2rem)] max-w-[430px] overflow-hidden",
+          "rounded-[16px] border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
         )}
       >
-        <div className="flex h-full flex-col items-center px-6 pb-5 pt-7 text-center">
-          <div className="grid h-[78px] w-[78px] place-items-center rounded-full border-[3px] border-[#f7c8a6]">
-            <span className="text-[46px] font-light leading-none text-[#f2b98f]">
+        <div className="flex flex-col items-center px-6 pb-7 pt-7 text-center">
+          <div className="grid h-[68px] w-[68px] place-items-center rounded-full border-[3px] border-[#f7c8a6]">
+            <span className="text-[38px] font-light leading-none text-[#f2b98f]">
               !
             </span>
           </div>
 
-          <h2 className="mt-5 text-[22px] font-extrabold leading-tight tracking-[-0.02em] text-[#3b4863]">
+          <h2 className="mt-4 text-[20px] font-extrabold leading-[1.25] tracking-[-0.02em] text-[#3b4863]">
             Yakin untuk melakukan perubahan?
           </h2>
 
-          <div className="mt-6 flex items-center justify-center gap-2">
+          <div className="mt-5 flex items-center justify-center gap-2">
             <button
               type="button"
               onClick={onConfirm}
