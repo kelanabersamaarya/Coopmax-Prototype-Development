@@ -17,8 +17,8 @@ type UseAnggotaBillingSelectionConfig<Row> = {
   variant: BillingSelectionVariant;
 };
 
-function makeSelection(length: number, value: boolean) {
-  return Array.from({ length }, () => value);
+function makeFirstThreeSelected(length: number) {
+  return Array.from({ length }, (_, index) => index < 3);
 }
 
 export function useAnggotaBillingSelection<Row>({
@@ -47,9 +47,7 @@ export function useAnggotaBillingSelection<Row>({
       }
 
       if (reguler) {
-        setSelected((prev) =>
-          Array.from({ length: rowCount }, (_, i) => prev[i] ?? true),
-        );
+        setSelected(makeFirstThreeSelected(rowCount));
         return;
       }
 
@@ -68,11 +66,11 @@ export function useAnggotaBillingSelection<Row>({
     }
 
     if (reguler || khusus || pelunasan || penaltyOnly || feeOnly || penurunanBakiDebet) {
-      setSelected(makeSelection(rowCount, true));
+      setSelected(makeFirstThreeSelected(rowCount));
       return;
     }
 
-    setSelected(makeSelection(rowCount, true));
+    setSelected(makeFirstThreeSelected(rowCount));
   }, [
     feeOnly,
     khusus,
