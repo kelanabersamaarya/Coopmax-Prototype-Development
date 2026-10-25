@@ -17,6 +17,10 @@ type UseAnggotaBillingSelectionConfig<Row> = {
   variant: BillingSelectionVariant;
 };
 
+function makeSelection(length: number, value: boolean) {
+  return Array.from({ length }, () => value);
+}
+
 function makeFirstThreeSelected(length: number) {
   return Array.from({ length }, (_, index) => index < 3);
 }
