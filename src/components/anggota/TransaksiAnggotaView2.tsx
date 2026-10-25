@@ -68,8 +68,13 @@ type Props = {
   penaltyScope?: PenaltyViewScope;
 };
 
+function billingDueDate(index: number) {
+  const date = new Date(2026, 7 + index, 25);
+  return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+}
+
 const currentBill: BillingRow = {
-  jatuhTempo: "25-01-2026",
+  jatuhTempo: billingDueDate(0),
   totalBelumDibayar: "0,00",
   tagihanPokok: "833.333",
   tagihanBunga: "83.333",
@@ -80,7 +85,7 @@ const currentBill: BillingRow = {
 
 const pelunasanRowsLikeView1: BillingRow[] = [
   {
-    jatuhTempo: "25-01-2026",
+    jatuhTempo: billingDueDate(0),
     totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -89,7 +94,7 @@ const pelunasanRowsLikeView1: BillingRow[] = [
     statusTagihan: "Lunas",
   },
   {
-    jatuhTempo: "25-01-2026",
+    jatuhTempo: billingDueDate(1),
     totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -98,7 +103,7 @@ const pelunasanRowsLikeView1: BillingRow[] = [
     statusTagihan: "Lunas",
   },
   ...Array.from({ length: 8 }).map((_, i) => ({
-    jatuhTempo: `25-0${(i % 7) + 2}-2026`,
+    jatuhTempo: billingDueDate(i + 2),
     totalBelumDibayar: "916.667",
     tagihanPokok: "916.667",
     tagihanBunga: "83.333",
@@ -110,7 +115,7 @@ const pelunasanRowsLikeView1: BillingRow[] = [
 
 const upcomingRows: BillingRow[] = [
   {
-    jatuhTempo: "25-01-2026",
+    jatuhTempo: billingDueDate(0),
     totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -119,7 +124,7 @@ const upcomingRows: BillingRow[] = [
     statusTagihan: "Lunas",
   },
   {
-    jatuhTempo: "25-02-2026",
+    jatuhTempo: billingDueDate(1),
     totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -128,7 +133,7 @@ const upcomingRows: BillingRow[] = [
     statusTagihan: "Lunas",
   },
   {
-    jatuhTempo: "25-03-2026",
+    jatuhTempo: billingDueDate(2),
     totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -137,7 +142,7 @@ const upcomingRows: BillingRow[] = [
     statusTagihan: "Belum Dibayar",
   },
   ...Array.from({ length: 8 }).map((_, i) => ({
-    jatuhTempo: `25-${String(4 + i).padStart(2, "0")}-2026`,
+    jatuhTempo: billingDueDate(i + 3),
     totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",

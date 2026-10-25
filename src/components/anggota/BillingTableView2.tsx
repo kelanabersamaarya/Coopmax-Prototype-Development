@@ -83,9 +83,9 @@ function NextBillInfoBanner() {
 
         <div className="min-w-0 text-sm font-medium text-slate-900">
           Tagihan berikutnya akan diterbitkan pada{" "}
-          <span className="font-extrabold text-[#3366FF]">20 April 2025</span>{" "}
+          <span className="font-extrabold text-[#3366FF]">20 Agustus 2026</span>{" "}
           dan jatuh tempo pada{" "}
-          <span className="font-extrabold text-[#3366FF]">5 Mei 2025</span>.
+          <span className="font-extrabold text-[#3366FF]">25 Agustus 2026</span>.
         </div>
       </div>
     </div>

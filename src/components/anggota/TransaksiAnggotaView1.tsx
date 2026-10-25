@@ -79,9 +79,14 @@ type Props = {
   pageSize?: number;
 };
 
+function billingDueDate(index: number) {
+  const date = new Date(2026, 7 + index, 25);
+  return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+}
+
 const rows: BillingRow[] = [
   {
-    jatuhTempo: "25-01-2026",
+    jatuhTempo: billingDueDate(0),
     totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "0,00",
@@ -90,7 +95,7 @@ const rows: BillingRow[] = [
     statusTagihan: "Lunas",
   },
   {
-    jatuhTempo: "25-01-2026",
+    jatuhTempo: billingDueDate(1),
     totalBelumDibayar: "0,00",
     tagihanPokok: "833.333",
     tagihanBunga: "0,00",
@@ -99,7 +104,7 @@ const rows: BillingRow[] = [
     statusTagihan: "Lunas",
   },
   ...Array.from({ length: 18 }).map((_, i) => ({
-    jatuhTempo: `25-${String((i % 12) + 2).padStart(2, "0")}-2026`,
+    jatuhTempo: billingDueDate(i + 2),
     totalBelumDibayar: i === 0 ? "0,00" : "916.667",
     tagihanPokok: i === 0 ? "0,00" : "916.667",
     tagihanBunga: i === 0 ? "0,00" : "83.333",
