@@ -31,5 +31,5 @@ export function getBillingGridTemplateColumns({
     columns.push(BILLING_COLUMN_WIDTHS.penalty, BILLING_COLUMN_WIDTHS.action);
   }
   if (showStatusColumn) columns.push(BILLING_COLUMN_WIDTHS.status);
-  return columns.join(" ");
+  return columns.map((column) => `minmax(0, ${column.replace("px", "")}fr)`).join(" ");
 }
