@@ -505,7 +505,7 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const totalColPad = "-translate-x-1 px-1";
+  const totalColPad = "-translate-x-3 px-1";
   const dataCellClass = "px-1";
 
   const grandRows = grandTotalRows ?? rows;
