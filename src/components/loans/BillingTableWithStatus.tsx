@@ -156,12 +156,14 @@ function TotalRow({
       <td className="border-t border-slate-200 px-4 py-2 text-left text-[13px] font-bold leading-tight text-slate-800">
         {label === "Total Tagihan per Halaman" ? (
           <>
-            <span className="block whitespace-nowrap">Total Tagihan</span>
-            <span className="block whitespace-nowrap">per Halaman</span>
+            <span className="block whitespace-nowrap">Total</span>
+            <span className="block whitespace-nowrap">Tagihan per</span>
+            <span className="block whitespace-nowrap">Halaman</span>
           </>
         ) : (
           <>
-            <span className="block whitespace-nowrap">Total Tagihan</span>
+            <span className="block whitespace-nowrap">Total</span>
+            <span className="block whitespace-nowrap">Tagihan</span>
             <span className="block whitespace-nowrap">Keseluruhan</span>
           </>
         )}
