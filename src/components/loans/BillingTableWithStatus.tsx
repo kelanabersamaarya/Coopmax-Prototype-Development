@@ -439,7 +439,11 @@ export default function BillingTableWithStatus({
                   Denda
                 </th>
 
-                <th className={cn(thBase, statusColumnClass, "whitespace-nowrap")}>Status Tagihan</th>
+                <th className={cn(thBase, statusColumnClass)}>
+                  Status
+                  <br />
+                  Tagihan
+                </th>
               </tr>
             </thead>
 
