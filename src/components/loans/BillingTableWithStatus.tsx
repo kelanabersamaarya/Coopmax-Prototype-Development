@@ -217,9 +217,9 @@ function Td({
 }
 
 const thBase =
-  "box-border border-b-0 px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  "border-b-0 px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const thRight =
-  "box-border border-b-0 px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  "border-b-0 px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const alignedPenaltyCellClass = "w-[112px] pr-[17px]";
 
 function InnerGraceTable({
@@ -437,7 +437,7 @@ export default function BillingTableWithStatus({
                   Denda
                 </th>
 
-                <th className="box-border w-[150px] min-w-[150px] max-w-[150px] overflow-hidden px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700 whitespace-nowrap">Status Tagihan</th>
+                <th className={cn(thBase, statusColumnClass, "whitespace-nowrap")}>Status Tagihan</th>
               </tr>
             </thead>
 
