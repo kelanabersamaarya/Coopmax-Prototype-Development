@@ -24,7 +24,7 @@ export function getBillingGridTemplateColumns({
   const widths = layout === "loan-dialog"
     ? {
         ...BILLING_COLUMN_WIDTHS,
-        totalAmount: "56px",
+        totalAmount: "80px",
         amount: "90px",
         penalty: "84px",
       }

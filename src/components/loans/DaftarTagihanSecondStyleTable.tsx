@@ -91,7 +91,7 @@ function TableColumns() {
   return (
     <colgroup>
       <col className="w-[10%]" />
-      <col className="w-[4.9%]" />
+      <col className="w-[7%]" />
       <col className="w-[10.8%]" />
       <col className="w-[9.9%]" />
       <col className="w-[14%]" />
