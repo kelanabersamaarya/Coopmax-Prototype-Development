@@ -22,7 +22,7 @@ export default function BillingTableHeader({
     "px-[5px] py-3 text-left align-middle text-[12px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
   const thRight = thBase;
   const totalAmountWidth = layout === "loan-dialog" ? "w-[80px] min-w-[80px] max-w-[80px]" : "w-[100px] min-w-[100px] max-w-[100px]";
-  const amountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[120px] min-w-[120px] max-w-[120px]";
+  const amountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[96px] min-w-[96px] max-w-[96px]";
   const remainingAmountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[100px] min-w-[100px] max-w-[100px]";
   const penaltyWidth = layout === "loan-dialog" ? "w-[84px] min-w-[84px] max-w-[84px]" : "w-[100px] min-w-[100px] max-w-[100px]";
 
