@@ -80,8 +80,8 @@ export default function BillingTableHeader({
         ) : null}
 
         {showStatusColumn ? (
-          <th className={cn(thBase, "w-[120px] min-w-[120px]")}>
-            Status
+          <th className={cn(thBase, "w-[84px] min-w-[84px]")}>
+           Status
             <br />
             Tagihan
           </th>
