@@ -191,7 +191,11 @@ function TotalRow({
           {formatIdrLike(values.sisaBunga)}
         </span>
       </td>
-      <td className={cellClass}>{formatIdrLike(values.denda)}</td>
+      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
+        <span className="relative inline-block -translate-x-2 whitespace-nowrap">
+          {formatIdrLike(values.denda)}
+        </span>
+      </td>
       <td className="border-t border-slate-200 px-4 py-2" />
     </tr>
   );
