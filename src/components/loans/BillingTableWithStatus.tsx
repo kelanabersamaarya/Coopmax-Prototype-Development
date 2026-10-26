@@ -175,11 +175,11 @@ function TotalRow({
   {formatIdrLike(values.totalBelumDibayar)}
 </NumericCell></span>
 </td>
-<td className={cellClass}>
-<span className="relative left-5">{formatIdrLike(values.tagihanPokok)}</span>
+<td className="border-t border-slate-200 py-2 pl-4 pr-0 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap">
+<span className="whitespace-nowrap">{formatIdrLike(values.tagihanPokok)}</span>
 </td>
 <td className={cellClass}>
-<span className="relative left-4">{formatIdrLike(values.tagihanBunga)}</span>
+<span className="relative left-4 whitespace-nowrap">{formatIdrLike(values.tagihanBunga)}</span>
 </td>
 <td className={cellClass}>
 {formatIdrLike(values.sisaPokok)}

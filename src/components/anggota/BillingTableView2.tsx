@@ -590,9 +590,9 @@ export default function BillingTableView2({
             </>
           )}
         </td>
-        <td className={totalCellClass}><span className="relative left-4">{formatRupiah(values.totalBelumDibayar)}</span></td>
-        <td className={totalCellClass}><span className="relative left-5">{formatRupiah(values.tagihanPokok)}</span></td>
-        <td className={totalCellClass}><span className="relative left-4">{formatRupiah(values.tagihanBunga)}</span></td>
+        <td className={totalCellClass}><span className="relative left-4 whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
+        <td className="border-t border-[#CDD4E0] py-2 pl-4 pr-0 text-right text-[12px] font-bold tabular-nums text-slate-800"><span className="whitespace-nowrap">{formatRupiah(values.tagihanPokok)}</span></td>
+        <td className={totalCellClass}><span className="relative left-4 whitespace-nowrap">{formatRupiah(values.tagihanBunga)}</span></td>
         <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
         {showPenaltyColumn ? <td className={penaltyTotalCellClass}>{formatRupiah(values.denda)}</td> : null}
