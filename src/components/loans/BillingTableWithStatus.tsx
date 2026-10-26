@@ -337,8 +337,8 @@ export default function BillingTableWithStatus({
   className?: string;
   compactStatusColumn?: boolean;
 }) {
-  const statusColumnClass = compactStatusColumn ? "w-[145px]" : "w-[180px]";
-  const tableMinWidthClass = compactStatusColumn ? "min-w-[1045px]" : "min-w-[1080px]";
+  const statusColumnClass = compactStatusColumn ? "w-[130px]" : "w-[180px]";
+  const tableMinWidthClass = compactStatusColumn ? "min-w-[1030px]" : "min-w-[1080px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
