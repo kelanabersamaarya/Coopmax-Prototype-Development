@@ -34,14 +34,15 @@ export function getBillingGridTemplateColumns({
   const widths = layout === "loan-dialog"
     ? LOAN_DIALOG_COLUMN_WIDTHS
     : BILLING_COLUMN_WIDTHS;
+  const remainingAmount = layout === "loan-dialog" ? "90px" : "100px";
   const columns = hideSelection ? [] : [widths.selection];
   columns.push(
     widths.dueDate,
     widths.totalAmount,
     widths.amount,
     widths.amount,
-    widths.amount,
-    widths.amount,
+    remainingAmount,
+    remainingAmount,
   );
   if (showPenaltyColumn) {
     columns.push(widths.penalty, widths.action);

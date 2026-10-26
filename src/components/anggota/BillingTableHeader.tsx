@@ -23,6 +23,7 @@ export default function BillingTableHeader({
   const thRight = thBase;
   const totalAmountWidth = layout === "loan-dialog" ? "w-[80px] min-w-[80px] max-w-[80px]" : "w-[100px] min-w-[100px] max-w-[100px]";
   const amountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[120px] min-w-[120px] max-w-[120px]";
+  const remainingAmountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[100px] min-w-[100px] max-w-[100px]";
   const penaltyWidth = layout === "loan-dialog" ? "w-[84px] min-w-[84px] max-w-[84px]" : "w-[100px] min-w-[100px] max-w-[100px]";
 
   return (
@@ -64,14 +65,18 @@ export default function BillingTableHeader({
           Bunga
         </th>
 
-        <th className={cn(thRight, amountWidth)}>
-          Sisa Tagihan
+        <th className={cn(thRight, remainingAmountWidth)}>
+          Sisa
+          <br />
+          Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, amountWidth)}>
-          Sisa Tagihan
+        <th className={cn(thRight, remainingAmountWidth)}>
+          Sisa
+          <br />
+          Tagihan
           <br />
           Bunga
         </th>
