@@ -217,9 +217,9 @@ function Td({
 }
 
 const thBase =
-  "border-b-0 px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  "border-b-0 px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const thRight =
-  "border-b-0 px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  "border-b-0 px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const alignedPenaltyCellClass = "w-[112px] pr-[17px]";
 
 function InnerGraceTable({
@@ -242,14 +242,14 @@ function InnerGraceTable({
   return (
     <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
       <colgroup>
-        <col className="w-[96px]" />
-        <col className="w-[132px]" />
-        <col className="w-[122px]" />
-        <col className="w-[112px]" />
-        <col className="w-[132px]" />
-        <col className="w-[132px]" />
-        <col className="w-[150px]" />
-        <col className={statusColumnClass} />
+        <col className="w-[105px]" />
+        <col className="w-[180px]" />
+        <col className="w-[125px]" />
+        <col className="w-[125px]" />
+        <col className="w-[145px]" />
+        <col className="w-[145px]" />
+        <col className="w-[120px]" />
+        <col className="w-[135px]" />
       </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -330,8 +330,8 @@ export default function BillingTableWithStatus({
   className?: string;
   compactStatusColumn?: boolean;
 }) {
-  const statusColumnClass = compactStatusColumn ? "w-[130px]" : "w-[180px]";
-  const tableMinWidthClass = compactStatusColumn ? "min-w-[1030px]" : "min-w-[1080px]";
+  const statusColumnClass = compactStatusColumn ? "w-[135px]" : "w-[135px]";
+  const tableMinWidthClass = "min-w-[1075px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -384,14 +384,14 @@ export default function BillingTableWithStatus({
         <div className="safe-x-scroll w-full">
           <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
-              <col className="w-[96px]" />
-              <col className="w-[132px]" />
-              <col className="w-[122px]" />
-              <col className="w-[112px]" />
-              <col className="w-[132px]" />
-              <col className="w-[132px]" />
-              <col className="w-[150px]" />
-              <col className={statusColumnClass} />
+              <col className="w-[105px]" />
+              <col className="w-[180px]" />
+              <col className="w-[125px]" />
+              <col className="w-[125px]" />
+              <col className="w-[145px]" />
+              <col className="w-[145px]" />
+              <col className="w-[120px]" />
+              <col className="w-[135px]" />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
