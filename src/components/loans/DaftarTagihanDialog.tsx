@@ -465,6 +465,7 @@ export default function DaftarTagihanDialog({
                     showStatusColumn={true}
                     disableRowRings={true}
                     disableRowActiveRing={true}
+                    layout="loan-dialog"
                     penaltyIndexOffset={(page - 1) * pageSize}
                     className="mt-0"
                     contextKey={contextKey}

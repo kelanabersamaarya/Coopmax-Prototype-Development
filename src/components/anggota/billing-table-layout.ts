@@ -14,23 +14,28 @@ export function getBillingGridTemplateColumns({
   hideSelection,
   showPenaltyColumn,
   showStatusColumn,
+  layout = "default",
 }: {
   hideSelection: boolean;
   showPenaltyColumn: boolean;
   showStatusColumn: boolean;
+  layout?: "default" | "loan-dialog";
 }) {
-  const columns = hideSelection ? [] : [BILLING_COLUMN_WIDTHS.selection];
+  const widths = layout === "loan-dialog"
+    ? { ...BILLING_COLUMN_WIDTHS, totalAmount: "160px", penalty: "84px" }
+    : BILLING_COLUMN_WIDTHS;
+  const columns = hideSelection ? [] : [widths.selection];
   columns.push(
-    BILLING_COLUMN_WIDTHS.dueDate,
-    BILLING_COLUMN_WIDTHS.totalAmount,
-    BILLING_COLUMN_WIDTHS.amount,
-    BILLING_COLUMN_WIDTHS.amount,
-    BILLING_COLUMN_WIDTHS.amount,
-    BILLING_COLUMN_WIDTHS.amount,
+    widths.dueDate,
+    widths.totalAmount,
+    widths.amount,
+    widths.amount,
+    widths.amount,
+    widths.amount,
   );
   if (showPenaltyColumn) {
-    columns.push(BILLING_COLUMN_WIDTHS.penalty, BILLING_COLUMN_WIDTHS.action);
+    columns.push(widths.penalty, widths.action);
   }
-  if (showStatusColumn) columns.push(BILLING_COLUMN_WIDTHS.status);
+  if (showStatusColumn) columns.push(widths.status);
   return columns.map((column) => `minmax(0, ${column.replace("px", "")}fr)`).join(" ");
 }

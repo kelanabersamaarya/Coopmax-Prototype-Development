@@ -220,6 +220,7 @@ export default function BillingTableView2({
   grandTotalRows,
   showPageTotal = false,
   tableFooter,
+  layout = "default",
 }: {
   rows: BillingRow[];
   selected: boolean[];
@@ -246,6 +247,7 @@ export default function BillingTableView2({
   grandTotalRows?: BillingRow[];
   showPageTotal?: boolean;
   tableFooter?: React.ReactNode;
+  layout?: "default" | "loan-dialog";
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
@@ -291,6 +293,7 @@ export default function BillingTableView2({
     hideSelection,
     showPenaltyColumn,
     showStatusColumn,
+    layout,
   });
 
   const isCompact = hideSelection;
@@ -652,12 +655,12 @@ export default function BillingTableView2({
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />
-            <col className="w-[90px]" />
+            <col className={layout === "loan-dialog" ? "w-[160px]" : "w-[90px]"} />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
-            {showPenaltyColumn ? <col className="w-[60px]" /> : null}
+            {showPenaltyColumn ? <col className={layout === "loan-dialog" ? "w-[84px]" : "w-[60px]"} /> : null}
             {showPenaltyColumn ? <col className="w-[24px]" /> : null}
             {showStatusColumn ? <col className="w-[76px] min-w-[76px]" /> : null}
           </colgroup>
@@ -666,6 +669,7 @@ export default function BillingTableView2({
             showPenaltyColumn={showPenaltyColumn}
             showActionColumn={showPenaltyColumn}
             showStatusColumn={showStatusColumn}
+            layout={layout}
           />
 
           <tbody className="bg-white">
