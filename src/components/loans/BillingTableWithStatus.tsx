@@ -170,25 +170,13 @@ function TotalRow({
           </>
         )}
       </td>
-      <td className={cellClass}>
-<span className="relative left-4"><NumericCell align="right" className="w-full">
-  {formatIdrLike(values.totalBelumDibayar)}
-</NumericCell></span>
-</td>
-<td className="border-t border-slate-200 py-2 pl-4 pr-0 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap">
-<span className="whitespace-nowrap">{formatIdrLike(values.tagihanPokok)}</span>
-</td>
-<td className={cellClass}>
-<span className="relative left-4 whitespace-nowrap">{formatIdrLike(values.tagihanBunga)}</span>
-</td>
-<td className={cellClass}>
-{formatIdrLike(values.sisaPokok)}
-</td>
-<td className={cellClass}>
-{formatIdrLike(values.sisaBunga)}
-</td>
+      <td className={cellClass}><NumericCell align="right" className="w-full">{formatIdrLike(values.totalBelumDibayar)}</NumericCell></td>
+      <td className={cellClass}><NumericCell align="right" className="w-full">{formatIdrLike(values.tagihanPokok)}</NumericCell></td>
+      <td className={cellClass}><NumericCell align="right" className="w-full">{formatIdrLike(values.tagihanBunga)}</NumericCell></td>
+      <td className={cellClass}><NumericCell align="right" className="w-full">{formatIdrLike(values.sisaPokok)}</NumericCell></td>
+      <td className={cellClass}><NumericCell align="right" className="w-full">{formatIdrLike(values.sisaBunga)}</NumericCell></td>
 <td className={cn(cellClass, "whitespace-nowrap", dendaClassName)}>
-{formatIdrLike(values.denda)}
+<NumericCell align="right" className="w-full">{formatIdrLike(values.denda)}</NumericCell>
 </td>
       <td className="border-t border-slate-200 px-4 py-2" />
     </tr>
