@@ -439,7 +439,7 @@ export default function DaftarTagihanDialog({
                   <DaftarTagihanSecondStyleTable
                     rows={rows}
                     contextKey={contextKey}
-                    className="min-w-[980px]"
+                    className="min-w-[930px]"
                   />
                 </div>
               </div>
