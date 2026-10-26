@@ -150,7 +150,7 @@ function TotalRow({
     denda: number;
   };
 }) {
-  const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800";
+  const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap";
   return (
     <tr className="bg-white">
       <td className="border-t border-slate-200 px-4 py-2 text-left text-[13px] font-bold leading-tight text-slate-800">
@@ -185,7 +185,7 @@ function TotalRow({
 <td className={cellClass}>
 {formatIdrLike(values.sisaBunga)}
 </td>
-<td className={cellClass}>
+<td className={cn(cellClass, "whitespace-nowrap")}>
 {formatIdrLike(values.denda)}
 </td>
       <td className="border-t border-slate-200 px-4 py-2" />
@@ -255,7 +255,7 @@ function InnerGraceTable({
         <col className="w-[125px]" />
         <col className="w-[145px]" />
         <col className="w-[145px]" />
-        <col className="w-[84px]" />
+        <col className={penaltyColumnWidth} />
         <col className={statusColumnWidth} />
       </colgroup>
       <tbody className="bg-white">
@@ -294,7 +294,7 @@ function InnerGraceTable({
                 <RightNum value={r.sisaBunga} />
               </Td>
 
-              <Td className="pr-4 translate-x-2" align="right">
+              <Td className={cn(penaltyColumnClass, "pr-4 translate-x-2")} align="right">
                 <div className="flex items-center justify-end gap-2">
                   <span className="num-sans-tabular">
                     {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -341,7 +341,11 @@ export default function BillingTableWithStatus({
     ? "w-[132px] min-w-[132px] max-w-[132px]"
     : "w-[76px] min-w-[76px] max-w-[76px]";
   const statusColumnWidth = compactStatusColumn ? "w-[132px]" : "w-[76px]";
-  const tableMinWidthClass = compactStatusColumn ? "min-w-[1131px]" : "min-w-[1075px]";
+  const penaltyColumnClass = compactStatusColumn
+    ? "w-[112px] min-w-[112px] max-w-[112px]"
+    : "w-[84px] min-w-[84px] max-w-[84px]";
+  const penaltyColumnWidth = compactStatusColumn ? "w-[112px]" : "w-[84px]";
+  const tableMinWidthClass = compactStatusColumn ? "min-w-[1159px]" : "min-w-[1075px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -400,7 +404,7 @@ export default function BillingTableWithStatus({
               <col className="w-[125px]" />
               <col className="w-[145px]" />
               <col className="w-[145px]" />
-              <col className="w-[84px]" />
+              <col className={penaltyColumnWidth} />
               <col className={compactStatusColumn ? "w-[132px]" : "w-[76px]"} />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
@@ -443,7 +447,7 @@ export default function BillingTableWithStatus({
                   Bunga
                 </th>
 
-                <th className={thRight}>
+                <th className={cn(thRight, penaltyColumnClass)}>
                   Tagihan
                   <br />
                   Denda
@@ -522,7 +526,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="pr-4 translate-x-2" align="right">
+                        <Td className={cn(penaltyColumnClass, "pr-4 translate-x-2")} align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -579,7 +583,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="pr-4 translate-x-2" align="right">
+                        <Td className={cn(penaltyColumnClass, "pr-4 translate-x-2")} align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
