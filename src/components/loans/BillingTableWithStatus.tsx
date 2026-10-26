@@ -171,8 +171,8 @@ function TotalRow({
           {formatIdrLike(values.totalBelumDibayar)}
         </NumericCell>
       </td>
-      <td className={cellClass}>
-        <span className="inline-block translate-x-5">
+      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
+        <span className="relative inline-block translate-x-4 whitespace-nowrap">
           {formatIdrLike(values.tagihanPokok)}
         </span>
       </td>
