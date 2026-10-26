@@ -508,7 +508,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaPokok} />
                         </Td>
 
-                        <Td className="w-[150px] translate-x-3" align="right">
+                        <Td className="w-[150px] translate-x-4" align="right">
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
@@ -565,7 +565,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaPokok} />
                         </Td>
 
-                        <Td className="w-[150px] translate-x-2" align="right">
+                        <Td className="w-[150px] translate-x-3" align="right">
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
