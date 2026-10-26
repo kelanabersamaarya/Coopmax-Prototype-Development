@@ -500,7 +500,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.totalBelumDibayar} />
                         </Td>
 
-                        <Td className="w-[140px] translate-x-4" align="right">
+                        <Td className="w-[140px] translate-x-5" align="right">
                           <RightNum value={r.tagihanPokok} />
                         </Td>
 
