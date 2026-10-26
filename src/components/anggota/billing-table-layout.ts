@@ -22,7 +22,12 @@ export function getBillingGridTemplateColumns({
   layout?: "default" | "loan-dialog";
 }) {
   const widths = layout === "loan-dialog"
-    ? { ...BILLING_COLUMN_WIDTHS, totalAmount: "80px", penalty: "84px" }
+    ? {
+        ...BILLING_COLUMN_WIDTHS,
+        totalAmount: "80px",
+        amount: "90px",
+        penalty: "84px",
+      }
     : BILLING_COLUMN_WIDTHS;
   const columns = hideSelection ? [] : [widths.selection];
   columns.push(
