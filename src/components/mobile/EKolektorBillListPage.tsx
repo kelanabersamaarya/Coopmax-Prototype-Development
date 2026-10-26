@@ -246,6 +246,7 @@ export default function EKolektorBillListPage({
                 penaltyIndexOffset={(page - 1) * pageSize}
                 showPenaltyDetailAction={false}
                 compactStatusColumn
+                layout="mobile"
                 className="mt-0"
               />
             </div>

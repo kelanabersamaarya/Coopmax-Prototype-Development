@@ -249,7 +249,7 @@ function InnerGraceTable({
   penaltyColumnClass: string;
   penaltyColumnWidth: string;
   tableMinWidthClass: string;
-  layout?: "default" | "loan-dialog";
+  layout?: "default" | "loan-dialog" | "mobile";
 }) {
   const dialogLayout = layout === "loan-dialog";
   return (
@@ -259,7 +259,7 @@ function InnerGraceTable({
     )}>
       <colgroup>
         <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
-        <col className={dialogLayout ? "w-[80px]" : "w-[120px]"} />
+        <col className={dialogLayout ? "w-[80px]" : mobileLayout ? "w-[120px]" : "w-[160px]"} />
         <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
         <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
         <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
@@ -346,12 +346,13 @@ export default function BillingTableWithStatus({
   allRows?: BillingRow[];
   className?: string;
   compactStatusColumn?: boolean;
-  layout?: "default" | "loan-dialog";
+  layout?: "default" | "loan-dialog" | "mobile";
 }) {
   const statusColumnClass = compactStatusColumn
     ? "w-[132px] min-w-[132px] max-w-[132px]"
     : "w-[76px] min-w-[76px] max-w-[76px]";
   const dialogLayout = layout === "loan-dialog";
+  const mobileLayout = layout === "mobile";
   const statusColumnWidth = compactStatusColumn ? "w-[132px]" : "w-[76px]";
   const penaltyColumnClass = compactStatusColumn
     ? "w-[112px] min-w-[112px] max-w-[112px]"
@@ -361,7 +362,9 @@ export default function BillingTableWithStatus({
     ? "min-w-[1095px]"
     : dialogLayout
       ? "min-w-[1075px]"
-      : "min-w-[1035px]";
+      : mobileLayout
+        ? "min-w-[1035px]"
+        : "min-w-[1075px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -415,7 +418,7 @@ export default function BillingTableWithStatus({
           <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
               <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
-              <col className={dialogLayout ? "w-[80px]" : "w-[120px]"} />
+              <col className={dialogLayout ? "w-[80px]" : mobileLayout ? "w-[120px]" : "w-[160px]"} />
               <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
               <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
               <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
