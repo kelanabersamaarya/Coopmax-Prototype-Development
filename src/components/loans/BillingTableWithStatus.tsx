@@ -516,7 +516,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="w-[130px] pr-[17px]" align="right">
+                        <Td className="w-[130px] -translate-x-1 pr-[17px]" align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className={penaltyNumberClass}>
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -573,7 +573,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className={alignedPenaltyCellClass} align="right">
+                        <Td className={cn(alignedPenaltyCellClass, "-translate-x-1")} align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
