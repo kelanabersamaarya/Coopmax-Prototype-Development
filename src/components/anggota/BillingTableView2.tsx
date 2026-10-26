@@ -657,7 +657,7 @@ export default function BillingTableView2({
             <col className="w-[100px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
-            {showPenaltyColumn ? <col className="w-[90px]" /> : null}
+            {showPenaltyColumn ? <col className="w-[72px]" /> : null}
             {showPenaltyColumn ? <col className="w-[24px]" /> : null}
             {showStatusColumn ? <col className="w-[76px] min-w-[76px]" /> : null}
           </colgroup>
