@@ -315,7 +315,7 @@ export default function BillingTableView2({
     "text-left text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
-    "text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
+    "text-right text-[10px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
 
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
@@ -505,8 +505,8 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const totalColPad = "px-[5px]";
-  const dataCellClass = "px-[5px]";
+  const totalColPad = "px-1";
+  const dataCellClass = "px-1";
 
   const grandRows = grandTotalRows ?? rows;
 
@@ -648,10 +648,10 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
+          "overflow-hidden rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[1000px] table-fixed border-separate border-spacing-0 text-[12px]">
+        <table className="w-full min-w-0 table-fixed border-separate border-spacing-0 text-[12px]">
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />
@@ -740,7 +740,7 @@ export default function BillingTableView2({
                                     </div>
                                   ) : null}
 
-                                  <div className={cn("px-4", cellY, dateTextClass)}>
+                                  <div className={cn("px-1", cellY, dateTextClass)}>
                                     {r.jatuhTempo}
                                   </div>
 

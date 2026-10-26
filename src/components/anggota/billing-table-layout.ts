@@ -8,7 +8,7 @@ export const BILLING_COLUMN_WIDTHS = {
   status: "105px",
 } as const;
 
-export const BILLING_TABLE_MIN_WIDTH = "1000px";
+export const BILLING_TABLE_MIN_WIDTH = "0px";
 
 const LOAN_DIALOG_COLUMN_WIDTHS = {
   selection: "36px",
