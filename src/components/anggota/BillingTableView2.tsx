@@ -659,7 +659,7 @@ export default function BillingTableView2({
             <col className="w-[100px]" />
             {showPenaltyColumn ? <col className="w-[90px]" /> : null}
             {showPenaltyColumn ? <col className="w-[24px]" /> : null}
-            {showStatusColumn ? <col className="w-[130px] min-w-[130px]" /> : null}
+            {showStatusColumn ? <col className="w-[150px] min-w-[150px]" /> : null}
           </colgroup>
           <BillingTableHeader
             hideSelection={hideSelection}
