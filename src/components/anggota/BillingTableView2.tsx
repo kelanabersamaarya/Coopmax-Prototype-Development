@@ -655,7 +655,7 @@ export default function BillingTableView2({
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />
-            <col className={layout === "loan-dialog" ? "w-[80px]" : "w-[125px]"} />
+            <col className={layout === "loan-dialog" ? "w-[80px]" : "w-[100px]"} />
             <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[120px]"} />
             <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[120px]"} />
             <col className={layout === "loan-dialog" ? "w-[100px]" : "w-[120px]"} />

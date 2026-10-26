@@ -55,7 +55,7 @@ export default function BillingStatusBadge({
 
   return (
     <span
-      className={`mr-0 flex min-h-7 w-full max-w-full items-center gap-1 rounded-[5px] px-1.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
+      className={`mr-0 flex min-h-7 w-full max-w-full items-center gap-1 rounded-[5px] px-0.5 py-0.5 text-[12px] leading-[1.15] ${statusStyles[displayStatus]}`}
     >
       {displayStatus === "Lunas" || displayStatus === "Lunas dengan Penghapusan" ? (
         <span
