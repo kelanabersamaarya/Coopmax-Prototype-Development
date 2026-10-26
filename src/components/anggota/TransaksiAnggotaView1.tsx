@@ -416,6 +416,7 @@ export default function TransaksiAnggotaView1({ nasabah, pageSize: pageSizeProp 
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
                     showStatusColumn
+                    layout="anggota"
                     showPageTotal={pageCount > 1}
                     penaltyContentEnabled
                     penaltyIndexOffset={(page - 1) * pageSize}

@@ -247,7 +247,7 @@ export default function BillingTableView2({
   grandTotalRows?: BillingRow[];
   showPageTotal?: boolean;
   tableFooter?: React.ReactNode;
-  layout?: "default" | "loan-dialog";
+  layout?: "default" | "anggota" | "loan-dialog";
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
@@ -315,7 +315,7 @@ export default function BillingTableView2({
     "text-left text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
-    "text-right text-[10px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
+    `text-right ${layout === "loan-dialog" ? "text-[12px]" : "text-[10px]"} font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular`;
 
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
@@ -505,7 +505,7 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const totalColPad = "-translate-x-1 px-1";
+  const totalColPad = layout === "loan-dialog" ? "px-1" : "-translate-x-1 px-1";
   const dataCellClass = "px-1";
 
   const grandRows = grandTotalRows ?? rows;
@@ -648,10 +648,16 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          "overflow-hidden rounded-[5px] border border-[#CDD4E0] bg-white",
+          cn(
+            layout === "loan-dialog" ? "overflow-x-auto" : "overflow-hidden",
+            "rounded-[5px] border border-[#CDD4E0] bg-white",
+          ),
         )}
       >
-        <table className="w-full min-w-0 table-fixed border-separate border-spacing-0 text-[12px]">
+        <table className={cn(
+          "w-full table-fixed border-separate border-spacing-0 text-[12px]",
+          layout === "loan-dialog" ? "min-w-[892px]" : "min-w-0",
+        )}>
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />

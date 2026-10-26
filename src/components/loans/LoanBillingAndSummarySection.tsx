@@ -295,6 +295,7 @@ export default function LoanBillingAndSummarySection({
               keepGraceShellWithoutInfo={false}
               hideSelection={isPenurunanBakiDebet}
               showPenaltyColumn={isPenurunanBakiDebet ? false : true}
+              layout="loan-dialog"
               disableRowRings={disableRowChrome}
               disableRowActiveRing={disableRowChrome}
               penaltyIndexOffset={0}

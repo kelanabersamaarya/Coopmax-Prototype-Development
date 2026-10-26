@@ -15,7 +15,7 @@ export default function BillingTableHeader({
   showPenaltyColumn: boolean;
   showActionColumn?: boolean;
   showStatusColumn?: boolean;
-  layout?: "default" | "loan-dialog";
+  layout?: "default" | "anggota" | "loan-dialog";
   className?: string;
 }) {
   const thBase =

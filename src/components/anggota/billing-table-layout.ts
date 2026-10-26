@@ -29,9 +29,10 @@ export function getBillingGridTemplateColumns({
   hideSelection: boolean;
   showPenaltyColumn: boolean;
   showStatusColumn: boolean;
-  layout?: "default" | "loan-dialog";
+  layout?: "default" | "anggota" | "loan-dialog";
 }) {
   const widths = layout === "loan-dialog"
+
     ? LOAN_DIALOG_COLUMN_WIDTHS
     : BILLING_COLUMN_WIDTHS;
   const remainingAmount = layout === "loan-dialog" ? "90px" : "100px";
