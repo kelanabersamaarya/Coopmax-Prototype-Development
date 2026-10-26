@@ -529,7 +529,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className={cn(statusColumnClass, "-translate-x-3 whitespace-nowrap")}>
+                        <Td className={cn(statusColumnClass, "-translate-x-4 whitespace-nowrap")}>
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
