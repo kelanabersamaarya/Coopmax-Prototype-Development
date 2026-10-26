@@ -572,8 +572,20 @@ export default function BillingTableView2({
     const penaltyTotalCellClass = "border-t border-[#CDD4E0] pr-1 pl-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
     return (
       <tr className="bg-white">
-        <td colSpan={hideSelection ? 1 : 2} className="border-t border-[#CDD4E0] px-4 py-2 text-left text-[12px] font-bold leading-tight text-slate-800 whitespace-normal break-words">
-          {label}
+        <td colSpan={hideSelection ? 1 : 2} className="border-t border-[#CDD4E0] px-4 py-2 text-left text-[12px] font-bold leading-tight text-slate-800">
+          {label === "Total Tagihan per Halaman" ? (
+            <>
+              <span className="block whitespace-nowrap">Total</span>
+              <span className="block whitespace-nowrap">Tagihan per</span>
+              <span className="block whitespace-nowrap">Halaman</span>
+            </>
+          ) : (
+            <>
+              <span className="block whitespace-nowrap">Total</span>
+              <span className="block whitespace-nowrap">Tagihan</span>
+              <span className="block whitespace-nowrap">Keseluruhan</span>
+            </>
+          )}
         </td>
         <td className={totalCellClass}>{formatRupiah(values.totalBelumDibayar)}</td>
         <td className={totalCellClass}>{formatRupiah(values.tagihanPokok)}</td>
