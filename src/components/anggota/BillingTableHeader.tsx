@@ -30,9 +30,11 @@ export default function BillingTableHeader({
         ) : null}
 
         <th className={cn(thBase, "w-[72px] min-w-[72px] max-w-[72px] whitespace-nowrap")}>
-          Jatuh
-          <br />
-          Tempo
+          <span className="inline-block translate-x-1">
+            Jatuh
+            <br />
+            Tempo
+          </span>
         </th>
 
         <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>

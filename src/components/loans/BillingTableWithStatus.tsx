@@ -398,9 +398,11 @@ export default function BillingTableWithStatus({
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
                 <th className={thBase}>
-                  Jatuh
-                  <br />
-                  Tempo
+                  <span className="inline-block translate-x-1">
+                    Jatuh
+                    <br />
+                    Tempo
+                  </span>
                 </th>
 
                 <th className={thRight}>
