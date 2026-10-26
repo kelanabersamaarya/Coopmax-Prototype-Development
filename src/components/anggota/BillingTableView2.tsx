@@ -315,7 +315,7 @@ export default function BillingTableView2({
     "text-left text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClassBase =
-    `text-right ${layout === "loan-dialog" ? "text-[12px]" : "text-[10px]"} font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular`;
+    "text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
 
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
