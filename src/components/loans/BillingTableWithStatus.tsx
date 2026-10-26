@@ -170,15 +170,15 @@ function TotalRow({
           </>
         )}
       </td>
-      <td className={cellClass}>
+      <td className={cn(cellClass, "relative left-2")}>
 <NumericCell align="right" className="w-full">
   {formatIdrLike(values.totalBelumDibayar)}
 </NumericCell>
 </td>
-<td className={cellClass}>
+<td className={cn(cellClass, "relative left-2")}>
 {formatIdrLike(values.tagihanPokok)}
 </td>
-<td className={cellClass}>
+<td className={cn(cellClass, "relative left-2")}>
 {formatIdrLike(values.tagihanBunga)}
 </td>
 <td className={cellClass}>
