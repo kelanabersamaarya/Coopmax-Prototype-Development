@@ -250,7 +250,7 @@ function InnerGraceTable({
         <col className="w-[125px]" />
         <col className="w-[145px]" />
         <col className="w-[145px]" />
-        <col className="w-[100px]" />
+        <col className="w-[84px]" />
         <col className="w-[76px]" />
       </colgroup>
       <tbody className="bg-white">
@@ -392,7 +392,7 @@ export default function BillingTableWithStatus({
               <col className="w-[125px]" />
               <col className="w-[145px]" />
               <col className="w-[145px]" />
-              <col className="w-[100px]" />
+              <col className="w-[84px]" />
               <col className="w-[76px]" />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">

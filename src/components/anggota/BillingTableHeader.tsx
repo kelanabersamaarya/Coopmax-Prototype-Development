@@ -68,7 +68,7 @@ export default function BillingTableHeader({
         </th>
 
         {showPenaltyColumn ? (
-          <th className={cn(thRight, "w-[72px] min-w-[72px] max-w-[72px]")}>
+          <th className={cn(thRight, "w-[60px] min-w-[60px] max-w-[60px]")}>
             Tagihan
             <br />
             Denda

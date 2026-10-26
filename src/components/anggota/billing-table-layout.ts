@@ -3,7 +3,7 @@ export const BILLING_COLUMN_WIDTHS = {
   dueDate: "72px",
   amount: "100px",
   totalAmount: "90px",
-  penalty: "72px",
+  penalty: "60px",
   action: "24px",
   status: "76px",
 } as const;
