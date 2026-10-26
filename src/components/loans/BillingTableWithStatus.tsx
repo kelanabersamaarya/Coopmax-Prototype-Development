@@ -167,7 +167,7 @@ function TotalRow({
         )}
       </td>
       <td className={cellClass}>
-        <NumericCell align="right" className="w-full">
+        <NumericCell align="right" className="w-full translate-x-2">
           {formatIdrLike(values.totalBelumDibayar)}
         </NumericCell>
       </td>
