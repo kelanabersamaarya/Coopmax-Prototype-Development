@@ -748,23 +748,23 @@ export default function BillingTableView2({
                                     <RightNum value={formatRupiah(r.totalBelumDibayar)} />
                                   </div>
 
-                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                  <div className={cn("px-1", cellY, numberTextClass)}>
                                    <RightNum
                                      value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
                                    />
                                  </div>
 
-                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                  <div className={cn("px-1", cellY, numberTextClass)}>
                                    <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
                                  </div>
 
-                                 <div className={cn("px-4", cellY, numberTextClass)}>
+                                 <div className={cn("px-1", cellY, numberTextClass)}>
                                    <RightNum
                                      value={displaySisaPokok(rowIndex, r.sisaPokok)}
                                    />
                                  </div>
 
-                                 <div className={cn("px-4", cellY, numberTextClass)}>
+                                 <div className={cn("px-1", cellY, numberTextClass)}>
                                    <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
                                  </div>
 
@@ -849,15 +849,15 @@ export default function BillingTableView2({
                              <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
                            </div>
 
-                           <div className={cn("px-4", cellY, numberTextClass)}>
+                           <div className={cn("px-1", cellY, numberTextClass)}>
                              <RightNum value={displayTagihanBunga(rowIndex, r.tagihanBunga)} />
                            </div>
 
-                           <div className={cn("px-4", cellY, numberTextClass)}>
+                           <div className={cn("px-1", cellY, numberTextClass)}>
                              <RightNum value={displaySisaPokok(rowIndex, r.sisaPokok)} />
                            </div>
 
-                           <div className={cn("px-4", cellY, numberTextClass)}>
+                           <div className={cn("px-1", cellY, numberTextClass)}>
                              <RightNum value={displaySisaBunga(rowIndex, r.sisaBunga)} />
                            </div>
 
@@ -943,11 +943,11 @@ export default function BillingTableView2({
                                 <RightNum value={formatRupiah(r.totalBelumDibayar)} />
                               </div>
 
-                              <div className={cn("px-4", cellY, numberTextClass)}>
+                              <div className={cn("px-1", cellY, numberTextClass)}>
                                 <RightNum value={formatRupiah(r.tagihanPokok)} />
                               </div>
 
-                              <div className={cn("px-4", cellY, numberTextClass)}>
+                              <div className={cn("px-1", cellY, numberTextClass)}>
                                 <RightNum value={formatRupiah(r.tagihanBunga)} />
                               </div>
 
