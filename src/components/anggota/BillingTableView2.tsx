@@ -590,12 +590,12 @@ export default function BillingTableView2({
             </>
           )}
         </td>
-        <td className="border-t border-[#CDD4E0] px-[5px] py-2 text-right text-[12px] font-bold tabular-nums text-slate-800 whitespace-nowrap"><NumericCell align="right" className="w-full">{formatRupiah(values.totalBelumDibayar)}</NumericCell></td>
-        <td className={totalCellClass}><NumericCell align="right" className="w-full">{formatRupiah(values.tagihanPokok)}</NumericCell></td>
-        <td className={totalCellClass}><NumericCell align="right" className="w-full">{formatRupiah(values.tagihanBunga)}</NumericCell></td>
-        <td className={totalCellClass}><NumericCell align="right" className="w-full">{formatRupiah(values.sisaPokok)}</NumericCell></td>
-        <td className={totalCellClass}><NumericCell align="right" className="w-full">{formatRupiah(values.sisaBunga)}</NumericCell></td>
-        {showPenaltyColumn ? <td className={penaltyTotalCellClass}><NumericCell align="right" className="w-full">{formatRupiah(values.denda)}</NumericCell></td> : null}
+        <td className={totalCellClass}><span className="relative left-4 whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
+        <td className="border-t border-[#CDD4E0] py-2 pl-4 pr-0 text-right text-[12px] font-bold tabular-nums text-slate-800"><span className="whitespace-nowrap">{formatRupiah(values.tagihanPokok)}</span></td>
+        <td className={totalCellClass}><span className="relative left-4 whitespace-nowrap">{formatRupiah(values.tagihanBunga)}</span></td>
+        <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
+        <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
+        {showPenaltyColumn ? <td className={penaltyTotalCellClass}>{formatRupiah(values.denda)}</td> : null}
         {showPenaltyColumn ? <td className="border-t border-[#CDD4E0] px-4 py-2" /> : null}
         {showStatusColumn ? <td className="border-t border-[#CDD4E0] px-4 py-2" /> : null}
       </tr>
