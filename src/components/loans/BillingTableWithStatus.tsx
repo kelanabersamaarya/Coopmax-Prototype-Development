@@ -237,6 +237,7 @@ function InnerGraceTable({
   penaltyColumnClass,
   penaltyColumnWidth,
   tableMinWidthClass,
+  layout,
 }: {
   rows: BillingRow[];
   startGlobalIndex: number;
@@ -248,19 +249,21 @@ function InnerGraceTable({
   penaltyColumnClass: string;
   penaltyColumnWidth: string;
   tableMinWidthClass: string;
+  layout?: "default" | "loan-dialog";
 }) {
+  const dialogLayout = layout === "loan-dialog";
   return (
     <table className={cn(
       tableMinWidthClass,
       "w-full table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200",
     )}>
       <colgroup>
-        <col className="w-[105px]" />
-        <col className="w-[160px]" />
-        <col className="w-[125px]" />
-        <col className="w-[125px]" />
-        <col className="w-[145px]" />
-        <col className="w-[145px]" />
+        <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
+        <col className={dialogLayout ? "w-[80px]" : "w-[160px]"} />
+        <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
+        <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
+        <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
+        <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
         <col className={penaltyColumnWidth} />
         <col className={statusColumnWidth} />
       </colgroup>
@@ -333,6 +336,7 @@ export default function BillingTableWithStatus({
   allRows,
   className,
   compactStatusColumn = false,
+  layout = "default",
 }: {
   rows: BillingRow[];
   showGraceHighlight: boolean;
@@ -342,10 +346,12 @@ export default function BillingTableWithStatus({
   allRows?: BillingRow[];
   className?: string;
   compactStatusColumn?: boolean;
+  layout?: "default" | "loan-dialog";
 }) {
   const statusColumnClass = compactStatusColumn
     ? "w-[132px] min-w-[132px] max-w-[132px]"
     : "w-[76px] min-w-[76px] max-w-[76px]";
+  const dialogLayout = layout === "loan-dialog";
   const statusColumnWidth = compactStatusColumn ? "w-[132px]" : "w-[76px]";
   const penaltyColumnClass = compactStatusColumn
     ? "w-[112px] min-w-[112px] max-w-[112px]"
@@ -404,12 +410,12 @@ export default function BillingTableWithStatus({
         <div className="safe-x-scroll w-full">
           <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
-              <col className="w-[105px]" />
-              <col className="w-[160px]" />
-              <col className="w-[125px]" />
-              <col className="w-[125px]" />
-              <col className="w-[145px]" />
-              <col className="w-[145px]" />
+              <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
+              <col className={dialogLayout ? "w-[80px]" : "w-[160px]"} />
+              <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
+              <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
+              <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
+              <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
               <col className={penaltyColumnWidth} />
               <col className={compactStatusColumn ? "w-[132px]" : "w-[76px]"} />
             </colgroup>
@@ -494,6 +500,7 @@ export default function BillingTableWithStatus({
                             penaltyColumnClass={penaltyColumnClass}
                             penaltyColumnWidth={penaltyColumnWidth}
                             tableMinWidthClass={tableMinWidthClass}
+                            layout={layout}
                           />
                         </div>
                       </div>

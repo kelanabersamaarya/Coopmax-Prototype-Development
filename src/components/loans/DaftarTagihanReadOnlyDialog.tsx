@@ -180,6 +180,7 @@ export default function DaftarTagihanReadOnlyDialog({
                 rows={rows}
                 showGraceHighlight={showGraceHighlight}
                 penaltyIndexOffset={(page - 1) * pageSize}
+                layout="loan-dialog"
                 className="mt-0"
               />
             </div>

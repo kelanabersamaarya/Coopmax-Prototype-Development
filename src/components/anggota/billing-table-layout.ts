@@ -10,6 +10,16 @@ export const BILLING_COLUMN_WIDTHS = {
 
 export const BILLING_TABLE_MIN_WIDTH = "892px";
 
+const LOAN_DIALOG_COLUMN_WIDTHS = {
+  selection: "36px",
+  dueDate: "72px",
+  amount: "90px",
+  totalAmount: "80px",
+  penalty: "84px",
+  action: "24px",
+  status: "76px",
+} as const;
+
 export function getBillingGridTemplateColumns({
   hideSelection,
   showPenaltyColumn,
@@ -22,12 +32,7 @@ export function getBillingGridTemplateColumns({
   layout?: "default" | "loan-dialog";
 }) {
   const widths = layout === "loan-dialog"
-    ? {
-        ...BILLING_COLUMN_WIDTHS,
-        totalAmount: "80px",
-        amount: "90px",
-        penalty: "84px",
-      }
+    ? LOAN_DIALOG_COLUMN_WIDTHS
     : BILLING_COLUMN_WIDTHS;
   const columns = hideSelection ? [] : [widths.selection];
   columns.push(
