@@ -516,7 +516,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="w-[130px] -translate-x-3 pr-[17px]" align="right">
+                        <Td className="w-[130px] -translate-x-4 pr-[17px]" align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className={penaltyNumberClass}>
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
