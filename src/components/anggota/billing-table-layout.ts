@@ -1,8 +1,8 @@
 export const BILLING_COLUMN_WIDTHS = {
   selection: "36px",
   dueDate: "72px",
-  amount: "96px",
-  totalAmount: "100px",
+  amount: "120px",
+  totalAmount: "125px",
   penalty: "100px",
   action: "28px",
   status: "105px",
@@ -48,5 +48,5 @@ export function getBillingGridTemplateColumns({
     columns.push(widths.penalty, widths.action);
   }
   if (showStatusColumn) columns.push(widths.status);
-  return columns.map((column) => `minmax(0, ${column.replace("px", "")}fr)`).join(" ");
+  return columns.join(" ");
 }

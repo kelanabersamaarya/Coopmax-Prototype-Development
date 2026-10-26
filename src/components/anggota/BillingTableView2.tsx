@@ -590,9 +590,9 @@ export default function BillingTableView2({
             </>
           )}
         </td>
-        <td className={totalCellClass}><span className="relative left-4 whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
+        <td className={totalCellClass}><span className="whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
         <td className="border-t border-[#CDD4E0] py-2 pl-4 pr-0 text-right text-[12px] font-bold tabular-nums text-slate-800"><span className="whitespace-nowrap">{formatRupiah(values.tagihanPokok)}</span></td>
-        <td className={totalCellClass}><span className="relative left-4 whitespace-nowrap">{formatRupiah(values.tagihanBunga)}</span></td>
+        <td className={totalCellClass}><span className="whitespace-nowrap">{formatRupiah(values.tagihanBunga)}</span></td>
         <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
         {showPenaltyColumn ? <td className={penaltyTotalCellClass}>{formatRupiah(values.denda)}</td> : null}
@@ -655,9 +655,9 @@ export default function BillingTableView2({
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />
-            <col className={layout === "loan-dialog" ? "w-[80px]" : "w-[100px]"} />
-            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[96px]"} />
-            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[96px]"} />
+            <col className={layout === "loan-dialog" ? "w-[80px]" : "w-[125px]"} />
+            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[120px]"} />
+            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[120px]"} />
             <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[100px]"} />
             <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[100px]"} />
             {showPenaltyColumn ? <col className={layout === "loan-dialog" ? "w-[84px]" : "w-[100px]"} /> : null}
