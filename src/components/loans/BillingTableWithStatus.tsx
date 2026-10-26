@@ -175,7 +175,7 @@ function TotalRow({
   {formatIdrLike(values.totalBelumDibayar)}
 </NumericCell>
 </td>
-<td className={cn(cellClass, "relative left-4")}>
+<td className={cn(cellClass, "relative left-5")}>
 {formatIdrLike(values.tagihanPokok)}
 </td>
 <td className={cn(cellClass, "relative left-4")}>

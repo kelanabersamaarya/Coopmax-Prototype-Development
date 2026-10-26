@@ -591,7 +591,7 @@ export default function BillingTableView2({
           )}
         </td>
         <td className={cn(totalCellClass, "relative left-4")}>{formatRupiah(values.totalBelumDibayar)}</td>
-        <td className={cn(totalCellClass, "relative left-4")}>{formatRupiah(values.tagihanPokok)}</td>
+        <td className={cn(totalCellClass, "relative left-5")}>{formatRupiah(values.tagihanPokok)}</td>
         <td className={cn(totalCellClass, "relative left-4")}>{formatRupiah(values.tagihanBunga)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
