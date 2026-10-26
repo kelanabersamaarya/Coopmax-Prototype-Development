@@ -254,7 +254,7 @@ function InnerGraceTable({
   return (
     <table className={cn(
       tableMinWidthClass,
-      "w-full table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200",
+      "-ml-[2px] w-[calc(100%+4px)] table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200",
     )}>
       <colgroup>
         <col className="w-[105px]" />
