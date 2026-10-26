@@ -170,16 +170,16 @@ function TotalRow({
           </>
         )}
       </td>
-      <td className={cn(cellClass, "relative left-4")}>
-<NumericCell align="right" className="w-full">
+      <td className={cellClass}>
+<span className="relative left-4"><NumericCell align="right" className="w-full">
   {formatIdrLike(values.totalBelumDibayar)}
-</NumericCell>
+</NumericCell></span>
 </td>
-<td className={cn(cellClass, "relative left-5")}>
-{formatIdrLike(values.tagihanPokok)}
+<td className={cellClass}>
+<span className="relative left-5">{formatIdrLike(values.tagihanPokok)}</span>
 </td>
-<td className={cn(cellClass, "relative left-4")}>
-{formatIdrLike(values.tagihanBunga)}
+<td className={cellClass}>
+<span className="relative left-4">{formatIdrLike(values.tagihanBunga)}</span>
 </td>
 <td className={cellClass}>
 {formatIdrLike(values.sisaPokok)}
