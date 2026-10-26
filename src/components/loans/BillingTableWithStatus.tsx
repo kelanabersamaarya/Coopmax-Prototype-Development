@@ -232,6 +232,8 @@ function InnerGraceTable({
   showPenaltyDetailAction,
   statusColumnClass,
   statusColumnWidth,
+  penaltyColumnClass,
+  penaltyColumnWidth,
   tableMinWidthClass,
 }: {
   rows: BillingRow[];
@@ -241,6 +243,8 @@ function InnerGraceTable({
   showPenaltyDetailAction: boolean;
   statusColumnClass: string;
   statusColumnWidth: string;
+  penaltyColumnClass: string;
+  penaltyColumnWidth: string;
   tableMinWidthClass: string;
 }) {
   return (
@@ -485,6 +489,8 @@ export default function BillingTableWithStatus({
                             showPenaltyDetailAction={showPenaltyDetailAction}
                             statusColumnClass={statusColumnClass}
                             statusColumnWidth={statusColumnWidth}
+                            penaltyColumnClass={penaltyColumnClass}
+                            penaltyColumnWidth={penaltyColumnWidth}
                             tableMinWidthClass={tableMinWidthClass}
                           />
                         </div>
