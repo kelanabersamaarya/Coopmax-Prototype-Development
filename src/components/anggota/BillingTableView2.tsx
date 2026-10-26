@@ -648,10 +648,8 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          cn(
-            layout === "loan-dialog" ? "overflow-x-auto" : "overflow-hidden",
-            "rounded-[5px] border border-[#CDD4E0] bg-white",
-          ),
+          layout === "loan-dialog" ? "overflow-x-auto" : "overflow-hidden",
+          "rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
         <table className={cn(
