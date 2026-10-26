@@ -216,6 +216,7 @@ function InnerGraceTable({
   onOpenPenalty,
   showPenaltyDetailAction,
   statusColumnClass,
+  tableMinWidthClass,
 }: {
   rows: BillingRow[];
   startGlobalIndex: number;
@@ -223,9 +224,10 @@ function InnerGraceTable({
   onOpenPenalty: (due: string) => void;
   showPenaltyDetailAction: boolean;
   statusColumnClass: string;
+  tableMinWidthClass: string;
 }) {
   return (
-    <table className="w-full min-w-[1080px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+    <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
       <colgroup>
         <col className="w-[96px]" />
         <col className="w-[132px]" />
@@ -316,6 +318,7 @@ export default function BillingTableWithStatus({
   compactStatusColumn?: boolean;
 }) {
   const statusColumnClass = compactStatusColumn ? "w-[145px]" : "w-[180px]";
+  const tableMinWidthClass = compactStatusColumn ? "min-w-[1045px]" : "min-w-[1080px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -366,7 +369,7 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
         <div className="safe-x-scroll w-full">
-          <table className="w-full min-w-[1080px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+          <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
               <col className="w-[96px]" />
               <col className="w-[132px]" />
@@ -448,6 +451,7 @@ export default function BillingTableWithStatus({
                             onOpenPenalty={openPenalty}
                             showPenaltyDetailAction={showPenaltyDetailAction}
                             statusColumnClass={statusColumnClass}
+                            tableMinWidthClass={tableMinWidthClass}
                           />
                         </div>
                       </div>
