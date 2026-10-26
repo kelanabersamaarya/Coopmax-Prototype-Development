@@ -259,7 +259,7 @@ function InnerGraceTable({
     )}>
       <colgroup>
         <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
-        <col className={dialogLayout ? "w-[80px]" : "w-[160px]"} />
+        <col className={dialogLayout ? "w-[80px]" : "w-[96px]"} />
         <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
         <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
         <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
@@ -357,7 +357,11 @@ export default function BillingTableWithStatus({
     ? "w-[112px] min-w-[112px] max-w-[112px]"
     : "w-[84px] min-w-[84px] max-w-[84px]";
   const penaltyColumnWidth = compactStatusColumn ? "w-[112px]" : "w-[84px]";
-  const tableMinWidthClass = compactStatusColumn ? "min-w-[1159px]" : "min-w-[1075px]";
+  const tableMinWidthClass = compactStatusColumn
+    ? "min-w-[1095px]"
+    : dialogLayout
+      ? "min-w-[1075px]"
+      : "min-w-[1011px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -411,7 +415,7 @@ export default function BillingTableWithStatus({
           <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
               <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
-              <col className={dialogLayout ? "w-[80px]" : "w-[160px]"} />
+              <col className={dialogLayout ? "w-[80px]" : "w-[96px]"} />
               <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
               <col className={dialogLayout ? "w-[90px]" : "w-[125px]"} />
               <col className={dialogLayout ? "w-[100px]" : "w-[145px]"} />
