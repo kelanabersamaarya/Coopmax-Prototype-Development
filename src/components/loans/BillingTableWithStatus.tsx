@@ -177,7 +177,7 @@ function TotalRow({
         </span>
       </td>
       <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
-        <span className="relative inline-block translate-x-2 whitespace-nowrap">
+        <span className="relative inline-block translate-x-3 whitespace-nowrap">
           {formatIdrLike(values.tagihanBunga)}
         </span>
       </td>
