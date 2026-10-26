@@ -617,12 +617,12 @@ export default function BillingTableWithStatus({
               <TotalRow
                 label="Total Tagihan per Halaman"
                 values={pageTotals}
-                dendaClassName={compactStatusColumn ? "translate-x-2" : undefined}
+                dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
               />
               <TotalRow
                 label="Total Tagihan Keseluruhan"
                 values={grandTotals}
-                dendaClassName={compactStatusColumn ? "translate-x-2" : undefined}
+                dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
               />
             </tfoot>
           </table>
