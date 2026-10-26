@@ -231,6 +231,7 @@ function InnerGraceTable({
   onOpenPenalty,
   showPenaltyDetailAction,
   statusColumnClass,
+  statusColumnWidth,
   tableMinWidthClass,
 }: {
   rows: BillingRow[];
@@ -239,10 +240,14 @@ function InnerGraceTable({
   onOpenPenalty: (due: string) => void;
   showPenaltyDetailAction: boolean;
   statusColumnClass: string;
+  statusColumnWidth: string;
   tableMinWidthClass: string;
 }) {
   return (
-    <table className="w-[1075px] min-w-[1075px] table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
+    <table className={cn(
+      tableMinWidthClass,
+      "w-full table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200",
+    )}>
       <colgroup>
         <col className="w-[105px]" />
         <col className="w-[160px]" />
@@ -251,7 +256,7 @@ function InnerGraceTable({
         <col className="w-[145px]" />
         <col className="w-[145px]" />
         <col className="w-[84px]" />
-        <col className="w-[76px]" />
+        <col className={statusColumnWidth} />
       </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -332,8 +337,11 @@ export default function BillingTableWithStatus({
   className?: string;
   compactStatusColumn?: boolean;
 }) {
-  const statusColumnClass = "w-[76px] min-w-[76px] max-w-[76px]";
-  const tableMinWidthClass = "min-w-[1075px]";
+  const statusColumnClass = compactStatusColumn
+    ? "w-[132px] min-w-[132px] max-w-[132px]"
+    : "w-[76px] min-w-[76px] max-w-[76px]";
+  const statusColumnWidth = compactStatusColumn ? "w-[132px]" : "w-[76px]";
+  const tableMinWidthClass = compactStatusColumn ? "min-w-[1131px]" : "min-w-[1075px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -393,7 +401,7 @@ export default function BillingTableWithStatus({
               <col className="w-[145px]" />
               <col className="w-[145px]" />
               <col className="w-[84px]" />
-              <col className="w-[76px]" />
+              <col className={compactStatusColumn ? "w-[132px]" : "w-[76px]"} />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
@@ -472,6 +480,7 @@ export default function BillingTableWithStatus({
                             onOpenPenalty={openPenalty}
                             showPenaltyDetailAction={showPenaltyDetailAction}
                             statusColumnClass={statusColumnClass}
+                            statusColumnWidth={statusColumnWidth}
                             tableMinWidthClass={tableMinWidthClass}
                           />
                         </div>
@@ -526,7 +535,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className="whitespace-nowrap">
+                        <Td className={cn(statusColumnClass, "whitespace-nowrap")}>
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
@@ -583,7 +592,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className="whitespace-nowrap">
+                        <Td className={cn(statusColumnClass, "whitespace-nowrap")}>
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
