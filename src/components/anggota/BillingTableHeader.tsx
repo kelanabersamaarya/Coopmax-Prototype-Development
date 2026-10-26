@@ -43,7 +43,7 @@ export default function BillingTableHeader({
           </span>
         </th>
 
-        <th className={cn(thRight, totalAmountWidth, "-translate-x-1")}>
+        <th className={cn(thRight, totalAmountWidth)}>
           Total
           <br />
           Tagihan
