@@ -266,7 +266,7 @@ function InnerGraceTable({
                 <RightNum value={r.totalBelumDibayar} />
               </Td>
 
-              <Td className="w-[140px]" align="right">
+              <Td className="w-[140px] translate-x-2" align="right">
                 <RightNum value={r.tagihanPokok} />
               </Td>
 
@@ -488,7 +488,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.totalBelumDibayar} />
                         </Td>
 
-                        <Td className="w-[140px]" align="right">
+                        <Td className="w-[140px] translate-x-2" align="right">
                           <RightNum value={r.tagihanPokok} />
                         </Td>
 
@@ -545,7 +545,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.totalBelumDibayar} />
                         </Td>
 
-                        <Td className="w-[140px]" align="right">
+                        <Td className="w-[140px] translate-x-2" align="right">
                           <RightNum value={r.tagihanPokok} />
                         </Td>
 
