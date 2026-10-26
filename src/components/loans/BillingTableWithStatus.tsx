@@ -176,7 +176,11 @@ function TotalRow({
           {formatIdrLike(values.tagihanPokok)}
         </span>
       </td>
-      <td className={cellClass}>{formatIdrLike(values.tagihanBunga)}</td>
+      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
+        <span className="relative inline-block translate-x-2 whitespace-nowrap">
+          {formatIdrLike(values.tagihanBunga)}
+        </span>
+      </td>
       <td className={cellClass}>{formatIdrLike(values.sisaPokok)}</td>
       <td className={cellClass}>{formatIdrLike(values.sisaBunga)}</td>
       <td className={cellClass}>{formatIdrLike(values.denda)}</td>
