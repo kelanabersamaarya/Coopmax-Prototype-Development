@@ -252,6 +252,7 @@ function InnerGraceTable({
   layout?: "default" | "loan-dialog" | "mobile";
 }) {
   const dialogLayout = layout === "loan-dialog";
+  const mobileLayout = layout === "mobile";
   return (
     <table className={cn(
       tableMinWidthClass,
