@@ -205,9 +205,8 @@ function Td({
       className={cn(
         "px-4 py-3 text-[13px] font-normal text-slate-900",
         "border-b-0",
-        "w-full",
         align === "right"
-          ? "text-right tabular-nums whitespace-nowrap"
+          ? "translate-x-2 text-right tabular-nums whitespace-nowrap"
           : "text-left",
         className,
       )}
@@ -288,7 +287,7 @@ function InnerGraceTable({
                 <RightNum value={r.sisaBunga} />
               </Td>
 
-              <Td className="pr-4" align="right">
+              <Td className="pr-4 translate-x-2" align="right">
                 <div className="flex items-center justify-end gap-2">
                   <span className="num-sans-tabular">
                     {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -476,10 +475,6 @@ export default function BillingTableWithStatus({
                     const rowIndex = graceCount + idx;
                     const globalIdx = penaltyIndexOffset + rowIndex;
                     const showPenalty = globalIdx < PENALTY_ROWS;
-                    const penaltyNumberClass =
-                      globalIdx === 2 || globalIdx === 3
-                        ? "num-sans-tabular translate-x-[6px]"
-                        : "num-sans-tabular";
 
                     return (
                       <tr
@@ -510,7 +505,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="pr-4" align="right">
+                        <Td className="pr-4 translate-x-2" align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -540,7 +535,7 @@ export default function BillingTableWithStatus({
 
                     return (
                       <tr
-                        key={`${r.jatuhTempo}-${idx}`}
+                        key={`regular-${r.jatuhTempo}-${idx}`}
                         className="bg-white"
                       >
                         <Td className="tabular-nums whitespace-nowrap">
@@ -567,7 +562,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="pr-4" align="right">
+                        <Td className="pr-4 translate-x-2" align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
