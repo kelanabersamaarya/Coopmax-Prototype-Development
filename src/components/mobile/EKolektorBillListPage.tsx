@@ -245,6 +245,7 @@ export default function EKolektorBillListPage({
                 showGraceInfo={showGraceHighlight}
                 penaltyIndexOffset={(page - 1) * pageSize}
                 showPenaltyDetailAction={false}
+                compactStatusColumn
                 className="mt-0"
               />
             </div>

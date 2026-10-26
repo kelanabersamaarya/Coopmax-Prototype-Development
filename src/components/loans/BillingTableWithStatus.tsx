@@ -215,12 +215,14 @@ function InnerGraceTable({
   colCount,
   onOpenPenalty,
   showPenaltyDetailAction,
+  statusColumnClass,
 }: {
   rows: BillingRow[];
   startGlobalIndex: number;
   colCount: number;
   onOpenPenalty: (due: string) => void;
   showPenaltyDetailAction: boolean;
+  statusColumnClass: string;
 }) {
   return (
     <table className="w-full min-w-[1080px] max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
@@ -232,7 +234,7 @@ function InnerGraceTable({
         <col className="w-[132px]" />
         <col className="w-[132px]" />
         <col className="w-[112px]" />
-        <col className="w-[145px]" />
+        <col className={statusColumnClass} />
       </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -283,7 +285,7 @@ function InnerGraceTable({
                 </div>
               </Td>
 
-              <Td className="w-[180px] px-4 whitespace-nowrap">
+              <Td className={cn(statusColumnClass, "px-4 whitespace-nowrap")}>
                 <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
               </Td>
             </tr>
@@ -302,6 +304,7 @@ export default function BillingTableWithStatus({
   showPenaltyDetailAction = true,
   allRows,
   className,
+  compactStatusColumn = false,
 }: {
   rows: BillingRow[];
   showGraceHighlight: boolean;
@@ -310,7 +313,9 @@ export default function BillingTableWithStatus({
   showPenaltyDetailAction?: boolean;
   allRows?: BillingRow[];
   className?: string;
+  compactStatusColumn?: boolean;
 }) {
+  const statusColumnClass = compactStatusColumn ? "w-[145px]" : "w-[180px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -370,7 +375,7 @@ export default function BillingTableWithStatus({
               <col className="w-[132px]" />
               <col className="w-[132px]" />
               <col className="w-[150px]" />
-              <col className="w-[180px]" />
+              <col className={statusColumnClass} />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
@@ -416,7 +421,7 @@ export default function BillingTableWithStatus({
                   Denda
                 </th>
 
-                <th className={cn(thBase, "w-[180px] whitespace-nowrap")}>Status Tagihan</th>
+                <th className={cn(thBase, statusColumnClass, "whitespace-nowrap")}>Status Tagihan</th>
               </tr>
             </thead>
 
@@ -442,6 +447,7 @@ export default function BillingTableWithStatus({
                             colCount={colCount}
                             onOpenPenalty={openPenalty}
                             showPenaltyDetailAction={showPenaltyDetailAction}
+                            statusColumnClass={statusColumnClass}
                           />
                         </div>
                       </div>
@@ -499,7 +505,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className="w-[180px] whitespace-nowrap">
+                        <Td className={cn(statusColumnClass, "whitespace-nowrap")}>
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
@@ -556,7 +562,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className="w-[180px] whitespace-nowrap">
+                        <Td className={cn(statusColumnClass, "whitespace-nowrap")}>
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
