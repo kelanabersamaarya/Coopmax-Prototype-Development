@@ -4,7 +4,7 @@ export const BILLING_COLUMN_WIDTHS = {
   amount: "100px",
   penalty: "90px",
   action: "24px",
-  status: "140px",
+  status: "120px",
 } as const;
 
 export const BILLING_TABLE_MIN_WIDTH = "892px";
