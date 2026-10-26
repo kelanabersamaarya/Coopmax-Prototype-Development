@@ -167,35 +167,25 @@ function TotalRow({
         )}
       </td>
       <td className={cellClass}>
-        <NumericCell align="right" className="w-full translate-x-2">
-          {formatIdrLike(values.totalBelumDibayar)}
-        </NumericCell>
-      </td>
-      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
-        <span className="relative inline-block translate-x-3 whitespace-nowrap">
-          {formatIdrLike(values.tagihanPokok)}
-        </span>
-      </td>
-      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
-        <span className="relative inline-block translate-x-2 whitespace-nowrap">
-          {formatIdrLike(values.tagihanBunga)}
-        </span>
-      </td>
-      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
-        <span className="relative inline-block translate-x-2 whitespace-nowrap">
-          {formatIdrLike(values.sisaPokok)}
-        </span>
-      </td>
-      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
-        <span className="relative inline-block translate-x-3 whitespace-nowrap">
-          {formatIdrLike(values.sisaBunga)}
-        </span>
-      </td>
-      <td className={cn(cellClass, "relative z-10 overflow-visible pr-0")}>
-        <span className="relative inline-block -translate-x-6 whitespace-nowrap">
-          {formatIdrLike(values.denda)}
-        </span>
-      </td>
+<NumericCell align="right" className="w-full">
+  {formatIdrLike(values.totalBelumDibayar)}
+</NumericCell>
+</td>
+<td className={cellClass}>
+{formatIdrLike(values.tagihanPokok)}
+</td>
+<td className={cellClass}>
+{formatIdrLike(values.tagihanBunga)}
+</td>
+<td className={cellClass}>
+{formatIdrLike(values.sisaPokok)}
+</td>
+<td className={cellClass}>
+{formatIdrLike(values.sisaBunga)}
+</td>
+<td className={cellClass}>
+{formatIdrLike(values.denda)}
+</td>
       <td className="border-t border-slate-200 px-4 py-2" />
     </tr>
   );
@@ -259,7 +249,7 @@ function InnerGraceTable({
         <col className="w-[112px]" />
         <col className="w-[132px]" />
         <col className="w-[132px]" />
-        <col className="w-[112px]" />
+        <col className="w-[150px]" />
         <col className={statusColumnClass} />
       </colgroup>
       <tbody className="bg-white">
@@ -274,31 +264,31 @@ function InnerGraceTable({
               key={`${r.jatuhTempo}-${globalIdx}`}
               className="bg-white"
             >
-              <Td className="w-[110px] tabular-nums whitespace-nowrap">
+              <Td className="tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
               </Td>
 
-              <Td className="w-[150px]" align="right">
+              <Td align="right">
                 <RightNum value={r.totalBelumDibayar} />
               </Td>
 
-              <Td className="w-[140px] translate-x-2" align="right">
+              <Td align="right">
                 <RightNum value={r.tagihanPokok} />
               </Td>
 
-              <Td className="w-[130px]" align="right">
+              <Td align="right">
                 <RightNum value={r.tagihanBunga} />
               </Td>
 
-              <Td className="w-[150px]" align="right">
+              <Td align="right">
                 <RightNum value={r.sisaPokok} />
               </Td>
 
-              <Td className="w-[150px]" align="right">
+              <Td align="right">
                 <RightNum value={r.sisaBunga} />
               </Td>
 
-              <Td className={alignedPenaltyCellClass} align="right">
+              <Td className="pr-4" align="right">
                 <div className="flex items-center justify-end gap-2">
                   <span className="num-sans-tabular">
                     {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -406,43 +396,43 @@ export default function BillingTableWithStatus({
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
-                <th className={cn(thBase, "w-[110px]")}>
+                <th className={thBase}>
                   Jatuh
                   <br />
                   Tempo
                 </th>
 
-                <th className={cn(thRight, "w-[150px]")}>
+                <th className={thRight}>
                   Total Tagihan
                   <br />
                   Belum Dibayar
                 </th>
 
-                <th className={cn(thRight, "w-[140px]")}>
+                <th className={thRight}>
                   Tagihan
                   <br />
                   Pokok
                 </th>
 
-                <th className={cn(thRight, "w-[130px]")}>
+                <th className={thRight}>
                   Tagihan
                   <br />
                   Bunga
                 </th>
 
-                <th className={cn(thRight, "w-[150px]")}>
+                <th className={thRight}>
                   Sisa Tagihan
                   <br />
                   Pokok
                 </th>
 
-                <th className={cn(thRight, "w-[150px]")}>
+                <th className={thRight}>
                   Sisa Tagihan
                   <br />
                   Bunga
                 </th>
 
-                <th className={cn(thRight, "w-[130px]")}>
+                <th className={thRight}>
                   Tagihan
                   <br />
                   Denda
@@ -494,35 +484,35 @@ export default function BillingTableWithStatus({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${rowIndex}`}
-                        className="relative left-2 bg-white"
+                        className="bg-white"
                       >
-                        <Td className="w-[110px] tabular-nums whitespace-nowrap">
+                        <Td className="tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
                         </Td>
 
-                        <Td className="w-[150px]" align="right">
+                        <Td align="right">
                           <RightNum value={r.totalBelumDibayar} />
                         </Td>
 
-                        <Td className="w-[140px] translate-x-4" align="right">
+                        <Td align="right">
                           <RightNum value={r.tagihanPokok} />
                         </Td>
 
-                        <Td className="w-[130px] translate-x-3" align="right">
+                        <Td align="right">
                           <RightNum value={r.tagihanBunga} />
                         </Td>
 
-                        <Td className="w-[150px] translate-x-4" align="right">
+                        <Td align="right">
                           <RightNum value={r.sisaPokok} />
                         </Td>
 
-                        <Td className="w-[150px] translate-x-5" align="right">
+                        <Td align="right">
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="w-[130px] -translate-x-5 pr-[17px]" align="right">
+                        <Td className="pr-4" align="right">
                           <div className="flex items-center justify-end gap-2">
-                            <span className={penaltyNumberClass}>
+                            <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
                             </span>
                             {showPenalty && showPenaltyDetailAction ? (
@@ -533,7 +523,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className={cn(statusColumnClass, "-translate-x-4 whitespace-nowrap")}>
+                        <Td className="whitespace-nowrap">
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
@@ -553,31 +543,31 @@ export default function BillingTableWithStatus({
                         key={`${r.jatuhTempo}-${idx}`}
                         className="bg-white"
                       >
-                        <Td className="w-[110px] tabular-nums whitespace-nowrap">
+                        <Td className="tabular-nums whitespace-nowrap">
                           {r.jatuhTempo}
                         </Td>
 
-                        <Td className="w-[150px]" align="right">
+                        <Td align="right">
                           <RightNum value={r.totalBelumDibayar} />
                         </Td>
 
-                        <Td className="w-[140px] translate-x-2" align="right">
+                        <Td align="right">
                           <RightNum value={r.tagihanPokok} />
                         </Td>
 
-                        <Td className="w-[130px]" align="right">
+                        <Td align="right">
                           <RightNum value={r.tagihanBunga} />
                         </Td>
 
-                        <Td className="w-[150px] translate-x-2" align="right">
+                        <Td align="right">
                           <RightNum value={r.sisaPokok} />
                         </Td>
 
-                        <Td className="w-[150px] translate-x-3" align="right">
+                        <Td align="right">
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className={cn(alignedPenaltyCellClass, "-translate-x-1")} align="right">
+                        <Td className="pr-4" align="right">
                           <div className="flex items-center justify-end gap-2">
                             <span className="num-sans-tabular">
                               {showPenalty ? formatIdrLike(PENALTY_AMOUNT) : "0,00"}
@@ -590,7 +580,7 @@ export default function BillingTableWithStatus({
                           </div>
                         </Td>
 
-                        <Td className={cn(statusColumnClass, "whitespace-nowrap")}>
+                        <Td className="whitespace-nowrap">
                           <BillingStatusBadge status={r.statusTagihan ?? "Belum Dibayar"} />
                         </Td>
                       </tr>
