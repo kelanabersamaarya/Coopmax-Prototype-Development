@@ -172,7 +172,7 @@ function TotalRow({
         </NumericCell>
       </td>
       <td className={cellClass}>
-        <span className="inline-block translate-x-6">
+        <span className="inline-block translate-x-4">
           {formatIdrLike(values.tagihanPokok)}
         </span>
       </td>
