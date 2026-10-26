@@ -21,9 +21,9 @@ export default function BillingTableHeader({
   const thBase =
     "px-[5px] py-3 text-left align-middle text-[12px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700";
   const thRight = thBase;
-  const totalAmountWidth = layout === "loan-dialog" ? "w-[80px] min-w-[80px] max-w-[80px]" : "w-[90px] min-w-[90px] max-w-[90px]";
-  const amountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[100px] min-w-[100px] max-w-[100px]";
-  const penaltyWidth = layout === "loan-dialog" ? "w-[84px] min-w-[84px] max-w-[84px]" : "w-[60px] min-w-[60px] max-w-[60px]";
+  const totalAmountWidth = layout === "loan-dialog" ? "w-[80px] min-w-[80px] max-w-[80px]" : "w-[125px] min-w-[125px] max-w-[125px]";
+  const amountWidth = layout === "loan-dialog" ? "w-[90px] min-w-[90px] max-w-[90px]" : "w-[120px] min-w-[120px] max-w-[120px]";
+  const penaltyWidth = layout === "loan-dialog" ? "w-[84px] min-w-[84px] max-w-[84px]" : "w-[100px] min-w-[100px] max-w-[100px]";
 
   return (
     <thead className={cn("bg-white", className)}>
@@ -60,13 +60,13 @@ export default function BillingTableHeader({
           Bunga
         </th>
 
-        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
+        <th className={cn(thRight, amountWidth)}>
           Sisa Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
+        <th className={cn(thRight, amountWidth)}>
           Sisa Tagihan
           <br />
           Bunga
@@ -81,13 +81,19 @@ export default function BillingTableHeader({
         ) : null}
 
         {showActionColumn ? (
-          <th className="w-[24px] min-w-[24px] max-w-[24px] px-0 py-3 text-left align-middle text-[12px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700">
+          <th className={cn(
+            "px-0 py-3 text-left align-middle text-[12px] font-extrabold uppercase leading-[15px] tracking-wide text-slate-700",
+            layout === "loan-dialog" ? "w-[24px] min-w-[24px] max-w-[24px]" : "w-[28px] min-w-[28px] max-w-[28px]",
+          )}>
             <span className="sr-only">Aksi</span>
           </th>
         ) : null}
 
         {showStatusColumn ? (
-          <th className={cn(thBase, "w-[76px] min-w-[76px]")}>
+          <th className={cn(
+            thBase,
+            layout === "loan-dialog" ? "w-[76px] min-w-[76px]" : "w-[82px] min-w-[82px]",
+          )}>
            Status
             <br />
             Tagihan

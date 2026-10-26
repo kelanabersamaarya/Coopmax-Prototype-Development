@@ -651,18 +651,18 @@ export default function BillingTableView2({
           "overflow-x-auto rounded-[5px] border border-[#CDD4E0] bg-white",
         )}
       >
-        <table className="w-full min-w-[892px] table-fixed border-separate border-spacing-0 text-[12px]">
+        <table className="w-full min-w-[1000px] table-fixed border-separate border-spacing-0 text-[12px]">
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />
-            <col className={layout === "loan-dialog" ? "w-[80px]" : "w-[90px]"} />
-            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[100px]"} />
-            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[100px]"} />
-            <col className="w-[100px]" />
-            <col className="w-[100px]" />
-            {showPenaltyColumn ? <col className={layout === "loan-dialog" ? "w-[84px]" : "w-[60px]"} /> : null}
-            {showPenaltyColumn ? <col className="w-[24px]" /> : null}
-            {showStatusColumn ? <col className="w-[76px] min-w-[76px]" /> : null}
+            <col className={layout === "loan-dialog" ? "w-[80px]" : "w-[125px]"} />
+            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[120px]"} />
+            <col className={layout === "loan-dialog" ? "w-[90px]" : "w-[120px]"} />
+            <col className={layout === "loan-dialog" ? "w-[100px]" : "w-[120px]"} />
+            <col className={layout === "loan-dialog" ? "w-[100px]" : "w-[120px]"} />
+            {showPenaltyColumn ? <col className={layout === "loan-dialog" ? "w-[84px]" : "w-[100px]"} /> : null}
+            {showPenaltyColumn ? <col className={layout === "loan-dialog" ? "w-[24px]" : "w-[28px]"} /> : null}
+            {showStatusColumn ? <col className={layout === "loan-dialog" ? "w-[76px] min-w-[76px]" : "w-[82px] min-w-[82px]"} /> : null}
           </colgroup>
           <BillingTableHeader
             hideSelection={hideSelection}

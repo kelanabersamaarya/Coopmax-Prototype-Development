@@ -1,14 +1,14 @@
 export const BILLING_COLUMN_WIDTHS = {
   selection: "36px",
   dueDate: "72px",
-  amount: "100px",
-  totalAmount: "90px",
-  penalty: "60px",
-  action: "24px",
-  status: "76px",
+  amount: "120px",
+  totalAmount: "125px",
+  penalty: "100px",
+  action: "28px",
+  status: "82px",
 } as const;
 
-export const BILLING_TABLE_MIN_WIDTH = "892px";
+export const BILLING_TABLE_MIN_WIDTH = "1000px";
 
 const LOAN_DIALOG_COLUMN_WIDTHS = {
   selection: "36px",
