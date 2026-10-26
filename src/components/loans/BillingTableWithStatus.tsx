@@ -185,7 +185,7 @@ function TotalRow({
 <span className="relative left-4 whitespace-nowrap">{formatIdrLike(values.sisaPokok)}</span>
 </td>
 <td className={cellClass}>
-<span className="relative left-4 whitespace-nowrap">{formatIdrLike(values.sisaBunga)}</span>
+{formatIdrLike(values.sisaBunga)}
 </td>
 <td className={cn(cellClass, "whitespace-nowrap", dendaClassName)}>
 {formatIdrLike(values.denda)}
