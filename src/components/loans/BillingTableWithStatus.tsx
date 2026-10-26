@@ -237,6 +237,7 @@ function InnerGraceTable({
   penaltyColumnClass,
   penaltyColumnWidth,
   tableMinWidthClass,
+  totalColumnWidth,
 }: {
   rows: BillingRow[];
   startGlobalIndex: number;
@@ -248,6 +249,7 @@ function InnerGraceTable({
   penaltyColumnClass: string;
   penaltyColumnWidth: string;
   tableMinWidthClass: string;
+  totalColumnWidth: string;
 }) {
   return (
     <table className={cn(
@@ -256,7 +258,7 @@ function InnerGraceTable({
     )}>
       <colgroup>
         <col className="w-[105px]" />
-        <col className="w-[160px]" />
+        <col className={totalColumnWidth} />
         <col className="w-[125px]" />
         <col className="w-[125px]" />
         <col className="w-[145px]" />
@@ -351,7 +353,8 @@ export default function BillingTableWithStatus({
     ? "w-[112px] min-w-[112px] max-w-[112px]"
     : "w-[84px] min-w-[84px] max-w-[84px]";
   const penaltyColumnWidth = compactStatusColumn ? "w-[112px]" : "w-[84px]";
-  const tableMinWidthClass = compactStatusColumn ? "min-w-[1159px]" : "min-w-[1075px]";
+  const totalColumnWidth = compactStatusColumn ? "w-[96px]" : "w-[160px]";
+  const tableMinWidthClass = compactStatusColumn ? "min-w-[1095px]" : "min-w-[1075px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
@@ -423,7 +426,7 @@ export default function BillingTableWithStatus({
                   </span>
                 </th>
 
-                <th className={thRight}>
+                <th className={cn(thRight, totalColumnWidth)}>
                   Total Tagihan
                   <br />
                   Belum Dibayar
@@ -494,6 +497,7 @@ export default function BillingTableWithStatus({
                             penaltyColumnClass={penaltyColumnClass}
                             penaltyColumnWidth={penaltyColumnWidth}
                             tableMinWidthClass={tableMinWidthClass}
+                            totalColumnWidth={totalColumnWidth}
                           />
                         </div>
                       </div>
