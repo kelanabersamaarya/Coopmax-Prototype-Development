@@ -139,6 +139,7 @@ function RightNum({ value }: { value: string }) {
 function TotalRow({
   label,
   values,
+  dendaClassName,
 }: {
   label: string;
   values: {
@@ -149,6 +150,7 @@ function TotalRow({
     sisaBunga: number;
     denda: number;
   };
+  dendaClassName?: string;
 }) {
   const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap";
   return (
@@ -185,7 +187,7 @@ function TotalRow({
 <td className={cellClass}>
 {formatIdrLike(values.sisaBunga)}
 </td>
-<td className={cn(cellClass, "whitespace-nowrap")}>
+<td className={cn(cellClass, "whitespace-nowrap", dendaClassName)}>
 {formatIdrLike(values.denda)}
 </td>
       <td className="border-t border-slate-200 px-4 py-2" />
@@ -612,8 +614,16 @@ export default function BillingTableWithStatus({
               )}
             </tbody>
             <tfoot>
-              <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
-              <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
+              <TotalRow
+                label="Total Tagihan per Halaman"
+                values={pageTotals}
+                dendaClassName={compactStatusColumn ? "translate-x-2" : undefined}
+              />
+              <TotalRow
+                label="Total Tagihan Keseluruhan"
+                values={grandTotals}
+                dendaClassName={compactStatusColumn ? "translate-x-2" : undefined}
+              />
             </tfoot>
           </table>
         </div>
