@@ -249,7 +249,7 @@ function InnerGraceTable({
         <col className="w-[145px]" />
         <col className="w-[145px]" />
         <col className="w-[120px]" />
-        <col className="w-[135px]" />
+        <col className="w-[150px]" />
       </colgroup>
       <tbody className="bg-white">
         <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -330,7 +330,7 @@ export default function BillingTableWithStatus({
   className?: string;
   compactStatusColumn?: boolean;
 }) {
-  const statusColumnClass = compactStatusColumn ? "w-[135px]" : "w-[135px]";
+  const statusColumnClass = "w-[150px] min-w-[150px] max-w-[150px]";
   const tableMinWidthClass = "min-w-[1075px]";
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
@@ -391,7 +391,7 @@ export default function BillingTableWithStatus({
               <col className="w-[145px]" />
               <col className="w-[145px]" />
               <col className="w-[120px]" />
-              <col className="w-[135px]" />
+              <col className="w-[150px]" />
             </colgroup>
             <thead className="border-b border-slate-200 bg-white [&>tr>th]:border-b-0">
               <tr>
