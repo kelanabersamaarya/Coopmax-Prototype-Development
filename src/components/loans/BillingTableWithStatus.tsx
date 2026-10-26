@@ -278,11 +278,11 @@ function InnerGraceTable({
                 <RightNum value={r.tagihanBunga} />
               </Td>
 
-              <Td className="w-[150px] pr-6" align="right">
+              <Td className="w-[150px]" align="right">
                 <RightNum value={r.sisaPokok} />
               </Td>
 
-              <Td className="w-[150px] pr-6" align="right">
+              <Td className="w-[150px]" align="right">
                 <RightNum value={r.sisaBunga} />
               </Td>
 
@@ -500,11 +500,11 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.tagihanBunga} />
                         </Td>
 
-                        <Td className="w-[150px] pr-6" align="right">
+                        <Td className="w-[150px]" align="right">
                           <RightNum value={r.sisaPokok} />
                         </Td>
 
-                        <Td className="w-[150px] pr-6" align="right">
+                        <Td className="w-[150px]" align="right">
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
@@ -557,11 +557,11 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.tagihanBunga} />
                         </Td>
 
-                        <Td className="w-[150px] pr-6" align="right">
+                        <Td className="w-[150px]" align="right">
                           <RightNum value={r.sisaPokok} />
                         </Td>
 
-                        <Td className="w-[150px] pr-6" align="right">
+                        <Td className="w-[150px]" align="right">
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
