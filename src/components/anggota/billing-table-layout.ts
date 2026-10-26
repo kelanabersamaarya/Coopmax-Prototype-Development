@@ -2,6 +2,7 @@ export const BILLING_COLUMN_WIDTHS = {
   selection: "36px",
   dueDate: "72px",
   amount: "100px",
+  totalAmount: "90px",
   penalty: "90px",
   action: "24px",
   status: "76px",
@@ -21,7 +22,7 @@ export function getBillingGridTemplateColumns({
   const columns = hideSelection ? [] : [BILLING_COLUMN_WIDTHS.selection];
   columns.push(
     BILLING_COLUMN_WIDTHS.dueDate,
-    BILLING_COLUMN_WIDTHS.amount,
+    BILLING_COLUMN_WIDTHS.totalAmount,
     BILLING_COLUMN_WIDTHS.amount,
     BILLING_COLUMN_WIDTHS.amount,
     BILLING_COLUMN_WIDTHS.amount,

@@ -652,7 +652,7 @@ export default function BillingTableView2({
           <colgroup>
             {!hideSelection ? <col className="w-[36px]" /> : null}
             <col className="w-[72px]" />
-            <col className="w-[100px]" />
+            <col className="w-[90px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />
             <col className="w-[100px]" />

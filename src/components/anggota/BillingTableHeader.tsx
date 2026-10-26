@@ -37,7 +37,7 @@ export default function BillingTableHeader({
           </span>
         </th>
 
-        <th className={cn(thRight, "w-[100px] min-w-[100px] max-w-[100px]")}>
+        <th className={cn(thRight, "w-[90px] min-w-[90px] max-w-[90px]")}>
           Total Tagihan
           <br />
           Belum Dibayar

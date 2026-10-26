@@ -245,7 +245,7 @@ function InnerGraceTable({
     <table className="w-[1075px] min-w-[1075px] table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200">
       <colgroup>
         <col className="w-[105px]" />
-        <col className="w-[180px]" />
+        <col className="w-[160px]" />
         <col className="w-[125px]" />
         <col className="w-[125px]" />
         <col className="w-[145px]" />
@@ -387,7 +387,7 @@ export default function BillingTableWithStatus({
           <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
               <col className="w-[105px]" />
-              <col className="w-[180px]" />
+              <col className="w-[160px]" />
               <col className="w-[125px]" />
               <col className="w-[125px]" />
               <col className="w-[145px]" />
