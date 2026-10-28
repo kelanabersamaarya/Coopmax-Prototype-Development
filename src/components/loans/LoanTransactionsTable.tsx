@@ -586,7 +586,7 @@ export default function LoanTransactionsTable({
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
   const colW = {
-    no: "w-[44px]",
+    no: "w-[32px] min-w-[32px] max-w-[32px]",
     noTransaksi: "w-[80px] min-w-0 max-w-[80px]",
     rekPinjaman: "w-[72px] min-w-0 max-w-[72px]",
     rekTabungan: "w-[64px] min-w-0 max-w-[64px]",
@@ -622,7 +622,7 @@ export default function LoanTransactionsTable({
           <div className="overflow-hidden">
             <table className="w-full table-fixed border-collapse bg-white text-[12px]">
               <colgroup>
-                <col style={{ width: 44 }} />
+                <col style={{ width: 32 }} />
                 <col style={{ width: 80 }} />
                 <col style={{ width: 72 }} />
                 <col style={{ width: 64 }} />
@@ -638,7 +638,7 @@ export default function LoanTransactionsTable({
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className={colW.no}>
-                    <HeaderCell lines={["NO."]} kind="none" />
+                    <HeaderCell lines={["NO.", ""]} kind="none" />
                   </Th>
 
                   <Th className={colW.noTransaksi}>
