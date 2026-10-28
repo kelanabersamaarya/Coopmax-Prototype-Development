@@ -5,13 +5,14 @@ import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import EKolektorHome from "@/components/mobile/EKolektorHome";
 import EKolektorLoginForm from "@/components/mobile/EKolektorLoginForm";
 import EKolektorTransactions from "@/components/mobile/EKolektorTransactions";
+import EKolektorReportPage from "@/components/mobile/EKolektorReportPage";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 import {
   getEKolektorTransactions,
   saveEKolektorTransactions,
 } from "@/lib/eKolektorTransactionsStore";
 
-type EKolektorScreen = "home" | "transactions";
+type EKolektorScreen = "home" | "transactions" | "report";
 
 export default function EKolektorMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -57,6 +58,12 @@ export default function EKolektorMockup() {
           onBackHome={() => setScreen("home")}
           onTransactionSaved={addTransaction}
         />
+      ) : screen === "report" ? (
+        <EKolektorReportPage
+          onHome={() => setScreen("home")}
+          onTransactions={() => setScreen("transactions")}
+          onBack={() => setScreen("home")}
+        />
       ) : (
         <EKolektorHome
           transactions={transactions}
@@ -68,6 +75,7 @@ export default function EKolektorMockup() {
             setScreen("home");
           }}
           onOpenTransactions={() => setScreen("transactions")}
+          onOpenReport={() => setScreen("report")}
         />
       )}
     </MobileMockupFrame>

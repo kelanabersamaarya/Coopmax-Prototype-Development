@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
 import EKolektorBottomNav from "@/components/mobile/EKolektorBottomNav";
 import EKolektorExitConfirmModal from "@/components/mobile/EKolektorExitConfirmModal";
 import EKolektorHomeHeader from "@/components/mobile/EKolektorHomeHeader";
@@ -15,6 +14,7 @@ import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-t
 export default function EKolektorHome({
   onLogout,
   onOpenTransactions,
+  onOpenReport,
   onBiometricEnabled,
   biometricEnabled,
   onBiometricChange,
@@ -23,6 +23,7 @@ export default function EKolektorHome({
 }: {
   onLogout: () => void;
   onOpenTransactions: () => void;
+  onOpenReport: () => void;
   onBiometricEnabled: () => void;
   biometricEnabled: boolean;
   onBiometricChange: (value: boolean) => void;
@@ -62,11 +63,7 @@ export default function EKolektorHome({
         activeTab="home"
         onHomeClick={() => {}}
         onTransactionClick={onOpenTransactions}
-        onReportClick={() =>
-          toast("Laporan (prototype)", {
-            description: "Menu laporan E-Kolektor belum dibuat.",
-          })
-        }
+        onReportClick={onOpenReport}
         onAndroidBack={() => setExitOpen(true)}
       />
 
