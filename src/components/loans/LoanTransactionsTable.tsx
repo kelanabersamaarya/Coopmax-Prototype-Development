@@ -100,14 +100,8 @@ function HeaderCell({
       )}
     >
       <div className="min-w-0 leading-[1.0]">
-        {lines.length === 1 ? (
-          <span className="block">{lines[0]}</span>
-        ) : (
-          <>
-            <span className="block">{lines[0]}</span>
-            <span className="block">{lines[1]}</span>
-          </>
-        )}
+        <span className="block truncate">{lines[0]}</span>
+        <span className="block truncate">{lines[1] ?? ""}</span>
       </div>
       {icon}
     </div>
