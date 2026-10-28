@@ -314,6 +314,9 @@ function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
             <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
           </div>
         </section>
+        <button type="button" className="mt-4 h-12 w-full rounded-[14px] border-2 border-[#004FC7] bg-white px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">
+          Gunakan Dynamic VA
+        </button>
         <section className="mt-8">
           <h2 className="text-[20px] font-extrabold text-[#203064]">Cara melakukan transfer</h2>
           <div className="mt-5 grid gap-4">
