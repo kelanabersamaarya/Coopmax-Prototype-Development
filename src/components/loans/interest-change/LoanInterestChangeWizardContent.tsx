@@ -266,7 +266,7 @@ function BillingSimulationTable({
           </tbody>
           <tfoot className="text-[12px] font-bold text-slate-800">
             <tr className="border-t border-slate-200 bg-white">
-              <td className="px-3 py-3 leading-tight">Total Tagihan<br />per Halaman</td>
+              <td className="px-3 py-3 leading-tight">Total per<br />Halaman</td>
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.total)}</td>
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.principal)}</td>
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.interest)}</td>
@@ -275,7 +275,7 @@ function BillingSimulationTable({
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(pageTotals.penalty)}</td>
             </tr>
             <tr className="border-t border-slate-200 bg-white">
-              <td className="px-3 py-3 leading-tight">Total Tagihan<br />Keseluruhan</td>
+              <td className="px-3 py-3 leading-tight">Total<br />Keseluruhan</td>
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.total)}</td>
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.principal)}</td>
               <td className="px-3 py-3 text-right tabular-nums">{formatIdr(grandTotals.interest)}</td>
