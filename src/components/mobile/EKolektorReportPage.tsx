@@ -3,6 +3,8 @@
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
 import EKolektorBottomNav from "@/components/mobile/EKolektorBottomNav";
+import EKolektorTransactionDetailModal from "@/components/mobile/EKolektorTransactionDetailModal";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 import { cn } from "@/lib/utils";
 
 type ReportTab = "setoran" | "penarikan" | "angsuran" | "realisasi";
@@ -43,6 +45,7 @@ export default function EKolektorReportPage({
   const [productOpen, setProductOpen] = React.useState(false);
   const [product, setProduct] = React.useState("Pilih Produk");
   const [showTotal, setShowTotal] = React.useState(false);
+  const [selectedEntry, setSelectedEntry] = React.useState<EKolektorTodayTransaction | null>(null);
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
@@ -101,7 +104,19 @@ export default function EKolektorReportPage({
 
           <div className="mt-[28px] space-y-[14px]">
             {entries.map((entry, index) => (
-              <article key={`${entry.account}-${index}`} className="relative h-[135px] min-h-0 overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)]">
+              <article
+                key={`${entry.account}-${index}`}
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelectedEntry({ ...entry, id: `report-${index}` })}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setSelectedEntry({ ...entry, id: `report-${index}` });
+                  }
+                }}
+                className="relative h-[135px] min-h-0 cursor-pointer overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)] transition active:scale-[0.99]"
+              >
                 <div className="absolute left-0 top-0 flex h-[52px] w-[58px] items-center justify-center rounded-br-[18px] bg-[#303030] text-[21px] font-bold text-white">{index + 1}</div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 text-[16px] font-extrabold leading-[1.2] text-black">
@@ -119,6 +134,13 @@ export default function EKolektorReportPage({
       </div>
 
       <EKolektorBottomNav activeTab="report" onHomeClick={onHome} onTransactionClick={onTransactions} onReportClick={() => {}} onAndroidBack={onBack} />
+
+      {selectedEntry ? (
+        <EKolektorTransactionDetailModal
+          transaction={selectedEntry}
+          onClose={() => setSelectedEntry(null)}
+        />
+      ) : null}
     </div>
   );
 }
