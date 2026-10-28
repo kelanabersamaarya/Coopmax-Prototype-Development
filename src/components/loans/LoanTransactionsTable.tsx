@@ -126,7 +126,7 @@ function Th({
       className={cn(
         "min-w-0 px-1.5 py-1.5 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]",
         "border-b border-slate-200",
-        "align-middle whitespace-nowrap",
+        "align-middle whitespace-normal",
         className,
       )}
     >
@@ -593,11 +593,11 @@ export default function LoanTransactionsTable({
 
   const colW = {
     no: "w-[44px]",
-    noTransaksi: "w-[64px] min-w-0 max-w-[64px]",
+    noTransaksi: "w-[80px] min-w-0 max-w-[80px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
-    rekTabungan: "w-[24px] min-w-0 max-w-[24px]",
-    idNasabah: "w-[56px] min-w-0",
-    namaNasabah: "w-[64px] min-w-0",
+    rekTabungan: "w-[64px] min-w-0 max-w-[64px]",
+    idNasabah: "w-[72px] min-w-0 max-w-[72px]",
+    namaNasabah: "w-[88px] min-w-0 max-w-[88px]",
     namaKolektor: "w-[96px] min-w-[96px]",
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
@@ -629,11 +629,11 @@ export default function LoanTransactionsTable({
             <table className="w-full table-fixed border-collapse bg-white text-[12px]">
               <colgroup>
                 <col style={{ width: 44 }} />
-                <col style={{ width: 64 }} />
+                <col style={{ width: 80 }} />
                 <col style={{ width: 96 }} />
-                <col style={{ width: 24 }} />
-                <col style={{ width: 56 }} />
                 <col style={{ width: 64 }} />
+                <col style={{ width: 72 }} />
+                <col style={{ width: 88 }} />
                 <col style={{ width: 96 }} />
                 <col style={{ width: 64 }} />
                 <col style={{ width: 84 }} />
