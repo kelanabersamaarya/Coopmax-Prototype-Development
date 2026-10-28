@@ -36,9 +36,9 @@ export default function JadwalBungaSimpananEdit() {
   const { pathname } = useLocation();
   const isUpdate = pathname.endsWith("/ubah");
   const [interestEnabled, setInterestEnabled] = useState(isUpdate);
-  const [adminEnabled, setAdminEnabled] = useState(isUpdate);
-  const [mobileEnabled, setMobileEnabled] = useState(isUpdate);
-  const [mainOnly, setMainOnly] = useState(isUpdate);
+  const [adminEnabled, setAdminEnabled] = useState(false);
+  const [mobileEnabled, setMobileEnabled] = useState(false);
+  const [mainOnly, setMainOnly] = useState(false);
   const [status, setStatus] = useState(true);
   const [processingOrder, setProcessingOrder] = useState(allProcessingItems);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
