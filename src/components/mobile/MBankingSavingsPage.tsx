@@ -20,43 +20,47 @@ export default function MBankingSavingsPage({
           >
             <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
           </button>
-          <h1 className="mt-5 text-[28px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">
+          <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">
             Simpanan
           </h1>
         </header>
 
-        <section className="relative mt-[70px] h-[390px] overflow-hidden rounded-[38px] bg-[#0648C9] px-10 py-10 text-white shadow-[0_5px_7px_rgba(15,23,42,0.28)] sm:h-[390px]">
-          <div className="pointer-events-none absolute -right-[72px] -top-[42px] h-[190px] w-[270px] rounded-[50%] bg-white/20" />
-          <div className="pointer-events-none absolute -right-[72px] top-[104px] h-[190px] w-[270px] rounded-[50%] bg-white/20" />
-          <div className="pointer-events-none absolute -bottom-[12px] -left-[12px] h-[32px] w-[32px] rounded-full bg-white/10 shadow-[36px_0_0_rgba(255,255,255,0.10),72px_0_0_rgba(255,255,255,0.10),108px_0_0_rgba(255,255,255,0.10),144px_0_0_rgba(255,255,255,0.10)]" />
+        <section className="relative mt-7 h-[147px] overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white shadow-[0_8px_22px_rgba(0,79,199,0.20)]">
+          <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
+          <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
+          <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
 
-          <div className="relative z-10 flex items-start justify-between gap-3">
-            <h2 className="text-[30px] font-normal leading-none tracking-[-0.04em]">
-              Simpanan Sukarela
-            </h2>
-            <button
-              type="button"
-              className="shrink-0 pt-1 text-[23px] font-normal leading-none text-white transition active:scale-[0.98]"
-            >
-              Detail &gt;
-            </button>
-          </div>
-
-          <div className="absolute bottom-[70px] left-10 z-10">
-            <div className="text-[25px] font-normal leading-none text-white/45">
-              No Rekening
-            </div>
-            <div className="mt-4 flex items-center gap-3 text-[30px] font-normal leading-none tracking-[-0.02em]">
-              <span>4260054</span>
+          <div className="relative z-10 flex h-full flex-col">
+            <div className="flex items-start justify-between gap-3">
+              <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
+                Simpanan Sukarela
+              </div>
               <button
                 type="button"
-                onClick={() => navigator.clipboard?.writeText("4260054")}
-                className="inline-flex h-8 w-8 items-center justify-center text-white transition active:scale-[0.94]"
-                aria-label="Salin nomor rekening"
-                title="Salin nomor rekening"
+                className="inline-flex shrink-0 items-center gap-0.5 rounded-full text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]"
               >
-                <Copy className="h-8 w-8" strokeWidth={2.2} />
+                Detail &gt;
               </button>
+            </div>
+
+            <div className="mt-auto flex items-end justify-between gap-4">
+              <div className="min-w-0">
+                <div className="text-[10px] font-normal leading-none text-[#678DD8]">
+                  No Rekening
+                </div>
+                <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none text-white">
+                  <span>4260054</span>
+                  <button
+                    type="button"
+                    onClick={() => navigator.clipboard?.writeText("4260054")}
+                    className="inline-flex h-5 w-5 items-center justify-center text-white transition active:scale-[0.94]"
+                    aria-label="Salin nomor rekening"
+                    title="Salin nomor rekening"
+                  >
+                    <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
