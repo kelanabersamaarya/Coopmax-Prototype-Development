@@ -306,7 +306,9 @@ function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
         <h1 className="mt-7 text-[26px] font-extrabold leading-tight text-[#203064]">Tambah Saldo</h1>
         <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Transfer ke nomor Static VA berikut untuk menambahkan saldo ke rekening Simpanan Anda.</p>
         <section className="mt-7 rounded-[22px] bg-[#004FC7] p-5 text-white">
-          <div className="text-[12px] text-blue-100">Nomor Static VA</div>
+          <div className="text-[12px] text-blue-100">Bank</div>
+          <div className="mt-1 text-[20px] font-extrabold">BCA</div>
+          <div className="mt-6 text-[12px] text-blue-100">Nomor Static VA</div>
           <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
             <span>8808 4260 0540</span>
             <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
