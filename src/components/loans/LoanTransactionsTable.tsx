@@ -100,8 +100,8 @@ function HeaderCell({
       )}
     >
       <div className="min-w-0 leading-[1.0]">
-        <span className="block truncate">{lines[0]}</span>
-        <span className="block truncate">{lines[1] ?? ""}</span>
+        <span className="block whitespace-nowrap">{lines[0]}</span>
+        <span className="block whitespace-nowrap">{lines[1] ?? ""}</span>
       </div>
       {icon}
     </div>
