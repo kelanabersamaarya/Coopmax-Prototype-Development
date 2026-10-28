@@ -303,7 +303,17 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
 
   if (selectedBankName) {
-    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setStaticVaCreated(true); onStaticVaSaved(); }} />;
+    return <StaticVaPreview
+      bankName={selectedBankName}
+      onBack={() => setSelectedBankName(null)}
+      onSave={() => {
+        setShowVaOnboarding(false);
+        setShowBankSelection(false);
+        setSelectedBankName(null);
+        setStaticVaCreated(true);
+        onStaticVaSaved();
+      }}
+    />;
   }
 
   if (showBankSelection) {
