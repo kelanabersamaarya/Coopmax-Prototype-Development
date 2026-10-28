@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ArrowLeft, Zap, MessageCircle, Mail, Send } from "lucide-react";
+import { Check, Zap, MessageCircle, Mail, Send } from "lucide-react";
 import type { EKolektorDepositAccount } from "@/components/mobile/EKolektorDepositTransactionPage";
 
 export default function EKolektorDepositSuccessPage({
@@ -22,11 +22,7 @@ export default function EKolektorDepositSuccessPage({
       <div className="pointer-events-none absolute -right-[70px] top-[150px] h-[220px] w-[220px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute -left-[80px] bottom-[90px] h-[230px] w-[230px] rounded-full bg-white/10" />
 
-      <header className="relative z-10 shrink-0 px-6 pb-5 pt-5 text-white">
-        <button type="button" onClick={onBack} aria-label="Kembali" className="rounded-full p-1 transition hover:bg-white/10">
-          <ArrowLeft className="h-7 w-7" strokeWidth={1.8} />
-        </button>
-      </header>
+      <header className="relative z-10 h-5 shrink-0" />
 
       <main className="relative z-10 mx-6 mb-6 flex shrink-0 flex-col rounded-[28px] bg-white px-6 pb-7 pt-6">
         <h1 className="text-center text-[20px] font-extrabold text-[#203064]">Solusi Sakti</h1>
