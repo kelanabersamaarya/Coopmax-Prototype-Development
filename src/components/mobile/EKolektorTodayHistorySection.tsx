@@ -71,7 +71,7 @@ export default function EKolektorTodayHistorySection({
             Tidak Ada Riwayat Transaksi
           </div>
         </div>
-      )}
+      ) : null}
 
     </section>
   );
