@@ -316,7 +316,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; on
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
-      <header className="relative shrink-0 overflow-visible px-6 pb-8 pt-8 text-white">
+      <header className="relative z-20 shrink-0 overflow-visible px-6 pb-8 pt-8 text-white">
         <div className="pointer-events-none absolute -right-2 -top-16 h-[148px] w-[148px] rounded-full bg-white/10" />
         <div className="pointer-events-none absolute right-12 -top-20 h-[154px] w-[154px] rounded-full bg-white/8" />
         <div className="relative z-10 flex items-center justify-between">
