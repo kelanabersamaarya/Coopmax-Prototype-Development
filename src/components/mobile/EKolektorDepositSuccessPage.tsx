@@ -22,7 +22,7 @@ export default function EKolektorDepositSuccessPage({
       <div className="pointer-events-none absolute -right-[70px] top-[150px] h-[220px] w-[220px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute -left-[80px] bottom-[90px] h-[230px] w-[230px] rounded-full bg-white/10" />
 
-      <main className="relative z-10 mx-auto my-auto flex w-[350px] max-w-[calc(100%-32px)] shrink-0 flex-col rounded-[28px] bg-white px-6 pb-7 pt-6">
+      <main className="relative z-10 mx-auto my-auto flex w-[370px] max-w-[calc(100%-24px)] shrink-0 flex-col rounded-[28px] bg-white px-6 pb-7 pt-6">
         <h1 className="text-center text-[20px] font-extrabold text-[#203064]">Solusi Sakti</h1>
         <div className="mx-auto mt-6 grid h-[96px] w-[96px] place-items-center rounded-full bg-[#D5E2F8]">
           <Check className="h-14 w-14 text-[#004FC7]" strokeWidth={2.8} />
