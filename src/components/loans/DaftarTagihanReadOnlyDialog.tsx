@@ -136,6 +136,7 @@ export default function DaftarTagihanReadOnlyDialog({
     );
 
   const showGraceHighlight = page === 1;
+  const showGraceInfo = page === 1;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -179,6 +180,7 @@ export default function DaftarTagihanReadOnlyDialog({
               <BillingTableWithStatus
                 rows={rows}
                 showGraceHighlight={showGraceHighlight}
+                showGraceInfo={showGraceInfo}
                 penaltyIndexOffset={(page - 1) * pageSize}
                 layout="loan-dialog"
                 className="mt-0"
