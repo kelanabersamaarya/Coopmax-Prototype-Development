@@ -227,17 +227,11 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
           <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Pastikan informasi Virtual Account sudah sesuai sebelum disimpan.</p>
         </div>
         <section className="mt-8 rounded-[22px] bg-[#004FC7] p-5 text-white">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-[14px] font-semibold">Static Virtual Account</span>
-            <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold">Aktif</span>
-          </div>
+          <div className="text-[14px] font-semibold">Static Virtual Account</div>
           <div className="mt-8 text-[12px] text-blue-100">Bank</div>
           <div className="mt-1 text-[20px] font-extrabold">{bankName}</div>
           <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account</div>
-          <div className="mt-1 flex items-center justify-between gap-3">
-            <span className="text-[25px] font-extrabold tracking-[0.08em]">8808 4260 0540</span>
-            <Copy className="h-5 w-5 shrink-0" strokeWidth={2.2} />
-          </div>
+          <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">8808 4260 0540</div>
         </section>
         <div className="mt-5 rounded-2xl bg-[#F5F9FF] p-4">
           <div className="flex gap-3">
