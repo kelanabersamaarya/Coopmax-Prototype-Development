@@ -2,6 +2,63 @@
 
 import { ArrowLeft, Copy } from "lucide-react";
 
+type SavingsAccount = {
+  id: string;
+  productName: string;
+  accountNo: string;
+};
+
+const savingsAccounts: SavingsAccount[] = [
+  { id: "sukarela-1", productName: "Simpanan Sukarela", accountNo: "4260054" },
+  { id: "sukarela-2", productName: "Simpanan Sukarela", accountNo: "4260055" },
+  { id: "sukarela-3", productName: "Simpanan Sukarela", accountNo: "4260056" },
+  { id: "sukarela-4", productName: "Simpanan Sukarela", accountNo: "4260057" },
+];
+
+function SavingsAccountCard({ account }: { account: SavingsAccount }) {
+  return (
+    <section className="relative h-[147px] overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white shadow-[0_8px_22px_rgba(0,79,199,0.20)]">
+      <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
+      <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
+      <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
+
+      <div className="relative z-10 flex h-full flex-col">
+        <div className="flex items-start justify-between gap-3">
+          <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
+            {account.productName}
+          </div>
+          <button
+            type="button"
+            className="inline-flex shrink-0 items-center gap-0.5 rounded-full text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]"
+          >
+            Detail &gt;
+          </button>
+        </div>
+
+        <div className="mt-auto flex items-end justify-between gap-4">
+          <div className="min-w-0">
+            <div className="text-[10px] font-normal leading-none text-[#678DD8]">
+              No Rekening
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none text-white">
+              <span>{account.accountNo}</span>
+              <button
+                type="button"
+                onClick={() => navigator.clipboard?.writeText(account.accountNo)}
+                className="inline-flex h-5 w-5 items-center justify-center text-white transition active:scale-[0.94]"
+                aria-label={`Salin nomor rekening ${account.accountNo}`}
+                title="Salin nomor rekening"
+              >
+                <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function MBankingSavingsPage({
   onBack,
 }: {
@@ -25,44 +82,10 @@ export default function MBankingSavingsPage({
           </h1>
         </header>
 
-        <section className="relative mt-7 h-[147px] overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white shadow-[0_8px_22px_rgba(0,79,199,0.20)]">
-          <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
-          <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
-          <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
-
-          <div className="relative z-10 flex h-full flex-col">
-            <div className="flex items-start justify-between gap-3">
-              <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
-                Simpanan Sukarela
-              </div>
-              <button
-                type="button"
-                className="inline-flex shrink-0 items-center gap-0.5 rounded-full text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]"
-              >
-                Detail &gt;
-              </button>
-            </div>
-
-            <div className="mt-auto flex items-end justify-between gap-4">
-              <div className="min-w-0">
-                <div className="text-[10px] font-normal leading-none text-[#678DD8]">
-                  No Rekening
-                </div>
-                <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none text-white">
-                  <span>4260054</span>
-                  <button
-                    type="button"
-                    onClick={() => navigator.clipboard?.writeText("4260054")}
-                    className="inline-flex h-5 w-5 items-center justify-center text-white transition active:scale-[0.94]"
-                    aria-label="Salin nomor rekening"
-                    title="Salin nomor rekening"
-                  >
-                    <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <section className="mt-7 grid gap-4">
+          {savingsAccounts.map((account) => (
+            <SavingsAccountCard key={account.id} account={account} />
+          ))}
         </section>
       </main>
     </div>
