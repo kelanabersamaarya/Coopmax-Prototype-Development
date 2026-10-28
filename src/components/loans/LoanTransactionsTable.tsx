@@ -595,9 +595,9 @@ export default function LoanTransactionsTable({
     no: "w-[44px]",
     noTransaksi: "w-[104px] min-w-[104px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
-    rekTabungan: "w-[96px] min-w-[96px]",
-    idNasabah: "w-[96px] min-w-[96px]",
-    namaNasabah: "w-[92px] min-w-[92px]",
+    rekTabungan: "w-[72px] min-w-0",
+    idNasabah: "w-[72px] min-w-0",
+    namaNasabah: "w-[80px] min-w-0",
     namaKolektor: "w-[96px] min-w-[96px]",
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
@@ -625,8 +625,8 @@ export default function LoanTransactionsTable({
         </div>
 
         <div className="mt-4 px-5">
-          <div className="safe-x-scroll">
-            <table className="w-full min-w-[1120px] border-collapse bg-white text-[12px]">
+          <div className="overflow-hidden">
+            <table className="w-full table-fixed border-collapse bg-white text-[12px]">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className={colW.no}>
