@@ -46,10 +46,10 @@ const transactions = [
   },
 ];
 
-function SavingsCard({ account, onClick }: { account: SavingsAccount; onClick: () => void }) {
+function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccount; onClick: () => void; hasStaticVa: boolean }) {
   return (
     <button type="button" onClick={onClick} className="block w-full text-left transition active:scale-[0.99]" aria-label={`Buka rekening ${account.accountNo}`}>
-      <div className="relative h-[147px] overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white">
+      <div className={`relative overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white ${hasStaticVa ? "h-[177px]" : "h-[147px]"}`}>
         <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
         <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
         <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
@@ -64,6 +64,15 @@ function SavingsCard({ account, onClick }: { account: SavingsAccount; onClick: (
               <span>{account.accountNo}</span>
               <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
             </div>
+            {hasStaticVa && (
+              <div className="mt-4">
+                <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Static VA</div>
+                <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
+                  <span>88084260540</span>
+                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -264,13 +273,27 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
   );
 }
 
-function SavingsDetailPage({ accountNo, onBack }: { accountNo: string; onBack: () => void }) {
+function SavingsDetailPage({ accountNo, onBack, onStaticVaSaved }: { accountNo: string; onBack: () => void; onStaticVaSaved: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
+  const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
 
   if (selectedBankName) {
-    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => setSelectedBankName(null)} />;
+    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setShowSaveSuccess(true); }} />;
+  }
+
+  if (showSaveSuccess) {
+    return (
+      <div className="relative flex h-full min-h-0 flex-col items-center justify-center bg-[#172554]/35 px-6">
+        <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="save-success-title">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
+          <h2 id="save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Disimpan</h2>
+          <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil disimpan ke rekening Simpanan Anda.</p>
+          <button type="button" onClick={() => { setShowSaveSuccess(false); onStaticVaSaved(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">OK</button>
+        </div>
+      </div>
+    );
   }
 
   if (showBankSelection) {
@@ -305,7 +328,8 @@ function SavingsDetailPage({ accountNo, onBack }: { accountNo: string; onBack: (
 
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} onBack={() => setSelectedAccount(null)} />;
+  const [hasStaticVa, setHasStaticVa] = React.useState(false);
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => { setHasStaticVa(true); setSelectedAccount(null); }} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -313,7 +337,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} onClick={() => setSelectedAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={account.accountNo === "4260054" && hasStaticVa} onClick={() => setSelectedAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
