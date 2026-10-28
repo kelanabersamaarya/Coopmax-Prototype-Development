@@ -36,7 +36,7 @@ export default function EKolektorDepositTransactionPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-white px-6 pb-6 pt-8">
+        <main className="relative z-10 -mt-[30px] flex min-h-[calc(100%-86px)] flex-col rounded-t-[30px] bg-white px-6 pb-6 pt-8">
           <h2 className="text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">Setoran</h2>
           <p className="mt-2 text-[14px] font-semibold text-[#203064]">Silakan lengkapi form berikut</p>
 
@@ -44,7 +44,7 @@ export default function EKolektorDepositTransactionPage({
             <div>
               <div className="text-[14px] font-extrabold text-[#9A9A9A]">No. Rekening</div>
               <div className="mt-2 text-[16px] font-extrabold text-[#203064]">{account.accountNo} - {account.customerName}</div>
-              <button type="button" className="mt-4 text-[16px] font-extrabold text-[#28afd4]">Lihat Mutasi Rekening</button>
+              <button type="button" className="mt-4 text-[16px] font-extrabold text-[#004FC7]">Lihat Mutasi Rekening</button>
             </div>
             <div>
               <div className="text-[14px] font-extrabold text-[#9A9A9A]">Saldo</div>
@@ -74,7 +74,7 @@ export default function EKolektorDepositTransactionPage({
             </div>
           </div>
 
-          <div className="sticky bottom-0 -mx-6 mt-12 bg-white px-6 pb-1 pt-3">
+          <div className="mt-auto -mx-6 bg-white px-6 pb-0 pt-6">
             <button type="button" className="h-[46px] w-full rounded-full bg-[#004FC7] text-[15px] font-semibold text-white shadow-[0_4px_10px_rgba(0,79,199,0.2)] transition hover:bg-[#0046B3] active:translate-y-px">Lanjutkan</button>
           </div>
         </main>
