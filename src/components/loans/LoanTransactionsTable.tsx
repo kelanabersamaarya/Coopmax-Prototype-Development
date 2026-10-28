@@ -592,7 +592,7 @@ export default function LoanTransactionsTable({
     rekTabungan: "w-[64px] min-w-0 max-w-[64px]",
     idNasabah: "w-[72px] min-w-0 max-w-[72px]",
     namaNasabah: "w-[88px] min-w-0 max-w-[88px]",
-    namaKolektor: "w-[96px] min-w-[96px]",
+    namaKolektor: "w-[80px] min-w-0 max-w-[80px]",
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
     // ✅ kecilkan lebar + izinkan wrap 2 baris di cell
@@ -628,7 +628,7 @@ export default function LoanTransactionsTable({
                 <col style={{ width: 64 }} />
                 <col style={{ width: 72 }} />
                 <col style={{ width: 88 }} />
-                <col style={{ width: 96 }} />
+                <col style={{ width: 80 }} />
                 <col style={{ width: 64 }} />
                 <col style={{ width: 84 }} />
                 <col style={{ width: 72 }} />
