@@ -80,16 +80,28 @@ function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccoun
   );
 }
 
-function DetailSavingsCard({ accountNo }: { accountNo: string }) {
+function DetailSavingsCard({ accountNo, hasStaticVa }: { accountNo: string; hasStaticVa: boolean }) {
   return (
-    <section className="relative h-[147px] overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white">
+    <section className={`relative overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white ${hasStaticVa ? "h-[177px]" : "h-[147px]"}`}>
       <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
       <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
       <div className="relative z-10 flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="truncate text-[16px] font-normal leading-tight tracking-tight">Luna Thompson</div>
-          <div className="mt-2 text-[12px] font-normal leading-none">{accountNo}</div>
+          <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
+            <span>{accountNo}</span>
+            {hasStaticVa && <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />}
+          </div>
+          {hasStaticVa && (
+            <div className="mt-4">
+              <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Static VA</div>
+              <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
+                <span>88084260540</span>
+                <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+              </div>
+            </div>
+          )}
         </div>
         <div className="shrink-0 pt-0.5 text-right text-[12px] font-normal leading-tight">Simpanan Sukarela</div>
       </div>
@@ -273,7 +285,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
   );
 }
 
-function SavingsDetailPage({ accountNo, onBack, onStaticVaSaved }: { accountNo: string; onBack: () => void; onStaticVaSaved: () => void }) {
+function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: { accountNo: string; hasStaticVa: boolean; onBack: () => void; onStaticVaSaved: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
@@ -311,7 +323,7 @@ function SavingsDetailPage({ accountNo, onBack, onStaticVaSaved }: { accountNo: 
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
         <h1 className="mt-5 text-[28px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
-        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} /></div>
+        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} hasStaticVa={hasStaticVa} /></div>
         <button type="button" onClick={() => setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
           <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
@@ -329,7 +341,7 @@ function SavingsDetailPage({ accountNo, onBack, onStaticVaSaved }: { accountNo: 
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [hasStaticVa, setHasStaticVa] = React.useState(false);
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => { setHasStaticVa(true); setSelectedAccount(null); }} />;
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === "4260054" && hasStaticVa} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => { if (selectedAccount === "4260054") setHasStaticVa(true); }} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
