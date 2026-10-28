@@ -683,11 +683,21 @@ export default function LoanTransactionsTable({
                   </Th>
 
                   <Th className={colW.nominal}>
-                    <HeaderCell lines={["NOMINAL"]} kind="sort" align="left" className="justify-start" />
+                    <HeaderCell
+                      lines={["NOMINAL"]}
+                      kind="sort"
+                      align="left"
+                      className="h-full items-center justify-start"
+                    />
                   </Th>
 
                   <Th className={colW.denda}>
-                    <HeaderCell lines={["DENDA"]} kind="sort" align="left" className="justify-start" />
+                    <HeaderCell
+                      lines={["DENDA"]}
+                      kind="sort"
+                      align="left"
+                      className="h-full items-center justify-start"
+                    />
                   </Th>
                 </tr>
 
