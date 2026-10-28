@@ -227,8 +227,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
           <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Pastikan informasi Virtual Account sudah sesuai sebelum disimpan.</p>
         </div>
         <section className="mt-8 rounded-[22px] bg-[#004FC7] p-5 text-white">
-          <div className="text-[14px] font-semibold">Static Virtual Account</div>
-          <div className="mt-8 text-[12px] text-blue-100">Bank</div>
+          <div className="text-[12px] text-blue-100">Bank</div>
           <div className="mt-1 text-[20px] font-extrabold">{bankName}</div>
           <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account</div>
           <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">8808 4260 0540</div>
