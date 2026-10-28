@@ -77,12 +77,12 @@ function HeaderCell({
 }) {
   const icon =
     kind === "sort" ? (
-      <span className="ml-1 inline-flex shrink-0 flex-col leading-none text-slate-900/90">
+      <span className="ml-auto inline-flex shrink-0 flex-col leading-none text-slate-900/90">
         <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
         <ChevronDown className="h-3.5 w-3.5" />
       </span>
     ) : kind === "menu" ? (
-      <span className="ml-1 inline-flex shrink-0 leading-none text-slate-900/90">
+      <span className="ml-auto inline-flex shrink-0 leading-none text-slate-900/90">
         <ChevronDown className="h-4 w-4" />
       </span>
     ) : null;
