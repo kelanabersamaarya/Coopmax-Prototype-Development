@@ -96,8 +96,8 @@ export default function EKolektorTransactionDetailModal({
               })
             }
             className={cn(
-              "h-[39px] w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white",
-              "transition hover:bg-[#0046B3] active:translate-y-px",
+              "h-[39px] w-full rounded-full border border-[#004FC7] bg-white text-[13px] font-semibold text-[#004FC7]",
+              "transition hover:bg-[#eff5ff] active:translate-y-px",
             )}
           >
             Cetak Bukti
