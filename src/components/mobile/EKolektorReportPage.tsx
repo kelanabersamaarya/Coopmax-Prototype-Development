@@ -122,11 +122,11 @@ export default function EKolektorReportPage({
                 key={`${entry.account}-${index}`}
                 role="button"
                 tabIndex={0}
-                onClick={() => setSelectedEntry({ ...entry, id: `report-${index}` })}
+                onClick={() => setSelectedEntry({ ...entry, accountNo: entry.account, customerName: entry.name, id: `report-${index}` })}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
-                    setSelectedEntry({ ...entry, id: `report-${index}` });
+                    setSelectedEntry({ ...entry, accountNo: entry.account, customerName: entry.name, id: `report-${index}` });
                   }
                 }}
                 className={cn(
