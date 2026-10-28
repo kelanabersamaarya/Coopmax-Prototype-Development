@@ -33,12 +33,13 @@ function TimeField({ options, filled, onValueChange }: { options: string[]; fill
 
 export default function JadwalBungaSimpananEdit() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const isUpdate = pathname.endsWith("/ubah");
+  const isProductFive = new URLSearchParams(search).get("product") === "Simpanan Pokok";
   const [interestEnabled, setInterestEnabled] = useState(isUpdate);
-  const [adminEnabled, setAdminEnabled] = useState(false);
-  const [mobileEnabled, setMobileEnabled] = useState(false);
-  const [mainOnly, setMainOnly] = useState(false);
+  const [adminEnabled, setAdminEnabled] = useState(isUpdate && !isProductFive);
+  const [mobileEnabled, setMobileEnabled] = useState(isUpdate && !isProductFive);
+  const [mainOnly, setMainOnly] = useState(isUpdate && !isProductFive);
   const [status, setStatus] = useState(true);
   const [processingOrder, setProcessingOrder] = useState(allProcessingItems);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
