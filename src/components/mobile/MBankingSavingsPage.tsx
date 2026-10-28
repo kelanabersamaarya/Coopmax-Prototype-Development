@@ -215,12 +215,55 @@ function StaticVaBankSelection({ onBack, onContinue }: { onBack: () => void; onC
   );
 }
 
+function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBack: () => void; onSave: () => void }) {
+  return (
+    <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
+      <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali">
+          <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
+        </button>
+        <div className="mt-8">
+          <h1 className="text-[26px] font-extrabold leading-tight text-[#203064]">Preview Static VA</h1>
+          <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Pastikan informasi Virtual Account sudah sesuai sebelum disimpan.</p>
+        </div>
+        <section className="mt-8 rounded-[22px] bg-[#004FC7] p-5 text-white">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[14px] font-semibold">Static Virtual Account</span>
+            <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold">Aktif</span>
+          </div>
+          <div className="mt-8 text-[12px] text-blue-100">Bank</div>
+          <div className="mt-1 text-[20px] font-extrabold">{bankName}</div>
+          <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account</div>
+          <div className="mt-1 flex items-center justify-between gap-3">
+            <span className="text-[25px] font-extrabold tracking-[0.08em]">8808 4260 0540</span>
+            <Copy className="h-5 w-5 shrink-0" strokeWidth={2.2} />
+          </div>
+        </section>
+        <div className="mt-5 rounded-2xl bg-[#F5F9FF] p-4">
+          <div className="flex gap-3">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.3} />
+            <p className="text-[13px] leading-relaxed text-[#44516B]">Gunakan nomor VA ini untuk melakukan setoran ke rekening Simpanan Anda.</p>
+          </div>
+        </div>
+      </main>
+      <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
+        <button type="button" onClick={onSave} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Simpan</button>
+      </footer>
+    </div>
+  );
+}
+
 function SavingsDetailPage({ accountNo, onBack }: { accountNo: string; onBack: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
+  const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
+
+  if (selectedBankName) {
+    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => setSelectedBankName(null)} />;
+  }
 
   if (showBankSelection) {
-    return <StaticVaBankSelection onBack={() => setShowBankSelection(false)} onContinue={() => setShowBankSelection(false)} />;
+    return <StaticVaBankSelection onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
   }
 
   if (showVaOnboarding) {
