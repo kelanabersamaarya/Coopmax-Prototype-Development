@@ -579,16 +579,14 @@ export default function BillingTableView2({
     return (
       <tr className="bg-white">
         <td colSpan={hideSelection ? 1 : 2} className="border-t border-[#CDD4E0] px-4 py-2 text-left text-[12px] font-bold leading-tight text-slate-800">
-          {label === "Total Tagihan per Halaman" ? (
+          {label === "Total per Halaman" ? (
             <>
-              <span className="block whitespace-nowrap">Total</span>
-              <span className="block whitespace-nowrap">Tagihan per</span>
+              <span className="block whitespace-nowrap">Total per</span>
               <span className="block whitespace-nowrap">Halaman</span>
             </>
           ) : (
             <>
               <span className="block whitespace-nowrap">Total</span>
-              <span className="block whitespace-nowrap">Tagihan</span>
               <span className="block whitespace-nowrap">Keseluruhan</span>
             </>
           )}
@@ -1000,9 +998,9 @@ export default function BillingTableView2({
           </tbody>
           <tfoot>
             {showPageTotal ? (
-              <TotalRow label="Total Tagihan per Halaman" values={pageTotals} />
+              <TotalRow label="Total per Halaman" values={pageTotals} />
             ) : null}
-            <TotalRow label="Total Tagihan Keseluruhan" values={grandTotals} />
+            <TotalRow label="Total Keseluruhan" values={grandTotals} />
             {tableFooter ? (
               <tr>
                 <td colSpan={colCount} className="border-t border-[#CDD4E0] px-4 py-3">
