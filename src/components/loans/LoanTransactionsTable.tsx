@@ -819,9 +819,9 @@ export default function LoanTransactionsTable({
                           type="button"
                           onClick={() => onPickTransaction?.(r.noTransaksi)}
                           className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
-                          title="Lihat detail transaksi"
+                          title={`Lihat detail transaksi: ${r.noTransaksi}`}
                         >
-                          {r.noTransaksi}
+                          {r.noTransaksi.replace(/\/0+(\d+)$/, "/$1")}
                         </button>
                       </Td>
 
