@@ -124,7 +124,7 @@ function Th({
   return (
     <th
       className={cn(
-        "px-1.5 py-1.5 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]",
+        "min-w-0 px-1.5 py-1.5 text-left text-[12px] font-bold uppercase tracking-wide text-[#102b5e]",
         "border-b border-slate-200",
         "align-middle whitespace-nowrap",
         className,
@@ -595,9 +595,9 @@ export default function LoanTransactionsTable({
     no: "w-[44px]",
     noTransaksi: "w-[104px] min-w-[104px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
-    rekTabungan: "w-[72px] min-w-0",
-    idNasabah: "w-[72px] min-w-0",
-    namaNasabah: "w-[80px] min-w-0",
+    rekTabungan: "w-[48px] min-w-0",
+    idNasabah: "w-[56px] min-w-0",
+    namaNasabah: "w-[64px] min-w-0",
     namaKolektor: "w-[96px] min-w-[96px]",
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
@@ -809,10 +809,10 @@ export default function LoanTransactionsTable({
 
                       <Td className="tabular-nums whitespace-nowrap">{r.rekPinjaman}</Td>
 
-                      <Td className="tabular-nums">{r.rekTabungan}</Td>
-                      <Td className="tabular-nums">{r.idNasabah}</Td>
+                      <Td className="min-w-0 tabular-nums truncate">{r.rekTabungan}</Td>
+                      <Td className="min-w-0 tabular-nums truncate">{r.idNasabah}</Td>
 
-                      <Td>
+                      <Td className="min-w-0">
                         <div className="truncate" title={r.namaNasabah}>
                           {r.namaNasabah}
                         </div>
