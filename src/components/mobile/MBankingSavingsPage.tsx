@@ -296,11 +296,53 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
   );
 }
 
+function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
+      <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali">
+          <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
+        </button>
+        <h1 className="mt-7 text-[26px] font-extrabold leading-tight text-[#203064]">Tambah Saldo</h1>
+        <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Transfer ke nomor Static VA berikut untuk menambahkan saldo ke rekening Simpanan Anda.</p>
+        <section className="mt-7 rounded-[22px] bg-[#004FC7] p-5 text-white">
+          <div className="text-[12px] text-blue-100">Nomor Static VA</div>
+          <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
+            <span>8808 4260 0540</span>
+            <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
+          </div>
+        </section>
+        <section className="mt-8">
+          <h2 className="text-[20px] font-extrabold text-[#203064]">Cara melakukan transfer</h2>
+          <div className="mt-5 grid gap-4">
+            {[
+              "Buka aplikasi mobile banking atau ATM bank Anda.",
+              "Pilih menu Transfer dan pilih Transfer ke Bank Lain.",
+              "Masukkan nomor Static VA di atas sebagai nomor rekening tujuan.",
+              "Periksa nama penerima dan nominal transfer, lalu konfirmasi pembayaran.",
+            ].map((step, index) => (
+              <div key={step} className="flex gap-3 rounded-2xl bg-[#F5F9FF] p-4">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#E2EEFF] text-[13px] font-extrabold text-[#004FC7]">{index + 1}</span>
+                <p className="text-[14px] leading-relaxed text-[#44516B]">{step}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
 function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: { accountNo: string; hasStaticVa: boolean; onBack: () => void; onStaticVaSaved: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
+  const [showTransferGuide, setShowTransferGuide] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
   const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
+
+  if (showTransferGuide) {
+    return <StaticVaTransferGuide onBack={() => setShowTransferGuide(false)} />;
+  }
 
   if (selectedBankName) {
     return <StaticVaPreview
@@ -332,7 +374,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
         </button>
         <h1 className="mt-5 text-[28px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
         <div className="mt-7"><DetailSavingsCard accountNo={accountNo} hasStaticVa={staticVaCreated} /></div>
-        <button type="button" onClick={() => setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
+        <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
           <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
         </button>
