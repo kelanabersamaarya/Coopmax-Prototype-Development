@@ -747,7 +747,13 @@ export default function BillingTableView2({
                                     </div>
                                   ) : null}
 
-                                  <div className={cn("px-1", cellY, dateTextClass)}>
+                                  <div
+                                    className={cn(
+                                      layout === "loan-dialog" ? "px-4" : "px-1",
+                                      cellY,
+                                      dateTextClass,
+                                    )}
+                                  >
                                     {r.jatuhTempo}
                                   </div>
 
