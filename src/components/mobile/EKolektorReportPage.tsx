@@ -101,17 +101,17 @@ export default function EKolektorReportPage({
 
           <div className="mt-[28px] space-y-[25px]">
             {entries.map((entry, index) => (
-              <article key={`${entry.account}-${index}`} className="relative min-h-[142px] overflow-hidden rounded-[17px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[10px] shadow-[0_2px_5px_rgba(0,0,0,0.16)]">
-                <div className="absolute left-0 top-0 flex h-[48px] w-[58px] items-center justify-center rounded-br-[17px] bg-[#303030] text-[20px] font-bold text-white">{index + 1}</div>
+              <article key={`${entry.account}-${index}`} className="relative min-h-[155px] overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)]">
+                <div className="absolute left-0 top-0 flex h-[52px] w-[58px] items-center justify-center rounded-br-[18px] bg-[#303030] text-[21px] font-bold text-white">{index + 1}</div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 text-[16px] font-extrabold leading-[1.2] text-black">
                     <div>{entry.name}</div><div>{entry.account}</div>
                   </div>
                   <div className="shrink-0 text-right text-[16px] font-extrabold leading-[1.18] text-[#43ad58]">{entry.amount}</div>
                 </div>
-                <div className="mt-[5px] text-[12px] font-semibold leading-tight text-[#a1a1a1]">{entry.type}</div>
-                <div className="absolute right-[13px] top-[45px] text-right text-[11px] font-semibold leading-[1.35] text-[#858585]">{entry.date}<br />{entry.time}</div>
-                <button type="button" className="mt-[9px] rounded-full bg-[#f3bf2e] px-[17px] py-[6px] text-[11px] font-extrabold text-white">Belum Diverifikasi</button>
+                <div className="mt-[6px] text-[13px] font-semibold leading-tight text-[#a1a1a1]">{entry.type}</div>
+                <div className="absolute right-[13px] top-[49px] text-right text-[12px] font-semibold leading-[1.4] text-[#858585]">{entry.date}<br />{entry.time}</div>
+                <button type="button" className="mt-[11px] rounded-full bg-[#f3bf2e] px-[18px] py-[7px] text-[12px] font-extrabold text-white">Belum Diverifikasi</button>
               </article>
             ))}
           </div>
