@@ -241,7 +241,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
   const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
+    <div className="relative flex h-full min-h-0 flex-col bg-white text-[#26365F]">
       <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali">
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
@@ -300,11 +300,10 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
-  const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
   const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
 
   if (selectedBankName) {
-    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setStaticVaCreated(true); setShowSaveSuccess(true); }} />;
+    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setStaticVaCreated(true); onStaticVaSaved(); }} />;
   }
 
   if (showBankSelection) {
@@ -333,35 +332,27 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
           <div className="mt-6 grid gap-4">{transactions.map((transaction) => <TransactionItem key={transaction.title} {...transaction} />)}</div>
         </section>
       </main>
-      {showSaveSuccess && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#172554]/35 px-6">
-          <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="save-success-title">
-            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
-            <h2 id="save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Disimpan</h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil disimpan ke rekening Simpanan Anda.</p>
-            <button type="button" onClick={() => { setShowSaveSuccess(false); onStaticVaSaved(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">OK</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
-const staticVaStorageKey = "mbanking-savings-static-va-4260054";
+const staticVaStorageKey = "mbanking-savings-static-va-account";
 
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  const [hasStaticVa, setHasStaticVa] = React.useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.localStorage.getItem(staticVaStorageKey) === "true";
+  const [staticVaAccount, setStaticVaAccount] = React.useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    const savedAccount = window.localStorage.getItem(staticVaStorageKey);
+    if (savedAccount) return savedAccount;
+    return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? "4260054" : null;
   });
 
-  const handleStaticVaSaved = () => {
-    setHasStaticVa(true);
-    window.localStorage.setItem(staticVaStorageKey, "true");
+  const handleStaticVaSaved = (accountNo: string) => {
+    setStaticVaAccount(accountNo);
+    window.localStorage.setItem(staticVaStorageKey, accountNo);
   };
 
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === "4260054" && hasStaticVa} onBack={() => setSelectedAccount(null)} onStaticVaSaved={handleStaticVaSaved} />;
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === staticVaAccount} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -369,7 +360,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={account.accountNo === "4260054" && hasStaticVa} onClick={() => setSelectedAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={account.accountNo === staticVaAccount} onClick={() => setSelectedAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
