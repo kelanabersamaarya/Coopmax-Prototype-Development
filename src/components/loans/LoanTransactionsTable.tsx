@@ -627,6 +627,20 @@ export default function LoanTransactionsTable({
         <div className="mt-4 px-5">
           <div className="overflow-hidden">
             <table className="w-full table-fixed border-collapse bg-white text-[12px]">
+              <colgroup>
+                <col style={{ width: 44 }} />
+                <col style={{ width: 64 }} />
+                <col style={{ width: 96 }} />
+                <col style={{ width: 24 }} />
+                <col style={{ width: 56 }} />
+                <col style={{ width: 64 }} />
+                <col style={{ width: 96 }} />
+                <col style={{ width: 64 }} />
+                <col style={{ width: 84 }} />
+                <col style={{ width: 92 }} />
+                <col style={{ width: 110 }} />
+                <col style={{ width: 84 }} />
+              </colgroup>
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className={colW.no}>
