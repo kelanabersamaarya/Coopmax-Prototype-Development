@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
+import EKolektorDepositReviewPage from "@/components/mobile/EKolektorDepositReviewPage";
 
 export type EKolektorDepositAccount = {
   accountNo: string;
@@ -22,7 +23,12 @@ export default function EKolektorDepositTransactionPage({
   onBack: () => void;
 }) {
   const [amount, setAmount] = React.useState("");
+  const [showReview, setShowReview] = React.useState(false);
   const quickAmounts = ["5.000", "10.000", "15.000", "20.000"];
+
+  if (showReview) {
+    return <EKolektorDepositReviewPage account={account} amount={amount} onBack={() => setShowReview(false)} />;
+  }
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
@@ -75,7 +81,7 @@ export default function EKolektorDepositTransactionPage({
           </div>
 
           <div className="mt-auto -mx-6 bg-white px-6 pb-0 pt-6">
-            <button type="button" className="h-[46px] w-full rounded-full bg-[#004FC7] text-[15px] font-semibold text-white shadow-[0_4px_10px_rgba(0,79,199,0.2)] transition hover:bg-[#0046B3] active:translate-y-px">Lanjutkan</button>
+            <button type="button" onClick={() => setShowReview(true)} className="h-[46px] w-full rounded-full bg-[#004FC7] text-[15px] font-semibold text-white shadow-[0_4px_10px_rgba(0,79,199,0.2)] transition hover:bg-[#0046B3] active:translate-y-px">Lanjutkan</button>
           </div>
         </main>
       </div>
