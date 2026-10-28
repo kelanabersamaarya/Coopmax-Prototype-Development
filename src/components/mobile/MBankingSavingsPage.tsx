@@ -216,6 +216,8 @@ function StaticVaBankSelection({ onBack, onContinue }: { onBack: () => void; onC
 }
 
 function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBack: () => void; onSave: () => void }) {
+  const [showSaveConfirmation, setShowSaveConfirmation] = React.useState(false);
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
       <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -241,10 +243,23 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
       </main>
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
-          <button type="button" onClick={onSave} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Simpan</button>
+          <button type="button" onClick={() => setShowSaveConfirmation(true)} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Simpan</button>
           <button type="button" onClick={onBack} className="h-12 w-full rounded-[14px] border-2 border-[#D1D5DB] bg-white px-5 text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
         </div>
       </footer>
+      {showSaveConfirmation && (
+        <div className="absolute inset-0 z-20 flex items-end bg-[#172554]/35 px-4 pb-6" role="presentation">
+          <div className="w-full rounded-[24px] bg-white p-6 text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="save-va-title">
+            <div className="mx-auto h-1.5 w-12 rounded-full bg-[#D9E0EA]" />
+            <h2 id="save-va-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Simpan Static VA?</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA dari {bankName} akan disimpan ke rekening Simpanan Anda.</p>
+            <div className="mt-6 grid gap-3">
+              <button type="button" onClick={onSave} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">Ya, Simpan</button>
+              <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 rounded-[14px] border-2 border-[#D1D5DB] bg-white text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
