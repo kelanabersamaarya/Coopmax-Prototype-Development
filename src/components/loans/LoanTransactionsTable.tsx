@@ -588,7 +588,7 @@ export default function LoanTransactionsTable({
   const colW = {
     no: "w-[44px]",
     noTransaksi: "w-[80px] min-w-0 max-w-[80px]",
-    rekPinjaman: "w-[96px] min-w-[96px]",
+    rekPinjaman: "w-[72px] min-w-0 max-w-[72px]",
     rekTabungan: "w-[64px] min-w-0 max-w-[64px]",
     idNasabah: "w-[72px] min-w-0 max-w-[72px]",
     namaNasabah: "w-[88px] min-w-0 max-w-[88px]",
@@ -596,7 +596,7 @@ export default function LoanTransactionsTable({
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
     // ✅ kecilkan lebar + izinkan wrap 2 baris di cell
-    jenisTransaksi: "w-[92px] min-w-[92px] max-w-[92px]",
+    jenisTransaksi: "w-[72px] min-w-0 max-w-[72px]",
     nominal: "w-[110px] min-w-[110px]",
     denda: "w-[84px] min-w-[84px]",
   } as const;
@@ -624,14 +624,14 @@ export default function LoanTransactionsTable({
               <colgroup>
                 <col style={{ width: 44 }} />
                 <col style={{ width: 80 }} />
-                <col style={{ width: 96 }} />
+                <col style={{ width: 72 }} />
                 <col style={{ width: 64 }} />
                 <col style={{ width: 72 }} />
                 <col style={{ width: 88 }} />
                 <col style={{ width: 96 }} />
                 <col style={{ width: 64 }} />
                 <col style={{ width: 84 }} />
-                <col style={{ width: 92 }} />
+                <col style={{ width: 72 }} />
                 <col style={{ width: 110 }} />
                 <col style={{ width: 84 }} />
               </colgroup>
