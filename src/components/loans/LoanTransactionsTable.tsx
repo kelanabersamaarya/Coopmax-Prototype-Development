@@ -163,9 +163,9 @@ function Td({
 }
 
 const filterInputCls =
-  "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none";
+"h-9 min-w-0 w-full rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none";
 const filterSelectTriggerCls =
-  "h-9 rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none";
+"h-9 min-w-0 w-full rounded-[5px] border-slate-300 bg-white text-[12px] font-normal shadow-none";
 
 function EntriesPicker({
   pageSize,
@@ -593,7 +593,7 @@ export default function LoanTransactionsTable({
 
   const colW = {
     no: "w-[44px]",
-    noTransaksi: "w-[84px] min-w-0",
+    noTransaksi: "w-[64px] min-w-0 max-w-[64px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
     rekTabungan: "w-[48px] min-w-0",
     idNasabah: "w-[56px] min-w-0",
@@ -611,7 +611,7 @@ export default function LoanTransactionsTable({
 
   const productSelectTriggerCls = cn(
     filterSelectTriggerCls,
-    "w-[64px] px-2",
+    "w-[64px] max-w-[64px] px-2",
     "[&_[data-slot=select-value]]:truncate",
     "[&_[data-slot=select-value]]:text-slate-900",
     "[&_[data-slot=select-icon]]:ml-1",
