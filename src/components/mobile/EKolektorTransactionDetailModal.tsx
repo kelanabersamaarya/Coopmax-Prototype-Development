@@ -106,8 +106,8 @@ export default function EKolektorTransactionDetailModal({
             type="button"
             onClick={() => setShareOpen(true)}
             className={cn(
-              "h-[39px] w-full rounded-full bg-[#A5A5A5] text-[13px] font-semibold text-white",
-              "transition hover:bg-[#969696] active:translate-y-px",
+              "h-[39px] w-full rounded-full border border-[#004FC7] bg-white text-[13px] font-semibold text-[#004FC7]",
+              "transition hover:bg-[#eff5ff] active:translate-y-px",
             )}
           >
             Bagikan
