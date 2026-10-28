@@ -290,23 +290,12 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
   const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
+  const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
 
   if (selectedBankName) {
-    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setShowSaveSuccess(true); }} />;
+    return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setStaticVaCreated(true); onStaticVaSaved(); setShowSaveSuccess(true); }} />;
   }
 
-  if (showSaveSuccess) {
-    return (
-      <div className="relative flex h-full min-h-0 flex-col items-center justify-center bg-[#172554]/35 px-6">
-        <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="save-success-title">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
-          <h2 id="save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Disimpan</h2>
-          <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil disimpan ke rekening Simpanan Anda.</p>
-          <button type="button" onClick={() => { setShowSaveSuccess(false); onStaticVaSaved(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">OK</button>
-        </div>
-      </div>
-    );
-  }
 
   if (showBankSelection) {
     return <StaticVaBankSelection onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
@@ -323,7 +312,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
         <h1 className="mt-5 text-[28px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
-        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} hasStaticVa={hasStaticVa} /></div>
+        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} hasStaticVa={staticVaCreated} /></div>
         <button type="button" onClick={() => setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
           <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
@@ -334,6 +323,16 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
           <div className="mt-6 grid gap-4">{transactions.map((transaction) => <TransactionItem key={transaction.title} {...transaction} />)}</div>
         </section>
       </main>
+      {showSaveSuccess && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#172554]/35 px-6">
+          <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="save-success-title">
+            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
+            <h2 id="save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Disimpan</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil disimpan ke rekening Simpanan Anda.</p>
+            <button type="button" onClick={() => { setShowSaveSuccess(false); onStaticVaSaved(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
