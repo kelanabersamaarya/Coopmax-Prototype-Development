@@ -1,7 +1,9 @@
 "use client";
 
+import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import type { EKolektorDepositAccount } from "@/components/mobile/EKolektorDepositTransactionPage";
+import EKolektorDepositSuccessPage from "@/components/mobile/EKolektorDepositSuccessPage";
 
 export default function EKolektorDepositReviewPage({
   account,
@@ -12,6 +14,12 @@ export default function EKolektorDepositReviewPage({
   amount: string;
   onBack: () => void;
 }) {
+  const [showSuccess, setShowSuccess] = React.useState(false);
+
+  if (showSuccess) {
+    return <EKolektorDepositSuccessPage account={account} amount={amount} onBack={onBack} />;
+  }
+
   return (
     <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#004FC7]">
       <div className="pointer-events-none absolute -right-[58px] top-[78px] h-[210px] w-[210px] rounded-full bg-white/10" />
@@ -50,7 +58,7 @@ export default function EKolektorDepositReviewPage({
         </div>
 
         <div className="pt-8">
-          <button type="button" className="h-[48px] w-full rounded-full bg-[#004FC7] text-[15px] font-semibold text-white transition hover:bg-[#0046B3] active:translate-y-px">Kirim</button>
+          <button type="button" onClick={() => setShowSuccess(true)} className="h-[48px] w-full rounded-full bg-[#004FC7] text-[15px] font-semibold text-white transition hover:bg-[#0046B3] active:translate-y-px">Kirim</button>
         </div>
       </main>
     </div>
