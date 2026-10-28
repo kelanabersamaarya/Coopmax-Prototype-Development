@@ -18,13 +18,11 @@ export default function EKolektorDepositSuccessPage({
   const [showShare, setShowShare] = React.useState(false);
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="relative flex h-full min-h-0 flex-col items-center justify-center overflow-y-auto bg-[#004FC7] py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div className="pointer-events-none absolute -right-[70px] top-[150px] h-[220px] w-[220px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute -left-[80px] bottom-[90px] h-[230px] w-[230px] rounded-full bg-white/10" />
 
-      <header className="relative z-10 h-5 shrink-0" />
-
-      <main className="relative z-10 mx-6 mb-6 flex shrink-0 flex-col rounded-[28px] bg-white px-6 pb-7 pt-6">
+      <main className="relative z-10 mx-6 my-auto flex shrink-0 flex-col rounded-[28px] bg-white px-6 pb-7 pt-6">
         <h1 className="text-center text-[20px] font-extrabold text-[#203064]">Solusi Sakti</h1>
         <div className="mx-auto mt-6 grid h-[96px] w-[96px] place-items-center rounded-full bg-[#D5E2F8]">
           <Check className="h-14 w-14 text-[#004FC7]" strokeWidth={2.8} />
