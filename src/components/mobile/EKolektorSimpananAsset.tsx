@@ -1,6 +1,7 @@
 "use client";
 
-import { toast } from "sonner";
+import * as React from "react";
+import EKolektorTransactionTypeSheet from "@/components/mobile/EKolektorTransactionTypeSheet";
 
 const savingAccounts = [
   {
@@ -27,6 +28,8 @@ const savingAccounts = [
 ];
 
 export default function EKolektorSimpananAsset() {
+  const [selectedAccount, setSelectedAccount] = React.useState<(typeof savingAccounts)[number] | null>(null);
+
   return (
     <div className="mt-[22px] grid w-full gap-[14px]">
       {savingAccounts.map((account) => (
@@ -78,17 +81,20 @@ export default function EKolektorSimpananAsset() {
 
           <button
             type="button"
-            onClick={() =>
-              toast("Pilih simpanan (prototype)", {
-                description: "Aksi tombol belum dihubungkan.",
-              })
-            }
+            onClick={() => setSelectedAccount(account)}
             className="absolute inset-x-0 bottom-0 h-[52px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:bg-[#0046B3]"
           >
             Pilih
           </button>
         </div>
       ))}
+
+      {selectedAccount ? (
+        <EKolektorTransactionTypeSheet
+          onClose={() => setSelectedAccount(null)}
+          onSelect={() => setSelectedAccount(null)}
+        />
+      ) : null}
     </div>
   );
 }
