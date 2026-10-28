@@ -70,12 +70,12 @@ export default function EKolektorReportPage({
 
         <main className="relative z-10 -mt-[30px] min-h-[calc(100%+30px)] rounded-t-[30px] bg-white px-[30px] pb-8 pt-[31px]">
           <div className="flex h-[68px] items-center rounded-[13px] bg-[#f1f1f1] px-[14px] text-[#364463]">
-            <button type="button" className="flex min-w-0 flex-1 items-center justify-between text-left text-[15px] leading-[1.3]" onClick={() => setShowTotal(false)}>
-              <span>28 Sep<br />2026</span><ChevronDown className="h-4 w-4 shrink-0 text-[#222]" />
+            <button type="button" className="flex min-w-0 flex-1 items-center justify-between gap-2 text-left text-[14px] leading-none" onClick={() => setShowTotal(false)}>
+              <span className="whitespace-nowrap">28 Sep 2026</span><ChevronDown className="h-4 w-4 shrink-0 text-[#222]" />
             </button>
             <span className="mx-[9px] h-[52px] w-[2px] bg-[#c9c9c9]" />
-            <button type="button" className="flex min-w-0 flex-1 items-center justify-between text-left text-[15px] leading-[1.3]" onClick={() => setShowTotal(false)}>
-              <span>28 Okt<br />2026</span><ChevronDown className="h-5 w-5 shrink-0 text-[#222]" />
+            <button type="button" className="flex min-w-0 flex-1 items-center justify-between gap-2 text-left text-[14px] leading-none" onClick={() => setShowTotal(false)}>
+              <span className="whitespace-nowrap">28 Okt 2026</span><ChevronDown className="h-4 w-4 shrink-0 text-[#222]" />
             </button>
           </div>
 
