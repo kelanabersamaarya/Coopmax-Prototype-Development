@@ -597,7 +597,7 @@ export default function LoanTransactionsTable({
     tanggal: "w-[84px] min-w-[84px]",
     // ✅ kecilkan lebar + izinkan wrap 2 baris di cell
     jenisTransaksi: "w-[72px] min-w-0 max-w-[72px]",
-    nominal: "w-[110px] min-w-[110px]",
+    nominal: "w-[88px] min-w-0 max-w-[88px]",
     denda: "w-[84px] min-w-[84px]",
   } as const;
 
@@ -632,7 +632,7 @@ export default function LoanTransactionsTable({
                 <col style={{ width: 64 }} />
                 <col style={{ width: 84 }} />
                 <col style={{ width: 72 }} />
-                <col style={{ width: 110 }} />
+                <col style={{ width: 88 }} />
                 <col style={{ width: 84 }} />
               </colgroup>
               <thead className="bg-white">
@@ -682,12 +682,12 @@ export default function LoanTransactionsTable({
                     <HeaderCell lines={["JENIS", "TRANSAKSI"]} kind="sort" />
                   </Th>
 
-                  <Th className={cn(colW.nominal, "text-right")}>
-                    <HeaderCell lines={["NOMINAL"]} kind="sort" align="right" />
+                  <Th className={colW.nominal}>
+                    <HeaderCell lines={["NOMINAL"]} kind="sort" align="left" className="justify-start" />
                   </Th>
 
-                  <Th className={cn(colW.denda, "text-right")}>
-                    <HeaderCell lines={["DENDA"]} kind="sort" align="right" />
+                  <Th className={colW.denda}>
+                    <HeaderCell lines={["DENDA"]} kind="sort" align="left" className="justify-start" />
                   </Th>
                 </tr>
 
