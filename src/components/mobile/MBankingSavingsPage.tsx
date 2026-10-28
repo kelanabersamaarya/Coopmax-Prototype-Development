@@ -156,12 +156,14 @@ function StaticVaOnboarding({ onBack, onContinue }: { onBack: () => void; onCont
             <p className="text-[13px] leading-relaxed text-[#44516B]">Pembayaran akan teridentifikasi otomatis dan saldo masuk dengan aman.</p>
           </div>
         </div>
+      </main>
 
-        <div className="mt-8 grid gap-3">
+      <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
+        <div className="grid gap-3">
           <button type="button" onClick={onContinue} className="h-12 rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Lanjutkan Dengan Static VA</button>
           <button type="button" className="h-12 rounded-[14px] border-2 border-[#004FC7] px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">Gunakan VA Dinamis</button>
         </div>
-      </main>
+      </footer>
     </div>
   );
 }
