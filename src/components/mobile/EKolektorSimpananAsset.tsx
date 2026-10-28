@@ -29,8 +29,10 @@ const savingAccounts = [
 
 export default function EKolektorSimpananAsset({
   onSelectDeposit,
+  onSelectWithdrawal,
 }: {
   onSelectDeposit?: (account: (typeof savingAccounts)[number]) => void;
+  onSelectWithdrawal?: (account: (typeof savingAccounts)[number]) => void;
 }) {
   const [selectedAccount, setSelectedAccount] = React.useState<(typeof savingAccounts)[number] | null>(null);
 
@@ -99,6 +101,10 @@ export default function EKolektorSimpananAsset({
           onSelect={(type) => {
             if (type === "setoran" && onSelectDeposit) {
               onSelectDeposit(selectedAccount);
+              return;
+            }
+            if (type === "penarikan" && onSelectWithdrawal) {
+              onSelectWithdrawal(selectedAccount);
               return;
             }
             setSelectedAccount(null);

@@ -9,11 +9,13 @@ export default function EKolektorDepositSuccessPage({
   amount,
   onBack,
   onDoneHome,
+  transactionType = "Setoran",
 }: {
   account: EKolektorDepositAccount;
   amount: string;
   onBack: () => void;
   onDoneHome: () => void;
+  transactionType?: "Setoran" | "Penarikan";
 }) {
   const [showShare, setShowShare] = React.useState(false);
 

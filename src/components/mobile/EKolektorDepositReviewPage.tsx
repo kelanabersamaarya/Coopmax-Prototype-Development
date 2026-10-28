@@ -10,16 +10,18 @@ export default function EKolektorDepositReviewPage({
   amount,
   onBack,
   onDoneHome,
+  transactionType = "Setoran",
 }: {
   account: EKolektorDepositAccount;
   amount: string;
   onBack: () => void;
   onDoneHome: () => void;
+  transactionType?: "Setoran" | "Penarikan";
 }) {
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   if (showSuccess) {
-    return <EKolektorDepositSuccessPage account={account} amount={amount} onBack={onBack} onDoneHome={onDoneHome} />;
+    return <EKolektorDepositSuccessPage account={account} amount={amount} onBack={onBack} onDoneHome={onDoneHome} transactionType={transactionType} />;
   }
 
   return (
@@ -50,7 +52,7 @@ export default function EKolektorDepositReviewPage({
 
           <section>
             <div className="text-[14px] font-extrabold text-[#9A9A9A]">Jenis Transaksi</div>
-            <div className="mt-2 text-[17px] font-extrabold text-[#203064]">Setoran</div>
+            <div className="mt-2 text-[17px] font-extrabold text-[#203064]">{transactionType}</div>
           </section>
 
           <section>

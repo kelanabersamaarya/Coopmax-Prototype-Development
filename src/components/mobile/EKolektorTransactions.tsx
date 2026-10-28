@@ -6,10 +6,11 @@ import EKolektorSearchBar from "@/components/mobile/EKolektorSearchBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 import EKolektorTransactionTabs from "@/components/mobile/EKolektorTransactionTabs";
 import EKolektorDepositTransactionPage from "@/components/mobile/EKolektorDepositTransactionPage";
+import EKolektorWithdrawalTransactionPage from "@/components/mobile/EKolektorWithdrawalTransactionPage";
 import EKolektorLoanTransactionPage from "@/components/mobile/EKolektorLoanTransactionPage";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
-type TransactionScreen = "list" | "deposit-transaction" | "loan-transaction";
+type TransactionScreen = "list" | "deposit-transaction" | "withdrawal-transaction" | "loan-transaction";
 
 type DepositAccount = {
   accountNo: string;
@@ -28,9 +29,14 @@ export default function EKolektorTransactions({
   const [hasSearched, setHasSearched] = React.useState(false);
   const [selectedAccountNo, setSelectedAccountNo] = React.useState("");
   const [selectedDepositAccount, setSelectedDepositAccount] = React.useState<DepositAccount | null>(null);
+  const [selectedWithdrawalAccount, setSelectedWithdrawalAccount] = React.useState<DepositAccount | null>(null);
 
   if (screen === "deposit-transaction" && selectedDepositAccount) {
     return <EKolektorDepositTransactionPage account={selectedDepositAccount} onBack={() => setScreen("list")} onDoneHome={onBackHome} />;
+  }
+
+  if (screen === "withdrawal-transaction" && selectedWithdrawalAccount) {
+    return <EKolektorWithdrawalTransactionPage account={selectedWithdrawalAccount} onBack={() => setScreen("list")} onDoneHome={onBackHome} />;
   }
 
   if (screen === "loan-transaction") {
@@ -70,6 +76,10 @@ export default function EKolektorTransactions({
             onSelectDeposit={(account) => {
               setSelectedDepositAccount(account);
               setScreen("deposit-transaction");
+            }}
+            onSelectWithdrawal={(account) => {
+              setSelectedWithdrawalAccount(account);
+              setScreen("withdrawal-transaction");
             }}
             onSelectLoan={(accountNo) => {
               setSelectedAccountNo(accountNo);

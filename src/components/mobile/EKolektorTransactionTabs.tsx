@@ -13,11 +13,13 @@ export default function EKolektorTransactionTabs({
   className,
   onSelectDeposit,
   onSelectLoan,
+  onSelectWithdrawal,
   showAccounts,
 }: {
   className?: string;
   onSelectDeposit?: (account: { accountNo: string; customerName: string; productName: string }) => void;
   onSelectLoan?: (accountNo: string) => void;
+  onSelectWithdrawal?: (account: { accountNo: string; customerName: string; productName: string }) => void;
   showAccounts: boolean;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransactionTab>("simpanan");
@@ -73,7 +75,7 @@ export default function EKolektorTransactionTabs({
         })}
       </div>
 
-      {showAccounts && activeTab === "simpanan" ? <EKolektorSimpananAsset onSelectDeposit={onSelectDeposit} /> : null}
+      {showAccounts && activeTab === "simpanan" ? <EKolektorSimpananAsset onSelectDeposit={onSelectDeposit} onSelectWithdrawal={onSelectWithdrawal} /> : null}
       {showAccounts && activeTab === "pinjaman" ? (
         <EKolektorPinjamanInfo onSelect={onSelectLoan} />
       ) : null}
