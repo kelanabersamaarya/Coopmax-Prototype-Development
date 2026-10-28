@@ -79,7 +79,7 @@ export default function EKolektorReportPage({
             </button>
           </div>
 
-          <div className="mt-[34px] flex items-center gap-[14px]">
+          <div className="mt-[22px] flex items-center gap-[14px]">
             <div className="relative min-w-0 flex-1">
               <button type="button" onClick={() => setProductOpen((open) => !open)} className="flex h-[54px] w-full items-center justify-between rounded-[10px] bg-[#f1f1f1] px-[16px] text-left text-[14px] text-[#929292]">
                 <span className="truncate">{product}</span><ChevronDown className="h-6 w-6 shrink-0 text-[#858585]" />
