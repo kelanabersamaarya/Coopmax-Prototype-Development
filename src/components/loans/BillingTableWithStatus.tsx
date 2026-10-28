@@ -154,7 +154,6 @@ function TotalRow({
   dendaClassName?: string;
   layout?: "default" | "loan-dialog" | "mobile";
 }) {
-  const mobileLayout = layout === "mobile";
   const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap";
   return (
     <tr className="bg-white">
@@ -174,15 +173,15 @@ function TotalRow({
         )}
       </td>
       <td className={cellClass}>
-<span className="relative left-4"><NumericCell align="right" className="w-full">
+<span><NumericCell align="right" className="w-full">
   {formatIdrLike(values.totalBelumDibayar)}
 </NumericCell></span>
 </td>
-<td className="border-t border-slate-200 py-2 pl-4 pr-0 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap">
+<td className={cellClass}>
 <span className="whitespace-nowrap">{formatIdrLike(values.tagihanPokok)}</span>
 </td>
 <td className={cellClass}>
-<span className="relative left-4 whitespace-nowrap">{formatIdrLike(values.tagihanBunga)}</span>
+<span className="whitespace-nowrap">{formatIdrLike(values.tagihanBunga)}</span>
 </td>
 <td className={cellClass}>
 <span>{formatIdrLike(values.sisaPokok)}</span>
