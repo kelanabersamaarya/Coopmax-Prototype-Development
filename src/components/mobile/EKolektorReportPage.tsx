@@ -16,6 +16,9 @@ type ReportEntry = {
   amount: string;
   date: string;
   time: string;
+  principal?: string;
+  interest?: string;
+  penalty?: string;
 };
 
 const entries: ReportEntry[] = [
@@ -29,6 +32,11 @@ const withdrawalEntries: ReportEntry[] = [
   { name: "Joseph Taylor", account: "4260058", type: "Simpanan Sukarela", amount: "-Rp. 5.000,00", date: "21 Okt 2026", time: "17:59" },
   { name: "Emma Walker", account: "4260059", type: "Simpanan Sukarela", amount: "-Rp. 5.000,00", date: "22 Okt 2026", time: "13:44" },
   { name: "Surya Negara", account: "4260060", type: "Simpanan Sukarela", amount: "-Rp. 5.000,00", date: "21 Okt 2026", time: "15:50" },
+];
+
+const installmentEntries: ReportEntry[] = [
+  { name: "Emma Walker", account: "13260021", type: "PINJAMAN LP\nPERIODIK BERKALA\nTGP", amount: "+Rp. 500.000,00", date: "27 Okt 2026", time: "04:37", principal: "Rp. 395.000,00", interest: "Rp. 100.000,00", penalty: "Rp. 5.000,00" },
+  { name: "Surya Negara", account: "13260022", type: "PINJAMAN LP\nPERIODIK BERKALA\nTGP", amount: "+Rp. 500.000,00", date: "26 Okt 2026", time: "15:50", principal: "Rp. 395.000,00", interest: "Rp. 100.000,00", penalty: "Rp. 5.000,00" },
 ];
 
 const tabs: { id: ReportTab; label: string }[] = [
@@ -109,7 +117,7 @@ export default function EKolektorReportPage({
           {showTotal ? <div className="mt-3 rounded-xl bg-[#eaf1ff] px-4 py-3 text-center text-[15px] font-bold text-[#004FC7]">Total {activeTab}: Rp. 20.000,00</div> : null}
 
           <div className="mt-[28px] space-y-[14px]">
-            {(activeTab === "penarikan" ? withdrawalEntries : entries).map((entry, index) => (
+            {(activeTab === "penarikan" ? withdrawalEntries : activeTab === "angsuran" ? installmentEntries : entries).map((entry, index) => (
               <article
                 key={`${entry.account}-${index}`}
                 role="button"
@@ -121,7 +129,10 @@ export default function EKolektorReportPage({
                     setSelectedEntry({ ...entry, id: `report-${index}` });
                   }
                 }}
-                className="relative h-[135px] min-h-0 cursor-pointer overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)] transition active:scale-[0.99]"
+                className={cn(
+                  "relative min-h-0 cursor-pointer overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)] transition active:scale-[0.99]",
+                  activeTab === "angsuran" ? "h-[360px]" : "h-[135px]",
+                )}
               >
                 <div className="absolute left-0 top-0 flex h-[52px] w-[58px] items-center justify-center rounded-br-[18px] bg-[#303030] text-[21px] font-bold text-white">{index + 1}</div>
                 <div className="flex items-start justify-between gap-2">
@@ -133,7 +144,10 @@ export default function EKolektorReportPage({
                     activeTab === "penarikan" ? "text-[#ef3f4f]" : "text-[#43ad58]",
                   )}>{entry.amount}</div>
                 </div>
-                <div className="mt-[6px] text-[13px] font-semibold leading-tight text-[#a1a1a1]">{entry.type}</div>
+                <div className={cn(
+                  "whitespace-pre-line font-semibold leading-tight",
+                  activeTab === "angsuran" ? "mt-[8px] text-[15px] text-[#a1a1a1]" : "mt-[6px] text-[13px] text-[#a1a1a1]",
+                )}>{entry.type}</div>
                 <div className="absolute right-[13px] top-[49px] text-right text-[12px] font-semibold leading-[1.4] text-[#858585]">{entry.date}<br />{entry.time}</div>
                 <button
                   type="button"
@@ -145,6 +159,13 @@ export default function EKolektorReportPage({
                 >
                   {activeTab === "penarikan" ? "Sudah Diverifikasi" : "Belum Diverifikasi"}
                 </button>
+                {activeTab === "angsuran" ? (
+                  <div className="mt-[23px] grid gap-[11px] text-[14px] font-extrabold leading-tight text-black">
+                    <div><div>Pokok</div><div className="mt-1 text-[19px]">{entry.principal}</div></div>
+                    <div><div>Bunga</div><div className="mt-1 text-[19px]">{entry.interest}</div></div>
+                    <div><div>Denda</div><div className="mt-1 text-[19px]">{entry.penalty}</div></div>
+                  </div>
+                ) : null}
               </article>
             ))}
           </div>
