@@ -305,7 +305,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-white text-black">
+    <div className="relative flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali">
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
