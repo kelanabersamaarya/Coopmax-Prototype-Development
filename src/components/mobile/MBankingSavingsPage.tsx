@@ -7,6 +7,7 @@ import {
   CircleCheck,
   Copy,
   Landmark,
+  MoreVertical,
   Plus,
   ShieldCheck,
   WalletCards,
@@ -297,14 +298,29 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
 }
 
 function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
+  const [showOptions, setShowOptions] = React.useState(false);
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
-      <header className="relative shrink-0 overflow-hidden px-6 pb-8 pt-8 text-white">
+      <header className="relative shrink-0 overflow-visible px-6 pb-8 pt-8 text-white">
         <div className="pointer-events-none absolute -right-2 -top-16 h-[148px] w-[148px] rounded-full bg-white/10" />
         <div className="pointer-events-none absolute right-12 -top-20 h-[154px] w-[154px] rounded-full bg-white/8" />
-        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Kembali">
-          <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
-        </button>
+        <div className="relative z-10 flex items-center justify-between">
+          <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Kembali">
+            <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
+          </button>
+          <div className="relative">
+            <button type="button" onClick={() => setShowOptions((open) => !open)} className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Opsi Static VA" aria-expanded={showOptions}>
+              <MoreVertical className="h-6 w-6" strokeWidth={2.5} />
+            </button>
+            {showOptions && (
+              <div className="absolute right-0 top-11 z-30 w-52 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]">
+                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold transition hover:bg-[#F3F7FF]">Buat Static VA baru</button>
+                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold text-[#D14343] transition hover:bg-[#FFF3F3]">Hapus Static VA</button>
+              </div>
+            )}
+          </div>
+        </div>
         <h1 className="relative z-10 mt-3 text-[26px] font-extrabold leading-tight text-white">Tambah Saldo</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
