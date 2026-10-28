@@ -58,10 +58,10 @@ function SavingsCard({
 
         <div className="relative z-10 flex h-full flex-col">
           <div className="flex items-start justify-between gap-3">
-            <div className="text-[16px] font-extrabold leading-tight tracking-tight">
+            <div className="text-[16px] font-normal leading-tight tracking-tight">
               {account.productName}
             </div>
-            <span className="shrink-0 text-[12px] font-semibold leading-none">
+            <span className="shrink-0 text-[12px] font-normal leading-none">
               Detail &gt;
             </span>
           </div>
@@ -70,7 +70,7 @@ function SavingsCard({
             <div className="text-[10px] font-normal leading-none text-[#678DD8]">
               No Rekening
             </div>
-            <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none">
+            <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
               <span>{account.accountNo}</span>
               <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
             </div>
@@ -90,14 +90,14 @@ function DetailSavingsCard({ accountNo }: { accountNo: string }) {
 
       <div className="relative z-10 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate text-[16px] font-extrabold leading-tight tracking-tight">
+          <div className="truncate text-[16px] font-normal leading-tight tracking-tight">
             Luna Thompson
           </div>
-          <div className="mt-2 text-[12px] font-semibold leading-none">
+          <div className="mt-2 text-[12px] font-normal leading-none">
             {accountNo}
           </div>
         </div>
-        <div className="shrink-0 pt-0.5 text-right text-[12px] font-semibold leading-tight">
+        <div className="shrink-0 pt-0.5 text-right text-[12px] font-normal leading-tight">
           Simpanan Sukarela
         </div>
       </div>
@@ -106,7 +106,7 @@ function DetailSavingsCard({ accountNo }: { accountNo: string }) {
         <div className="text-[10px] font-normal leading-none text-[#678DD8]">
           Saldo
         </div>
-        <div className="mt-2 text-[16px] font-bold leading-tight tracking-[-0.025em]">
+        <div className="mt-2 text-[16px] font-normal leading-tight tracking-[-0.025em]">
           Rp 998,617,479.17
         </div>
       </div>
