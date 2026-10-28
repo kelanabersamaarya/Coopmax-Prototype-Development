@@ -296,7 +296,6 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
     return <StaticVaPreview bankName={selectedBankName} onBack={() => setSelectedBankName(null)} onSave={() => { setSelectedBankName(null); setStaticVaCreated(true); onStaticVaSaved(); setShowSaveSuccess(true); }} />;
   }
 
-
   if (showBankSelection) {
     return <StaticVaBankSelection onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
   }
