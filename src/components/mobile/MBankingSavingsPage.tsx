@@ -299,6 +299,20 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
 
 function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
   const [showOptions, setShowOptions] = React.useState(false);
+  const optionsRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!showOptions) return;
+
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (optionsRef.current && !optionsRef.current.contains(event.target as Node)) {
+        setShowOptions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [showOptions]);
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
@@ -309,7 +323,7 @@ function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Kembali">
             <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
           </button>
-          <div className="relative">
+          <div ref={optionsRef} className="relative">
             <button type="button" onClick={() => setShowOptions((open) => !open)} className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Opsi Static VA" aria-expanded={showOptions}>
               <MoreVertical className="h-6 w-6" strokeWidth={2.5} />
             </button>
