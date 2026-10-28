@@ -34,8 +34,10 @@ const informationItems = [
 ];
 
 export default function MBankingInfoList({
+  onSavingsClick,
   onLoanClick,
 }: {
+  onSavingsClick?: () => void;
   onLoanClick?: () => void;
 }) {
   return (
@@ -50,6 +52,10 @@ export default function MBankingInfoList({
             key={item.title}
             type="button"
             onClick={() => {
+              if (item.title === "Simpanan") {
+                onSavingsClick?.();
+                return;
+              }
               if (item.title === "Pinjaman") {
                 onLoanClick?.();
               }

@@ -6,9 +6,11 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 export default function MBankingInfoPage({
   onBack,
+  onSavingsClick,
   onLoanClick,
 }: {
   onBack: () => void;
+  onSavingsClick?: () => void;
   onLoanClick?: () => void;
 }) {
   return (
@@ -17,7 +19,10 @@ export default function MBankingInfoPage({
 
       <div className="relative z-20 -mt-5 min-h-0 flex-1 overflow-hidden rounded-t-[20px] bg-white">
         <main className="h-full min-h-0 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <MBankingInfoList onLoanClick={onLoanClick} />
+          <MBankingInfoList
+            onSavingsClick={onSavingsClick}
+            onLoanClick={onLoanClick}
+          />
         </main>
       </div>
 

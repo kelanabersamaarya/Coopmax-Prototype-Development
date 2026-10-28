@@ -12,11 +12,12 @@ import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
 import MBankingProfilePage from "@/components/mobile/MBankingProfilePage";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
+import MBankingSavingsPage from "@/components/mobile/MBankingSavingsPage";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
-type MBankingHomeScreen = "home" | "info" | "loan" | "profile";
+type MBankingHomeScreen = "home" | "info" | "loan" | "profile" | "savings";
 
 export default function MBankingHome({
   onLogout,
@@ -88,6 +89,10 @@ export default function MBankingHome({
     return <MBankingProfilePage onBack={() => setScreen("home")} />;
   }
 
+  if (screen === "savings") {
+    return <MBankingSavingsPage onBack={() => setScreen("info")} />;
+  }
+
   if (screen === "loan") {
     return (
       <MBankingLoanPage
@@ -102,6 +107,7 @@ export default function MBankingHome({
     return (
       <MBankingInfoPage
         onBack={() => setScreen("home")}
+        onSavingsClick={() => setScreen("savings")}
         onLoanClick={() => setScreen("loan")}
       />
     );
