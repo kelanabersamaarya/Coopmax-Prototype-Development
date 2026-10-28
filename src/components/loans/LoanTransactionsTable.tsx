@@ -593,7 +593,7 @@ export default function LoanTransactionsTable({
 
   const colW = {
     no: "w-[44px]",
-    noTransaksi: "w-[104px] min-w-[104px]",
+    noTransaksi: "w-[84px] min-w-0",
     rekPinjaman: "w-[96px] min-w-[96px]",
     rekTabungan: "w-[48px] min-w-0",
     idNasabah: "w-[56px] min-w-0",
@@ -800,7 +800,7 @@ export default function LoanTransactionsTable({
                         <button
                           type="button"
                           onClick={() => onPickTransaction?.(r.noTransaksi)}
-                          className="block w-full text-left font-semibold text-blue-600 hover:underline"
+                          className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
                           title="Lihat detail transaksi"
                         >
                           {r.noTransaksi}
