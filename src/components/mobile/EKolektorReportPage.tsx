@@ -160,10 +160,10 @@ export default function EKolektorReportPage({
                   {activeTab === "penarikan" ? "Sudah Diverifikasi" : "Belum Diverifikasi"}
                 </button>
                 {activeTab === "angsuran" ? (
-                  <div className="mt-[23px] grid gap-[11px] text-[14px] font-extrabold leading-tight text-black">
-                    <div><div>Pokok</div><div className="mt-1 text-[19px]">{entry.principal}</div></div>
-                    <div><div>Bunga</div><div className="mt-1 text-[19px]">{entry.interest}</div></div>
-                    <div><div>Denda</div><div className="mt-1 text-[19px]">{entry.penalty}</div></div>
+                  <div className="mt-[20px] grid gap-[8px] text-[13px] font-extrabold leading-tight text-black">
+                    <div><div>Pokok</div><div className="mt-1 text-[16px]">{entry.principal}</div></div>
+                    <div><div>Bunga</div><div className="mt-1 text-[16px]">{entry.interest}</div></div>
+                    <div><div>Denda</div><div className="mt-1 text-[16px]">{entry.penalty}</div></div>
                   </div>
                 ) : null}
               </article>
