@@ -26,26 +26,26 @@ export default function EKolektorDepositReviewPage({
       </header>
 
       <main className="relative z-10 mx-4 flex shrink-0 flex-col rounded-[30px] bg-white px-5 pb-6 pt-7">
-        <div className="grid gap-7">
+        <div className="grid gap-5">
           <section>
-            <div className="text-[16px] font-extrabold text-[#9A9A9A]">Rekening Tujuan</div>
-            <div className="mt-3 flex items-center gap-4">
-              <div className="grid h-[64px] w-[64px] shrink-0 place-items-center rounded-full bg-[#28afd4] text-[36px] text-white">{account.customerName.charAt(0)}</div>
+            <div className="text-[14px] font-extrabold text-[#9A9A9A]">Rekening Tujuan</div>
+            <div className="mt-3 flex items-center gap-3">
+              <div className="grid h-[56px] w-[56px] shrink-0 place-items-center rounded-full bg-[#28afd4] text-[30px] text-white">{account.customerName.charAt(0)}</div>
               <div>
-                <div className="text-[20px] font-extrabold text-[#9A9A9A]">{account.customerName}</div>
-                <div className="mt-1 text-[22px] font-extrabold text-[#203064]">{account.accountNo}</div>
+                <div className="text-[17px] font-extrabold text-[#9A9A9A]">{account.customerName}</div>
+                <div className="mt-1 text-[18px] font-extrabold text-[#203064]">{account.accountNo}</div>
               </div>
             </div>
           </section>
 
           <section>
-            <div className="text-[16px] font-extrabold text-[#9A9A9A]">Jenis Transaksi</div>
-            <div className="mt-2 text-[20px] font-extrabold text-[#203064]">Setoran</div>
+            <div className="text-[14px] font-extrabold text-[#9A9A9A]">Jenis Transaksi</div>
+            <div className="mt-2 text-[17px] font-extrabold text-[#203064]">Setoran</div>
           </section>
 
           <section>
-            <div className="text-[16px] font-extrabold text-[#9A9A9A]">Nominal Transaksi</div>
-            <div className="mt-2 text-[20px] font-extrabold text-[#203064]">Rp.{amount || "0"},00</div>
+            <div className="text-[14px] font-extrabold text-[#9A9A9A]">Nominal Transaksi</div>
+            <div className="mt-2 text-[17px] font-extrabold text-[#203064]">Rp.{amount || "5.000"},00</div>
           </section>
         </div>
 
