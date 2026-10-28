@@ -25,6 +25,12 @@ const entries: ReportEntry[] = [
   { name: "Surya Negara", account: "4260060", type: "Simpanan Sukarela", amount: "+Rp. 5.000,00", date: "21 Okt 2026", time: "15:50" },
 ];
 
+const withdrawalEntries: ReportEntry[] = [
+  { name: "Joseph Taylor", account: "4260058", type: "Simpanan Sukarela", amount: "-Rp. 5.000,00", date: "21 Okt 2026", time: "17:59" },
+  { name: "Emma Walker", account: "4260059", type: "Simpanan Sukarela", amount: "-Rp. 5.000,00", date: "22 Okt 2026", time: "13:44" },
+  { name: "Surya Negara", account: "4260060", type: "Simpanan Sukarela", amount: "-Rp. 5.000,00", date: "21 Okt 2026", time: "15:50" },
+];
+
 const tabs: { id: ReportTab; label: string }[] = [
   { id: "setoran", label: "Setoran" },
   { id: "penarikan", label: "Penarikan" },
@@ -103,7 +109,7 @@ export default function EKolektorReportPage({
           {showTotal ? <div className="mt-3 rounded-xl bg-[#eaf1ff] px-4 py-3 text-center text-[15px] font-bold text-[#004FC7]">Total {activeTab}: Rp. 20.000,00</div> : null}
 
           <div className="mt-[28px] space-y-[14px]">
-            {entries.map((entry, index) => (
+            {(activeTab === "penarikan" ? withdrawalEntries : entries).map((entry, index) => (
               <article
                 key={`${entry.account}-${index}`}
                 role="button"
@@ -122,11 +128,23 @@ export default function EKolektorReportPage({
                   <div className="min-w-0 text-[16px] font-extrabold leading-[1.2] text-black">
                     <div>{entry.name}</div><div>{entry.account}</div>
                   </div>
-                  <div className="shrink-0 text-right text-[16px] font-extrabold leading-[1.18] text-[#43ad58]">{entry.amount}</div>
+                  <div className={cn(
+                    "shrink-0 text-right text-[16px] font-extrabold leading-[1.18]",
+                    activeTab === "penarikan" ? "text-[#ef3f4f]" : "text-[#43ad58]",
+                  )}>{entry.amount}</div>
                 </div>
                 <div className="mt-[6px] text-[13px] font-semibold leading-tight text-[#a1a1a1]">{entry.type}</div>
                 <div className="absolute right-[13px] top-[49px] text-right text-[12px] font-semibold leading-[1.4] text-[#858585]">{entry.date}<br />{entry.time}</div>
-                <button type="button" className="mt-[11px] rounded-full bg-[#f3bf2e] px-[18px] py-[7px] text-[12px] font-extrabold text-white">Belum Diverifikasi</button>
+                <button
+                  type="button"
+                  onClick={(event) => event.stopPropagation()}
+                  className={cn(
+                    "mt-[11px] rounded-full px-[18px] py-[7px] text-[12px] font-extrabold text-white",
+                    activeTab === "penarikan" ? "bg-[#43ad58]" : "bg-[#f3bf2e]",
+                  )}
+                >
+                  {activeTab === "penarikan" ? "Sudah Diverifikasi" : "Belum Diverifikasi"}
+                </button>
               </article>
             ))}
           </div>
