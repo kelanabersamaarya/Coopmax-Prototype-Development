@@ -238,6 +238,7 @@ function StaticVaBankSelection({ onBack, onContinue }: { onBack: () => void; onC
 
 function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBack: () => void; onSave: () => void }) {
   const [showSaveConfirmation, setShowSaveConfirmation] = React.useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
@@ -275,9 +276,19 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
             <h2 id="save-va-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Simpan Static VA?</h2>
             <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA dari {bankName} akan disimpan ke rekening Simpanan Anda.</p>
             <div className="mt-6 grid gap-3">
-              <button type="button" onClick={onSave} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">Ya, Simpan</button>
+              <button type="button" onClick={() => { setShowSaveConfirmation(false); setShowSaveSuccess(true); }} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">Ya, Simpan</button>
               <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 rounded-[14px] border-2 border-[#D1D5DB] bg-white text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
             </div>
+          </div>
+        </div>
+      )}
+      {showSaveSuccess && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#172554]/35 px-4" role="presentation">
+          <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="preview-save-success-title">
+            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
+            <h2 id="preview-save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Disimpan</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil disimpan ke rekening Simpanan Anda.</p>
+            <button type="button" onClick={() => { setShowSaveSuccess(false); onSave(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">OK</button>
           </div>
         </div>
       )}
