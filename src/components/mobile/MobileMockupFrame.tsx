@@ -60,7 +60,7 @@ export default function MobileMockupFrame({
 
         <div
           data-mobile-screen="true"
-          className="h-full min-h-0 w-full overflow-hidden bg-white"
+          className="relative h-full min-h-0 w-full overflow-hidden bg-white"
         >
           <div className="h-full overflow-y-auto overscroll-contain bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {content}
