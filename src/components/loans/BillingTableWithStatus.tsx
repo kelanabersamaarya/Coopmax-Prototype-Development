@@ -191,7 +191,9 @@ function TotalRow({
 {formatIdrLike(values.sisaBunga)}
 </td>
 <td className={cn(cellClass, "whitespace-nowrap", dendaClassName)}>
+<span className={mobileLayout ? "relative left-4 whitespace-nowrap" : "whitespace-nowrap"}>
 {formatIdrLike(values.denda)}
+</span>
 </td>
       <td className="border-t border-slate-200 px-4 py-2" />
     </tr>
