@@ -11,7 +11,7 @@ const schedules = [
   { product: "SIMPEDA - BANK BPD BALI", period: "Bulan Berikutnya", interestNext: "21-11-2026 03:00:00", adminNext: "21-11-2026 20:00:00", mobileAdminNext: "21-11-2026 20:00:00", status: "Aktif" },
   { product: "Simpanan Wajib", period: "Bulan Berlangsung", interestNext: "21-11-2026 20:00:00", adminNext: "21-11-2026 20:00:00", mobileAdminNext: "21-11-2026 20:00:00", status: "Aktif" },
   { product: "Simpanan Sukarela - Penampung Pendapatan Bunga", period: "Bulan Berlangsung", interestNext: "19-11-2026 00:00:00", adminNext: "21-11-2026 20:00:00", mobileAdminNext: "21-11-2026 20:00:00", status: "Aktif" },
-  { product: "Simpanan Pokok", period: "Bulan Berlangsung", interestNext: "01-11-2026 03:00:00", adminNext: "21-11-2026 20:00:00", mobileAdminNext: "21-11-2026 20:00:00", status: "Aktif" },
+  { product: "Simpanan Pokok", period: "Bulan Berlangsung", interestNext: "01-11-2026 03:00:00", adminNext: "Belum Diatur", mobileAdminNext: "Belum Diatur", status: "Aktif" },
 ];
 const products = ["Semua", ...new Set(schedules.map((item) => item.product))];
 const periods = ["Semua", ...new Set(schedules.map((item) => item.period))];
