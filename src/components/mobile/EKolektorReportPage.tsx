@@ -99,7 +99,7 @@ export default function EKolektorReportPage({
 
           {showTotal ? <div className="mt-3 rounded-xl bg-[#eaf1ff] px-4 py-3 text-center text-[15px] font-bold text-[#004FC7]">Total {activeTab}: Rp. 20.000,00</div> : null}
 
-          <div className="mt-[28px] space-y-[25px]">
+          <div className="mt-[28px] space-y-[14px]">
             {entries.map((entry, index) => (
               <article key={`${entry.account}-${index}`} className="relative h-[135px] min-h-0 overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)]">
                 <div className="absolute left-0 top-0 flex h-[52px] w-[58px] items-center justify-center rounded-br-[18px] bg-[#303030] text-[21px] font-bold text-white">{index + 1}</div>
