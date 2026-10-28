@@ -315,8 +315,8 @@ function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
             </button>
             {showOptions && (
               <div className="absolute right-0 top-11 z-30 w-52 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]">
-                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold transition hover:bg-[#F3F7FF]">Buat Static VA baru</button>
-                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold text-[#D14343] transition hover:bg-[#FFF3F3]">Hapus Static VA</button>
+                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold text-[#26365F] transition hover:bg-[#F3F7FF]">Buat Static VA baru</button>
+                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold text-[#26365F] transition hover:bg-[#F3F7FF]">Hapus Static VA</button>
               </div>
             )}
           </div>
