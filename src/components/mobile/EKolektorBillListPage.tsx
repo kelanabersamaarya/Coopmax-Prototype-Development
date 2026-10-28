@@ -245,7 +245,7 @@ export default function EKolektorBillListPage({
                 allRows={rowsForAccount}
                 showGraceHighlight={showGraceHighlight}
                 showGraceInfo={showGraceHighlight}
-                showPageTotal={showPageTotal}
+                showPageTotal={showPageTotal && accountNo !== "7260175"}
                 penaltyIndexOffset={(page - 1) * pageSize}
                 showPenaltyDetailAction={false}
                 compactStatusColumn
