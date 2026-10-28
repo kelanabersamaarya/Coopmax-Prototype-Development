@@ -13,7 +13,7 @@ export default function EKolektorTransactionTypeSheet({
     <div className="absolute inset-0 z-[100] bg-black/45">
       <button type="button" aria-label="Tutup jenis transaksi" className="absolute inset-0 cursor-default" onClick={onClose} />
       <section className="absolute inset-x-0 bottom-0 rounded-t-[24px] bg-white px-[16px] pb-[20px] pt-[12px] shadow-[0_-8px_30px_rgba(15,23,42,0.2)]">
-        <div className="mx-auto h-[4px] w-[40px] rounded-full bg-[#28afd4]" />
+        <div className="mx-auto h-[4px] w-[40px] rounded-full bg-[#004FC7]" />
         <div className="mt-[9px] flex items-center justify-between">
           <h2 className="text-[18px] font-extrabold tracking-tight text-[#203064]">Jenis Transaksi</h2>
           <button type="button" onClick={onClose} aria-label="Tutup" className="rounded-full p-1 text-[#9a9a9a] transition hover:bg-slate-100">
