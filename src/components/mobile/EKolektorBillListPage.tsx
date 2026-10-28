@@ -171,11 +171,13 @@ export default function EKolektorBillListPage({
   onBack,
   showSpecialNextBillInfo = true,
   singleBillWithNextInfo = false,
+  showPageTotal = true,
 }: {
   accountNo?: string;
   onBack: () => void;
   showSpecialNextBillInfo?: boolean;
   singleBillWithNextInfo?: boolean;
+  showPageTotal?: boolean;
 }) {
   const pageSize = 9;
   const [page, setPage] = React.useState(1);
@@ -243,6 +245,7 @@ export default function EKolektorBillListPage({
                 allRows={rowsForAccount}
                 showGraceHighlight={showGraceHighlight}
                 showGraceInfo={showGraceHighlight}
+                showPageTotal={showPageTotal}
                 penaltyIndexOffset={(page - 1) * pageSize}
                 showPenaltyDetailAction={false}
                 compactStatusColumn

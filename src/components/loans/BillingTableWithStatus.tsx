@@ -334,6 +334,7 @@ export default function BillingTableWithStatus({
   showGraceInfo = true,
   penaltyIndexOffset = 0,
   showPenaltyDetailAction = true,
+  showPageTotal = true,
   allRows,
   className,
   compactStatusColumn = false,
@@ -344,6 +345,7 @@ export default function BillingTableWithStatus({
   showGraceInfo?: boolean;
   penaltyIndexOffset?: number;
   showPenaltyDetailAction?: boolean;
+  showPageTotal?: boolean;
   allRows?: BillingRow[];
   className?: string;
   compactStatusColumn?: boolean;
@@ -629,12 +631,14 @@ export default function BillingTableWithStatus({
               )}
             </tbody>
             <tfoot>
-              <TotalRow
-                label="Total per Halaman"
-                values={pageTotals}
-                dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
-                layout={layout}
-              />
+              {showPageTotal ? (
+                <TotalRow
+                  label="Total per Halaman"
+                  values={pageTotals}
+                  dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
+                  layout={layout}
+                />
+              ) : null}
               <TotalRow
                 label="Total Keseluruhan"
                 values={grandTotals}

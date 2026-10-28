@@ -153,6 +153,7 @@ export default function MBankingLoanDetailPage({
         accountNo={loan.accountNo}
         showSpecialNextBillInfo={false}
         singleBillWithNextInfo={isSecondOrThirdLoan}
+        showPageTotal={loan.accountNo !== "12260006"}
         onBack={() => setShowBillList(false)}
       />
     );
