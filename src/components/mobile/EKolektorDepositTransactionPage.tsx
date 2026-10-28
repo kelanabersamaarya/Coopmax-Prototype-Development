@@ -18,16 +18,18 @@ function formatAmount(value: string) {
 export default function EKolektorDepositTransactionPage({
   account,
   onBack,
+  onDoneHome,
 }: {
   account: EKolektorDepositAccount;
   onBack: () => void;
+  onDoneHome: () => void;
 }) {
   const [amount, setAmount] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
   const quickAmounts = ["5.000", "10.000", "15.000", "20.000"];
 
   if (showReview) {
-    return <EKolektorDepositReviewPage account={account} amount={amount} onBack={() => setShowReview(false)} />;
+    return <EKolektorDepositReviewPage account={account} amount={amount} onBack={() => setShowReview(false)} onDoneHome={onDoneHome} />;
   }
 
   return (

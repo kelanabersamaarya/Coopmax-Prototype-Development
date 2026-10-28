@@ -30,7 +30,7 @@ export default function EKolektorTransactions({
   const [selectedDepositAccount, setSelectedDepositAccount] = React.useState<DepositAccount | null>(null);
 
   if (screen === "deposit-transaction" && selectedDepositAccount) {
-    return <EKolektorDepositTransactionPage account={selectedDepositAccount} onBack={() => setScreen("list")} />;
+    return <EKolektorDepositTransactionPage account={selectedDepositAccount} onBack={() => setScreen("list")} onDoneHome={onBackHome} />;
   }
 
   if (screen === "loan-transaction") {

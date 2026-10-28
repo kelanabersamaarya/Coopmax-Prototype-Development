@@ -9,15 +9,17 @@ export default function EKolektorDepositReviewPage({
   account,
   amount,
   onBack,
+  onDoneHome,
 }: {
   account: EKolektorDepositAccount;
   amount: string;
   onBack: () => void;
+  onDoneHome: () => void;
 }) {
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   if (showSuccess) {
-    return <EKolektorDepositSuccessPage account={account} amount={amount} onBack={onBack} />;
+    return <EKolektorDepositSuccessPage account={account} amount={amount} onBack={onBack} onDoneHome={onDoneHome} />;
   }
 
   return (

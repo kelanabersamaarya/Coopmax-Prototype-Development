@@ -7,10 +7,12 @@ export default function EKolektorDepositSuccessPage({
   account,
   amount,
   onBack,
+  onDoneHome,
 }: {
   account: EKolektorDepositAccount;
   amount: string;
   onBack: () => void;
+  onDoneHome: () => void;
 }) {
   return (
     <div className="relative flex h-full min-h-0 flex-col overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -51,7 +53,7 @@ export default function EKolektorDepositSuccessPage({
         <div className="mt-7 grid gap-2.5">
           <button type="button" className="h-[44px] w-full rounded-full border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7] transition hover:bg-[#F4F8FF] active:translate-y-px">Cetak Bukti</button>
           <button type="button" className="h-[44px] w-full rounded-full border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7] transition hover:bg-[#F4F8FF] active:translate-y-px">Bagikan</button>
-          <button type="button" onClick={onBack} className="h-[44px] w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white transition hover:bg-[#0046B3] active:translate-y-px">Kembali</button>
+          <button type="button" onClick={onDoneHome} className="h-[44px] w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white transition hover:bg-[#0046B3] active:translate-y-px">Kembali</button>
         </div>
       </main>
     </div>
