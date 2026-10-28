@@ -590,7 +590,7 @@ export default function BillingTableView2({
             </>
           )}
         </td>
-        <td className={totalCellClass}><span className="relative left-3 whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
+        <td className={totalCellClass}><span className="relative -left-1 whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
         <td className="border-t border-[#CDD4E0] py-2 pl-4 pr-0 text-right text-[12px] font-bold tabular-nums text-slate-800"><span className="whitespace-nowrap">{formatRupiah(values.tagihanPokok)}</span></td>
         <td className={totalCellClass}><span className="relative -left-1 whitespace-nowrap">{formatRupiah(values.tagihanBunga)}</span></td>
         <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
