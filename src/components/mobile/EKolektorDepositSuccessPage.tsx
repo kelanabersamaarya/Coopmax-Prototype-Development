@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ArrowLeft, Zap, MessageCircle, Mail, Send, X } from "lucide-react";
+import { Check, ArrowLeft, Zap, MessageCircle, Mail, Send } from "lucide-react";
 import type { EKolektorDepositAccount } from "@/components/mobile/EKolektorDepositTransactionPage";
 
 export default function EKolektorDepositSuccessPage({
@@ -79,7 +79,6 @@ export default function EKolektorDepositSuccessPage({
               <button type="button" className="flex flex-col items-center gap-2"><span className="grid h-14 w-14 place-items-center rounded-full bg-[#EF3C32] text-white"><Mail className="h-7 w-7" /></span>Gmail</button>
               <button type="button" className="flex flex-col items-center gap-2"><span className="grid h-14 w-14 place-items-center rounded-full bg-[#32A7E8] text-white"><Send className="h-7 w-7" /></span>Telegram</button>
             </div>
-            <button type="button" onClick={() => setShowShare(false)} aria-label="Tutup" className="absolute right-3 top-3 rounded-full p-1 text-[#888]"><X className="h-5 w-5" /></button>
           </section>
         </div>
       ) : null}
