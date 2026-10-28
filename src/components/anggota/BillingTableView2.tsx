@@ -571,7 +571,10 @@ export default function BillingTableView2({
       denda: number;
     };
   }) {
-    const totalCellClass = "border-t border-[#CDD4E0] px-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
+    const totalCellClass = cn(
+      "border-t border-[#CDD4E0] py-2 text-right text-[12px] font-bold tabular-nums text-slate-800",
+      layout === "loan-dialog" ? "px-1" : "px-4",
+    );
     const penaltyTotalCellClass = "border-t border-[#CDD4E0] pr-1 pl-4 py-2 text-right text-[12px] font-bold tabular-nums text-slate-800";
     return (
       <tr className="bg-white">
@@ -590,9 +593,9 @@ export default function BillingTableView2({
             </>
           )}
         </td>
-        <td className={totalCellClass}><span className="relative -left-1 whitespace-nowrap">{formatRupiah(values.totalBelumDibayar)}</span></td>
-        <td className="border-t border-[#CDD4E0] py-2 pl-4 pr-0 text-right text-[12px] font-bold tabular-nums text-slate-800"><span className="whitespace-nowrap">{formatRupiah(values.tagihanPokok)}</span></td>
-        <td className={totalCellClass}><span className="relative -left-1 whitespace-nowrap">{formatRupiah(values.tagihanBunga)}</span></td>
+        <td className={totalCellClass}><span className={cn("whitespace-nowrap", layout === "loan-dialog" ? "relative left-1" : "relative -left-1")}>{formatRupiah(values.totalBelumDibayar)}</span></td>
+        <td className={cn("border-t border-[#CDD4E0] py-2 text-right text-[12px] font-bold tabular-nums text-slate-800", layout === "loan-dialog" ? "px-1" : "pl-4 pr-0")}><span className="whitespace-nowrap">{formatRupiah(values.tagihanPokok)}</span></td>
+        <td className={totalCellClass}><span className={cn("whitespace-nowrap", layout === "loan-dialog" ? "relative left-1" : "relative -left-1")}>{formatRupiah(values.tagihanBunga)}</span></td>
         <td className={totalCellClass}>{formatRupiah(values.sisaPokok)}</td>
         <td className={totalCellClass}>{formatRupiah(values.sisaBunga)}</td>
         {showPenaltyColumn ? <td className={penaltyTotalCellClass}>{formatRupiah(values.denda)}</td> : null}
