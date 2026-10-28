@@ -338,10 +338,21 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   );
 }
 
+const staticVaStorageKey = "mbanking-savings-static-va-4260054";
+
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
-  const [hasStaticVa, setHasStaticVa] = React.useState(false);
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === "4260054" && hasStaticVa} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => { if (selectedAccount === "4260054") setHasStaticVa(true); }} />;
+  const [hasStaticVa, setHasStaticVa] = React.useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem(staticVaStorageKey) === "true";
+  });
+
+  const handleStaticVaSaved = () => {
+    setHasStaticVa(true);
+    window.localStorage.setItem(staticVaStorageKey, "true");
+  };
+
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === "4260054" && hasStaticVa} onBack={() => setSelectedAccount(null)} onStaticVaSaved={handleStaticVaSaved} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
