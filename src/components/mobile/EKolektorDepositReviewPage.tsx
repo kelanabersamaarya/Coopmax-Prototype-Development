@@ -25,7 +25,7 @@ export default function EKolektorDepositReviewPage({
         <h1 className="text-[28px] font-extrabold leading-none tracking-tight">Review</h1>
       </header>
 
-      <main className="relative z-10 mx-4 flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-5 pb-6 pt-7 shadow-[0_5px_16px_rgba(15,23,42,0.15)]">
+      <main className="relative z-10 mx-4 flex shrink-0 flex-col rounded-t-[30px] bg-white px-5 pb-6 pt-7 shadow-[0_5px_16px_rgba(15,23,42,0.15)]">
         <div className="grid gap-7">
           <section>
             <div className="text-[16px] font-extrabold text-[#9A9A9A]">Rekening Tujuan</div>
@@ -49,7 +49,7 @@ export default function EKolektorDepositReviewPage({
           </section>
         </div>
 
-        <div className="mt-auto pt-8">
+        <div className="pt-8">
           <button type="button" className="h-[48px] w-full rounded-full bg-[#004FC7] text-[15px] font-semibold text-white shadow-[0_4px_10px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px">Kirim</button>
         </div>
       </main>
