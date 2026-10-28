@@ -67,7 +67,7 @@ function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccoun
             {hasStaticVa && (
               <div className="mt-4">
                 <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Static VA</div>
-                <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
+                <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
                   <span>88084260540</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                 </div>
