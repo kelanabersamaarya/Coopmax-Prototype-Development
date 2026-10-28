@@ -1,6 +1,6 @@
 "use client";
 
-import { BanknoteArrowDown, BanknoteArrowUp, X } from "lucide-react";
+import { ArrowDown, ArrowUp, X } from "lucide-react";
 
 export default function EKolektorTransactionTypeSheet({
   onClose,
@@ -22,11 +22,11 @@ export default function EKolektorTransactionTypeSheet({
         </div>
         <div className="mt-[28px] grid grid-cols-2 gap-[18px]">
           <button type="button" onClick={() => onSelect("setoran")} className="flex h-[205px] flex-col items-center justify-center rounded-[27px] bg-[#e8e8e8] text-[#203064] transition active:scale-[0.98]">
-            <BanknoteArrowDown className="h-[58px] w-[58px] text-[#28afd4]" strokeWidth={2.2} />
+            <ArrowDown className="h-[58px] w-[58px] text-[#28afd4]" strokeWidth={2.2} />
             <span className="mt-[18px] text-[21px] font-extrabold">Setoran</span>
           </button>
           <button type="button" onClick={() => onSelect("penarikan")} className="flex h-[205px] flex-col items-center justify-center rounded-[27px] bg-[#e8e8e8] text-[#203064] transition active:scale-[0.98]">
-            <BanknoteArrowUp className="h-[58px] w-[58px] text-[#28afd4]" strokeWidth={2.2} />
+            <ArrowUp className="h-[58px] w-[58px] text-[#28afd4]" strokeWidth={2.2} />
             <span className="mt-[18px] text-[21px] font-extrabold">Penarikan</span>
           </button>
         </div>
