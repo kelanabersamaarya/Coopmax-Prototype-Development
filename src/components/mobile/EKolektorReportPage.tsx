@@ -47,9 +47,9 @@ export default function EKolektorReportPage({
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
       <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="relative h-[215px] overflow-hidden bg-[#27afd4] px-[34px] pt-[6px] text-white">
-          <div className="pointer-events-none absolute -right-[52px] -top-[62px] h-[190px] w-[280px] rounded-full bg-[#69c8e4]/55" />
-          <div className="pointer-events-none absolute -right-[96px] top-[90px] h-[190px] w-[210px] rounded-full border-[25px] border-[#7bd1e8]/45" />
+        <header className="relative h-[215px] overflow-hidden bg-[#004FC7] px-[34px] pt-[6px] text-white">
+          <div className="pointer-events-none absolute -right-[52px] -top-[62px] h-[190px] w-[280px] rounded-full bg-[#004FC7]/35" />
+          <div className="pointer-events-none absolute -right-[96px] top-[90px] h-[190px] w-[210px] rounded-full border-[25px] border-[#004FC7]/30" />
           <h1 className="relative text-[26px] font-extrabold leading-tight tracking-[-1px]">Laporan</h1>
           <div className="relative -mx-[34px] mt-[29px] flex gap-[14px] overflow-hidden px-[34px] pb-1">
             {tabs.map((tab) => (
@@ -59,7 +59,7 @@ export default function EKolektorReportPage({
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
                   "shrink-0 rounded-full px-[21px] py-[11px] text-[17px] font-extrabold leading-none transition",
-                  activeTab === tab.id ? "bg-white text-[#2aaed3] shadow-sm" : "text-white hover:bg-white/10",
+                  activeTab === tab.id ? "bg-white text-[#004FC7] shadow-sm" : "text-white hover:bg-white/10",
                 )}
               >
                 {tab.label}
@@ -94,10 +94,10 @@ export default function EKolektorReportPage({
                 </div>
               ) : null}
             </div>
-            <button type="button" onClick={() => setShowTotal((visible) => !visible)} className="h-[58px] shrink-0 rounded-full bg-[#28afd4] px-[16px] text-[15px] font-medium text-white shadow-sm transition active:scale-[0.98]">Lihat Total &gt;</button>
+            <button type="button" onClick={() => setShowTotal((visible) => !visible)} className="h-[58px] shrink-0 rounded-full bg-[#004FC7] px-[16px] text-[15px] font-medium text-white shadow-sm transition active:scale-[0.98]">Lihat Total &gt;</button>
           </div>
 
-          {showTotal ? <div className="mt-3 rounded-xl bg-[#e9f8fc] px-4 py-3 text-center text-[15px] font-bold text-[#168eaf]">Total {activeTab}: Rp. 20.000,00</div> : null}
+          {showTotal ? <div className="mt-3 rounded-xl bg-[#eaf1ff] px-4 py-3 text-center text-[15px] font-bold text-[#004FC7]">Total {activeTab}: Rp. 20.000,00</div> : null}
 
           <div className="mt-[28px] space-y-[25px]">
             {entries.map((entry, index) => (
