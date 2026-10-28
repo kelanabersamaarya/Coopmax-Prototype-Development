@@ -68,7 +68,7 @@ export default function EKolektorReportPage({
           </div>
         </header>
 
-        <main className="relative -mt-[1px] rounded-t-[30px] bg-white px-[30px] pb-8 pt-[31px] shadow-[0_-4px_18px_rgba(0,0,0,0.04)]">
+        <main className="relative rounded-t-[30px] bg-white px-[30px] pb-8 pt-[31px]">
           <div className="flex h-[68px] items-center rounded-[13px] bg-[#f1f1f1] px-[14px] text-[#364463]">
             <button type="button" className="flex min-w-0 flex-1 items-center justify-between text-left text-[15px] leading-[1.3]" onClick={() => setShowTotal(false)}>
               <span>28 Sep<br />2026</span><ChevronDown className="h-4 w-4 shrink-0 text-[#222]" />
