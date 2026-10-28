@@ -417,7 +417,7 @@ export default function BillingTableWithStatus({
       />
 
       <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
-        <div className="safe-x-scroll w-full">
+        <div className={cn("safe-x-scroll w-full", layout === "loan-dialog" && "overflow-hidden rounded-[12px] border border-slate-300 bg-white")}>
           <table className={cn("w-full max-w-none table-fixed border-collapse text-[13px] [&_tbody>tr]:border-b [&_tbody>tr]:border-slate-200", tableMinWidthClass)}>
             <colgroup>
               <col className={dialogLayout ? "w-[72px]" : "w-[105px]"} />
