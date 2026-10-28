@@ -140,6 +140,7 @@ function TotalRow({
   label,
   values,
   dendaClassName,
+  layout,
 }: {
   label: string;
   values: {
@@ -151,7 +152,9 @@ function TotalRow({
     denda: number;
   };
   dendaClassName?: string;
+  layout?: "default" | "loan-dialog" | "mobile";
 }) {
+  const mobileLayout = layout === "mobile";
   const cellClass = "border-t border-slate-200 px-4 py-2 text-right text-[13px] font-bold tabular-nums text-slate-800 whitespace-nowrap";
   return (
     <tr className="bg-white">
@@ -182,7 +185,7 @@ function TotalRow({
 <span className="relative left-4 whitespace-nowrap">{formatIdrLike(values.tagihanBunga)}</span>
 </td>
 <td className={cellClass}>
-{formatIdrLike(values.sisaPokok)}
+<span className={mobileLayout ? "relative left-4" : undefined}>{formatIdrLike(values.sisaPokok)}</span>
 </td>
 <td className={cellClass}>
 {formatIdrLike(values.sisaBunga)}
@@ -633,11 +636,13 @@ export default function BillingTableWithStatus({
                 label="Total Tagihan per Halaman"
                 values={pageTotals}
                 dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
+                layout={layout}
               />
               <TotalRow
                 label="Total Tagihan Keseluruhan"
                 values={grandTotals}
                 dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
+                layout={layout}
               />
             </tfoot>
           </table>
