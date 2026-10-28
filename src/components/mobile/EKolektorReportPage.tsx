@@ -46,7 +46,7 @@ export default function EKolektorReportPage({
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
-      <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <header className="relative h-[183px] overflow-hidden bg-[#004FC7] px-[34px] pt-[5px] text-white">
           <div className="pointer-events-none absolute -right-[52px] -top-[62px] h-[160px] w-[240px] rounded-full bg-[#004FC7]/35" />
           <div className="pointer-events-none absolute -right-[96px] top-[70px] h-[155px] w-[180px] rounded-full border-[21px] border-[#004FC7]/30" />
@@ -68,7 +68,7 @@ export default function EKolektorReportPage({
           </div>
         </header>
 
-        <main className="relative rounded-t-[30px] bg-white px-[30px] pb-8 pt-[31px]">
+        <main className="relative z-10 -mt-[30px] min-h-[calc(100%+30px)] rounded-t-[30px] bg-white px-[30px] pb-8 pt-[31px]">
           <div className="flex h-[68px] items-center rounded-[13px] bg-[#f1f1f1] px-[14px] text-[#364463]">
             <button type="button" className="flex min-w-0 flex-1 items-center justify-between text-left text-[15px] leading-[1.3]" onClick={() => setShowTotal(false)}>
               <span>28 Sep<br />2026</span><ChevronDown className="h-4 w-4 shrink-0 text-[#222]" />
