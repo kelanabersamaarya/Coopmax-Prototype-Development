@@ -47,11 +47,11 @@ export default function EKolektorReportPage({
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="relative h-[183px] overflow-hidden bg-[#004FC7] px-[34px] pt-[5px] text-white">
+        <header className="relative h-[183px] overflow-hidden bg-[#004FC7] px-[34px] pt-[14px] text-white">
           <div className="pointer-events-none absolute -right-[52px] -top-[62px] h-[160px] w-[240px] rounded-full bg-[#004FC7]/35" />
           <div className="pointer-events-none absolute -right-[96px] top-[70px] h-[155px] w-[180px] rounded-full border-[21px] border-[#004FC7]/30" />
           <h1 className="relative text-[24px] font-extrabold leading-tight tracking-[-1px]">Laporan</h1>
-          <div className="relative -mx-[34px] mt-[22px] flex gap-[14px] overflow-hidden px-[34px] pb-1">
+          <div className="relative -mx-[34px] mt-[25px] flex gap-[14px] overflow-hidden px-[34px] pb-1">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
