@@ -81,7 +81,7 @@ export default function EKolektorReportPage({
 
           <div className="mt-[34px] flex items-center gap-[14px]">
             <div className="relative min-w-0 flex-1">
-              <button type="button" onClick={() => setProductOpen((open) => !open)} className="flex h-[64px] w-full items-center justify-between rounded-[11px] bg-[#f1f1f1] px-[16px] text-left text-[15px] text-[#929292]">
+              <button type="button" onClick={() => setProductOpen((open) => !open)} className="flex h-[54px] w-full items-center justify-between rounded-[10px] bg-[#f1f1f1] px-[16px] text-left text-[14px] text-[#929292]">
                 <span className="truncate">{product}</span><ChevronDown className="h-6 w-6 shrink-0 text-[#858585]" />
               </button>
               {productOpen ? (
@@ -94,7 +94,7 @@ export default function EKolektorReportPage({
                 </div>
               ) : null}
             </div>
-            <button type="button" onClick={() => setShowTotal((visible) => !visible)} className="h-[50px] shrink-0 rounded-full bg-[#004FC7] px-[16px] text-[14px] font-medium text-white shadow-sm transition active:scale-[0.98]">Lihat Total &gt;</button>
+            <button type="button" onClick={() => setShowTotal((visible) => !visible)} className="h-[44px] shrink-0 rounded-full bg-[#004FC7] px-[16px] text-[13px] font-medium text-white shadow-sm transition active:scale-[0.98]">Lihat Total &gt;</button>
           </div>
 
           {showTotal ? <div className="mt-3 rounded-xl bg-[#eaf1ff] px-4 py-3 text-center text-[15px] font-bold text-[#004FC7]">Total {activeTab}: Rp. 20.000,00</div> : null}
