@@ -101,7 +101,7 @@ export default function EKolektorReportPage({
 
           <div className="mt-[28px] space-y-[25px]">
             {entries.map((entry, index) => (
-              <article key={`${entry.account}-${index}`} className="relative min-h-[155px] overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)]">
+              <article key={`${entry.account}-${index}`} className="relative h-[135px] min-h-0 overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white pl-[70px] pr-[13px] pt-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.16)]">
                 <div className="absolute left-0 top-0 flex h-[52px] w-[58px] items-center justify-center rounded-br-[18px] bg-[#303030] text-[21px] font-bold text-white">{index + 1}</div>
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 text-[16px] font-extrabold leading-[1.2] text-black">
