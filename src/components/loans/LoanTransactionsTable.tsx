@@ -595,7 +595,7 @@ export default function LoanTransactionsTable({
     no: "w-[44px]",
     noTransaksi: "w-[64px] min-w-0 max-w-[64px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
-    rekTabungan: "w-[48px] min-w-0",
+    rekTabungan: "w-[24px] min-w-0 max-w-[24px]",
     idNasabah: "w-[56px] min-w-0",
     namaNasabah: "w-[64px] min-w-0",
     namaKolektor: "w-[96px] min-w-[96px]",
@@ -699,7 +699,7 @@ export default function LoanTransactionsTable({
                       className={filterInputCls}
                     />
                   </th>
-                  <th className={filterRowCellPad}>
+                  <th className={cn(filterRowCellPad, "min-w-0 max-w-[24px]")}>
                     <Input
                       value={qRekTabungan}
                       onChange={(e) => setQRekTabungan(e.target.value)}
