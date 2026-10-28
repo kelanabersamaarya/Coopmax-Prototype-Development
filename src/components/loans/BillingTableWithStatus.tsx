@@ -213,7 +213,7 @@ function Td({
         "px-4 py-3 text-[13px] font-normal text-slate-900",
         "border-b-0",
         align === "right"
-          ? "translate-x-2 text-right tabular-nums whitespace-nowrap"
+          ? "text-right tabular-nums whitespace-nowrap"
           : "text-left",
         className,
       )}
