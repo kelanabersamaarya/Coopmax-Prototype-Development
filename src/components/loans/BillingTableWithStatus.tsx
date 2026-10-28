@@ -158,16 +158,14 @@ function TotalRow({
   return (
     <tr className="bg-white">
       <td className="border-t border-slate-200 px-4 py-2 text-left text-[13px] font-bold leading-tight text-slate-800">
-        {label === "Total Tagihan per Halaman" ? (
+        {label === "Total per Halaman" ? (
           <>
-            <span className="block whitespace-nowrap">Total</span>
-            <span className="block whitespace-nowrap">Tagihan per</span>
+            <span className="block whitespace-nowrap">Total per</span>
             <span className="block whitespace-nowrap">Halaman</span>
           </>
         ) : (
           <>
             <span className="block whitespace-nowrap">Total</span>
-            <span className="block whitespace-nowrap">Tagihan</span>
             <span className="block whitespace-nowrap">Keseluruhan</span>
           </>
         )}
@@ -632,13 +630,13 @@ export default function BillingTableWithStatus({
             </tbody>
             <tfoot>
               <TotalRow
-                label="Total Tagihan per Halaman"
+                label="Total per Halaman"
                 values={pageTotals}
                 dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
                 layout={layout}
               />
               <TotalRow
-                label="Total Tagihan Keseluruhan"
+                label="Total Keseluruhan"
                 values={grandTotals}
                 dendaClassName={compactStatusColumn ? "translate-x-3" : undefined}
                 layout={layout}
