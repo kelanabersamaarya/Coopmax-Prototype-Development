@@ -11,6 +11,7 @@ export default function EKolektorTodayHistorySection({
   onSelectTransaction?: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const hasTransactions = transactions.length > 0;
+  const sampleTransaction: EKolektorTodayTransaction = { id: "sample-simpanan-sukarela", customerName: "Surya Negara", accountNo: "4260060", transactionType: "Simpanan Sukarela", amount: "Rp. 50.000,00", date: "28 Okt 2026", time: "11:29" };
 
   return (
     <section className="mt-[22px] flex min-h-[260px] w-full flex-1 flex-col rounded-t-[34px] bg-[#F4F4F4] px-5 pb-10 pt-7">
@@ -20,18 +21,19 @@ export default function EKolektorTodayHistorySection({
         </h2>
       </div>
 
-      {hasTransactions ? (
-        <div className="mt-5 grid gap-3">
-          {transactions.map((transaction) => (
-            <EKolektorTodayHistoryItem
-              key={transaction.id}
-              transaction={transaction}
-              onClick={() => onSelectTransaction?.(transaction)}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-7 flex flex-1 flex-col items-center">
+      <div className="mt-5 grid gap-3">
+        {transactions.map((transaction) => (
+          <EKolektorTodayHistoryItem
+            key={transaction.id}
+            transaction={transaction}
+            onClick={() => onSelectTransaction?.(transaction)}
+          />
+        ))}
+        <EKolektorTodayHistoryItem transaction={sampleTransaction} compact />
+      </div>
+
+      {!hasTransactions ? (
+        <div className="mt-7 hidden flex-1 flex-col items-center">
           <svg
             viewBox="0 0 220 170"
             fill="none"

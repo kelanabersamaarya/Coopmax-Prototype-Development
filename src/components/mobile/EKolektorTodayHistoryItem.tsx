@@ -20,9 +20,11 @@ const detailItems = [
 export default function EKolektorTodayHistoryItem({
   transaction,
   onClick,
+  compact = false,
 }: {
   transaction: EKolektorTodayTransaction;
   onClick?: () => void;
+  compact?: boolean;
 }) {
   const displayAmount = transaction.amount.trim().startsWith("+")
     ? transaction.amount
@@ -32,7 +34,7 @@ export default function EKolektorTodayHistoryItem({
     <button
       type="button"
       onClick={onClick}
-      className="block w-full rounded-[12px] bg-white px-[15px] py-[13px] text-left shadow-[0_3px_12px_rgba(15,23,42,0.08)] transition hover:shadow-[0_5px_16px_rgba(15,23,42,0.12)] active:scale-[0.99]"
+      className={`block w-full rounded-[12px] bg-white px-[15px] py-[13px] text-left shadow-[0_3px_12px_rgba(15,23,42,0.08)] transition hover:shadow-[0_5px_16px_rgba(15,23,42,0.12)] active:scale-[0.99] ${compact ? "py-[12px]" : ""}`}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
@@ -64,7 +66,7 @@ export default function EKolektorTodayHistoryItem({
         </div>
       </div>
 
-      <div className="mt-[13px] border-t border-[#E8E8E8] pt-[12px]">
+      {!compact ? <div className="mt-[13px] border-t border-[#E8E8E8] pt-[12px]">
         <div className="grid gap-[11px]">
           {detailItems.map((item) => (
             <div key={item.label} className="min-w-0">
@@ -77,7 +79,7 @@ export default function EKolektorTodayHistoryItem({
             </div>
           ))}
         </div>
-      </div>
+      </div> : null}
     </button>
   );
 }
