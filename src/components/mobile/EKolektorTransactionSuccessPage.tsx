@@ -99,10 +99,8 @@ export default function EKolektorTransactionSuccessPage({
                   })
                 }
                 className={cn(
-                  "h-[43px] w-full rounded-full text-[14px] font-semibold text-white",
-                  "bg-[#004FC7]",
-                  "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
-                  "transition hover:bg-[#0046B3] active:translate-y-px",
+                  "h-[43px] w-full rounded-full border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7]",
+                  "transition hover:bg-[#eff5ff] active:translate-y-px",
                   "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
                 )}
               >
@@ -113,11 +111,9 @@ export default function EKolektorTransactionSuccessPage({
                 type="button"
                 onClick={() => setShareOpen(true)}
                 className={cn(
-                  "h-[43px] w-full rounded-full text-[14px] font-semibold text-white",
-                  "bg-[#9E9E9E]",
-                  "shadow-[0_3px_8px_rgba(158,158,158,0.22)]",
-                  "transition hover:bg-[#8E8E8E] active:translate-y-px",
-                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#9E9E9E]/25",
+                  "h-[43px] w-full rounded-full border border-[#004FC7] bg-white text-[14px] font-semibold text-[#004FC7]",
+                  "transition hover:bg-[#eff5ff] active:translate-y-px",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
                 )}
               >
                 Bagikan
