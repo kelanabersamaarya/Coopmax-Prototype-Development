@@ -11,10 +11,12 @@ type TransactionTab = "simpanan" | "pinjaman";
 
 export default function EKolektorTransactionTabs({
   className,
+  onSelectDeposit,
   onSelectLoan,
   showAccounts,
 }: {
   className?: string;
+  onSelectDeposit?: (account: { accountNo: string; customerName: string; productName: string }) => void;
   onSelectLoan?: (accountNo: string) => void;
   showAccounts: boolean;
 }) {
@@ -71,7 +73,7 @@ export default function EKolektorTransactionTabs({
         })}
       </div>
 
-      {showAccounts && activeTab === "simpanan" ? <EKolektorSimpananAsset /> : null}
+      {showAccounts && activeTab === "simpanan" ? <EKolektorSimpananAsset onSelectDeposit={onSelectDeposit} /> : null}
       {showAccounts && activeTab === "pinjaman" ? (
         <EKolektorPinjamanInfo onSelect={onSelectLoan} />
       ) : null}

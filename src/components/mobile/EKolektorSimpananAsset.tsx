@@ -27,7 +27,11 @@ const savingAccounts = [
   },
 ];
 
-export default function EKolektorSimpananAsset() {
+export default function EKolektorSimpananAsset({
+  onSelectDeposit,
+}: {
+  onSelectDeposit?: (account: (typeof savingAccounts)[number]) => void;
+}) {
   const [selectedAccount, setSelectedAccount] = React.useState<(typeof savingAccounts)[number] | null>(null);
 
   return (
@@ -92,7 +96,13 @@ export default function EKolektorSimpananAsset() {
       {selectedAccount ? (
         <EKolektorTransactionTypeSheet
           onClose={() => setSelectedAccount(null)}
-          onSelect={() => setSelectedAccount(null)}
+          onSelect={(type) => {
+            if (type === "setoran" && onSelectDeposit) {
+              onSelectDeposit(selectedAccount);
+              return;
+            }
+            setSelectedAccount(null);
+          }}
         />
       ) : null}
     </div>

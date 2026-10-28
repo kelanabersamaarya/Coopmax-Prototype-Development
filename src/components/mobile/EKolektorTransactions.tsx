@@ -5,10 +5,17 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorSearchBar from "@/components/mobile/EKolektorSearchBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 import EKolektorTransactionTabs from "@/components/mobile/EKolektorTransactionTabs";
+import EKolektorDepositTransactionPage from "@/components/mobile/EKolektorDepositTransactionPage";
 import EKolektorLoanTransactionPage from "@/components/mobile/EKolektorLoanTransactionPage";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
-type TransactionScreen = "list" | "loan-transaction";
+type TransactionScreen = "list" | "deposit-transaction" | "loan-transaction";
+
+type DepositAccount = {
+  accountNo: string;
+  customerName: string;
+  productName: string;
+};
 
 export default function EKolektorTransactions({
   onBackHome,
@@ -20,6 +27,11 @@ export default function EKolektorTransactions({
   const [screen, setScreen] = React.useState<TransactionScreen>("list");
   const [hasSearched, setHasSearched] = React.useState(false);
   const [selectedAccountNo, setSelectedAccountNo] = React.useState("");
+  const [selectedDepositAccount, setSelectedDepositAccount] = React.useState<DepositAccount | null>(null);
+
+  if (screen === "deposit-transaction" && selectedDepositAccount) {
+    return <EKolektorDepositTransactionPage account={selectedDepositAccount} onBack={() => setScreen("list")} />;
+  }
 
   if (screen === "loan-transaction") {
     return (
@@ -55,6 +67,10 @@ export default function EKolektorTransactions({
           <EKolektorTransactionTabs
             className="mt-[24px]"
             showAccounts={hasSearched}
+            onSelectDeposit={(account) => {
+              setSelectedDepositAccount(account);
+              setScreen("deposit-transaction");
+            }}
             onSelectLoan={(accountNo) => {
               setSelectedAccountNo(accountNo);
               setScreen("loan-transaction");
