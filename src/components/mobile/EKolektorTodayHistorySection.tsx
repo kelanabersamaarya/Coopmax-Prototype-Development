@@ -22,6 +22,11 @@ export default function EKolektorTodayHistorySection({
       </div>
 
       <div className="mt-5 grid gap-3">
+        <EKolektorTodayHistoryItem
+          transaction={sampleTransaction}
+          compact
+          onClick={() => onSelectTransaction?.(sampleTransaction)}
+        />
         {transactions.map((transaction) => (
           <EKolektorTodayHistoryItem
             key={transaction.id}
@@ -29,7 +34,6 @@ export default function EKolektorTodayHistorySection({
             onClick={() => onSelectTransaction?.(transaction)}
           />
         ))}
-        <EKolektorTodayHistoryItem transaction={sampleTransaction} compact />
       </div>
 
       {!hasTransactions ? (
