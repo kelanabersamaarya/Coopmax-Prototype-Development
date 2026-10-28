@@ -10,7 +10,7 @@ export default function EKolektorTransactionTypeSheet({
   onSelect: (type: "setoran" | "penarikan") => void;
 }) {
   return (
-    <div className="absolute inset-0 z-50 bg-black/45">
+    <div className="fixed inset-0 z-[100] bg-black/45">
       <button type="button" aria-label="Tutup jenis transaksi" className="absolute inset-0 cursor-default" onClick={onClose} />
       <section className="absolute inset-x-0 bottom-0 rounded-t-[30px] bg-white px-[20px] pb-[30px] pt-[17px] shadow-[0_-8px_30px_rgba(15,23,42,0.2)]">
         <div className="mx-auto h-[6px] w-[48px] rounded-full bg-[#28afd4]" />
