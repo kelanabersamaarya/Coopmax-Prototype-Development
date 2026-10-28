@@ -298,13 +298,17 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
 
 function StaticVaTransferGuide({ onBack }: { onBack: () => void }) {
   return (
-    <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
-      <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali">
-          <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
+    <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
+      <header className="relative shrink-0 overflow-hidden px-6 pb-8 pt-8 text-white">
+        <div className="pointer-events-none absolute -right-2 -top-16 h-[148px] w-[148px] rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute right-12 -top-20 h-[154px] w-[154px] rounded-full bg-white/8" />
+        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Kembali">
+          <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
         </button>
-        <h1 className="mt-7 text-[26px] font-extrabold leading-tight text-[#203064]">Tambah Saldo</h1>
-        <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Transfer ke nomor Static VA berikut untuk menambahkan saldo ke rekening Simpanan Anda.</p>
+        <h1 className="relative z-10 mt-3 text-[26px] font-extrabold leading-tight text-white">Tambah Saldo</h1>
+      </header>
+      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <p className="text-[14px] leading-relaxed text-[#68738A]">Transfer ke nomor Static VA berikut untuk menambahkan saldo ke rekening Simpanan Anda.</p>
         <section className="mt-7 rounded-[22px] bg-[#004FC7] p-5 text-white">
           <div className="text-[12px] text-blue-100">Bank</div>
           <div className="mt-1 text-[20px] font-extrabold">BCA</div>
