@@ -188,7 +188,7 @@ function TotalRow({
 <span className={mobileLayout ? "relative left-4" : undefined}>{formatIdrLike(values.sisaPokok)}</span>
 </td>
 <td className={cellClass}>
-{formatIdrLike(values.sisaBunga)}
+<span className={mobileLayout ? "relative left-4" : undefined}>{formatIdrLike(values.sisaBunga)}</span>
 </td>
 <td className={cn(cellClass, "whitespace-nowrap", dendaClassName)}>
 {formatIdrLike(values.denda)}
