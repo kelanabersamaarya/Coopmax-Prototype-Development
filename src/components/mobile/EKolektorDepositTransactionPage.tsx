@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 export type EKolektorDepositAccount = {
   accountNo: string;
@@ -37,10 +37,7 @@ export default function EKolektorDepositTransactionPage({
         </header>
 
         <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-white px-6 pb-6 pt-8">
-          <div className="flex items-center gap-2 text-[#004FC7]">
-            <button type="button" onClick={onBack} aria-label="Kembali" className="-ml-2 rounded-full p-1 transition hover:bg-blue-50"><ArrowLeft className="h-5 w-5" strokeWidth={2.5} /></button>
-            <h2 className="text-[22px] font-extrabold leading-tight tracking-tight">Setoran</h2>
-          </div>
+          <h2 className="text-[22px] font-extrabold leading-tight tracking-tight text-[#203064]">Setoran</h2>
           <p className="mt-2 text-[14px] font-semibold text-[#203064]">Silakan lengkapi form berikut</p>
 
           <div className="mt-7 grid gap-5">
