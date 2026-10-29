@@ -312,13 +312,13 @@ function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accoun
   ];
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
-      <header className="relative shrink-0 overflow-hidden px-6 pb-8 pt-6 text-white">
+    <div className="h-full overflow-y-auto bg-[#004FC7] text-[#26365F] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <header className="relative overflow-hidden px-6 pb-8 pt-6 text-white">
         <div className="pointer-events-none absolute -right-5 -top-16 h-[150px] w-[150px] rounded-full bg-white/10" />
         <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center text-white" aria-label="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.3} /></button>
         <h1 className="relative z-10 mt-4 text-[26px] font-extrabold text-white">Review</h1>
       </header>
-      <main className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] px-4 pb-8 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="bg-[#004FC7] px-4 pb-8 pt-2">
         <div className="mx-auto max-w-[380px] rounded-[20px] bg-white px-4 pb-6 pt-5 shadow-[0_4px_18px_rgba(15,23,42,0.12)]">
           <p className="text-[16px] font-semibold text-[#B2B2B2]">Lakukan Pembayaran Sebelum</p>
           <p className="mt-3 text-[16px] font-extrabold text-[#333333]">12 Feb 2024, 10:20 WITA</p>
