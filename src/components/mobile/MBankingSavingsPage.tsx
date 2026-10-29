@@ -320,8 +320,8 @@ function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accoun
       </header>
       <main className="bg-[#004FC7] px-4 pb-8 pt-2">
         <div className="mx-auto max-w-[380px] rounded-[20px] bg-white px-4 pb-6 pt-5 shadow-[0_4px_18px_rgba(15,23,42,0.12)]">
-          <p className="text-[16px] font-semibold text-[#B2B2B2]">Lakukan Pembayaran Sebelum</p>
-          <p className="mt-3 text-[16px] font-extrabold text-[#333333]">12 Feb 2024, 10:20 WITA</p>
+          <p className="text-[14px] font-semibold text-[#B2B2B2]">Lakukan Pembayaran Sebelum</p>
+          <p className="mt-3 text-[14px] font-extrabold text-[#333333]">12 Feb 2024, 10:20 WITA</p>
           <div className="my-4 border-t border-[#E5E5E5]" />
           <div className="flex items-center gap-3"><div className="grid h-12 w-16 place-items-center rounded-xl bg-[#F1F1F1] text-[14px] font-extrabold text-[#0A4DA2]">{bankName}</div><div><p className="font-extrabold text-[#333333]">{bankName} VA</p><p className="text-[12px] text-[#555555]">Luna Thompson</p></div></div>
           <div className="mt-4 flex items-center justify-between rounded-xl bg-[#F1F1F1] px-4 py-4"><span className="text-[17px] font-extrabold tracking-wide text-[#222222]">{virtualAccount}</span><button type="button" onClick={() => navigator.clipboard?.writeText(virtualAccount)} className="font-extrabold text-[#0057CE]">Salin</button></div>
