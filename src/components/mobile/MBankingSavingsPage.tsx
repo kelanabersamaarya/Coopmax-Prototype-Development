@@ -442,7 +442,6 @@ function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: s
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
-    <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
       <header className="relative shrink-0 overflow-hidden px-5 pb-6 pt-6 text-white">
         <div className="pointer-events-none absolute -right-4 -top-14 h-[130px] w-[130px] rounded-full bg-white/10" />
         <div className="pointer-events-none absolute right-16 -top-16 h-[130px] w-[130px] rounded-full bg-white/10" />
