@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
+import MBankingTransactionEmptyState from "@/components/mobile/MBankingTransactionEmptyState";
 import {
   ArrowLeft,
   ChevronDown,
@@ -370,6 +371,7 @@ function TransferInstructions() {
 
 function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () => void }) {
   const [amount, setAmount] = React.useState("");
+  const [activeTab, setActiveTab] = React.useState<"create" | "history">("create");
   const presets = ["10.000", "50.000", "100.000", "250.000", "500.000"];
 
   const addAmount = (value: string) => {
@@ -388,9 +390,17 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex gap-4 border-b border-transparent text-[16px] font-extrabold text-[#004FC7]">
-          <button type="button" className="rounded-full bg-[#004FC7] px-4 py-2 text-white">Buat VA Baru</button>
-          <button type="button" className="px-1 py-2">Riwayat VA</button>
+          <button type="button" onClick={() => setActiveTab("create")} className={`rounded-full px-4 py-2 ${activeTab === "create" ? "bg-[#004FC7] text-white" : "text-[#004FC7]"}`}>Buat VA Baru</button>
+          <button type="button" onClick={() => setActiveTab("history")} className={`rounded-full px-4 py-2 ${activeTab === "history" ? "bg-[#004FC7] text-white" : "text-[#004FC7]"}`}>Riwayat VA</button>
         </div>
+        {activeTab === "history" ? (
+          <div className="mt-6">
+            <label className="block text-[17px] text-[#777777]">Daftar Virtual Account</label>
+            <input type="search" placeholder="Cari bank atau nomor virtual account..." className="mt-2 h-14 w-full rounded-[12px] bg-[#F1F1F1] px-4 text-[15px] text-[#26365F] outline-none placeholder:text-[#888888]" aria-label="Cari bank atau nomor virtual account" />
+            <MBankingTransactionEmptyState title="Tidak Ada Riwayat Virtual Account" className="mt-12" />
+          </div>
+        ) : (
+          <>
         <label className="mt-6 block text-[17px] text-[#777777]">Ke Rekening</label>
         <div className="mt-2 flex items-center justify-between rounded-[12px] bg-[#F1F1F1] px-4 py-3.5 text-[15px] text-[#26365F]">
           <span>{accountNo} - Luna Thompson</span>
@@ -406,10 +416,14 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
           <span>Rp.</span>
           <input value={amount.replace(/\B(?=(\d{3})+(?!\d))/g, ".")} onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))} inputMode="numeric" placeholder="Masukkan Nominal Transfer" className="ml-4 min-w-0 flex-1 bg-transparent outline-none placeholder:text-[#888888]" aria-label="Nominal Transfer" />
         </div>
+          </>
+        )}
       </main>
-      <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
-        <button type="button" disabled={!amount} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
-      </footer>
+      {activeTab === "create" && (
+        <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
+          <button type="button" disabled={!amount} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+        </footer>
+      )}
     </div>
   );
 }
