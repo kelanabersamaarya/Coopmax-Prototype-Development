@@ -336,7 +336,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; on
             )}
           </div>
         </div>
-        <h1 className="relative z-10 mt-3 text-[26px] font-extrabold leading-tight text-white">Tambah Saldo</h1>
+        <h1 className="relative z-10 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <p className="text-[14px] leading-relaxed text-[#68738A]">Transfer ke nomor Static VA berikut untuk menambahkan saldo ke rekening Simpanan Anda.</p>
