@@ -298,6 +298,71 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
   );
 }
 
+function TransferInstructions() {
+  const [openMethod, setOpenMethod] = React.useState("M-Banking");
+
+  const methods = [
+    {
+      name: "M-Banking",
+      steps: [
+        "Buka aplikasi mobile banking bank Anda.",
+        "Pilih menu Transfer, lalu pilih Transfer ke Bank Lain.",
+        "Masukkan nomor Static VA sebagai rekening tujuan.",
+        "Periksa nama penerima dan nominal transfer, lalu konfirmasi pembayaran.",
+      ],
+    },
+    {
+      name: "Internet Banking",
+      steps: [
+        "Masuk ke layanan Internet Banking bank Anda.",
+        "Pilih menu Transfer ke Bank Lain.",
+        "Masukkan nomor Static VA dan nominal transfer.",
+        "Periksa detail transaksi, lalu konfirmasi transfer.",
+      ],
+    },
+    {
+      name: "ATM",
+      steps: [
+        "Masukkan kartu ATM dan PIN Anda.",
+        "Pilih menu Transfer, lalu Transfer ke Bank Lain.",
+        "Masukkan nomor Static VA sebagai rekening tujuan.",
+        "Masukkan nominal transfer dan konfirmasi transaksi.",
+      ],
+    },
+  ];
+
+  return (
+    <section className="mt-8">
+      <h2 className="text-[20px] font-extrabold text-[#203064]">Cara Melakukan Transfer</h2>
+      <div className="mt-5 overflow-hidden rounded-[14px] border border-[#E1E1E1] bg-white">
+        {methods.map((method, index) => {
+          const isOpen = openMethod === method.name;
+          return (
+            <div key={method.name} className={index > 0 ? "border-t border-[#E8E8E8]" : ""}>
+              <button
+                type="button"
+                onClick={() => setOpenMethod(isOpen ? "" : method.name)}
+                className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]"
+                aria-expanded={isOpen}
+              >
+                <span>{method.name}</span>
+                <ChevronDown className={`h-5 w-5 text-black transition-transform ${isOpen ? "rotate-180" : ""}`} strokeWidth={2.3} />
+              </button>
+              {isOpen && (
+                <div className="px-4 pb-5 pt-1">
+                  <ol className="grid gap-3 pl-5 text-[13px] leading-relaxed text-[#4A4A4A]">
+                    {method.steps.map((step) => <li key={step} className="pl-1">{step}</li>)}
+                  </ol>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; onCreateNew: () => void }) {
   const [showOptions, setShowOptions] = React.useState(false);
   const optionsRef = React.useRef<HTMLDivElement>(null);
@@ -352,22 +417,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; on
         <button type="button" className="mt-4 h-12 w-full rounded-[14px] border-2 border-[#004FC7] bg-white px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">
           Gunakan Dynamic VA
         </button>
-        <section className="mt-8">
-          <h2 className="text-[20px] font-extrabold text-[#203064]">Cara Melakukan Transfer</h2>
-          <div className="mt-5 grid gap-4">
-            {[
-              "Buka aplikasi mobile banking atau ATM bank Anda.",
-              "Pilih menu Transfer dan pilih Transfer ke Bank Lain.",
-              "Masukkan nomor Static VA di atas sebagai nomor rekening tujuan.",
-              "Periksa nama penerima dan nominal transfer, lalu konfirmasi pembayaran.",
-            ].map((step, index) => (
-              <div key={step} className="flex gap-3 rounded-2xl bg-[#F5F9FF] p-4">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#E2EEFF] text-[13px] font-extrabold text-[#004FC7]">{index + 1}</span>
-                <p className="text-[14px] leading-relaxed text-[#44516B]">{step}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <TransferInstructions />
       </main>
     </div>
   );
