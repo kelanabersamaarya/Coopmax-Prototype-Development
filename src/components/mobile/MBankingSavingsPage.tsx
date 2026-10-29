@@ -368,6 +368,52 @@ function TransferInstructions() {
   );
 }
 
+function TransferMethodOptions() {
+  const [openMethod, setOpenMethod] = React.useState("");
+
+  const toggleMethod = (method: string) => {
+    setOpenMethod((current) => (current === method ? "" : method));
+  };
+
+  return (
+    <div className="mt-7 overflow-hidden rounded-[14px] border border-[#E1E1E1] bg-white">
+      <div>
+        <button type="button" onClick={() => toggleMethod("static")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethod === "static"}>
+          <span>Static VA</span>
+          <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethod === "static" ? "rotate-180" : ""}`} strokeWidth={2.3} />
+        </button>
+        {openMethod === "static" && (
+          <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
+            <p className="text-[13px] leading-relaxed text-[#68738A]">Static VA adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
+            <section className="mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
+              <div className="text-[12px] text-blue-100">Bank</div>
+              <div className="mt-1 text-[20px] font-extrabold">BCA</div>
+              <div className="mt-6 text-[12px] text-blue-100">Nomor Static VA</div>
+              <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
+                <span>8808 4260 0540</span>
+                <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
+              </div>
+            </section>
+            <TransferInstructions />
+          </div>
+        )}
+      </div>
+      <div className="border-t border-[#E8E8E8]">
+        <button type="button" onClick={() => toggleMethod("dynamic")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethod === "dynamic"}>
+          <span>Dynamic VA</span>
+          <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethod === "dynamic" ? "rotate-180" : ""}`} strokeWidth={2.3} />
+        </button>
+        {openMethod === "dynamic" && (
+          <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
+            <p className="text-[13px] leading-relaxed text-[#68738A]">Dynamic VA adalah nomor Virtual Account yang dibuat khusus untuk satu transaksi dan memiliki masa berlaku tertentu.</p>
+            <button type="button" className="mt-5 h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Generate Dynamic VA</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; onCreateNew: () => void }) {
   const [showOptions, setShowOptions] = React.useState(false);
   const optionsRef = React.useRef<HTMLDivElement>(null);
@@ -409,20 +455,8 @@ function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; on
         <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <p className="text-[14px] leading-relaxed text-[#68738A]">Transfer ke nomor Static VA berikut untuk menambahkan saldo ke rekening Simpanan Anda.</p>
-        <section className="mt-7 rounded-[22px] bg-[#004FC7] p-5 text-white">
-          <div className="text-[12px] text-blue-100">Bank</div>
-          <div className="mt-1 text-[20px] font-extrabold">BCA</div>
-          <div className="mt-6 text-[12px] text-blue-100">Nomor Static VA</div>
-          <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
-            <span>8808 4260 0540</span>
-            <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
-          </div>
-        </section>
-        <button type="button" className="mt-4 h-12 w-full rounded-[14px] border-2 border-[#004FC7] bg-white px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">
-          Gunakan Dynamic VA
-        </button>
-        <TransferInstructions />
+        <p className="text-[14px] leading-relaxed text-[#68738A]">Pilih metode Virtual Account yang ingin digunakan untuk menambahkan saldo ke rekening Simpanan Anda.</p>
+        <TransferMethodOptions />
       </main>
     </div>
   );
