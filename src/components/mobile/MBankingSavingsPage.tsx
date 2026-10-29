@@ -248,7 +248,8 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
   );
 }
 
-function StaticVaPreview({ bankName, onBack, onCancel, onSave }: { bankName: string; onBack: () => void; onCancel: () => void; onSave: () => void }) {
+function StaticVaPreview({ accountNo, bankName, onBack, onCancel, onSave }: { accountNo: string; bankName: string; onBack: () => void; onCancel: () => void; onSave: () => void }) {
+  const virtualAccount = `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
   const [showSaveConfirmation, setShowSaveConfirmation] = React.useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
 
@@ -266,7 +267,7 @@ function StaticVaPreview({ bankName, onBack, onCancel, onSave }: { bankName: str
           <div className="text-[12px] text-blue-100">Bank</div>
           <div className="mt-1 text-[20px] font-extrabold">{bankName}</div>
           <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account</div>
-          <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">8808 4260 0540</div>
+          <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">{virtualAccount}</div>
         </section>
       </main>
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
@@ -576,7 +577,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
               <div className="mt-1 text-[20px] font-extrabold">BNI</div>
               <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account Tetap</div>
               <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
-                <span>8808 4260 0540</span>
+                <span>{virtualAccount}</span>
                 <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
               </div>
             </section>
@@ -604,6 +605,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
 }
 
 function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelete, accountNo }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; onDelete: () => void; accountNo: string }) {
+  const virtualAccount = `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
   const [showOptions, setShowOptions] = React.useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
   const [showDeleteSuccess, setShowDeleteSuccess] = React.useState(false);
@@ -682,6 +684,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved, on
 
   if (selectedBankName) {
     return <StaticVaPreview
+      accountNo={accountNo}
       bankName={selectedBankName}
       onBack={() => { setSelectedBankName(null); setShowBankSelection(true); }}
       onCancel={() => { setSelectedBankName(null); setShowTransferGuide(true); }}
@@ -733,7 +736,16 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
   const [staticVaAccounts, setStaticVaAccounts] = React.useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     const savedAccounts = window.localStorage.getItem(staticVaStorageKey);
-    if (savedAccounts) return JSON.parse(savedAccounts);
+    if (savedAccounts) {
+      try {
+        const parsedAccounts = JSON.parse(savedAccounts);
+        if (Array.isArray(parsedAccounts)) return parsedAccounts;
+      } catch {
+        return [savedAccounts];
+      }
+    }
+    const previousAccount = window.localStorage.getItem("mbanking-savings-static-va-account");
+    if (previousAccount) return [previousAccount];
     return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? ["4260054"] : [];
   });
 
