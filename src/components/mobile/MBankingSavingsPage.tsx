@@ -211,7 +211,6 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
         </button>
         <div className="mt-8">
           <h1 className="text-[26px] font-extrabold leading-tight text-[#203064]">Pilih Bank</h1>
-          <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Pilih bank yang ingin digunakan untuk membuat Static Virtual Account.</p>
         </div>
         {isReplacing && (
           <div className="mt-5 flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
