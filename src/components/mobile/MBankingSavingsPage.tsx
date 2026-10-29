@@ -186,7 +186,7 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
           <button type="button" onClick={onContinue} className="h-12 rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Lanjutkan Dengan Virtual Account Tetap</button>
-          <button type="button" onClick={onUseDynamic} className="h-12 rounded-[14px] border-2 border-[#004FC7] px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">Gunakan VA Dinamis</button>
+          <button type="button" onClick={onUseDynamic} className="h-12 rounded-[14px] border-2 border-[#004FC7] px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">Gunakan Virtual Account Sekali Pakai</button>
         </div>
       </footer>
     </div>
