@@ -327,10 +327,11 @@ function TransferInstructions() {
     {
       name: "ATM",
       steps: [
-        "Masukkan kartu ATM dan PIN Anda.",
-        "Pilih menu Transfer, lalu Transfer ke Bank Lain.",
-        "Masukkan nomor Static VA sebagai rekening tujuan.",
-        "Masukkan nominal transfer dan konfirmasi transaksi.",
+        "Masukkan kartu dan PIN ATM Anda.",
+        "Pilih menu Transfer atau Virtual Account.",
+        "Masukkan nomor Virtual Account.",
+        "Pastikan informasi penerima dan nominal transaksi sudah sesuai.",
+        "Selesaikan pembayaran dan simpan struk transaksi.",
       ],
     },
   ];
