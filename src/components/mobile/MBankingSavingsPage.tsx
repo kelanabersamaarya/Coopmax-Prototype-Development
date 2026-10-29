@@ -542,7 +542,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   );
 }
 
-function TransferMethodOptions({ onGenerateDynamic, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions }: { onGenerateDynamic: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void }) {
+function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions }: { onGenerateDynamic: () => void; onDelete: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void }) {
   const [openMethod, setOpenMethod] = React.useState("");
 
   const toggleMethod = (method: string) => {
@@ -567,7 +567,7 @@ function TransferMethodOptions({ onGenerateDynamic, optionsRef, showOptions, onT
                 <button type="button" onClick={onToggleOptions} className="grid h-9 w-9 place-items-center rounded-full text-white" aria-label="Opsi Static VA" aria-expanded={showOptions}>
                   <MoreVertical className="h-5 w-5" strokeWidth={2.5} />
                 </button>
-                {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Static VA</button><button type="button" onClick={onCloseOptions} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Static VA</button></div>}
+                {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Static VA</button><button type="button" onClick={() => { onCloseOptions(); onDelete(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Static VA</button></div>}
               </div>
               <div className="text-[12px] text-blue-100">Bank</div>
               <div className="mt-1 text-[20px] font-extrabold">BCA</div>
@@ -600,8 +600,10 @@ function TransferMethodOptions({ onGenerateDynamic, optionsRef, showOptions, onT
   );
 }
 
-function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, accountNo }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; accountNo: string }) {
+function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelete, accountNo }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; onDelete: () => void; accountNo: string }) {
   const [showOptions, setShowOptions] = React.useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
+  const [showDeleteSuccess, setShowDeleteSuccess] = React.useState(false);
   const optionsRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -631,8 +633,30 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, account
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <p className="text-[14px] leading-relaxed text-[#68738A]">Pilih metode Virtual Account yang ingin digunakan untuk menambahkan saldo ke rekening Simpanan Anda.</p>
-        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} />
+        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} />
       </main>
+      {showDeleteConfirmation && (
+        <div className="absolute inset-0 z-50 flex items-end bg-[#172554]/35 px-4 pb-6">
+          <div className="w-full rounded-[24px] bg-white p-6 text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
+            <h2 className="text-[20px] font-extrabold text-[#203064]">Hapus Static VA?</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA akan dihapus dari rekening Simpanan Anda dan tidak dapat digunakan kembali.</p>
+            <div className="mt-6 grid gap-3">
+              <button type="button" onClick={() => { setShowDeleteConfirmation(false); setShowDeleteSuccess(true); }} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">Ya, Hapus</button>
+              <button type="button" onClick={() => setShowDeleteConfirmation(false)} className="h-12 rounded-[14px] border-2 border-[#D1D5DB] bg-white text-[14px] font-bold text-[#6B7280]">Batal</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showDeleteSuccess && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#172554]/35 px-4">
+          <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
+            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
+            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Dihapus</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil dihapus dari rekening Simpanan Anda.</p>
+            <button type="button" onClick={() => { setShowDeleteSuccess(false); onDelete(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -650,7 +674,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   }
 
   if (showTransferGuide) {
-    return <StaticVaTransferGuide accountNo={accountNo} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} />;
+    return <StaticVaTransferGuide accountNo={accountNo} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); }} />;
   }
 
   if (selectedBankName) {
