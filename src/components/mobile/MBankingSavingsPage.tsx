@@ -14,6 +14,7 @@ import {
   Plus,
   ShieldCheck,
   WalletCards,
+  X,
 } from "lucide-react";
 
 type SavingsAccount = {
@@ -465,7 +466,10 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
         <label className="mt-6 block text-[17px] text-[#777777]">Ke Rekening</label>
         <div className="mt-2 flex items-center justify-between rounded-[12px] bg-[#F1F1F1] px-4 py-3.5 text-[15px] text-[#26365F]">
           <span>{accountNo} - Luna Thompson</span>
-          <span className="text-[20px] text-[#888888]">×⌄</span>
+          <span className="flex items-center gap-3 text-[#888888]" aria-hidden="true">
+            <X className="h-4 w-4" strokeWidth={2} />
+            <ChevronDown className="h-4 w-4" strokeWidth={2} />
+          </span>
         </div>
         <div className="mt-6 text-[17px] text-[#777777]">Saldo Rekening</div>
         <div className="mt-2 text-[20px] font-extrabold text-[#26365F]">Rp. 998.617.479,17</div>
