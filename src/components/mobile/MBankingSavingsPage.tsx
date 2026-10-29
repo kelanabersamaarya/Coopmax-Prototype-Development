@@ -728,30 +728,35 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved, on
   );
 }
 
-const staticVaStorageKey = "mbanking-savings-static-va-accounts";
+const staticVaStorageKey = "mbanking-savings-static-va-records";
+
+function getStaticVaNumber(accountNo: string) {
+  return `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
+}
 
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
-  const [staticVaAccounts, setStaticVaAccounts] = React.useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    const savedAccounts = window.localStorage.getItem(staticVaStorageKey);
-    if (savedAccounts) {
+  const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(() => {
+    if (typeof window === "undefined") return {};
+    const savedRecords = window.localStorage.getItem(staticVaStorageKey);
+    if (savedRecords) {
       try {
-        const parsedAccounts = JSON.parse(savedAccounts);
-        if (Array.isArray(parsedAccounts)) return parsedAccounts;
+        const parsedRecords = JSON.parse(savedRecords);
+        if (parsedRecords && typeof parsedRecords === "object" && !Array.isArray(parsedRecords)) return parsedRecords;
+        if (Array.isArray(parsedRecords)) return Object.fromEntries(parsedRecords.map((accountNo) => [accountNo, getStaticVaNumber(accountNo)]));
       } catch {
-        return [savedAccounts];
+        return {};
       }
     }
     const previousAccount = window.localStorage.getItem("mbanking-savings-static-va-account");
-    if (previousAccount) return [previousAccount];
-    return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? ["4260054"] : [];
+    if (previousAccount) return { [previousAccount]: getStaticVaNumber(previousAccount) };
+    return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? { "4260054": getStaticVaNumber("4260054") } : {};
   });
 
   const handleStaticVaSaved = (accountNo: string) => {
     setStaticVaAccounts((accounts) => {
-      const nextAccounts = accounts.includes(accountNo) ? accounts : [...accounts, accountNo];
+      const nextAccounts = { ...accounts, [accountNo]: getStaticVaNumber(accountNo) };
       window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
       return nextAccounts;
     });
@@ -759,7 +764,8 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
 
   const handleStaticVaDeleted = (accountNo: string) => {
     setStaticVaAccounts((accounts) => {
-      const nextAccounts = accounts.filter((account) => account !== accountNo);
+      const nextAccounts = { ...accounts };
+      delete nextAccounts[accountNo];
       window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
       return nextAccounts;
     });
@@ -777,7 +783,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
     );
   }
 
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={staticVaAccounts.includes(selectedAccount)} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={Boolean(staticVaAccounts[selectedAccount])} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -785,7 +791,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={staticVaAccounts.includes(account.accountNo)} onClick={() => setPinAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={Boolean(staticVaAccounts[account.accountNo])} onClick={() => setPinAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
