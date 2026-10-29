@@ -378,37 +378,37 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
-      <header className="relative shrink-0 overflow-hidden px-6 pb-8 pt-8 text-white">
-        <div className="pointer-events-none absolute -right-4 -top-16 h-[150px] w-[150px] rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute right-20 -top-20 h-[150px] w-[150px] rounded-full bg-white/10" />
-        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white" aria-label="Kembali">
-          <ArrowLeft className="h-9 w-9" strokeWidth={2.2} />
+      <header className="relative shrink-0 overflow-hidden px-5 pb-6 pt-6 text-white">
+        <div className="pointer-events-none absolute -right-4 -top-14 h-[130px] w-[130px] rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute right-16 -top-16 h-[130px] w-[130px] rounded-full bg-white/10" />
+        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-white" aria-label="Kembali">
+          <ArrowLeft className="h-8 w-8" strokeWidth={2.2} />
         </button>
-        <h1 className="relative z-10 mt-7 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
+        <h1 className="relative z-10 mt-5 text-[23px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
-      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[28px] bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="flex gap-8 border-b border-transparent text-[24px] font-extrabold text-[#004FC7]">
-          <button type="button" className="rounded-full bg-[#004FC7] px-6 py-3 text-white">Buat VA Baru</button>
-          <button type="button" className="px-2 py-3">Riwayat VA</button>
+      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-5 border-b border-transparent text-[19px] font-extrabold text-[#004FC7]">
+          <button type="button" className="rounded-full bg-[#004FC7] px-5 py-2.5 text-white">Buat VA Baru</button>
+          <button type="button" className="px-1 py-2.5">Riwayat VA</button>
         </div>
-        <label className="mt-7 block text-[20px] text-[#777777]">Ke Rekening</label>
-        <div className="mt-3 flex items-center justify-between rounded-[14px] bg-[#F1F1F1] px-5 py-4 text-[18px] text-[#26365F]">
+        <label className="mt-6 block text-[17px] text-[#777777]">Ke Rekening</label>
+        <div className="mt-2 flex items-center justify-between rounded-[12px] bg-[#F1F1F1] px-4 py-3.5 text-[15px] text-[#26365F]">
           <span>{accountNo} - Luna Thompson</span>
-          <span className="text-[24px] text-[#888888]">×⌄</span>
+          <span className="text-[20px] text-[#888888]">×⌄</span>
         </div>
-        <div className="mt-8 text-[20px] text-[#777777]">Saldo Rekening</div>
-        <div className="mt-3 text-[24px] font-extrabold text-[#26365F]">Rp. 998.617.479,17</div>
-        <div className="mt-8 text-[20px] text-[#777777]">Nominal</div>
-        <div className="mt-4 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {presets.map((preset) => <button key={preset} type="button" onClick={() => setAmount(preset.replace(/\./g, ""))} className="shrink-0 rounded-full border-2 border-[#C8C8C8] px-4 py-2 text-[20px] font-extrabold text-[#004FC7]">{preset}</button>)}
+        <div className="mt-6 text-[17px] text-[#777777]">Saldo Rekening</div>
+        <div className="mt-2 text-[20px] font-extrabold text-[#26365F]">Rp. 998.617.479,17</div>
+        <div className="mt-6 text-[17px] text-[#777777]">Nominal</div>
+        <div className="mt-3 flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {presets.map((preset) => <button key={preset} type="button" onClick={() => setAmount(preset.replace(/\./g, ""))} className="shrink-0 rounded-full border-2 border-[#C8C8C8] px-3.5 py-1.5 text-[16px] font-extrabold text-[#004FC7]">{preset}</button>)}
         </div>
-        <div className="mt-5 flex items-center rounded-[14px] bg-[#F1F1F1] px-5 py-4 text-[18px] text-[#26365F]">
+        <div className="mt-4 flex items-center rounded-[12px] bg-[#F1F1F1] px-4 py-3.5 text-[16px] text-[#26365F]">
           <span>Rp.</span>
-          <input value={amount.replace(/\B(?=(\d{3})+(?!\d))/g, ".")} onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))} inputMode="numeric" placeholder="Masukkan Nominal Transfer" className="ml-5 min-w-0 flex-1 bg-transparent outline-none placeholder:text-[#888888]" aria-label="Nominal Transfer" />
+          <input value={amount.replace(/\B(?=(\d{3})+(?!\d))/g, ".")} onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))} inputMode="numeric" placeholder="Masukkan Nominal Transfer" className="ml-4 min-w-0 flex-1 bg-transparent outline-none placeholder:text-[#888888]" aria-label="Nominal Transfer" />
         </div>
       </main>
-      <footer className="shrink-0 bg-white px-6 pb-8 pt-4">
-        <button type="button" disabled={!amount} className="h-12 w-full rounded-full bg-[#004FC7] text-[16px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+      <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
+        <button type="button" disabled={!amount} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
       </footer>
     </div>
   );
