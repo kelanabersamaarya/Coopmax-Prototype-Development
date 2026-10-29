@@ -540,7 +540,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   );
 }
 
-function TransferMethodOptions({ onGenerateDynamic }: { onGenerateDynamic: () => void }) {
+function TransferMethodOptions({ onGenerateDynamic, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions }: { onGenerateDynamic: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void }) {
   const [openMethod, setOpenMethod] = React.useState("");
 
   const toggleMethod = (method: string) => {
@@ -560,7 +560,13 @@ function TransferMethodOptions({ onGenerateDynamic }: { onGenerateDynamic: () =>
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
               <p className="text-[13px] leading-relaxed">Static VA adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
             </div>
-            <section className="mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
+            <section className="relative mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
+              <div ref={optionsRef} className="absolute right-3 top-3 z-10">
+                <button type="button" onClick={onToggleOptions} className="grid h-9 w-9 place-items-center rounded-full text-white" aria-label="Opsi Static VA" aria-expanded={showOptions}>
+                  <MoreVertical className="h-5 w-5" strokeWidth={2.5} />
+                </button>
+                {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Static VA</button><button type="button" onClick={onCloseOptions} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Static VA</button></div>}
+              </div>
               <div className="text-[12px] text-blue-100">Bank</div>
               <div className="mt-1 text-[20px] font-extrabold">BCA</div>
               <div className="mt-6 text-[12px] text-blue-100">Nomor Static VA</div>
@@ -614,27 +620,16 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, account
       <header className="relative z-40 shrink-0 overflow-visible px-6 pb-8 pt-8 text-white">
         <div className="pointer-events-none absolute -right-2 -top-16 h-[148px] w-[148px] rounded-full bg-white/10" />
         <div className="pointer-events-none absolute right-12 -top-20 h-[154px] w-[154px] rounded-full bg-white/8" />
-        <div className="relative z-10 flex items-center justify-between">
+        <div className="relative z-10 flex items-center">
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Kembali">
             <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
           </button>
-          <div ref={optionsRef} className="relative z-50">
-            <button type="button" onClick={() => setShowOptions((open) => !open)} className="-mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.96]" aria-label="Opsi Static VA" aria-expanded={showOptions}>
-              <MoreVertical className="h-6 w-6" strokeWidth={2.5} />
-            </button>
-            {showOptions && (
-              <div className="absolute right-0 top-11 z-[60] w-52 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]">
-                <button type="button" onClick={() => { setShowOptions(false); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold text-[#26365F] transition hover:bg-[#F3F7FF]">Ubah Static VA</button>
-                <button type="button" onClick={() => setShowOptions(false)} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold text-[#26365F] transition hover:bg-[#F3F7FF]">Hapus Static VA</button>
-              </div>
-            )}
-          </div>
         </div>
         <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <p className="text-[14px] leading-relaxed text-[#68738A]">Pilih metode Virtual Account yang ingin digunakan untuk menambahkan saldo ke rekening Simpanan Anda.</p>
-        <TransferMethodOptions onGenerateDynamic={onGenerateDynamic} />
+        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} />
       </main>
     </div>
   );
