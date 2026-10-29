@@ -716,7 +716,7 @@ function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved,
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
         <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
-        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} staticVaNumber={staticVaNumber} /></div>
+        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} staticVaNumber={currentStaticVaNumber} /></div>
         <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
           <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
@@ -737,41 +737,39 @@ function getStaticVaNumber(accountNo: string) {
   return `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
 }
 
+function readStaticVaAccounts(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  const savedRecords = window.localStorage.getItem(staticVaStorageKey);
+  if (savedRecords) {
+    try {
+      const parsedRecords = JSON.parse(savedRecords);
+      if (parsedRecords && typeof parsedRecords === "object" && !Array.isArray(parsedRecords)) return parsedRecords;
+      if (Array.isArray(parsedRecords)) return Object.fromEntries(parsedRecords.map((accountNo) => [accountNo, getStaticVaNumber(accountNo)]));
+    } catch {
+      return {};
+    }
+  }
+  const previousAccount = window.localStorage.getItem("mbanking-savings-static-va-account");
+  if (previousAccount) return { [previousAccount]: getStaticVaNumber(previousAccount) };
+  return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? { "4260054": getStaticVaNumber("4260054") } : {};
+}
+
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
-  const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(() => {
-    if (typeof window === "undefined") return {};
-    const savedRecords = window.localStorage.getItem(staticVaStorageKey);
-    if (savedRecords) {
-      try {
-        const parsedRecords = JSON.parse(savedRecords);
-        if (parsedRecords && typeof parsedRecords === "object" && !Array.isArray(parsedRecords)) return parsedRecords;
-        if (Array.isArray(parsedRecords)) return Object.fromEntries(parsedRecords.map((accountNo) => [accountNo, getStaticVaNumber(accountNo)]));
-      } catch {
-        return {};
-      }
-    }
-    const previousAccount = window.localStorage.getItem("mbanking-savings-static-va-account");
-    if (previousAccount) return { [previousAccount]: getStaticVaNumber(previousAccount) };
-    return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? { "4260054": getStaticVaNumber("4260054") } : {};
-  });
+  const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(readStaticVaAccounts);
 
   const handleStaticVaSaved = (accountNo: string) => {
-    setStaticVaAccounts((accounts) => {
-      const nextAccounts = { ...accounts, [accountNo]: getStaticVaNumber(accountNo) };
-      window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
-      return nextAccounts;
-    });
+    const nextAccounts = { ...readStaticVaAccounts(), [accountNo]: getStaticVaNumber(accountNo) };
+    window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
+    setStaticVaAccounts(nextAccounts);
   };
 
   const handleStaticVaDeleted = (accountNo: string) => {
-    setStaticVaAccounts((accounts) => {
-      const nextAccounts = { ...accounts };
-      delete nextAccounts[accountNo];
-      window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
-      return nextAccounts;
-    });
+    const nextAccounts = readStaticVaAccounts();
+    delete nextAccounts[accountNo];
+    window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
+    setStaticVaAccounts(nextAccounts);
   };
 
   if (pinAccount) {
