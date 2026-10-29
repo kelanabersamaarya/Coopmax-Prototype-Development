@@ -434,9 +434,14 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
 }
 
 function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: string; amount: string; onBack: () => void }) {
-  const [selectedBank, setSelectedBank] = React.useState(false);
+  const [selectedBank, setSelectedBank] = React.useState("");
+  const [bankModalOpen, setBankModalOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
+  const banks = ["BCA", "Bank Mandiri", "BRI", "BNI"];
+  const filteredBanks = banks.filter((bank) => bank.toLowerCase().includes(search.toLowerCase()));
 
   return (
+    <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
       <header className="relative shrink-0 overflow-hidden px-5 pb-6 pt-6 text-white">
         <div className="pointer-events-none absolute -right-4 -top-14 h-[130px] w-[130px] rounded-full bg-white/10" />
@@ -453,14 +458,30 @@ function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: s
           <div className="mt-1.5 text-[17px] font-extrabold text-black">Rp. {amount.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".")}</div>
         </section>
         <h2 className="mt-6 text-[18px] font-extrabold text-[#26365F]">Metode Transfer</h2>
-        <button type="button" onClick={() => setSelectedBank((current) => !current)} className="mt-3 flex w-full items-center justify-between rounded-[12px] border border-[#E5E5E5] px-4 py-3.5 text-left" aria-pressed={selectedBank}>
-          <span><span className="block text-[14px] font-semibold text-[#999999]">Metode Transfer</span><span className="mt-1 block text-[17px] font-extrabold text-[#004FC7]">Pilih Bank</span></span>
+        <button type="button" onClick={() => setBankModalOpen(true)} className="mt-3 flex w-full items-center justify-between rounded-[12px] border border-[#E5E5E5] px-4 py-3.5 text-left" aria-label="Pilih bank">
+          <span><span className="block text-[14px] font-semibold text-[#999999]">Metode Transfer</span><span className="mt-1 block text-[17px] font-extrabold text-[#004FC7]">{selectedBank || "Pilih Bank"}</span></span>
           <span className={`grid h-5 w-5 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2 w-2 rounded-full bg-white" /></span>
         </button>
       </main>
       <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
         <button type="button" disabled={!selectedBank} className="h-10 w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
       </footer>
+      {bankModalOpen && (
+        <div className="absolute inset-0 z-50 flex items-end bg-black/55" role="dialog" aria-modal="true" aria-label="Pilih Metode Transfer">
+          <div className="max-h-[72%] w-full rounded-t-[24px] bg-white px-4 pb-8 pt-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[24px] font-extrabold text-[#26365F]">Pilih Metode Transfer</h2>
+              <button type="button" onClick={() => setBankModalOpen(false)} className="text-2xl text-[#68738A]" aria-label="Tutup">×</button>
+            </div>
+            <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari..." className="mt-5 h-14 w-full rounded-[12px] bg-[#F1F1F1] px-4 text-[16px] text-[#26365F] outline-none placeholder:text-[#888888]" aria-label="Cari bank" />
+            <div className="mt-4 grid gap-2 overflow-y-auto">
+              {filteredBanks.length ? filteredBanks.map((bank) => (
+                <button key={bank} type="button" onClick={() => { setSelectedBank(bank); setBankModalOpen(false); }} className="rounded-[12px] border border-[#E5E5E5] px-4 py-3 text-left text-[16px] font-semibold text-[#26365F]">{bank}</button>
+              )) : <p className="py-8 text-center text-[16px] text-[#26365F]">No data found</p>}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
