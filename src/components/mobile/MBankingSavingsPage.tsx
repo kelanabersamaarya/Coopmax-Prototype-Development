@@ -372,11 +372,16 @@ function TransferInstructions() {
 function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () => void }) {
   const [amount, setAmount] = React.useState("");
   const [activeTab, setActiveTab] = React.useState<"create" | "history">("create");
+  const [showBankSelection, setShowBankSelection] = React.useState(false);
   const presets = ["10.000", "50.000", "100.000", "250.000", "500.000"];
 
   const addAmount = (value: string) => {
     setAmount((current) => `${current}${value}`.replace(/^0+(?=\d)/, ""));
   };
+
+  if (showBankSelection) {
+    return <TransferBankSelectionPage accountNo={accountNo} amount={amount} onBack={() => setShowBankSelection(false)} />;
+  }
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
@@ -421,9 +426,41 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
       </main>
       {activeTab === "create" && (
         <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
-          <button type="button" disabled={!amount} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+          <button type="button" onClick={() => setShowBankSelection(true)} disabled={!amount} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
         </footer>
       )}
+    </div>
+  );
+}
+
+function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: string; amount: string; onBack: () => void }) {
+  const [selectedBank, setSelectedBank] = React.useState(false);
+
+  return (
+    <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
+      <header className="relative shrink-0 overflow-hidden px-5 pb-6 pt-6 text-white">
+        <div className="pointer-events-none absolute -right-4 -top-14 h-[130px] w-[130px] rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute right-16 -top-16 h-[130px] w-[130px] rounded-full bg-white/10" />
+        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-white" aria-label="Kembali">
+          <ArrowLeft className="h-8 w-8" strokeWidth={2.2} />
+        </button>
+        <h1 className="relative z-10 mt-5 text-[23px] font-extrabold leading-tight text-white">Pilih Metode Transfer</h1>
+      </header>
+      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="rounded-[14px] bg-[#F1F1F1] px-5 py-5">
+          <div className="text-[17px] font-semibold text-[#999999]">Ke Rekening</div>
+          <div className="mt-2 text-[20px] font-extrabold text-[#26365F]">{accountNo} - Luna Thompson</div>
+          <div className="mt-2 text-[20px] font-extrabold text-black">Rp. {amount.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".")}</div>
+        </section>
+        <h2 className="mt-8 text-[20px] font-extrabold text-[#26365F]">Metode Transfer</h2>
+        <button type="button" onClick={() => setSelectedBank((current) => !current)} className="mt-4 flex w-full items-center justify-between rounded-[14px] border border-[#E5E5E5] px-5 py-4 text-left" aria-pressed={selectedBank}>
+          <span><span className="block text-[16px] font-semibold text-[#999999]">Metode Transfer</span><span className="mt-1 block text-[20px] font-extrabold text-[#004FC7]">Pilih Bank</span></span>
+          <span className={`grid h-6 w-6 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2.5 w-2.5 rounded-full bg-white" /></span>
+        </button>
+      </main>
+      <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
+        <button type="button" disabled={!selectedBank} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+      </footer>
     </div>
   );
 }
