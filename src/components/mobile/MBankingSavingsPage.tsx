@@ -301,7 +301,18 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
 
 function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accountNo: string; bankName: string; amount: string; onBack: () => void }) {
   const [openMethod, setOpenMethod] = React.useState("");
+  const [remainingSeconds, setRemainingSeconds] = React.useState(5 * 60 * 60 + 51 * 60 + 13);
   const formattedAmount = Number(amount || 0).toLocaleString("id-ID");
+
+  React.useEffect(() => {
+    const timer = window.setInterval(() => setRemainingSeconds((seconds) => Math.max(0, seconds - 1)), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const timerHours = Math.floor(remainingSeconds / 3600);
+  const timerMinutes = Math.floor((remainingSeconds % 3600) / 60);
+  const timerSeconds = remainingSeconds % 60;
+  const timerText = `${String(timerHours).padStart(2, "0")} : ${String(timerMinutes).padStart(2, "0")} : ${String(timerSeconds).padStart(2, "0")}`;
   const adminFee = 8500;
   const total = Number(amount || 0) + adminFee;
   const virtualAccount = `${bankName === "BCA" ? "5301" : bankName === "Bank Mandiri" ? "8808" : bankName === "BRI" ? "0021" : "8810"}${accountNo.replace(/\D/g, "").padStart(8, "0")}`;
@@ -320,8 +331,11 @@ function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accoun
       </header>
       <main className="bg-[#004FC7] px-4 pb-8 pt-2">
         <div className="mx-auto max-w-[380px] rounded-[20px] bg-white px-4 pb-6 pt-5 shadow-[0_4px_18px_rgba(15,23,42,0.12)]">
-          <p className="text-[14px] font-semibold text-[#B2B2B2]">Lakukan Pembayaran Sebelum</p>
-          <p className="mt-3 text-[14px] font-extrabold text-[#333333]">12 Feb 2024, 10:20 WITA</p>
+          <div className="relative pr-24">
+            <p className="text-[14px] font-semibold text-[#B2B2B2]">Lakukan Pembayaran Sebelum</p>
+            <p className="mt-3 text-[14px] font-extrabold text-[#333333]">12 Feb 2024, 10:20 WITA</p>
+            <span className="absolute right-0 top-1 rounded-full bg-[#FFE3E5] px-3 py-2 text-[12px] font-extrabold tracking-[0.08em] text-[#FF3344]">{timerText}</span>
+          </div>
           <div className="my-4 border-t border-[#E5E5E5]" />
           <div className="flex items-center gap-3"><div className="grid h-12 w-16 place-items-center rounded-xl bg-[#F1F1F1] text-[14px] font-extrabold text-[#0A4DA2]">{bankName}</div><div><p className="font-extrabold text-[#333333]">{bankName} VA</p><p className="text-[12px] text-[#555555]">Luna Thompson</p></div></div>
           <div className="mt-4 flex items-center justify-between rounded-xl bg-[#F1F1F1] px-4 py-4"><span className="text-[17px] font-extrabold tracking-wide text-[#222222]">{virtualAccount}</span><button type="button" onClick={() => navigator.clipboard?.writeText(virtualAccount)} className="font-extrabold text-[#0057CE]">Salin</button></div>
