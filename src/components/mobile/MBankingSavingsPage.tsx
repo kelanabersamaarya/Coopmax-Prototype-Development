@@ -446,20 +446,20 @@ function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: s
         </button>
         <h1 className="relative z-10 mt-5 text-[23px] font-extrabold leading-tight text-white">Pilih Metode Transfer</h1>
       </header>
-      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="rounded-[14px] bg-[#F1F1F1] px-5 py-5">
-          <div className="text-[17px] font-semibold text-[#999999]">Ke Rekening</div>
-          <div className="mt-2 text-[20px] font-extrabold text-[#26365F]">{accountNo} - Luna Thompson</div>
-          <div className="mt-2 text-[20px] font-extrabold text-black">Rp. {amount.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".")}</div>
+      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="rounded-[12px] bg-[#F1F1F1] px-4 py-4">
+          <div className="text-[15px] font-semibold text-[#999999]">Ke Rekening</div>
+          <div className="mt-1.5 text-[17px] font-extrabold text-[#26365F]">{accountNo} - Luna Thompson</div>
+          <div className="mt-1.5 text-[17px] font-extrabold text-black">Rp. {amount.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".")}</div>
         </section>
-        <h2 className="mt-8 text-[20px] font-extrabold text-[#26365F]">Metode Transfer</h2>
-        <button type="button" onClick={() => setSelectedBank((current) => !current)} className="mt-4 flex w-full items-center justify-between rounded-[14px] border border-[#E5E5E5] px-5 py-4 text-left" aria-pressed={selectedBank}>
-          <span><span className="block text-[16px] font-semibold text-[#999999]">Metode Transfer</span><span className="mt-1 block text-[20px] font-extrabold text-[#004FC7]">Pilih Bank</span></span>
-          <span className={`grid h-6 w-6 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2.5 w-2.5 rounded-full bg-white" /></span>
+        <h2 className="mt-6 text-[18px] font-extrabold text-[#26365F]">Metode Transfer</h2>
+        <button type="button" onClick={() => setSelectedBank((current) => !current)} className="mt-3 flex w-full items-center justify-between rounded-[12px] border border-[#E5E5E5] px-4 py-3.5 text-left" aria-pressed={selectedBank}>
+          <span><span className="block text-[14px] font-semibold text-[#999999]">Metode Transfer</span><span className="mt-1 block text-[17px] font-extrabold text-[#004FC7]">Pilih Bank</span></span>
+          <span className={`grid h-5 w-5 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2 w-2 rounded-full bg-white" /></span>
         </button>
       </main>
       <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
-        <button type="button" disabled={!selectedBank} className="h-11 w-full rounded-full bg-[#004FC7] text-[14px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+        <button type="button" disabled={!selectedBank} className="h-10 w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
       </footer>
     </div>
   );
