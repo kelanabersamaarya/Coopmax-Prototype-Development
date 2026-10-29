@@ -70,7 +70,7 @@ function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccoun
             </div>
             {hasStaticVa && (
               <div className="mt-4">
-                <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Static VA</div>
+                <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Virtual Account Tetap</div>
                 <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
                   <span>88084260540</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
@@ -99,7 +99,7 @@ function DetailSavingsCard({ accountNo, hasStaticVa }: { accountNo: string; hasS
           </div>
           {hasStaticVa && (
             <div className="mt-4">
-              <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Static VA</div>
+              <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Virtual Account Tetap</div>
               <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
                 <span>88084260540</span>
                 <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
@@ -174,7 +174,7 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
         <div className="mt-8 grid gap-3">
           <div className="flex gap-3 rounded-2xl bg-[#F5F9FF] p-4">
             <CircleCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#4BB567]" strokeWidth={2.5} />
-            <p className="text-[13px] leading-relaxed text-[#44516B]">Static VA memiliki nomor rekening tetap yang dapat digunakan berulang kali.</p>
+            <p className="text-[13px] leading-relaxed text-[#44516B]">Virtual Account Tetap memiliki nomor rekening tetap yang dapat digunakan berulang kali.</p>
           </div>
           <div className="flex gap-3 rounded-2xl bg-[#F5F9FF] p-4">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.3} />
@@ -185,7 +185,7 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
 
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
-          <button type="button" onClick={onContinue} className="h-12 rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Lanjutkan Dengan Static VA</button>
+          <button type="button" onClick={onContinue} className="h-12 rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Lanjutkan Dengan Virtual Account Tetap</button>
           <button type="button" onClick={onUseDynamic} className="h-12 rounded-[14px] border-2 border-[#004FC7] px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">Gunakan VA Dinamis</button>
         </div>
       </footer>
@@ -215,7 +215,7 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
         {isReplacing && (
           <div className="mt-5 flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
             <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
-            <p className="text-[13px] leading-relaxed">Static VA yang sudah dibuat sebelumnya akan dinonaktifkan dan diganti dengan Static VA baru.</p>
+            <p className="text-[13px] leading-relaxed">Virtual Account Tetap yang sudah dibuat sebelumnya akan dinonaktifkan dan diganti dengan Virtual Account Tetap baru.</p>
           </div>
         )}
         <div className={`${isReplacing ? "mt-6" : "mt-8"} grid gap-3`}>
@@ -279,8 +279,8 @@ function StaticVaPreview({ bankName, onBack, onCancel, onSave }: { bankName: str
         <div className="absolute inset-0 z-20 flex items-end bg-[#172554]/35 px-4 pb-6" role="presentation">
           <div className="w-full rounded-[24px] bg-white p-6 text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="save-va-title">
             <div className="mx-auto h-1.5 w-12 rounded-full bg-[#D9E0EA]" />
-            <h2 id="save-va-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Simpan Static VA?</h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA dari {bankName} akan disimpan ke rekening Simpanan Anda.</p>
+            <h2 id="save-va-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Simpan Virtual Account Tetap?</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap dari {bankName} akan disimpan ke rekening Simpanan Anda.</p>
             <div className="mt-6 grid gap-3">
               <button type="button" onClick={() => { setShowSaveConfirmation(false); setShowSaveSuccess(true); }} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">Ya, Simpan</button>
               <button type="button" onClick={() => setShowSaveConfirmation(false)} className="h-12 rounded-[14px] border-2 border-[#D1D5DB] bg-white text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
@@ -292,8 +292,8 @@ function StaticVaPreview({ bankName, onBack, onCancel, onSave }: { bankName: str
         <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#172554]/35 px-4" role="presentation">
           <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="preview-save-success-title">
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
-            <h2 id="preview-save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Disimpan</h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil disimpan ke rekening Simpanan Anda.</p>
+            <h2 id="preview-save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil Disimpan</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap telah berhasil disimpan ke rekening Simpanan Anda.</p>
             <button type="button" onClick={() => { setShowSaveSuccess(false); onSave(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white transition active:scale-[0.98]">OK</button>
           </div>
         </div>
@@ -553,25 +553,25 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
     <div className="mt-7 overflow-hidden rounded-[14px] border border-[#E1E1E1] bg-white">
       <div>
         <button type="button" onClick={() => toggleMethod("static")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethod === "static"}>
-          <span>Static VA</span>
+          <span>Virtual Account Tetap</span>
           <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethod === "static" ? "rotate-180" : ""}`} strokeWidth={2.3} />
         </button>
         {openMethod === "static" && (
           <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
             <div className="flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
-              <p className="text-[13px] leading-relaxed">Static VA adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
+              <p className="text-[13px] leading-relaxed">Virtual Account Tetap adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
             </div>
             <section className="relative mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
               <div ref={optionsRef} className="absolute right-3 top-3 z-10">
-                <button type="button" onClick={onToggleOptions} className="grid h-9 w-9 place-items-center rounded-full text-white" aria-label="Opsi Static VA" aria-expanded={showOptions}>
+                <button type="button" onClick={onToggleOptions} className="grid h-9 w-9 place-items-center rounded-full text-white" aria-label="Opsi Virtual Account Tetap" aria-expanded={showOptions}>
                   <MoreVertical className="h-5 w-5" strokeWidth={2.5} />
                 </button>
-                {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Static VA</button><button type="button" onClick={() => { onCloseOptions(); onDelete(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Static VA</button></div>}
+                {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Virtual Account Tetap</button><button type="button" onClick={() => { onCloseOptions(); onDelete(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Virtual Account Tetap</button></div>}
               </div>
               <div className="text-[12px] text-blue-100">Bank</div>
               <div className="mt-1 text-[20px] font-extrabold">BCA</div>
-              <div className="mt-6 text-[12px] text-blue-100">Nomor Static VA</div>
+              <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account Tetap</div>
               <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
                 <span>8808 4260 0540</span>
                 <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
@@ -638,8 +638,8 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
       {showDeleteConfirmation && (
         <div className="absolute inset-0 z-50 flex items-end bg-[#172554]/35 px-4 pb-6">
           <div className="w-full rounded-[24px] bg-white p-6 text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
-            <h2 className="text-[20px] font-extrabold text-[#203064]">Hapus Static VA?</h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA akan dihapus dari rekening Simpanan Anda dan tidak dapat digunakan kembali.</p>
+            <h2 className="text-[20px] font-extrabold text-[#203064]">Hapus Virtual Account Tetap?</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap akan dihapus dari rekening Simpanan Anda dan tidak dapat digunakan kembali.</p>
             <div className="mt-6 grid gap-3">
               <button type="button" onClick={() => { setShowDeleteConfirmation(false); setShowDeleteSuccess(true); }} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">Ya, Hapus</button>
               <button type="button" onClick={() => setShowDeleteConfirmation(false)} className="h-12 rounded-[14px] border-2 border-[#D1D5DB] bg-white text-[14px] font-bold text-[#6B7280]">Batal</button>
@@ -651,8 +651,8 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#172554]/35 px-4">
           <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
-            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Static VA Berhasil Dihapus</h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Static VA telah berhasil dihapus dari rekening Simpanan Anda.</p>
+            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil Dihapus</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap telah berhasil dihapus dari rekening Simpanan Anda.</p>
             <button type="button" onClick={() => { setShowDeleteSuccess(false); onDelete(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">OK</button>
           </div>
         </div>
