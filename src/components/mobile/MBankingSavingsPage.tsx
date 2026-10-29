@@ -265,12 +265,6 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
           <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account</div>
           <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">8808 4260 0540</div>
         </section>
-        <div className="mt-5 rounded-2xl bg-[#F5F9FF] p-4">
-          <div className="flex gap-3">
-            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.3} />
-            <p className="text-[13px] leading-relaxed text-[#44516B]">Gunakan nomor VA ini untuk melakukan setoran ke rekening Simpanan Anda.</p>
-          </div>
-        </div>
       </main>
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
