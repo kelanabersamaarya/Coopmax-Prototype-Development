@@ -299,7 +299,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
 }
 
 function TransferInstructions() {
-  const [openMethod, setOpenMethod] = React.useState("M-Banking");
+  const [openMethod, setOpenMethod] = React.useState("");
 
   const methods = [
     {
