@@ -389,7 +389,7 @@ function TransferInstructions() {
 
   return (
     <section className="mt-8">
-      <h2 className="text-[20px] font-extrabold text-[#203064]">Cara Melakukan Transfer</h2>
+      <h2 className="text-[16px] font-extrabold text-[#203064]">Cara Melakukan Transfer</h2>
       <div className="mt-5 overflow-hidden rounded-[14px] border border-[#E1E1E1] bg-white">
         {methods.map((method, index) => {
           const isOpen = openMethod === method.name;
