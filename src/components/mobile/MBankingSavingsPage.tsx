@@ -304,7 +304,7 @@ function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accoun
   const formattedAmount = Number(amount || 0).toLocaleString("id-ID");
   const adminFee = 8500;
   const total = Number(amount || 0) + adminFee;
-  const virtualAccount = `${bankName === "BCA" ? "5301" : bankName === "Bank Mandiri" ? "8808" : bankName === "BRI" ? "0021" : "8810"}${accountNo.replace(/\\D/g, "").padStart(8, "0")}`;
+  const virtualAccount = `${bankName === "BCA" ? "5301" : bankName === "Bank Mandiri" ? "8808" : bankName === "BRI" ? "0021" : "8810"}${accountNo.replace(/\D/g, "").padStart(8, "0")}`;
   const methods = [
     { name: "m-banking", steps: ["Masukkan Kartu ATM Mandiri & PIN", "Pilih menu Transaksi Lainnya > Transfer > ke Rekening", "Pilih Virtual Account dan masukkan nomor VA di atas", "Masukkan nominal sesuai total transaksi", "Periksa detail penerima lalu konfirmasi pembayaran"] },
     { name: "Internet Banking", steps: ["Login ke internet banking bank Anda", "Pilih menu Transfer atau Virtual Account", "Masukkan nomor Virtual Account di atas", "Pastikan nominal dan penerima sudah sesuai", "Konfirmasi transaksi dan simpan bukti pembayaran"] },
