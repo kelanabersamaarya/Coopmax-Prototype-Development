@@ -659,7 +659,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   if (selectedBankName) {
     return <StaticVaPreview
       bankName={selectedBankName}
-      onBack={() => setSelectedBankName(null)}
+      onBack={() => { setSelectedBankName(null); setShowBankSelection(true); }}
       onSave={() => {
         setShowVaOnboarding(false);
         setShowBankSelection(false);
