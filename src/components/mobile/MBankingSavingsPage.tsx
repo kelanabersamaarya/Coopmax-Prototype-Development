@@ -580,7 +580,10 @@ function TransferMethodOptions({ onGenerateDynamic }: { onGenerateDynamic: () =>
         </button>
         {openMethod === "dynamic" && (
           <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
-            <p className="text-[13px] leading-relaxed text-[#68738A]">Dynamic VA adalah nomor Virtual Account yang dibuat khusus untuk satu transaksi dan memiliki masa berlaku tertentu.</p>
+            <div className="flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
+              <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
+              <p className="text-[13px] leading-relaxed">Dynamic VA adalah nomor Virtual Account yang dibuat khusus untuk satu transaksi dan memiliki masa berlaku tertentu.</p>
+            </div>
             <button type="button" onClick={onGenerateDynamic} className="mt-5 h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Generate Dynamic VA</button>
           </div>
         )}
