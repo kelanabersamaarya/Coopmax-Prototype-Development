@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
 import {
   ArrowLeft,
   ChevronDown,
@@ -431,6 +432,7 @@ const staticVaStorageKey = "mbanking-savings-static-va-account";
 
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
+  const [pinAccount, setPinAccount] = React.useState<string | null>(null);
   const [staticVaAccount, setStaticVaAccount] = React.useState<string | null>(() => {
     if (typeof window === "undefined") return null;
     const savedAccount = window.localStorage.getItem(staticVaStorageKey);
@@ -443,6 +445,18 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
     window.localStorage.setItem(staticVaStorageKey, accountNo);
   };
 
+  if (pinAccount) {
+    return (
+      <MBankingLoanPasswordPage
+        onBack={() => setPinAccount(null)}
+        onSuccess={() => {
+          setSelectedAccount(pinAccount);
+          setPinAccount(null);
+        }}
+      />
+    );
+  }
+
   if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === staticVaAccount} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
@@ -451,7 +465,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={account.accountNo === staticVaAccount} onClick={() => setSelectedAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={account.accountNo === staticVaAccount} onClick={() => setPinAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
