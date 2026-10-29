@@ -549,7 +549,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   );
 }
 
-function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions }: { onGenerateDynamic: () => void; onDelete: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void }) {
+function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions, virtualAccount }: { onGenerateDynamic: () => void; onDelete: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void; virtualAccount: string }) {
   const [openMethod, setOpenMethod] = React.useState("");
 
   const toggleMethod = (method: string) => {
@@ -639,7 +639,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
         <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} />
+        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} virtualAccount={virtualAccount} />
       </main>
       {showDeleteConfirmation && (
         <div className="absolute inset-0 z-50 flex items-end bg-[#172554]/35 px-4 pb-6">
