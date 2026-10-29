@@ -353,8 +353,13 @@ function TransferInstructions() {
               </button>
               {isOpen && (
                 <div className="px-4 pb-5 pt-1">
-                  <ol className="grid gap-3 pl-5 text-[13px] leading-relaxed text-[#4A4A4A]">
-                    {method.steps.map((step) => <li key={step} className="pl-1">{step}</li>)}
+                  <ol className="grid gap-3 text-[13px] leading-relaxed text-[#4A4A4A]">
+                    {method.steps.map((step, stepIndex) => (
+                      <li key={step} className="flex items-start gap-3">
+                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#E2EEFF] text-[12px] font-semibold text-[#004FC7]">{stepIndex + 1}</span>
+                        <span className="pt-0.5">{step}</span>
+                      </li>
+                    ))}
                   </ol>
                 </div>
               )}
