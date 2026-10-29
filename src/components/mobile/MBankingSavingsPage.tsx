@@ -592,7 +592,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
               <p className="text-[13px] leading-relaxed">Virtual Account Sekali Pakai adalah nomor Virtual Account yang dibuat khusus untuk satu transaksi dan memiliki masa berlaku tertentu.</p>
             </div>
-            <button type="button" onClick={onGenerateDynamic} className="mt-5 h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Generate Virtual Account Sekali Pakai</button>
+            <button type="button" onClick={onGenerateDynamic} className="mt-5 h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Buat Virtual Account Sekali Pakai</button>
           </div>
         )}
       </div>
