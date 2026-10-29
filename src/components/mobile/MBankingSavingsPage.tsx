@@ -368,7 +368,53 @@ function TransferInstructions() {
   );
 }
 
-function TransferMethodOptions() {
+function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () => void }) {
+  const [amount, setAmount] = React.useState("");
+  const presets = ["10.000", "50.000", "100.000", "250.000", "500.000"];
+
+  const addAmount = (value: string) => {
+    setAmount((current) => `${current}${value}`.replace(/^0+(?=\d)/, ""));
+  };
+
+  return (
+    <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
+      <header className="relative shrink-0 overflow-hidden px-6 pb-8 pt-8 text-white">
+        <div className="pointer-events-none absolute -right-4 -top-16 h-[150px] w-[150px] rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute right-20 -top-20 h-[150px] w-[150px] rounded-full bg-white/10" />
+        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white" aria-label="Kembali">
+          <ArrowLeft className="h-9 w-9" strokeWidth={2.2} />
+        </button>
+        <h1 className="relative z-10 mt-7 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
+      </header>
+      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[28px] bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-8 border-b border-transparent text-[24px] font-extrabold text-[#004FC7]">
+          <button type="button" className="rounded-full bg-[#004FC7] px-6 py-3 text-white">Buat VA Baru</button>
+          <button type="button" className="px-2 py-3">Riwayat VA</button>
+        </div>
+        <label className="mt-7 block text-[20px] text-[#777777]">Ke Rekening</label>
+        <div className="mt-3 flex items-center justify-between rounded-[14px] bg-[#F1F1F1] px-5 py-4 text-[18px] text-[#26365F]">
+          <span>{accountNo} - Luna Thompson</span>
+          <span className="text-[24px] text-[#888888]">×⌄</span>
+        </div>
+        <div className="mt-8 text-[20px] text-[#777777]">Saldo Rekening</div>
+        <div className="mt-3 text-[24px] font-extrabold text-[#26365F]">Rp. 998.617.479,17</div>
+        <div className="mt-8 text-[20px] text-[#777777]">Nominal</div>
+        <div className="mt-4 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {presets.map((preset) => <button key={preset} type="button" onClick={() => setAmount(preset.replace(/\./g, ""))} className="shrink-0 rounded-full border-2 border-[#C8C8C8] px-4 py-2 text-[20px] font-extrabold text-[#004FC7]">{preset}</button>)}
+        </div>
+        <div className="mt-5 flex items-center rounded-[14px] bg-[#F1F1F1] px-5 py-4 text-[18px] text-[#26365F]">
+          <span>Rp.</span>
+          <input value={amount.replace(/\B(?=(\d{3})+(?!\d))/g, ".")} onChange={(event) => setAmount(event.target.value.replace(/\D/g, ""))} inputMode="numeric" placeholder="Masukkan Nominal Transfer" className="ml-5 min-w-0 flex-1 bg-transparent outline-none placeholder:text-[#888888]" aria-label="Nominal Transfer" />
+        </div>
+      </main>
+      <footer className="shrink-0 bg-white px-6 pb-8 pt-4">
+        <button type="button" disabled={!amount} className="h-12 w-full rounded-full bg-[#004FC7] text-[16px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+      </footer>
+    </div>
+  );
+}
+
+function TransferMethodOptions({ onGenerateDynamic }: { onGenerateDynamic: () => void }) {
   const [openMethod, setOpenMethod] = React.useState("");
 
   const toggleMethod = (method: string) => {
@@ -406,7 +452,7 @@ function TransferMethodOptions() {
         {openMethod === "dynamic" && (
           <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
             <p className="text-[13px] leading-relaxed text-[#68738A]">Dynamic VA adalah nomor Virtual Account yang dibuat khusus untuk satu transaksi dan memiliki masa berlaku tertentu.</p>
-            <button type="button" className="mt-5 h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Generate Dynamic VA</button>
+            <button type="button" onClick={onGenerateDynamic} className="mt-5 h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Generate Dynamic VA</button>
           </div>
         )}
       </div>
@@ -414,7 +460,7 @@ function TransferMethodOptions() {
   );
 }
 
-function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; onCreateNew: () => void }) {
+function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, accountNo }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; accountNo: string }) {
   const [showOptions, setShowOptions] = React.useState(false);
   const optionsRef = React.useRef<HTMLDivElement>(null);
 
@@ -456,7 +502,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; on
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <p className="text-[14px] leading-relaxed text-[#68738A]">Pilih metode Virtual Account yang ingin digunakan untuk menambahkan saldo ke rekening Simpanan Anda.</p>
-        <TransferMethodOptions />
+        <TransferMethodOptions onGenerateDynamic={onGenerateDynamic} />
       </main>
     </div>
   );
@@ -466,11 +512,16 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [showTransferGuide, setShowTransferGuide] = React.useState(false);
+  const [showDynamicVa, setShowDynamicVa] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
   const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
 
+  if (showDynamicVa) {
+    return <DynamicVaPage accountNo={accountNo} onBack={() => setShowDynamicVa(false)} />;
+  }
+
   if (showTransferGuide) {
-    return <StaticVaTransferGuide onBack={() => setShowTransferGuide(false)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} />;
+    return <StaticVaTransferGuide accountNo={accountNo} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} />;
   }
 
   if (selectedBankName) {
