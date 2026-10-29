@@ -305,10 +305,13 @@ function TransferInstructions() {
     {
       name: "M-Banking",
       steps: [
-        "Buka aplikasi mobile banking bank Anda.",
-        "Pilih menu Transfer, lalu pilih Transfer ke Bank Lain.",
-        "Masukkan nomor Static VA sebagai rekening tujuan.",
-        "Periksa nama penerima dan nominal transfer, lalu konfirmasi pembayaran.",
+        "Buka aplikasi mobile banking atau e-wallet pilihan Anda.",
+        "Pilih menu Transfer atau Virtual Account.",
+        "Masukkan nomor Virtual Account 111222334455.",
+        "Pastikan nama penerima sudah sesuai",
+        "Masukkan nominal setoran sesuai total transaksi.",
+        "Periksa kembali detail transaksi sebelum melanjutkan.",
+        "Konfirmasi pembayaran dan simpan bukti transaksi.",
       ],
     },
     {
