@@ -200,7 +200,7 @@ const vaBanks = [
   { id: "bni", name: "BNI", logo: "BNI", color: "#F58220" },
 ];
 
-function StaticVaBankSelection({ onBack, onContinue }: { onBack: () => void; onContinue: (bankName: string) => void }) {
+function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; isReplacing?: boolean }) {
   const [selectedBank, setSelectedBank] = React.useState<string | null>(null);
 
   return (
@@ -213,7 +213,13 @@ function StaticVaBankSelection({ onBack, onContinue }: { onBack: () => void; onC
           <h1 className="text-[26px] font-extrabold leading-tight text-[#203064]">Pilih Bank</h1>
           <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Pilih bank yang ingin digunakan untuk membuat Static Virtual Account.</p>
         </div>
-        <div className="mt-8 grid gap-3">
+        {isReplacing && (
+          <div className="mt-5 flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
+            <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
+            <p className="text-[13px] leading-relaxed">Static VA yang sudah dibuat sebelumnya akan dinonaktifkan dan diganti dengan Static VA baru.</p>
+          </div>
+        )}
+        <div className={`${isReplacing ? "mt-6" : "mt-8"} grid gap-3`}>
           {vaBanks.map((bank) => (
             <button
               key={bank.id}
@@ -666,7 +672,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   }
 
   if (showBankSelection) {
-    return <StaticVaBankSelection onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
+    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
   }
 
   if (showVaOnboarding) {
