@@ -51,7 +51,8 @@ const transactions = [
   },
 ];
 
-function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccount; onClick: () => void; hasStaticVa: boolean }) {
+function SavingsCard({ account, onClick, staticVaNumber }: { account: SavingsAccount; onClick: () => void; staticVaNumber?: string }) {
+  const hasStaticVa = Boolean(staticVaNumber);
   return (
     <button type="button" onClick={onClick} className="block w-full text-left transition active:scale-[0.99]" aria-label={`Buka rekening ${account.accountNo}`}>
       <div className={`relative overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white ${hasStaticVa ? "h-[177px]" : "h-[147px]"}`}>
@@ -73,7 +74,7 @@ function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccoun
               <div className="mt-4">
                 <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Virtual Account Tetap</div>
                 <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
-                  <span>88084260540</span>
+                  <span>{staticVaNumber}</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                 </div>
               </div>
@@ -85,7 +86,9 @@ function SavingsCard({ account, onClick, hasStaticVa }: { account: SavingsAccoun
   );
 }
 
-function DetailSavingsCard({ accountNo, hasStaticVa }: { accountNo: string; hasStaticVa: boolean }) {
+function DetailSavingsCard({ accountNo, staticVaNumber }: { accountNo: string; staticVaNumber?: string }) {
+  const hasStaticVa = Boolean(staticVaNumber);
+
   return (
     <section className={`relative overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white ${hasStaticVa ? "h-[177px]" : "h-[147px]"}`}>
       <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
@@ -102,7 +105,7 @@ function DetailSavingsCard({ accountNo, hasStaticVa }: { accountNo: string; hasS
             <div className="mt-4">
               <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Virtual Account Tetap</div>
               <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
-                <span>88084260540</span>
+                <span>{staticVaNumber}</span>
                 <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
               </div>
             </div>
@@ -604,8 +607,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
   );
 }
 
-function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelete, accountNo }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; onDelete: () => void; accountNo: string }) {
-  const virtualAccount = `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
+function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelete, accountNo, virtualAccount }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; onDelete: () => void; accountNo: string; virtualAccount: string }) {
   const [showOptions, setShowOptions] = React.useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
   const [showDeleteSuccess, setShowDeleteSuccess] = React.useState(false);
@@ -665,21 +667,22 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
   );
 }
 
-function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; hasStaticVa: boolean; onBack: () => void; onStaticVaSaved: () => void; onStaticVaDeleted: () => void }) {
+function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; staticVaNumber?: string; onBack: () => void; onStaticVaSaved: () => void; onStaticVaDeleted: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [showTransferGuide, setShowTransferGuide] = React.useState(false);
   const [showDynamicVa, setShowDynamicVa] = React.useState(false);
   const [dynamicVaFromOnboarding, setDynamicVaFromOnboarding] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
-  const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
+  const [staticVaCreated, setStaticVaCreated] = React.useState(Boolean(staticVaNumber));
+  const currentStaticVaNumber = staticVaCreated ? (staticVaNumber ?? getStaticVaNumber(accountNo)) : undefined;
 
   if (showDynamicVa) {
     return <DynamicVaPage accountNo={accountNo} onBack={() => { setShowDynamicVa(false); if (dynamicVaFromOnboarding) { setShowVaOnboarding(true); setDynamicVaFromOnboarding(false); } }} />;
   }
 
   if (showTransferGuide) {
-    return <StaticVaTransferGuide accountNo={accountNo} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); onStaticVaDeleted(); }} />;
+    return <StaticVaTransferGuide accountNo={accountNo} virtualAccount={currentStaticVaNumber ?? getStaticVaNumber(accountNo)} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); onStaticVaDeleted(); }} />;
   }
 
   if (selectedBankName) {
@@ -713,7 +716,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved, on
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
         <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
-        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} hasStaticVa={staticVaCreated} /></div>
+        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} staticVaNumber={staticVaNumber} /></div>
         <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
           <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
@@ -783,7 +786,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
     );
   }
 
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={Boolean(staticVaAccounts[selectedAccount])} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -791,7 +794,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={Boolean(staticVaAccounts[account.accountNo])} onClick={() => setPinAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} staticVaNumber={staticVaAccounts[account.accountNo]} onClick={() => setPinAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
