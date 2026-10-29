@@ -353,7 +353,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew }: { onBack: () => void; on
           Gunakan Dynamic VA
         </button>
         <section className="mt-8">
-          <h2 className="text-[20px] font-extrabold text-[#203064]">Cara melakukan transfer</h2>
+          <h2 className="text-[20px] font-extrabold text-[#203064]">Cara Melakukan Transfer</h2>
           <div className="mt-5 grid gap-4">
             {[
               "Buka aplikasi mobile banking atau ATM bank Anda.",
