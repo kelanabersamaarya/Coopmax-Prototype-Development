@@ -245,7 +245,7 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
   );
 }
 
-function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBack: () => void; onSave: () => void }) {
+function StaticVaPreview({ bankName, onBack, onCancel, onSave }: { bankName: string; onBack: () => void; onCancel: () => void; onSave: () => void }) {
   const [showSaveConfirmation, setShowSaveConfirmation] = React.useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
 
@@ -269,7 +269,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
           <button type="button" onClick={() => setShowSaveConfirmation(true)} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Simpan</button>
-          <button type="button" onClick={onBack} className="h-12 w-full rounded-[14px] border-2 border-[#D1D5DB] bg-white px-5 text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
+          <button type="button" onClick={onCancel} className="h-12 w-full rounded-[14px] border-2 border-[#D1D5DB] bg-white px-5 text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
         </div>
       </footer>
       {showSaveConfirmation && (
@@ -654,6 +654,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
     return <StaticVaPreview
       bankName={selectedBankName}
       onBack={() => { setSelectedBankName(null); setShowBankSelection(true); }}
+      onCancel={() => { setSelectedBankName(null); setShowTransferGuide(true); }}
       onSave={() => {
         setShowVaOnboarding(false);
         setShowBankSelection(false);
