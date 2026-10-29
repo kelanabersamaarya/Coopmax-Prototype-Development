@@ -167,7 +167,7 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
         <div className="mt-9 text-center">
           <h1 className="text-[24px] font-extrabold leading-tight text-[#203064]">Transfer dari Bank Lain Menggunakan VA</h1>
           <p className="mx-auto mt-4 max-w-[310px] text-[14px] leading-relaxed text-[#68738A]">
-            Gunakan Static Virtual Account untuk transfer dari bank lain ke rekening simpanan dengan lebih mudah dan praktis. Cukup buat nomor VA satu kali, simpan nomornya, lalu gunakan kembali untuk transfer ke rekening simpanan berkali-kali tanpa perlu membuat nomor baru.
+            Gunakan Static Virtual Account untuk transfer dari bank lain ke rekening simpanan dengan lebih mudah dan praktis.
           </p>
         </div>
 
