@@ -300,7 +300,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
 }
 
 function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accountNo: string; bankName: string; amount: string; onBack: () => void }) {
-  const [openMethod, setOpenMethod] = React.useState("m-banking");
+  const [openMethod, setOpenMethod] = React.useState("");
   const formattedAmount = Number(amount || 0).toLocaleString("id-ID");
   const adminFee = 8500;
   const total = Number(amount || 0) + adminFee;
