@@ -663,7 +663,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
   );
 }
 
-function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: { accountNo: string; hasStaticVa: boolean; onBack: () => void; onStaticVaSaved: () => void }) {
+function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; hasStaticVa: boolean; onBack: () => void; onStaticVaSaved: () => void; onStaticVaDeleted: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [showTransferGuide, setShowTransferGuide] = React.useState(false);
@@ -677,7 +677,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   }
 
   if (showTransferGuide) {
-    return <StaticVaTransferGuide accountNo={accountNo} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); }} />;
+    return <StaticVaTransferGuide accountNo={accountNo} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); onStaticVaDeleted(); }} />;
   }
 
   if (selectedBankName) {
@@ -725,21 +725,32 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   );
 }
 
-const staticVaStorageKey = "mbanking-savings-static-va-account";
+const staticVaStorageKey = "mbanking-savings-static-va-accounts";
 
 export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
-  const [staticVaAccount, setStaticVaAccount] = React.useState<string | null>(() => {
-    if (typeof window === "undefined") return null;
-    const savedAccount = window.localStorage.getItem(staticVaStorageKey);
-    if (savedAccount) return savedAccount;
-    return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? "4260054" : null;
+  const [staticVaAccounts, setStaticVaAccounts] = React.useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    const savedAccounts = window.localStorage.getItem(staticVaStorageKey);
+    if (savedAccounts) return JSON.parse(savedAccounts);
+    return window.localStorage.getItem("mbanking-savings-static-va-4260054") === "true" ? ["4260054"] : [];
   });
 
   const handleStaticVaSaved = (accountNo: string) => {
-    setStaticVaAccount(accountNo);
-    window.localStorage.setItem(staticVaStorageKey, accountNo);
+    setStaticVaAccounts((accounts) => {
+      const nextAccounts = accounts.includes(accountNo) ? accounts : [...accounts, accountNo];
+      window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
+      return nextAccounts;
+    });
+  };
+
+  const handleStaticVaDeleted = (accountNo: string) => {
+    setStaticVaAccounts((accounts) => {
+      const nextAccounts = accounts.filter((account) => account !== accountNo);
+      window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
+      return nextAccounts;
+    });
   };
 
   if (pinAccount) {
@@ -754,7 +765,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
     );
   }
 
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={selectedAccount === staticVaAccount} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} />;
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} hasStaticVa={staticVaAccounts.includes(selectedAccount)} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -762,7 +773,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={account.accountNo === staticVaAccount} onClick={() => setPinAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} hasStaticVa={staticVaAccounts.includes(account.accountNo)} onClick={() => setPinAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
