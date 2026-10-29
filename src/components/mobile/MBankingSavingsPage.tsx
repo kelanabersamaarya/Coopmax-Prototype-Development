@@ -632,7 +632,6 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
         <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <p className="text-[14px] leading-relaxed text-[#68738A]">Pilih metode Virtual Account yang ingin digunakan untuk menambahkan saldo ke rekening Simpanan Anda.</p>
         <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} />
       </main>
       {showDeleteConfirmation && (
