@@ -139,7 +139,7 @@ function TransactionItem({ title, amount, date, description }: (typeof transacti
   );
 }
 
-function StaticVaOnboarding({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) {
+function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () => void; onContinue: () => void; onUseDynamic: () => void }) {
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
       <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -186,7 +186,7 @@ function StaticVaOnboarding({ onBack, onContinue }: { onBack: () => void; onCont
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
           <button type="button" onClick={onContinue} className="h-12 rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition active:scale-[0.98]">Lanjutkan Dengan Static VA</button>
-          <button type="button" className="h-12 rounded-[14px] border-2 border-[#004FC7] px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">Gunakan VA Dinamis</button>
+          <button type="button" onClick={onUseDynamic} className="h-12 rounded-[14px] border-2 border-[#004FC7] px-5 text-[14px] font-bold text-[#004FC7] transition active:scale-[0.98]">Gunakan VA Dinamis</button>
         </div>
       </footer>
     </div>
@@ -666,11 +666,12 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [showTransferGuide, setShowTransferGuide] = React.useState(false);
   const [showDynamicVa, setShowDynamicVa] = React.useState(false);
+  const [dynamicVaFromOnboarding, setDynamicVaFromOnboarding] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
   const [staticVaCreated, setStaticVaCreated] = React.useState(hasStaticVa);
 
   if (showDynamicVa) {
-    return <DynamicVaPage accountNo={accountNo} onBack={() => setShowDynamicVa(false)} />;
+    return <DynamicVaPage accountNo={accountNo} onBack={() => { setShowDynamicVa(false); if (dynamicVaFromOnboarding) { setShowVaOnboarding(true); setDynamicVaFromOnboarding(false); } }} />;
   }
 
   if (showTransferGuide) {
@@ -697,7 +698,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   }
 
   if (showVaOnboarding) {
-    return <StaticVaOnboarding onBack={() => setShowVaOnboarding(false)} onContinue={() => setShowBankSelection(true)} />;
+    return <StaticVaOnboarding onBack={() => setShowVaOnboarding(false)} onContinue={() => setShowBankSelection(true)} onUseDynamic={() => { setDynamicVaFromOnboarding(true); setShowVaOnboarding(false); setShowDynamicVa(true); }} />;
   }
 
   return (
