@@ -8,6 +8,7 @@ import {
   ChevronDown,
   CircleCheck,
   Copy,
+  Info,
   Landmark,
   MoreVertical,
   Plus,
@@ -555,7 +556,10 @@ function TransferMethodOptions({ onGenerateDynamic }: { onGenerateDynamic: () =>
         </button>
         {openMethod === "static" && (
           <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
-            <p className="text-[13px] leading-relaxed text-[#68738A]">Static VA adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
+            <div className="flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
+              <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
+              <p className="text-[13px] leading-relaxed">Static VA adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
+            </div>
             <section className="mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
               <div className="text-[12px] text-blue-100">Bank</div>
               <div className="mt-1 text-[20px] font-extrabold">BCA</div>
