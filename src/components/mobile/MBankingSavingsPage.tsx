@@ -317,10 +317,11 @@ function TransferInstructions() {
     {
       name: "Internet Banking",
       steps: [
-        "Masuk ke layanan Internet Banking bank Anda.",
-        "Pilih menu Transfer ke Bank Lain.",
-        "Masukkan nomor Static VA dan nominal transfer.",
-        "Periksa detail transaksi, lalu konfirmasi transfer.",
+        "Masuk ke internet banking bank Anda.",
+        "Pilih menu Transfer atau Pembayaran Virtual Account.",
+        "Masukkan nomor Virtual Account yang tersedia.",
+        "Pastikan detail penerima dan nominal sudah benar.",
+        "Konfirmasi transaksi dan simpan bukti pembayaran.",
       ],
     },
     {
