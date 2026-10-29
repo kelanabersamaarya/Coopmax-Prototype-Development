@@ -239,7 +239,10 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
         </div>
       </main>
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
-        <button type="button" onClick={() => selectedBank && onContinue(vaBanks.find((bank) => bank.id === selectedBank)?.name ?? "")} disabled={!selectedBank} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#B8CBE8]">Lanjutkan</button>
+        <div className="grid gap-3">
+          <button type="button" onClick={() => selectedBank && onContinue(vaBanks.find((bank) => bank.id === selectedBank)?.name ?? "")} disabled={!selectedBank} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#B8CBE8]">Lanjutkan</button>
+          <button type="button" onClick={onBack} className="h-12 w-full rounded-[14px] border-2 border-[#D1D5DB] bg-white px-5 text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
+        </div>
       </footer>
     </div>
   );
