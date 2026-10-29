@@ -411,7 +411,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
         <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali">
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
-        <h1 className="mt-5 text-[28px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
+        <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
         <div className="mt-7"><DetailSavingsCard accountNo={accountNo} hasStaticVa={staticVaCreated} /></div>
         <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
