@@ -299,6 +299,41 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
   );
 }
 
+function DynamicTransferReview({ accountNo, bankName, amount, onBack }: { accountNo: string; bankName: string; amount: string; onBack: () => void }) {
+  const [openMethod, setOpenMethod] = React.useState("m-banking");
+  const formattedAmount = Number(amount || 0).toLocaleString("id-ID");
+  const adminFee = 8500;
+  const total = Number(amount || 0) + adminFee;
+  const virtualAccount = `${bankName === "BCA" ? "5301" : bankName === "Bank Mandiri" ? "8808" : bankName === "BRI" ? "0021" : "8810"}${accountNo.replace(/\\D/g, "").padStart(8, "0")}`;
+  const methods = [
+    { name: "m-banking", steps: ["Masukkan Kartu ATM Mandiri & PIN", "Pilih menu Transaksi Lainnya > Transfer > ke Rekening", "Pilih Virtual Account dan masukkan nomor VA di atas", "Masukkan nominal sesuai total transaksi", "Periksa detail penerima lalu konfirmasi pembayaran"] },
+    { name: "Internet Banking", steps: ["Login ke internet banking bank Anda", "Pilih menu Transfer atau Virtual Account", "Masukkan nomor Virtual Account di atas", "Pastikan nominal dan penerima sudah sesuai", "Konfirmasi transaksi dan simpan bukti pembayaran"] },
+    { name: "ATM", steps: ["Masukkan kartu dan PIN ATM", "Pilih menu Transfer > Virtual Account", "Masukkan nomor Virtual Account di atas", "Periksa detail transaksi", "Konfirmasi dan simpan struk pembayaran"] },
+  ];
+
+  return (
+    <div className="flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
+      <header className="relative shrink-0 overflow-hidden px-6 pb-8 pt-6 text-white">
+        <div className="pointer-events-none absolute -right-5 -top-16 h-[150px] w-[150px] rounded-full bg-white/10" />
+        <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center text-white" aria-label="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.3} /></button>
+        <h1 className="relative z-10 mt-4 text-[26px] font-extrabold text-white">Review</h1>
+      </header>
+      <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="rounded-[18px] border border-[#E5E5E5] bg-white p-4 shadow-[0_2px_8px_rgba(15,23,42,0.08)]">
+          <p className="text-[16px] font-semibold text-[#B2B2B2]">Lakukan Pembayaran Sebelum</p>
+          <p className="mt-3 text-[16px] font-extrabold text-[#333333]">12 Feb 2024, 10:20 WITA</p>
+          <div className="my-4 border-t border-[#E5E5E5]" />
+          <div className="flex items-center gap-3"><div className="grid h-12 w-16 place-items-center rounded-xl bg-[#F1F1F1] text-[14px] font-extrabold text-[#0A4DA2]">{bankName}</div><div><p className="font-extrabold text-[#333333]">{bankName} VA</p><p className="text-[12px] text-[#555555]">Luna Thompson</p></div></div>
+          <div className="mt-4 flex items-center justify-between rounded-xl bg-[#F1F1F1] px-4 py-4"><span className="text-[17px] font-extrabold tracking-wide text-[#222222]">{virtualAccount}</span><button type="button" onClick={() => navigator.clipboard?.writeText(virtualAccount)} className="font-extrabold text-[#0057CE]">Salin</button></div>
+          <h2 className="mt-5 text-[16px] font-extrabold text-[#263D78]">Detail Transaksi</h2>
+          <div className="mt-3 rounded-[14px] bg-[#F5F5F5] p-4"><p className="text-[14px] font-semibold text-[#A0A0A0]">Ke Rekening</p><p className="mt-1 text-[16px] font-extrabold text-[#263D78]">{accountNo} - Luna Thompson</p><p className="mt-1 text-[16px] font-extrabold text-black">Simpanan Sukarela</p><div className="mt-5 rounded-[12px] border border-[#E3E3E3] bg-white p-3"><div className="flex justify-between text-[14px]"><span className="font-semibold text-[#999999]">Nominal</span><span className="font-extrabold">Rp{formattedAmount}</span></div><div className="mt-4 flex justify-between text-[14px]"><span className="font-semibold text-[#999999]">Biaya Admin</span><span className="font-extrabold">Rp{adminFee.toLocaleString("id-ID")}</span></div><div className="my-4 border-t border-dashed border-[#BDBDBD]" /><div className="font-extrabold">Total</div><div className="mt-3 flex justify-between rounded-xl bg-[#F1F1F1] px-3 py-3"><span className="font-extrabold">Rp {total.toLocaleString("id-ID")}</span><button type="button" onClick={() => navigator.clipboard?.writeText(String(total))} className="font-extrabold text-[#0057CE]">Salin</button></div><p className="mt-3 text-[10px] text-[#999999]">Pastikan anda memasukkan nominal sesuai dengan jumlah transfer</p></div></div>
+        </section>
+        <section className="mt-6"><h2 className="text-[17px] font-extrabold text-[#263D78]">Cara Melakukan Pembayaran</h2><div className="mt-4 overflow-hidden rounded-[14px] border border-[#E1E1E1]">{methods.map((method, index) => <div key={method.name} className={index ? "border-t border-[#E8E8E8]" : ""}><button type="button" onClick={() => setOpenMethod(openMethod === method.name ? "" : method.name)} className="flex min-h-[56px] w-full items-center justify-between px-4 text-left font-bold text-[#333333]"><span>{method.name}</span><ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethod === method.name ? "rotate-180" : ""}`} /></button>{openMethod === method.name && <ol className="list-decimal space-y-3 px-9 pb-5 text-[12px] leading-relaxed text-[#4A4A4A]">{method.steps.map((step) => <li key={step}>{step}</li>)}</ol>}</div>)}</div></section>
+      </main>
+    </div>
+  );
+}
+
 function TransferInstructions() {
   const [openMethod, setOpenMethod] = React.useState("");
 
@@ -373,14 +408,19 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
   const [amount, setAmount] = React.useState("");
   const [activeTab, setActiveTab] = React.useState<"create" | "history">("create");
   const [showBankSelection, setShowBankSelection] = React.useState(false);
+  const [reviewBank, setReviewBank] = React.useState("");
   const presets = ["10.000", "50.000", "100.000", "250.000", "500.000"];
 
   const addAmount = (value: string) => {
     setAmount((current) => `${current}${value}`.replace(/^0+(?=\d)/, ""));
   };
 
+  if (reviewBank) {
+    return <DynamicTransferReview accountNo={accountNo} bankName={reviewBank} amount={amount} onBack={() => setReviewBank("")} />;
+  }
+
   if (showBankSelection) {
-    return <TransferBankSelectionPage accountNo={accountNo} amount={amount} onBack={() => setShowBankSelection(false)} />;
+    return <TransferBankSelectionPage accountNo={accountNo} amount={amount} onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setReviewBank(bankName); }} />;
   }
 
   return (
@@ -433,7 +473,7 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
   );
 }
 
-function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: string; amount: string; onBack: () => void }) {
+function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { accountNo: string; amount: string; onBack: () => void; onContinue: (bankName: string) => void }) {
   const [selectedBank, setSelectedBank] = React.useState("");
   const [bankModalOpen, setBankModalOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -463,7 +503,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: s
         </button>
       </main>
       <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
-        <button type="button" disabled={!selectedBank} className="h-10 w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
+        <button type="button" onClick={() => selectedBank && onContinue(selectedBank)} disabled={!selectedBank} className="h-10 w-full rounded-full bg-[#004FC7] text-[13px] font-semibold text-white disabled:bg-[#AFC4E8]">Lanjutkan</button>
       </footer>
       {bankModalOpen && (
         <div className="absolute inset-0 z-50 flex items-end bg-black/55" role="dialog" aria-modal="true" aria-label="Pilih Metode Transfer">
