@@ -458,7 +458,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack }: { accountNo: s
         </section>
         <h2 className="mt-6 text-[18px] font-extrabold text-[#26365F]">Metode Transfer</h2>
         <button type="button" onClick={() => setBankModalOpen(true)} className="mt-3 flex w-full items-center justify-between rounded-[12px] border border-[#E5E5E5] px-4 py-3.5 text-left" aria-label="Pilih bank">
-          <span><span className="block text-[14px] font-semibold text-[#999999]">Metode Transfer</span><span className="mt-1 block text-[17px] font-extrabold text-[#004FC7]">{selectedBank || "Pilih Bank"}</span></span>
+          <span><span className="block text-[14px] font-semibold text-[#999999]">Virtual Account Bank</span><span className="mt-1 block text-[17px] font-extrabold text-[#004FC7]">{selectedBank || "Pilih Bank"}</span></span>
           <span className={`grid h-5 w-5 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2 w-2 rounded-full bg-white" /></span>
         </button>
       </main>
