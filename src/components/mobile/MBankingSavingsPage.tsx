@@ -671,7 +671,7 @@ function SavingsDetailPage({ accountNo, hasStaticVa, onBack, onStaticVaSaved }: 
   }
 
   if (showBankSelection) {
-    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => setShowBankSelection(false)} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
+    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => { setShowBankSelection(false); if (staticVaCreated) { setShowTransferGuide(true); } else { setShowVaOnboarding(true); } }} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
   }
 
   if (showVaOnboarding) {
