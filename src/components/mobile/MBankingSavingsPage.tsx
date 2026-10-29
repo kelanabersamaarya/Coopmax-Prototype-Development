@@ -570,7 +570,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
                 {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Virtual Account Tetap</button><button type="button" onClick={() => { onCloseOptions(); onDelete(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Virtual Account Tetap</button></div>}
               </div>
               <div className="text-[12px] text-blue-100">Bank</div>
-              <div className="mt-1 text-[20px] font-extrabold">BCA</div>
+              <div className="mt-1 text-[20px] font-extrabold">BNI</div>
               <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account Tetap</div>
               <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
                 <span>8808 4260 0540</span>
