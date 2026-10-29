@@ -5,7 +5,6 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 
 const banks = [
   "Bank Negara Indonesia",
-  "Bank Central Asia",
   "Bank Mandiri",
   "Bank Rakyat Indonesia",
   "Bank Tabungan Negara",

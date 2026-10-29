@@ -194,7 +194,6 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
 }
 
 const vaBanks = [
-  { id: "bca", name: "BCA", logo: "BCA", color: "#0A4DA2" },
   { id: "mandiri", name: "Bank Mandiri", logo: "mandiri", color: "#006B5B" },
   { id: "bri", name: "BRI", logo: "BRI", color: "#00529B" },
   { id: "bni", name: "BNI", logo: "BNI", color: "#F58220" },
@@ -494,7 +493,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   const [selectedBank, setSelectedBank] = React.useState("");
   const [bankModalOpen, setBankModalOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
-  const banks = ["BCA", "Bank Mandiri", "BRI", "BNI"];
+  const banks = ["Bank Mandiri", "BRI", "BNI"];
   const filteredBanks = banks.filter((bank) => bank.toLowerCase().includes(search.toLowerCase()));
 
   return (
