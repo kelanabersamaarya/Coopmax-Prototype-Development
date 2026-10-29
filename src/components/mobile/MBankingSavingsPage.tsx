@@ -256,7 +256,7 @@ function StaticVaPreview({ bankName, onBack, onSave }: { bankName: string; onBac
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
         <div className="mt-8">
-          <h1 className="text-[26px] font-extrabold leading-tight text-[#203064]">Preview Static VA</h1>
+          <h1 className="text-[26px] font-extrabold leading-tight text-[#203064]">Pratinjau Nomor Virtual Account</h1>
           <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Pastikan informasi Virtual Account sudah sesuai sebelum disimpan.</p>
         </div>
         <section className="mt-8 rounded-[22px] bg-[#004FC7] p-5 text-white">
