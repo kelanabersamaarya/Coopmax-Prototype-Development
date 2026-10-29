@@ -9,6 +9,7 @@ import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
 import MBankingInfoPage from "@/components/mobile/MBankingInfoPage";
 import MBankingNotificationsPage from "@/components/mobile/MBankingNotificationsPage";
 import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
+import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
 import MBankingProfilePage from "@/components/mobile/MBankingProfilePage";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
@@ -29,6 +30,7 @@ export default function MBankingHome({
   onTransactionSaved?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [screen, setScreen] = React.useState<MBankingHomeScreen>("home");
+  const [savingsPinOpen, setSavingsPinOpen] = React.useState(false);
   const [exitOpen, setExitOpen] = React.useState(false);
   const [bannerDetailOpen, setBannerDetailOpen] = React.useState(false);
   const [allBannersOpen, setAllBannersOpen] = React.useState(false);
@@ -89,6 +91,18 @@ export default function MBankingHome({
     return <MBankingProfilePage onBack={() => setScreen("home")} />;
   }
 
+  if (savingsPinOpen) {
+    return (
+      <MBankingLoanPasswordPage
+        onBack={() => setSavingsPinOpen(false)}
+        onSuccess={() => {
+          setSavingsPinOpen(false);
+          setScreen("savings");
+        }}
+      />
+    );
+  }
+
   if (screen === "savings") {
     return <MBankingSavingsPage onBack={() => setScreen("info")} />;
   }
@@ -107,7 +121,7 @@ export default function MBankingHome({
     return (
       <MBankingInfoPage
         onBack={() => setScreen("home")}
-        onSavingsClick={() => setScreen("savings")}
+        onSavingsClick={() => setSavingsPinOpen(true)}
         onLoanClick={() => setScreen("loan")}
       />
     );
