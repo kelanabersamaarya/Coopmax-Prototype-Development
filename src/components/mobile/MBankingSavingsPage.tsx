@@ -738,6 +738,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
 function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStaticVaBank, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; staticVaNumber?: string; staticVaBank?: string; onBack: () => void; onStaticVaSaved: (bankName: string) => void; onStaticVaDeleted: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
+  const [showInitialTransferGuide, setShowInitialTransferGuide] = React.useState(initialTransferGuide);
   const [showTransferGuide, setShowTransferGuide] = React.useState(false);
   const [showDynamicVa, setShowDynamicVa] = React.useState(false);
   const [dynamicVaFromOnboarding, setDynamicVaFromOnboarding] = React.useState(false);
@@ -748,6 +749,10 @@ function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStati
 
   if (showDynamicVa) {
     return <DynamicVaPage accountNo={accountNo} onBack={() => { setShowDynamicVa(false); if (dynamicVaFromOnboarding) { setShowVaOnboarding(true); setDynamicVaFromOnboarding(false); } }} />;
+  }
+
+  if (showInitialTransferGuide) {
+    return <StaticVaTransferGuide accountNo={accountNo} bankName={staticVaBank} virtualAccount={currentStaticVaNumber ?? getStaticVaNumber(accountNo)} onBack={onBack} onGenerateDynamic={() => { setShowInitialTransferGuide(false); setShowDynamicVa(true); }} onCreateNew={() => { setShowInitialTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowInitialTransferGuide(false); setStaticVaCreated(false); onStaticVaDeleted(); }} />;
   }
 
   if (showTransferGuide) {
@@ -871,7 +876,7 @@ function removeStaticVaAccount(accountNo: string) {
   return nextAccounts;
 }
 
-export default function MBankingSavingsPage({ onBack, initialAccountNo, onAccountSelect }: { onBack: () => void; initialAccountNo?: string; onAccountSelect?: (accountNo: string) => void }) {
+export default function MBankingSavingsPage({ onBack, initialAccountNo, initialTransferGuide = false, onAccountSelect }: { onBack: () => void; initialAccountNo?: string; initialTransferGuide?: boolean; onAccountSelect?: (accountNo: string) => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(initialAccountNo ?? null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
   const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(readStaticVaAccounts);

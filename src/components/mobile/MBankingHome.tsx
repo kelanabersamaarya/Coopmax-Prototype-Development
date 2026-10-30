@@ -40,8 +40,11 @@ export default function MBankingHome({
   } | null>(null);
   const [bannerReturn, setBannerReturn] = React.useState<"home" | "notifications">("home");
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
+  const [pinForTopUp, setPinForTopUp] = React.useState(false);
+  const [topUpAccount, setTopUpAccount] = React.useState<string | null>(null);
   const [homeDetailAccount, setHomeDetailAccount] = React.useState<string | null>(null);
   const [homeDetailReturn, setHomeDetailReturn] = React.useState<"home">("home");
+  const [homeDetailTransferGuide, setHomeDetailTransferGuide] = React.useState(false);
   const [topUpOpen, setTopUpOpen] = React.useState(false);
 
   if (notificationsOpen) {
@@ -94,8 +97,16 @@ export default function MBankingHome({
     return <MBankingLoanPasswordPage onBack={() => setPinAccount(null)} onSuccess={() => { setHomeDetailAccount(pinAccount); setPinAccount(null); }} />;
   }
 
+  if (pinForTopUp) {
+    return <MBankingLoanPasswordPage onBack={() => setPinForTopUp(false)} onSuccess={() => { setPinForTopUp(false); setHomeDetailTransferGuide(true); }} />;
+  }
+
   if (homeDetailAccount) {
     return <MBankingSavingsPage onBack={() => { setHomeDetailAccount(null); setScreen(homeDetailReturn); }} initialAccountNo={homeDetailAccount} />;
+  }
+
+  if (homeDetailTransferGuide) {
+    return <MBankingSavingsPage onBack={() => setHomeDetailTransferGuide(false)} initialAccountNo={topUpAccount ?? undefined} initialTransferGuide />;
   }
 
   if (topUpOpen) {
@@ -104,7 +115,8 @@ export default function MBankingHome({
         onBack={() => setTopUpOpen(false)}
         onAccountSelect={(accountNo) => {
           setTopUpOpen(false);
-          setHomeDetailAccount(accountNo);
+          setTopUpAccount(accountNo);
+          setPinForTopUp(true);
         }}
       />
     );
