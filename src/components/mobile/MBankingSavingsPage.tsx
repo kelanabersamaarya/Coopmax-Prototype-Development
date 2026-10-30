@@ -72,11 +72,16 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
               <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
             </div>
             {hasStaticVa && (
-              <div className="mt-4">
-                <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
-                <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
-                  <span>{staticVaNumber}</span>
-                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+              <div className="mt-4 flex items-end gap-3">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
+                  <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
+                </div>
+                <div>
+                  <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+                  <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
+                    <span>{staticVaNumber}</span>
+                    <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                  </div>
                 </div>
               </div>
             )}
@@ -103,11 +108,16 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
             {hasStaticVa && <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />}
           </div>
           {hasStaticVa && (
-            <div className="mt-4">
-              <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
-              <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
-                <span>{staticVaNumber}</span>
-                <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+            <div className="mt-4 flex items-end gap-3">
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
+                <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
+              </div>
+              <div>
+                <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+                <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
+                  <span>{staticVaNumber}</span>
+                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                </div>
               </div>
             </div>
           )}
@@ -212,6 +222,15 @@ const vaBanks = [
   { id: "bjb", name: "BJB VA", logo: "/bjb_logo.png" },
   { id: "sinarmas", name: "Sinarmas VA", logo: "/sinarmas_logo.png" },
 ];
+
+function getVaBankLogo(bankName?: string) {
+  const bankAliases: Record<string, string> = {
+    "Bank Mandiri": "/mandiri_logo.png",
+    BRI: "/bri_logo.png",
+    BNI: "/bni_logo.png",
+  };
+  return vaBanks.find((bank) => bank.name === bankName)?.logo ?? (bankName ? bankAliases[bankName] : undefined);
+}
 
 function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; onSuccess: (bankName: string) => void; isReplacing?: boolean }) {
   const [selectedBank, setSelectedBank] = React.useState<string | null>(null);
