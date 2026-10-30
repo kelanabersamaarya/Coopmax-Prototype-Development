@@ -560,6 +560,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   const [selectedBank, setSelectedBank] = React.useState("");
   const [bankModalOpen, setBankModalOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
+  const selectedBankOption = vaBanks.find((bank) => bank.name === selectedBank);
   const banks = vaBanks.map((bank) => ({ name: bank.name, logo: bank.logo }));
   const filteredBanks = banks.filter((bank) => bank.name.toLowerCase().includes(search.toLowerCase()));
 
@@ -580,8 +581,11 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
           <div className="mt-1.5 text-[17px] font-extrabold text-black">Rp. {amount.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".")}</div>
         </section>
         <h2 className="mt-6 text-[18px] font-extrabold text-[#26365F]">Metode Transfer</h2>
-        <button type="button" onClick={() => setBankModalOpen(true)} className="mt-3 flex w-full items-center justify-between rounded-[12px] border border-[#E5E5E5] px-4 py-3.5 text-left" aria-label="Pilih bank">
-          <span><span className="block text-[14px] font-semibold text-[#999999]">Virtual Account Bank</span><span className="mt-1 block text-[17px] font-extrabold text-[#004FC7]">{selectedBank || "Pilih Bank"}</span></span>
+        <button type="button" onClick={() => setBankModalOpen(true)} className={`mt-3 flex w-full items-center justify-between rounded-[12px] border-2 px-4 py-3.5 text-left ${selectedBank ? "border-[#004FC7]" : "border-[#E5E5E5]"}`} aria-label="Pilih bank">
+          <span className="flex items-center gap-3">
+            {selectedBankOption && <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-[#F3F3F3] p-1.5"><img src={selectedBankOption.logo} alt={`${selectedBankOption.name} logo`} className="max-h-full max-w-full object-contain" /></span>}
+            <span><span className="block text-[14px] font-semibold text-[#999999]">Virtual Account Bank</span><span className="mt-1 block text-[17px] font-extrabold text-[#26365F]">{selectedBank || "Pilih Bank"}</span></span>
+          </span>
           <span className={`grid h-5 w-5 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2 w-2 rounded-full bg-white" /></span>
         </button>
       </main>
