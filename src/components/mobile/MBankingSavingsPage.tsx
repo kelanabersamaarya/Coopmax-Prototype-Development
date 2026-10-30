@@ -560,8 +560,8 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   const [selectedBank, setSelectedBank] = React.useState("");
   const [bankModalOpen, setBankModalOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
-  const banks = ["Bank Mandiri", "BRI", "BNI"];
-  const filteredBanks = banks.filter((bank) => bank.toLowerCase().includes(search.toLowerCase()));
+  const banks = vaBanks.map((bank) => ({ name: bank.name.replace(" VA", ""), logo: bank.logo }));
+  const filteredBanks = banks.filter((bank) => bank.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7] text-[#26365F]">
@@ -598,7 +598,10 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
             <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari..." className="mt-5 h-14 w-full rounded-[12px] bg-[#F1F1F1] px-4 text-[16px] text-[#26365F] outline-none placeholder:text-[#888888]" aria-label="Cari bank" />
             <div className="mt-4 grid gap-2 overflow-y-auto">
               {filteredBanks.length ? filteredBanks.map((bank) => (
-                <button key={bank} type="button" onClick={() => { setSelectedBank(bank); setBankModalOpen(false); }} className="rounded-[12px] border border-[#E5E5E5] px-4 py-3 text-left text-[16px] font-semibold text-[#26365F]">{bank}</button>
+                <button key={bank.name} type="button" onClick={() => { setSelectedBank(bank.name); setBankModalOpen(false); }} className="flex items-center gap-3 rounded-[12px] border border-[#E5E5E5] px-4 py-3 text-left text-[16px] font-semibold text-[#26365F]">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#F3F7FC] p-1.5"><img src={bank.logo} alt={`${bank.name} logo`} className="max-h-full max-w-full object-contain" /></span>
+                  <span>{bank.name}</span>
+                </button>
               )) : <p className="py-8 text-center text-[16px] text-[#26365F]">No data found</p>}
             </div>
           </div>
