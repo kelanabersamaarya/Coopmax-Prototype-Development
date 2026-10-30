@@ -550,20 +550,20 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
 }
 
 function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions, virtualAccount, bankName }: { onGenerateDynamic: () => void; onDelete: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void; virtualAccount: string; bankName?: string }) {
-  const [openMethod, setOpenMethod] = React.useState("");
+  const [openMethods, setOpenMethods] = React.useState<Record<"static" | "dynamic", boolean>>({ static: false, dynamic: false });
 
-  const toggleMethod = (method: string) => {
-    setOpenMethod((current) => (current === method ? "" : method));
+  const toggleMethod = (method: "static" | "dynamic") => {
+    setOpenMethods((current) => ({ ...current, [method]: !current[method] }));
   };
 
   return (
     <div className="mt-7 overflow-hidden rounded-[14px] border border-[#E1E1E1] bg-white">
       <div>
-        <button type="button" onClick={() => toggleMethod("static")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethod === "static"}>
+        <button type="button" onClick={() => toggleMethod("static")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethods.static}>
           <span>Virtual Account Tetap</span>
-          <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethod === "static" ? "rotate-180" : ""}`} strokeWidth={2.3} />
+          <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethods.static ? "rotate-180" : ""}`} strokeWidth={2.3} />
         </button>
-        {openMethod === "static" && (
+        {openMethods.static && (
           <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
             <div className="flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
@@ -589,11 +589,11 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
         )}
       </div>
       <div className="border-t border-[#E8E8E8]">
-        <button type="button" onClick={() => toggleMethod("dynamic")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethod === "dynamic"}>
+        <button type="button" onClick={() => toggleMethod("dynamic")} className="flex min-h-[58px] w-full items-center justify-between px-4 text-left text-[16px] font-bold text-[#333333]" aria-expanded={openMethods.dynamic}>
           <span>Virtual Account Sekali Pakai</span>
-          <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethod === "dynamic" ? "rotate-180" : ""}`} strokeWidth={2.3} />
+          <ChevronDown className={`h-5 w-5 text-black transition-transform ${openMethods.dynamic ? "rotate-180" : ""}`} strokeWidth={2.3} />
         </button>
-        {openMethod === "dynamic" && (
+        {openMethods.dynamic && (
           <div className="border-t border-[#E8E8E8] px-4 pb-5 pt-4">
             <div className="flex gap-3 rounded-[14px] bg-[#EAF3FF] p-3.5 text-[#31517F]">
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
