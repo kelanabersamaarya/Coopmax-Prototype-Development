@@ -126,7 +126,7 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
       </div>
       <div className="absolute bottom-5 left-5 z-10">
         <div className="text-[10px] font-normal leading-none text-[#678DD8]">Saldo</div>
-        <div className="mt-2 text-[16px] font-normal leading-tight tracking-[-0.025em]">Rp 998,617,479.17</div>
+        <div className="mt-0.5 text-[16px] font-normal leading-tight tracking-[-0.025em]">Rp 998,617,479.17</div>
       </div>
     </section>
   );
