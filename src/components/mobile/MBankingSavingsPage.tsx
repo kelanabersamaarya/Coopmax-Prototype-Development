@@ -293,7 +293,7 @@ function StaticVaPreview({ accountNo, bankName, onBack, onCancel, onSave }: { ac
         </div>
       )}
       {showSaveSuccess && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#172554]/35 px-4" role="presentation">
+        <div className="absolute inset-0 z-30 flex items-end bg-[#172554]/35 px-4 pb-6" role="presentation">
           <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]" role="dialog" aria-modal="true" aria-labelledby="preview-save-success-title">
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
             <h2 id="preview-save-success-title" className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil Disimpan</h2>
@@ -659,7 +659,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
         </div>
       )}
       {showDeleteSuccess && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#172554]/35 px-4">
+        <div className="absolute inset-0 z-50 flex items-end bg-[#172554]/35 px-4 pb-6">
           <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="h-8 w-8" strokeWidth={2.5} /></div>
             <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil Dihapus</h2>
