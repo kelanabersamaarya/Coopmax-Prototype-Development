@@ -108,21 +108,21 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
             {hasStaticVa && <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />}
           </div>
           {hasStaticVa && (
-            <div className="mt-4 flex w-full items-start justify-between gap-3">
-              <div className="min-w-0">
-                <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
-                <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
-                  <span>{staticVaNumber}</span>
-                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                </div>
-              </div>
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white p-1.5">
-                <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
+            <div className="mt-4 min-w-0">
+              <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+              <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
+                <span>{staticVaNumber}</span>
+                <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
               </div>
             </div>
           )}
         </div>
         <div className="shrink-0 pt-0.5 text-right text-[12px] font-normal leading-tight">Simpanan Sukarela</div>
+        {hasStaticVa && (
+          <div className="absolute right-5 top-[86px] z-10 grid h-10 w-10 place-items-center rounded-lg bg-white p-1.5">
+            <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
+          </div>
+        )}
       </div>
       <div className="absolute bottom-5 left-5 z-10">
         <div className="text-[10px] font-normal leading-none text-[#678DD8]">Saldo</div>
