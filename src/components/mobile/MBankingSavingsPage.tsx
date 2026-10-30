@@ -704,7 +704,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
             <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
           </button>
         </div>
-        <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
+        <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Setor Dana dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} virtualAccount={virtualAccount} bankName={bankName} />
