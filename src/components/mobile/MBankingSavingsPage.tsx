@@ -237,7 +237,7 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
           </div>
         )}
         <div className={`${isReplacing ? "mt-5" : "mt-8"}`}>
-          <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari..." className="h-[62px] w-full rounded-[18px] bg-[#F1F1F1] px-7 text-[20px] text-[#26365F] outline-none placeholder:text-[#777777]" aria-label="Cari bank virtual account" />
+          <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari Bank..." className="h-[52px] w-full rounded-[16px] bg-[#F1F1F1] px-5 text-[16px] text-[#26365F] outline-none placeholder:text-[#777777]" aria-label="Cari bank virtual account" />
         </div>
         <div className="mt-3 grid gap-3">
           {filteredBanks.map((bank) => (
