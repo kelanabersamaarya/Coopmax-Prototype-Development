@@ -871,7 +871,7 @@ function removeStaticVaAccount(accountNo: string) {
   return nextAccounts;
 }
 
-export default function MBankingSavingsPage({ onBack, initialAccountNo }: { onBack: () => void; initialAccountNo?: string }) {
+export default function MBankingSavingsPage({ onBack, initialAccountNo, onAccountSelect }: { onBack: () => void; initialAccountNo?: string; onAccountSelect?: (accountNo: string) => void }) {
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(initialAccountNo ?? null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
   const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(readStaticVaAccounts);
@@ -921,7 +921,7 @@ export default function MBankingSavingsPage({ onBack, initialAccountNo }: { onBa
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} staticVaNumber={staticVaAccounts[account.accountNo]} staticVaBank={staticVaBanks[account.accountNo]} onClick={() => setPinAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} staticVaNumber={staticVaAccounts[account.accountNo]} staticVaBank={staticVaBanks[account.accountNo]} onClick={() => onAccountSelect ? onAccountSelect(account.accountNo) : setPinAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );

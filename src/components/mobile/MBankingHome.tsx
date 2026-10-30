@@ -15,7 +15,6 @@ import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 import MBankingSavingsPage from "@/components/mobile/MBankingSavingsPage";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
-import MBankingTopUpAccountPage from "@/components/mobile/MBankingTopUpAccountPage";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
@@ -101,9 +100,9 @@ export default function MBankingHome({
 
   if (topUpOpen) {
     return (
-      <MBankingTopUpAccountPage
+      <MBankingSavingsPage
         onBack={() => setTopUpOpen(false)}
-        onSelect={(accountNo) => {
+        onAccountSelect={(accountNo) => {
           setTopUpOpen(false);
           setHomeDetailAccount(accountNo);
         }}
