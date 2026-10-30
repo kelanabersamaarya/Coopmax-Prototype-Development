@@ -3,6 +3,7 @@
 import {
   CreditCard,
   Landmark,
+  Plus,
   ReceiptText,
   Send,
   ShoppingBag,
@@ -11,6 +12,17 @@ import {
   WalletCards,
 } from "lucide-react";
 import { toast } from "sonner";
+
+function DepositIcon({ className }: { className?: string }) {
+  return (
+    <span className={`relative inline-flex ${className ?? ""}`}>
+      <WalletCards className="h-[30px] w-[30px]" strokeWidth={2.2} />
+      <span className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-[#254FCB] text-white">
+        <Plus className="h-4 w-4" strokeWidth={3} />
+      </span>
+    </span>
+  );
+}
 
 const actions = [
   {
@@ -81,8 +93,8 @@ export default function MBankingQuickActions({
               }}
               className="flex min-w-0 flex-col items-center gap-2 rounded-[14px] px-0 py-2 transition active:scale-[0.98]"
             >
-              <span className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[14px] bg-[#004FC7] text-white">
-                <Icon className="h-[26px] w-[26px] text-white" strokeWidth={2.5} />
+              <span className={`inline-flex h-[54px] w-[54px] items-center justify-center rounded-[14px] text-white ${action.label === "Setor Dana" ? "bg-[#479DF4]" : "bg-[#004FC7]"}`}>
+                {action.label === "Setor Dana" ? <DepositIcon /> : <Icon className="h-[26px] w-[26px] text-white" strokeWidth={2.5} />}
               </span>
 
               <span className="max-w-full whitespace-nowrap text-center text-[12px] font-semibold leading-tight text-[#23305A]">
