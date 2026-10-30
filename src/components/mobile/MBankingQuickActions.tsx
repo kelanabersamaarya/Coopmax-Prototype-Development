@@ -42,7 +42,7 @@ const actions = [
     icon: Store,
   },
   {
-    label: "Tambah Saldo",
+    label: "Setor Dana",
     icon: WalletCards,
   },
 ];
@@ -70,7 +70,7 @@ export default function MBankingQuickActions({
                   return;
                 }
 
-                if (action.label === "Tambah Saldo") {
+                if (action.label === "Setor Dana") {
                   onTopUpClick?.();
                   return;
                 }
