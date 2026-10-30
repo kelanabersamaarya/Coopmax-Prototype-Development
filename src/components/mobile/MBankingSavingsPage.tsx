@@ -792,9 +792,14 @@ function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStati
         </button>
         <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
         <div className="mt-7"><DetailSavingsCard accountNo={accountNo} staticVaNumber={currentStaticVaNumber} staticVaBank={staticVaBank} /></div>
-        <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
-          <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
-          <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
+        <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Setor dana">
+          <span className="relative grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white">
+            <WalletCards className="h-8 w-8" strokeWidth={2.2} />
+            <span className="absolute right-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-white text-[#254FCB]">
+              <Plus className="h-3 w-3" strokeWidth={3} />
+            </span>
+          </span>
+          <span className="mt-2 text-[14px] font-semibold leading-tight">Setor Dana</span>
         </button>
         <div className="mt-10 flex divide-x-2 divide-[#D0D0D0] overflow-hidden rounded-[14px] bg-[#F1F1F1]"><DateSelector date="28 Sep 2026" /><DateSelector date="28 Okt 2026" /></div>
         <section className="-mx-6 mt-7 rounded-t-[28px] bg-[#F3F3F3] px-6 pb-12 pt-7">
