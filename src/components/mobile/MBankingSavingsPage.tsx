@@ -205,6 +205,9 @@ const vaBanks = [
 
 function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; isReplacing?: boolean }) {
   const [selectedBank, setSelectedBank] = React.useState<string | null>(null);
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
+  const selectedBankName = vaBanks.find((bank) => bank.id === selectedBank)?.name ?? "";
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
@@ -243,10 +246,32 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
       </main>
       <footer className="shrink-0 bg-white px-6 pb-8 pt-3">
         <div className="grid gap-3">
-          <button type="button" onClick={() => selectedBank && onContinue(vaBanks.find((bank) => bank.id === selectedBank)?.name ?? "")} disabled={!selectedBank} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#B8CBE8]">Lanjutkan</button>
+          <button type="button" onClick={() => selectedBank && setShowConfirmation(true)} disabled={!selectedBank} className="h-12 w-full rounded-[14px] bg-[#004FC7] px-5 text-[14px] font-bold text-white transition enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#B8CBE8]">Buat Virtual Account Tetap</button>
           <button type="button" onClick={onBack} className="h-12 w-full rounded-[14px] border-2 border-[#D1D5DB] bg-white px-5 text-[14px] font-bold text-[#6B7280] transition active:scale-[0.98]">Batal</button>
         </div>
       </footer>
+      {showConfirmation && (
+        <div className="absolute inset-0 z-20 flex items-end bg-[#172554]/35 px-4 pb-6">
+          <div className="w-full rounded-[24px] bg-white p-6 text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
+            <h2 className="text-[20px] font-extrabold text-[#203064]">{isReplacing ? "Ubah Virtual Account Tetap?" : "Buat Virtual Account Tetap?"}</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">{isReplacing ? `Virtual Account Tetap dari ${selectedBankName} akan menggantikan Virtual Account Tetap sebelumnya.` : `Virtual Account Tetap dari ${selectedBankName} akan dibuat untuk rekening Simpanan Anda.`}</p>
+            <div className="mt-6 grid gap-3">
+              <button type="button" onClick={() => { setShowConfirmation(false); setShowSuccess(true); }} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">Ya, {isReplacing ? "Ubah" : "Buat"}</button>
+              <button type="button" onClick={() => setShowConfirmation(false)} className="h-12 rounded-[14px] border-2 border-[#D1D5DB] bg-white text-[14px] font-bold text-[#6B7280]">Batal</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showSuccess && (
+        <div className="absolute inset-0 z-30 flex items-end bg-[#172554]/35 px-4 pb-6">
+          <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="block h-8 w-8" strokeWidth={2.5} /></div>
+            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil {isReplacing ? "Diubah" : "Dibuat"}</h2>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap telah berhasil {isReplacing ? "diubah" : "dibuat"} untuk rekening Simpanan Anda.</p>
+            <button type="button" onClick={() => { setShowSuccess(false); onContinue(selectedBankName); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -709,7 +734,7 @@ function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStati
   }
 
   if (showBankSelection) {
-    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => { setShowBankSelection(false); if (staticVaCreated) { setShowTransferGuide(true); } else { setShowVaOnboarding(true); } }} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(bankName); }} />;
+    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => { setShowBankSelection(false); if (staticVaCreated) { setShowTransferGuide(true); } else { setShowVaOnboarding(true); } }} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(null); setStaticVaCreated(true); setStaticVaBank(bankName); onStaticVaSaved(bankName); }} />;
   }
 
   if (showVaOnboarding) {
