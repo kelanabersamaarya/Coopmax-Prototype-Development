@@ -591,7 +591,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
               </span>
             </span>
           </span>
-          <span className={`grid h-5 w-5 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="h-2 w-2 rounded-full bg-white" /></span>
+          <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 border-[#004FC7] ${selectedBank ? "bg-[#004FC7]" : "bg-white"}`}><span className="block h-2 w-2 rounded-full bg-white" /></span>
         </button>
       </main>
       <footer className="shrink-0 bg-white px-5 pb-6 pt-3">
