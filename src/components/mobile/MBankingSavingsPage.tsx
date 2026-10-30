@@ -101,23 +101,23 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
       <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
       <div className="relative z-10 flex items-start justify-between gap-3">
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="truncate text-[16px] font-normal leading-tight tracking-tight">Luna Thompson</div>
           <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
             <span>{accountNo}</span>
             {hasStaticVa && <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />}
           </div>
           {hasStaticVa && (
-            <div className="mt-4 flex items-start gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white p-1.5">
-                <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
-              </div>
+            <div className="mt-4 flex w-full items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
                 <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
                   <span>{staticVaNumber}</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                 </div>
+              </div>
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white p-1.5">
+                <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
               </div>
             </div>
           )}
