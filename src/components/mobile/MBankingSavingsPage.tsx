@@ -248,7 +248,7 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
               className={`flex min-h-[76px] items-center gap-4 rounded-2xl border-2 px-4 text-left transition active:scale-[0.99] ${selectedBank === bank.id ? "border-[#004FC7] bg-[#F1F7FF]" : "border-[#E4EAF2] bg-white"}`}
               aria-pressed={selectedBank === bank.id}
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#F3F7FC] p-2">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#F3F7FC] p-1.5">
                 <img src={bank.logo} alt={`${bank.name} logo`} className="max-h-full max-w-full object-contain" />
               </span>
               <span className="flex-1 text-[15px] font-semibold text-[#26365F]">{bank.name}</span>
