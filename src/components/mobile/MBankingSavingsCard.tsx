@@ -83,18 +83,27 @@ function SavingsCard({ account }: { account: SavingsAccount }) {
 
 export default function MBankingSavingsCard() {
   const [accounts, setAccounts] = React.useState<SavingsAccount[]>(readAccounts);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const carouselRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setAccounts(readAccounts());
   }, []);
 
+  const handleScroll = () => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    const cardWidth = carousel.clientWidth;
+    setActiveIndex(Math.min(accounts.length - 1, Math.max(0, Math.round(carousel.scrollLeft / (cardWidth + 16)))));
+  };
+
   return (
     <section className="px-6 pt-1">
-      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div ref={carouselRef} onScroll={handleScroll} className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {accounts.map((account) => <SavingsCard key={account.accountNo} account={account} />)}
       </div>
       <div className="mt-2 flex justify-center gap-1.5">
-        {accounts.map((account, index) => <span key={account.accountNo} className={`h-1.5 rounded-full ${index === 0 ? "w-5 bg-[#004FC7]" : "w-1.5 bg-[#C8D7EE]"}`} />)}
+        {accounts.map((account, index) => <span key={account.accountNo} className={`h-1.5 rounded-full transition-all ${index === activeIndex ? "w-5 bg-[#004FC7]" : "w-1.5 bg-[#C8D7EE]"}`} />)}
       </div>
     </section>
   );
