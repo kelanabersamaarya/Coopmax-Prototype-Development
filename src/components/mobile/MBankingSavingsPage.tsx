@@ -51,7 +51,7 @@ const transactions = [
   },
 ];
 
-function SavingsCard({ account, onClick, staticVaNumber }: { account: SavingsAccount; onClick: () => void; staticVaNumber?: string }) {
+function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { account: SavingsAccount; onClick: () => void; staticVaNumber?: string; staticVaBank?: string }) {
   const hasStaticVa = Boolean(staticVaNumber);
   return (
     <button type="button" onClick={onClick} className="block w-full text-left transition active:scale-[0.99]" aria-label={`Buka rekening ${account.accountNo}`}>
@@ -72,7 +72,7 @@ function SavingsCard({ account, onClick, staticVaNumber }: { account: SavingsAcc
             </div>
             {hasStaticVa && (
               <div className="mt-4">
-                <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Virtual Account Tetap</div>
+                <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
                 <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
                   <span>{staticVaNumber}</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
@@ -86,7 +86,7 @@ function SavingsCard({ account, onClick, staticVaNumber }: { account: SavingsAcc
   );
 }
 
-function DetailSavingsCard({ accountNo, staticVaNumber }: { accountNo: string; staticVaNumber?: string }) {
+function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accountNo: string; staticVaNumber?: string; staticVaBank?: string }) {
   const hasStaticVa = Boolean(staticVaNumber);
 
   return (
@@ -103,7 +103,7 @@ function DetailSavingsCard({ accountNo, staticVaNumber }: { accountNo: string; s
           </div>
           {hasStaticVa && (
             <div className="mt-4">
-              <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Virtual Account Tetap</div>
+              <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
               <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
                 <span>{staticVaNumber}</span>
                 <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
@@ -251,7 +251,7 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
   );
 }
 
-function StaticVaPreview({ accountNo, bankName, onBack, onCancel, onSave }: { accountNo: string; bankName: string; onBack: () => void; onCancel: () => void; onSave: () => void }) {
+function StaticVaPreview({ accountNo, bankName, onBack, onCancel, onSave }: { accountNo: string; bankName: string; onBack: () => void; onCancel: () => void; onSave: (bankName: string) => void }) {
   const virtualAccount = `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
   const [showSaveConfirmation, setShowSaveConfirmation] = React.useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = React.useState(false);
@@ -269,7 +269,7 @@ function StaticVaPreview({ accountNo, bankName, onBack, onCancel, onSave }: { ac
         <section className="mt-8 rounded-[22px] bg-[#004FC7] p-5 text-white">
           <div className="text-[12px] text-blue-100">Bank</div>
           <div className="mt-1 text-[20px] font-extrabold">{bankName}</div>
-          <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account</div>
+          <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account {bankName}</div>
           <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">{virtualAccount}</div>
         </section>
       </main>
@@ -578,7 +578,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
               </div>
               <div className="text-[12px] text-blue-100">Bank</div>
               <div className="mt-1 text-[20px] font-extrabold">BNI</div>
-              <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account Tetap</div>
+              <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account {bankName ?? ""}</div>
               <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
                 <span>{virtualAccount}</span>
                 <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
@@ -607,7 +607,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
   );
 }
 
-function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelete, accountNo, virtualAccount }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; onDelete: () => void; accountNo: string; virtualAccount: string }) {
+function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelete, accountNo, virtualAccount, bankName }: { onBack: () => void; onCreateNew: () => void; onGenerateDynamic: () => void; onDelete: () => void; accountNo: string; virtualAccount: string; bankName?: string }) {
   const [showOptions, setShowOptions] = React.useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
   const [showDeleteSuccess, setShowDeleteSuccess] = React.useState(false);
@@ -667,7 +667,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
   );
 }
 
-function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; staticVaNumber?: string; onBack: () => void; onStaticVaSaved: () => void; onStaticVaDeleted: () => void }) {
+function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStaticVaBank, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; staticVaNumber?: string; staticVaBank?: string; onBack: () => void; onStaticVaSaved: (bankName: string) => void; onStaticVaDeleted: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [showTransferGuide, setShowTransferGuide] = React.useState(false);
@@ -675,6 +675,7 @@ function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved,
   const [dynamicVaFromOnboarding, setDynamicVaFromOnboarding] = React.useState(false);
   const [selectedBankName, setSelectedBankName] = React.useState<string | null>(null);
   const [staticVaCreated, setStaticVaCreated] = React.useState(Boolean(staticVaNumber));
+  const [staticVaBank, setStaticVaBank] = React.useState<string | undefined>(savedStaticVaBank);
   const currentStaticVaNumber = staticVaCreated ? (staticVaNumber ?? getStaticVaNumber(accountNo)) : undefined;
 
   if (showDynamicVa) {
@@ -682,7 +683,7 @@ function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved,
   }
 
   if (showTransferGuide) {
-    return <StaticVaTransferGuide accountNo={accountNo} virtualAccount={currentStaticVaNumber ?? getStaticVaNumber(accountNo)} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); onStaticVaDeleted(); }} />;
+    return <StaticVaTransferGuide accountNo={accountNo} bankName={staticVaBank} virtualAccount={currentStaticVaNumber ?? getStaticVaNumber(accountNo)} onBack={() => setShowTransferGuide(false)} onGenerateDynamic={() => setShowDynamicVa(true)} onCreateNew={() => { setShowTransferGuide(false); setShowBankSelection(true); }} onDelete={() => { setShowTransferGuide(false); setStaticVaCreated(false); onStaticVaDeleted(); }} />;
   }
 
   if (selectedBankName) {
@@ -696,7 +697,8 @@ function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved,
         setShowBankSelection(false);
         setSelectedBankName(null);
         setStaticVaCreated(true);
-        onStaticVaSaved();
+        setStaticVaBank(selectedBankName);
+        onStaticVaSaved(selectedBankName);
       }}
     />;
   }
@@ -716,7 +718,7 @@ function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved,
           <ArrowLeft className="h-8 w-8" strokeWidth={2.4} />
         </button>
         <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-[-0.04em] text-[#004FC7]">Simpanan</h1>
-        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} staticVaNumber={currentStaticVaNumber} /></div>
+        <div className="mt-7"><DetailSavingsCard accountNo={accountNo} staticVaNumber={currentStaticVaNumber} staticVaBank={staticVaBank} /></div>
         <button type="button" onClick={() => staticVaCreated ? setShowTransferGuide(true) : setShowVaOnboarding(true)} className="mt-6 flex flex-col items-center text-[#26365F] transition active:scale-[0.98]" aria-label="Tambah saldo">
           <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#004FC7] text-white"><Plus className="h-8 w-8" strokeWidth={2.3} /></span>
           <span className="mt-2 text-[14px] font-semibold leading-tight">Tambah Saldo</span>
@@ -733,9 +735,20 @@ function SavingsDetailPage({ accountNo, staticVaNumber, onBack, onStaticVaSaved,
 
 const staticVaStorageKey = "mbanking-savings-static-va-records";
 const staticVaAccountStoragePrefix = "mbanking-savings-static-va-account-";
+const staticVaBankStoragePrefix = "mbanking-savings-static-va-bank-";
 
 function getStaticVaNumber(accountNo: string) {
   return `8808 ${accountNo.slice(0, 4)} ${accountNo.slice(4).padStart(4, "0")}`;
+}
+
+function readStaticVaBanks(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  const banks: Record<string, string> = {};
+  for (const account of savingsAccounts) {
+    const bankName = window.localStorage.getItem(`${staticVaBankStoragePrefix}${account.accountNo}`);
+    if (bankName) banks[account.accountNo] = bankName;
+  }
+  return banks;
 }
 
 function readStaticVaAccounts(): Record<string, string> {
@@ -772,9 +785,10 @@ function readStaticVaAccounts(): Record<string, string> {
   return accounts;
 }
 
-function writeStaticVaAccount(accountNo: string) {
+function writeStaticVaAccount(accountNo: string, bankName: string) {
   const vaNumber = getStaticVaNumber(accountNo);
   window.localStorage.setItem(`${staticVaAccountStoragePrefix}${accountNo}`, vaNumber);
+  window.localStorage.setItem(`${staticVaBankStoragePrefix}${accountNo}`, bankName);
   const nextAccounts = { ...readStaticVaAccounts(), [accountNo]: vaNumber };
   window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
   return nextAccounts;
@@ -782,6 +796,7 @@ function writeStaticVaAccount(accountNo: string) {
 
 function removeStaticVaAccount(accountNo: string) {
   window.localStorage.removeItem(`${staticVaAccountStoragePrefix}${accountNo}`);
+  window.localStorage.removeItem(`${staticVaBankStoragePrefix}${accountNo}`);
   const nextAccounts = readStaticVaAccounts();
   delete nextAccounts[accountNo];
   window.localStorage.setItem(staticVaStorageKey, JSON.stringify(nextAccounts));
@@ -792,13 +807,20 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
   const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
   const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(readStaticVaAccounts);
+  const [staticVaBanks, setStaticVaBanks] = React.useState<Record<string, string>>(readStaticVaBanks);
 
-  const handleStaticVaSaved = (accountNo: string) => {
-    setStaticVaAccounts(writeStaticVaAccount(accountNo));
+  const handleStaticVaSaved = (accountNo: string, bankName: string) => {
+    setStaticVaAccounts(writeStaticVaAccount(accountNo, bankName));
+    setStaticVaBanks((banks) => ({ ...banks, [accountNo]: bankName }));
   };
 
   const handleStaticVaDeleted = (accountNo: string) => {
     setStaticVaAccounts(removeStaticVaAccount(accountNo));
+    setStaticVaBanks((banks) => {
+      const nextBanks = { ...banks };
+      delete nextBanks[accountNo];
+      return nextBanks;
+    });
   };
 
   if (pinAccount) {
@@ -813,7 +835,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
     );
   }
 
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} onBack={() => setSelectedAccount(null)} onStaticVaSaved={() => handleStaticVaSaved(selectedAccount)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
+  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} staticVaBank={staticVaBanks[selectedAccount]} onBack={() => setSelectedAccount(null)} onStaticVaSaved={(bankName) => handleStaticVaSaved(selectedAccount, bankName)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -821,7 +843,7 @@ export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) 
           <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.96]" aria-label="Kembali" title="Kembali"><ArrowLeft className="h-8 w-8" strokeWidth={2.4} /></button>
           <h1 className="mt-5 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">Simpanan</h1>
         </header>
-        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} staticVaNumber={staticVaAccounts[account.accountNo]} onClick={() => setPinAccount(account.accountNo)} />)}</section>
+        <section className="mt-7 grid gap-4">{savingsAccounts.map((account) => <SavingsCard key={account.id} account={account} staticVaNumber={staticVaAccounts[account.accountNo]} staticVaBank={staticVaBanks[account.accountNo]} onClick={() => setPinAccount(account.accountNo)} />)}</section>
       </main>
     </div>
   );
