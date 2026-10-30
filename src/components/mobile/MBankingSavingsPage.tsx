@@ -65,7 +65,7 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
             <div className="text-[16px] font-normal leading-tight tracking-tight">{account.productName}</div>
             <span className="shrink-0 text-[12px] font-normal leading-none">Detail &gt;</span>
           </div>
-          <div className="mt-auto">
+          <div className={hasStaticVa ? "mt-6" : "mt-auto"}>
             <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Rekening</div>
             <div className="mt-2 flex items-center gap-2 text-[12px] font-normal leading-none">
               <span>{account.accountNo}</span>
