@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   ChevronDown,
   CircleCheck,
+  CircleHelp,
   Copy,
   Info,
   Landmark,
@@ -252,8 +253,9 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
       </footer>
       {showConfirmation && (
         <div className="absolute inset-0 z-20 flex items-end bg-[#172554]/35 px-4 pb-6">
-          <div className="w-full rounded-[24px] bg-white p-6 text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
-            <h2 className="text-[20px] font-extrabold text-[#203064]">{isReplacing ? "Ubah Virtual Account Tetap?" : "Buat Virtual Account Tetap?"}</h2>
+          <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EAF3FF] text-[#004FC7]"><CircleHelp className="block h-8 w-8" strokeWidth={2.5} /></div>
+            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">{isReplacing ? "Ubah Virtual Account Tetap?" : "Buat Virtual Account Tetap?"}</h2>
             <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">{isReplacing ? `Virtual Account Tetap dari ${selectedBankName} akan menggantikan Virtual Account Tetap sebelumnya.` : `Virtual Account Tetap dari ${selectedBankName} akan dibuat untuk rekening Simpanan Anda.`}</p>
             <div className="mt-6 grid gap-3">
               <button type="button" onClick={() => { setShowConfirmation(false); setShowSuccess(true); }} className="h-12 rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">Ya, {isReplacing ? "Ubah" : "Buat"}</button>
