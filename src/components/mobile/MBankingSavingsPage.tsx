@@ -208,26 +208,28 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
   );
 }
 
+const publicAsset = (fileName: string) => `${import.meta.env.BASE_URL}${fileName}`;
+
 const vaBanks = [
-  { id: "bca", name: "BCA VA", logo: "/bca_logo.png" },
-  { id: "mandiri", name: "Mandiri VA", logo: "/mandiri_logo.png" },
-  { id: "bri", name: "BRI VA", logo: "/bri_logo.png" },
-  { id: "permata", name: "Permata VA", logo: "/permata_logo.png" },
-  { id: "cimb", name: "CIMB VA", logo: "/cimb_logo.png" },
-  { id: "danamon", name: "Danamon VA", logo: "/danamon_logo.png" },
-  { id: "maybank", name: "Maybank VA", logo: "/maybank_logo.png" },
-  { id: "btn", name: "BTN VA", logo: "/btn_logo.png" },
-  { id: "bnc", name: "BNC VA", logo: "/neobank_logo.png" },
-  { id: "bss", name: "BSS VA", logo: "/bss_logo.png" },
-  { id: "bjb", name: "BJB VA", logo: "/bjb_logo.png" },
-  { id: "sinarmas", name: "Sinarmas VA", logo: "/sinarmas_logo.png" },
+  { id: "bca", name: "BCA VA", logo: publicAsset("bca_logo.png") },
+  { id: "mandiri", name: "Mandiri VA", logo: publicAsset("mandiri_logo.png") },
+  { id: "bri", name: "BRI VA", logo: publicAsset("bri_logo.png") },
+  { id: "permata", name: "Permata VA", logo: publicAsset("permata_logo.png") },
+  { id: "cimb", name: "CIMB VA", logo: publicAsset("cimb_logo.png") },
+  { id: "danamon", name: "Danamon VA", logo: publicAsset("danamon_logo.png") },
+  { id: "maybank", name: "Maybank VA", logo: publicAsset("maybank_logo.png") },
+  { id: "btn", name: "BTN VA", logo: publicAsset("btn_logo.png") },
+  { id: "bnc", name: "BNC VA", logo: publicAsset("neobank_logo.png") },
+  { id: "bss", name: "BSS VA", logo: publicAsset("bss_logo.png") },
+  { id: "bjb", name: "BJB VA", logo: publicAsset("bjb_logo.png") },
+  { id: "sinarmas", name: "Sinarmas VA", logo: publicAsset("sinarmas_logo.png") },
 ];
 
 function getVaBankLogo(bankName?: string) {
   const bankAliases: Record<string, string> = {
-    "Bank Mandiri": "/mandiri_logo.png",
-    BRI: "/bri_logo.png",
-    BNI: "/bni_logo.png",
+    "Bank Mandiri": publicAsset("mandiri_logo.png"),
+    BRI: publicAsset("bri_logo.png"),
+    BNI: publicAsset("bni_logo.png"),
   };
   return vaBanks.find((bank) => bank.name === bankName)?.logo ?? (bankName ? bankAliases[bankName] : undefined);
 }

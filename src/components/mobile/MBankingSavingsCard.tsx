@@ -12,23 +12,24 @@ type SavingsAccount = {
 const accountNumbers = ["4260054", "4260055", "4260056", "4260057"];
 const staticVaAccountPrefix = "mbanking-savings-static-va-account-";
 const staticVaBankPrefix = "mbanking-savings-static-va-bank-";
+const publicAsset = (fileName: string) => `${import.meta.env.BASE_URL}${fileName}`;
 
 const bankLogos: Record<string, string> = {
-  "BCA VA": "/bca_logo.png",
-  "Mandiri VA": "/mandiri_logo.png",
-  "Bank Mandiri": "/mandiri_logo.png",
-  "BRI VA": "/bri_logo.png",
-  BRI: "/bri_logo.png",
-  "Permata VA": "/permata_logo.png",
-  "CIMB VA": "/cimb_logo.png",
-  "Danamon VA": "/danamon_logo.png",
-  "Maybank VA": "/maybank_logo.png",
-  "BTN VA": "/btn_logo.png",
-  "BNC VA": "/neobank_logo.png",
-  "BSS VA": "/bss_logo.png",
-  "BJB VA": "/bjb_logo.png",
-  "Sinarmas VA": "/sinarmas_logo.png",
-  BNI: "/bni_logo.png",
+  "BCA VA": publicAsset("bca_logo.png"),
+  "Mandiri VA": publicAsset("mandiri_logo.png"),
+  "Bank Mandiri": publicAsset("mandiri_logo.png"),
+  "BRI VA": publicAsset("bri_logo.png"),
+  BRI: publicAsset("bri_logo.png"),
+  "Permata VA": publicAsset("permata_logo.png"),
+  "CIMB VA": publicAsset("cimb_logo.png"),
+  "Danamon VA": publicAsset("danamon_logo.png"),
+  "Maybank VA": publicAsset("maybank_logo.png"),
+  "BTN VA": publicAsset("btn_logo.png"),
+  "BNC VA": publicAsset("neobank_logo.png"),
+  "BSS VA": publicAsset("bss_logo.png"),
+  "BJB VA": publicAsset("bjb_logo.png"),
+  "Sinarmas VA": publicAsset("sinarmas_logo.png"),
+  BNI: publicAsset("bni_logo.png"),
 };
 
 function readAccounts(): SavingsAccount[] {
