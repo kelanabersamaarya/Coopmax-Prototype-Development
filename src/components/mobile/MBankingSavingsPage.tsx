@@ -72,7 +72,7 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
               <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
             </div>
             {hasStaticVa && (
-              <div className="mt-6 flex items-start justify-between gap-3">
+              <div className="mt-7 flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
                   <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
