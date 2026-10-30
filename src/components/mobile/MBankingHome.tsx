@@ -40,7 +40,8 @@ export default function MBankingHome({
   } | null>(null);
   const [bannerReturn, setBannerReturn] = React.useState<"home" | "notifications">("home");
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
-  const [detailAccount, setDetailAccount] = React.useState<string | null>(null);
+  const [homeDetailAccount, setHomeDetailAccount] = React.useState<string | null>(null);
+  const [homeDetailReturn, setHomeDetailReturn] = React.useState<"home">("home");
 
   if (notificationsOpen) {
     return (
@@ -89,11 +90,11 @@ export default function MBankingHome({
   }
 
   if (pinAccount) {
-    return <MBankingLoanPasswordPage onBack={() => setPinAccount(null)} onSuccess={() => { setDetailAccount(pinAccount); setPinAccount(null); }} />;
+    return <MBankingLoanPasswordPage onBack={() => setPinAccount(null)} onSuccess={() => { setHomeDetailAccount(pinAccount); setPinAccount(null); }} />;
   }
 
-  if (detailAccount) {
-    return <MBankingSavingsPage onBack={() => { setDetailAccount(null); setScreen("home"); }} initialAccountNo={detailAccount} />;
+  if (homeDetailAccount) {
+    return <MBankingSavingsPage onBack={() => { setHomeDetailAccount(null); setScreen(homeDetailReturn); }} initialAccountNo={homeDetailAccount} />;
   }
 
   if (screen === "profile") {

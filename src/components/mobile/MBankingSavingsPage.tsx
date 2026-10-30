@@ -903,7 +903,17 @@ export default function MBankingSavingsPage({ onBack, initialAccountNo }: { onBa
     );
   }
 
-  if (selectedAccount) return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} staticVaBank={staticVaBanks[selectedAccount]} onBack={() => setSelectedAccount(null)} onStaticVaSaved={(bankName) => handleStaticVaSaved(selectedAccount, bankName)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
+  if (selectedAccount) {
+    const handleDetailBack = () => {
+      if (initialAccountNo) {
+        onBack();
+        return;
+      }
+      setSelectedAccount(null);
+    };
+
+    return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} staticVaBank={staticVaBanks[selectedAccount]} onBack={handleDetailBack} onStaticVaSaved={(bankName) => handleStaticVaSaved(selectedAccount, bankName)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
+  }
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-10 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
