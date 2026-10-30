@@ -57,7 +57,7 @@ function SavingsCard({ account, onDetail }: { account: SavingsAccount; onDetail:
         }
       }}
       aria-label={`Buka detail rekening ${account.accountNo}`}
-      className={`relative ${hasStaticVa ? "h-[195px]" : "h-[163px]"} w-full shrink-0 snap-center overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white outline-none focus-visible:ring-2 focus-visible:ring-[#004FC7]`}
+      className={`relative ${hasStaticVa ? "h-[177px]" : "h-[147px]"} w-full shrink-0 snap-center overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white outline-none focus-visible:ring-2 focus-visible:ring-[#004FC7]`}
     >
       <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
       <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
@@ -67,23 +67,23 @@ function SavingsCard({ account, onDetail }: { account: SavingsAccount; onDetail:
           <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">Simpanan Sukarela</div>
           <button type="button" onClick={() => onDetail(account.accountNo)} className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]">Detail <ChevronRight className="h-[13px] w-[13px]" strokeWidth={2.6} /></button>
         </div>
-        <div className="mt-auto">
+        <div className={hasStaticVa ? "mt-7" : "mt-auto"}>
           <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Rekening</div>
           <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none text-white">
             <span>{account.accountNo}</span>
             <Copy className="h-[13px] w-[13px] text-white" strokeWidth={2.4} />
           </div>
           {hasStaticVa && (
-            <div className="mt-4 flex items-start gap-3">
-              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
-                {logo && <img src={logo} alt={`${account.staticVaBank} logo`} className="max-h-full max-w-full object-contain" />}
-              </div>
+            <div className="mt-6 flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {account.staticVaBank}</div>
                 <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
                   <span>{account.staticVa}</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                 </div>
+              </div>
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
+                {logo && <img src={logo} alt={`${account.staticVaBank} logo`} className="max-h-full max-w-full object-contain" />}
               </div>
             </div>
           )}
