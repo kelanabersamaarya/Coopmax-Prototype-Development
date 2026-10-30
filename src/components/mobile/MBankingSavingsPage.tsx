@@ -203,7 +203,7 @@ const vaBanks = [
   { id: "bni", name: "BNI", logo: "BNI", color: "#F58220" },
 ];
 
-function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; isReplacing?: boolean }) {
+function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; onSuccess: (bankName: string) => void; isReplacing?: boolean }) {
   const [selectedBank, setSelectedBank] = React.useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
@@ -268,7 +268,7 @@ function StaticVaBankSelection({ onBack, onContinue, isReplacing = false }: { on
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="block h-8 w-8" strokeWidth={2.5} /></div>
             <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil {isReplacing ? "Diubah" : "Dibuat"}</h2>
             <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap telah berhasil {isReplacing ? "diubah" : "dibuat"} untuk rekening Simpanan Anda.</p>
-            <button type="button" onClick={() => { setShowSuccess(false); onContinue(selectedBankName); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">OK</button>
+            <button type="button" onClick={() => { setShowSuccess(false); onSuccess(selectedBankName); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">OK</button>
           </div>
         </div>
       )}
@@ -734,7 +734,7 @@ function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStati
   }
 
   if (showBankSelection) {
-    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => { setShowBankSelection(false); if (staticVaCreated) { setShowTransferGuide(true); } else { setShowVaOnboarding(true); } }} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(null); setStaticVaCreated(true); setStaticVaBank(bankName); onStaticVaSaved(bankName); }} />;
+    return <StaticVaBankSelection isReplacing={staticVaCreated} onBack={() => { setShowBankSelection(false); if (staticVaCreated) { setShowTransferGuide(true); } else { setShowVaOnboarding(true); } }} onContinue={(bankName) => { setShowBankSelection(false); setSelectedBankName(null); setStaticVaCreated(true); setStaticVaBank(bankName); onStaticVaSaved(bankName); }} onSuccess={(bankName) => { setShowBankSelection(false); setSelectedBankName(null); setStaticVaCreated(true); setStaticVaBank(bankName); setShowTransferGuide(false); onStaticVaSaved(bankName); }} />;
   }
 
   if (showVaOnboarding) {
