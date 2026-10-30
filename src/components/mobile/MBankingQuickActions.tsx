@@ -17,8 +17,8 @@ function DepositIcon({ className }: { className?: string }) {
   return (
     <span className={`relative inline-flex ${className ?? ""}`}>
       <WalletCards className="h-[30px] w-[30px]" strokeWidth={2.2} />
-      <span className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-white text-[#254FCB]">
-        <Plus className="h-4 w-4" strokeWidth={3} />
+      <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-white text-[#254FCB]">
+        <Plus className="h-3 w-3" strokeWidth={3} />
       </span>
     </span>
   );
