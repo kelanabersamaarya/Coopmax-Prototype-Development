@@ -871,8 +871,8 @@ function removeStaticVaAccount(accountNo: string) {
   return nextAccounts;
 }
 
-export default function MBankingSavingsPage({ onBack }: { onBack: () => void }) {
-  const [selectedAccount, setSelectedAccount] = React.useState<string | null>(null);
+export default function MBankingSavingsPage({ onBack, initialAccountNo }: { onBack: () => void; initialAccountNo?: string }) {
+  const [selectedAccount, setSelectedAccount] = React.useState<string | null>(initialAccountNo ?? null);
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
   const [staticVaAccounts, setStaticVaAccounts] = React.useState<Record<string, string>>(readStaticVaAccounts);
   const [staticVaBanks, setStaticVaBanks] = React.useState<Record<string, string>>(readStaticVaBanks);

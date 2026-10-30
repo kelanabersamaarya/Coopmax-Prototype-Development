@@ -9,6 +9,7 @@ import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
 import MBankingInfoPage from "@/components/mobile/MBankingInfoPage";
 import MBankingNotificationsPage from "@/components/mobile/MBankingNotificationsPage";
 import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
+import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
 import MBankingProfilePage from "@/components/mobile/MBankingProfilePage";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
@@ -38,6 +39,8 @@ export default function MBankingHome({
     alt: string;
   } | null>(null);
   const [bannerReturn, setBannerReturn] = React.useState<"home" | "notifications">("home");
+  const [pinAccount, setPinAccount] = React.useState<string | null>(null);
+  const [detailAccount, setDetailAccount] = React.useState<string | null>(null);
 
   if (notificationsOpen) {
     return (
@@ -85,6 +88,14 @@ export default function MBankingHome({
     return <MBankingBannerDetail onBack={() => setBannerDetailOpen(false)} />;
   }
 
+  if (pinAccount) {
+    return <MBankingLoanPasswordPage onBack={() => setPinAccount(null)} onSuccess={() => { setDetailAccount(pinAccount); setPinAccount(null); }} />;
+  }
+
+  if (detailAccount) {
+    return <MBankingSavingsPage onBack={() => setDetailAccount(null)} initialAccountNo={detailAccount} />;
+  }
+
   if (screen === "profile") {
     return <MBankingProfilePage onBack={() => setScreen("home")} />;
   }
@@ -120,7 +131,7 @@ export default function MBankingHome({
           onProfileClick={() => setScreen("profile")}
           onNotificationClick={() => setNotificationsOpen(true)}
         />
-        <MBankingSavingsCard />
+        <MBankingSavingsCard onDetail={(accountNo) => setPinAccount(accountNo)} />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
         <MBankingHomeBanner
           onBannerClick={() => {

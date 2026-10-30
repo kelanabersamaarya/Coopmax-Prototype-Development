@@ -41,7 +41,7 @@ function readAccounts(): SavingsAccount[] {
   }));
 }
 
-function SavingsCard({ account }: { account: SavingsAccount }) {
+function SavingsCard({ account, onDetail }: { account: SavingsAccount; onDetail: (accountNo: string) => void }) {
   const hasStaticVa = Boolean(account.staticVa);
   const logo = account.staticVaBank ? bankLogos[account.staticVaBank] : undefined;
 
@@ -53,7 +53,7 @@ function SavingsCard({ account }: { account: SavingsAccount }) {
       <div className="relative z-10 flex h-full flex-col">
         <div className="flex items-start justify-between gap-4">
           <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">Simpanan Sukarela</div>
-          <span className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold leading-none text-white">Detail <ChevronRight className="h-[13px] w-[13px]" strokeWidth={2.6} /></span>
+          <button type="button" onClick={() => onDetail(account.accountNo)} className="inline-flex shrink-0 items-center gap-1 text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]">Detail <ChevronRight className="h-[13px] w-[13px]" strokeWidth={2.6} /></button>
         </div>
         <div className="mt-auto">
           <div className="text-[10px] font-normal leading-none text-[#678DD8]">No Rekening</div>
@@ -81,7 +81,7 @@ function SavingsCard({ account }: { account: SavingsAccount }) {
   );
 }
 
-export default function MBankingSavingsCard() {
+export default function MBankingSavingsCard({ onDetail }: { onDetail: (accountNo: string) => void }) {
   const [accounts, setAccounts] = React.useState<SavingsAccount[]>(readAccounts);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const carouselRef = React.useRef<HTMLDivElement>(null);
@@ -100,7 +100,7 @@ export default function MBankingSavingsCard() {
   return (
     <section className="px-6 pt-1">
       <div ref={carouselRef} onScroll={handleScroll} className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {accounts.map((account) => <SavingsCard key={account.accountNo} account={account} />)}
+        {accounts.map((account) => <SavingsCard key={account.accountNo} account={account} onDetail={onDetail} />)}
       </div>
       <div className="mt-2 flex justify-center gap-1.5">
         {accounts.map((account, index) => <span key={account.accountNo} className={`h-1.5 rounded-full transition-all ${index === activeIndex ? "w-5 bg-[#004FC7]" : "w-1.5 bg-[#C8D7EE]"}`} />)}
