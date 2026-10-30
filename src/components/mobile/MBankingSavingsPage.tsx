@@ -81,7 +81,7 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
               </div>
             )}
             {hasStaticVa && (
-              <div className="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-lg bg-white p-1.5">
+              <div className="absolute bottom-5 right-5 grid h-10 w-10 translate-y-1/2 place-items-center rounded-lg bg-white p-1.5">
                 <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
               </div>
             )}
@@ -117,7 +117,7 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
             </div>
           )}
           {hasStaticVa && (
-            <div className="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-lg bg-white p-1.5">
+            <div className="absolute bottom-5 right-5 grid h-10 w-10 translate-y-1/2 place-items-center rounded-lg bg-white p-1.5">
               <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
             </div>
           )}
