@@ -569,7 +569,10 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
               <p className="text-[13px] leading-relaxed">Virtual Account Tetap adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
             </div>
-            <section className="relative mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
+            <section className="relative mt-5 overflow-hidden rounded-[22px] bg-[#004FC7] p-5 text-white">
+              <div className="pointer-events-none absolute -right-10 -top-12 h-[120px] w-[120px] rounded-full bg-white/10" />
+              <div className="pointer-events-none absolute right-8 -top-16 h-[112px] w-[112px] rounded-full bg-white/10" />
+              <div className="pointer-events-none absolute right-16 top-5 h-[44px] w-[44px] rounded-full bg-white/8" />
               <div ref={optionsRef} className="absolute right-3 top-3 z-10">
                 <button type="button" onClick={onToggleOptions} className="grid h-9 w-9 place-items-center rounded-full text-white" aria-label="Opsi Virtual Account Tetap" aria-expanded={showOptions}>
                   <MoreVertical className="h-5 w-5" strokeWidth={2.5} />
