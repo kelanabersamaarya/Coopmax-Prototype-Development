@@ -8,6 +8,7 @@ import {
   ShoppingBag,
   Store,
   UsersRound,
+  WalletCards,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -40,12 +41,18 @@ const actions = [
     label: "E-Commerce",
     icon: Store,
   },
+  {
+    label: "Tambah Saldo",
+    icon: WalletCards,
+  },
 ];
 
 export default function MBankingQuickActions({
   onAccountInfoClick,
+  onTopUpClick,
 }: {
   onAccountInfoClick?: () => void;
+  onTopUpClick?: () => void;
 }) {
   return (
     <section className="px-6 pt-5">
@@ -60,6 +67,11 @@ export default function MBankingQuickActions({
               onClick={() => {
                 if (action.label === "Rekening Saya") {
                   onAccountInfoClick?.();
+                  return;
+                }
+
+                if (action.label === "Tambah Saldo") {
+                  onTopUpClick?.();
                   return;
                 }
 

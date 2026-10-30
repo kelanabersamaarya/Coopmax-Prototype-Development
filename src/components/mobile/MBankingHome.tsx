@@ -15,6 +15,7 @@ import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 import MBankingSavingsPage from "@/components/mobile/MBankingSavingsPage";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
+import MBankingTopUpAccountPage from "@/components/mobile/MBankingTopUpAccountPage";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
@@ -42,6 +43,7 @@ export default function MBankingHome({
   const [pinAccount, setPinAccount] = React.useState<string | null>(null);
   const [homeDetailAccount, setHomeDetailAccount] = React.useState<string | null>(null);
   const [homeDetailReturn, setHomeDetailReturn] = React.useState<"home">("home");
+  const [topUpOpen, setTopUpOpen] = React.useState(false);
 
   if (notificationsOpen) {
     return (
@@ -97,6 +99,18 @@ export default function MBankingHome({
     return <MBankingSavingsPage onBack={() => { setHomeDetailAccount(null); setScreen(homeDetailReturn); }} initialAccountNo={homeDetailAccount} />;
   }
 
+  if (topUpOpen) {
+    return (
+      <MBankingTopUpAccountPage
+        onBack={() => setTopUpOpen(false)}
+        onSelect={(accountNo) => {
+          setTopUpOpen(false);
+          setHomeDetailAccount(accountNo);
+        }}
+      />
+    );
+  }
+
   if (screen === "profile") {
     return <MBankingProfilePage onBack={() => setScreen("home")} />;
   }
@@ -133,7 +147,10 @@ export default function MBankingHome({
           onNotificationClick={() => setNotificationsOpen(true)}
         />
         <MBankingSavingsCard onDetail={(accountNo) => setPinAccount(accountNo)} />
-        <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
+        <MBankingQuickActions
+          onAccountInfoClick={() => setScreen("info")}
+          onTopUpClick={() => setTopUpOpen(true)}
+        />
         <MBankingHomeBanner
           onBannerClick={() => {
             setBannerReturn("home");
