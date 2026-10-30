@@ -735,7 +735,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
   );
 }
 
-function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStaticVaBank, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; staticVaNumber?: string; staticVaBank?: string; onBack: () => void; onStaticVaSaved: (bankName: string) => void; onStaticVaDeleted: () => void }) {
+function SavingsDetailPage({ accountNo, staticVaNumber, staticVaBank: savedStaticVaBank, initialTransferGuide = false, onBack, onStaticVaSaved, onStaticVaDeleted }: { accountNo: string; staticVaNumber?: string; staticVaBank?: string; initialTransferGuide?: boolean; onBack: () => void; onStaticVaSaved: (bankName: string) => void; onStaticVaDeleted: () => void }) {
   const [showVaOnboarding, setShowVaOnboarding] = React.useState(false);
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [showInitialTransferGuide, setShowInitialTransferGuide] = React.useState(initialTransferGuide);
@@ -917,7 +917,7 @@ export default function MBankingSavingsPage({ onBack, initialAccountNo, initialT
       setSelectedAccount(null);
     };
 
-    return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} staticVaBank={staticVaBanks[selectedAccount]} onBack={handleDetailBack} onStaticVaSaved={(bankName) => handleStaticVaSaved(selectedAccount, bankName)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
+    return <SavingsDetailPage accountNo={selectedAccount} staticVaNumber={staticVaAccounts[selectedAccount]} staticVaBank={staticVaBanks[selectedAccount]} initialTransferGuide={initialTransferGuide} onBack={handleDetailBack} onStaticVaSaved={(bankName) => handleStaticVaSaved(selectedAccount, bankName)} onStaticVaDeleted={() => handleStaticVaDeleted(selectedAccount)} />;
   }
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-black">
