@@ -217,7 +217,9 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
   const [selectedBank, setSelectedBank] = React.useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
+  const [search, setSearch] = React.useState("");
   const selectedBankName = vaBanks.find((bank) => bank.id === selectedBank)?.name ?? "";
+  const filteredBanks = vaBanks.filter((bank) => bank.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-white text-[#26365F]">
@@ -234,8 +236,11 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
             <p className="text-[13px] leading-relaxed">Virtual Account Tetap yang sudah dibuat sebelumnya akan dinonaktifkan dan diganti dengan Virtual Account Tetap baru.</p>
           </div>
         )}
-        <div className={`${isReplacing ? "mt-6" : "mt-8"} grid gap-3`}>
-          {vaBanks.map((bank) => (
+        <div className={`${isReplacing ? "mt-5" : "mt-8"}`}>
+          <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari..." className="h-[62px] w-full rounded-[18px] bg-[#F1F1F1] px-7 text-[20px] text-[#26365F] outline-none placeholder:text-[#777777]" aria-label="Cari bank virtual account" />
+        </div>
+        <div className="mt-3 grid gap-3">
+          {filteredBanks.map((bank) => (
             <button
               key={bank.id}
               type="button"
