@@ -549,7 +549,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   );
 }
 
-function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions, virtualAccount }: { onGenerateDynamic: () => void; onDelete: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void; virtualAccount: string }) {
+function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOptions, onToggleOptions, onCreateNew, onCloseOptions, virtualAccount, bankName }: { onGenerateDynamic: () => void; onDelete: () => void; optionsRef: React.RefObject<HTMLDivElement>; showOptions: boolean; onToggleOptions: () => void; onCreateNew: () => void; onCloseOptions: () => void; virtualAccount: string; bankName?: string }) {
   const [openMethod, setOpenMethod] = React.useState("");
 
   const toggleMethod = (method: string) => {
@@ -577,7 +577,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
                 {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Virtual Account Tetap</button><button type="button" onClick={() => { onCloseOptions(); onDelete(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Virtual Account Tetap</button></div>}
               </div>
               <div className="text-[12px] text-blue-100">Bank</div>
-              <div className="mt-1 text-[20px] font-extrabold">BNI</div>
+              <div className="mt-1 text-[20px] font-extrabold">{bankName ?? "-"}</div>
               <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account {bankName ?? ""}</div>
               <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
                 <span>{virtualAccount}</span>
@@ -639,7 +639,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
         <h1 className="relative z-0 mt-3 text-[26px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-6 pb-8 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} virtualAccount={virtualAccount} />
+        <TransferMethodOptions optionsRef={optionsRef} showOptions={showOptions} onToggleOptions={() => setShowOptions((open) => !open)} onCreateNew={onCreateNew} onDelete={() => setShowDeleteConfirmation(true)} onCloseOptions={() => setShowOptions(false)} onGenerateDynamic={onGenerateDynamic} virtualAccount={virtualAccount} bankName={bankName} />
       </main>
       {showDeleteConfirmation && (
         <div className="absolute inset-0 z-50 flex items-end bg-[#172554]/35 px-4 pb-6">
