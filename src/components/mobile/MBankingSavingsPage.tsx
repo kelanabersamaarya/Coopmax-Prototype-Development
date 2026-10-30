@@ -245,7 +245,7 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
               key={bank.id}
               type="button"
               onClick={() => setSelectedBank(bank.id)}
-              className={`flex min-h-[76px] items-center gap-4 rounded-2xl border-2 px-4 text-left transition active:scale-[0.99] ${selectedBank === bank.id ? "border-[#004FC7] bg-[#F1F7FF]" : "border-[#E4EAF2] bg-white"}`}
+              className={`flex min-h-[76px] items-center gap-4 rounded-2xl border-2 bg-white px-4 text-left transition active:scale-[0.99] ${selectedBank === bank.id ? "border-[#004FC7]" : "border-[#E4EAF2]"}`}
               aria-pressed={selectedBank === bank.id}
             >
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#F3F7FC] p-1.5">
