@@ -119,7 +119,7 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
         </div>
         <div className="shrink-0 pt-0.5 text-right text-[12px] font-normal leading-tight">Simpanan Sukarela</div>
         {hasStaticVa && (
-          <div className="absolute right-[10px] top-[86px] z-10 grid h-10 w-10 translate-x-0 place-items-center rounded-lg bg-white p-1.5">
+          <div className="absolute right-[4px] top-[86px] z-10 grid h-10 w-10 translate-x-0 place-items-center rounded-lg bg-white p-1.5">
             <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
           </div>
         )}
