@@ -511,7 +511,7 @@ function DynamicVaPage({ accountNo, onBack }: { accountNo: string; onBack: () =>
         <button type="button" onClick={onBack} className="relative z-10 -ml-2 inline-flex h-9 w-9 items-center justify-center rounded-full text-white" aria-label="Kembali">
           <ArrowLeft className="h-8 w-8" strokeWidth={2.2} />
         </button>
-        <h1 className="relative z-10 mt-5 text-[23px] font-extrabold leading-tight text-white">Transfer dari Bank Lain</h1>
+        <h1 className="relative z-10 mt-5 text-[23px] font-extrabold leading-tight text-white">Setor Dana dari Bank Lain</h1>
       </header>
       <main className="min-h-0 flex-1 overflow-y-auto rounded-t-[24px] bg-white px-5 pb-8 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex gap-4 border-b border-transparent text-[16px] font-extrabold text-[#004FC7]">
