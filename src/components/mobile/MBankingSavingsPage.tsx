@@ -560,7 +560,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
   const [selectedBank, setSelectedBank] = React.useState("");
   const [bankModalOpen, setBankModalOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
-  const banks = vaBanks.map((bank) => ({ name: bank.name.replace(" VA", ""), logo: bank.logo }));
+  const banks = vaBanks.map((bank) => ({ name: bank.name, logo: bank.logo }));
   const filteredBanks = banks.filter((bank) => bank.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
