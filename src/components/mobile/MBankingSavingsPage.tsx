@@ -72,17 +72,17 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
               <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
             </div>
             {hasStaticVa && (
-              <div className="mt-4 flex items-end gap-3">
-                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
-                  <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
+              <div className="mt-4">
+                <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+                <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
+                  <span>{staticVaNumber}</span>
+                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                 </div>
-                <div>
-                  <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
-                  <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
-                    <span>{staticVaNumber}</span>
-                    <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                  </div>
-                </div>
+              </div>
+            )}
+            {hasStaticVa && (
+              <div className="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-lg bg-white p-1.5">
+                <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
               </div>
             )}
           </div>
@@ -108,17 +108,17 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
             {hasStaticVa && <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />}
           </div>
           {hasStaticVa && (
-            <div className="mt-4 flex items-end gap-3">
-              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
-                <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
+            <div className="mt-4">
+              <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+              <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
+                <span>{staticVaNumber}</span>
+                <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
               </div>
-              <div>
-                <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
-                <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
-                  <span>{staticVaNumber}</span>
-                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                </div>
-              </div>
+            </div>
+          )}
+          {hasStaticVa && (
+            <div className="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-lg bg-white p-1.5">
+              <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
             </div>
           )}
         </div>
