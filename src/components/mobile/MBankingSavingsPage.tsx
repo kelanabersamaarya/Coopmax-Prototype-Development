@@ -569,17 +569,20 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
               <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#004FC7]" strokeWidth={2.4} />
               <p className="text-[13px] leading-relaxed">Virtual Account Tetap adalah nomor Virtual Account tetap yang dapat digunakan berulang kali untuk melakukan transfer ke rekening Simpanan Anda.</p>
             </div>
-            <section className="relative mt-5 rounded-[22px] bg-[#004FC7] p-5 text-white">
+            <section className="relative mt-5 h-[181px] overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white">
+              <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
+              <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
+              <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
               <div ref={optionsRef} className="absolute right-3 top-3 z-10">
                 <button type="button" onClick={onToggleOptions} className="grid h-9 w-9 place-items-center rounded-full text-white" aria-label="Opsi Virtual Account Tetap" aria-expanded={showOptions}>
                   <MoreVertical className="h-5 w-5" strokeWidth={2.5} />
                 </button>
                 {showOptions && <div className="absolute right-0 top-10 z-20 w-48 rounded-[14px] bg-white p-1.5 text-[#26365F] shadow-[0_8px_24px_rgba(15,23,42,0.2)]"><button type="button" onClick={() => { onCloseOptions(); onCreateNew(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Ubah Virtual Account Tetap</button><button type="button" onClick={() => { onCloseOptions(); onDelete(); }} className="w-full rounded-[10px] px-3 py-3 text-left text-[13px] font-semibold hover:bg-[#F3F7FF]">Hapus Virtual Account Tetap</button></div>}
               </div>
-              <div className="text-[12px] text-blue-100">Bank</div>
-              <div className="mt-1 text-[20px] font-extrabold">{bankName ?? "-"}</div>
-              <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account {bankName ?? ""}</div>
-              <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
+              <div className="relative z-10 text-[10px] font-normal leading-none text-[#678DD8]">Bank</div>
+              <div className="relative z-10 mt-2 text-[20px] font-extrabold leading-none">{bankName ?? "-"}</div>
+              <div className="relative z-10 absolute bottom-5 left-5 text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {bankName ?? ""}</div>
+              <div className="relative z-10 absolute bottom-5 left-5 translate-y-5 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
                 <span>{virtualAccount}</span>
                 <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
               </div>
