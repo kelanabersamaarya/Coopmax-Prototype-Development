@@ -690,8 +690,7 @@ function StaticVaTransferGuide({ onBack, onCreateNew, onGenerateDynamic, onDelet
         <div className="absolute inset-0 z-50 flex items-end bg-[#172554]/35 px-4 pb-6">
           <div className="w-full rounded-[24px] bg-white p-6 text-center text-[#26365F] shadow-[0_8px_30px_rgba(15,23,42,0.2)]">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#E8F8EC] text-[#4BB567]"><CircleCheck className="block h-8 w-8" strokeWidth={2.5} /></div>
-            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Virtual Account Tetap Berhasil Dihapus</h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#68738A]">Virtual Account Tetap telah berhasil dihapus dari rekening Simpanan Anda.</p>
+            <h2 className="mt-5 text-[20px] font-extrabold text-[#203064]">Berhasil Menghapus Virtual Account Tetap dari Rekening Simpanan</h2>
             <button type="button" onClick={() => { setShowDeleteSuccess(false); onDelete(); }} className="mt-6 h-12 w-full rounded-[14px] bg-[#004FC7] text-[14px] font-bold text-white">OK</button>
           </div>
         </div>
