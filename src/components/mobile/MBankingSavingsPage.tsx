@@ -596,7 +596,7 @@ function TransferBankSelectionPage({ accountNo, amount, onBack, onContinue }: { 
               <button type="button" onClick={() => setBankModalOpen(false)} className="text-2xl text-[#68738A]" aria-label="Tutup">×</button>
             </div>
             <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Cari..." className="mt-5 h-14 w-full rounded-[12px] bg-[#F1F1F1] px-4 text-[16px] text-[#26365F] outline-none placeholder:text-[#888888]" aria-label="Cari bank" />
-            <div className="mt-4 grid gap-2 overflow-y-auto">
+            <div className="mt-4 grid gap-2 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {filteredBanks.length ? filteredBanks.map((bank) => (
                 <button key={bank.name} type="button" onClick={() => { setSelectedBank(bank.name); setBankModalOpen(false); }} className="flex items-center gap-3 rounded-[12px] border border-[#E5E5E5] px-4 py-3 text-left text-[16px] font-semibold text-[#26365F]">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#F3F7FC] p-1.5"><img src={bank.logo} alt={`${bank.name} logo`} className="max-h-full max-w-full object-contain" /></span>
