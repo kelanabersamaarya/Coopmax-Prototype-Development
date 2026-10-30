@@ -46,7 +46,7 @@ function SavingsCard({ account }: { account: SavingsAccount }) {
   const logo = account.staticVaBank ? bankLogos[account.staticVaBank] : undefined;
 
   return (
-    <article className={`relative ${hasStaticVa ? "h-[195px]" : "h-[163px]"} w-full shrink-0 snap-center overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white shadow-[0_8px_22px_rgba(0,79,199,0.20)]`}>
+    <article className={`relative ${hasStaticVa ? "h-[195px]" : "h-[163px]"} w-full shrink-0 snap-center overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white`}>
       <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
       <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
