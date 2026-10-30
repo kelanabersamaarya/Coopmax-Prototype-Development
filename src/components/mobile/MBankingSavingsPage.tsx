@@ -199,18 +199,18 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
 }
 
 const vaBanks = [
-  { id: "bca", name: "BCA VA", logo: "BCA", color: "#00529B" },
-  { id: "mandiri", name: "Mandiri VA", logo: "MANDIRI", color: "#006B5B" },
-  { id: "bri", name: "BRI VA", logo: "BRI", color: "#00529B" },
-  { id: "permata", name: "Permata VA", logo: "PERMATA", color: "#0072BC" },
-  { id: "cimb", name: "CIMB VA", logo: "CIMB", color: "#D71920" },
-  { id: "danamon", name: "Danamon VA", logo: "DANAMON", color: "#007A53" },
-  { id: "maybank", name: "Maybank VA", logo: "MAYBANK", color: "#F4B400" },
-  { id: "btn", name: "BTN VA", logo: "BTN", color: "#006CB7" },
-  { id: "bnc", name: "BNC VA", logo: "BNC", color: "#E83E8C" },
-  { id: "bss", name: "BSS VA", logo: "BSS", color: "#6B4FBB" },
-  { id: "bjb", name: "BJB VA", logo: "BJB", color: "#0072CE" },
-  { id: "sinarmas", name: "Sinarmas VA", logo: "SINARMAS", color: "#E31E24" },
+  { id: "bca", name: "BCA VA", logo: "/bca_logo.png" },
+  { id: "mandiri", name: "Mandiri VA", logo: "/mandiri_logo.png" },
+  { id: "bri", name: "BRI VA", logo: "/bri_logo.png" },
+  { id: "permata", name: "Permata VA", logo: "/permata_logo.png" },
+  { id: "cimb", name: "CIMB VA", logo: "/cimb_logo.png" },
+  { id: "danamon", name: "Danamon VA", logo: "/danamon_logo.png" },
+  { id: "maybank", name: "Maybank VA", logo: "/maybank_logo.png" },
+  { id: "btn", name: "BTN VA", logo: "/btn_logo.png" },
+  { id: "bnc", name: "BNC VA", logo: "/neobank_logo.png" },
+  { id: "bss", name: "BSS VA", logo: "/bss_logo.png" },
+  { id: "bjb", name: "BJB VA", logo: "/bjb_logo.png" },
+  { id: "sinarmas", name: "Sinarmas VA", logo: "/sinarmas_logo.png" },
 ];
 
 function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; onSuccess: (bankName: string) => void; isReplacing?: boolean }) {
@@ -248,8 +248,8 @@ function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = fa
               className={`flex min-h-[76px] items-center gap-4 rounded-2xl border-2 px-4 text-left transition active:scale-[0.99] ${selectedBank === bank.id ? "border-[#004FC7] bg-[#F1F7FF]" : "border-[#E4EAF2] bg-white"}`}
               aria-pressed={selectedBank === bank.id}
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#F3F7FC] text-[12px] font-extrabold uppercase" style={{ color: bank.color }}>
-                {bank.logo}
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#F3F7FC] p-2">
+                <img src={bank.logo} alt={`${bank.name} logo`} className="max-h-full max-w-full object-contain" />
               </span>
               <span className="flex-1 text-[15px] font-semibold text-[#26365F]">{bank.name}</span>
               <span className={`grid h-6 w-6 place-items-center rounded-full border-2 ${selectedBank === bank.id ? "border-[#004FC7] bg-[#004FC7]" : "border-[#C8D1DE]"}`}>
