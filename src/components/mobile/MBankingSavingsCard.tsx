@@ -46,7 +46,19 @@ function SavingsCard({ account, onDetail }: { account: SavingsAccount; onDetail:
   const logo = account.staticVaBank ? bankLogos[account.staticVaBank] : undefined;
 
   return (
-    <article className={`relative ${hasStaticVa ? "h-[195px]" : "h-[163px]"} w-full shrink-0 snap-center overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white`}>
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={() => onDetail(account.accountNo)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onDetail(account.accountNo);
+        }
+      }}
+      aria-label={`Buka detail rekening ${account.accountNo}`}
+      className={`relative ${hasStaticVa ? "h-[195px]" : "h-[163px]"} w-full shrink-0 snap-center overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white outline-none focus-visible:ring-2 focus-visible:ring-[#004FC7]`}
+    >
       <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
       <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
       <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
