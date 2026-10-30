@@ -72,16 +72,16 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
               <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
             </div>
             {hasStaticVa && (
-              <div className="mt-4 flex items-start gap-3">
-                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
-                  <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
-                </div>
+              <div className="mt-4 flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
                   <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
                     <span>{staticVaNumber}</span>
                     <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                   </div>
+                </div>
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white p-1.5">
+                  <img src={getVaBankLogo(staticVaBank)} alt={`${staticVaBank ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
                 </div>
               </div>
             )}
