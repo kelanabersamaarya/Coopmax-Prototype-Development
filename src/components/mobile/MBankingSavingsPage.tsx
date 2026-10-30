@@ -199,9 +199,18 @@ function StaticVaOnboarding({ onBack, onContinue, onUseDynamic }: { onBack: () =
 }
 
 const vaBanks = [
-  { id: "mandiri", name: "Bank Mandiri", logo: "mandiri", color: "#006B5B" },
-  { id: "bri", name: "BRI", logo: "BRI", color: "#00529B" },
-  { id: "bni", name: "BNI", logo: "BNI", color: "#F58220" },
+  { id: "bca", name: "BCA VA", logo: "BCA", color: "#00529B" },
+  { id: "mandiri", name: "Mandiri VA", logo: "MANDIRI", color: "#006B5B" },
+  { id: "bri", name: "BRI VA", logo: "BRI", color: "#00529B" },
+  { id: "permata", name: "Permata VA", logo: "PERMATA", color: "#0072BC" },
+  { id: "cimb", name: "CIMB VA", logo: "CIMB", color: "#D71920" },
+  { id: "danamon", name: "Danamon VA", logo: "DANAMON", color: "#007A53" },
+  { id: "maybank", name: "Maybank VA", logo: "MAYBANK", color: "#F4B400" },
+  { id: "btn", name: "BTN VA", logo: "BTN", color: "#006CB7" },
+  { id: "bnc", name: "BNC VA", logo: "BNC", color: "#E83E8C" },
+  { id: "bss", name: "BSS VA", logo: "BSS", color: "#6B4FBB" },
+  { id: "bjb", name: "BJB VA", logo: "BJB", color: "#0072CE" },
+  { id: "sinarmas", name: "Sinarmas VA", logo: "SINARMAS", color: "#E31E24" },
 ];
 
 function StaticVaBankSelection({ onBack, onContinue, onSuccess, isReplacing = false }: { onBack: () => void; onContinue: (bankName: string) => void; onSuccess: (bankName: string) => void; isReplacing?: boolean }) {
