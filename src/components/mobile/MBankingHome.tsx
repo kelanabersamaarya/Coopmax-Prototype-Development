@@ -93,7 +93,7 @@ export default function MBankingHome({
   }
 
   if (detailAccount) {
-    return <MBankingSavingsPage onBack={() => setDetailAccount(null)} initialAccountNo={detailAccount} />;
+    return <MBankingSavingsPage onBack={() => { setDetailAccount(null); setScreen("home"); }} initialAccountNo={detailAccount} />;
   }
 
   if (screen === "profile") {
