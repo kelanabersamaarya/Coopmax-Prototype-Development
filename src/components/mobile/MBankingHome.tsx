@@ -47,6 +47,10 @@ export default function MBankingHome({
   const [homeDetailTransferGuide, setHomeDetailTransferGuide] = React.useState(false);
   const [topUpOpen, setTopUpOpen] = React.useState(false);
 
+  function openExitConfirmation() {
+    setExitOpen(true);
+  }
+
   if (notificationsOpen) {
     return (
       <MBankingNotificationsPage
@@ -156,7 +160,7 @@ export default function MBankingHome({
   }
 
   return (
-    <div className="relative flex min-h-full flex-col bg-white">
+    <div className="relative flex h-full min-h-0 flex-col bg-white">
       <main className="min-h-0 flex-1 bg-white">
         <MBankingHomeHeader
           onProfileClick={() => setScreen("profile")}
@@ -179,7 +183,7 @@ export default function MBankingHome({
 
       <MBankingBottomNav
         activeTab="home"
-        onAndroidBack={() => setExitOpen(true)}
+        onAndroidBack={openExitConfirmation}
         onSettingsClick={() => setScreen("profile")}
       />
 

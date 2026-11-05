@@ -15,7 +15,7 @@ export default function MBankingExitConfirmModal({
   if (!open) return null;
 
   return (
-    <div className="absolute inset-0 z-[120] flex items-end justify-center bg-[#17213A]/40 px-5 pb-[28px]">
+    <div className="fixed inset-0 z-[120] flex items-end justify-center bg-[#17213A]/40 px-5 pb-[28px]">
       <button
         type="button"
         className="absolute inset-0 cursor-default"
