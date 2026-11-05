@@ -7,6 +7,7 @@ import NewMBankingDepositDetailPage from "@/components/mobile/new-mbanking/NewMB
 import NewMBankingHistoryPage from "@/components/mobile/new-mbanking/NewMBankingHistoryPage";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
+import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
 import NewMBankingLoanInstallmentDetailPage, {
   type NewMBankingLoanInstallmentAccount,
@@ -290,14 +291,18 @@ export default function NewMBankingHome({
         </div>
       </main>
 
-      <NewMBankingHomeMenuSection
-        activeTab="home"
-        onHomeClick={() => {}}
-        onPortfolioClick={() => setShowPortfolio(true)}
-        onQrisClick={() => setShowQrisFlow(true)}
-        onHistoryClick={() => setShowHistory(true)}
-        onProfileClick={openProfile}
-      />
+      <div className="sticky bottom-0 z-40 shrink-0">
+        <NewMBankingHomeMenuSection
+          className="static"
+          activeTab="home"
+          onHomeClick={() => {}}
+          onPortfolioClick={() => setShowPortfolio(true)}
+          onQrisClick={() => setShowQrisFlow(true)}
+          onHistoryClick={() => setShowHistory(true)}
+          onProfileClick={openProfile}
+        />
+        <EKolektorAndroidNavBar />
+      </div>
 
       <NewMBankingTransferTypeModal
         open={transferTypeOpen}

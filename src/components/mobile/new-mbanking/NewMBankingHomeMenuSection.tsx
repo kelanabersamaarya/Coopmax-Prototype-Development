@@ -65,7 +65,8 @@ export default function NewMBankingHomeMenuSection({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute inset-x-0 bottom-[18px] z-40 px-3",
+        "pointer-events-none inset-x-0 z-40 px-3",
+        className ? "static" : "absolute bottom-[18px]",
         className,
       )}
     >

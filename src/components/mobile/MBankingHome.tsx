@@ -160,8 +160,8 @@ export default function MBankingHome({
   }
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col bg-white">
-      <main className="min-h-0 flex-1 bg-white">
+    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <MBankingHomeHeader
           onProfileClick={() => setScreen("profile")}
           onNotificationClick={() => setNotificationsOpen(true)}

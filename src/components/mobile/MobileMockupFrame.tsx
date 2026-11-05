@@ -62,7 +62,7 @@ export default function MobileMockupFrame({
           data-mobile-screen="true"
           className="relative h-full min-h-0 w-full overflow-hidden bg-white"
         >
-          <div className="h-full overflow-y-auto overscroll-contain bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex h-full min-h-0 flex-col overflow-hidden bg-white">
             {content}
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function MobileMockupFrame({
           <div
             className={
               edgeToEdge
-                ? "h-full overflow-y-auto overscroll-contain bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                ? "flex h-full min-h-0 flex-col overflow-hidden bg-white"
                 : "h-full overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-3.5"
             }
           >
