@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleHelp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function MBankingExitConfirmModal({
@@ -14,7 +15,7 @@ export default function MBankingExitConfirmModal({
   if (!open) return null;
 
   return (
-    <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5">
+    <div className="absolute inset-0 z-[120] flex items-center justify-center bg-[#17213A]/40 px-5">
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -24,42 +25,47 @@ export default function MBankingExitConfirmModal({
 
       <div
         className={cn(
-          "relative z-10 w-full max-w-[360px]",
-          "rounded-[8px] bg-[#FAFAFA] px-6 pb-6 pt-7",
-          "shadow-[0_20px_55px_rgba(15,23,42,0.24)]",
-          "ring-1 ring-black/5",
+          "relative z-10 w-full max-w-[440px] rounded-[26px] bg-white px-[26px] pb-[26px] pt-[27px]",
+          "shadow-[0_18px_45px_rgba(15,23,42,0.24)]",
         )}
       >
-        <div className="text-left">
-          <h2 className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-[#111827]">
-            Anda akan keluar dari aplikasi
+        <div className="flex justify-center">
+          <div className="grid h-[62px] w-[62px] place-items-center rounded-full bg-[#EAF3FF]">
+            <CircleHelp className="h-[36px] w-[36px] text-[#0758C9]" strokeWidth={2.7} />
+          </div>
+        </div>
+
+        <div className="mt-[26px] text-center">
+          <h2 className="text-[22px] font-extrabold leading-tight tracking-[-0.03em] text-[#263A73]">
+            Keluar dari M-Banking?
           </h2>
 
-          <p className="mt-2 max-w-[310px] text-[14px] font-normal leading-relaxed tracking-[-0.01em] text-[#7A7A7A]">
-            Terimakasih sudah memakai M-Banking. Sampai jumpa lagi ya!
+          <p className="mt-[17px] text-[15px] font-normal leading-[1.7] tracking-[-0.01em] text-[#71809F]">
+            Anda akan keluar dari aplikasi M-Banking.
+            <br />
+            Pastikan semua aktivitas sudah selesai.
           </p>
         </div>
 
-        <div className="mt-7 grid gap-3">
+        <div className="mt-[25px] grid gap-[12px]">
           <button
             type="button"
             onClick={onExit}
             className={cn(
-              "h-[50px] w-full rounded-[8px]",
-              "bg-[#479DF4] text-[14px] font-semibold text-white",
+              "h-[54px] w-full rounded-[16px]",
+              "bg-[#0758C9] text-[15px] font-extrabold text-white",
               "transition active:scale-[0.98]",
             )}
           >
-            Keluar
+            Ya, Keluar
           </button>
 
           <button
             type="button"
             onClick={onCancel}
             className={cn(
-              "h-[50px] w-full rounded-[8px]",
-              "border border-[#D8D8D8] bg-white",
-              "text-[14px] font-semibold text-[#828282]",
+              "h-[54px] w-full rounded-[16px] border-2 border-[#D5D9E1] bg-white",
+              "text-[15px] font-extrabold text-[#768095]",
               "transition active:scale-[0.98]",
             )}
           >
