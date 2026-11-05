@@ -21,7 +21,7 @@ export default function MBankingProfileHeader({
       </button>
 
       <h1 className="mt-[31px] text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">
-        Profil
+        Pengaturan
       </h1>
 
       <div className="mt-[31px] flex items-center gap-[18px]">
