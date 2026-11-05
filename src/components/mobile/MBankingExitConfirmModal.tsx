@@ -39,12 +39,6 @@ export default function MBankingExitConfirmModal({
           <h2 className="text-[18px] font-extrabold leading-tight tracking-[-0.03em] text-[#263A73]">
             Keluar dari M-Banking?
           </h2>
-
-          <p className="mt-[13px] text-[13px] font-normal leading-[1.65] tracking-[-0.01em] text-[#71809F]">
-            Anda akan keluar dari aplikasi M-Banking.
-            <br />
-            Pastikan semua aktivitas sudah selesai.
-          </p>
         </div>
 
         <div className="mt-[20px] grid gap-[10px]">
