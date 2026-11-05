@@ -175,6 +175,7 @@ export default function MBankingHome({
       <MBankingBottomNav
         activeTab="home"
         onAndroidBack={() => setExitOpen(true)}
+        onSettingsClick={() => setScreen("profile")}
       />
 
       <MBankingExitConfirmModal

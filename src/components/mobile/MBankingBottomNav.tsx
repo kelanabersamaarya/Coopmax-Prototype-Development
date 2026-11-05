@@ -31,14 +31,21 @@ const navItems = [
 export default function MBankingBottomNav({
   activeTab = "home",
   onAndroidBack,
+  onSettingsClick,
 }: {
   activeTab?: MBankingTab;
   onAndroidBack?: () => void;
+  onSettingsClick?: () => void;
 }) {
   function handleClick(tab: MBankingTab) {
     if (tab === "home") return;
 
-    toast(`${tab === "qr" ? "QR Code" : "Pengaturan"} (prototype)`, {
+    if (tab === "settings") {
+      onSettingsClick?.();
+      return;
+    }
+
+    toast("QR Code (prototype)", {
       description: "Menu ini belum dihubungkan.",
     });
   }
