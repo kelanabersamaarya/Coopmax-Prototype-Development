@@ -288,7 +288,7 @@ export default function NewMBankingProfilePage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Profil
+            Pengaturan
           </h1>
         </header>
       </div>
