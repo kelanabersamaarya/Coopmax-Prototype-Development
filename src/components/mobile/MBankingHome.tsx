@@ -123,7 +123,12 @@ export default function MBankingHome({
   }
 
   if (screen === "profile") {
-    return <MBankingProfilePage onBack={() => setScreen("home")} />;
+    return (
+      <MBankingProfilePage
+        onBack={() => setScreen("home")}
+        onLogout={onLogout}
+      />
+    );
   }
 
   if (screen === "savings") {

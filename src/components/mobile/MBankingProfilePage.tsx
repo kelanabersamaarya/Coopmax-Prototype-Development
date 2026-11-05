@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingProfileHeader from "@/components/mobile/MBankingProfileHeader";
 import MBankingBiometricToggle from "@/components/mobile/MBankingBiometricToggle";
+import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import MBankingSettingsPage from "@/components/mobile/MBankingSettingsPage";
 
 const accountItems = [
@@ -107,11 +108,14 @@ function ProfileMenuRow({
 
 export default function MBankingProfilePage({
   onBack,
+  onLogout,
 }: {
   onBack: () => void;
+  onLogout?: () => void;
 }) {
   const [biometricEnabled, setBiometricEnabled] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
+  const [exitOpen, setExitOpen] = React.useState(false);
 
   if (showSettings) {
     return <MBankingSettingsPage onBack={() => setShowSettings(false)} />;
@@ -167,11 +171,25 @@ export default function MBankingProfilePage({
             Version 3.5.14.160
           </div>
 
-          <div className="border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          <button
+            type="button"
+            onClick={() => setExitOpen(true)}
+            className="w-full border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-left text-[16px] font-extrabold leading-tight tracking-tight text-[#203064] transition active:scale-[0.99]"
+          >
             Keluar
-          </div>
+          </button>
         </div>
       </div>
+
+      <MBankingExitConfirmModal
+        open={exitOpen}
+        onCancel={() => setExitOpen(false)}
+        onExit={() => {
+          setExitOpen(false);
+          onLogout?.();
+          onBack();
+        }}
+      />
 
       <EKolektorAndroidNavBar onBack={onBack} />
     </div>
