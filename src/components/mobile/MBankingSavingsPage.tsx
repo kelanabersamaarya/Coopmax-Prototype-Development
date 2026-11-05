@@ -74,7 +74,7 @@ function SavingsCard({ account, onClick, staticVaNumber, staticVaBank }: { accou
             {hasStaticVa && (
               <div className="mt-6 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+                  <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank?.replace(/ VA$/, "") ?? ""}</div>
                   <div className="mt-2 flex items-center gap-2 text-[14px] font-normal leading-none">
                     <span>{staticVaNumber}</span>
                     <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
@@ -109,7 +109,7 @@ function DetailSavingsCard({ accountNo, staticVaNumber, staticVaBank }: { accoun
           </div>
           {hasStaticVa && (
             <div className="mt-4 min-w-0">
-              <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank ?? ""}</div>
+              <div className="text-[10px] font-normal leading-none text-[#678DD8]">Nomor Virtual Account {staticVaBank?.replace(/ VA$/, "") ?? ""}</div>
               <div className="mt-2 flex items-center gap-2 text-[16px] font-normal leading-none">
                 <span>{staticVaNumber}</span>
                 <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
@@ -330,7 +330,7 @@ function StaticVaPreview({ accountNo, bankName, onBack, onCancel, onSave }: { ac
         <section className="mt-8 rounded-[22px] bg-[#004FC7] p-5 text-white">
           <div className="text-[12px] text-blue-100">Bank</div>
           <div className="mt-1 text-[20px] font-extrabold">{bankName}</div>
-          <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account {bankName}</div>
+          <div className="mt-7 text-[12px] text-blue-100">Nomor Virtual Account {bankName.replace(/ VA$/, "")}</div>
           <div className="mt-1 text-[25px] font-extrabold tracking-[0.08em]">{virtualAccount}</div>
         </section>
       </main>
@@ -660,7 +660,7 @@ function TransferMethodOptions({ onGenerateDynamic, onDelete, optionsRef, showOp
                   <img src={getVaBankLogo(bankName)} alt={`${bankName ?? "Bank"} logo`} className="max-h-full max-w-full object-contain" />
                 </div>
               </div>
-              <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account {bankName ?? ""}</div>
+              <div className="mt-6 text-[12px] text-blue-100">Nomor Virtual Account {bankName?.replace(/ VA$/, "") ?? ""}</div>
               <div className="mt-2 flex items-center gap-3 text-[22px] font-extrabold tracking-[0.06em]">
                 <span>{virtualAccount}</span>
                 <Copy className="h-5 w-5 shrink-0" strokeWidth={2.3} />
