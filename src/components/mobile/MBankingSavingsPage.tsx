@@ -430,6 +430,7 @@ function TransferInstructions() {
         "Masukkan nominal setoran sesuai dengan kebutuhan",
         "Periksa kembali detail transaksi sebelum melanjutkan.",
         "Konfirmasi pembayaran dan simpan bukti transaksi.",
+        "Periksa mutasi transaksi dan saldo rekening simpanan anda pada M-Banking",
       ],
     },
     {
