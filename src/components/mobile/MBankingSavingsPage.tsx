@@ -435,11 +435,14 @@ function TransferInstructions() {
     {
       name: "Internet Banking",
       steps: [
-        "Masuk ke internet banking bank Anda.",
-        "Pilih menu Transfer atau Pembayaran Virtual Account.",
-        "Masukkan nomor Virtual Account yang tersedia.",
-        "Pastikan detail penerima dan nominal sudah benar.",
-        "Konfirmasi transaksi dan simpan bukti pembayaran.",
+        "Login ke internet banking bank Anda.",
+        "Pilih menu pembayaran atau transfer Virtual Account.",
+        "Masukkan nomor VA tetap yang tertera di atas.",
+        "Pastikan nomor VA dan informasi penerima sesuai.",
+        "Masukkan nominal top-up yang diinginkan.",
+        "Periksa detail transaksi, lalu konfirmasi pembayaran.",
+        "Simpan bukti transaksi.",
+        "Periksa mutasi transaksi dan saldo rekening simpanan anda pada M-Banking",
       ],
     },
     {
