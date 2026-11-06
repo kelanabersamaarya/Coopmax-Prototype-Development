@@ -28,9 +28,9 @@ const instructionItems: Array<{
     steps: [
       "Buka aplikasi mobile banking atau e-wallet pilihan Anda.",
       "Pilih menu Transfer atau Virtual Account.",
-      "Masukkan nomor Virtual Account 111222334455.",
-      "Pastikan nama penerima adalah Arya dan produk rekening adalah Simpanan Kaya.",
-      "Masukkan nominal setoran sesuai total transaksi.",
+      "Masukkan nomor Virtual Account Tetap sesuai dengan nomor yang tertera pada informasi Virtual Account diatas",
+      "Pastikan nomor Virtual Account dan nama penerima sesuai",
+      "Massukan nominal setoran sesuai dengan kebutuhan",
       "Periksa kembali detail transaksi sebelum melanjutkan.",
       "Konfirmasi pembayaran dan simpan bukti transaksi.",
     ],
