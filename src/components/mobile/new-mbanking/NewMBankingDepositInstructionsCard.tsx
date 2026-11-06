@@ -43,7 +43,7 @@ const instructionItems: Array<{
     steps: [
       "Login ke internet banking bank Anda.",
       "Pilih menu pembayaran atau transfer Virtual Account.",
-      "Masukkan nomor VA tetap yang tertera di atas.",
+      "Masukkan nomor Virtual Account Tetap sesuai dengan nomor yang tertera pada informasi Virtual Account diatas",
       "Pastikan nomor VA dan informasi penerima sesuai.",
       "Masukkan nominal top-up yang diinginkan.",
       "Periksa detail transaksi, lalu konfirmasi pembayaran.",
