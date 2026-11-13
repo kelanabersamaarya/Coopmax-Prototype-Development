@@ -117,7 +117,7 @@ export default function NewMBankingSourceFundModal({
               onOpenChange(false);
             }}
             className={cn(
-              "h-[46px] rounded-[8px] bg-[#479DF4]",
+              "h-[46px] rounded-[8px] bg-[#004FC7]",
               "text-[12px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
             )}
