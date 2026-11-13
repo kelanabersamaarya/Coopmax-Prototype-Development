@@ -152,7 +152,8 @@ export default function Index() {
     location.pathname.startsWith("/payment-link") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/sak-ep-cabang");
-  const showLoanTopBar = location.pathname.startsWith("/loans");
+  const isBillingArea = location.pathname === "/anggota" || location.pathname.startsWith("/anggota/");
+  const showLoanTopBar = location.pathname.startsWith("/loans") || isBillingArea;
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
