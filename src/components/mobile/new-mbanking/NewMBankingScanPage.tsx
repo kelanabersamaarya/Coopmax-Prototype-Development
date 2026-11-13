@@ -108,7 +108,7 @@ export default function NewMBankingScanPage({
         </div>
       </header>
 
-      <main className="relative min-h-0 flex-1 overflow-hidden bg-[#101010]">
+      <main className="relative min-h-0 flex-1 overflow-hidden rounded-t-[20px] bg-[#101010]">
         <NewMBankingScanQrImage />
         <NewMBankingScanningAnimation />
 
