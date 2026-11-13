@@ -113,12 +113,12 @@ export default function NewMBankingQrisFixedAmountPage({
         </div>
       </main>
 
-      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
+      <div className="sticky bottom-0 z-30 mt-auto px-0 pb-0 pt-[14px]">
         <button
           type="button"
           onClick={onContinuePayment}
           className={cn(
-            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+            "h-[52px] w-full rounded-[8px] bg-[#004FC7]",
             "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
