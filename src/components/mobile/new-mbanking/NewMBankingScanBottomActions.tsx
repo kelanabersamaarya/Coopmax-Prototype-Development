@@ -49,7 +49,7 @@ export default function NewMBankingScanBottomActions({
               onClick={() => onChange?.(action.id)}
               className={cn(
                 "grid h-[44px] w-[44px] place-items-center rounded-[14px]",
-                "border border-white/30 text-white shadow-[0_8px_18px_rgba(15,23,42,0.12)]",
+                "border border-white/30 text-white",
                 "transition active:scale-[0.97]",
                 isActive ? action.activeFrameClassName : action.frameClassName,
               )}
