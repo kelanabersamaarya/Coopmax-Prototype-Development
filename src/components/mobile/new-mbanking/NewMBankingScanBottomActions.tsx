@@ -10,22 +10,22 @@ const actions = [
     id: "flash" as const,
     label: "Nyalakan Flash",
     icon: Zap,
-    frameClassName: "bg-[#F59E0B]",
-    activeFrameClassName: "bg-[#D97706]",
+    frameClassName: "bg-[#084BC8]",
+    activeFrameClassName: "bg-[#063A9B]",
   },
   {
     id: "qr" as const,
     label: "Tunjukan Kode QR",
     icon: QrCode,
-    frameClassName: "bg-[#479DF4]",
-    activeFrameClassName: "bg-[#2563EB]",
+    frameClassName: "bg-[#084BC8]",
+    activeFrameClassName: "bg-[#063A9B]",
   },
   {
     id: "media" as const,
     label: "Pilih Dari Media",
     icon: Image,
-    frameClassName: "bg-[#8B5CF6]",
-    activeFrameClassName: "bg-[#7C3AED]",
+    frameClassName: "bg-[#084BC8]",
+    activeFrameClassName: "bg-[#063A9B]",
   },
 ];
 
