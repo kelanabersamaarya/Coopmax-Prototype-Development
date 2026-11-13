@@ -195,7 +195,7 @@ export default function Index() {
             <aside className="-ml-[var(--shell-gutter)] hidden min-w-0 space-y-4 px-0 md:block">
               <div className="mx-2 rounded-[14px] border-4 border-[#7631e9] bg-white p-3 shadow-[inset_0_-4px_0_#d979dc]">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[17px] font-bold tracking-tight text-[#8436e8]">KocKec</span>
+                  <span className="text-[17px] font-bold tracking-tight text-[#8436e8]">Kocek</span>
                   <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-[#f22e55]"><span className="h-2 w-2 rounded-full bg-[#f22e55]" />Belum Terhubung</span>
                 </div>
                 <p className="mt-1 text-[11px] font-bold text-[#9134ea]">Rekomendasi Pinjaman Cepat ✨</p>
