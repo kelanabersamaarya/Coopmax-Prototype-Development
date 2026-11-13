@@ -62,9 +62,11 @@ const actions = [
 export default function MBankingQuickActions({
   onAccountInfoClick,
   onTopUpClick,
+  onTransferClick,
 }: {
   onAccountInfoClick?: () => void;
   onTopUpClick?: () => void;
+  onTransferClick?: () => void;
 }) {
   return (
     <section className="px-6 pt-5">
@@ -84,6 +86,11 @@ export default function MBankingQuickActions({
 
                 if (action.label === "Setor Dana") {
                   onTopUpClick?.();
+                  return;
+                }
+
+                if (action.label === "Transfer") {
+                  onTransferClick?.();
                   return;
                 }
 
