@@ -63,7 +63,7 @@ export default function NewMBankingQrisMerchantItem({
   }
 
   return (
-    <section className="relative flex min-h-[calc(100%-92px)] flex-col px-[31px] pb-[112px] pt-[18px]">
+    <section className="relative flex min-h-[calc(100%-62px)] flex-col px-6 pb-[112px] pt-[18px]">
       <NewMBankingInScreenToast
         message={toastMessage}
         variant="warning"
@@ -88,7 +88,7 @@ export default function NewMBankingQrisMerchantItem({
 
       <div>
         <div className="flex items-start gap-[12px]">
-          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#084BC8] text-white">
             <ShoppingCart
               className="h-[20px] w-[20px] text-white"
               strokeWidth={2.6}

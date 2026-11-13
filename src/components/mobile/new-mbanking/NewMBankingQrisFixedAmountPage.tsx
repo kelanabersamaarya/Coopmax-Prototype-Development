@@ -35,7 +35,7 @@ export default function NewMBankingQrisFixedAmountPage({
         onSelect={setSourceFund}
       />
 
-      <header className="flex h-[92px] shrink-0 items-center gap-3 px-[31px] pt-[22px]">
+      <header className="flex h-[62px] shrink-0 items-center gap-3 px-6">
         <button
           type="button"
           onClick={onBack}
@@ -51,10 +51,10 @@ export default function NewMBankingQrisFixedAmountPage({
         </h1>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-[31px] pb-[112px] pt-[18px]">
+      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[112px] pt-[18px]">
         <div>
           <div className="flex items-start gap-[12px]">
-            <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+            <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#084BC8] text-white">
               <ShoppingCart
                 className="h-[20px] w-[20px] text-white"
                 strokeWidth={2.6}
