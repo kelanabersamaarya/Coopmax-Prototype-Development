@@ -30,7 +30,7 @@ export default function NewMBankingScanResultPage({
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#FFFF] text-black">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#F9F9F9] text-black">
       <header className="relative shrink-0 overflow-hidden bg-[#004FC7] px-5 pb-12 pt-5 text-white">
         <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
         <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
@@ -51,7 +51,7 @@ export default function NewMBankingScanResultPage({
         </div>
       </header>
 
-      <div className="relative z-10 -mt-5 flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-[#FFFF]">
+      <div className="relative z-10 -mt-5 flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-[#FFFFFF]">
         <NewMBankingQrisMerchantItem
           onContinuePayment={() => setShowPinInput(true)}
         />
