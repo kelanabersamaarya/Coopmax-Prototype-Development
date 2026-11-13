@@ -80,7 +80,7 @@ export default function NewMBankingQrisConfirmModal({
         </div>
 
         <div className="mt-[10px] flex items-start gap-[12px]">
-          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#004FC7] text-white shadow-sm">
             <ShoppingCart
               className="h-[20px] w-[20px] text-white"
               strokeWidth={2.6}
@@ -103,7 +103,7 @@ export default function NewMBankingQrisConfirmModal({
         <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
 
         <div className="flex items-center justify-between gap-4 py-[10px]">
-          <div className="text-[14px] font-normal leading-tight text-[#8F8F8F]">
+          <div className="text-[14px] font-normal leading-tight text-[#777777]">
             Nominal Transaksi
           </div>
           <div className="shrink-0 text-right text-[18px] font-bold leading-tight tracking-[-0.01em] text-[#111827]">
@@ -114,13 +114,13 @@ export default function NewMBankingQrisConfirmModal({
         <div className="h-px w-full bg-[#D8D8D8]" />
 
         <div className="mt-[10px] flex items-center justify-between gap-3">
-          <div className="text-[12px] font-normal leading-tight text-[#8F8F8F]">
+          <div className="text-[12px] font-normal leading-tight text-[#777777]">
             Sumber Dana
           </div>
           <button
             type="button"
             onClick={() => setSourceFundOpen(true)}
-            className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+            className="text-[12px] font-semibold leading-none text-[#004FC7] transition active:scale-[0.98]"
           >
             Ubah
           </button>
@@ -143,7 +143,7 @@ export default function NewMBankingQrisConfirmModal({
               onContinuePayment();
             }}
             className={cn(
-              "h-[46px] rounded-[8px] bg-[#479DF4]",
+              "h-[46px] rounded-[8px] bg-[#004FC7]",
               "text-[12px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
             )}
