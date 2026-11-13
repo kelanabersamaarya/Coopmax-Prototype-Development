@@ -170,9 +170,9 @@ export default function Index() {
       <div
         className={cn(
           "w-full",
-          isMobileArea
-            ? "px-0 py-0 md:px-[var(--shell-gutter)] md:py-5"
-            : "px-[var(--shell-gutter)] py-6 md:py-8",
+        isMobileArea
+          ? "px-0 py-0 md:px-[var(--shell-gutter)] md:py-5"
+          : "px-[var(--shell-gutter)] py-0 md:py-0",
         )}
       >
         {!isMobileArea ? (
@@ -185,7 +185,7 @@ export default function Index() {
         <div
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
-            isMobileArea ? "mt-0" : "mt-6",
+            isMobileArea ? "mt-0" : "mt-0",
             hideSidebar || (showLoanTopBar && !loanSidebarOpen)
               ? "grid-cols-1"
               : "grid-cols-1 md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
@@ -193,7 +193,7 @@ export default function Index() {
         >
           {!hideSidebar && !(showLoanTopBar && !loanSidebarOpen) ? (
             <aside className="-ml-[var(--shell-gutter)] hidden min-w-0 space-y-4 px-0 md:block">
-              <div className="mx-2 rounded-[14px] border-4 border-[#7631e9] bg-white p-3 shadow-[inset_0_-4px_0_#d979dc]">
+              <div className="mx-2 rounded-b-[14px] border-x-4 border-b-4 border-t-0 border-[#7631e9] bg-white p-3 shadow-[inset_0_-4px_0_#d979dc]">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-[17px] font-bold tracking-tight text-[#8436e8]">Kocek</span>
                   <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-[#f22e55]"><span className="h-2 w-2 rounded-full bg-[#f22e55]" />Belum Terhubung</span>
