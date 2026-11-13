@@ -32,7 +32,7 @@ export default function LoanTopBar({
 
       <div className="min-w-0 flex-1 text-center">
         <h1 className="truncate px-4 text-[15px] font-semibold tracking-[0.01em] text-[#092653] md:text-[20px]">
-          KOPERASI KONSUMEN ARTHA SARI SEDANA
+          KOPERASI DJOIN
         </h1>
       </div>
 
