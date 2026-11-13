@@ -1,4 +1,4 @@
-import { ChevronDown, Menu, Users, UserRound } from "lucide-react";
+import { ChevronDown, Menu, UserRound } from "lucide-react";
 
 type LoanTopBarProps = {
   sidebarOpen: boolean;
@@ -43,7 +43,11 @@ export default function LoanTopBar({
 
       <div className="flex min-w-0 flex-1 basis-0 items-center justify-end gap-1 text-[#092653] md:gap-3">
         <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Pengguna">
-          <Users className="h-5 w-5" strokeWidth={1.8} />
+          <img
+            src="/typicon-people.svg"
+            alt="Pengguna"
+            className="h-5 w-5 object-contain"
+          />
         </button>
         <button type="button" className="relative rounded-lg p-2 transition hover:bg-blue-50" aria-label="Notifikasi anggota">
           <img
