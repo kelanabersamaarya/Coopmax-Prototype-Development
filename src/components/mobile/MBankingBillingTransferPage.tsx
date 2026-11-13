@@ -111,7 +111,7 @@ export default function MBankingBillingTransferPage({
                 alt="Tidak ada daftar tersimpan"
                 className="h-[170px] w-[170px] object-contain sm:h-[210px] sm:w-[210px]"
               />
-              <p className="mt-4 text-[20px] font-bold text-[#182d58] sm:text-[24px]">
+              <p className="mt-4 text-[16px] font-bold text-[#182d58] sm:text-[20px]">
                 Tidak Ada Daftar Tersimpan
               </p>
             </div>
