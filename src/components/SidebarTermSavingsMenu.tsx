@@ -11,11 +11,10 @@ export default function SidebarTermSavingsMenu() {
     location.pathname === "/mobile/e-kolektor" ||
     location.pathname.startsWith("/mobile/e-kolektor/") ||
     location.pathname === "/mobile/e-kolektor-wajah";
-  const isPinjamanBillingArea =
-    location.pathname.startsWith("/anggota") || isEKolektorArea;
-  const routePrefix = isPinjamanBillingArea
-    ? "/anggota/simpanan-berjangka"
-    : "/astiti-dana-lestari/simpanan-berjangka";
+  const isAstitiDanaLestariArea = location.pathname.startsWith("/astiti-dana-lestari");
+  const routePrefix = isAstitiDanaLestariArea
+    ? "/astiti-dana-lestari/simpanan-berjangka"
+    : "/anggota/simpanan-berjangka";
   const items = [
     { label: "Transaksi Simpanan Berjangka", to: `${routePrefix}/transaksi` },
     { label: "Rekening Simpanan Berjangka", to: `${routePrefix}/rekening` },
