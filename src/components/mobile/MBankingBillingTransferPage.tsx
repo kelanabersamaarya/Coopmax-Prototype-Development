@@ -128,23 +128,23 @@ export default function MBankingBillingTransferPage({
             </div>
           </section>
         ) : (
-          <section className="relative mt-4 rounded-[28px] bg-white px-5 pb-5 pt-4 text-center shadow-[0_8px_24px_rgba(8,75,200,0.12)] sm:mt-5 sm:rounded-[34px] sm:px-8 sm:pb-7 sm:pt-5">
+          <section className="relative mt-4 rounded-[24px] border border-[#d5d5d5] bg-white px-4 pb-4 pt-3 text-center shadow-[0_8px_24px_rgba(8,75,200,0.08)] sm:mt-5 sm:rounded-[28px] sm:px-6 sm:pb-5 sm:pt-4">
             <div className="flex items-center justify-center">
-              <h2 className="text-[28px] font-bold tracking-[-0.04em] text-[#182d58] sm:text-[34px]">QR Code</h2>
-              <button type="button" className="absolute right-8 text-[#202020] transition active:rotate-180 sm:right-12" aria-label="Muat ulang QR Code">
-                <RefreshCw className="h-8 w-8 sm:h-9 sm:w-9" strokeWidth={2.5} />
+              <h2 className="text-[23px] font-bold tracking-[-0.04em] text-[#182d58] sm:text-[28px]">QR Code</h2>
+              <button type="button" className="absolute right-5 text-[#202020] transition active:rotate-180 sm:right-8" aria-label="Muat ulang QR Code">
+                <RefreshCw className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.5} />
               </button>
             </div>
             <button
               type="button"
               onClick={() => navigator.clipboard?.writeText("4260533")}
-              className="mt-4 inline-flex items-center gap-2 text-[25px] font-bold tracking-[0.02em] text-[#263f79] sm:text-[30px]"
+              className="mt-3 inline-flex items-center gap-1.5 text-[20px] font-bold tracking-[0.02em] text-[#263f79] sm:text-[25px]"
               aria-label="Salin kode QR"
             >
               4260533
-              <Copy className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.8} />
+              <Copy className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.8} />
             </button>
-            <div className="mx-auto mt-6 grid aspect-square w-full max-w-[300px] grid-cols-[repeat(21,minmax(0,1fr))] gap-[2px] bg-white p-1 sm:mt-8 sm:max-w-[390px] sm:gap-[3px]">
+            <div className="mx-auto mt-5 grid aspect-square w-full max-w-[260px] grid-cols-[repeat(21,minmax(0,1fr))] gap-[2px] bg-white p-1 sm:mt-6 sm:max-w-[330px] sm:gap-[3px]">
               {Array.from({ length: 441 }).map((_, index) => {
                 const row = Math.floor(index / 21);
                 const column = index % 21;
@@ -156,7 +156,7 @@ export default function MBankingBillingTransferPage({
                 return <span key={index} className={dark ? "bg-black" : "bg-white"} />;
               })}
             </div>
-            <button type="button" className="mt-5 h-12 w-full rounded-full bg-[#084bc8] text-[17px] text-white transition active:scale-[0.99] sm:h-14 sm:text-[19px]">
+            <button type="button" className="mt-4 h-11 w-full rounded-full bg-[#084bc8] text-[15px] text-white transition active:scale-[0.99] sm:mt-5 sm:h-12 sm:text-[17px]">
               Bagikan
             </button>
           </section>
