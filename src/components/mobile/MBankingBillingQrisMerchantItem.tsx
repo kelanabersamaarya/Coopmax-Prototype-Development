@@ -87,7 +87,8 @@ export default function NewMBankingQrisMerchantItem({
       />
 
       <div>
-        <div className="flex items-start gap-[12px]">
+        <div className="rounded-[12px] border border-[#D8D8D8] px-[14px] py-[14px]">
+          <div className="flex items-start gap-[12px]">
           <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
             <ShoppingCart
               className="h-[20px] w-[20px] text-white"
@@ -106,6 +107,7 @@ export default function NewMBankingQrisMerchantItem({
               Merchant PAN : 2211122223333
             </div>
           </div>
+        </div>
         </div>
 
         <SectionDivider />
