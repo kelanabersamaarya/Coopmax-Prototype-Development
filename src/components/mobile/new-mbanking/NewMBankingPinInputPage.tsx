@@ -8,11 +8,13 @@ const correctPin = "123456";
 export default function NewMBankingPinInputPage({
   onBack,
   onSubmit,
+  variant = "default",
 }: {
   onBack: () => void;
   onSubmit: () => void;
   title?: string;
   description?: string;
+  variant?: "default" | "loan-billing";
 }) {
   const [pin, setPin] = React.useState("");
   const [isWrongPin, setIsWrongPin] = React.useState(false);
