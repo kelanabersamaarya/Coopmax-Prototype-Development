@@ -25,7 +25,7 @@ export default function MBankingBillingTransferPage({
         >
           <ArrowLeft className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.1} />
         </button>
-        <h1 className="relative z-10 mt-3 text-[18px] font-bold leading-tight tracking-[-0.035em] sm:mt-4 sm:text-[21px]">
+        <h1 className="relative z-10 mt-3 text-[25px] font-bold leading-tight tracking-[-0.035em]">
           Transfer Antar Rekening
         </h1>
       </header>
