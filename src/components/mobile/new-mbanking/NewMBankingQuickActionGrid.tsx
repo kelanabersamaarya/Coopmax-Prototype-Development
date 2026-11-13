@@ -93,7 +93,7 @@ export default function NewMBankingQuickActionGrid({
                   onPurchaseClick?.();
                 }
               }}
-              className="flex min-w-0 flex-col items-center transition active:scale-[0.97]"
+              className="relative z-10 flex min-w-0 cursor-pointer flex-col items-center transition active:scale-[0.97]"
               aria-label={action.label}
             >
               <span

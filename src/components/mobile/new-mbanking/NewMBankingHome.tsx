@@ -22,7 +22,6 @@ import NewMBankingProfilePage from "@/components/mobile/new-mbanking/NewMBanking
 import NewMBankingPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPurchasePage";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
-import NewMBankingTransferTypeModal from "@/components/mobile/new-mbanking/NewMBankingTransferTypeModal";
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
 
 type TransferMode = "antar-rekening" | "antar-bank";
@@ -74,7 +73,6 @@ export default function NewMBankingHome({
   const [showPayment, setShowPayment] = React.useState(false);
   const [showPurchase, setShowPurchase] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
-  const [transferTypeOpen, setTransferTypeOpen] = React.useState(false);
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
     null,
   );
@@ -271,7 +269,7 @@ export default function NewMBankingHome({
 
           <NewMBankingQuickActionGrid
             onDepositClick={() => setShowDepositAccounts(true)}
-            onTransferClick={() => setTransferTypeOpen(true)}
+            onTransferClick={() => setTransferMode("antar-rekening")}
             onInstallmentClick={() => setShowLoanInstallment(true)}
             onPaymentClick={() => setShowPayment(true)}
             onPurchaseClick={() => setShowPurchase(true)}
@@ -303,19 +301,6 @@ export default function NewMBankingHome({
         />
         <EKolektorAndroidNavBar />
       </div>
-
-      <NewMBankingTransferTypeModal
-        open={transferTypeOpen}
-        onClose={() => setTransferTypeOpen(false)}
-        onChooseInternal={() => {
-          setTransferTypeOpen(false);
-          setTransferMode("antar-rekening");
-        }}
-        onChooseInterbank={() => {
-          setTransferTypeOpen(false);
-          setTransferMode("antar-bank");
-        }}
-      />
 
       <NewMBankingLogoutConfirmModal
         open={logoutOpen}
