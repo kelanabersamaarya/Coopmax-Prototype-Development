@@ -92,7 +92,7 @@ export default function NewMBankingScanPage({
         onChoose={(item) => setMediaScanItem(item)}
       />
 
-      <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#084bc8] px-[31px] text-white">
+      <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[34px] bg-[#084bc8] px-[31px] text-white">
         <button
           type="button"
           onClick={onBack}
