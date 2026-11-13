@@ -81,10 +81,12 @@ export default function NewMBankingInstallmentConfirmModal({
     );
   }, [open]);
 
-  if (!open || !mobileScreen) return null;
+  if (!open) return null;
+
+  const portalTarget = mobileScreen ?? document.body;
 
   return createPortal(
-    <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5 pt-8">
+    <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5 pt-8">
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
@@ -199,6 +201,6 @@ export default function NewMBankingInstallmentConfirmModal({
         </div>
       </div>
     </div>,
-    mobileScreen,
+    portalTarget,
   );
 }
