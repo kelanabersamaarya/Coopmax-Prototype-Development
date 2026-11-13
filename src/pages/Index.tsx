@@ -1,3 +1,4 @@
+import * as React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -21,6 +22,7 @@ import SidebarAstitiDanaLestariMenu from "@/components/SidebarAstitiDanaLestariM
 import SidebarTermSavingsMenu from "@/components/SidebarTermSavingsMenu";
 import SidebarLoginMenu from "@/components/SidebarLoginMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
+import LoanTopBar from "@/components/navigation/LoanTopBar";
 
 type NavItem = {
   to: string;
@@ -120,6 +122,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 
 export default function Index() {
   const location = useLocation();
+  const [loanSidebarOpen, setLoanSidebarOpen] = React.useState(true);
   const isHome = location.pathname === "/";
   const isMitraKaryaDashboard =
     location.pathname === "/mitra-karya/dashboard";
@@ -149,6 +152,7 @@ export default function Index() {
     location.pathname.startsWith("/payment-link") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/sak-ep-cabang");
+  const showLoanTopBar = location.pathname.startsWith("/loans");
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
@@ -157,6 +161,12 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      {showLoanTopBar ? (
+        <LoanTopBar
+          sidebarOpen={loanSidebarOpen}
+          onToggleSidebar={() => setLoanSidebarOpen((open) => !open)}
+        />
+      ) : null}
       <div
         className={cn(
           "w-full",
@@ -176,12 +186,12 @@ export default function Index() {
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
             isMobileArea ? "mt-0" : "mt-6",
-            hideSidebar
+            hideSidebar || (showLoanTopBar && !loanSidebarOpen)
               ? "grid-cols-1"
               : "grid-cols-1 md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!hideSidebar ? (
+          {!hideSidebar && !(showLoanTopBar && !loanSidebarOpen) ? (
             <aside className="hidden min-w-0 space-y-4 px-0 md:block">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 <div className="px-0 py-1">
