@@ -81,23 +81,25 @@ export default function NewMBankingQrisConfirmModal({
           </button>
         </div>
 
-        <div className="mt-[10px] flex items-start gap-[12px]">
-          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
-            <ShoppingCart
-              className="h-[20px] w-[20px] text-white"
-              strokeWidth={2.6}
-            />
-          </div>
+        <div className="mt-[10px] rounded-[12px] border border-[#D8D8D8] px-[14px] py-[14px]">
+          <div className="flex items-start gap-[12px]">
+            <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+              <ShoppingCart
+                className="h-[20px] w-[20px] text-white"
+                strokeWidth={2.6}
+              />
+            </div>
 
-          <div className="min-w-0">
-            <div className="text-[18px] font-bold leading-tight text-black">
-              Mini Mart
-            </div>
-            <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Bali, Indonesia
-            </div>
-            <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Merchant PAN : 2211122223333
+            <div className="min-w-0">
+              <div className="text-[18px] font-bold leading-tight text-black">
+                Mini Mart
+              </div>
+              <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#828282]">
+                Bali, Indonesia
+              </div>
+              <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
+                Merchant PAN : 2211122223333
+              </div>
             </div>
           </div>
         </div>
