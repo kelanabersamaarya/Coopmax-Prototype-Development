@@ -16,7 +16,7 @@ import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 import MBankingSavingsPage from "@/components/mobile/MBankingSavingsPage";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
-import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
+import MBankingBillingTransferPage from "@/components/mobile/MBankingBillingTransferPage";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type MBankingHomeScreen = "home" | "info" | "loan" | "profile" | "savings";
@@ -129,13 +129,7 @@ export default function MBankingHome({
   }
 
   if (transferOpen) {
-    return (
-      <NewMBankingInterbankTransferPage
-        title="Transfer Antar Rekening"
-        onBack={() => setTransferOpen(false)}
-        onTransferDone={() => setTransferOpen(false)}
-      />
-    );
+    return <MBankingBillingTransferPage onBack={() => setTransferOpen(false)} />;
   }
 
   if (screen === "profile") {
