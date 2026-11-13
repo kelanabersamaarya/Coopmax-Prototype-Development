@@ -115,26 +115,19 @@ export default function NewMBankingQrisConfirmModal({
 
         <div className="h-px w-full bg-[#D8D8D8]" />
 
-        <div className="mt-[10px] flex items-center justify-between gap-3">
+        <div className="mt-[10px]">
           <div className="text-[12px] font-normal leading-tight text-[#777777]">
             Sumber Dana
           </div>
-          <button
-            type="button"
-            onClick={() => setSourceFundOpen(true)}
-            className="text-[12px] font-semibold leading-none text-[#004FC7] transition active:scale-[0.98]"
-          >
-            Ubah
-          </button>
-        </div>
 
-        <div className="mt-[10px]">
-          <NewMBankingSourceFundGradientCard
-            account={selectedSourceFund}
-            textSize="compact"
-            className="min-h-[104px]"
-            onClick={() => setSourceFundOpen(true)}
-          />
+          <div className="mt-[10px]">
+            <NewMBankingSourceFundGradientCard
+              account={selectedSourceFund}
+              textSize="compact"
+              className="min-h-[104px]"
+              onClick={() => setSourceFundOpen(true)}
+            />
+          </div>
         </div>
 
         <div className="mt-[24px] grid grid-cols-1 gap-[10px]">
