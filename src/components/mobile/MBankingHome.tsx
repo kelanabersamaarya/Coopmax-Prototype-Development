@@ -17,6 +17,7 @@ import MBankingSavingsPage from "@/components/mobile/MBankingSavingsPage";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import MBankingBillingTransferPage from "@/components/mobile/MBankingBillingTransferPage";
+import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type MBankingHomeScreen = "home" | "info" | "loan" | "profile" | "savings";
@@ -48,6 +49,7 @@ export default function MBankingHome({
   const [homeDetailTransferGuide, setHomeDetailTransferGuide] = React.useState(false);
   const [topUpOpen, setTopUpOpen] = React.useState(false);
   const [transferOpen, setTransferOpen] = React.useState(false);
+  const [qrisOpen, setQrisOpen] = React.useState(false);
 
   function openExitConfirmation() {
     setExitOpen(true);
@@ -132,6 +134,10 @@ export default function MBankingHome({
     return <MBankingBillingTransferPage onBack={() => setTransferOpen(false)} />;
   }
 
+  if (qrisOpen) {
+    return <NewMBankingScanPage onBack={() => setQrisOpen(false)} />;
+  }
+
   if (screen === "profile") {
     return (
       <MBankingProfilePage
@@ -192,6 +198,7 @@ export default function MBankingHome({
         activeTab="home"
         onAndroidBack={openExitConfirmation}
         onSettingsClick={() => setScreen("profile")}
+        onQrisClick={() => setQrisOpen(true)}
       />
 
       <MBankingExitConfirmModal

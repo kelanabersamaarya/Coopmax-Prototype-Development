@@ -1,7 +1,6 @@
 "use client";
 
 import { Home, QrCode, Settings } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
@@ -32,10 +31,12 @@ export default function MBankingBottomNav({
   activeTab = "home",
   onAndroidBack,
   onSettingsClick,
+  onQrisClick,
 }: {
   activeTab?: MBankingTab;
   onAndroidBack?: () => void;
   onSettingsClick?: () => void;
+  onQrisClick?: () => void;
 }) {
   function handleClick(tab: MBankingTab) {
     if (tab === "home") return;
@@ -45,9 +46,7 @@ export default function MBankingBottomNav({
       return;
     }
 
-    toast("QR Code (prototype)", {
-      description: "Menu ini belum dihubungkan.",
-    });
+    onQrisClick?.();
   }
 
   return (
