@@ -11,8 +11,8 @@ export default function LoanTopBar({
 }: LoanTopBarProps) {
   return (
     <header className="sticky top-0 z-40 flex h-[62px] items-center border-b border-slate-200 bg-white px-4 shadow-[0_1px_8px_rgba(31,58,95,0.06)] md:px-7">
-      <div className="flex min-w-[176px] items-center gap-5">
-        <div className="flex items-center gap-2.5" aria-label="Coopmax">
+      <div className="flex min-w-0 flex-1 basis-0 items-center gap-2 md:gap-5">
+        <div className="flex shrink-0 items-center gap-2.5" aria-label="Coopmax">
           <span className="relative block h-8 w-8" aria-hidden="true">
             <span className="absolute left-0 top-0 h-4 w-4 rounded-full bg-[#a735f4]" />
             <span className="absolute bottom-0 left-0 h-4 w-4 rounded-full bg-[#4f8cf7]" />
@@ -40,7 +40,7 @@ export default function LoanTopBar({
         </h1>
       </div>
 
-      <div className="flex min-w-[176px] items-center justify-end gap-3 text-[#092653]">
+      <div className="flex min-w-0 flex-1 basis-0 items-center justify-end gap-1 text-[#092653] md:gap-3">
         <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Pengguna">
           <Users className="h-5 w-5" strokeWidth={1.8} />
         </button>
