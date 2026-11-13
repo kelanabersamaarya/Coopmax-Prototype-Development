@@ -5,7 +5,8 @@ import { ArrowLeft, Delete } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-const pinLength = 6;
+const pinLength = 4;
+const correctPin = "0000";
 const blue = "#0758C9";
 
 export default function MBankingLoanPasswordPage({
@@ -18,6 +19,14 @@ export default function MBankingLoanPasswordPage({
   const [password, setPassword] = React.useState("");
 
   function submit() {
+    if (password.length < pinLength) return;
+
+    if (password !== correctPin) {
+      toast.error("PIN tidak sesuai");
+      setPassword("");
+      return;
+    }
+
     toast.success("PIN terverifikasi (prototype)");
     onSuccess();
   }
@@ -144,7 +153,11 @@ export default function MBankingLoanPasswordPage({
             type="button"
             onClick={submit}
             style={{ backgroundColor: blue }}
-            className="mt-[12px] h-[35px] w-full rounded-full text-[11px] font-medium text-white transition active:scale-[0.99] hover:brightness-95"
+            disabled={password.length < pinLength}
+            className={cn(
+              "mt-[12px] h-[35px] w-full rounded-full text-[11px] font-medium text-white transition active:scale-[0.99] hover:brightness-95",
+              password.length < pinLength && "cursor-not-allowed opacity-60",
+            )}
           >
             Selanjutnya
           </button>
