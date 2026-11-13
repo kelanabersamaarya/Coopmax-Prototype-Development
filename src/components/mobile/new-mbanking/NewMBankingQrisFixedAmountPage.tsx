@@ -35,20 +35,24 @@ export default function NewMBankingQrisFixedAmountPage({
         onSelect={setSourceFund}
       />
 
-      <header className="flex h-[62px] shrink-0 items-center gap-3 px-6">
-        <button
-          type="button"
-          onClick={onBack}
-          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
-          aria-label="Kembali"
-          title="Kembali"
-        >
-          <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
-        </button>
-
-        <h1 className="text-[16px] font-bold leading-tight text-black">
-          Pembayaran QRIS
-        </h1>
+      <header className="relative shrink-0 overflow-hidden rounded-b-[20px] bg-[#004FC7] px-5 pb-9 pt-5 text-white">
+        <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
+        <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute right-[20px] top-[42px] h-[58px] w-[58px] rounded-full bg-white/8" />
+        <div className="relative z-10 flex flex-col items-start">
+          <button
+            type="button"
+            onClick={onBack}
+            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.98]"
+            aria-label="Kembali"
+            title="Kembali"
+          >
+            <ArrowLeft className="h-6 w-6" strokeWidth={2.7} />
+          </button>
+          <h1 className="mt-3 text-[25px] font-extrabold leading-none tracking-tight text-white">
+            Pembayaran QRIS
+          </h1>
+        </div>
       </header>
 
       <main className="flex min-h-0 flex-1 flex-col px-6 pb-[112px] pt-[18px]">
