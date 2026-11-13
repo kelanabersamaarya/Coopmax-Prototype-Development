@@ -69,8 +69,11 @@ export default function MBankingBillingTransferPage({
         </div>
 
         {activeTab === "qr" && (
-          <div className="mt-3 rounded-[10px] border border-[#d5d5d5] bg-[#f7f7f7] px-3.5 py-2.5 text-[11px] leading-[1.35] text-[#5d5d5d] sm:mt-4 sm:px-4 sm:py-3 sm:text-[13px]">
-            Tunjukan QR code berikut untuk menerima transfer antar rekening
+          <div className="mt-3 flex items-start gap-3 rounded-[13px] bg-[#e8f1ff] px-3.5 py-3.5 text-[11px] leading-[1.55] text-[#0649b7] sm:mt-4 sm:gap-3.5 sm:px-4 sm:py-4 sm:text-[13px]">
+            <span className="mt-0.5 grid h-[19px] w-[19px] shrink-0 place-items-center rounded-full border-2 border-[#0755c7] text-[12px] font-bold leading-none text-[#0755c7] sm:h-[21px] sm:w-[21px] sm:text-[13px]">
+              i
+            </span>
+            <span>Tunjukan QR code berikut untuk menerima transfer antar rekening</span>
           </div>
         )}
 
