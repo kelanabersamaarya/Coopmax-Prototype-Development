@@ -54,13 +54,11 @@ export default function LoanTopBar({
           <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#da2f4c] px-1 text-[9px] font-bold text-white">58</span>
         </button>
         <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Dropbox">
-          <span className="relative block h-5 w-5" aria-hidden="true">
-            <span className="absolute left-0 top-0 h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
-            <span className="absolute right-0 top-0 h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
-            <span className="absolute left-0 top-[8px] h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
-            <span className="absolute right-0 top-[8px] h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
-            <span className="absolute left-[5px] top-[15px] h-[5px] w-[10px] rotate-45 rounded-[1px] bg-[#1769d2]" />
-          </span>
+          <img
+            src="/akar-icons_dropbox-fill.svg"
+            alt="Dropbox"
+            className="h-5 w-5 object-contain"
+          />
         </button>
         <button type="button" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1d65b7] text-white ring-2 ring-blue-100" aria-label="Profil">
           <UserRound className="h-5 w-5" strokeWidth={1.6} />
