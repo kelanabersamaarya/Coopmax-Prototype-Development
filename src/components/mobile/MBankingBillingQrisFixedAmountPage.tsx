@@ -81,15 +81,18 @@ export default function NewMBankingQrisFixedAmountPage({
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
             </label>
 
-            <input
-              value="Rp. 50.000,00"
-              readOnly
-              aria-readonly="true"
-              className={cn(
-                "mt-[8px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-[#D9D9D9] px-4",
-                "cursor-not-allowed text-[14px] font-normal text-black shadow-none outline-none",
-              )}
-            />
+            <div className="mt-[8px] flex h-[54px] w-[345px] max-w-full items-center rounded-[12px] bg-[#F1F1F1] px-4">
+              <span className="shrink-0 text-[16px] font-normal text-[#26365F]">Rp.</span>
+              <input
+                value="50.000,00"
+                readOnly
+                aria-readonly="true"
+                className={cn(
+                  "ml-4 min-w-0 flex-1 bg-transparent",
+                  "cursor-not-allowed text-[16px] font-normal text-[#26365F] shadow-none outline-none",
+                )}
+              />
+            </div>
 
             <div className="mt-[8px] text-[12px] font-normal leading-relaxed text-[#828282]">
               Pastikan nominal yang akan memotong saldo Anda sudah sesuai
