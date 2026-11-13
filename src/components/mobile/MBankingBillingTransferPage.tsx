@@ -103,7 +103,7 @@ export default function MBankingBillingTransferPage({
               value={savedSearch}
               onChange={(event) => setSavedSearch(event.target.value)}
               placeholder="Cari nama atau nomor rekening..."
-              className="mt-3 h-[54px] w-full rounded-[12px] bg-[#f1f1f1] px-4 text-[14px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[62px] sm:text-[16px]"
+              className="mt-2.5 h-[46px] w-full rounded-[11px] bg-[#f1f1f1] px-4 text-[14px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[52px] sm:text-[16px]"
             />
             <div className="flex min-h-[360px] flex-col items-center justify-center text-center sm:min-h-[430px]">
               <img
