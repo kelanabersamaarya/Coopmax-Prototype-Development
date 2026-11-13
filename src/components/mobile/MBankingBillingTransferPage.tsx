@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Copy, RefreshCw, ScanLine } from "lucide-react";
+import { ArrowLeft, Copy, ScanLine } from "lucide-react";
 
 export default function MBankingBillingTransferPage({
   onBack,
@@ -131,9 +131,6 @@ export default function MBankingBillingTransferPage({
           <section className="relative mt-4 rounded-[24px] border border-[#d5d5d5] bg-white px-4 pb-4 pt-3 text-center sm:mt-5 sm:rounded-[28px] sm:px-6 sm:pb-5 sm:pt-4">
             <div className="flex items-center justify-center">
               <h2 className="text-[23px] font-bold tracking-[-0.04em] text-[#182d58] sm:text-[28px]">QR Code</h2>
-              <button type="button" className="absolute right-5 text-[#202020] transition active:rotate-180 sm:right-8" aria-label="Muat ulang QR Code">
-                <RefreshCw className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.5} />
-              </button>
             </div>
             <button
               type="button"
