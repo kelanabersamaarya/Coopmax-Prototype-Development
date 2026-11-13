@@ -76,7 +76,7 @@ export default function MBankingBottomNav({
                   className={cn(
                     "inline-flex items-center justify-center rounded-full transition",
                     isCenter
-                      ? "h-[47px] w-[92px] bg-[#101010] text-white sm:h-[52px] sm:w-[104px]"
+                      ? "h-[47px] w-[92px] bg-[#004FC7] text-white sm:h-[52px] sm:w-[104px]"
                       : "h-[27px] w-[27px] bg-transparent",
                   )}
                 >
