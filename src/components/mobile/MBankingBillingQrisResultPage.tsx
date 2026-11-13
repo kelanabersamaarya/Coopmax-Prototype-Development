@@ -51,9 +51,11 @@ export default function NewMBankingScanResultPage({
         </div>
       </header>
 
-      <NewMBankingQrisMerchantItem
-        onContinuePayment={() => setShowPinInput(true)}
-      />
+      <div className="relative z-10 -mt-5 flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-white">
+        <NewMBankingQrisMerchantItem
+          onContinuePayment={() => setShowPinInput(true)}
+        />
+      </div>
     </div>
   );
 }
