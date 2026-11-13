@@ -39,7 +39,7 @@ export default function NewMBankingSourceFundGradientCard({
       <div className="pointer-events-none absolute right-[50px] top-[54px] h-[58px] w-[58px] rounded-full bg-white/15" />
       <div className="pointer-events-none absolute -bottom-[34px] left-[72px] h-[92px] w-[92px] rounded-full bg-white/15" />
 
-      <div className="relative z-10 min-w-0 flex-1">
+      <div className="relative z-10 min-w-0 flex-1 pr-14">
         {sectionLabel ? (
           <div
             className={cn(
@@ -96,13 +96,16 @@ export default function NewMBankingSourceFundGradientCard({
         </div>
       </div>
 
-      <div className="relative z-10 shrink-0">
+      <div className="absolute right-[13px] top-[16px] z-10 flex items-center gap-[3px]">
         {selected ? (
-          <span className="grid h-[30px] w-[30px] place-items-center rounded-full bg-white text-[#2563EB] shadow-sm">
+          <span className="grid h-[30px] w-[30px] place-items-center rounded-full bg-white text-[#004FC7] shadow-sm">
             <Check className="h-[18px] w-[18px]" strokeWidth={3} />
           </span>
         ) : showChevron ? (
-          <ChevronRight className="h-[28px] w-[28px] text-white" strokeWidth={2.8} />
+          <>
+            <span className="text-[12px] font-semibold leading-none text-white">Ubah</span>
+            <ChevronRight className="h-[25px] w-[25px] text-white" strokeWidth={2.8} />
+          </>
         ) : null}
       </div>
     </div>
