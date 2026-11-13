@@ -1,4 +1,4 @@
-import { Check, ChevronRight, Landmark, WalletCards } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/MBankingBillingQrisSourceFundModal";
 
@@ -24,22 +24,20 @@ export default function NewMBankingSourceFundGradientCard({
   className?: string;
 }) {
   const isCompact = textSize === "compact";
-  const isVirtualAccount = account.productName === "Virtual Account";
-  const AccountIcon = isVirtualAccount ? Landmark : WalletCards;
 
   const content = (
     <div
       className={cn(
         "relative flex min-h-[118px] w-full items-center justify-between gap-4 overflow-hidden rounded-[15px]",
-        "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
+        "bg-[#2F80ED]",
         "px-[18px] py-[16px] text-left text-white",
         onClick ? "transition active:scale-[0.99]" : "",
         className,
       )}
     >
-      <div className="pointer-events-none absolute -right-[42px] -top-[40px] h-[128px] w-[128px] rounded-full bg-white/16" />
-      <div className="pointer-events-none absolute right-[50px] top-[54px] h-[58px] w-[58px] rounded-full bg-cyan-200/16" />
-      <div className="pointer-events-none absolute -bottom-[34px] left-[72px] h-[92px] w-[92px] rounded-full bg-violet-950/12" />
+      <div className="pointer-events-none absolute -right-[42px] -top-[40px] h-[128px] w-[128px] rounded-full bg-white/20" />
+      <div className="pointer-events-none absolute right-[50px] top-[54px] h-[58px] w-[58px] rounded-full bg-white/15" />
+      <div className="pointer-events-none absolute -bottom-[34px] left-[72px] h-[92px] w-[92px] rounded-full bg-white/15" />
 
       <div className="relative z-10 min-w-0 flex-1">
         {sectionLabel ? (
@@ -54,15 +52,6 @@ export default function NewMBankingSourceFundGradientCard({
         ) : null}
 
         <div className="flex min-w-0 items-center gap-[13px]">
-          <span
-            className={cn(
-              "grid h-[46px] w-[46px] shrink-0 place-items-center bg-[#18B7A1] text-white shadow-sm",
-              iconShape === "circle" ? "rounded-full" : "rounded-[14px]",
-            )}
-          >
-            <AccountIcon className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
-          </span>
-
           <div className="min-w-0">
             <div className="grid gap-0">
               <div
