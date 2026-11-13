@@ -12,16 +12,12 @@ export default function LoanTopBar({
   return (
     <header className="sticky top-0 z-40 flex h-[62px] items-center border-b border-slate-200 bg-white px-4 shadow-[0_1px_8px_rgba(31,58,95,0.06)] md:px-7">
       <div className="flex min-w-0 flex-1 basis-0 items-center gap-2 md:gap-5">
-        <div className="flex shrink-0 items-center gap-2.5" aria-label="Coopmax">
-          <span className="relative block h-8 w-8" aria-hidden="true">
-            <span className="absolute left-0 top-0 h-4 w-4 rounded-full bg-[#a735f4]" />
-            <span className="absolute bottom-0 left-0 h-4 w-4 rounded-full bg-[#4f8cf7]" />
-            <span className="absolute right-0 top-0 h-4 w-4 rounded-full bg-[#26c6da]" />
-            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full bg-[#ef4da8]" />
-          </span>
-          <span className="text-[21px] font-bold tracking-[-0.04em] text-[#3289ed]">
-            Coop<span className="text-[#ec4da8]">max</span>
-          </span>
+        <div className="flex shrink-0 items-center" aria-label="Coopmax">
+          <img
+            src="/coopmaxlogo.png"
+            alt="Coopmax"
+            className="h-9 w-auto max-w-[154px] object-contain"
+          />
         </div>
         <button
           type="button"
