@@ -46,7 +46,7 @@ export default function NewMBankingQrisConfirmModal({
   if (!open || !mobileScreen) return null;
 
   return createPortal(
-    <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5 pt-6">
+    <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/35 px-0 pb-5 pt-6">
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
@@ -60,7 +60,7 @@ export default function NewMBankingQrisConfirmModal({
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="relative z-10 w-full max-w-[365px] overflow-hidden rounded-[8px] bg-white px-5 pb-6 pt-5 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
+      <div className="relative z-10 w-[392px] max-w-[calc(100vw-40px)] overflow-hidden rounded-[8px] bg-white px-5 pb-6 pt-5 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <div className="text-[14px] font-bold leading-tight text-black">
