@@ -30,8 +30,13 @@ export default function LoanTopBar({
         </button>
       </div>
 
-      <div className="min-w-0 flex-1 text-center">
-        <h1 className="truncate px-4 text-[15px] font-semibold tracking-[0.01em] text-[#092653] md:text-[20px]">
+      <div className="flex min-w-0 flex-1 items-center justify-center gap-2 text-center">
+        <img
+          src="/publiccoopmax-logo.png"
+          alt="Coopmax"
+          className="h-7 w-auto max-w-[34px] object-contain md:h-8 md:max-w-[40px]"
+        />
+        <h1 className="truncate px-1 text-[15px] font-semibold tracking-[0.01em] text-[#092653] md:text-[20px]">
           KOPERASI DJOIN
         </h1>
       </div>
