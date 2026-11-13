@@ -63,7 +63,7 @@ export default function NewMBankingQrisMerchantItem({
   }
 
   return (
-    <section className="relative flex min-h-0 flex-1 flex-col px-[31px] pb-[112px] pt-[18px]">
+    <section className="relative flex min-h-0 flex-1 flex-col overflow-y-auto px-[31px] pb-[18px] pt-[18px]">
       <NewMBankingInScreenToast
         message={toastMessage}
         variant="warning"
@@ -172,7 +172,7 @@ export default function NewMBankingQrisMerchantItem({
         </div>
       </div>
 
-      <div className="sticky bottom-0 z-30 mt-auto px-0 pb-0 pt-[14px]">
+      <div className="sticky bottom-0 z-30 mt-auto shrink-0 px-0 pb-0 pt-[14px]">
         <button
           type="button"
           onClick={continueToConfirm}
