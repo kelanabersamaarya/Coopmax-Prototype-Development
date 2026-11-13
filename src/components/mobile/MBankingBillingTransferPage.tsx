@@ -163,17 +163,19 @@ export default function MBankingBillingTransferPage({
         )}
       </main>
 
-      <footer className="shrink-0 bg-white px-6 pb-4 pt-2 sm:px-8 sm:pb-5">
-        <button
-          type="button"
-          onClick={() => {
-            if (activeTab === "new" && accountNumber) setAccountNumber("");
-          }}
-          className="h-10 w-full rounded-full bg-[#084bc8] text-[14px] text-white transition active:scale-[0.99] sm:h-12 sm:text-[16px]"
-        >
-          Lanjutkan
-        </button>
-      </footer>
+      {activeTab === "new" && (
+        <footer className="shrink-0 bg-white px-6 pb-4 pt-2 sm:px-8 sm:pb-5">
+          <button
+            type="button"
+            onClick={() => {
+              if (accountNumber) setAccountNumber("");
+            }}
+            className="h-10 w-full rounded-full bg-[#084bc8] text-[14px] text-white transition active:scale-[0.99] sm:h-12 sm:text-[16px]"
+          >
+            Lanjutkan
+          </button>
+        </footer>
+      )}
     </div>
   );
 }
