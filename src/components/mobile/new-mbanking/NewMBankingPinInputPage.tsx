@@ -8,8 +8,6 @@ const correctPin = "123456";
 export default function NewMBankingPinInputPage({
   onBack,
   onSubmit,
-  title = "Pembayaran QRIS",
-  description = "Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran QRIS.",
 }: {
   onBack: () => void;
   onSubmit: () => void;
@@ -34,13 +32,11 @@ export default function NewMBankingPinInputPage({
 
   function submit() {
     if (pin.length < pinLength) return;
-
     if (pin !== correctPin) {
       setIsWrongPin(true);
       setPin("");
       return;
     }
-
     setIsWrongPin(false);
     onSubmit();
   }
@@ -50,16 +46,10 @@ export default function NewMBankingPinInputPage({
       if (/^\d$/.test(event.key)) {
         event.preventDefault();
         addDigit(event.key);
-        return;
-      }
-
-      if (event.key === "Backspace" || event.key === "Delete") {
+      } else if (event.key === "Backspace" || event.key === "Delete") {
         event.preventDefault();
         removeDigit();
-        return;
-      }
-
-      if (event.key === "Enter") {
+      } else if (event.key === "Enter") {
         event.preventDefault();
         submit();
       }
@@ -69,126 +59,80 @@ export default function NewMBankingPinInputPage({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [pin]);
 
-  const keyClassName = cn(
-    "flex h-[72px] w-[72px] items-center justify-center rounded-full",
-    "bg-[#EEF0F4] text-[28px] font-bold leading-none text-black",
-    "transition active:scale-[0.94] active:bg-[#E3E7ED]",
-  );
+  const keyClassName =
+    "flex h-[50px] items-center justify-center text-[28px] font-semibold leading-none text-[#152b63] transition active:scale-95";
 
   return (
     <div
       data-new-mbanking-pin-input-page="true"
-      className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+      className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#0758c9] text-white"
     >
-      <header className="shrink-0 px-[31px] pt-[30px]">
-        <div className="flex h-10 items-center gap-3">
-          <button
-            type="button"
-            onClick={onBack}
-            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
-            aria-label="Kembali"
-            title="Kembali"
-          >
-            <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
-          </button>
+      <header className="shrink-0 px-5 pt-[15px]">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-95"
+          aria-label="Kembali"
+          title="Kembali"
+        >
+          <ArrowLeft className="h-7 w-7" strokeWidth={2.4} />
+        </button>
 
-          <h1 className="text-[16px] font-bold leading-tight text-black">
-            {title}
-          </h1>
-        </div>
+        <h1 className="mt-[22px] text-[24px] font-bold leading-tight tracking-[-0.6px]">
+          Masukkan PIN Anda
+        </h1>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[112px] pt-[72px]">
-        <div className="text-center">
-          <h2 className="text-[20px] font-bold leading-tight text-black">
-            Masukkan PIN M-Banking Anda
-          </h2>
-          <p className="mx-auto mt-[12px] max-w-[310px] text-[12px] font-normal leading-relaxed text-[#828282]">
-            {description}
-          </p>
-
-          <div className="mt-[38px] flex items-center justify-center gap-[12px]">
-            {Array.from({ length: pinLength }).map((_, index) => {
-              const filled = index < pin.length;
-
-              return (
-                <span
-                  key={index}
-                  className={cn(
-                    "h-[24px] w-[24px] rounded-full border-2 transition",
-                    isWrongPin
-                      ? "border-[#EF135D] bg-white"
-                      : filled
-                        ? "border-[#479DF4] bg-[#479DF4]"
-                        : "border-[#CDD4E0] bg-white",
-                  )}
-                />
-              );
-            })}
-          </div>
-
-          {isWrongPin ? (
-            <div className="mt-[18px] text-[12px] font-normal leading-relaxed text-[#EF135D]">
-              PIN Belum Sesuai. Silakan Coba Lagi
-            </div>
-          ) : null}
+      <main className="flex min-h-0 flex-1 flex-col items-center px-5 pt-[222px]">
+        <div className="flex items-center justify-center gap-[11px]" aria-label={`${pin.length} dari ${pinLength} digit terisi`}>
+          {Array.from({ length: pinLength }).map((_, index) => (
+            <span
+              key={index}
+              className={cn(
+                "h-[14px] w-[14px] rounded-full border-2 transition",
+                index < pin.length
+                  ? "border-white bg-white"
+                  : isWrongPin
+                    ? "border-[#ff9cb8] bg-transparent"
+                    : "border-[#a7c7f5] bg-transparent",
+              )}
+            />
+          ))}
         </div>
 
-        <div className="mt-auto">
-          <div className="mx-auto grid max-w-[300px] grid-cols-3 justify-items-center gap-x-[24px] gap-y-[20px]">
-            {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
-              <button
-                key={digit}
-                type="button"
-                onClick={() => addDigit(digit)}
-                className={keyClassName}
-                aria-label={`Angka ${digit}`}
-              >
-                {digit}
-              </button>
-            ))}
-
-            <div />
-
-            <button
-              type="button"
-              onClick={() => addDigit("0")}
-              className={keyClassName}
-              aria-label="Angka 0"
-            >
-              0
-            </button>
-
-            <button
-              type="button"
-              onClick={removeDigit}
-              className={keyClassName}
-              aria-label="Hapus"
-              title="Hapus"
-            >
-              <Delete className="h-[22px] w-[22px] text-black" strokeWidth={2.7} />
-            </button>
-          </div>
-        </div>
+        {isWrongPin ? (
+          <p className="mt-3 text-center text-[11px] text-white">PIN Belum Sesuai. Silakan Coba Lagi</p>
+        ) : null}
       </main>
 
-      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
+      <section className="shrink-0 rounded-t-[15px] bg-white px-5 pb-[22px] pt-[18px] text-center">
+        <div className="mx-auto grid max-w-[300px] grid-cols-3 gap-x-8 gap-y-[4px]">
+          {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
+            <button key={digit} type="button" onClick={() => addDigit(digit)} className={keyClassName} aria-label={`Angka ${digit}`}>
+              {digit}
+            </button>
+          ))}
+          <div />
+          <button type="button" onClick={() => addDigit("0")} className={keyClassName} aria-label="Angka 0">
+            0
+          </button>
+          <button type="button" onClick={removeDigit} className={keyClassName} aria-label="Hapus" title="Hapus">
+            <Delete className="h-[22px] w-[22px] text-[#0758c9]" strokeWidth={2.8} />
+          </button>
+        </div>
+
         <button
           type="button"
           onClick={submit}
           disabled={pin.length < pinLength}
           className={cn(
-            "h-[52px] w-full rounded-[8px]",
-            "text-[14px] font-semibold leading-none text-white",
-            "transition active:scale-[0.98]",
-            pin.length < pinLength
-              ? "cursor-not-allowed bg-[#A9D0FA]"
-              : "bg-[#479DF4]",
+            "mt-[12px] h-[35px] w-full rounded-full text-[11px] font-medium text-white transition active:scale-[0.98]",
+            pin.length < pinLength ? "cursor-not-allowed bg-[#a8c9f2]" : "bg-[#0758c9]",
           )}
         >
-          Lanjutkan
+          Selanjutnya
         </button>
-      </div>
+      </section>
     </div>
   );
 }
