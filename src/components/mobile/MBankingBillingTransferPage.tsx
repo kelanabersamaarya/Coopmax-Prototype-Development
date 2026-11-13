@@ -130,12 +130,12 @@ export default function MBankingBillingTransferPage({
         ) : (
           <section className="relative mt-4 rounded-[24px] border border-[#d5d5d5] bg-white px-4 pb-4 pt-3 text-center sm:mt-5 sm:rounded-[28px] sm:px-6 sm:pb-5 sm:pt-4">
             <div className="flex items-center justify-center">
-              <h2 className="text-[23px] font-bold tracking-[-0.04em] text-[#182d58] sm:text-[28px]">QR Code</h2>
+              <h2 className="text-[24px] font-bold tracking-[-0.04em] text-[#182d58]">QR Code</h2>
             </div>
             <button
               type="button"
               onClick={() => navigator.clipboard?.writeText("4260533")}
-              className="mt-3 inline-flex items-center gap-1.5 text-[20px] font-bold tracking-[0.02em] text-[#263f79] sm:text-[25px]"
+              className="mt-3 inline-flex items-center gap-1.5 text-[20px] font-bold tracking-[0.02em] text-[#263f79]"
               aria-label="Salin kode QR"
             >
               4260533
