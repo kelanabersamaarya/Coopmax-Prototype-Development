@@ -17,7 +17,7 @@ import MBankingSavingsPage from "@/components/mobile/MBankingSavingsPage";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import MBankingBillingTransferPage from "@/components/mobile/MBankingBillingTransferPage";
-import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
+import MBankingBillingQrisScanPage from "@/components/mobile/MBankingBillingQrisScanPage";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type MBankingHomeScreen = "home" | "info" | "loan" | "profile" | "savings";
@@ -135,7 +135,7 @@ export default function MBankingHome({
   }
 
   if (qrisOpen) {
-    return <NewMBankingScanPage onBack={() => setQrisOpen(false)} />;
+    return <MBankingBillingQrisScanPage onBack={() => setQrisOpen(false)} />;
   }
 
   if (screen === "profile") {
