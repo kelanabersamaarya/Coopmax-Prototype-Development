@@ -32,7 +32,7 @@ export default function LoanTopBar({
 
       <div className="flex min-w-0 flex-1 items-center justify-center gap-2 text-center">
         <img
-          src="/publiccoopmax-logo.png"
+          src="/publiccoopmax-logo.png.png"
           alt="Coopmax"
           className="h-7 w-auto max-w-[34px] object-contain md:h-8 md:max-w-[40px]"
         />
