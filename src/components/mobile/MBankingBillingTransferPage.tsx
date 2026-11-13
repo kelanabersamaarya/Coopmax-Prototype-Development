@@ -8,6 +8,7 @@ export default function MBankingBillingTransferPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<"new" | "saved">("new");
   const [accountNumber, setAccountNumber] = React.useState("");
+  const [savedSearch, setSavedSearch] = React.useState("");
   const [saveRecipient, setSaveRecipient] = React.useState(false);
 
   return (
@@ -46,8 +47,10 @@ export default function MBankingBillingTransferPage({
           <button
             type="button"
             onClick={() => setActiveTab("saved")}
-            className={`whitespace-nowrap transition ${
-              activeTab === "saved" ? "text-[#084bc8]" : "text-[#0747ad]"
+            className={`whitespace-nowrap rounded-full px-2.5 py-1.5 transition sm:px-3.5 sm:py-2 ${
+              activeTab === "saved"
+                ? "bg-[#084bc8] text-white"
+                : "text-[#0747ad]"
             }`}
           >
             Daftar Tersimpan
@@ -91,8 +94,27 @@ export default function MBankingBillingTransferPage({
             </label>
           </section>
         ) : (
-          <section className="mt-6 rounded-2xl bg-[#f5f5f5] px-4 py-4 text-[13px] text-[#777] sm:text-[15px]">
-            Belum ada rekening tersimpan.
+          <section className="mt-7">
+            <label htmlFor="saved-transfer-search" className="block text-[14px] leading-tight text-[#858585] sm:text-[16px]">
+              Transfer Antar Rekening
+            </label>
+            <input
+              id="saved-transfer-search"
+              value={savedSearch}
+              onChange={(event) => setSavedSearch(event.target.value)}
+              placeholder="Cari nama atau nomor rekening..."
+              className="mt-3 h-[54px] w-full rounded-[12px] bg-[#f1f1f1] px-4 text-[14px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[62px] sm:text-[16px]"
+            />
+            <div className="flex min-h-[360px] flex-col items-center justify-center text-center sm:min-h-[430px]">
+              <img
+                src="/empty box ilustration 1.png"
+                alt="Tidak ada daftar tersimpan"
+                className="h-[170px] w-[170px] object-contain sm:h-[210px] sm:w-[210px]"
+              />
+              <p className="mt-4 text-[20px] font-bold text-[#182d58] sm:text-[24px]">
+                Tidak Ada Daftar Tersimpan
+              </p>
+            </div>
           </section>
         )}
       </main>
