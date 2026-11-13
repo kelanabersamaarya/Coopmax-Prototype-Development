@@ -63,7 +63,7 @@ export default function NewMBankingQrisMerchantItem({
   }
 
   return (
-    <section className="relative flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#FFFFFF] px-[31px] pb-[18px] pt-[18px]">
+    <section className="relative flex min-h-0 flex-1 flex-col overflow-y-auto rounded-t-[20px] bg-[#FFFFFF] px-[31px] pb-[18px] pt-[18px]">
       <NewMBankingInScreenToast
         message={toastMessage}
         variant="warning"
