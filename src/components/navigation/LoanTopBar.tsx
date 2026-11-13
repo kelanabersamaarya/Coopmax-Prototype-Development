@@ -41,33 +41,33 @@ export default function LoanTopBar({
         </h1>
       </div>
 
-      <div className="flex min-w-0 flex-1 basis-0 items-center justify-end gap-1 text-[#092653] md:gap-3">
-        <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Pengguna">
+      <div className="flex min-w-0 flex-1 basis-0 items-center justify-end gap-0 text-[#092653] md:gap-1">
+        <button type="button" className="hidden rounded-lg p-1 transition hover:bg-blue-50 md:inline-flex" aria-label="Pengguna">
           <img
             src="/typicon-people.svg"
             alt="Pengguna"
-            className="h-7 w-7 object-contain"
+            className="h-6 w-6 object-contain"
           />
         </button>
-        <button type="button" className="rounded-lg p-2 transition hover:bg-blue-50" aria-label="Anggota">
+        <button type="button" className="rounded-lg p-1 transition hover:bg-blue-50" aria-label="Anggota">
           <img
             src="/typicon-person.svg"
             alt="Anggota"
-            className="h-7 w-7 object-contain"
+            className="h-6 w-6 object-contain"
           />
         </button>
-        <button type="button" className="rounded-lg p-2 transition hover:bg-blue-50" aria-label="Notifikasi">
+        <button type="button" className="rounded-lg p-1 transition hover:bg-blue-50" aria-label="Notifikasi">
           <img
             src="/typicon-bell.svg"
             alt="Notifikasi"
-            className="h-7 w-7 object-contain"
+            className="h-6 w-6 object-contain"
           />
         </button>
-        <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Dropbox">
+        <button type="button" className="hidden rounded-lg p-1 transition hover:bg-blue-50 md:inline-flex" aria-label="Dropbox">
           <img
             src="/akar-icons_dropbox-fill.svg"
             alt="Dropbox"
-            className="h-7 w-7 object-contain"
+            className="h-6 w-6 object-contain"
           />
         </button>
         <button type="button" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1d65b7] text-white ring-2 ring-blue-100" aria-label="Profil">
