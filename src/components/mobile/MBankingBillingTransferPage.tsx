@@ -6,7 +6,7 @@ export default function MBankingBillingTransferPage({
 }: {
   onBack: () => void;
 }) {
-  const [activeTab, setActiveTab] = React.useState<"new" | "saved">("new");
+  const [activeTab, setActiveTab] = React.useState<"new" | "saved" | "qr">("new");
   const [accountNumber, setAccountNumber] = React.useState("");
   const [savedSearch, setSavedSearch] = React.useState("");
   const [saveRecipient, setSaveRecipient] = React.useState(false);
@@ -55,6 +55,17 @@ export default function MBankingBillingTransferPage({
           >
             Daftar Tersimpan
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("qr")}
+            className={`whitespace-nowrap rounded-full px-2.5 py-1.5 transition sm:px-3.5 sm:py-2 ${
+              activeTab === "qr"
+                ? "bg-[#084bc8] text-white"
+                : "text-[#0747ad]"
+            }`}
+          >
+            QR Code
+          </button>
         </div>
 
         {activeTab === "new" ? (
@@ -93,7 +104,7 @@ export default function MBankingBillingTransferPage({
               <span className="max-w-[250px]">Tambah Ke Daftar Tersimpan</span>
             </label>
           </section>
-        ) : (
+        ) : activeTab === "saved" ? (
           <section className="mt-7">
             <label htmlFor="saved-transfer-search" className="block text-[14px] leading-tight text-[#858585] sm:text-[16px]">
               Transfer Antar Rekening
@@ -115,6 +126,33 @@ export default function MBankingBillingTransferPage({
                 Tidak Ada Daftar Tersimpan
               </p>
             </div>
+          </section>
+        ) : (
+          <section className="mt-7 flex min-h-[360px] flex-col items-center justify-center text-center sm:min-h-[430px]">
+            <div className="grid h-[190px] w-[190px] grid-cols-[repeat(11,minmax(0,1fr))] gap-[3px] rounded-[18px] bg-white p-4 shadow-[0_8px_24px_rgba(8,75,200,0.12)] sm:h-[230px] sm:w-[230px] sm:gap-[4px] sm:p-5">
+              {Array.from({ length: 121 }).map((_, index) => {
+                const row = Math.floor(index / 11);
+                const column = index % 11;
+                const isFinder =
+                  (row < 3 && column < 3) ||
+                  (row < 3 && column > 7) ||
+                  (row > 7 && column < 3);
+                const isDark =
+                  isFinder ||
+                  (row * 5 + column * 7 + row * column) % 3 === 0 ||
+                  (row + column) % 5 === 0;
+
+                return (
+                  <span
+                    key={index}
+                    className={isDark ? "rounded-[1px] bg-[#182d58]" : "bg-white"}
+                  />
+                );
+              })}
+            </div>
+            <p className="mt-5 text-[16px] font-bold text-[#182d58] sm:text-[20px]">
+              Scan QR Code untuk Transfer
+            </p>
           </section>
         )}
       </main>
