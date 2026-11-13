@@ -31,11 +31,11 @@ export default function MBankingBillingTransferPage({
       </header>
 
       <main className="relative z-10 -mt-px min-h-0 flex-1 overflow-y-auto rounded-t-[26px] bg-white px-5 pt-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:rounded-t-[30px] sm:px-7 sm:pt-6">
-        <div className="flex items-center gap-3 text-[13px] font-bold leading-none sm:gap-5 sm:text-[16px]">
+        <div className="flex items-center gap-2.5 text-[12px] font-bold leading-none sm:gap-4 sm:text-[14px]">
           <button
             type="button"
             onClick={() => setActiveTab("new")}
-            className={`shrink-0 rounded-full px-3 py-2 transition sm:px-4 sm:py-2.5 ${
+            className={`shrink-0 rounded-full px-2.5 py-1.5 transition sm:px-3.5 sm:py-2 ${
               activeTab === "new"
                 ? "bg-[#084bc8] text-white"
                 : "px-0 text-[#0747ad]"
@@ -55,36 +55,36 @@ export default function MBankingBillingTransferPage({
         </div>
 
         {activeTab === "new" ? (
-          <section className="mt-5 sm:mt-6">
-            <label htmlFor="billing-transfer-account" className="block text-[14px] leading-tight text-[#858585] sm:text-[16px]">
+          <section className="mt-4 sm:mt-5">
+            <label htmlFor="billing-transfer-account" className="block text-[12px] leading-tight text-[#858585] sm:text-[14px]">
               No. Rekening
             </label>
-            <div className="mt-2.5 flex items-center gap-2.5 sm:mt-3 sm:gap-3">
+            <div className="mt-2 flex items-center gap-2 sm:mt-2.5 sm:gap-2.5">
               <input
                 id="billing-transfer-account"
                 value={accountNumber}
                 onChange={(event) => setAccountNumber(event.target.value.replace(/\D/g, ""))}
                 inputMode="numeric"
                 placeholder="Masukkan rekening tujuan"
-                className="h-[48px] min-w-0 flex-1 rounded-[10px] bg-[#f1f1f1] px-3 text-[13px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[56px] sm:px-3.5 sm:text-[14px]"
+                className="h-[42px] min-w-0 flex-1 rounded-[9px] bg-[#f1f1f1] px-2.5 text-[11px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[50px] sm:px-3 sm:text-[13px]"
               />
               <button
                 type="button"
                 className="shrink-0 text-[#0649b7] transition active:scale-95"
                 aria-label="Scan nomor rekening"
               >
-                <ScanLine className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={1.8} />
+                <ScanLine className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.8} />
               </button>
             </div>
 
-            <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] leading-tight sm:mt-5 sm:items-center sm:gap-2.5 sm:text-[15px]">
+            <label className="mt-3.5 flex cursor-pointer items-start gap-1.5 text-[11px] leading-tight sm:mt-4 sm:items-center sm:gap-2 sm:text-[13px]">
               <input
                 type="checkbox"
                 checked={saveRecipient}
                 onChange={(event) => setSaveRecipient(event.target.checked)}
                 className="sr-only"
               />
-              <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-[8px] border-2 border-[#0a50ba] text-base leading-none text-white sm:h-7 sm:w-7 ${saveRecipient ? "bg-[#0a50ba]" : "bg-white"}`}>
+              <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-[7px] border-2 border-[#0a50ba] text-sm leading-none text-white sm:h-6 sm:w-6 ${saveRecipient ? "bg-[#0a50ba]" : "bg-white"}`}>
                 {saveRecipient ? "✓" : null}
               </span>
               <span className="max-w-[250px]">Tambah Ke Daftar Tersimpan</span>
