@@ -70,7 +70,7 @@ export default function LoanTopBar({
             className="h-6 w-6 object-contain"
           />
         </button>
-        <button type="button" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1d65b7] text-white ring-2 ring-blue-100" aria-label="Profil">
+        <button type="button" className="ml-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#1d65b7] text-white ring-2 ring-blue-100" aria-label="Profil">
           <UserRound className="h-5 w-5" strokeWidth={1.6} />
         </button>
         <ChevronDown className="hidden h-4 w-4 text-slate-400 md:block" />
