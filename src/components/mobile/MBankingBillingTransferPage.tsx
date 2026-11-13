@@ -25,17 +25,17 @@ export default function MBankingBillingTransferPage({
         >
           <ArrowLeft className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2.1} />
         </button>
-        <h1 className="relative z-10 mt-4 text-[21px] font-bold leading-tight tracking-[-0.035em] sm:mt-5 sm:text-[24px]">
+        <h1 className="relative z-10 mt-3 text-[18px] font-bold leading-tight tracking-[-0.035em] sm:mt-4 sm:text-[21px]">
           Transfer Antar Rekening
         </h1>
       </header>
 
-      <main className="relative z-10 -mt-px min-h-0 flex-1 overflow-y-auto rounded-t-[30px] bg-white px-6 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:rounded-t-[36px] sm:px-8 sm:pt-7">
-        <div className="flex items-center gap-4 text-[15px] font-bold leading-none sm:gap-6 sm:text-[18px]">
+      <main className="relative z-10 -mt-px min-h-0 flex-1 overflow-y-auto rounded-t-[26px] bg-white px-5 pt-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:rounded-t-[30px] sm:px-7 sm:pt-6">
+        <div className="flex items-center gap-3 text-[13px] font-bold leading-none sm:gap-5 sm:text-[16px]">
           <button
             type="button"
             onClick={() => setActiveTab("new")}
-            className={`shrink-0 rounded-full px-4 py-2.5 transition sm:px-5 sm:py-3 ${
+            className={`shrink-0 rounded-full px-3 py-2 transition sm:px-4 sm:py-2.5 ${
               activeTab === "new"
                 ? "bg-[#084bc8] text-white"
                 : "px-0 text-[#0747ad]"
@@ -55,8 +55,8 @@ export default function MBankingBillingTransferPage({
         </div>
 
         {activeTab === "new" ? (
-          <section className="mt-6 sm:mt-7">
-            <label htmlFor="billing-transfer-account" className="block text-[16px] leading-tight text-[#858585] sm:text-[18px]">
+          <section className="mt-5 sm:mt-6">
+            <label htmlFor="billing-transfer-account" className="block text-[14px] leading-tight text-[#858585] sm:text-[16px]">
               No. Rekening
             </label>
             <div className="mt-2.5 flex items-center gap-2.5 sm:mt-3 sm:gap-3">
@@ -66,25 +66,25 @@ export default function MBankingBillingTransferPage({
                 onChange={(event) => setAccountNumber(event.target.value.replace(/\D/g, ""))}
                 inputMode="numeric"
                 placeholder="Masukkan rekening tujuan"
-                className="h-[54px] min-w-0 flex-1 rounded-[12px] bg-[#f1f1f1] px-3.5 text-[14px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[62px] sm:px-4 sm:text-[16px]"
+                className="h-[48px] min-w-0 flex-1 rounded-[10px] bg-[#f1f1f1] px-3 text-[13px] text-[#3b3b3b] outline-none placeholder:text-[#8b8b8b] focus:ring-2 focus:ring-[#0b51c9] sm:h-[56px] sm:px-3.5 sm:text-[14px]"
               />
               <button
                 type="button"
                 className="shrink-0 text-[#0649b7] transition active:scale-95"
                 aria-label="Scan nomor rekening"
               >
-                <ScanLine className="h-8 w-8 sm:h-10 sm:w-10" strokeWidth={1.8} />
+                <ScanLine className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={1.8} />
               </button>
             </div>
 
-            <label className="mt-5 flex cursor-pointer items-start gap-2.5 text-[15px] leading-tight sm:mt-6 sm:items-center sm:gap-3 sm:text-[17px]">
+            <label className="mt-4 flex cursor-pointer items-start gap-2 text-[13px] leading-tight sm:mt-5 sm:items-center sm:gap-2.5 sm:text-[15px]">
               <input
                 type="checkbox"
                 checked={saveRecipient}
                 onChange={(event) => setSaveRecipient(event.target.checked)}
                 className="sr-only"
               />
-              <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-[9px] border-2 border-[#0a50ba] text-lg leading-none text-white sm:h-8 sm:w-8 ${saveRecipient ? "bg-[#0a50ba]" : "bg-white"}`}>
+              <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-[8px] border-2 border-[#0a50ba] text-base leading-none text-white sm:h-7 sm:w-7 ${saveRecipient ? "bg-[#0a50ba]" : "bg-white"}`}>
                 {saveRecipient ? "✓" : null}
               </span>
               <span className="max-w-[250px]">Tambah Ke Daftar Tersimpan</span>
@@ -103,7 +103,7 @@ export default function MBankingBillingTransferPage({
           onClick={() => {
             if (activeTab === "new" && accountNumber) setAccountNumber("");
           }}
-          className="h-12 w-full rounded-full bg-[#084bc8] text-[16px] text-white transition active:scale-[0.99] sm:h-14 sm:text-[18px]"
+          className="h-10 w-full rounded-full bg-[#084bc8] text-[14px] text-white transition active:scale-[0.99] sm:h-12 sm:text-[16px]"
         >
           Lanjutkan
         </button>
