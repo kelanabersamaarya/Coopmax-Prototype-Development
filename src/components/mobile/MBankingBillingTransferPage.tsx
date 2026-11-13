@@ -107,7 +107,7 @@ export default function MBankingBillingTransferPage({
             />
             <div className="flex min-h-[360px] flex-col items-center justify-center text-center sm:min-h-[430px]">
               <img
-                src="/empty box ilustration 1.png"
+                src="/kolektor_empty.png"
                 alt="Tidak ada daftar tersimpan"
                 className="h-[170px] w-[170px] object-contain sm:h-[210px] sm:w-[210px]"
               />
