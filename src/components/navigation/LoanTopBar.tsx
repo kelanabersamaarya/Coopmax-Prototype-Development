@@ -46,7 +46,11 @@ export default function LoanTopBar({
           <Users className="h-5 w-5" strokeWidth={1.8} />
         </button>
         <button type="button" className="relative rounded-lg p-2 transition hover:bg-blue-50" aria-label="Notifikasi anggota">
-          <UserRound className="h-5 w-5" strokeWidth={1.8} />
+          <img
+            src="/typicon-person.svg"
+            alt="Anggota"
+            className="h-5 w-5 object-contain"
+          />
           <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#da2f4c] px-1 text-[9px] font-bold text-white">13</span>
         </button>
         <button type="button" className="relative rounded-lg p-2 transition hover:bg-blue-50" aria-label="Notifikasi">
