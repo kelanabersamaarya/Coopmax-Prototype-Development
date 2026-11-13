@@ -84,7 +84,9 @@ export default function MBankingBillingTransferPage({
                 onChange={(event) => setSaveRecipient(event.target.checked)}
                 className="peer sr-only"
               />
-              <span className="grid h-[50px] w-[50px] shrink-0 place-items-center rounded-[16px] border-[2px] border-[#0a50ba] peer-checked:bg-[#0a50ba] peer-checked:after:text-[30px] peer-checked:after:text-white peer-checked:after:content-['✓']" />
+              <span className={`grid h-[50px] w-[50px] shrink-0 place-items-center rounded-[16px] border-[2px] border-[#0a50ba] text-[30px] leading-none text-white ${saveRecipient ? "bg-[#0a50ba]" : "bg-white"}`}>
+                {saveRecipient ? "✓" : null}
+              </span>
               <span>Tambah Ke Daftar Tersimpan</span>
             </label>
           </section>
