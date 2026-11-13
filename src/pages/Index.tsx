@@ -21,7 +21,7 @@ import SidebarMitraKaryaMenu from "@/components/SidebarMitraKaryaMenu";
 import SidebarAstitiDanaLestariMenu from "@/components/SidebarAstitiDanaLestariMenu";
 import SidebarTermSavingsMenu from "@/components/SidebarTermSavingsMenu";
 import SidebarLoginMenu from "@/components/SidebarLoginMenu";
-import { HandCoins, Home, ChevronRight } from "lucide-react";
+import { HandCoins, Home, ChevronRight, Sparkles } from "lucide-react";
 import LoanTopBar from "@/components/navigation/LoanTopBar";
 
 type NavItem = {
@@ -193,6 +193,17 @@ export default function Index() {
         >
           {!hideSidebar && !(showLoanTopBar && !loanSidebarOpen) ? (
             <aside className="-ml-[var(--shell-gutter)] hidden min-w-0 space-y-4 px-0 md:block">
+              <div className="mx-2 rounded-[14px] border-4 border-[#7631e9] bg-white p-3 shadow-[inset_0_-4px_0_#d979dc]">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[17px] font-bold tracking-tight text-[#8436e8]">KocKec</span>
+                  <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-[#f22e55]"><span className="h-2 w-2 rounded-full bg-[#f22e55]" />Belum Terhubung</span>
+                </div>
+                <p className="mt-1 text-[11px] font-bold text-[#9134ea]">Rekomendasi Pinjaman Cepat ✨</p>
+                <p className="mt-2 text-[11px] leading-[1.45] text-[#223c68]">Ingin analisa cepat dan tepat?<br />gunakan layanan KocKec sekarang!</p>
+                <button type="button" className="mt-5 flex w-full items-center justify-center gap-1 rounded-full bg-gradient-to-r from-[#8738ed] to-[#d16edc] px-2 py-2 text-[10px] font-semibold text-white shadow-sm transition hover:brightness-105">
+                  <Sparkles className="h-3 w-3" /> Analisa Rekomendasi Pinjaman ✨
+                </button>
+              </div>
               <Card className="min-w-0 rounded-r-[5px] rounded-l-none border-slate-200/70 bg-white p-2 shadow-sm">
                 <div className="px-0 py-1">
                   <div className="space-y-1">
