@@ -3,6 +3,7 @@
 import * as React from "react";
 
 const qrisLogoSources = [
+  "/qrislogowhite.png",
   "/QRIS_logo",
   "/QRIS_logo.png",
   "/QRIS_logo.jpg",

@@ -92,11 +92,11 @@ export default function NewMBankingScanPage({
         onChoose={(item) => setMediaScanItem(item)}
       />
 
-      <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#F9F9F9] px-[31px]">
+      <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#084bc8] px-[31px] text-white">
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 inline-flex h-[70px] w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
+          className="-ml-2 inline-flex h-[70px] w-10 items-center justify-center rounded-full bg-transparent text-white transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
         >
