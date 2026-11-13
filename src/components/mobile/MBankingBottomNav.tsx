@@ -76,7 +76,7 @@ export default function MBankingBottomNav({
                   className={cn(
                     "inline-flex items-center justify-center rounded-full transition",
                     isCenter
-                      ? "h-[47px] w-[92px] bg-[#004FC7] text-white sm:h-[52px] sm:w-[104px]"
+                      ? "h-[39px] w-[76px] bg-[#004FC7] text-white sm:h-[44px] sm:w-[86px]"
                       : "h-[27px] w-[27px] bg-transparent",
                   )}
                 >
@@ -84,7 +84,7 @@ export default function MBankingBottomNav({
                     <img
                       src="/qrislogowhite.png"
                       alt="QRIS"
-                      className="h-[24px] w-auto object-contain sm:h-[27px]"
+                      className="h-[20px] w-auto object-contain sm:h-[22px]"
                     />
                   ) : (
                     <Icon
