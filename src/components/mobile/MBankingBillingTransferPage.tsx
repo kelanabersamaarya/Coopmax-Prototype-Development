@@ -12,7 +12,7 @@ export default function MBankingBillingTransferPage({
 
   return (
     <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#084bc8] text-[#182d58]">
-      <header className="relative shrink-0 overflow-hidden bg-[#084bc8] px-6 pb-14 pt-5 text-white sm:px-8 sm:pb-16">
+      <header className="relative shrink-0 overflow-hidden bg-[#084bc8] px-6 pb-10 pt-5 text-white sm:px-8 sm:pb-12">
         <div className="pointer-events-none absolute -right-16 -top-20 h-36 w-64 rotate-[28deg] rounded-[50%] bg-[#4c7fe0]/80 sm:h-44 sm:w-72" />
         <div className="pointer-events-none absolute -right-24 top-8 h-44 w-44 rounded-full bg-[#2e69d6] sm:h-52 sm:w-52" />
         <div className="pointer-events-none absolute right-2 -top-12 h-28 w-28 rounded-full bg-[#5385e2]/70" />
