@@ -192,8 +192,8 @@ export default function Index() {
           )}
         >
           {!hideSidebar && !(showLoanTopBar && !loanSidebarOpen) ? (
-            <aside className="hidden min-w-0 space-y-4 px-0 md:block">
-              <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
+            <aside className="-ml-[var(--shell-gutter)] hidden min-w-0 space-y-4 px-0 md:block">
+              <Card className="min-w-0 rounded-r-[5px] rounded-l-none border-slate-200/70 bg-white p-2 shadow-sm">
                 <div className="px-0 py-1">
                   <div className="space-y-1">
                     {isMitraKaryaArea ? (
