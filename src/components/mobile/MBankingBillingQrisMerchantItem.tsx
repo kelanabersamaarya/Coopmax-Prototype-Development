@@ -110,7 +110,7 @@ export default function NewMBankingQrisMerchantItem({
         </div>
         </div>
 
-        <div>
+        <div className="mt-[24px]">
           <label className="text-[14px] font-bold leading-tight text-[#777777]">
             Nominal Pembayaran<span className="text-[#EF135D]">*</span>
           </label>
@@ -156,7 +156,7 @@ export default function NewMBankingQrisMerchantItem({
           </div>
         </div>
 
-        <div>
+        <div className="mt-[24px]">
           <div className="text-[14px] font-bold leading-tight text-[#777777]">
             Sumber Dana
           </div>
