@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, Grid2X2, Menu, Users, UserRound } from "lucide-react";
+import { Bell, ChevronDown, Menu, Users, UserRound } from "lucide-react";
 
 type LoanTopBarProps = {
   sidebarOpen: boolean;
@@ -53,8 +53,14 @@ export default function LoanTopBar({
           <Bell className="h-5 w-5" strokeWidth={1.8} />
           <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#da2f4c] px-1 text-[9px] font-bold text-white">58</span>
         </button>
-        <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Aplikasi">
-          <Grid2X2 className="h-5 w-5" strokeWidth={1.8} />
+        <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Dropbox">
+          <span className="relative block h-5 w-5" aria-hidden="true">
+            <span className="absolute left-0 top-0 h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
+            <span className="absolute right-0 top-0 h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
+            <span className="absolute left-0 top-[8px] h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
+            <span className="absolute right-0 top-[8px] h-[7px] w-[8px] rounded-[1px] bg-[#1769d2]" />
+            <span className="absolute left-[5px] top-[15px] h-[5px] w-[10px] rotate-45 rounded-[1px] bg-[#1769d2]" />
+          </span>
         </button>
         <button type="button" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1d65b7] text-white ring-2 ring-blue-100" aria-label="Profil">
           <UserRound className="h-5 w-5" strokeWidth={1.6} />
