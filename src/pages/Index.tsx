@@ -185,7 +185,7 @@ export default function Index() {
         <div
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
-            isMobileArea ? "mt-0" : "mt-2",
+            isMobileArea ? "mt-0" : "mt-5",
             hideSidebar || (showLoanTopBar && !loanSidebarOpen)
               ? "grid-cols-1"
               : "grid-cols-1 md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
