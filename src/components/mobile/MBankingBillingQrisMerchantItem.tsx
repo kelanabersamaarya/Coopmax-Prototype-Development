@@ -156,8 +156,6 @@ export default function NewMBankingQrisMerchantItem({
           </div>
         </div>
 
-        <SectionDivider />
-
         <div>
           <div className="text-[14px] font-bold leading-tight text-[#777777]">
             Sumber Dana
