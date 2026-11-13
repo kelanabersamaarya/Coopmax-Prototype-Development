@@ -110,8 +110,6 @@ export default function NewMBankingQrisMerchantItem({
         </div>
         </div>
 
-        <SectionDivider />
-
         <div>
           <label className="text-[14px] font-bold leading-tight text-[#777777]">
             Nominal Pembayaran<span className="text-[#EF135D]">*</span>
