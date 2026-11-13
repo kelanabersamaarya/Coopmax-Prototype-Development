@@ -30,7 +30,7 @@ export default function MBankingBillingTransferPage({
         </h1>
       </header>
 
-      <main className="relative z-10 -mt-px min-h-0 flex-1 overflow-y-auto rounded-t-[26px] bg-white px-5 pt-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:rounded-t-[30px] sm:px-7 sm:pt-6">
+      <main className="relative z-10 -mt-px min-h-0 flex-1 overflow-y-auto rounded-t-[20px] bg-white px-5 pt-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:rounded-t-[20px] sm:px-7 sm:pt-6">
         <div className="flex items-center gap-2.5 text-[12px] font-bold leading-none sm:gap-4 sm:text-[14px]">
           <button
             type="button"
