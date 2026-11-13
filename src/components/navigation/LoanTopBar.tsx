@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, Menu, Users, UserRound } from "lucide-react";
+import { ChevronDown, Menu, Users, UserRound } from "lucide-react";
 
 type LoanTopBarProps = {
   sidebarOpen: boolean;
@@ -50,7 +50,11 @@ export default function LoanTopBar({
           <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#da2f4c] px-1 text-[9px] font-bold text-white">13</span>
         </button>
         <button type="button" className="relative rounded-lg p-2 transition hover:bg-blue-50" aria-label="Notifikasi">
-          <Bell className="h-5 w-5" strokeWidth={1.8} />
+          <img
+            src="/typicon-bell.svg"
+            alt="Notifikasi"
+            className="h-5 w-5 object-contain"
+          />
           <span className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#da2f4c] px-1 text-[9px] font-bold text-white">58</span>
         </button>
         <button type="button" className="hidden rounded-lg p-2 transition hover:bg-blue-50 md:inline-flex" aria-label="Dropbox">
