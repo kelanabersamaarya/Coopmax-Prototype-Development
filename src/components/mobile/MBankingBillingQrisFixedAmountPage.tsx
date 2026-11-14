@@ -76,8 +76,6 @@ export default function NewMBankingQrisFixedAmountPage({
           </div>
           </div>
 
-          <SectionDivider />
-
           <div>
             <label className="text-[14px] font-bold leading-tight text-[#777777]">
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
@@ -94,8 +92,6 @@ export default function NewMBankingQrisFixedAmountPage({
               Pastikan nominal yang akan memotong saldo Anda sudah sesuai
             </div>
           </div>
-
-          <SectionDivider />
 
           <div>
             <div className="text-[14px] font-bold leading-tight text-[#777777]">
