@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Eye, ShoppingCart, UserPlus } from "lucide-react";
+import { Check, Eye, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/MBankingBillingQrisSourceFundCard";
 import type { SourceFundAccount } from "@/components/mobile/MBankingBillingQrisSourceFundModal";
@@ -18,7 +18,6 @@ export default function NewMBankingTransactionSuccessPage({
   onDone: () => void;
 }) {
   const [showReceipt, setShowReceipt] = React.useState(false);
-  const [recipientSaved, setRecipientSaved] = React.useState(false);
 
   if (showReceipt) {
     return (
@@ -63,18 +62,11 @@ export default function NewMBankingTransactionSuccessPage({
             Ref ID : 112221111222
           </div>
 
-          <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
+          <div className="mt-[18px] flex w-full justify-center">
             <NewMBankingSuccessActionTile
               label="Lihat Bukti Transaksi"
               icon={Eye}
               onClick={() => setShowReceipt(true)}
-            />
-
-            <NewMBankingSuccessActionTile
-              label="Simpan Penerima"
-              icon={UserPlus}
-              onClick={() => setRecipientSaved(true)}
-              disabled={recipientSaved}
             />
           </div>
 
