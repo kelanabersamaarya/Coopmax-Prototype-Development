@@ -142,6 +142,19 @@ export default function NewMBankingLoanInstallmentDetailPage({
     React.useState(false);
   const [successSourceFund, setSuccessSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
+  const [accessPinVerified, setAccessPinVerified] = React.useState(false);
+
+  if (!accessPinVerified) {
+    return (
+      <NewMBankingPinInputPage
+        title="Masukkan PIN Anda"
+        description="Masukkan PIN M-Banking untuk melihat detail rekening pinjaman."
+        variant="loan-billing"
+        onBack={onBack}
+        onSubmit={() => setAccessPinVerified(true)}
+      />
+    );
+  }
 
   if (showVirtualAccountPage) {
     return (
@@ -179,8 +192,8 @@ export default function NewMBankingLoanInstallmentDetailPage({
     return (
       <NewMBankingPinInputPage
         title="Bayar Angsuran"
-        description="Masukkan 4 digit PIN M-Banking untuk melanjutkan pembayaran angsuran."
-        variant="loan-billing"
+        description="Masukkan PIN M-Banking untuk melanjutkan pembayaran angsuran."
+        variant="loan-payment"
         onBack={() => setShowPinInput(false)}
         onSubmit={() => {
           setShowPinInput(false);

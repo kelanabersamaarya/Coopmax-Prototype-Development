@@ -6,20 +6,28 @@ const defaultPinLength = 6;
 const loanBillingPinLength = 6;
 const defaultPin = "123456";
 const loanBillingPin = "000000";
+const loanPaymentPin = "123456";
 
 export default function NewMBankingPinInputPage({
   onBack,
   onSubmit,
+  title,
+  description,
   variant = "default",
 }: {
   onBack: () => void;
   onSubmit: () => void;
   title?: string;
   description?: string;
-  variant?: "default" | "loan-billing";
+  variant?: "default" | "loan-billing" | "loan-payment";
 }) {
-  const pinLength = variant === "loan-billing" ? loanBillingPinLength : defaultPinLength;
-  const correctPin = variant === "loan-billing" ? loanBillingPin : defaultPin;
+  const pinLength = defaultPinLength;
+  const correctPin =
+    variant === "loan-billing"
+      ? loanBillingPin
+      : variant === "loan-payment"
+        ? loanPaymentPin
+        : defaultPin;
   const [pin, setPin] = React.useState("");
   const [isWrongPin, setIsWrongPin] = React.useState(false);
 
@@ -85,8 +93,13 @@ export default function NewMBankingPinInputPage({
         </button>
 
         <h1 className="mt-[22px] text-[24px] font-bold leading-tight tracking-[-0.6px]">
-          Masukkan PIN Anda
+          {title ?? "Masukkan PIN Anda"}
         </h1>
+        {description ? (
+          <p className="mt-3 max-w-[300px] text-[12px] leading-relaxed text-white/80">
+            {description}
+          </p>
+        ) : null}
       </header>
 
       <main className="flex min-h-0 flex-1 flex-col items-center px-5 pt-[222px]">

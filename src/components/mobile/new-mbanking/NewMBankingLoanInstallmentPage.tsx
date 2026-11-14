@@ -28,7 +28,7 @@ const loanAccounts: NewMBankingLoanInstallmentAccount[] = [
     accountNo: "SMG260004",
     totalLoan: "Rp. 12.000.000,00",
     remainingLoan: "Rp. 10.000.000,00",
-    dueDate: "25-01-2026",
+    dueDate: "16-03-2027",
     gracePeriod: "3 Bulan",
     disbursementDate: "01-03-2026",
     tenor: "12 Bulan",
