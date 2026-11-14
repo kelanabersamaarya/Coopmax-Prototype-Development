@@ -116,10 +116,6 @@ export default function NewMBankingMediaScanPreviewPage({
       </header>
 
       <main className="relative flex min-h-0 flex-1 flex-col items-center overflow-hidden rounded-t-[30px] bg-white px-5 pb-[26px] pt-[24px]">
-        <h2 className="text-[20px] font-bold leading-tight text-black">
-          Memindai QR
-        </h2>
-
         <div className="relative mt-[28px] w-full max-w-[404px]">
           <PublicQrImage color={color} />
 
