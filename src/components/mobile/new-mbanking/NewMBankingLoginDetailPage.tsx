@@ -2,10 +2,13 @@ import * as React from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingRememberUsernameToggle from "@/components/mobile/new-mbanking/NewMBankingRememberUsernameToggle";
+import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
+import NewMBankingScanButton from "@/components/mobile/new-mbanking/NewMBankingScanButton";
 
 type NewMBankingLoginDetailPageProps = {
   onBack: () => void;
   onLogin: () => void;
+  onScan: () => void;
 };
 
 const SAVED_USERNAME_KEY = "dyad.new-mbanking.saved-username";
@@ -14,6 +17,7 @@ const DEFAULT_SAVED_USERNAME = "laura";
 export default function NewMBankingLoginDetailPage({
   onBack,
   onLogin,
+  onScan,
 }: NewMBankingLoginDetailPageProps) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -176,16 +180,25 @@ export default function NewMBankingLoginDetailPage({
             />
           </div>
 
-          <button
-            type="submit"
-            className={cn(
-              "h-[46px] w-full rounded-[10px] bg-[#479DF4]",
-              "text-[12px] font-normal leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Masuk
-          </button>
+          <div className="grid gap-[14px]">
+            <button
+              type="submit"
+              className={cn(
+                "h-[46px] w-full rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-normal leading-none text-white",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Masuk
+            </button>
+
+            <div className="flex flex-col items-center">
+              <NewMBankingScanButton onClick={onScan} />
+              <div className="mt-[8px] rounded-full bg-[#EEF6FF] px-3 py-1.5">
+                <NewMBankingQrisLogo />
+              </div>
+            </div>
+          </div>
         </form>
       </section>
     </div>
