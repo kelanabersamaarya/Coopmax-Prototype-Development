@@ -128,10 +128,13 @@ export default function NewMBankingQrCodeDisplayPage({
             Tunjukan Kode QR
           </h2>
 
-          <p className="mx-auto mt-[12px] max-w-[345px] text-[16px] font-normal leading-[1.32] tracking-[-0.02em] text-[#8F8F8F]">
-            Pastikan nominal yang akan memotong saldo Anda sudah sesuai. Kode QR
-            hanya boleh Anda tunjukan ke kasir
-          </p>
+          <div className="mx-auto mt-[12px] flex max-w-[345px] items-start gap-3 rounded-[14px] bg-[#EAF2FF] px-4 py-4 text-left text-[14px] font-normal leading-[1.45] text-[#0758C9]">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#0758C9] text-[12px] font-bold leading-none">i</span>
+            <p>
+              Pastikan nominal yang akan memotong saldo Anda sudah sesuai. Kode QR
+              hanya boleh Anda tunjukan ke kasir
+            </p>
+          </div>
         </section>
 
         <section className="flex flex-1 flex-col items-center justify-center pb-[78px] pt-[42px]">
