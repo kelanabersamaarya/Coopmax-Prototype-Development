@@ -62,7 +62,7 @@ export default function NewMBankingTransactionReceiptPage({
           <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
         </button>
 
-        <h1 className="text-[20px] font-bold leading-tight text-white">
+        <h1 className="text-[25px] font-bold leading-tight text-white">
           Bukti Transaksi
         </h1>
       </header>
