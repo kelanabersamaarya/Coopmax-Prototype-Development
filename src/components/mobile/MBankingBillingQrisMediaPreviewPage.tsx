@@ -127,7 +127,7 @@ export default function NewMBankingMediaScanPreviewPage({
 
         <div className="absolute bottom-[26px] left-0 right-0 flex justify-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-[#E5E7EB]">
-            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#479DF4]" />
+            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#0758C9]" />
             <span className="text-[12px] font-normal text-[#828282]">
               Memproses hasil scan...
             </span>
