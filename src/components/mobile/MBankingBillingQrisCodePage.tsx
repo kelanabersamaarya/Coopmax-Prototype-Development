@@ -106,7 +106,7 @@ export default function NewMBankingQrCodeDisplayPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#0758C9] text-black">
-      <header className="flex h-[86px] shrink-0 items-center gap-3 px-[31px] pt-[18px] text-white">
+      <header className="flex h-[128px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
         <button
           type="button"
           onClick={onBack}
@@ -117,7 +117,7 @@ export default function NewMBankingQrCodeDisplayPage({
           <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
         </button>
 
-        <h1 className="text-[18px] font-bold leading-tight text-white">
+        <h1 className="mt-[12px] text-[18px] font-bold leading-tight text-white">
           Pembayaran QRIS
         </h1>
       </header>
