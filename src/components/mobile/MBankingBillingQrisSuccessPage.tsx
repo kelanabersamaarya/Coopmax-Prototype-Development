@@ -75,7 +75,6 @@ export default function NewMBankingTransactionSuccessPage({
               icon={UserPlus}
               onClick={() => setRecipientSaved(true)}
               disabled={recipientSaved}
-              active={recipientSaved}
             />
           </div>
 
@@ -112,7 +111,7 @@ export default function NewMBankingTransactionSuccessPage({
               type="button"
               onClick={onDone}
               className={cn(
-                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "h-[46px] rounded-[10px] bg-[#0758C9]",
                 "text-[12px] font-normal leading-none text-white",
                 "transition active:scale-[0.98]",
               )}

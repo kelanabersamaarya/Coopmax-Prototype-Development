@@ -6,13 +6,11 @@ export default function NewMBankingSuccessActionTile({
   icon: Icon,
   onClick,
   disabled = false,
-  active = false,
 }: {
   label: string;
   icon: ComponentType<{ className?: string; strokeWidth?: number }>;
   onClick: () => void;
   disabled?: boolean;
-  active?: boolean;
 }) {
   return (
     <button
@@ -31,9 +29,7 @@ export default function NewMBankingSuccessActionTile({
           "grid h-[72px] w-[72px] place-items-center rounded-[10px] text-white",
           disabled
             ? "bg-[#D8D8D8]"
-            : active
-              ? "bg-[#33AA00]"
-              : "bg-[#479DF4]",
+            : "bg-[#0758C9]",
         )}
       >
         <Icon className="h-[28px] w-[28px] text-white" strokeWidth={2.4} />
