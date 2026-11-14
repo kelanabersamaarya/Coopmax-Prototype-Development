@@ -17,7 +17,7 @@ function FallbackQrCode() {
     <div className="absolute inset-0 z-0 overflow-hidden bg-[#101010]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#2b2b2b_0,#101010_68%)]" />
 
-      <div className="absolute inset-x-0 bottom-[132px] top-[70px] grid place-items-center px-6">
+      <div className="absolute inset-0 grid place-items-center px-6">
         <div className="grid h-[300px] w-[300px] grid-cols-[repeat(13,minmax(0,1fr))] gap-[4px] rounded-[24px] bg-white p-[24px] shadow-[0_18px_45px_rgba(0,0,0,0.35)]">
           {Array.from({ length: 169 }).map((_, index) => {
             const row = Math.floor(index / 13);
@@ -76,8 +76,6 @@ export default function NewMBankingScanQrImage() {
         }}
       />
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[70px] bg-[#101010]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[132px] bg-white" />
     </div>
   );
 }
