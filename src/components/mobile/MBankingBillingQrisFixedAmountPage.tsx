@@ -76,7 +76,7 @@ export default function NewMBankingQrisFixedAmountPage({
           </div>
           </div>
 
-          <div>
+          <div className="mt-[20px]">
             <label className="text-[14px] font-bold leading-tight text-[#777777]">
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
             </label>
@@ -93,7 +93,7 @@ export default function NewMBankingQrisFixedAmountPage({
             </div>
           </div>
 
-          <div>
+          <div className="mt-[20px]">
             <div className="text-[14px] font-bold leading-tight text-[#777777]">
               Sumber Dana
             </div>
