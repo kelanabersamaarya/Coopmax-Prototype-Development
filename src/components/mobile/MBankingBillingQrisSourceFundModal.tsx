@@ -118,7 +118,7 @@ export default function NewMBankingSourceFundModal({
             }}
             className={cn(
               "h-[46px] rounded-[8px] bg-[#004FC7]",
-              "text-[12px] font-normal leading-none text-white",
+              "text-[14px] font-bold leading-none text-white",
               "transition active:scale-[0.98]",
             )}
           >
@@ -130,7 +130,7 @@ export default function NewMBankingSourceFundModal({
             onClick={() => onOpenChange(false)}
             className={cn(
               "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
-              "text-[12px] font-normal leading-none text-[#828282]",
+              "text-[14px] font-bold leading-none text-[#828282]",
               "transition active:scale-[0.98]",
             )}
           >
