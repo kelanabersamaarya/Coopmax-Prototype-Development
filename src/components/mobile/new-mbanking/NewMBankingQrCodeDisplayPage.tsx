@@ -122,7 +122,7 @@ export default function NewMBankingQrCodeDisplayPage({
         </h1>
       </header>
 
-      <main className="mx-[18px] mb-[14px] flex min-h-0 flex-1 flex-col rounded-[28px] bg-white px-5 pb-[22px] pt-[34px]">
+      <main className="mx-0 mb-0 flex min-h-0 flex-1 flex-col rounded-t-[28px] rounded-b-none bg-white px-5 pb-[22px] pt-[34px]">
         <section className="text-center">
           <h2 className="text-[20px] font-bold leading-tight text-black">
             Tunjukan Kode QR
