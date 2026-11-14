@@ -135,8 +135,8 @@ export default function NewMBankingTransactionReceiptPage({
               type="button"
               onClick={() => setSaved(true)}
               className={cn(
-                "h-[46px] w-full rounded-[10px] border-2 border-[#0758C9] bg-[#0758C9]",
-                "text-[14px] font-bold leading-none text-white transition active:scale-[0.98]",
+                "h-[46px] w-full rounded-[10px] border-2 border-[#0758C9] bg-white",
+                "text-[14px] font-bold leading-none text-[#0758C9] transition active:scale-[0.98]",
               )}
             >
               {saved ? (
