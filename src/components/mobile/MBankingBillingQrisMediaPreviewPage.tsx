@@ -15,7 +15,7 @@ function FallbackQrImage({ color }: { color: string }) {
   return (
     <div
       className={cn(
-        "relative h-[590px] w-full overflow-hidden rounded-[24px] bg-gradient-to-br",
+        "relative h-[650px] w-full overflow-hidden rounded-[24px] bg-gradient-to-br",
         color,
       )}
     >
@@ -57,7 +57,7 @@ function PublicQrImage({ color }: { color: string }) {
   }
 
   return (
-    <div className="relative h-[590px] w-full overflow-hidden rounded-[24px] bg-[#101010]">
+    <div className="relative h-[650px] w-full overflow-hidden rounded-[24px] bg-[#101010]">
       <img
         src={qrCodeSources[sourceIndex]}
         alt="QR Code"
@@ -148,7 +148,7 @@ export default function NewMBankingMediaScanPreviewPage({
               opacity: 1;
             }
             50% {
-              transform: translateY(470px);
+              transform: translateY(530px);
               opacity: 1;
             }
             85% {
