@@ -88,8 +88,8 @@ export default function NewMBankingTransactionSuccessPage({
             />
           </div>
 
-          <div className="mt-[12px] flex h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
-            <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+          <div className="mt-[12px] flex h-[68px] w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
+            <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#0758C9] text-white shadow-sm">
               <ShoppingCart
                 className="h-[20px] w-[20px] text-white"
                 strokeWidth={2.6}
