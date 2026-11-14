@@ -177,8 +177,8 @@ export default function NewMBankingMediaPickerPopup({
                 onChoose(selectedItem);
               }}
               className={cn(
-                "h-[46px] rounded-[8px] bg-[#479DF4]",
-                "text-[12px] font-normal leading-none text-white",
+                "h-[46px] rounded-[8px] bg-[#0758C9]",
+                "text-[14px] font-bold leading-none text-white",
                 "transition active:scale-[0.98]",
               )}
             >
@@ -190,7 +190,7 @@ export default function NewMBankingMediaPickerPopup({
               onClick={() => onOpenChange(false)}
               className={cn(
                 "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
-                "text-[12px] font-normal leading-none text-[#828282]",
+                "text-[14px] font-bold leading-none text-[#828282]",
                 "transition active:scale-[0.98]",
               )}
             >
