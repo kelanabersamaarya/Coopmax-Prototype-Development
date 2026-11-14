@@ -164,7 +164,7 @@ export default function MBankingLoginForm({
               <img
                 src="/qrislogowhite.png"
                 alt="QRIS"
-                className="h-[50px] w-auto rounded-full bg-[#004FC7] px-4 py-2 object-contain"
+                className="h-[40px] w-auto rounded-full bg-[#004FC7] px-3 py-1.5 object-contain"
               />
             </button>
             <div className="text-[11px] font-normal leading-relaxed text-[#9A9A9A]">
