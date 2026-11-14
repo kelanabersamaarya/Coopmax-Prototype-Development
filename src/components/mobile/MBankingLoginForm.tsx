@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
 
-export default function MBankingLoginForm({ onLogin }: { onLogin?: () => void }) {
+export default function MBankingLoginForm({
+  onLogin,
+  onQris,
+}: {
+  onLogin?: () => void;
+  onQris?: () => void;
+}) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rememberUsername, setRememberUsername] = React.useState(true);
@@ -144,6 +150,20 @@ export default function MBankingLoginForm({ onLogin }: { onLogin?: () => void })
               )}
             >
               Masuk
+            </button>
+
+            <button
+              type="button"
+              onClick={onQris}
+              className="mx-auto mt-2 flex items-center gap-2 rounded-full px-3 py-2 text-[13px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+              aria-label="Buka QRIS"
+            >
+              <img
+                src="/qrislogowhite.png"
+                alt="QRIS"
+                className="h-[20px] w-auto rounded-full bg-[#004FC7] px-2 py-1 object-contain"
+              />
+              <span>QRIS</span>
             </button>
           </form>
 

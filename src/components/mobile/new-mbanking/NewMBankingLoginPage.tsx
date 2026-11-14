@@ -38,7 +38,6 @@ export default function NewMBankingLoginPage({
       <NewMBankingLoginDetailPage
         onBack={() => setStep("identity")}
         onLogin={submitLogin}
-        onScan={() => setStep("scan")}
       />
     );
   }
