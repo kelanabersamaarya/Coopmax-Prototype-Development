@@ -117,7 +117,7 @@ export default function NewMBankingQrCodeDisplayPage({
           <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
         </button>
 
-        <h1 className="mt-[12px] text-[18px] font-bold leading-tight text-white">
+        <h1 className="mt-[12px] text-[25px] font-bold leading-tight text-white">
           Pembayaran QRIS
         </h1>
       </header>
