@@ -3,9 +3,9 @@ import { ArrowLeft, Delete } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const defaultPinLength = 6;
-const loanBillingPinLength = 4;
+const loanBillingPinLength = 6;
 const defaultPin = "123456";
-const loanBillingPin = "0000";
+const loanBillingPin = "000000";
 
 export default function NewMBankingPinInputPage({
   onBack,
