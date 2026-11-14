@@ -115,7 +115,7 @@ export default function NewMBankingQrisMerchantItem({
             Nominal Pembayaran<span className="text-[#EF135D]">*</span>
           </label>
 
-          <div className="relative mt-[5px] flex h-[54px] items-center rounded-[12px] bg-[#F1F1F1] px-4 transition focus-within:ring-2 focus-within:ring-[#004FC7]/15">
+          <div className="relative mt-[5px] flex h-[54px] items-center rounded-[12px] bg-[#F1F1F1] px-4">
             <span className="shrink-0 text-[16px] font-normal text-[#26365F]">Rp.</span>
             <input
               value={nominal}

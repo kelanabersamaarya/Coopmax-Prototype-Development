@@ -128,7 +128,6 @@ export default function NewMBankingQrisMerchantItem({
                 "h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4 pr-[42px]",
                 "text-[14px] font-normal text-black shadow-none outline-none",
                 "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
               )}
             />
 
