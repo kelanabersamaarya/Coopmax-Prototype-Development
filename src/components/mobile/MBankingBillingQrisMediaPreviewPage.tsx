@@ -111,7 +111,7 @@ export default function NewMBankingMediaScanPreviewPage({
         </button>
 
         <h1 className="mt-3 text-[25px] font-extrabold leading-none tracking-tight text-white">
-          Pembayaran QRIS
+          Memindai QR
         </h1>
       </header>
 
