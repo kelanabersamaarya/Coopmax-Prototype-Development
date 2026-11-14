@@ -271,7 +271,6 @@ export default function NewMBankingHome({
             onDepositClick={() => setShowDepositAccounts(true)}
             onTransferClick={() => setTransferMode("antar-rekening")}
             onInstallmentClick={() => setShowLoanInstallment(true)}
-            onQrisClick={() => setShowQrisFlow(true)}
             onPaymentClick={() => setShowPayment(true)}
             onPurchaseClick={() => setShowPurchase(true)}
           />

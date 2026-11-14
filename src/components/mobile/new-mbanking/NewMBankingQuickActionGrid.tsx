@@ -2,7 +2,6 @@ import {
   CircleDollarSign,
   HandCoins,
   Plus,
-  ScanLine,
   Send,
   ShoppingBasket,
   WalletCards,
@@ -31,12 +30,6 @@ const actions = [
     frameClassName: "bg-[#F59E0B]",
   },
   {
-    id: "qris",
-    label: "QRIS",
-    icon: ScanLine,
-    frameClassName: "bg-[#479DF4]",
-  },
-  {
     id: "payment",
     label: "Bayar Berbagai Kebutuhan",
     icon: HandCoins,
@@ -55,7 +48,6 @@ export default function NewMBankingQuickActionGrid({
   onDepositClick,
   onTransferClick,
   onInstallmentClick,
-  onQrisClick,
   onPaymentClick,
   onPurchaseClick,
 }: {
@@ -63,7 +55,6 @@ export default function NewMBankingQuickActionGrid({
   onDepositClick?: () => void;
   onTransferClick?: () => void;
   onInstallmentClick?: () => void;
-  onQrisClick?: () => void;
   onPaymentClick?: () => void;
   onPurchaseClick?: () => void;
 }) {
@@ -90,11 +81,6 @@ export default function NewMBankingQuickActionGrid({
 
                 if (action.id === "installment") {
                   onInstallmentClick?.();
-                  return;
-                }
-
-                if (action.id === "qris") {
-                  onQrisClick?.();
                   return;
                 }
 
