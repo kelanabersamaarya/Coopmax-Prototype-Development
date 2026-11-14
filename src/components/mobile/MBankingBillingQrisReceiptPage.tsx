@@ -50,19 +50,19 @@ export default function NewMBankingTransactionReceiptPage({
   const [saved, setSaved] = React.useState(false);
 
   return (
-    <div className="h-full min-h-full overflow-y-auto bg-[#F9F9F9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <header className="flex h-[82px] items-center gap-3 px-[31px] pt-[18px]">
+    <div className="h-full min-h-full overflow-y-auto bg-[#0758C9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <header className="flex h-[82px] items-center gap-3 px-[31px] pt-[18px] text-white">
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
+          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-white transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
         >
           <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
         </button>
 
-        <h1 className="text-[16px] font-bold leading-tight text-black">
+        <h1 className="text-[16px] font-bold leading-tight text-white">
           Bukti Transaksi
         </h1>
       </header>
