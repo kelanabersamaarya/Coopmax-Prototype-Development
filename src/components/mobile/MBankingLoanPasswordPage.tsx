@@ -5,8 +5,8 @@ import { ArrowLeft, Delete } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-const pinLength = 4;
-const correctPin = "0000";
+const pinLength = 6;
+const correctPin = "000000";
 const blue = "#0758C9";
 
 export default function MBankingLoanPasswordPage({
