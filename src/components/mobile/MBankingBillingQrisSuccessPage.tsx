@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Eye, ShoppingCart } from "lucide-react";
+import { Check, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/MBankingBillingQrisSourceFundCard";
 import type { SourceFundAccount } from "@/components/mobile/MBankingBillingQrisSourceFundModal";
@@ -62,14 +62,6 @@ export default function NewMBankingTransactionSuccessPage({
             Ref ID : 112221111222
           </div>
 
-          <div className="mt-[18px] flex w-full justify-center">
-            <NewMBankingSuccessActionTile
-              label="Lihat Bukti Transaksi"
-              icon={Eye}
-              onClick={() => setShowReceipt(true)}
-            />
-          </div>
-
           <div className="mt-[18px] w-full text-left">
             <NewMBankingSourceFundGradientCard
               account={successSourceFund}
@@ -99,6 +91,18 @@ export default function NewMBankingTransactionSuccessPage({
           </div>
 
           <div className="mt-[30px] grid w-full grid-cols-1 gap-[10px]">
+            <button
+              type="button"
+              onClick={() => setShowReceipt(true)}
+              className={cn(
+                "h-[46px] rounded-[10px] border border-[#0758C9] bg-white",
+                "text-[12px] font-normal leading-none text-[#0758C9]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Lihat Bukti Transaksi
+            </button>
+
             <button
               type="button"
               onClick={onDone}
