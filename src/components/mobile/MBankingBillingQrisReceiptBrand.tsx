@@ -8,14 +8,6 @@ const cooperativeLogoSources = [
   "/logo koperasi_splash",
 ];
 
-const djoinLogoSources = [
-  "/logo djoin_splash.png",
-  "/logo djoin_splash.jpg",
-  "/logo djoin_splash.jpeg",
-  "/logo djoin_splash.webp",
-  "/logo djoin_splash",
-];
-
 function CooperativeLogo() {
   const [sourceIndex, setSourceIndex] = React.useState(0);
   const [showFallback, setShowFallback] = React.useState(false);
@@ -48,38 +40,6 @@ function CooperativeLogo() {
   );
 }
 
-function DjoinLogo() {
-  const [sourceIndex, setSourceIndex] = React.useState(0);
-  const [showFallback, setShowFallback] = React.useState(false);
-
-  if (showFallback) {
-    return (
-      <span className="text-[19px] font-semibold leading-none tracking-[-0.02em] text-black">
-        By Djoin
-      </span>
-    );
-  }
-
-  return (
-    <img
-      src={djoinLogoSources[sourceIndex]}
-      alt="By Djoin"
-      className="h-[27px] w-[92px] object-contain"
-      draggable={false}
-      onError={() => {
-        const nextIndex = sourceIndex + 1;
-
-        if (nextIndex < djoinLogoSources.length) {
-          setSourceIndex(nextIndex);
-          return;
-        }
-
-        setShowFallback(true);
-      }}
-    />
-  );
-}
-
 export default function NewMBankingReceiptBrand() {
   return (
     <div className="flex flex-col items-center">
@@ -88,10 +48,6 @@ export default function NewMBankingReceiptBrand() {
         <div className="whitespace-nowrap text-[18px] font-semibold leading-none tracking-[-0.035em] text-black">
           M-Banking Koperasi
         </div>
-      </div>
-
-      <div className="mt-[5px]">
-        <DjoinLogo />
       </div>
     </div>
   );
