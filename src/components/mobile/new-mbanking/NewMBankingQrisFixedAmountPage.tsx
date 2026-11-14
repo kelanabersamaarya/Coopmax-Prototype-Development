@@ -81,7 +81,7 @@ export default function NewMBankingQrisFixedAmountPage({
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
             </label>
 
-            <div className="mt-[8px] flex h-[41px] w-[345px] max-w-full items-center rounded-[9px] border border-[#CDD4E0] bg-[#D9D9D9] px-4 select-none text-[14px] font-normal text-black">
+            <div className="mt-[8px] flex h-[41px] w-full items-center rounded-[9px] border border-[#CDD4E0] bg-[#D9D9D9] px-4 select-none text-[14px] font-normal text-black">
               Rp. 50.000,00
             </div>
 

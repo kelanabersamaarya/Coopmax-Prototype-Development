@@ -81,7 +81,7 @@ export default function NewMBankingQrisFixedAmountPage({
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
             </label>
 
-            <div className="mt-[8px] flex h-[54px] w-[345px] max-w-full items-center rounded-[12px] bg-[#F1F1F1] px-4">
+            <div className="mt-[8px] flex h-[54px] w-full items-center rounded-[12px] bg-[#F1F1F1] px-4">
               <span className="shrink-0 text-[16px] font-normal text-[#26365F]">Rp.</span>
               <span className="ml-4 min-w-0 flex-1 select-none text-[16px] font-normal text-[#26365F]">
                 50.000,00
