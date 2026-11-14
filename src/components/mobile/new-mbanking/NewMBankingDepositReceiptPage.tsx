@@ -82,7 +82,7 @@ export default function NewMBankingDepositReceiptPage({
 
   return (
     <div className="h-full min-h-full overflow-y-auto bg-[#F9F9F9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <header className="flex h-[82px] items-center gap-3 px-[31px] pt-[18px]">
+      <header className="flex h-[110px] flex-col items-start gap-1 px-[31px] pt-[18px]">
         <button
           type="button"
           onClick={onBack}
