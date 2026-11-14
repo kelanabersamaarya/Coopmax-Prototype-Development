@@ -23,6 +23,7 @@ export default function NewMBankingScanResultPage({
   if (showPinInput) {
     return (
       <NewMBankingPinInputPage
+        variant="loan-billing"
         onBack={() => setShowPinInput(false)}
         onSubmit={() => setShowSuccess(true)}
       />

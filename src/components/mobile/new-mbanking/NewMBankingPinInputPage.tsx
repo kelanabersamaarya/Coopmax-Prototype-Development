@@ -2,8 +2,10 @@ import * as React from "react";
 import { ArrowLeft, Delete } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const pinLength = 6;
-const correctPin = "123456";
+const defaultPinLength = 6;
+const loanBillingPinLength = 4;
+const defaultPin = "123456";
+const loanBillingPin = "0000";
 
 export default function NewMBankingPinInputPage({
   onBack,
@@ -16,6 +18,8 @@ export default function NewMBankingPinInputPage({
   description?: string;
   variant?: "default" | "loan-billing";
 }) {
+  const pinLength = variant === "loan-billing" ? loanBillingPinLength : defaultPinLength;
+  const correctPin = variant === "loan-billing" ? loanBillingPin : defaultPin;
   const [pin, setPin] = React.useState("");
   const [isWrongPin, setIsWrongPin] = React.useState(false);
 

@@ -179,7 +179,8 @@ export default function NewMBankingLoanInstallmentDetailPage({
     return (
       <NewMBankingPinInputPage
         title="Bayar Angsuran"
-        description="Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran angsuran."
+        description="Masukkan 4 digit PIN M-Banking untuk melanjutkan pembayaran angsuran."
+        variant="loan-billing"
         onBack={() => setShowPinInput(false)}
         onSubmit={() => {
           setShowPinInput(false);
