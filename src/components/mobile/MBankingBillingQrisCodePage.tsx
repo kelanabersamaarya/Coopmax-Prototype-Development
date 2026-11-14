@@ -157,7 +157,7 @@ export default function NewMBankingQrCodeDisplayPage({
           onClick={refreshCode}
           className={cn(
             "h-[58px] w-full rounded-[10px] bg-[#0758C9]",
-            "text-[16px] font-normal leading-none text-white",
+            "text-[14px] font-bold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
         >
