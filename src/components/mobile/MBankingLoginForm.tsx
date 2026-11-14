@@ -152,21 +152,21 @@ export default function MBankingLoginForm({
               Masuk
             </button>
 
+          </form>
+
+          <div className="mt-auto flex flex-col items-center pt-6 text-center">
             <button
               type="button"
               onClick={onQris}
-              className="mx-auto mt-2 flex items-center justify-center rounded-full px-3 py-2 text-[#004FC7] transition active:scale-[0.98]"
+              className="mb-3 flex items-center justify-center rounded-full px-3 py-2 text-[#004FC7] transition active:scale-[0.98]"
               aria-label="Buka QRIS"
             >
               <img
                 src="/qrislogowhite.png"
                 alt="QRIS"
-                className="h-[20px] w-auto rounded-full bg-[#004FC7] px-2 py-1 object-contain"
+                className="h-[30px] w-auto rounded-full bg-[#004FC7] px-3 py-1.5 object-contain"
               />
             </button>
-          </form>
-
-          <div className="mt-auto pt-6 text-center">
             <div className="text-[11px] font-normal leading-relaxed text-[#9A9A9A]">
               <div>Dengan masuk, anda telah menyetujui</div>
               <div>Syarat Ketentuan dan Kebijakan Privasi</div>
