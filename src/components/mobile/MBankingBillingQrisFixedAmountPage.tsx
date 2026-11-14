@@ -28,33 +28,34 @@ export default function NewMBankingQrisFixedAmountPage({
     React.useState<SourceFundAccount>(defaultSourceFund);
 
   return (
-    <div className="relative flex h-full min-h-full flex-col bg-[#F9F9F9] text-black">
+    <div className="relative flex h-full min-h-full flex-col bg-[#0758C9] text-black">
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
       />
 
-      <header className="flex h-[92px] shrink-0 items-center gap-3 px-[31px] pt-[22px]">
+      <header className="flex h-[128px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
+          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-white transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
         >
-          <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
+          <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
         </button>
 
-        <h1 className="text-[16px] font-bold leading-tight text-black">
+        <h1 className="mt-[12px] text-[25px] font-bold leading-tight text-white">
           Pembayaran QRIS
         </h1>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-[31px] pb-[112px] pt-[18px]">
+      <main className="mx-[10px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[112px] pt-[20px]">
         <div>
-          <div className="flex items-start gap-[12px]">
-            <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+          <div className="rounded-[12px] border border-[#D8D8D8] bg-white px-4 py-4">
+            <div className="flex items-start gap-[12px]">
+              <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#0758C9] text-white shadow-sm">
               <ShoppingCart
                 className="h-[20px] w-[20px] text-white"
                 strokeWidth={2.6}
@@ -72,6 +73,7 @@ export default function NewMBankingQrisFixedAmountPage({
                 Merchant PAN : 2211122223333
               </div>
             </div>
+          </div>
           </div>
 
           <SectionDivider />
@@ -116,13 +118,13 @@ export default function NewMBankingQrisFixedAmountPage({
         </div>
       </main>
 
-      <div className="sticky bottom-0 z-30 mt-auto px-0 pb-0 pt-[14px]">
+      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
           onClick={onContinuePayment}
           className={cn(
-            "h-[52px] w-full rounded-[8px] bg-[#004FC7]",
-            "text-[14px] font-semibold leading-none text-white",
+            "h-[52px] w-full rounded-[8px] bg-[#0758C9]",
+            "text-[14px] font-bold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
         >
