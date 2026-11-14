@@ -91,42 +91,34 @@ export default function NewMBankingScanPage({
   }
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#0758C9] text-black">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#101010] text-black">
       <NewMBankingMediaPickerPopup
         open={mediaPickerOpen}
         onOpenChange={setMediaPickerOpen}
         onChoose={(item) => setMediaScanItem(item)}
       />
 
-      <header className="flex h-[128px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
+      <header className="relative z-20 h-[70px] shrink-0 overflow-hidden bg-[#084bc8] px-[31px] text-white">
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-white transition active:scale-[0.98]"
+          className="-ml-2 inline-flex h-[70px] w-10 items-center justify-center rounded-full bg-transparent text-white transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
         >
-          <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
+          <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
         </button>
 
-        <h1 className="mt-[12px] text-[25px] font-bold leading-tight text-white">
-          Memindai QR
-        </h1>
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <NewMBankingQrisLogo />
+        </div>
       </header>
 
-      <main className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-6 pb-[26px] pt-[20px]">
-        <div className="relative min-h-0 flex-1 overflow-hidden rounded-[24px] bg-[#101010]">
-          <NewMBankingScanQrImage />
-          <NewMBankingScanningAnimation />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center pb-5">
-            <div className="rounded-full border border-[#E3E7ED] bg-white px-4 py-2 text-[12px] font-normal text-[#828282] shadow-sm">
-              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#479DF4]" />
-              Memproses hasil scan...
-            </div>
-          </div>
-        </div>
+      <main className="relative min-h-0 flex-1 overflow-hidden rounded-t-[20px] bg-[#101010]">
+        <NewMBankingScanQrImage />
+        <NewMBankingScanningAnimation />
 
-        <section className="shrink-0 pt-[24px]">
+        <section className="absolute inset-x-0 bottom-0 z-20 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
           <NewMBankingScanBottomActions
             onChange={(value) => {
               if (value === "qr") {

@@ -2,7 +2,7 @@
 
 export default function NewMBankingScanningAnimation() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+    <div className="pointer-events-none absolute inset-x-0 bottom-[132px] top-0 z-10 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(71,157,244,0.10),transparent_58%)]" />
 
       <div className="absolute inset-x-0 top-0 h-[120px] animate-[scan-full-screen_3.8s_ease-in-out_infinite]">
