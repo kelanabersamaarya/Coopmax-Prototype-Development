@@ -32,7 +32,7 @@ export default function NewMBankingTransactionSuccessPage({
   return (
     <div className="flex h-full min-h-full flex-col bg-[#0758C9] px-6 py-[30px] text-black">
       <main className="flex min-h-0 flex-1 items-center justify-center">
-        <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
+        <section className="flex w-full max-w-[390px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
           <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EAF8EF]">
             <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#33AA00] text-white">
               <Check className="h-[54px] w-[54px]" strokeWidth={3.8} />
