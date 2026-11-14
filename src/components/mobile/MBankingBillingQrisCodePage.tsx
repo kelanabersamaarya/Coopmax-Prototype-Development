@@ -144,9 +144,9 @@ export default function NewMBankingQrCodeDisplayPage({
               Kode akan kadaluarsa dalam
             </span>
 
-            <Timer className="h-[20px] w-[20px] text-[#479DF4]" strokeWidth={2.5} />
+            <Timer className="h-[20px] w-[20px] text-[#0758C9]" strokeWidth={2.5} />
 
-            <span className="text-[14px] font-normal leading-none text-[#479DF4]">
+            <span className="text-[14px] font-normal leading-none text-[#0758C9]">
               {formatTimer(seconds)}
             </span>
           </div>
@@ -156,7 +156,7 @@ export default function NewMBankingQrCodeDisplayPage({
           type="button"
           onClick={refreshCode}
           className={cn(
-            "h-[58px] w-full rounded-[10px] bg-[#479DF4]",
+            "h-[58px] w-full rounded-[10px] bg-[#0758C9]",
             "text-[16px] font-normal leading-none text-white",
             "transition active:scale-[0.98]",
           )}
