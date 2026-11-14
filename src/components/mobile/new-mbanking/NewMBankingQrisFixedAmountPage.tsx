@@ -5,6 +5,7 @@ import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import NewMBankingQrisConfirmModal from "@/components/mobile/new-mbanking/NewMBankingQrisConfirmModal";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -24,6 +25,7 @@ export default function NewMBankingQrisFixedAmountPage({
   onContinuePayment: () => void;
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [confirmationOpen, setConfirmationOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
@@ -33,6 +35,17 @@ export default function NewMBankingQrisFixedAmountPage({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+      />
+      <NewMBankingQrisConfirmModal
+        open={confirmationOpen}
+        onOpenChange={setConfirmationOpen}
+        amount="Rp. 50.000,00"
+        sourceFund={sourceFund}
+        onSourceFundChange={setSourceFund}
+        onContinuePayment={() => {
+          setConfirmationOpen(false);
+          onContinuePayment();
+        }}
       />
 
       <header className="flex h-[128px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
@@ -107,7 +120,7 @@ export default function NewMBankingQrisFixedAmountPage({
         <div className="mt-auto pt-[14px]">
           <button
             type="button"
-            onClick={onContinuePayment}
+            onClick={() => setConfirmationOpen(true)}
             className={cn(
               "h-[52px] w-full rounded-[8px] bg-[#0758C9]",
               "text-[14px] font-bold leading-none text-white",
