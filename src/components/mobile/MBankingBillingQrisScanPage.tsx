@@ -46,7 +46,12 @@ export default function NewMBankingScanPage({
   }, [mediaPickerOpen, mediaScanItem, showPinInput, showQrCode, showResultPage]);
 
   if (showQrCode) {
-    return <NewMBankingQrCodeDisplayPage onBack={() => setShowQrCode(false)} />;
+    return (
+      <NewMBankingQrCodeDisplayPage
+        onBack={() => setShowQrCode(false)}
+        onDone={onBack}
+      />
+    );
   }
 
   if (showPinInput) {

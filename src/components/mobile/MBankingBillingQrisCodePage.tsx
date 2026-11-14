@@ -61,8 +61,10 @@ function QrCodeVisual() {
 
 export default function NewMBankingQrCodeDisplayPage({
   onBack,
+  onDone,
 }: {
   onBack: () => void;
+  onDone: () => void;
 }) {
   const [seconds, setSeconds] = React.useState(92);
   const [showSuccess, setShowSuccess] = React.useState(false);
@@ -83,7 +85,7 @@ export default function NewMBankingQrCodeDisplayPage({
   }
 
   if (showSuccess) {
-    return <NewMBankingTransactionSuccessPage onDone={onBack} />;
+    return <NewMBankingTransactionSuccessPage onDone={onDone} />;
   }
 
   if (seconds <= 0) {
