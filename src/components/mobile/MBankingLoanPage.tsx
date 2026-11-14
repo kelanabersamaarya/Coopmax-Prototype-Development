@@ -8,7 +8,6 @@ import MBankingLoanDetailPage, {
   type MBankingLoanItem,
 } from "@/components/mobile/MBankingLoanDetailPage";
 import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
-import MBankingLoanPaymentSuccessPage from "@/components/mobile/MBankingLoanPaymentSuccessPage";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type LoanScreen = "list" | "password" | "detail";
@@ -47,16 +46,6 @@ export default function MBankingLoanPage({
 }) {
   const [screen, setScreen] = React.useState<LoanScreen>("list");
   const [selectedLoan, setSelectedLoan] = React.useState<MBankingLoanItem>(loans[0]);
-  const [showSuccess, setShowSuccess] = React.useState(false);
-
-  if (showSuccess) {
-    return (
-      <MBankingLoanPaymentSuccessPage
-        loan={selectedLoan}
-        onDone={() => setShowSuccess(false)}
-      />
-    );
-  }
 
   if (screen === "detail") {
     return (
@@ -73,7 +62,7 @@ export default function MBankingLoanPage({
     return (
       <MBankingLoanPasswordPage
         onBack={() => setScreen("list")}
-        onSuccess={() => setShowSuccess(true)}
+        onSuccess={() => setScreen("detail")}
       />
     );
   }
