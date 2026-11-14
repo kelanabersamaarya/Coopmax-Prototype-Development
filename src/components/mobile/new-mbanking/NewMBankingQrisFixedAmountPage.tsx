@@ -51,7 +51,7 @@ export default function NewMBankingQrisFixedAmountPage({
         </h1>
       </header>
 
-      <main className="mx-[10px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[112px] pt-[20px]">
+      <main className="flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[26px] pt-[20px]">
         <div>
           <div className="rounded-[12px] border border-[#D8D8D8] bg-white px-4 py-4">
             <div className="flex items-start gap-[12px]">
@@ -83,15 +83,9 @@ export default function NewMBankingQrisFixedAmountPage({
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
             </label>
 
-            <input
-              value="Rp. 50.000,00"
-              readOnly
-              aria-readonly="true"
-              className={cn(
-                "mt-[8px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-[#D9D9D9] px-4",
-                "cursor-not-allowed text-[14px] font-normal text-black shadow-none outline-none",
-              )}
-            />
+            <div className="mt-[8px] flex h-[41px] w-[345px] max-w-full items-center rounded-[9px] border border-[#CDD4E0] bg-[#D9D9D9] px-4 select-none text-[14px] font-normal text-black">
+              Rp. 50.000,00
+            </div>
 
             <div className="mt-[8px] text-[12px] font-normal leading-relaxed text-[#828282]">
               Pastikan nominal yang akan memotong saldo Anda sudah sesuai
@@ -113,21 +107,21 @@ export default function NewMBankingQrisFixedAmountPage({
             </div>
           </div>
         </div>
-      </main>
 
-      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
-        <button
-          type="button"
-          onClick={onContinuePayment}
-          className={cn(
-            "h-[52px] w-full rounded-[8px] bg-[#0758C9]",
-            "text-[14px] font-bold leading-none text-white",
-            "transition active:scale-[0.98]",
-          )}
-        >
-          Lanjutkan
-        </button>
-      </div>
+        <div className="mt-auto pt-[14px]">
+          <button
+            type="button"
+            onClick={onContinuePayment}
+            className={cn(
+              "h-[52px] w-full rounded-[8px] bg-[#0758C9]",
+              "text-[14px] font-bold leading-none text-white",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Lanjutkan
+          </button>
+        </div>
+      </main>
     </div>
   );
 }
