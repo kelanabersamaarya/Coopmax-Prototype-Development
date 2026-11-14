@@ -155,7 +155,7 @@ export default function MBankingLoginForm({
             <button
               type="button"
               onClick={onQris}
-              className="mx-auto mt-2 flex items-center gap-2 rounded-full px-3 py-2 text-[13px] font-semibold text-[#004FC7] transition active:scale-[0.98]"
+              className="mx-auto mt-2 flex items-center justify-center rounded-full px-3 py-2 text-[#004FC7] transition active:scale-[0.98]"
               aria-label="Buka QRIS"
             >
               <img
@@ -163,7 +163,6 @@ export default function MBankingLoginForm({
                 alt="QRIS"
                 className="h-[20px] w-auto rounded-full bg-[#004FC7] px-2 py-1 object-contain"
               />
-              <span>QRIS</span>
             </button>
           </form>
 
