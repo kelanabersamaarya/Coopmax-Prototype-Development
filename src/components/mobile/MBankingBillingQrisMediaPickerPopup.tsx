@@ -125,9 +125,6 @@ export default function NewMBankingMediaPickerPopup({
             <div className="text-[16px] font-bold leading-tight text-black">
               Pilih Dari Media
             </div>
-            <div className="mt-1 text-[12px] font-normal leading-tight text-[#828282]">
-              Pilih gambar QR dari galeri
-            </div>
           </div>
 
           <button
