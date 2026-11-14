@@ -99,7 +99,7 @@ export default function NewMBankingMediaScanPreviewPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
-      <header className="flex h-[92px] shrink-0 items-center gap-3 px-[31px] pt-[22px]">
+      <header className="flex h-[76px] shrink-0 items-center gap-3 px-[31px] pt-[14px]">
         <button
           type="button"
           onClick={onBack}

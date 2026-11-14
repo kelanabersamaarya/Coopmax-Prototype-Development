@@ -99,7 +99,7 @@ export default function NewMBankingMediaScanPreviewPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#0758C9] text-black">
-      <header className="flex h-[145px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
+      <header className="flex h-[122px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
         <button
           type="button"
           onClick={onBack}
@@ -115,8 +115,8 @@ export default function NewMBankingMediaScanPreviewPage({
         </h1>
       </header>
 
-      <main className="relative flex min-h-0 flex-1 flex-col items-center overflow-hidden rounded-t-[30px] bg-white px-5 pb-[26px] pt-[24px]">
-        <div className="relative mt-[28px] w-full max-w-[404px]">
+      <main className="relative flex min-h-0 flex-1 flex-col items-center overflow-hidden rounded-t-[30px] bg-white px-5 pb-[26px] pt-[12px]">
+        <div className="relative mt-[10px] w-full max-w-[404px]">
           <PublicQrImage color={color} />
 
           <div className="pointer-events-none absolute inset-x-0 top-[120px] h-[120px] animate-[media-qr-scan_2.2s_ease-in-out_infinite] overflow-hidden rounded-[24px]">
