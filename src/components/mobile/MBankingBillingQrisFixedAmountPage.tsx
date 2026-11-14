@@ -13,10 +13,6 @@ const defaultSourceFund: SourceFundAccount = {
   balance: "Rp. 4.000.000,00",
 };
 
-function SectionDivider() {
-  return <div className="my-[10px] h-px w-full bg-[#D8D8D8]" />;
-}
-
 export default function NewMBankingQrisFixedAmountPage({
   onBack,
   onContinuePayment,
