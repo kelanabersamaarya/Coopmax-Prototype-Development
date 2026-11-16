@@ -75,6 +75,7 @@ export default function NewMBankingQrisMerchantItem({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+        selectedAccount={sourceFund}
       />
 
       <NewMBankingQrisConfirmModal

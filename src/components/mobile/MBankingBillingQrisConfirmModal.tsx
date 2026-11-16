@@ -51,6 +51,7 @@ export default function NewMBankingQrisConfirmModal({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={handleSourceFundSelect}
+        selectedAccount={selectedSourceFund}
       />
 
       <button

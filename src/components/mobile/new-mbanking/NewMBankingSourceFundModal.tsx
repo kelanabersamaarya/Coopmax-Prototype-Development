@@ -29,11 +29,13 @@ export default function NewMBankingSourceFundModal({
   open,
   onOpenChange,
   onSelect,
+  selectedAccount: currentAccount,
   includeVirtualAccount = false,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (account: SourceFundAccount) => void;
+  selectedAccount?: SourceFundAccount;
   includeVirtualAccount?: boolean;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
@@ -41,13 +43,13 @@ export default function NewMBankingSourceFundModal({
     () => includeVirtualAccount ? [...savingsSourceFundAccounts, virtualAccountSourceFund] : savingsSourceFundAccounts,
     [includeVirtualAccount],
   );
-  const [selectedAccount, setSelectedAccount] = React.useState(accounts[0]);
+  const [selectedAccount, setSelectedAccount] = React.useState(currentAccount ?? accounts[0]);
 
   React.useEffect(() => {
     if (!open) return;
     setMobileScreen(document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null);
-    setSelectedAccount(accounts[0]);
-  }, [accounts, open]);
+    setSelectedAccount(currentAccount ?? accounts[0]);
+  }, [accounts, currentAccount, open]);
 
   if (!open || !mobileScreen) return null;
 

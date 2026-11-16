@@ -31,6 +31,7 @@ export default function NewMBankingQrisFixedAmountPage({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+        selectedAccount={sourceFund}
       />
       <NewMBankingQrisConfirmModal
         open={confirmationOpen}
