@@ -124,9 +124,9 @@ export default function NewMBankingQrCodeDisplayPage({
         </h1>
       </header>
 
-      <main className="mx-0 mb-0 flex min-h-0 flex-1 flex-col rounded-t-[28px] rounded-b-none bg-white px-5 pb-[22px] pt-[34px]">
+      <main className="mx-0 mb-0 flex min-h-0 flex-1 flex-col rounded-t-[28px] rounded-b-none bg-white px-3 pb-[22px] pt-[16px]">
         <section className="text-center">
-          <div className="mx-auto flex max-w-[345px] items-start gap-3 rounded-[14px] bg-[#EAF2FF] px-4 py-4 text-left text-[14px] font-normal leading-[1.45] text-[#0758C9]">
+          <div className="mx-auto flex w-full max-w-[380px] items-start gap-3 rounded-[14px] bg-[#EAF2FF] px-4 py-4 text-left text-[14px] font-normal leading-[1.45] text-[#0758C9]">
             <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#0758C9] text-[12px] font-bold leading-none">i</span>
             <p>
               Pastikan nominal yang akan memotong saldo Anda sudah sesuai. Kode QR
