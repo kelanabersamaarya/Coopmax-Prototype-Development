@@ -56,6 +56,24 @@ export default function NewMBankingSourceFundModal({
     setSelectedAccount(currentAccount ?? accounts[0]);
   }, [accounts, currentAccount, open]);
 
+  React.useEffect(() => {
+    if (!open) return;
+
+    const preventOutsideScroll = (event: WheelEvent | TouchEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest("[data-source-fund-scroll=\"true\"]")) return;
+      event.preventDefault();
+    };
+
+    document.addEventListener("wheel", preventOutsideScroll, { capture: true, passive: false });
+    document.addEventListener("touchmove", preventOutsideScroll, { capture: true, passive: false });
+
+    return () => {
+      document.removeEventListener("wheel", preventOutsideScroll, true);
+      document.removeEventListener("touchmove", preventOutsideScroll, true);
+    };
+  }, [open]);
+
   if (!open || !mobileScreen) return null;
 
   return createPortal(
@@ -72,7 +90,7 @@ export default function NewMBankingSourceFundModal({
         <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
       </header>
       <main className="relative z-10 -mt-[1px] flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-white px-6 pb-6 pt-6">
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div data-source-fund-scroll="true" className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="grid gap-3">
             {accounts.map((account) => (
               <NewMBankingSourceFundGradientCard key={account.accountNo} account={account} selected={selectedAccount.accountNo === account.accountNo} showChevron={false} onClick={() => setSelectedAccount(account)} />
