@@ -50,38 +50,23 @@ export default function NewMBankingSourceFundModal({
 
   React.useEffect(() => {
     if (!open) return;
-    setMobileScreen(
-      document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
+    const mobileScreens = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-mobile-screen="true"]'),
     );
+    const visibleScreen = [...mobileScreens]
+      .reverse()
+      .find((screen) => {
+        const rect = screen.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      });
+    setMobileScreen(visibleScreen ?? null);
     setSelectedAccount(currentAccount ?? accounts[0]);
   }, [accounts, currentAccount, open]);
-
-  React.useEffect(() => {
-    if (!open) return;
-
-    const preventOutsideScroll = (event: WheelEvent | TouchEvent) => {
-      const target = event.target as Element | null;
-      if (target?.closest("[data-source-fund-scroll=\"true\"]")) return;
-      event.preventDefault();
-    };
-
-    document.addEventListener("wheel", preventOutsideScroll, { capture: true, passive: false });
-    document.addEventListener("touchmove", preventOutsideScroll, { capture: true, passive: false });
-
-    return () => {
-      document.removeEventListener("wheel", preventOutsideScroll, true);
-      document.removeEventListener("touchmove", preventOutsideScroll, true);
-    };
-  }, [open]);
 
   if (!open || !mobileScreen) return null;
 
   return createPortal(
-    <div
-      className="absolute inset-0 z-[190] flex h-full min-h-full flex-col overscroll-contain bg-[#0758C9] text-black"
-      onWheel={(event) => event.stopPropagation()}
-      onTouchMove={(event) => event.stopPropagation()}
-    >
+    <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col overscroll-contain bg-[#0758C9] text-black">
       <header className="relative flex h-[132px] shrink-0 flex-col items-start overflow-hidden bg-[#0758C9] px-[31px] pt-[18px] text-white">
         <div className="pointer-events-none absolute -right-[18px] -top-[44px] h-[132px] w-[158px] rounded-b-full bg-white/10" />
         <button type="button" onClick={() => onOpenChange(false)} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full" aria-label="Kembali">
