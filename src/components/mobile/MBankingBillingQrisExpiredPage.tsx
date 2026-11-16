@@ -19,7 +19,7 @@ function ExpiredIllustration() {
     return (
       <div className="grid h-[260px] w-[300px] place-items-center rounded-[28px] bg-[#EEF6FF]">
         <div className="text-center text-[14px] font-semibold text-[#479DF4]">
-          QR Kedaluarsa
+          QR Kedaluwarsa
         </div>
       </div>
     );
@@ -28,7 +28,7 @@ function ExpiredIllustration() {
   return (
     <img
       src={expiredImageSources[sourceIndex]}
-      alt="QR kedaluarsa"
+      alt="QR kedaluwarsa"
       className="h-[280px] w-[320px] max-w-full object-contain"
       draggable={false}
       onError={() => {
@@ -75,7 +75,7 @@ export default function NewMBankingQrExpiredPage({
           <ExpiredIllustration />
 
           <h2 className="mt-[34px] text-[20px] font-bold leading-tight text-black">
-            Kode QR Kedaluarsa
+            Kode QR Kedaluwarsa
           </h2>
 
           <p className="mx-auto mt-[14px] max-w-[330px] text-[16px] font-normal leading-[1.35] tracking-[-0.02em] text-[#8F8F8F]">
