@@ -63,6 +63,33 @@ export default function NewMBankingSourceFundModal({
     setSelectedAccount(currentAccount ?? accounts[0]);
   }, [accounts, currentAccount, open]);
 
+  React.useEffect(() => {
+    if (!open || !mobileScreen) return;
+
+    const frame = mobileScreen.closest<HTMLElement>('[data-mobile-frame="true"]');
+    const scrollContainer = frame?.parentElement?.parentElement;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousDocumentOverflow = document.documentElement.style.overflow;
+    const previousContainerOverflow = scrollContainer?.style.overflow;
+    const previousContainerOverscrollBehavior = scrollContainer?.style.overscrollBehavior;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    if (scrollContainer) {
+      scrollContainer.style.overflow = "hidden";
+      scrollContainer.style.overscrollBehavior = "none";
+    }
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousDocumentOverflow;
+      if (!scrollContainer) return;
+      scrollContainer.style.overflow = previousContainerOverflow ?? "";
+      scrollContainer.style.overscrollBehavior = previousContainerOverscrollBehavior ?? "";
+    };
+  }, [mobileScreen, open]);
+
   if (!open || !mobileScreen) return null;
 
   return createPortal(
