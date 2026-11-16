@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/MBankingBillingQrisSourceFundCard";
@@ -41,7 +40,6 @@ export default function NewMBankingSourceFundModal({
   selectedAccount?: SourceFundAccount;
   includeVirtualAccount?: boolean;
 }) {
-  const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const accounts = React.useMemo(
     () => includeVirtualAccount ? [...savingsSourceFundAccounts, virtualAccountSourceFund] : savingsSourceFundAccounts,
     [includeVirtualAccount],
@@ -50,22 +48,12 @@ export default function NewMBankingSourceFundModal({
 
   React.useEffect(() => {
     if (!open) return;
-    const mobileScreens = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-mobile-screen="true"]'),
-    );
-    const visibleScreen = [...mobileScreens]
-      .reverse()
-      .find((screen) => {
-        const rect = screen.getBoundingClientRect();
-        return rect.width > 0 && rect.height > 0;
-      });
-    setMobileScreen(visibleScreen ?? null);
     setSelectedAccount(currentAccount ?? accounts[0]);
   }, [accounts, currentAccount, open]);
 
-  if (!open || !mobileScreen) return null;
+  if (!open) return null;
 
-  return createPortal(
+  return (
     <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col overscroll-contain bg-[#0758C9] text-black">
       <header className="relative flex h-[132px] shrink-0 flex-col items-start overflow-hidden bg-[#0758C9] px-[31px] pt-[18px] text-white">
         <div className="pointer-events-none absolute -right-[18px] -top-[44px] h-[132px] w-[158px] rounded-b-full bg-white/10" />
@@ -84,7 +72,6 @@ export default function NewMBankingSourceFundModal({
         </div>
         <button type="button" onClick={() => { onSelect(selectedAccount); onOpenChange(false); }} className={cn("mt-2 h-[48px] shrink-0 rounded-[8px] bg-[#0758C9] text-[14px] font-bold text-white", "transition active:scale-[0.98]")}>Simpan</button>
       </main>
-    </div>,
-    mobileScreen,
+    </div>
   );
 }
