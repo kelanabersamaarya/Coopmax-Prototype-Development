@@ -66,7 +66,7 @@ export default function NewMBankingSourceFundModal({
         <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
       </header>
       <main className="relative z-10 -mt-[1px] flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-white px-6 pb-6 pt-6">
-        <div className="grid gap-3 overflow-y-auto pb-4">
+        <div className="grid gap-3 overflow-y-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {accounts.map((account) => (
             <NewMBankingSourceFundGradientCard key={account.accountNo} account={account} selected={selectedAccount.accountNo === account.accountNo} showChevron={false} onClick={() => setSelectedAccount(account)} />
           ))}
