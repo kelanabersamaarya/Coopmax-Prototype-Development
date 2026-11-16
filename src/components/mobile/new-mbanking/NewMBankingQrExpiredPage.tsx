@@ -2,14 +2,7 @@ import * as React from "react";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const expiredImageSources = [
-  "/QR_kedaluarsa.png",
-  "/QR_kedaluarsa.jpg",
-  "/QR_kedaluarsa.jpeg",
-  "/QR_kedaluarsa.webp",
-  "/QR_kedaluarsa.svg",
-  "/QR_kedaluarsa",
-];
+const expiredImageSources = ["/qrkedaluwarsa.png"];
 
 function ExpiredIllustration() {
   const [sourceIndex, setSourceIndex] = React.useState(0);
