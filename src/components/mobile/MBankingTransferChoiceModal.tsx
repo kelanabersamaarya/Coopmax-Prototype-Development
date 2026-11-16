@@ -1,4 +1,4 @@
-import { Landmark, UserRound, X } from "lucide-react";
+import { X } from "lucide-react";
 
 export default function MBankingTransferChoiceModal({
   open,
@@ -47,7 +47,11 @@ export default function MBankingTransferChoiceModal({
             onClick={onInterAccount}
             className="flex min-h-[145px] flex-col items-center justify-center rounded-[22px] bg-[#E8E8E8] px-3 text-[#263A73] transition active:scale-[0.98]"
           >
-            <UserRound className="h-[52px] w-[52px] text-[#0758C9]" strokeWidth={2.4} />
+            <img
+              src="/sesama-nasabah-LPD.svg"
+              alt=""
+              className="h-[52px] w-[52px] object-contain"
+            />
             <span className="mt-3 text-center text-[15px] font-extrabold leading-tight">
               Antar Rekening
             </span>
@@ -58,7 +62,11 @@ export default function MBankingTransferChoiceModal({
             onClick={onOtherBank}
             className="flex min-h-[145px] flex-col items-center justify-center rounded-[22px] bg-[#E8E8E8] px-3 text-[#263A73] transition active:scale-[0.98]"
           >
-            <Landmark className="h-[52px] w-[52px] text-[#0758C9]" strokeWidth={2.4} />
+            <img
+              src="/ke-bank-lain.svg"
+              alt=""
+              className="h-[52px] w-[52px] object-contain"
+            />
             <span className="mt-3 text-center text-[15px] font-extrabold leading-tight">
               Ke Bank Lain
             </span>
