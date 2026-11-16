@@ -74,7 +74,7 @@ export default function NewMBankingSourceFundModal({
         </button>
         <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
       </header>
-      <main className="relative z-10 flex h-full min-h-full flex-col overflow-y-auto rounded-t-[20px] bg-white px-6 pb-6 pt-[156px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="absolute inset-x-0 bottom-0 top-[131px] z-10 flex min-h-0 flex-col overflow-y-auto rounded-t-[20px] bg-white px-6 pb-6 pt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div data-source-fund-scroll="true" className="pb-4">
           <div className="grid gap-3">
             {accounts.map((account) => (
