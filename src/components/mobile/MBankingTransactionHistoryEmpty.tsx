@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import MBankingTransactionHistoryCard from "@/components/mobile/MBankingTransactionHistoryCard";
+import MBankingQrisPaymentHistoryCard from "@/components/mobile/MBankingQrisPaymentHistoryCard";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type HistoryTab = "Pembayaran" | "Kolektor";
@@ -16,6 +17,7 @@ export default function MBankingTransactionHistoryEmpty({
 
   const tabs: HistoryTab[] = ["Pembayaran", "Kolektor"];
   const showTransactions = activeTab === "Pembayaran" && transactions.length > 0;
+  const showQrisReceipt = activeTab === "Pembayaran";
 
   return (
     <section className="mt-3 bg-[#F2F2F2] px-6 pb-8 pt-6">
@@ -55,14 +57,17 @@ export default function MBankingTransactionHistoryEmpty({
         })}
       </div>
 
-      {showTransactions ? (
+      {showTransactions || showQrisReceipt ? (
         <div className="mt-6 grid gap-4">
-          {transactions.map((transaction) => (
-            <MBankingTransactionHistoryCard
-              key={transaction.id}
-              transaction={transaction}
-            />
-          ))}
+          {showQrisReceipt ? <MBankingQrisPaymentHistoryCard /> : null}
+          {showTransactions
+            ? transactions.map((transaction) => (
+                <MBankingTransactionHistoryCard
+                  key={transaction.id}
+                  transaction={transaction}
+                />
+              ))
+            : null}
         </div>
       ) : (
         <div className="mt-7 flex flex-col items-center text-center">
