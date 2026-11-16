@@ -59,7 +59,11 @@ export default function NewMBankingSourceFundModal({
   if (!open || !mobileScreen) return null;
 
   return createPortal(
-    <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col bg-[#0758C9] text-black">
+    <div
+      className="absolute inset-0 z-[190] flex h-full min-h-full flex-col overscroll-contain bg-[#0758C9] text-black"
+      onWheel={(event) => event.stopPropagation()}
+      onTouchMove={(event) => event.stopPropagation()}
+    >
       <header className="relative flex h-[132px] shrink-0 flex-col items-start overflow-hidden bg-[#0758C9] px-[31px] pt-[18px] text-white">
         <div className="pointer-events-none absolute -right-[18px] -top-[44px] h-[132px] w-[158px] rounded-b-full bg-white/10" />
         <button type="button" onClick={() => onOpenChange(false)} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full" aria-label="Kembali">
@@ -68,12 +72,14 @@ export default function NewMBankingSourceFundModal({
         <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
       </header>
       <main className="relative z-10 -mt-[1px] flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-white px-6 pb-6 pt-6">
-        <div className="grid gap-3 overflow-y-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {accounts.map((account) => (
-            <NewMBankingSourceFundGradientCard key={account.accountNo} account={account} selected={selectedAccount.accountNo === account.accountNo} showChevron={false} onClick={() => setSelectedAccount(account)} />
-          ))}
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="grid gap-3">
+            {accounts.map((account) => (
+              <NewMBankingSourceFundGradientCard key={account.accountNo} account={account} selected={selectedAccount.accountNo === account.accountNo} showChevron={false} onClick={() => setSelectedAccount(account)} />
+            ))}
+          </div>
         </div>
-        <button type="button" onClick={() => { onSelect(selectedAccount); onOpenChange(false); }} className={cn("mt-auto h-[48px] rounded-[8px] bg-[#0758C9] text-[14px] font-bold text-white", "transition active:scale-[0.98]")}>Simpan</button>
+        <button type="button" onClick={() => { onSelect(selectedAccount); onOpenChange(false); }} className={cn("mt-2 h-[48px] shrink-0 rounded-[8px] bg-[#0758C9] text-[14px] font-bold text-white", "transition active:scale-[0.98]")}>Simpan</button>
       </main>
     </div>,
     mobileScreen,
