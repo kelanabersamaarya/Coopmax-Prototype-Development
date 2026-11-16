@@ -16,6 +16,9 @@ export type SourceFundAccount = {
 const savingsSourceFundAccounts: SourceFundAccount[] = [
   { productName: "Simpanan Kaya", accountNo: "112233111", balance: "Rp. 4.000.000,00" },
   { productName: "Simpanan Sukarela", accountNo: "4260029", balance: "Rp. 2.750.000,00" },
+  { productName: "Simpanan Berjangka", accountNo: "5300148", balance: "Rp. 6.500.000,00" },
+  { productName: "Simpanan Pendidikan", accountNo: "6400271", balance: "Rp. 3.200.000,00" },
+  { productName: "Simpanan Hari Raya", accountNo: "7500384", balance: "Rp. 1.850.000,00" },
 ];
 
 const virtualAccountSourceFund: SourceFundAccount = {
