@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/MBankingBillingQrisSourceFundCard";
@@ -40,6 +41,8 @@ export default function NewMBankingSourceFundModal({
   selectedAccount?: SourceFundAccount;
   includeVirtualAccount?: boolean;
 }) {
+  const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const [screenRect, setScreenRect] = React.useState<DOMRect | null>(null);
   const accounts = React.useMemo(
     () => includeVirtualAccount ? [...savingsSourceFundAccounts, virtualAccountSourceFund] : savingsSourceFundAccounts,
     [includeVirtualAccount],
@@ -48,13 +51,23 @@ export default function NewMBankingSourceFundModal({
 
   React.useEffect(() => {
     if (!open) return;
+    const screens = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-mobile-screen="true"]'),
+    );
+    const visibleScreen = [...screens].reverse().find((screen) => {
+      const rect = screen.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    });
+    setMobileScreen(visibleScreen ?? null);
+    setScreenRect(visibleScreen?.getBoundingClientRect() ?? null);
     setSelectedAccount(currentAccount ?? accounts[0]);
   }, [accounts, currentAccount, open]);
 
-  if (!open) return null;
-
-  return (
-    <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col overscroll-contain bg-[#0758C9] text-black">
+  const modal = (
+    <div
+      className="fixed z-[190] flex flex-col overscroll-contain bg-[#0758C9] text-black"
+      style={screenRect ? { top: screenRect.top, left: screenRect.left, width: screenRect.width, height: screenRect.height } : undefined}
+    >
       <header className="relative flex h-[132px] shrink-0 flex-col items-start overflow-hidden bg-[#0758C9] px-[31px] pt-[18px] text-white">
         <div className="pointer-events-none absolute -right-[18px] -top-[44px] h-[132px] w-[158px] rounded-b-full bg-white/10" />
         <button type="button" onClick={() => onOpenChange(false)} className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full" aria-label="Kembali">
@@ -74,4 +87,8 @@ export default function NewMBankingSourceFundModal({
       </main>
     </div>
   );
+
+  if (!open || !mobileScreen) return null;
+
+  return createPortal(modal, mobileScreen);
 }
