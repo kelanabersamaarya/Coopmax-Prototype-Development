@@ -53,24 +53,24 @@ export default function NewMBankingQrExpiredPage({
   onRefresh: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
-      <header className="flex h-[86px] shrink-0 items-center gap-3 px-[31px] pt-[18px]">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#0758C9] text-black">
+      <header className="flex h-[128px] shrink-0 flex-col items-start px-[31px] pt-[18px] text-white">
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
+          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-white transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
         >
           <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
         </button>
 
-        <h1 className="text-[18px] font-bold leading-tight text-black">
-          Pembayaran QRIS
+        <h1 className="mt-[12px] text-[25px] font-bold leading-tight text-white">
+          Tunjukan Kode QR
         </h1>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[28px] pt-[46px]">
+      <main className="flex min-h-0 flex-1 flex-col rounded-t-[28px] bg-white px-6 pb-[22px] pt-[34px]">
         <section className="flex flex-1 flex-col items-center justify-center pb-[72px] text-center">
           <ExpiredIllustration />
 
@@ -88,7 +88,7 @@ export default function NewMBankingQrExpiredPage({
           type="button"
           onClick={onRefresh}
           className={cn(
-            "h-[58px] w-full rounded-[10px] bg-[#479DF4]",
+            "h-[58px] w-full rounded-[10px] bg-[#0758C9]",
             "text-[16px] font-normal leading-none text-white",
             "transition active:scale-[0.98]",
           )}
