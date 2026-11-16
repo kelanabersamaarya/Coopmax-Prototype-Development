@@ -22,7 +22,7 @@ const actions = [
   },
   {
     id: "media" as const,
-    label: "Unggah QR",
+    label: "Unggah QRIS",
     icon: Image,
     frameClassName: "bg-[#084BC8]",
     activeFrameClassName: "bg-[#063A9B]",
