@@ -101,8 +101,8 @@ export default function NewMBankingSourceFundModal({
         </button>
         <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
       </header>
-      <main className="relative z-10 -mt-[1px] flex min-h-[calc(100%+1px)] flex-col rounded-t-[20px] bg-white px-6 pb-6 pt-6">
-        <div data-source-fund-scroll="true" className="pb-4">
+      <main className="relative z-10 -mt-[1px] flex min-h-[calc(100%+1px)] flex-col rounded-t-[20px] bg-white px-6 pb-3 pt-6">
+        <div data-source-fund-scroll="true" className="pb-2">
           <div className="grid gap-3">
             {accounts.map((account) => (
               <NewMBankingSourceFundGradientCard key={account.accountNo} account={account} selected={selectedAccount.accountNo === account.accountNo} showChevron={false} onClick={() => setSelectedAccount(account)} />
