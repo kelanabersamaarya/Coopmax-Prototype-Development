@@ -2,7 +2,7 @@ import * as React from "react";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const expiredImageSources = ["/qrkedaluwarsa.png"];
+const expiredImageSources = ["/Group.svg"];
 
 function ExpiredIllustration() {
   const [sourceIndex, setSourceIndex] = React.useState(0);
@@ -21,7 +21,7 @@ function ExpiredIllustration() {
   return (
     <img
       src={expiredImageSources[sourceIndex]}
-      alt="QR kedaluwarsa"
+      alt="Ilustrasi Group"
       className="h-[340px] w-[380px] max-w-full object-contain"
       draggable={false}
       onError={() => {
