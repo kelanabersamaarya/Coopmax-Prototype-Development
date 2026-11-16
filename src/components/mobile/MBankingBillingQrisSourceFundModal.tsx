@@ -50,13 +50,9 @@ export default function NewMBankingSourceFundModal({
 
   React.useEffect(() => {
     if (!open) return;
-    const mobileScreens = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-mobile-screen="true"]'),
+    setMobileScreen(
+      document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
     );
-    const visibleScreen = [...mobileScreens]
-      .reverse()
-      .find((screen) => screen.getBoundingClientRect().width > 0 && screen.getBoundingClientRect().height > 0);
-    setMobileScreen(visibleScreen ?? null);
     setSelectedAccount(currentAccount ?? accounts[0]);
   }, [accounts, currentAccount, open]);
 
