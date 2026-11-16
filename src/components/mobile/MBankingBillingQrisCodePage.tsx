@@ -66,7 +66,7 @@ export default function NewMBankingQrCodeDisplayPage({
   onBack: () => void;
   onDone: () => void;
 }) {
-  const [seconds, setSeconds] = React.useState(92);
+  const [seconds, setSeconds] = React.useState(10);
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   React.useEffect(() => {
@@ -80,7 +80,7 @@ export default function NewMBankingQrCodeDisplayPage({
   }, [seconds]);
 
   function refreshCode() {
-    setSeconds(92);
+    setSeconds(10);
     setShowSuccess(false);
   }
 
@@ -97,7 +97,7 @@ export default function NewMBankingQrCodeDisplayPage({
     );
   }
 
-  if (seconds <= 60) {
+  if (seconds <= 9) {
     return (
       <NewMBankingQrisFixedAmountPage
         onBack={onBack}
