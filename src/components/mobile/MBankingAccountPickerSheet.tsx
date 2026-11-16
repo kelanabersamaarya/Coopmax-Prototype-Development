@@ -38,7 +38,7 @@ export default function MBankingAccountPickerSheet({
 
       <div
         className={cn(
-          "relative z-10 w-full rounded-t-[30px] bg-white",
+          "relative z-10 w-full rounded-t-[20px] bg-white",
           "px-4 pb-10 pt-5 shadow-[0_-18px_45px_rgba(15,23,42,0.18)]",
           "min-h-[58%]",
         )}

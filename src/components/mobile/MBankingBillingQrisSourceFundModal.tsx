@@ -52,7 +52,7 @@ export default function NewMBankingSourceFundModal({
   if (!open || !mobileScreen) return null;
 
   return createPortal(
-    <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col bg-white text-black">
+    <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col bg-[#0758C9] text-black">
       <header className="flex h-[128px] shrink-0 flex-col items-start bg-[#0758C9] px-[31px] pt-[18px] text-white">
         <button type="button" onClick={() => onOpenChange(false)} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full" aria-label="Kembali">
           <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
