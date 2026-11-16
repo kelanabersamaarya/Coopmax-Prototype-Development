@@ -101,7 +101,7 @@ export default function NewMBankingSourceFundModal({
         </button>
         <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
       </header>
-      <main className="relative z-10 -mt-[1px] flex min-h-[calc(100%+1px)] flex-col rounded-t-[20px] bg-white px-6 pb-3 pt-6">
+      <main className="relative z-10 -mt-[1px] flex min-h-0 flex-col rounded-t-[20px] bg-white px-6 pb-3 pt-6">
         <div data-source-fund-scroll="true" className="pb-2">
           <div className="grid gap-3">
             {accounts.map((account) => (
@@ -110,6 +110,7 @@ export default function NewMBankingSourceFundModal({
           </div>
         </div>
         <button type="button" onClick={() => { onSelect(selectedAccount); onOpenChange(false); }} className={cn("mt-2 h-[48px] shrink-0 rounded-[8px] bg-[#0758C9] text-[14px] font-bold text-white", "transition active:scale-[0.98]")}>Simpan</button>
+        <div className="h-3 shrink-0" aria-hidden="true" />
       </main>
     </div>,
     mobileScreen,
