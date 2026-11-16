@@ -10,7 +10,7 @@ function ExpiredIllustration() {
 
   if (showFallback) {
     return (
-      <div className="grid h-[320px] w-[360px] place-items-center rounded-[28px] bg-[#EEF6FF]">
+      <div className="grid h-[290px] w-[330px] place-items-center rounded-[28px] bg-[#EEF6FF]">
         <div className="text-center text-[14px] font-semibold text-[#479DF4]">
           QR Kedaluwarsa
         </div>
@@ -22,7 +22,7 @@ function ExpiredIllustration() {
     <img
       src={expiredImageSources[sourceIndex]}
       alt="Ilustrasi QR kedaluwarsa"
-      className="h-[340px] w-[380px] max-w-full object-contain"
+      className="h-[310px] w-[350px] max-w-full object-contain"
       draggable={false}
       onError={() => {
         const nextIndex = sourceIndex + 1;
