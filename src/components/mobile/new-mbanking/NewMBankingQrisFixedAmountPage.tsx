@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
-import NewMBankingQrisSourceFundCarousel from "@/components/mobile/new-mbanking/NewMBankingQrisSourceFundCarousel";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingQrisConfirmModal from "@/components/mobile/new-mbanking/NewMBankingQrisConfirmModal";
 
 const defaultSourceFund: SourceFundAccount = {
@@ -105,9 +105,11 @@ export default function NewMBankingQrisFixedAmountPage({
             </div>
 
             <div className="mt-[8px]">
-              <NewMBankingQrisSourceFundCarousel
-                selectedAccount={sourceFund}
-                onSelect={setSourceFund}
+              <NewMBankingSourceFundGradientCard
+                account={sourceFund}
+                selected
+                showChevron={false}
+                onClick={() => setSourceFundOpen(true)}
               />
             </div>
           </div>
