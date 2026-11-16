@@ -68,6 +68,7 @@ export default function NewMBankingQrCodeDisplayPage({
 }) {
   const [seconds, setSeconds] = React.useState(120);
   const [showSuccess, setShowSuccess] = React.useState(false);
+  const [showExpired, setShowExpired] = React.useState(false);
 
   React.useEffect(() => {
     if (seconds <= 0) return;
@@ -82,19 +83,20 @@ export default function NewMBankingQrCodeDisplayPage({
   function refreshCode() {
     setSeconds(120);
     setShowSuccess(false);
+    setShowExpired(false);
   }
 
-  if (showSuccess) {
-    return <NewMBankingTransactionSuccessPage onDone={onDone} />;
-  }
-
-  if (seconds <= 0) {
+  if (showExpired) {
     return (
       <NewMBankingQrExpiredPage
         onBack={onBack}
         onRefresh={refreshCode}
       />
     );
+  }
+
+  if (showSuccess) {
+    return <NewMBankingTransactionSuccessPage onDone={onDone} />;
   }
 
   if (seconds <= 110) {
@@ -136,9 +138,14 @@ export default function NewMBankingQrCodeDisplayPage({
         </section>
 
         <section className="flex flex-1 flex-col items-center justify-center pb-[78px] pt-[42px]">
-          <div className="grid h-[292px] w-[292px] place-items-center rounded-[28px] border border-[#D8D8D8] bg-white">
+          <button
+            type="button"
+            onClick={() => setShowExpired(true)}
+            className="grid h-[292px] w-[292px] place-items-center rounded-[28px] border border-[#D8D8D8] bg-white"
+            aria-label="Buka halaman kode QR kedaluwarsa"
+          >
             <QrCodeVisual />
-          </div>
+          </button>
 
           <div className="mt-[36px] flex items-center justify-center gap-[10px]">
             <span className="text-[14px] font-normal leading-none text-[#8F8F8F]">
