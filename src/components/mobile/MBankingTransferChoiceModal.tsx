@@ -41,14 +41,14 @@ export default function MBankingTransferChoiceModal({
           </button>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4">
+        <div className="mt-5 grid grid-cols-2 gap-4">
           <button
             type="button"
             onClick={onInterAccount}
-            className="flex min-h-[220px] flex-col items-center justify-center rounded-[26px] bg-[#E8E8E8] px-3 text-[#263A73] transition active:scale-[0.98]"
+            className="flex min-h-[175px] flex-col items-center justify-center rounded-[24px] bg-[#E8E8E8] px-3 text-[#263A73] transition active:scale-[0.98]"
           >
-            <UserRound className="h-[78px] w-[78px] text-[#0758C9]" strokeWidth={2.4} />
-            <span className="mt-5 text-center text-[18px] font-extrabold leading-tight">
+            <UserRound className="h-[62px] w-[62px] text-[#0758C9]" strokeWidth={2.4} />
+            <span className="mt-4 text-center text-[16px] font-extrabold leading-tight">
               Antar Rekening
             </span>
           </button>
@@ -56,10 +56,10 @@ export default function MBankingTransferChoiceModal({
           <button
             type="button"
             onClick={onOtherBank}
-            className="flex min-h-[220px] flex-col items-center justify-center rounded-[26px] bg-[#E8E8E8] px-3 text-[#263A73] transition active:scale-[0.98]"
+            className="flex min-h-[175px] flex-col items-center justify-center rounded-[24px] bg-[#E8E8E8] px-3 text-[#263A73] transition active:scale-[0.98]"
           >
-            <Landmark className="h-[78px] w-[78px] text-[#0758C9]" strokeWidth={2.4} />
-            <span className="mt-5 text-center text-[18px] font-extrabold leading-tight">
+            <Landmark className="h-[62px] w-[62px] text-[#0758C9]" strokeWidth={2.4} />
+            <span className="mt-4 text-center text-[16px] font-extrabold leading-tight">
               Ke Bank Lain
             </span>
           </button>
