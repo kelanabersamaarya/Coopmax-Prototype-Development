@@ -21,7 +21,7 @@ function ExpiredIllustration() {
   return (
     <img
       src={expiredImageSources[sourceIndex]}
-      alt="Ilustrasi Group"
+      alt="Ilustrasi QR kedaluwarsa"
       className="h-[340px] w-[380px] max-w-full object-contain"
       draggable={false}
       onError={() => {
