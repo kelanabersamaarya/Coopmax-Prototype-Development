@@ -123,6 +123,8 @@ export default function NewMBankingQrisConfirmModal({
           <div className="mt-[10px]">
             <NewMBankingSourceFundGradientCard
               account={selectedSourceFund}
+              selected
+              showChevron={false}
               textSize="compact"
               className="min-h-[104px]"
               onClick={() => setSourceFundOpen(true)}

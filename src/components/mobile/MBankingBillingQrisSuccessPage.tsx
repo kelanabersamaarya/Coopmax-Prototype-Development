@@ -63,6 +63,7 @@ export default function NewMBankingTransactionSuccessPage({
           <div className="mt-[18px] w-full text-left">
             <NewMBankingSourceFundGradientCard
               account={successSourceFund}
+              selected
               showChevron={false}
               showBalance={false}
               sectionLabel="Sumber Dana"

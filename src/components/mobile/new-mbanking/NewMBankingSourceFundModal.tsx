@@ -97,15 +97,16 @@ export default function NewMBankingSourceFundModal({
           </button>
         </div>
 
-        <div className="mt-[18px] grid gap-[10px]">
+        <div className="mt-[18px] flex snap-x snap-mandatory gap-[10px] overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {accounts.map((account) => (
-            <NewMBankingSourceFundGradientCard
-              key={account.accountNo}
-              account={account}
-              selected={selectedAccount.accountNo === account.accountNo}
-              showChevron={false}
-              onClick={() => setSelectedAccount(account)}
-            />
+            <div key={account.accountNo} className="w-[calc(100%-28px)] shrink-0 snap-center">
+              <NewMBankingSourceFundGradientCard
+                account={account}
+                selected={selectedAccount.accountNo === account.accountNo}
+                showChevron={false}
+                onClick={() => setSelectedAccount(account)}
+              />
+            </div>
           ))}
         </div>
 

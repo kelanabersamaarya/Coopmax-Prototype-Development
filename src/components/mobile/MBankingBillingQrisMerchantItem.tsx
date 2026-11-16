@@ -164,6 +164,8 @@ export default function NewMBankingQrisMerchantItem({
           <div className="mt-[8px]">
             <NewMBankingSourceFundGradientCard
               account={sourceFund}
+              selected
+              showChevron={false}
               onClick={() => setSourceFundOpen(true)}
             />
           </div>

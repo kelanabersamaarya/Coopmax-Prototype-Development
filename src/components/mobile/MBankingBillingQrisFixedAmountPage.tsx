@@ -110,6 +110,7 @@ export default function NewMBankingQrisFixedAmountPage({
             <div className="mt-[8px]">
               <NewMBankingSourceFundGradientCard
                 account={sourceFund}
+                selected
                 onClick={() => setSourceFundOpen(true)}
               />
             </div>

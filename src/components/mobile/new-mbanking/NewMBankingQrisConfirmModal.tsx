@@ -119,18 +119,13 @@ export default function NewMBankingQrisConfirmModal({
           <div className="text-[12px] font-normal leading-tight text-[#8F8F8F]">
             Sumber Dana
           </div>
-          <button
-            type="button"
-            onClick={() => setSourceFundOpen(true)}
-            className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
-          >
-            Ubah
-          </button>
         </div>
 
         <div className="mt-[10px]">
           <NewMBankingSourceFundGradientCard
             account={selectedSourceFund}
+            selected
+            showChevron={false}
             textSize="compact"
             className="min-h-[104px]"
             onClick={() => setSourceFundOpen(true)}
