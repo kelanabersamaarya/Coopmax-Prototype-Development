@@ -66,8 +66,7 @@ export default function NewMBankingSourceFundModal({
       </header>
 
       <main className="flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-white px-6 pb-6 pt-6">
-        <p className="text-[14px] font-bold text-[#2F3137]">Silakan pilih rekening sumber dana pembayaran</p>
-        <div className="mt-4 grid gap-3 overflow-y-auto pb-4">
+        <div className="grid gap-3 overflow-y-auto pb-4">
           {accounts.map((account) => (
             <NewMBankingSourceFundGradientCard
               key={account.accountNo}
