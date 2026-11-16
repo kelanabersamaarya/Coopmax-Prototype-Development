@@ -18,6 +18,7 @@ import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransac
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import MBankingBillingTransferPage from "@/components/mobile/MBankingBillingTransferPage";
 import MBankingBillingQrisScanPage from "@/components/mobile/MBankingBillingQrisScanPage";
+import MBankingTransferChoiceModal from "@/components/mobile/MBankingTransferChoiceModal";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type MBankingHomeScreen = "home" | "info" | "loan" | "profile" | "savings";
@@ -48,6 +49,7 @@ export default function MBankingHome({
   const [homeDetailReturn, setHomeDetailReturn] = React.useState<"home">("home");
   const [homeDetailTransferGuide, setHomeDetailTransferGuide] = React.useState(false);
   const [topUpOpen, setTopUpOpen] = React.useState(false);
+  const [transferChoiceOpen, setTransferChoiceOpen] = React.useState(false);
   const [transferOpen, setTransferOpen] = React.useState(false);
   const [qrisOpen, setQrisOpen] = React.useState(false);
 
@@ -182,7 +184,7 @@ export default function MBankingHome({
         <MBankingQuickActions
           onAccountInfoClick={() => setScreen("info")}
           onTopUpClick={() => setTopUpOpen(true)}
-          onTransferClick={() => setTransferOpen(true)}
+          onTransferClick={() => setTransferChoiceOpen(true)}
         />
         <MBankingHomeBanner
           onBannerClick={() => {
@@ -199,6 +201,18 @@ export default function MBankingHome({
         onAndroidBack={openExitConfirmation}
         onSettingsClick={() => setScreen("profile")}
         onQrisClick={() => setQrisOpen(true)}
+      />
+
+      <MBankingTransferChoiceModal
+        open={transferChoiceOpen}
+        onClose={() => setTransferChoiceOpen(false)}
+        onInterAccount={() => {
+          setTransferChoiceOpen(false);
+          setTransferOpen(true);
+        }}
+        onOtherBank={() => {
+          setTransferChoiceOpen(false);
+        }}
       />
 
       <MBankingExitConfirmModal
