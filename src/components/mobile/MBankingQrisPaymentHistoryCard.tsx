@@ -1,18 +1,29 @@
-export default function MBankingQrisPaymentHistoryCard() {
+export default function MBankingQrisPaymentHistoryCard({
+  onClick,
+}: {
+  onClick: () => void;
+}) {
   return (
-    <div className="rounded-[24px] bg-white px-6 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.20)] ring-1 ring-slate-100">
-      <div className="grid grid-cols-2 gap-x-5 gap-y-[14px]">
-        <InfoBlock label="Total Bayar" value="Rp. 50.000,00" />
-        <InfoBlock label="Tanggal" value="30 Juni 2026" align="right" />
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full rounded-[24px] bg-white px-6 py-5 text-left shadow-[0_4px_14px_rgba(15,23,42,0.20)] ring-1 ring-slate-100 transition active:scale-[0.99]"
+      aria-label="Lihat bukti transaksi QRIS"
+    >
+      <div>
+        <div className="grid grid-cols-2 gap-x-5 gap-y-[14px]">
+          <InfoBlock label="Total Bayar" value="Rp. 50.000,00" />
+          <InfoBlock label="Tanggal" value="30 Juni 2026" align="right" />
 
-        <InfoBlock label="Penerima" value="QRIS Indomaret" />
-        <InfoBlock label="Waktu Transaksi" value="22:15 WIB" align="right" />
+          <InfoBlock label="Penerima" value="QRIS Indomaret" />
+          <InfoBlock label="Waktu Transaksi" value="22:15 WIB" align="right" />
 
-        <div className="col-span-2">
-          <InfoBlock label="Sumber Dana" value="Simpanan Kaya - 112233111" />
+          <div className="col-span-2">
+            <InfoBlock label="Sumber Dana" value="Simpanan Kaya - 112233111" />
+          </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 

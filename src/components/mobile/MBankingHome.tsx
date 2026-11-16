@@ -18,6 +18,7 @@ import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransac
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import MBankingBillingTransferPage from "@/components/mobile/MBankingBillingTransferPage";
 import MBankingBillingQrisScanPage from "@/components/mobile/MBankingBillingQrisScanPage";
+import MBankingBillingQrisReceiptPage from "@/components/mobile/MBankingBillingQrisReceiptPage";
 import MBankingTransferChoiceModal from "@/components/mobile/MBankingTransferChoiceModal";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
@@ -52,6 +53,7 @@ export default function MBankingHome({
   const [transferChoiceOpen, setTransferChoiceOpen] = React.useState(false);
   const [transferOpen, setTransferOpen] = React.useState(false);
   const [qrisOpen, setQrisOpen] = React.useState(false);
+  const [qrisReceiptOpen, setQrisReceiptOpen] = React.useState(false);
 
   function openExitConfirmation() {
     setExitOpen(true);
@@ -140,6 +142,15 @@ export default function MBankingHome({
     return <MBankingBillingQrisScanPage onBack={() => setQrisOpen(false)} />;
   }
 
+  if (qrisReceiptOpen) {
+    return (
+      <MBankingBillingQrisReceiptPage
+        onBack={() => setQrisReceiptOpen(false)}
+        hideDoneButton
+      />
+    );
+  }
+
   if (screen === "profile") {
     return (
       <MBankingProfilePage
@@ -193,7 +204,10 @@ export default function MBankingHome({
           }}
           onViewAll={() => setAllBannersOpen(true)}
         />
-        <MBankingTransactionHistoryEmpty transactions={transactions} />
+        <MBankingTransactionHistoryEmpty
+          transactions={transactions}
+          onQrisReceiptClick={() => setQrisReceiptOpen(true)}
+        />
       </main>
 
       <MBankingBottomNav

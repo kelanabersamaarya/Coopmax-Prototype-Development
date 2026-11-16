@@ -10,8 +10,10 @@ type HistoryTab = "Pembayaran" | "Kolektor";
 
 export default function MBankingTransactionHistoryEmpty({
   transactions = [],
+  onQrisReceiptClick,
 }: {
   transactions?: MBankingTransactionHistoryEntry[];
+  onQrisReceiptClick: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<HistoryTab>("Pembayaran");
 
@@ -59,7 +61,9 @@ export default function MBankingTransactionHistoryEmpty({
 
       {showTransactions || showQrisReceipt ? (
         <div className="mt-6 grid gap-4">
-          {showQrisReceipt ? <MBankingQrisPaymentHistoryCard /> : null}
+          {showQrisReceipt ? (
+            <MBankingQrisPaymentHistoryCard onClick={onQrisReceiptClick} />
+          ) : null}
           {showTransactions
             ? transactions.map((transaction) => (
                 <MBankingTransactionHistoryCard

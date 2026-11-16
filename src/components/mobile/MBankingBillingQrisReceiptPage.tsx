@@ -43,9 +43,11 @@ function InfoSection({
 export default function NewMBankingTransactionReceiptPage({
   onBack,
   onDone,
+  hideDoneButton = false,
 }: {
   onBack: () => void;
-  onDone: () => void;
+  onDone?: () => void;
+  hideDoneButton?: boolean;
 }) {
   const [saved, setSaved] = React.useState(false);
 
@@ -92,10 +94,10 @@ export default function NewMBankingTransactionReceiptPage({
           <InfoSection title="Sumber Dana">
             <div className="py-[7px]">
               <div className="text-[14px] font-normal leading-tight text-black">
-                Arya Dharma
+                Simpanan Kaya
               </div>
               <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
-                Simpanan Kaya - 1122334444
+                112233111
               </div>
             </div>
           </InfoSection>
@@ -149,17 +151,19 @@ export default function NewMBankingTransactionReceiptPage({
               )}
             </button>
 
-            <button
-              type="button"
-              onClick={onDone}
-              className={cn(
-                "h-[46px] w-full rounded-[10px] border-2 border-[#0758C9] bg-[#0758C9]",
-                "text-[14px] font-bold leading-none text-white",
-                "transition active:scale-[0.98]",
-              )}
-            >
-              Selesai
-            </button>
+            {!hideDoneButton ? (
+              <button
+                type="button"
+                onClick={onDone}
+                className={cn(
+                  "h-[46px] w-full rounded-[10px] border-2 border-[#0758C9] bg-[#0758C9]",
+                  "text-[14px] font-bold leading-none text-white",
+                  "transition active:scale-[0.98]",
+                )}
+              >
+                Selesai
+              </button>
+            ) : null}
           </div>
         </section>
       </main>
