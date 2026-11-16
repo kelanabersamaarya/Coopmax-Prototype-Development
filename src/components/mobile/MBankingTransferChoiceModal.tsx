@@ -34,10 +34,10 @@ export default function MBankingTransferChoiceModal({
           <button
             type="button"
             onClick={onClose}
-            className="grid h-10 w-10 place-items-center rounded-full text-[#A0A0A0] transition active:scale-95"
+            className="grid h-9 w-9 place-items-center rounded-full text-[#A0A0A0] transition active:scale-95"
             aria-label="Tutup"
           >
-            <X className="h-8 w-8" strokeWidth={2.2} />
+            <X className="h-6 w-6" strokeWidth={2.2} />
           </button>
         </div>
 
