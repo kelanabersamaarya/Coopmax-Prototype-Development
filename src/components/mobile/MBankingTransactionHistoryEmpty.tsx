@@ -23,10 +23,17 @@ export default function MBankingTransactionHistoryEmpty({
 
   return (
     <section className="mt-3 bg-[#F2F2F2] px-6 pb-8 pt-6">
-      <div>
+      <div className="flex items-center justify-between gap-4">
         <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
           Riwayat Transaksi
         </h2>
+
+        <button
+          type="button"
+          className="shrink-0 text-[14px] font-semibold leading-tight tracking-tight text-[#004FC7] transition active:scale-[0.98]"
+        >
+          Lihat Semua
+        </button>
       </div>
 
       <div className="mt-5 flex items-center gap-3">
