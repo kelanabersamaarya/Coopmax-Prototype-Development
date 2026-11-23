@@ -118,7 +118,7 @@ export default function LoanProductsListPage({
 
   const th = "px-3 py-3";
   const filterCell = "px-3 py-1.5";
-  const td = "px-3 py-2.5";
+  const td = "px-3 py-1.5";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
