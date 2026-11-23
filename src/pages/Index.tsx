@@ -128,7 +128,8 @@ export default function Index() {
   const isMitraKaryaDashboard =
     location.pathname === "/mitra-karya/dashboard";
   const isDashboardDevelopment = location.pathname === "/dashboard";
-  const hideSidebar = isMitraKaryaDashboard || isDashboardDevelopment;
+  const isDashboardUmum = location.pathname === "/dashboard-umum";
+  const hideSidebar = isMitraKaryaDashboard || isDashboardDevelopment || isDashboardUmum;
   const isMitraKaryaMBankingArea =
     location.pathname.startsWith("/mitra-karya/m-banking") ||
     location.pathname.startsWith("/mitra-karya/mbanking-");

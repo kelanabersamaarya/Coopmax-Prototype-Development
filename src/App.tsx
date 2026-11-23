@@ -9,6 +9,7 @@ import TermSavingsProductsListPage from "./components/savings/term-products/Term
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
+import DashboardUmum from "./pages/DashboardUmum";
 import SimulasiDashboard from "./pages/SimulasiDashboard";
 import DashboardSimpanan from "./pages/DashboardSimpanan";
 import AstitiDanaLestariDashboard from "./pages/AstitiDanaLestariDashboard";
@@ -114,6 +115,7 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
 
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard-umum" element={<DashboardUmum />} />
             <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
             <Route path="astiti-dana-lestari/dashboard" element={<AstitiDanaLestariDashboard />} />
             <Route path="astiti-dana-lestari/simpanan/transaksi" element={<AstitiSimpananTransaksi />} />

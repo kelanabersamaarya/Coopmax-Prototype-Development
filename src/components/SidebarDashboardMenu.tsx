@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function SidebarDashboardMenu() {
   const location = useLocation();
-  const isActive = location.pathname.startsWith("/dashboard-simpanan");
+  const isActive = location.pathname.startsWith("/dashboard-umum") || location.pathname.startsWith("/dashboard-simpanan");
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
@@ -38,6 +38,15 @@ export default function SidebarDashboardMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
+              <NavLink
+                to="/dashboard-umum"
+                className={({ isActive: linkActive }) => cn(
+                  "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                  linkActive ? "bg-violet-600 text-white" : "text-slate-800 hover:bg-slate-50",
+                )}
+              >
+                Dashboard Umum
+              </NavLink>
               <NavLink
                 to="/dashboard-simpanan"
                 className={({ isActive: linkActive }) => cn(
