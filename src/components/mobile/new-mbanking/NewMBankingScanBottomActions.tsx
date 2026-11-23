@@ -17,15 +17,15 @@ const actions = [
     id: "qr" as const,
     label: "Tunjukan Kode QR",
     icon: QrCode,
-    frameClassName: "bg-[#084BC8]",
-    activeFrameClassName: "bg-[#063A9B]",
+    frameClassName: "bg-[#7C3AED]",
+    activeFrameClassName: "bg-[#5B21B6]",
   },
   {
     id: "media" as const,
     label: "Unggah QRIS",
     icon: Image,
-    frameClassName: "bg-[#084BC8]",
-    activeFrameClassName: "bg-[#063A9B]",
+    frameClassName: "bg-[#0F9F9A]",
+    activeFrameClassName: "bg-[#0B746F]",
   },
 ];
 
