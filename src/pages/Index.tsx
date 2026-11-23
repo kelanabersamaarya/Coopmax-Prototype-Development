@@ -258,9 +258,6 @@ export default function Index() {
                                 {!isObsArea ? <SidebarMobileMenu /> : null}
                                 {!isObsArea ? <SidebarMBankingMenu /> : null}
                                 {!isPinjamanArea && !isMobileArea ? (
-                                  <SidebarObsMenu />
-                                ) : null}
-                                {!isPinjamanArea && !isMobileArea ? (
                                   <SidebarLoginMenu />
                                 ) : null}
                                 {isObsArea ? <SidebarObsSuperAdminMenu /> : null}
