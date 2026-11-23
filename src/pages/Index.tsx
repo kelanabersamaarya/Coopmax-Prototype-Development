@@ -252,7 +252,6 @@ export default function Index() {
                                 {!isObsArea ? <SidebarSimpananMenu /> : null}
                                 {!isObsArea ? <SidebarAnggotaMenu /> : null}
                                 <SidebarPinjamanMenu />
-                                {!isObsArea ? <SidebarSakAkuntingMenu to="/pinjaman/akunting" /> : null}
                                 {!isObsArea ? <SidebarTermSavingsMenu /> : null}
                                 {!isObsArea ? <SidebarMobileMenu /> : null}
                                 {!isObsArea ? <SidebarMBankingMenu /> : null}
@@ -263,6 +262,7 @@ export default function Index() {
                                   <SidebarLoginMenu />
                                 ) : null}
                                 {isObsArea ? <SidebarObsSuperAdminMenu /> : null}
+                                {!isObsArea ? <SidebarSakAkuntingMenu to="/pinjaman/akunting" /> : null}
                                 {!isObsArea ? <SidebarLaporanMenu /> : null}
                                 {!isObsArea && !location.pathname.startsWith("/obs-samudra-harta") ? (
                                   <SidebarPengaturanUmumMenu />
