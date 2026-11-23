@@ -252,6 +252,7 @@ export default function Index() {
                                 {!isObsArea ? <SidebarSimpananMenu /> : null}
                                 {!isObsArea ? <SidebarAnggotaMenu /> : null}
                                 <SidebarPinjamanMenu />
+                                {!isObsArea ? <SidebarSakAkuntingMenu to="/pinjaman/akunting" /> : null}
                                 {!isObsArea ? <SidebarTermSavingsMenu /> : null}
                                 {!isObsArea ? <SidebarMobileMenu /> : null}
                                 {!isObsArea ? <SidebarMBankingMenu /> : null}

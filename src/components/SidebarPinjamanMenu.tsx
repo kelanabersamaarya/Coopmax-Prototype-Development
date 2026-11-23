@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Calculator, ChevronDown, ChevronRight, HandCoins } from "lucide-react";
+import { ChevronDown, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { loanMenuItems, sakLoanMenuItems } from "@/navigation/menu-config";
 import { isSakCabangPath, resolveLoanRoute } from "@/navigation/route-context";
@@ -84,20 +84,6 @@ export default function SidebarPinjamanMenu() {
                   </NavLink>
                 );
               })}
-
-              <NavLink
-                to="/pinjaman/akunting"
-                className={cn(
-                  "group flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
-                  location.pathname.startsWith("/pinjaman/akunting")
-                    ? "bg-violet-600 text-white"
-                    : "text-slate-800 hover:bg-slate-50",
-                )}
-              >
-                <Calculator className="h-4 w-4" />
-                <span className="min-w-0 flex-1">Akunting</span>
-                <ChevronRight className="h-4 w-4 opacity-40 transition group-hover:opacity-70" />
-              </NavLink>
             </div>
           </div>
         </div>

@@ -4,10 +4,14 @@ import { NavLink } from "react-router-dom";
 import { Calculator, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function SidebarSakAkuntingMenu() {
+export default function SidebarSakAkuntingMenu({
+  to = "/sak-ep-cabang/akunting",
+}: {
+  to?: string;
+}) {
   return (
     <NavLink
-      to="/sak-ep-cabang/akunting"
+      to={to}
       className={({ isActive }) =>
         cn(
           "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left transition",
