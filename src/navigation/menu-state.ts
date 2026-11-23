@@ -5,6 +5,7 @@ export function isLoanSectionActive(pathname: string) {
     isPaymentLinkLoanProductsPath(pathname) ||
     pathname.startsWith("/loan-products") ||
     pathname.startsWith("/loans") ||
+    pathname.startsWith("/pinjaman/akunting") ||
     pathname.startsWith("/sak-ep-cabang")
   );
 }

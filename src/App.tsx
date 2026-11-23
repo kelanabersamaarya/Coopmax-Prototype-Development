@@ -160,6 +160,7 @@ const App = () => (
             <Route path="anggota/simpanan-berjangka/tarikan" element={<AstitiTarikanBungaDeposito />} />
             <Route path="anggota/simpanan-berjangka/rekening" element={<AstitiRekeningDeposito />} />
             <Route path="astiti-dana-lestari/akunting" element={<SakAkunting />} />
+            <Route path="pinjaman/akunting" element={<SakAkunting />} />
             <Route path="mitra-karya/dashboard" element={<MitraKaryaDashboard />} />
             <Route path="mitra-karya/anggota" element={<MitraKaryaAnggota />} />
             <Route path="mitra-karya/calon-anggota" element={<MitraKaryaCalonAnggota />} />

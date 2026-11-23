@@ -51,6 +51,7 @@ const implementedRoutes = new Set([
   "/loans/new",
   "/loans/applications",
   "/anggota/transaksi",
+  "/pinjaman/akunting",
   "/laporan/kolektibilitas",
   "/mobile/e-kolektor",
   "/mobile/m-banking",
@@ -151,6 +152,7 @@ export default function Index() {
     isEKolektorArea ||
     location.pathname.startsWith("/payment-link") ||
     location.pathname.startsWith("/loans") ||
+    location.pathname.startsWith("/pinjaman/akunting") ||
     location.pathname.startsWith("/sak-ep-cabang");
   const showLoanTopBar = true;
 
