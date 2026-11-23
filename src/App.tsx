@@ -8,6 +8,7 @@ import SavingsProductsListPage from "./components/savings/products/SavingsProduc
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 import DashboardUmum from "./pages/DashboardUmum";
 import SimulasiDashboard from "./pages/SimulasiDashboard";
 import DashboardSimpanan from "./pages/DashboardSimpanan";
@@ -113,7 +114,7 @@ const App = () => (
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
 
-            <Route path="dashboard" element={<DashboardUmum />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboard-umum" element={<DashboardUmum />} />
             <Route path="dashboard-simpanan" element={<DashboardSimpanan />} />
             <Route path="astiti-dana-lestari/dashboard" element={<AstitiDanaLestariDashboard />} />
