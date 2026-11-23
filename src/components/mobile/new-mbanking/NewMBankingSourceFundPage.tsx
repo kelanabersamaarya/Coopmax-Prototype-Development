@@ -20,7 +20,7 @@ export default function NewMBankingSourceFundPage({
 }) {
   return (
     <div className="flex h-full min-h-full flex-col bg-white text-black">
-      <header className="flex h-[74px] shrink-0 items-center gap-5 bg-white px-[31px] text-black">
+      <header className="flex h-[92px] shrink-0 items-center gap-5 bg-white px-[31px] pt-[18px] text-black">
         <button type="button" onClick={onBack} className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent transition active:scale-[0.98]" aria-label="Kembali">
           <ArrowLeft className="h-[22px] w-[22px]" strokeWidth={2.4} />
         </button>

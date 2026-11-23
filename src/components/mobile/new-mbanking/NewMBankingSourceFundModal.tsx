@@ -64,7 +64,7 @@ export default function NewMBankingSourceFundModal({
 
   return createPortal(
     <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col bg-[#0758C9] text-black">
-      <header className="relative z-20 flex h-[74px] shrink-0 items-center gap-5 overflow-hidden bg-white px-[31px] text-black">
+      <header className="relative z-20 flex h-[92px] shrink-0 items-center gap-5 overflow-hidden bg-white px-[31px] pt-[18px] text-black">
         <button
           type="button"
           onClick={() => onOpenChange(false)}
