@@ -76,7 +76,7 @@ export default function Dashboard() {
 
       <div className="rounded-[5px] bg-slate-50/70 p-3 ring-1 ring-slate-200 md:p-3.5">
         <div className="grid gap-2.5 md:grid-cols-2">
-          <DevMenuCard title="Pinjaman Billing" subtitle="Alur pinjaman dengan penjadwalan billing & pembayaran angsuran." icon={ReceiptText} accent="sky" onClick={() => { toast("Membuka Pinjaman Billing", { description: "Diarahkan ke Dashboard Umum." }); navigate("/dashboard-umum"); }} />
+          <DevMenuCard title="Coopmax General" subtitle="Dashboard umum operasional Coopmax dan aktivitas pinjaman billing." icon={ReceiptText} accent="sky" onClick={() => { toast("Membuka Coopmax General", { description: "Diarahkan ke Dashboard Umum." }); navigate("/dashboard-umum"); }} />
           <DevMenuCard title="Kebutuhan Koperasi Samudra Harta" subtitle="Menu kebutuhan koperasi untuk monitoring & aktivitas operasional (prototype)." icon={Landmark} accent="emerald" onClick={() => navigate("/obs-samudra-harta")} />
           <DevMenuCard title="Coopmax - SAK EP Cabang" subtitle="Modul cabang untuk operasional SAK EP Coopmax (prototype)." icon={Building2} accent="emerald" onClick={() => navigate("/sak-ep-cabang/loan-products")} />
           <DevMenuCard title="New_Mbanking" subtitle="Akses cepat ke prototype aplikasi M-Banking terbaru." icon={Smartphone} accent="sky" onClick={() => navigate("/mobile/new-mbanking")} />
