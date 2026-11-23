@@ -26,9 +26,9 @@ export default function NewMBankingSourceFundPage({
         </button>
         <h1 className="text-[17px] font-bold leading-tight">Sumber Dana</h1>
       </header>
-      <main className="flex min-h-0 flex-1 flex-col bg-white px-6 pb-6 pt-6">
+      <main className="flex min-h-0 flex-1 flex-col bg-white px-6 pb-6 pt-3">
         <p className="text-[14px] font-bold text-[#2F3137]">Silakan pilih rekening sumber dana pembayaran</p>
-        <div className="mt-4 grid gap-3">
+        <div className="mt-2 grid gap-3">
           {accounts.map((account) => (
             <NewMBankingSourceFundGradientCard
               key={account.accountNo}

@@ -76,7 +76,7 @@ export default function NewMBankingSourceFundModal({
         <h1 className="text-[17px] font-bold leading-tight">Sumber Dana</h1>
       </header>
 
-      <main className="relative z-10 flex min-h-0 flex-1 flex-col bg-white px-6 pb-6 pt-6">
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col bg-white px-6 pb-6 pt-3">
         <div className="grid gap-3 overflow-y-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {accounts.map((account) => (
             <NewMBankingSourceFundGradientCard
