@@ -11,7 +11,7 @@ export default function SidebarDashboardMenu() {
   const [open, setOpen] = React.useState(isActive);
 
   React.useEffect(() => {
-    if (isActive) setOpen(true);
+    setOpen(isActive);
   }, [isActive]);
 
   return (
