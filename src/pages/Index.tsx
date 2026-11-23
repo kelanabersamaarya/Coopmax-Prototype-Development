@@ -235,10 +235,10 @@ export default function Index() {
 
                           <div className="space-y-1 px-2">
                             <SidebarNavItem item={g.items[0]!} />
-                            {!isObsArea ? <SidebarDashboardMenu /> : null}
+                            {!isObsArea && !isNewMBankingArea ? <SidebarDashboardMenu /> : null}
 
                             {isNewMBankingArea ? (
-                              <SidebarMobileMenu />
+                              null
                             ) : isSakCabangArea ? (
                               <>
                                 <SidebarSakSimpananMenu />
