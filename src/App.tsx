@@ -8,6 +8,7 @@ import SavingsProductsListPage from "./components/savings/products/SavingsProduc
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 import DashboardUmum from "./pages/DashboardUmum";
 import SimulasiDashboard from "./pages/SimulasiDashboard";
 import DashboardSimpanan from "./pages/DashboardSimpanan";
