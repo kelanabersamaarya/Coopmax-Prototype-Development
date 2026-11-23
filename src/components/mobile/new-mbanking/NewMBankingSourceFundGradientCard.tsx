@@ -29,7 +29,7 @@ export default function NewMBankingSourceFundGradientCard({
     <div
       className={cn(
         "relative flex min-h-[118px] w-full items-center justify-between gap-4 overflow-hidden rounded-[15px]",
-        "bg-[#004FC7]",
+        "bg-gradient-to-br from-[#0758C9] via-[#2563D5] to-[#58B8E8]",
         "px-[18px] py-[16px] text-left text-white",
         onClick ? "transition active:scale-[0.99]" : "",
         className,
