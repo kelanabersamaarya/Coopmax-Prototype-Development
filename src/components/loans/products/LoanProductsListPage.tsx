@@ -118,7 +118,7 @@ export default function LoanProductsListPage({
 
   const th = "px-3 py-3";
   const filterCell = "px-3 py-1.5";
-  const td = "px-3 py-1.5";
+  const td = "px-3 py-1";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -308,12 +308,12 @@ export default function LoanProductsListPage({
                             {p.interestRateYearly.toFixed(2)}%
                           </td>
                           <td className={td}>
-                            <Badge className="rounded-md bg-emerald-600 px-2.5 py-1 text-[11px] font-bold leading-none text-white hover:bg-emerald-600">
+                            <Badge className="rounded-md bg-emerald-600 px-2 py-0.5 text-[11px] font-bold leading-none text-white hover:bg-emerald-600">
                               Aktif
                             </Badge>
                           </td>
                           <td className={td}>
-                            <div className="flex items-center gap-1.5">
+                            <div className="flex items-center gap-1">
                               <LoanProductActionButton
                                 label="Lihat"
                                 tone="slate"
