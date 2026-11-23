@@ -64,20 +64,19 @@ export default function NewMBankingSourceFundModal({
 
   return createPortal(
     <div className="absolute inset-0 z-[190] flex h-full min-h-full flex-col bg-[#0758C9] text-black">
-      <header className="relative flex h-[132px] shrink-0 flex-col items-start overflow-hidden bg-[#0758C9] px-[31px] pt-[18px] text-white">
-        <div className="pointer-events-none absolute -right-[18px] -top-[44px] h-[132px] w-[158px] rounded-b-full bg-white/10" />
+      <header className="relative z-20 flex h-[74px] shrink-0 items-center gap-5 overflow-hidden bg-white px-[31px] text-black">
         <button
           type="button"
           onClick={() => onOpenChange(false)}
-          className="relative z-10 -ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full"
+          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent transition active:scale-[0.98]"
           aria-label="Kembali"
         >
-          <ArrowLeft className="h-[25px] w-[25px]" strokeWidth={2.7} />
+          <ArrowLeft className="h-[22px] w-[22px]" strokeWidth={2.4} />
         </button>
-        <h1 className="relative z-10 mt-[12px] text-[25px] font-bold leading-tight">Sumber Dana</h1>
+        <h1 className="text-[17px] font-bold leading-tight">Sumber Dana</h1>
       </header>
 
-      <main className="relative z-10 -mt-[1px] flex min-h-0 flex-1 flex-col rounded-t-[20px] bg-white px-6 pb-6 pt-6">
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col bg-white px-6 pb-6 pt-6">
         <div className="grid gap-3 overflow-y-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {accounts.map((account) => (
             <NewMBankingSourceFundGradientCard
